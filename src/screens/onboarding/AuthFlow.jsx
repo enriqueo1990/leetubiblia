@@ -41,9 +41,12 @@ export default function AuthFlow() {
     setStep('code')
   }
 
+  // Supabase permite códigos de 6 a 10 dígitos (configurable). No fijamos 6.
+  const codeValid = code.length >= 6 && code.length <= 10
+
   async function handleVerify() {
     const token = code.trim()
-    if (token.length !== 6 || verifying) return
+    if (!codeValid || verifying) return
     setVerifying(true)
     setError(null)
     const { error } = await verifyEmailCode(email.trim(), token)
@@ -114,7 +117,7 @@ export default function AuthFlow() {
         </button>
         <h1 className="text-[24px] font-bold tracking-tight text-ink">Revisá tu correo</h1>
         <p className="mt-2 text-[16px] text-ink-soft">
-          Te enviamos un código de 6 dígitos a{' '}
+          Te enviamos un código a{' '}
           <span className="text-ink">{email.trim()}</span>. Ingresalo acá para entrar.
         </p>
 
@@ -130,25 +133,25 @@ export default function AuthFlow() {
             inputMode="numeric"
             autoComplete="one-time-code"
             autoFocus
-            maxLength={6}
-            placeholder="000000"
+            maxLength={10}
+            placeholder="Código"
             value={code}
-            onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-            className="w-full rounded-input px-4 py-3.5 text-center text-[28px] font-bold outline-none"
+            onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 10))}
+            className="w-full rounded-input px-4 py-3.5 text-center text-[26px] font-bold outline-none"
             style={{
               backgroundColor: 'var(--surface)',
               border: '1px solid var(--hairline)',
               color: 'var(--text-primary)',
-              letterSpacing: '8px',
+              letterSpacing: '6px',
             }}
           />
           {error && <p className="mt-2 text-[13px]" style={{ color: '#D1453B' }}>{error}</p>}
 
           <button
             type="submit"
-            disabled={code.length !== 6 || verifying}
+            disabled={!codeValid || verifying}
             className="btn btn-primary mt-4"
-            style={{ opacity: code.length !== 6 || verifying ? 0.5 : 1 }}
+            style={{ opacity: !codeValid || verifying ? 0.5 : 1 }}
           >
             {verifying ? 'Verificando…' : 'Entrar'}
           </button>
@@ -218,7 +221,7 @@ export default function AuthFlow() {
       </form>
 
       <p className="mt-3 text-[13px] text-ink-soft">
-        Te mandamos un código de 6 dígitos a tu correo para entrar sin contraseña.
+        Te mandamos un código a tu correo para entrar sin contraseña.
       </p>
 
       <button
