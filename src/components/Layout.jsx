@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import TabBar from './TabBar.jsx'
 import Sidebar from './Sidebar.jsx'
 
@@ -8,6 +8,8 @@ import Sidebar from './Sidebar.jsx'
 //  - Móvil/tablet: tab bar inferior (deja hueco al fondo para no taparla).
 //  - Desktop ≥1024px: sidebar a la izquierda; el contenido se desplaza tras él.
 export default function Layout() {
+  const { pathname } = useLocation()
+
   return (
     <div className="min-h-full bg-app">
       <Sidebar />
@@ -15,7 +17,8 @@ export default function Layout() {
       {/* En desktop el contenido arranca después del sidebar (250px) */}
       <div className="lg:pl-[250px]">
         <main
-          className="mx-auto w-full max-w-content px-[26px] lg:max-w-content-wide"
+          key={pathname}
+          className="screen-enter mx-auto w-full max-w-content px-[26px] lg:max-w-content-wide"
           style={{
             paddingTop: 'max(env(safe-area-inset-top), 16px)',
             // Espacio para no quedar bajo la tab bar en móvil/tablet
