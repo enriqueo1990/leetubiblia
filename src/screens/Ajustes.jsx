@@ -202,7 +202,7 @@ export default function Ajustes() {
       )}
 
       <SectionLabel>Color de acento</SectionLabel>
-      <div className="card flex items-center justify-between p-4">
+      <div className="card grid grid-cols-6 gap-3 p-4">
         {accents.map((a) => {
           const selected = a.key === accent
           const swatch = resolvedMode === 'dark' ? a.dark : a.light
@@ -211,8 +211,9 @@ export default function Ajustes() {
               key={a.key}
               type="button"
               aria-label={a.name}
+              title={a.name}
               onClick={() => pickAccent(a.key)}
-              className="h-[44px] w-[44px] rounded-full transition-transform duration-200"
+              className="aspect-square w-full rounded-full transition-transform duration-200"
               style={{
                 backgroundColor: swatch,
                 boxShadow: selected

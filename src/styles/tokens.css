@@ -4,8 +4,8 @@
  * Estrategia de conmutación:
  *  - MODO (claro/oscuro): por defecto sigue prefers-color-scheme. Override manual
  *    con la clase .light o .dark en <html>.
- *  - ACENTO (6 tonos sepia): atributo data-accent en <html>. Cada acento define su
- *    hex claro y oscuro; el bloque de modo elige cuál aplica a --accent.
+ *  - ACENTO (12 tonos: 6 sepia + 6 pasteles): atributo data-accent en <html>. Cada
+ *    acento define su hex claro y oscuro; el bloque de modo elige cuál aplica a --accent.
  *
  * --accent / --accent-tint / --on-accent se resuelven en dos pasos: cada acento
  * publica *-light y *-dark, y el bloque de modo copia el par correcto a la var final.
@@ -105,6 +105,14 @@
 :root[data-accent='sepia_stone'] { --accent-light: #9C9080; --accent-dark: #BBB0A0; }
 :root[data-accent='sepia_rose']  { --accent-light: #B08A86; --accent-dark: #CBA7A2; }
 :root[data-accent='sepia_slate'] { --accent-light: #7E8A8C; --accent-dark: #9CAAAC; }
+
+/* Pasteles para público joven (mismo esquema claro/oscuro) */
+:root[data-accent='pastel_lavender'] { --accent-light: #9F8BD4; --accent-dark: #BCA9E6; }
+:root[data-accent='pastel_pink']     { --accent-light: #D585A8; --accent-dark: #ECA9C6; }
+:root[data-accent='pastel_mint']     { --accent-light: #57B795; --accent-dark: #82D0B1; }
+:root[data-accent='pastel_sky']      { --accent-light: #6FA4D8; --accent-dark: #9BC5EC; }
+:root[data-accent='pastel_coral']    { --accent-light: #E2906C; --accent-dark: #F1B095; }
+:root[data-accent='pastel_aqua']     { --accent-light: #49B0B8; --accent-dark: #79CFD5; }
 
 /* --accent final: claro por defecto */
 :root { --accent: var(--accent-light); }
