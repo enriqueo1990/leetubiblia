@@ -6,48 +6,100 @@ import { supabase } from './supabase.js'
 // mostrar según session + profile (ver src/components/Gate.jsx).
 const AuthContext = createContext(null)
 
+// Caché del perfil en localStorage, por usuario. Permite abrir la PWA sin conexión
+// (o ante un fallo transitorio de red/RLS) sin colgarse esperando al servidor.
+const profileCacheKey = (uid) => `ltb.profile.${uid}`
+
+function readCachedProfile(uid) {
+  try {
+    return JSON.parse(localStorage.getItem(profileCacheKey(uid)) || 'null')
+  } catch {
+    return null
+  }
+}
+function writeCachedProfile(uid, p) {
+  try {
+    if (p) localStorage.setItem(profileCacheKey(uid), JSON.stringify(p))
+  } catch {
+    /* cuota llena: no es crítico */
+  }
+}
+
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null)
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(true)
+  // true cuando hay sesión pero no pudimos cargar el perfil y tampoco hay caché:
+  // el Gate ofrece reintentar en vez de quedarse en "Cargando…" para siempre.
+  const [profileError, setProfileError] = useState(false)
 
-  // Trae (o refresca) la fila de profiles del usuario logueado.
+  // Trae (o refresca) la fila de profiles del usuario logueado. Nunca lanza:
+  // ante fallo de red/RLS cae a la caché local y, si no hay, marca profileError.
   const loadProfile = useCallback(async (userId) => {
     if (!userId) {
       setProfile(null)
+      setProfileError(false)
       return
     }
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .maybeSingle()
-    if (error) {
-      console.error('[auth] error cargando profile:', error.message)
-      return
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .maybeSingle()
+      if (error) throw error
+      setProfile(data ?? null)
+      setProfileError(false)
+      if (data) writeCachedProfile(userId, data)
+    } catch (e) {
+      // Sin conexión o error transitorio: usar la última copia conocida.
+      const cached = readCachedProfile(userId)
+      if (cached) {
+        setProfile(cached)
+        setProfileError(false)
+      } else {
+        setProfileError(true)
+      }
+      console.error('[auth] error cargando profile:', e?.message || e)
     }
-    setProfile(data ?? null)
   }, [])
 
   useEffect(() => {
     let active = true
+    let settled = false
+    const finishLoading = () => {
+      if (active && !settled) {
+        settled = true
+        setLoading(false)
+      }
+    }
+    // Backstop: si getSession se cuelga (red), no quedarse en "Cargando…".
+    const timer = setTimeout(finishLoading, 6000)
 
     // Sesión inicial (incluye la que llega por el magic link vía detectSessionInUrl).
-    supabase.auth.getSession().then(async ({ data }) => {
-      if (!active) return
-      setSession(data.session)
-      await loadProfile(data.session?.user?.id)
-      setLoading(false)
-    })
+    supabase.auth
+      .getSession()
+      .then(async ({ data }) => {
+        if (!active) return
+        setSession(data.session)
+        await loadProfile(data.session?.user?.id)
+      })
+      .catch((e) => console.error('[auth] getSession falló:', e?.message || e))
+      .finally(() => {
+        clearTimeout(timer)
+        finishLoading()
+      })
 
     // Cambios de sesión (login por link, logout, refresh de token).
     const { data: sub } = supabase.auth.onAuthStateChange(async (_event, sess) => {
+      if (!active) return
       setSession(sess)
       await loadProfile(sess?.user?.id)
     })
 
     return () => {
       active = false
+      clearTimeout(timer)
       sub.subscription.unsubscribe()
     }
   }, [loadProfile])
@@ -65,9 +117,18 @@ export function AuthProvider({ children }) {
   }, [])
 
   const signOut = useCallback(async () => {
+    const uid = session?.user?.id
     await supabase.auth.signOut()
+    if (uid) {
+      try {
+        localStorage.removeItem(profileCacheKey(uid))
+      } catch {
+        /* no-op */
+      }
+    }
     setProfile(null)
-  }, [])
+    setProfileError(false)
+  }, [session])
 
   // Actualiza campos del perfil y refresca el estado local.
   const updateProfile = useCallback(
@@ -79,7 +140,10 @@ export function AuthProvider({ children }) {
         .eq('id', session.user.id)
         .select()
         .single()
-      if (!error) setProfile(data)
+      if (!error) {
+        setProfile(data)
+        writeCachedProfile(session.user.id, data)
+      }
       return { data, error }
     },
     [session]
@@ -90,6 +154,7 @@ export function AuthProvider({ children }) {
     user: session?.user ?? null,
     profile,
     loading,
+    profileError,
     signInWithEmail,
     verifyEmailCode,
     signOut,
