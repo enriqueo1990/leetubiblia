@@ -39,8 +39,12 @@ function PrayerItem({ p, subtitle, onClick, dimmed }) {
       <button
         type="button"
         onClick={onClick}
-        className="card flex w-full items-center justify-between p-4 text-left"
-        style={{ opacity: dimmed ? 0.55 : 1 }}
+        className="flex w-full items-center justify-between rounded-card p-4 text-left"
+        style={{
+          backgroundColor: 'var(--surface)',
+          border: '1px solid var(--hairline)',
+          opacity: dimmed ? 0.55 : 1,
+        }}
       >
         <div className="min-w-0 pr-3">
           <p className="truncate text-[16px] font-semibold text-ink">{p.title}</p>
