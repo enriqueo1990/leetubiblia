@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../../lib/auth.jsx'
-import { getPlans, todayLocalISO } from '../../lib/db.js'
+import { getPlans, startDateForDay, todayLocalISO, markDaysRead } from '../../lib/db.js'
+import ResumeFromDay from '../../components/ResumeFromDay.jsx'
 
 // Elegir plan de lectura en el onboarding (documento maestro §5.3 / §5.8).
 // Set active_plan_id + plan_start_date = hoy (local). El cambio de plan ya con
@@ -12,9 +13,10 @@ function planDurationLabel(days) {
 }
 
 export default function ChoosePlanOnboarding() {
-  const { updateProfile } = useAuth()
+  const { user, updateProfile } = useAuth()
   const [plans, setPlans] = useState(null)
   const [selected, setSelected] = useState(null)
+  const [resumeDay, setResumeDay] = useState(null)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
 
@@ -27,15 +29,36 @@ export default function ChoosePlanOnboarding() {
       .catch((e) => setError(e.message))
   }, [])
 
+  // Al cambiar de plan, reiniciar el "día en que voy" (la duración cambia).
+  const selectedPlan = plans?.find((p) => p.id === selected) ?? null
+
+  function pickPlan(id) {
+    setSelected(id)
+    setResumeDay(null)
+  }
+
   async function handleStart() {
     if (!selected || saving) return
     setSaving(true)
+    const planStart = resumeDay ? startDateForDay(resumeDay) : todayLocalISO()
     const { error } = await updateProfile({
       active_plan_id: selected,
-      plan_start_date: todayLocalISO(),
+      plan_start_date: planStart,
     })
+    if (error) {
+      setSaving(false)
+      setError('No se pudo activar el plan. Probá de nuevo.')
+      return
+    }
+    // Engancharse a mitad de plan: dar por leídos los días anteriores (1..N−1).
+    if (resumeDay && resumeDay > 1 && user) {
+      try {
+        await markDaysRead(user.id, selected, resumeDay - 1)
+      } catch {
+        // No es bloqueante: el plan ya quedó activo en el día correcto.
+      }
+    }
     setSaving(false)
-    if (error) setError('No se pudo activar el plan. Probá de nuevo.')
   }
 
   return (
@@ -55,7 +78,7 @@ export default function ChoosePlanOnboarding() {
             <button
               key={p.id}
               type="button"
-              onClick={() => setSelected(p.id)}
+              onClick={() => pickPlan(p.id)}
               className="w-full rounded-card p-4 text-left transition-colors duration-200"
               style={{
                 backgroundColor: 'var(--surface)',
@@ -75,6 +98,16 @@ export default function ChoosePlanOnboarding() {
           )
         })}
       </div>
+
+      {selectedPlan && (
+        <div className="mt-3">
+          <ResumeFromDay
+            durationDays={selectedPlan.duration_days}
+            day={resumeDay}
+            onChange={setResumeDay}
+          />
+        </div>
+      )}
 
       <button
         type="button"

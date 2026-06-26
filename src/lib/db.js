@@ -38,11 +38,26 @@ export function addDaysISO(iso, n) {
   return new Date(t).toISOString().slice(0, 10)
 }
 
+// Fecha LOCAL (YYYY-MM-DD) de un timestamp ISO. El completed_at se guarda en UTC;
+// para la racha por días reales hay que llevarlo a la fecha local del usuario.
+export function localDateISO(ts) {
+  const d = new Date(ts)
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${d.getFullYear()}-${m}-${day}`
+}
+
 // REGLA CANÓNICA (documento maestro §5.1) — única forma de calcular el día:
 //   día_de_hoy = (hoy − plan_start_date) + 1, en zona horaria LOCAL.
 // Lo que "Hoy" muestra lo dicta SIEMPRE el calendario, sin importar lo leído.
 export function dayNumberFor(planStartISO, todayISO = todayLocalISO()) {
   return dateDiffDays(planStartISO, todayISO) + 1
+}
+
+// Inversa de dayNumberFor: si hoy debe ser el día N, el plan empezó hace N−1
+// días. Sirve para "engancharse" a un plan que el usuario ya venía leyendo.
+export function startDateForDay(dayNumber, todayISO = todayLocalISO()) {
+  return addDaysISO(todayISO, -(dayNumber - 1))
 }
 
 // Trae el plan activo (metadata) del perfil.
@@ -68,15 +83,17 @@ export async function getPlanDay(planId, dayNumber) {
   return data // null si el day_number queda fuera del rango del plan
 }
 
-// Días completados por el usuario en un plan (set de day_number).
-export async function getCompletedDays(userId, planId) {
+// Progreso del usuario en un plan: Map day_number → fecha local (YYYY-MM-DD) en
+// que se marcó. Las claves sirven de "días leídos" (.has / .size, igual que un
+// Set); los valores alimentan la racha por días reales (ver computeDateStreak).
+export async function getCompletionMap(userId, planId) {
   const { data, error } = await supabase
     .from('reading_progress')
-    .select('day_number')
+    .select('day_number, completed_at')
     .eq('user_id', userId)
     .eq('plan_id', planId)
   if (error) throw error
-  return new Set(data.map((r) => r.day_number))
+  return new Map(data.map((r) => [r.day_number, localDateISO(r.completed_at)]))
 }
 
 // Marca un día como leído. Idempotente (UNIQUE user+plan+day; ignora duplicados).
@@ -87,6 +104,21 @@ export async function markRead(userId, planId, dayNumber) {
       { user_id: userId, plan_id: planId, day_number: dayNumber },
       { onConflict: 'user_id,plan_id,day_number', ignoreDuplicates: true }
     )
+  if (error) throw error
+}
+
+// Marca de una sola vez los días 1..hasta (inclusive) como leídos. Sirve para
+// engancharse a un plan ya empezado: al entrar en el día N, los días previos
+// (1..N−1) se dan por leídos. Idempotente (mismo UNIQUE que markRead).
+export async function markDaysRead(userId, planId, hasta) {
+  if (hasta < 1) return
+  const rows = []
+  for (let d = 1; d <= hasta; d++) {
+    rows.push({ user_id: userId, plan_id: planId, day_number: d })
+  }
+  const { error } = await supabase
+    .from('reading_progress')
+    .upsert(rows, { onConflict: 'user_id,plan_id,day_number', ignoreDuplicates: true })
   if (error) throw error
 }
 
@@ -111,14 +143,17 @@ export function firstUnreadDay(completedSet, todayDay) {
   return todayDay + 1 // todo leído hasta hoy inclusive
 }
 
-// Racha = días consecutivos leídos terminando en hoy o ayer (documento maestro §5.2).
-export function computeStreak(completedSet, todayDay) {
-  // Si ni hoy ni ayer están leídos, la racha es 0.
-  let end = todayDay
-  if (!completedSet.has(end)) end = todayDay - 1
-  if (end < 1 || !completedSet.has(end)) return 0
+// Racha por días REALES (documento maestro §5.2): cantidad de fechas de calendario
+// consecutivas con al menos una lectura marcada, terminando hoy o ayer (si hoy aún
+// no leíste, la racha sigue viva). Se basa en completed_at, no en day_number, así
+// leer varios días de una sentada —o el backfill al engancharse a mitad de plan—
+// cuenta como UN solo día de racha. dateSet = Set de fechas YYYY-MM-DD locales.
+export function computeDateStreak(dateSet, todayISO = todayLocalISO()) {
+  let end = todayISO
+  if (!dateSet.has(end)) end = addDaysISO(todayISO, -1)
+  if (!dateSet.has(end)) return 0
   let streak = 0
-  for (let d = end; d >= 1 && completedSet.has(d); d--) streak++
+  for (let cur = end; dateSet.has(cur); cur = addDaysISO(cur, -1)) streak++
   return streak
 }
 

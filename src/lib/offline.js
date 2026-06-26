@@ -6,6 +6,7 @@ import { markRead, unmarkRead } from './db.js'
 
 const queueKey = (userId) => `ltb.queue.${userId}`
 const snapKey = (userId) => `ltb.reading.${userId}`
+const behindKey = (userId) => `ltb.behindDismissed.${userId}`
 
 export function isOnline() {
   return typeof navigator === 'undefined' ? true : navigator.onLine
@@ -75,4 +76,18 @@ export function getCachedReading(userId) {
   } catch {
     return null
   }
+}
+
+// ---- Descarte del banner de atraso ----
+// Guarda el nivel de atraso en el que el usuario descartó el aviso. El banner
+// vuelve a aparecer solo si el atraso supera ese valor ("hasta atrasarse más").
+// Se resetea a 0 cuando el usuario se pone al día.
+export function getDismissedBehind(userId) {
+  const v = Number(localStorage.getItem(behindKey(userId)))
+  return Number.isFinite(v) && v > 0 ? v : 0
+}
+
+export function setDismissedBehind(userId, value) {
+  if (value > 0) localStorage.setItem(behindKey(userId), String(value))
+  else localStorage.removeItem(behindKey(userId))
 }

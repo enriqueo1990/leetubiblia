@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
-import { getPlan, getPlanDays, dayNumberFor, todayLocalISO } from '../lib/db.js'
+import { getPlan, getPlanDays, startDateForDay, todayLocalISO, markDaysRead } from '../lib/db.js'
+import { useReading } from '../hooks/useReading.js'
+import ResumeFromDay from '../components/ResumeFromDay.jsx'
 
 // Detalle de un plan: descripción, duración, listado completo día-por-día con sus
 // pasajes, y acción de activar. Mismo estilo que el resto (drill-in iOS).
@@ -14,11 +16,13 @@ function durationLabel(days) {
 export default function PlanDetail() {
   const { id } = useParams()
   const planId = Number(id)
-  const { profile, updateProfile } = useAuth()
+  const { user, profile, updateProfile } = useAuth()
+  const r = useReading() // progreso del plan ACTIVO (para resaltar dónde vas leyendo)
   const navigate = useNavigate()
 
   const [plan, setPlan] = useState(null)
   const [days, setDays] = useState(null)
+  const [resumeDay, setResumeDay] = useState(null)
   const [confirm, setConfirm] = useState(false)
   const [saving, setSaving] = useState(false)
   const todayRef = useRef(null)
@@ -39,22 +43,31 @@ export default function PlanDetail() {
   }, [planId])
 
   const isActive = profile?.active_plan_id === planId
-  // Día actual del usuario, solo si este es su plan activo (para resaltarlo).
-  const todayDay =
-    isActive && profile?.plan_start_date ? dayNumberFor(profile.plan_start_date) : null
+  // Día en el que el usuario va leyendo: el mismo ancla que "Hoy" (primer día sin
+  // leer, o el de calendario si va atrasado). Solo para su plan activo.
+  const currentDay = isActive ? r.displayDay : null
 
-  // Al cargar los días, centrar "hoy" en pantalla (una sola vez).
+  // Al cargar los días, centrar en pantalla dónde vas leyendo (una sola vez).
   useEffect(() => {
-    if (scrolled.current || !days || todayDay == null) return
+    if (scrolled.current || !days || currentDay == null) return
     if (todayRef.current) {
       todayRef.current.scrollIntoView({ block: 'center' })
       scrolled.current = true
     }
-  }, [days, todayDay])
+  }, [days, currentDay])
 
   async function activate() {
     setSaving(true)
-    await updateProfile({ active_plan_id: planId, plan_start_date: todayLocalISO() })
+    const planStart = resumeDay ? startDateForDay(resumeDay) : todayLocalISO()
+    const { error } = await updateProfile({ active_plan_id: planId, plan_start_date: planStart })
+    // Engancharse a mitad de plan: dar por leídos los días anteriores (1..N−1).
+    if (!error && resumeDay && resumeDay > 1 && user) {
+      try {
+        await markDaysRead(user.id, planId, resumeDay - 1)
+      } catch {
+        // No es bloqueante: el plan ya quedó activo en el día correcto.
+      }
+    }
     setSaving(false)
     setConfirm(false)
     navigate('/')
@@ -83,6 +96,17 @@ export default function PlanDetail() {
         <p className="mt-3 text-[16px] text-ink-soft">{plan.description}</p>
       )}
 
+      {/* Engancharse a un plan ya empezado (solo si aún no es el activo) */}
+      {!isActive && plan && (
+        <div className="mt-5">
+          <ResumeFromDay
+            durationDays={plan.duration_days}
+            day={resumeDay}
+            onChange={setResumeDay}
+          />
+        </div>
+      )}
+
       {/* Acción */}
       <button
         type="button"
@@ -105,28 +129,38 @@ export default function PlanDetail() {
       {days === null && <p className="text-[15px] text-ink-soft">Cargando días…</p>}
       <ol className="card divide-y divide-hairline">
         {days?.map((d) => {
-          const isToday = d.day_number === todayDay
+          const isCurrent = d.day_number === currentDay
+          const read = isActive && r.completed.has(d.day_number)
           return (
             <li
               key={d.day_number}
-              ref={isToday ? todayRef : undefined}
+              ref={isCurrent ? todayRef : undefined}
               className="flex gap-3 px-4 py-3"
-              style={isToday ? { backgroundColor: 'var(--accent-tint)' } : undefined}
+              style={isCurrent ? { backgroundColor: 'var(--accent-tint)' } : undefined}
             >
               <span
                 className="w-12 shrink-0 pt-0.5 text-[12px] font-semibold uppercase tracking-wide"
-                style={{ color: isToday ? 'var(--accent)' : 'var(--text-soft)' }}
+                style={{ color: isCurrent || read ? 'var(--accent)' : 'var(--text-soft)' }}
               >
                 Día {d.day_number}
               </span>
               <span className="flex-1 text-[15px] text-ink">
-                {d.refs.map((r, i) => (
+                {d.refs.map((ref, i) => (
                   <span key={i}>
-                    {r.label}
+                    {ref.label}
                     {i < d.refs.length - 1 && <span className="text-ink-soft"> · </span>}
                   </span>
                 ))}
               </span>
+              {read && (
+                <span
+                  className="shrink-0 pt-0.5 text-[14px] font-bold"
+                  style={{ color: 'var(--accent)' }}
+                  aria-label="Leído"
+                >
+                  ✓
+                </span>
+              )}
             </li>
           )
         })}
@@ -146,8 +180,9 @@ export default function PlanDetail() {
           >
             <h2 className="text-[18px] font-bold text-ink">¿Cambiar a {plan?.name}?</h2>
             <p className="mt-2 text-[14px] text-ink-soft">
-              El plan nuevo arranca desde el día 1. Tu progreso anterior queda guardado,
-              pero no se transfiere.
+              {resumeDay
+                ? `El plan nuevo arranca desde el día ${resumeDay}. Tu progreso anterior queda guardado, pero no se transfiere.`
+                : 'El plan nuevo arranca desde el día 1. Tu progreso anterior queda guardado, pero no se transfiere.'}
             </p>
             <div className="mt-5 flex gap-3">
               <button type="button" className="btn btn-secondary flex-1" onClick={() => setConfirm(false)}>
