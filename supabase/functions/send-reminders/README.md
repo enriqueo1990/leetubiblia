@@ -36,29 +36,18 @@ supabase functions deploy send-reminders
 Se deja el `verify_jwt` por defecto: el cron la llama con el **service role** como
 Bearer (un JWT válido del proyecto), así nadie sin esa clave puede dispararla.
 
-## 6. Cron cada minuto (pg_cron + pg_net)
-En el SQL Editor, reemplazando `<PROJECT_REF>` y `<SERVICE_ROLE_KEY>`:
-```sql
-create extension if not exists pg_cron;
-create extension if not exists pg_net;
+## 6. Cron cada minuto (ya versionado en la migración 0012)
+El cron `send-reminders-every-minute` **ya está en `0013_push_automation.sql`**
+(incluido en `_apply_pending.sql`). No se pega SQL a mano ni se incrusta la llave:
+el job lee la URL del proyecto y el service role desde **Supabase Vault**.
 
-select cron.schedule(
-  'send-reminders-every-minute',
-  '* * * * *',
-  $$
-  select net.http_post(
-    url     := 'https://<PROJECT_REF>.supabase.co/functions/v1/send-reminders',
-    headers := jsonb_build_object(
-      'Content-Type', 'application/json',
-      'Authorization', 'Bearer <SERVICE_ROLE_KEY>'
-    ),
-    body    := '{}'::jsonb
-  );
-  $$
-);
+Provisión por única vez, en el SQL Editor, con los valores reales (no committear):
+```sql
+select vault.create_secret('https://<TU_PROJECT_REF>.supabase.co', 'project_url');
+select vault.create_secret('<SERVICE_ROLE_KEY>',                    'service_role_key');
 ```
-Más seguro: guardar el service role en **Supabase Vault** y leerlo en el job en
-vez de incrustarlo. Para desactivar: `select cron.unschedule('send-reminders-every-minute');`
+Mientras los secrets no existan, el cron no envía (no rompe nada). Para desactivar:
+`select cron.unschedule('send-reminders-every-minute');`
 
 ## 7. Probar
 - En la app (PWA instalada en iOS / cualquier navegador en Android-desktop):

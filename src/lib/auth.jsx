@@ -81,8 +81,25 @@ export function AuthProvider({ children }) {
       .getSession()
       .then(async ({ data }) => {
         if (!active) return
-        setSession(data.session)
-        await loadProfile(data.session?.user?.id)
+        let sess = data.session
+
+        // En localhost: auto-login con cuenta de prueba si no hay sesión activa.
+        // Requiere VITE_DEV_EMAIL y VITE_DEV_PASSWORD en .env.local.
+        if (
+          import.meta.env.DEV &&
+          !sess &&
+          import.meta.env.VITE_DEV_EMAIL &&
+          import.meta.env.VITE_DEV_PASSWORD
+        ) {
+          const { data: d } = await supabase.auth.signInWithPassword({
+            email: import.meta.env.VITE_DEV_EMAIL,
+            password: import.meta.env.VITE_DEV_PASSWORD,
+          })
+          sess = d?.session ?? null
+        }
+
+        setSession(sess)
+        await loadProfile(sess?.user?.id)
       })
       .catch((e) => console.error('[auth] getSession falló:', e?.message || e))
       .finally(() => {

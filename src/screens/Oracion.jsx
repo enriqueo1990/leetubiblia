@@ -33,6 +33,7 @@ function StatusBadge({ status }) {
 }
 
 function PrayerItem({ p, subtitle, onClick, dimmed }) {
+  const count = p.intercessor_count ?? 0
   return (
     <li>
       <button
@@ -44,6 +45,11 @@ function PrayerItem({ p, subtitle, onClick, dimmed }) {
         <div className="min-w-0 pr-3">
           <p className="truncate text-[16px] font-semibold text-ink">{p.title}</p>
           <p className="text-[13px] text-ink-soft">{subtitle}</p>
+          {p.visibility === 'shared' && count > 0 && (
+            <p className="mt-0.5 text-[12px] font-medium" style={{ color: 'var(--accent)' }}>
+              {count} {count === 1 ? 'persona orando' : 'personas orando'}
+            </p>
+          )}
         </div>
         <div className="flex shrink-0 items-center gap-2 text-ink-soft">
           {p.visibility === 'private' ? <LockIcon size={15} /> : <PeopleIcon size={16} />}
@@ -148,7 +154,11 @@ export default function Oracion() {
                 key={p.id}
                 p={p}
                 subtitle={fmtDate(p.created_at)}
-                onClick={() => setSheet({ mode: 'edit', prayer: p })}
+                onClick={
+                  p.visibility === 'shared'
+                    ? () => navigate(`/oracion/${p.id}`)
+                    : () => setSheet({ mode: 'edit', prayer: p })
+                }
               />
             ))}
           </ul>
@@ -164,7 +174,11 @@ export default function Oracion() {
                     p={p}
                     dimmed
                     subtitle={fmtDate(p.created_at)}
-                    onClick={() => setSheet({ mode: 'edit', prayer: p })}
+                    onClick={
+                      p.visibility === 'shared'
+                        ? () => navigate(`/oracion/${p.id}`)
+                        : () => setSheet({ mode: 'edit', prayer: p })
+                    }
                   />
                 ))}
               </ul>

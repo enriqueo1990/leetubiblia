@@ -135,6 +135,13 @@ export function parseRef(raw) {
     return { label, book_usfm: usfm, chapter: 1 }
   }
 
+  // Lo que sigue al libro deben ser SOLO números (capítulo, versículos, rangos).
+  // Cualquier letra significa texto no reconocido —típicamente basura de scraping
+  // pegada a la referencia—: abortamos en vez de sembrarla como si fuera un pasaje.
+  if (!/^[0-9][0-9:.,\s-]*$/.test(rest)) {
+    throw new Error(`Referencia con texto no reconocido tras el capítulo: "${raw}"`)
+  }
+
   // Capturar capítulo inicial y, si hay rango de capítulos, el final.
   // Formatos: "33", "5-6", "5:1-6:10", "13:1-13"
   const chapMatch = rest.match(/^(\d+)/)

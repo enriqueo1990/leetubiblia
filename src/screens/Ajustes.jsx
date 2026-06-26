@@ -12,7 +12,7 @@ import {
 import Segmented from '../components/Segmented.jsx'
 import Switch from '../components/Switch.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
-import { ChevronRight, HeartIcon } from '../components/icons.jsx'
+import { ChevronRight, HeartIcon, ShareIcon } from '../components/icons.jsx'
 import { subscribeToPush, unsubscribeFromPush } from '../lib/push.js'
 import { version as APP_VERSION } from '../../package.json'
 
@@ -43,17 +43,33 @@ function isStandalone() {
   )
 }
 
+// Mensaje honesto cuando no se pudo activar el push (subscribeToPush devuelve
+// { ok:false, reason }). Así el switch no queda en ON mintiendo.
+function pushReasonMessage(reason) {
+  if (reason === 'denied')
+    return 'Activá el permiso de notificaciones para esta app en los ajustes de tu teléfono o navegador.'
+  if (reason === 'unsupported')
+    return isIOS() && !isStandalone()
+      ? 'Agregá la app a la pantalla de inicio para recibir notificaciones.'
+      : 'Tu navegador no admite notificaciones.'
+  if (reason === 'no-key') return 'Las notificaciones no están configuradas todavía.'
+  return 'No se pudieron activar las notificaciones. Probá de nuevo.'
+}
+
 export default function Ajustes() {
   const { accent, setAccent, accents, themePref, setTheme, resolvedMode } = usePreferences()
   const { user, profile, updateProfile, signOut } = useAuth()
 
   const [plan, setPlan] = useState(null)
+  const [shared, setShared] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [deleteError, setDeleteError] = useState(false)
   const [dayInput, setDayInput] = useState('')
   const [savingDay, setSavingDay] = useState(false)
   const [savedDay, setSavedDay] = useState(false)
+  // Aviso bajo el toggle que falló al activar el push: { target, msg }.
+  const [pushNote, setPushNote] = useState(null)
 
   // Recordatorio (best-effort) — refleja el perfil.
   const reminderOn = !!profile?.reminder_enabled
@@ -89,17 +105,27 @@ export default function Ajustes() {
     updateProfile({ theme_pref: key })
   }
 
+  // La subscripción Web Push es del dispositivo y la comparten el recordatorio y
+  // los avisos de grupo. Solo la borramos cuando se apagan AMBAS features; así
+  // apagar el recordatorio no mata los avisos de grupo (ni al revés).
+  const groupNotifOn = profile?.group_prayer_notifications_enabled ?? true
+
   async function toggleReminder() {
     const next = !reminderOn
-    // Activar = pedir permiso y suscribir este dispositivo a Web Push; desactivar
-    // = quitar la subscription. Guardamos la intención igual aunque el push falle
-    // (p. ej. iOS sin instalar): el aviso de abajo guía al usuario.
+    setPushNote(null)
     if (next) {
-      await subscribeToPush(user.id)
+      // Activar = pedir permiso y suscribir. Si falla, NO encendemos el switch:
+      // mostramos por qué en vez de mentir que está activo.
+      const res = await subscribeToPush(user.id)
+      if (!res.ok) {
+        setPushNote({ target: 'reminder', msg: pushReasonMessage(res.reason) })
+        return
+      }
+      await updateProfile({ reminder_enabled: true, reminder_time: reminderTime + ':00' })
     } else {
-      await unsubscribeFromPush(user.id)
+      await updateProfile({ reminder_enabled: false, reminder_time: reminderTime + ':00' })
+      if (!groupNotifOn) await unsubscribeFromPush(user.id)
     }
-    updateProfile({ reminder_enabled: next, reminder_time: reminderTime + ':00' })
   }
   function changeTime(value) {
     updateProfile({ reminder_enabled: reminderOn, reminder_time: value + ':00' })
@@ -107,11 +133,20 @@ export default function Ajustes() {
 
   // Avisos de pedidos del grupo (opt-out; default true). Al activar, aseguramos la
   // subscripción a push para que lleguen aunque no use el recordatorio diario.
-  const groupNotifOn = profile?.group_prayer_notifications_enabled ?? true
   async function toggleGroupNotif() {
     const next = !groupNotifOn
-    if (next) await subscribeToPush(user.id)
-    updateProfile({ group_prayer_notifications_enabled: next })
+    setPushNote(null)
+    if (next) {
+      const res = await subscribeToPush(user.id)
+      if (!res.ok) {
+        setPushNote({ target: 'group', msg: pushReasonMessage(res.reason) })
+        return
+      }
+      await updateProfile({ group_prayer_notifications_enabled: true })
+    } else {
+      await updateProfile({ group_prayer_notifications_enabled: false })
+      if (!reminderOn) await unsubscribeFromPush(user.id)
+    }
   }
 
   // Fijar el día actual del plan: mueve plan_start_date para que hoy sea ese día y
@@ -132,6 +167,26 @@ export default function Ajustes() {
     if (!error) {
       setDayInput('')
       setSavedDay(true)
+    }
+  }
+
+  async function shareApp() {
+    const url = window.location.origin
+    const text = 'Te invito a leer la Biblia juntos con Lee Tu Biblia'
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: 'Lee Tu Biblia', text, url })
+      } catch {
+        // El usuario canceló — no hacer nada.
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(url)
+        setShared(true)
+        setTimeout(() => setShared(false), 2000)
+      } catch {
+        window.prompt('Copiá el link de la app:', url)
+      }
     }
   }
 
@@ -262,6 +317,9 @@ export default function Ajustes() {
             : 'Te llega una notificación a la hora elegida. Puede demorar unos minutos.'}
         </p>
       )}
+      {pushNote?.target === 'reminder' && (
+        <p className="mt-2 px-1 text-[12px] text-ink-soft">{pushNote.msg}</p>
+      )}
 
       <SectionLabel>Avisos del grupo</SectionLabel>
       <div className="card">
@@ -276,6 +334,26 @@ export default function Ajustes() {
       </div>
       <p className="mt-2 px-1 text-[12px] text-ink-soft">
         Te avisamos cuando alguien comparte un pedido en un grupo tuyo.
+      </p>
+      {pushNote?.target === 'group' && (
+        <p className="mt-2 px-1 text-[12px] text-ink-soft">{pushNote.msg}</p>
+      )}
+
+      <SectionLabel>Compartir</SectionLabel>
+      <div className="card">
+        <button
+          type="button"
+          onClick={shareApp}
+          className="flex w-full items-center justify-between px-4 py-3"
+        >
+          <span className="text-[16px] text-ink">Compartir la app</span>
+          <span className="flex items-center gap-1.5 text-[15px] font-medium" style={{ color: 'var(--accent)' }}>
+            {shared ? '¡Copiado!' : <ShareIcon size={18} />}
+          </span>
+        </button>
+      </div>
+      <p className="mt-2 px-1 text-[12px] text-ink-soft">
+        Invitá a amigos y familia a leer la Biblia juntos.
       </p>
 
       <SectionLabel>Apoyá la misión</SectionLabel>

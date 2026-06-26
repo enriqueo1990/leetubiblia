@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { HeartIcon, CheckIcon } from '../components/icons.jsx'
 import Avatars from '../components/Avatars.jsx'
+import PrayerSheet from './PrayerSheet.jsx'
 import { useAuth } from '../lib/auth.jsx'
-import { getPrayerDetail, addIntercession, removeIntercession } from '../lib/db.js'
+import { getPrayerDetail, addIntercession, removeIntercession, getMyGroups } from '../lib/db.js'
 
 // Detalle de un pedido compartido con "Estoy orando por esto" (Fase 2, F2-A).
 // Lo abren los miembros desde "De mis grupos"; el autor lo ve sin el botón pero
@@ -14,10 +15,13 @@ function fmtDate(iso) {
 
 export default function PrayerDetail() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const { user, profile } = useAuth()
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [busy, setBusy] = useState(false)
+  const [editing, setEditing] = useState(false)
+  const [groups, setGroups] = useState([])
 
   const load = useCallback(async () => {
     try {
@@ -31,8 +35,13 @@ export default function PrayerDetail() {
     load()
   }, [load])
 
+  // Carga grupos solo si el usuario es autor (necesario para abrir PrayerSheet en edición).
+  useEffect(() => {
+    if (user) getMyGroups(user.id).then(setGroups).catch(() => {})
+  }, [user])
+
   async function toggle() {
-    if (busy || !data) return
+    if (busy || !data || data.status !== 'active') return
     setBusy(true)
     const next = !data.i_intercede
     const meName = profile?.display_name || 'Vos'
@@ -79,11 +88,32 @@ export default function PrayerDetail() {
     countLabel = isAuthor ? 'Todavía nadie se sumó a orar.' : 'Sé el primero en orar por esto.'
   }
 
+  async function handleSheetSaved() {
+    setEditing(false)
+    try {
+      await load()
+    } catch {
+      navigate('/oracion')
+    }
+  }
+
   return (
     <div className="pt-2">
-      <Link to="/oracion" className="text-[15px] font-medium" style={{ color: 'var(--accent)' }}>
-        ‹ Oración
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link to="/oracion" className="text-[15px] font-medium" style={{ color: 'var(--accent)' }}>
+          ‹ Oración
+        </Link>
+        {isAuthor && (
+          <button
+            type="button"
+            onClick={() => setEditing(true)}
+            className="text-[15px] font-medium"
+            style={{ color: 'var(--accent)' }}
+          >
+            Editar
+          </button>
+        )}
+      </div>
 
       {data.group?.name && (
         <p className="mt-4 text-[12px] font-semibold uppercase tracking-wide text-accent">
@@ -112,7 +142,14 @@ export default function PrayerDetail() {
         )}
         <p className="mb-3.5 text-[14px] text-ink-soft">{countLabel}</p>
 
+        {!isAuthor && data.status !== 'active' && (
+          <p className="text-center text-[13px] text-ink-soft">
+            Este pedido ya fue respondido.
+          </p>
+        )}
+
         {!isAuthor &&
+          data.status === 'active' &&
           (i_intercede ? (
             <>
               <button
@@ -140,6 +177,16 @@ export default function PrayerDetail() {
             </button>
           ))}
       </div>
+
+      {editing && (
+        <PrayerSheet
+          mode="edit"
+          prayer={data}
+          groups={groups}
+          onClose={() => setEditing(false)}
+          onSaved={handleSheetSaved}
+        />
+      )}
     </div>
   )
 }

@@ -48,6 +48,7 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
   const [testimonyShared, setTestimonyShared] = useState(prayer?.testimony_shared ?? false)
   const [intercessors, setIntercessors] = useState([])
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const [confirmShare, setConfirmShare] = useState(false)
 
   // ¿Hay cambios sin guardar? Para confirmar el descarte al cerrar por scrim/Escape.
   const dirty =
@@ -73,8 +74,26 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
   const groupName =
     prayer?.group?.name || groups?.find((g) => g.id === groupId)?.name || 'tu grupo'
 
+  // Editar un pedido para exponerlo a un grupo (de privado a compartido, o
+  // cambiándolo a otro grupo) muestra a gente nueva algo que antes era privado:
+  // pedimos confirmación explícita antes de cruzar esa frontera.
+  const willExpose =
+    editing &&
+    visibility === 'shared' &&
+    (prayer?.visibility !== 'shared' || prayer?.shared_group_id !== groupId)
+
+  function requestSave() {
+    if (!canSave) return
+    if (willExpose) {
+      setConfirmShare(true)
+      return
+    }
+    handleSave()
+  }
+
   async function handleSave() {
     if (!canSave) return
+    setConfirmShare(false)
     setBusy(true)
     setError(null)
     try {
@@ -139,7 +158,7 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
           className="btn btn-primary"
           disabled={!canSave}
           style={{ opacity: canSave ? 1 : 0.5 }}
-          onClick={handleSave}
+          onClick={requestSave}
         >
           {busy ? 'Guardando…' : 'Guardar pedido'}
         </button>
@@ -256,6 +275,21 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
       )}
 
       {error && <p className="mt-3 text-[13px]" style={{ color: 'var(--danger)' }}>{error}</p>}
+
+      {confirmShare && (
+        <ConfirmDialog
+          title={`¿Compartir con ${groupName}?`}
+          message={
+            prayer?.visibility !== 'shared'
+              ? `Este pedido era privado. Al compartirlo, todos los miembros de ${groupName} van a poder verlo.`
+              : `Todos los miembros de ${groupName} van a poder ver este pedido.`
+          }
+          confirmLabel="Compartir"
+          busy={busy}
+          onConfirm={handleSave}
+          onCancel={() => setConfirmShare(false)}
+        />
+      )}
 
       {confirmDelete && (
         <ConfirmDialog

@@ -243,6 +243,7 @@ export async function removeMember(groupId, userId) {
 }
 
 // "Míos": todos los pedidos del usuario (privados y compartidos).
+// Para los compartidos añade intercessor_count con una query batch (no N+1).
 export async function getMyPrayers(userId) {
   const { data, error } = await supabase
     .from('prayer_requests')
@@ -250,11 +251,21 @@ export async function getMyPrayers(userId) {
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
   if (error) throw error
-  return data
+
+  const sharedIds = data.filter((p) => p.visibility === 'shared').map((p) => p.id)
+  let countMap = {}
+  if (sharedIds.length) {
+    const { data: ints } = await supabase
+      .from('prayer_intercessions')
+      .select('prayer_id')
+      .in('prayer_id', sharedIds)
+    for (const r of ints ?? []) countMap[r.prayer_id] = (countMap[r.prayer_id] || 0) + 1
+  }
+  return data.map((p) => ({ ...p, intercessor_count: countMap[p.id] ?? 0 }))
 }
 
 // "De mis grupos": pedidos compartidos por OTROS a grupos a los que pertenezco.
-// Adjunta el nombre del autor (requiere la política RLS de co-miembros, 0004).
+// Adjunta nombre del autor e intercessor_count (batch, no N+1).
 export async function getGroupPrayers(userId) {
   const { data, error } = await supabase
     .from('prayer_requests')
@@ -274,7 +285,20 @@ export async function getGroupPrayers(userId) {
     if (pe) throw pe
     names = Object.fromEntries(profs.map((p) => [p.id, p.display_name]))
   }
-  return data.map((p) => ({ ...p, author_name: names[p.user_id] || 'Alguien' }))
+
+  let countMap = {}
+  if (data.length) {
+    const { data: ints } = await supabase
+      .from('prayer_intercessions')
+      .select('prayer_id')
+      .in('prayer_id', data.map((p) => p.id))
+    for (const r of ints ?? []) countMap[r.prayer_id] = (countMap[r.prayer_id] || 0) + 1
+  }
+  return data.map((p) => ({
+    ...p,
+    author_name: names[p.user_id] || 'Alguien',
+    intercessor_count: countMap[p.id] ?? 0,
+  }))
 }
 
 export async function createPrayer({ userId, title, description, visibility, groupId }) {
@@ -423,6 +447,52 @@ export async function getGroup(groupId) {
     .single()
   if (error) throw error
   return data
+}
+
+export async function renameGroup(groupId, name) {
+  const { error } = await supabase.rpc('rename_group', { p_group_id: groupId, p_name: name })
+  if (error) throw error
+}
+
+// Pedidos compartidos del grupo con sus intercesores (para la vista pastoral del owner).
+// Hace 3 queries en lugar de N+1.
+export async function getGroupPrayersWithIntercessors(groupId) {
+  const { data: prayers, error } = await supabase
+    .from('prayer_requests')
+    .select('id, title, status, user_id, created_at')
+    .eq('shared_group_id', groupId)
+    .eq('visibility', 'shared')
+    .order('created_at', { ascending: false })
+  if (error) throw error
+  if (!prayers.length) return []
+
+  const prayerIds = prayers.map((p) => p.id)
+  const { data: intercessions, error: ie } = await supabase
+    .from('prayer_intercessions')
+    .select('prayer_id, user_id, created_at')
+    .in('prayer_id', prayerIds)
+    .order('created_at', { ascending: true })
+  if (ie) throw ie
+
+  const allIds = [
+    ...new Set([...prayers.map((p) => p.user_id), ...intercessions.map((i) => i.user_id)]),
+  ]
+  const names = await namesFor(allIds)
+
+  const interByPrayer = {}
+  for (const i of intercessions) {
+    if (!interByPrayer[i.prayer_id]) interByPrayer[i.prayer_id] = []
+    interByPrayer[i.prayer_id].push({
+      user_id: i.user_id,
+      display_name: names[i.user_id] || 'Miembro',
+    })
+  }
+
+  return prayers.map((p) => ({
+    ...p,
+    author_name: names[p.user_id] || 'Alguien',
+    intercessors: interByPrayer[p.id] || [],
+  }))
 }
 
 // Resumen pastoral del grupo (solo owner; el RPC valida la propiedad adentro).

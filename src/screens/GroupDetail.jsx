@@ -1,9 +1,17 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { CopyIcon, RefreshIcon, CheckIcon, ChevronRight, LockIcon } from '../components/icons.jsx'
+import { CopyIcon, RefreshIcon, CheckIcon, ChevronRight, LockIcon, PencilIcon } from '../components/icons.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
+import Avatars from '../components/Avatars.jsx'
 import { useAuth } from '../lib/auth.jsx'
-import { getGroupDetail, regenerateInviteCode, removeMember, getGroupStats } from '../lib/db.js'
+import {
+  getGroupDetail,
+  regenerateInviteCode,
+  removeMember,
+  getGroupStats,
+  renameGroup,
+  getGroupPrayersWithIntercessors,
+} from '../lib/db.js'
 
 // Detalle de grupo (documento maestro §5.6, README pantalla 6).
 function initials(name) {
@@ -32,10 +40,15 @@ export default function GroupDetail() {
   const { user } = useAuth()
   const [data, setData] = useState(null)
   const [stats, setStats] = useState(null)
+  const [groupPrayers, setGroupPrayers] = useState(null)
   const [error, setError] = useState(null)
   const [copied, setCopied] = useState(false)
   const [confirm, setConfirm] = useState(null) // { type: 'regen' } | { type: 'kick', member } | null
   const [busy, setBusy] = useState(false)
+  const [editingName, setEditingName] = useState(false)
+  const [nameInput, setNameInput] = useState('')
+  const [savingName, setSavingName] = useState(false)
+  const [nameError, setNameError] = useState(null)
 
   const load = useCallback(async () => {
     try {
@@ -44,11 +57,12 @@ export default function GroupDetail() {
       // El resumen pastoral es solo del owner (el RPC valida la propiedad adentro).
       const owner = d.members.find((m) => m.user_id === user?.id)?.role === 'owner'
       if (owner) {
-        try {
-          setStats(await getGroupStats(Number(id)))
-        } catch {
-          /* sin resumen si el RPC rechaza */
-        }
+        const [statsRes, prayersRes] = await Promise.allSettled([
+          getGroupStats(Number(id)),
+          getGroupPrayersWithIntercessors(Number(id)),
+        ])
+        if (statsRes.status === 'fulfilled') setStats(statsRes.value)
+        if (prayersRes.status === 'fulfilled') setGroupPrayers(prayersRes.value)
       }
     } catch {
       setError('No se pudo cargar el grupo.')
@@ -90,6 +104,25 @@ export default function GroupDetail() {
     }
   }
 
+  async function saveName() {
+    const trimmed = nameInput.trim()
+    if (!trimmed || trimmed === group.name) {
+      setEditingName(false)
+      return
+    }
+    setSavingName(true)
+    setNameError(null)
+    try {
+      await renameGroup(group.id, trimmed)
+      setData((d) => ({ ...d, group: { ...d.group, name: trimmed } }))
+      setEditingName(false)
+    } catch {
+      setNameError('No se pudo guardar el nombre.')
+    } finally {
+      setSavingName(false)
+    }
+  }
+
   async function runConfirm() {
     setBusy(true)
     try {
@@ -107,7 +140,58 @@ export default function GroupDetail() {
       <Link to="/grupos" className="text-[15px] font-medium" style={{ color: 'var(--accent)' }}>
         ‹ Grupos
       </Link>
-      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">{group.name}</h1>
+      {editingName ? (
+        <div className="mt-3">
+          <input
+            autoFocus
+            value={nameInput}
+            onChange={(e) => setNameInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') saveName()
+              if (e.key === 'Escape') setEditingName(false)
+            }}
+            className="w-full rounded-input px-4 py-3 text-[20px] font-bold outline-none"
+            style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--text-primary)' }}
+            maxLength={60}
+          />
+          {nameError && (
+            <p className="mt-1 text-[13px]" style={{ color: 'var(--danger)' }}>{nameError}</p>
+          )}
+          <div className="mt-2 flex gap-2">
+            <button
+              type="button"
+              onClick={saveName}
+              disabled={savingName || !nameInput.trim()}
+              className="btn btn-primary"
+              style={{ opacity: savingName || !nameInput.trim() ? 0.5 : 1 }}
+            >
+              {savingName ? '…' : 'Guardar'}
+            </button>
+            <button
+              type="button"
+              onClick={() => setEditingName(false)}
+              className="px-4 py-2 text-[15px] text-ink-soft"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="mt-3 flex items-center gap-2">
+          <h1 className="text-[26px] font-bold tracking-tight text-ink">{group.name}</h1>
+          {isOwner && (
+            <button
+              type="button"
+              aria-label="Editar nombre del grupo"
+              onClick={() => { setNameInput(group.name); setNameError(null); setEditingName(true) }}
+              className="mt-1 text-ink-soft"
+              style={{ opacity: 0.5 }}
+            >
+              <PencilIcon size={16} />
+            </button>
+          )}
+        </div>
+      )}
       <p className="mt-1 text-[14px] text-ink-soft">
         {members.length} {members.length === 1 ? 'miembro' : 'miembros'} ·{' '}
         {isOwner ? 'Sos el administrador' : 'Sos miembro'}
@@ -177,6 +261,50 @@ export default function GroupDetail() {
           <p className="mt-3 text-[14px] leading-relaxed text-ink-soft">
             Un pulso del grupo para acompañar mejor. No es para medir a nadie.
           </p>
+        </>
+      )}
+
+      {/* Pedidos del grupo con intercesores — solo el owner */}
+      {isOwner && groupPrayers !== null && (
+        <>
+          <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+            Pedidos del grupo · {groupPrayers.length}
+          </p>
+          {groupPrayers.length === 0 ? (
+            <p className="mt-3 text-[15px] text-ink-soft">Todavía no hay pedidos compartidos.</p>
+          ) : (
+            <ul className="mt-3 card divide-y divide-hairline">
+              {groupPrayers.map((p) => (
+                <li key={p.id} className="px-4 py-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="text-[15px] font-semibold text-ink leading-snug">{p.title}</span>
+                    {p.status === 'answered' && (
+                      <span
+                        className="shrink-0 rounded-pill px-2 py-0.5 text-[11px] font-medium"
+                        style={{ color: 'var(--accent)', backgroundColor: 'var(--accent-tint)' }}
+                      >
+                        Respondido
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-0.5 text-[13px] text-ink-soft">{p.author_name}</p>
+                  <div className="mt-2 flex items-center gap-2">
+                    {p.intercessors.length > 0 ? (
+                      <>
+                        <Avatars people={p.intercessors} size={24} surface="var(--surface)" />
+                        <span className="text-[12px] text-ink-soft">
+                          {p.intercessors.length}{' '}
+                          {p.intercessors.length === 1 ? 'persona orando' : 'personas orando'}
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-[12px] text-ink-soft">Nadie orando aún</span>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </>
       )}
 

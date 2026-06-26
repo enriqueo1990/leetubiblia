@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../../lib/auth.jsx'
+import { subscribeToPush } from '../../lib/push.js'
 
 // Último paso del onboarding (documento maestro §5.8): ofrecer recordatorio y, en
 // iOS, guiar a "Agregar a pantalla de inicio". La programación real de la
@@ -18,21 +19,21 @@ function isStandalone() {
 }
 
 export default function OnboardingExtras({ onDone }) {
-  const { updateProfile } = useAuth()
+  const { updateProfile, user } = useAuth()
   const [reminder, setReminder] = useState(false)
   const [busy, setBusy] = useState(false)
   const showAddToHome = isIOS() && !isStandalone()
 
   async function finish() {
     setBusy(true)
-    if (reminder) {
-      // Pide permiso (best-effort) y registra la preferencia.
-      try {
-        if ('Notification' in window) await Notification.requestPermission()
-      } catch {
-        /* sin permiso: el recordatorio queda como intención */
+    if (reminder && user) {
+      // Suscribe al push y solo registra el recordatorio si quedó realmente
+      // habilitado. Si falla (permiso denegado o iOS sin instalar) no lo dejamos
+      // como "activo" mintiendo: el usuario lo puede activar luego en Ajustes.
+      const res = await subscribeToPush(user.id)
+      if (res.ok) {
+        await updateProfile({ reminder_enabled: true, reminder_time: '07:00' })
       }
-      await updateProfile({ reminder_enabled: true, reminder_time: '07:00' })
     }
     localStorage.setItem(DONE_KEY, '1')
     setBusy(false)

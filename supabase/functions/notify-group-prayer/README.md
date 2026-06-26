@@ -11,38 +11,25 @@ Aplicá `supabase/migrations/0010_group_prayer_notifications.sql` en el SQL Edit
 ## 2. Deploy de la función
 No necesita secrets nuevos: los VAPID ya están a nivel proyecto (de send-reminders).
 ```bash
-supabase functions deploy notify-group-prayer --project-ref jugddsluulcdhplyjwou
+supabase functions deploy notify-group-prayer --project-ref <TU_PROJECT_REF>
 ```
 
-## 3. Trigger en la base (SQL Editor)
-Dispara la función en cada INSERT de un pedido compartido. Reemplazá
-`<TU_SERVICE_ROLE_KEY>` por la **legacy `service_role` (empieza con `eyJ`)** — la
-misma que usás en el cron de send-reminders. **No la pegues en el chat**, va directo
-acá:
+## 3. Trigger en la base (ya versionado en la migración 0012)
+El trigger `prayer_shared_notify` y su función `notify_group_prayer()` **ya están en
+`0013_push_automation.sql`** (incluido en `_apply_pending.sql`). No se pega SQL con
+la llave a mano: la función lee la URL del proyecto y el service role desde
+**Supabase Vault** (`vault.decrypted_secrets`), así no queda nada en texto plano en
+el cuerpo de la función ni en el repo.
+
+Provisión por única vez (los mismos secrets que usa el cron de send-reminders; si ya
+los creaste, no hace falta repetir), en el SQL Editor con los valores reales:
 ```sql
-create or replace function public.notify_group_prayer()
-returns trigger language plpgsql security definer set search_path = public as $$
-begin
-  if new.visibility = 'shared' and new.shared_group_id is not null then
-    perform net.http_post(
-      url     := 'https://jugddsluulcdhplyjwou.supabase.co/functions/v1/notify-group-prayer',
-      headers := jsonb_build_object(
-        'Content-Type', 'application/json',
-        'Authorization', 'Bearer <TU_SERVICE_ROLE_KEY>'
-      ),
-      body    := jsonb_build_object('record', to_jsonb(new))
-    );
-  end if;
-  return new;
-end $$;
-
-drop trigger if exists prayer_shared_notify on public.prayer_requests;
-create trigger prayer_shared_notify
-  after insert on public.prayer_requests
-  for each row execute function public.notify_group_prayer();
+select vault.create_secret('https://<TU_PROJECT_REF>.supabase.co', 'project_url');
+select vault.create_secret('<SERVICE_ROLE_KEY>',                    'service_role_key');
 ```
-`pg_net` ya está habilitado (lo usa el cron). Más seguro: guardar el service role en
-**Supabase Vault** y leerlo en la función del trigger en vez de incrustarlo.
+El trigger dispara al **crear** un pedido compartido y al **editarlo a compartido**
+(o cambiarle el grupo); no re-notifica al editar uno que ya estaba compartido al
+mismo grupo. Mientras los secrets no existan, no envía (no rompe el insert/update).
 
 Para desactivar: `drop trigger prayer_shared_notify on public.prayer_requests;`
 

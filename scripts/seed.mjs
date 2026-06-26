@@ -138,8 +138,11 @@ function main() {
       continue
     }
     if (days.length !== plan.duration_days) {
-      console.warn(
-        `⚠ ${plan.slug}: el archivo tiene ${days.length} días pero duration_days=${plan.duration_days}.`
+      // Antes solo avisaba y seguía: un archivo con días de más/menos se sembraba
+      // igual. Ahora abortamos para no mandar a producción un plan incompleto.
+      throw new Error(
+        `${plan.slug}: el archivo tiene ${days.length} días pero duration_days=${plan.duration_days}. ` +
+          `Corregí el .txt o el duration_days antes de sembrar.`
       )
     }
     seededSlugs.push(plan.slug)
