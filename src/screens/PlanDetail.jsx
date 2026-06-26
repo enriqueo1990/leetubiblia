@@ -1,0 +1,165 @@
+import { useEffect, useRef, useState } from 'react'
+import { Link, useParams, useNavigate } from 'react-router-dom'
+import { useAuth } from '../lib/auth.jsx'
+import { getPlan, getPlanDays, dayNumberFor, todayLocalISO } from '../lib/db.js'
+
+// Detalle de un plan: descripción, duración, listado completo día-por-día con sus
+// pasajes, y acción de activar. Mismo estilo que el resto (drill-in iOS).
+function durationLabel(days) {
+  if (days === 365) return 'Un año · 365 días'
+  if (days === 31) return '31 días'
+  return `${days} días`
+}
+
+export default function PlanDetail() {
+  const { id } = useParams()
+  const planId = Number(id)
+  const { profile, updateProfile } = useAuth()
+  const navigate = useNavigate()
+
+  const [plan, setPlan] = useState(null)
+  const [days, setDays] = useState(null)
+  const [confirm, setConfirm] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const todayRef = useRef(null)
+  const scrolled = useRef(false)
+
+  useEffect(() => {
+    let on = true
+    Promise.all([getPlan(planId), getPlanDays(planId)])
+      .then(([p, d]) => {
+        if (!on) return
+        setPlan(p)
+        setDays(d)
+      })
+      .catch(() => on && setDays([]))
+    return () => {
+      on = false
+    }
+  }, [planId])
+
+  const isActive = profile?.active_plan_id === planId
+  // Día actual del usuario, solo si este es su plan activo (para resaltarlo).
+  const todayDay =
+    isActive && profile?.plan_start_date ? dayNumberFor(profile.plan_start_date) : null
+
+  // Al cargar los días, centrar "hoy" en pantalla (una sola vez).
+  useEffect(() => {
+    if (scrolled.current || !days || todayDay == null) return
+    if (todayRef.current) {
+      todayRef.current.scrollIntoView({ block: 'center' })
+      scrolled.current = true
+    }
+  }, [days, todayDay])
+
+  async function activate() {
+    setSaving(true)
+    await updateProfile({ active_plan_id: planId, plan_start_date: todayLocalISO() })
+    setSaving(false)
+    setConfirm(false)
+    navigate('/')
+  }
+
+  function onActivateClick() {
+    if (isActive) return navigate('/')
+    // Si ya hay otro plan activo, confirmar el reinicio.
+    if (profile?.active_plan_id) setConfirm(true)
+    else activate()
+  }
+
+  return (
+    <div className="pt-2">
+      <Link to="/planes" className="text-[15px] font-medium" style={{ color: 'var(--accent)' }}>
+        ‹ Planes
+      </Link>
+
+      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">
+        {plan?.name || 'Plan'}
+      </h1>
+      {plan && (
+        <p className="mt-1 text-[14px] text-ink-soft">{durationLabel(plan.duration_days)}</p>
+      )}
+      {plan?.description && (
+        <p className="mt-3 text-[16px] text-ink-soft">{plan.description}</p>
+      )}
+
+      {/* Acción */}
+      <button
+        type="button"
+        onClick={onActivateClick}
+        disabled={saving}
+        className={`btn mt-5 ${isActive ? 'btn-secondary' : 'btn-primary'}`}
+      >
+        {isActive ? 'Ir a Hoy' : saving ? 'Activando…' : 'Usar este plan'}
+      </button>
+      {isActive && (
+        <p className="mt-2 text-center text-[13px]" style={{ color: 'var(--accent)' }}>
+          Es tu plan activo
+        </p>
+      )}
+
+      {/* Listado día-por-día */}
+      <p className="mb-2 mt-8 px-1 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+        Lecturas por día
+      </p>
+      {days === null && <p className="text-[15px] text-ink-soft">Cargando días…</p>}
+      <ol className="card divide-y divide-hairline">
+        {days?.map((d) => {
+          const isToday = d.day_number === todayDay
+          return (
+            <li
+              key={d.day_number}
+              ref={isToday ? todayRef : undefined}
+              className="flex gap-3 px-4 py-3"
+              style={isToday ? { backgroundColor: 'var(--accent-tint)' } : undefined}
+            >
+              <span
+                className="w-12 shrink-0 pt-0.5 text-[12px] font-semibold uppercase tracking-wide"
+                style={{ color: isToday ? 'var(--accent)' : 'var(--text-soft)' }}
+              >
+                Día {d.day_number}
+              </span>
+              <span className="flex-1 text-[15px] text-ink">
+                {d.refs.map((r, i) => (
+                  <span key={i}>
+                    {r.label}
+                    {i < d.refs.length - 1 && <span className="text-ink-soft"> · </span>}
+                  </span>
+                ))}
+              </span>
+            </li>
+          )
+        })}
+      </ol>
+
+      {/* Confirmación de cambio */}
+      {confirm && (
+        <div
+          className="fixed inset-0 z-30 flex items-center justify-center px-8"
+          style={{ backgroundColor: 'var(--scrim)' }}
+          onClick={() => setConfirm(false)}
+        >
+          <div
+            className="w-full max-w-[320px] rounded-container p-5 text-center"
+            style={{ backgroundColor: 'var(--surface)', boxShadow: '0 10px 40px rgba(0,0,0,0.25)' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-[18px] font-bold text-ink">¿Cambiar a {plan?.name}?</h2>
+            <p className="mt-2 text-[14px] text-ink-soft">
+              El plan nuevo arranca desde el día 1. Tu progreso anterior queda guardado,
+              pero no se transfiere.
+            </p>
+            <div className="mt-5 flex gap-3">
+              <button type="button" className="btn btn-secondary flex-1" onClick={() => setConfirm(false)}>
+                Cancelar
+              </button>
+              <button type="button" className="btn btn-primary flex-1" disabled={saving} onClick={activate}>
+                {saving ? '…' : 'Cambiar'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}

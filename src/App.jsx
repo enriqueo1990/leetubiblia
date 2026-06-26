@@ -5,6 +5,7 @@ import Layout from './components/Layout.jsx'
 import Hoy from './screens/Hoy.jsx'
 import Progreso from './screens/Progreso.jsx'
 import Planes from './screens/Planes.jsx'
+import PlanDetail from './screens/PlanDetail.jsx'
 import Oracion from './screens/Oracion.jsx'
 import Grupos from './screens/Grupos.jsx'
 import GroupDetail from './screens/GroupDetail.jsx'
@@ -20,6 +21,7 @@ export default function App() {
           <Route index element={<Hoy />} />
           <Route path="progreso" element={<Progreso />} />
           <Route path="planes" element={<Planes />} />
+          <Route path="planes/:id" element={<PlanDetail />} />
           <Route path="oracion" element={<Oracion />} />
           <Route path="grupos" element={<Grupos />} />
           <Route path="grupos/:id" element={<GroupDetail />} />

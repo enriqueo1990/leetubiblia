@@ -49,9 +49,17 @@ export default function Hoy() {
           Progreso ›
         </Link>
       </div>
-      <p className="mt-[7px] text-[15px] font-semibold text-accent">
-        {r.plan?.name} · Día {r.todayDay}
-      </p>
+      {r.plan && (
+        <Link
+          to={`/planes/${r.plan.id}`}
+          className="mt-[7px] inline-flex items-center gap-1 text-[15px] font-semibold text-accent"
+        >
+          {r.plan.name} · Día {r.todayDay}
+          <span aria-hidden="true" style={{ opacity: 0.7 }}>
+            ›
+          </span>
+        </Link>
+      )}
 
       {r.offline && (
         <p className="mt-2 text-[12px] text-ink-soft">

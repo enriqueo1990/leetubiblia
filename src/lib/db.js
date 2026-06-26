@@ -277,3 +277,14 @@ export async function deleteAccount() {
   const { error } = await supabase.rpc('delete_account')
   if (error) throw error
 }
+
+// Todos los días de un plan (para el detalle del plan: listado día-por-día).
+export async function getPlanDays(planId) {
+  const { data, error } = await supabase
+    .from('plan_days')
+    .select('day_number, refs')
+    .eq('plan_id', planId)
+    .order('day_number', { ascending: true })
+  if (error) throw error
+  return data
+}
