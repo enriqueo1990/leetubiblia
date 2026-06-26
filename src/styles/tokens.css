@@ -1,0 +1,116 @@
+/*
+ * Tokens de diseño — fuente de verdad visual (README.md, sección Design Tokens).
+ *
+ * Estrategia de conmutación:
+ *  - MODO (claro/oscuro): por defecto sigue prefers-color-scheme. Override manual
+ *    con la clase .light o .dark en <html>.
+ *  - ACENTO (6 tonos sepia): atributo data-accent en <html>. Cada acento define su
+ *    hex claro y oscuro; el bloque de modo elige cuál aplica a --accent.
+ *
+ * --accent / --accent-tint / --on-accent se resuelven en dos pasos: cada acento
+ * publica *-light y *-dark, y el bloque de modo copia el par correcto a la var final.
+ */
+
+:root {
+  /* ---- Neutros: modo claro (default) ---- */
+  --bg-app: #FBFBFA;
+  --surface: #FFFFFF;
+  --surface-alt: #F2F1EE;
+  --segment-track: #EFEDE8;
+  --segment-active: #FFFFFF;
+  --text-primary: #1C1C1E;
+  --text-soft: #8A8A8E;
+  --hairline: #EAE8E3;
+  --placeholder: #B9B7B2;
+  --faint: #C9C7C2;
+  --faint-2: #D8D5CF;
+  --scrim: rgba(28, 28, 30, 0.32);
+  --tabbar-bg: rgba(251, 251, 250, 0.72);
+
+  /* on-accent: texto sobre el relleno de acento. Claro = blanco. */
+  --on-accent-light: #FFFFFF;
+  --on-accent-dark: #1C1C1E;
+  --on-accent: var(--on-accent-light);
+
+  /* Tintes de acento (badges/pills y nav activo) */
+  --accent-tint-light: rgba(168, 139, 106, 0.13);
+  --accent-tint-dark: rgba(194, 165, 126, 0.16);
+  --accent-tint-nav-light: rgba(168, 139, 106, 0.12);
+  --accent-tint-nav-dark: rgba(194, 165, 126, 0.16);
+  --accent-tint: var(--accent-tint-light);
+  --accent-tint-nav: var(--accent-tint-nav-light);
+
+  /* theme-color del manifest, sincronizado por useTheme */
+  color-scheme: light;
+}
+
+/* ---- Neutros: modo oscuro ---- */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --bg-app: #000000;
+    --surface: #1C1C1E;
+    --surface-alt: #2C2C2E;
+    --segment-track: #2C2C2E;
+    --segment-active: #3A3A3C;
+    --text-primary: #F2F2F7;
+    --text-soft: #8E8E93;
+    --hairline: #2C2C2E;
+    --placeholder: #6A6A6E;
+    --faint: #3A3A3C;
+    --faint-2: #5A5A5E;
+    --scrim: rgba(0, 0, 0, 0.6);
+    --tabbar-bg: rgba(0, 0, 0, 0.62);
+
+    --on-accent: var(--on-accent-dark);
+    --accent-tint: var(--accent-tint-dark);
+    --accent-tint-nav: var(--accent-tint-nav-dark);
+    color-scheme: dark;
+  }
+}
+
+/* Override manual a oscuro (gana sobre prefers-color-scheme) */
+:root.dark {
+  --bg-app: #000000;
+  --surface: #1C1C1E;
+  --surface-alt: #2C2C2E;
+  --segment-track: #2C2C2E;
+  --segment-active: #3A3A3C;
+  --text-primary: #F2F2F7;
+  --text-soft: #8E8E93;
+  --hairline: #2C2C2E;
+  --placeholder: #6A6A6E;
+  --faint: #3A3A3C;
+  --faint-2: #5A5A5E;
+  --scrim: rgba(0, 0, 0, 0.6);
+  --tabbar-bg: rgba(0, 0, 0, 0.62);
+
+  --on-accent: var(--on-accent-dark);
+  --accent-tint: var(--accent-tint-dark);
+  --accent-tint-nav: var(--accent-tint-nav-dark);
+  color-scheme: dark;
+}
+
+/*
+ * ---- Acentos sepia (6 tonos) ----
+ * Cada acento publica su par claro/oscuro. La var final --accent toma el claro por
+ * defecto; los bloques de modo oscuro de abajo la repintan con el valor -dark.
+ */
+:root[data-accent='sepia_base'],
+:root:not([data-accent]) {
+  --accent-light: #A88B6A;
+  --accent-dark: #C2A57E;
+}
+:root[data-accent='sepia_clay']  { --accent-light: #B08968; --accent-dark: #CBA585; }
+:root[data-accent='sepia_olive'] { --accent-light: #8C8A5E; --accent-dark: #ABA876; }
+:root[data-accent='sepia_stone'] { --accent-light: #9C9080; --accent-dark: #BBB0A0; }
+:root[data-accent='sepia_rose']  { --accent-light: #B08A86; --accent-dark: #CBA7A2; }
+:root[data-accent='sepia_slate'] { --accent-light: #7E8A8C; --accent-dark: #9CAAAC; }
+
+/* --accent final: claro por defecto */
+:root { --accent: var(--accent-light); }
+
+/* En oscuro (auto u override) usar el tono -dark */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) { --accent: var(--accent-dark); }
+}
+:root.dark { --accent: var(--accent-dark); }

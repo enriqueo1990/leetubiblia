@@ -1,0 +1,32 @@
+import { Outlet } from 'react-router-dom'
+import TabBar from './TabBar.jsx'
+import Sidebar from './Sidebar.jsx'
+
+// Cascarón responsive (documento maestro §4.7 / README — Responsive):
+//  - El contenido vive SIEMPRE en una columna centrada de ancho acotado (~600px).
+//    En pantallas grandes crece el aire alrededor, nunca el contenido.
+//  - Móvil/tablet: tab bar inferior (deja hueco al fondo para no taparla).
+//  - Desktop ≥1024px: sidebar a la izquierda; el contenido se desplaza tras él.
+export default function Layout() {
+  return (
+    <div className="min-h-full bg-app">
+      <Sidebar />
+
+      {/* En desktop el contenido arranca después del sidebar (250px) */}
+      <div className="lg:pl-[250px]">
+        <main
+          className="mx-auto w-full max-w-content px-[26px] lg:max-w-content-wide"
+          style={{
+            paddingTop: 'max(env(safe-area-inset-top), 16px)',
+            // Espacio para no quedar bajo la tab bar en móvil/tablet
+            paddingBottom: 'calc(72px + env(safe-area-inset-bottom))',
+          }}
+        >
+          <Outlet />
+        </main>
+      </div>
+
+      <TabBar />
+    </div>
+  )
+}

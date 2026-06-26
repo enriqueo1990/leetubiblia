@@ -1,0 +1,102 @@
+@import './tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    font-family: theme('fontFamily.sans');
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* El movimiento confirma, no entretiene: respetar la preferencia del sistema. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+  }
+
+  /* Accesibilidad: foco visible solo por teclado, en color de acento. */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  /* No mostrar el anillo cuando el foco viene del mouse/touch. */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+@layer components {
+  /* Tipografía protagonista: referencia del día */
+  .text-display {
+    font-size: 38px;
+    font-weight: 600;
+    letter-spacing: -0.8px;
+    line-height: 1.18;
+  }
+
+  /* Botones base — el sistema visual (§4.4 / Design Tokens) */
+  .btn {
+    @apply w-full rounded-card text-center transition-colors duration-300 ease-soft;
+    min-height: 44px;
+  }
+  .btn-primary {
+    background-color: var(--accent);
+    color: var(--on-accent);
+    padding: 17px;
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--hairline);
+    padding: 16px;
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .btn-done {
+    background-color: var(--surface-alt);
+    color: var(--text-soft);
+    padding: 17px;
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .card {
+    @apply rounded-card;
+    background-color: var(--surface);
+    border: 1px solid var(--hairline);
+  }
+  /* En oscuro las tarjetas elevan por color de superficie, sin borde */
+  :root.dark .card,
+  :root:not(.light) .card {
+    border-color: transparent;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not(.light) .card {
+      border-color: transparent;
+    }
+  }
+}

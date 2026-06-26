@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif; }
+</style>
+</helmet>
+
+<div style="position:absolute; left:64px; top:30px; font:600 16px -apple-system,system-ui; color:#1c1c1e; letter-spacing:-0.3px;">Fase 2 <span style="color:#A88B6A;">· funciones diferidas</span></div>
+<div style="position:absolute; left:64px; top:56px; width:820px; font:500 13px/1.5 -apple-system,system-ui; color:#8a8a8e;">Mismo sistema sepia. Cada función se trata con dignidad (oración contestada = testimonio) y sin gamificar. El acento sigue siendo lo único con color.</div>
+
+<!-- ============================================================ -->
+<!-- ===== F2-A · PEDIDO COMPARTIDO + "ESTOY ORANDO" =========== -->
+<!-- ============================================================ -->
+<div style="position:absolute; left:64px; top:118px; font:600 13px -apple-system,system-ui; color:#8a8a8e; text-transform:uppercase; letter-spacing:0.6px;">«Estoy orando por esto» · tocá el botón en cualquiera de los dos</div>
+
+<!-- F2-A CLARO -->
+<div style="position:absolute; left:64px; top:164px; width:402px;">
+  <div data-drags-parent="1" style="position:absolute; top:-26px; font:500 12px -apple-system,system-ui; color:#8a8a8e; letter-spacing:0.3px;">MODO CLARO</div>
+  <div style="background:#0a0a0a; border-radius:54px; padding:5px; box-shadow:0 22px 60px rgba(40,34,26,0.20), 0 4px 14px rgba(40,34,26,0.10);">
+    <div style="position:relative; width:392px; height:840px; background:#FBFBFA; border-radius:49px; overflow:hidden; display:flex; flex-direction:column;">
+      <div style="height:54px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 30px;">
+        <div style="font:600 15px -apple-system,system-ui; color:#1C1C1E; padding-top:6px;">9:41</div>
+        <div style="position:absolute; left:50%; top:11px; transform:translateX(-50%); width:108px; height:30px; background:#0a0a0a; border-radius:18px;"></div>
+        <svg style="margin-top:6px;" width="24" height="12" viewBox="0 0 26 13" fill="none"><rect x="0.5" y="0.5" width="21" height="12" rx="3.2" stroke="#1C1C1E" opacity="0.4"/><rect x="2" y="2" width="15" height="9" rx="2" fill="#1C1C1E"/><rect x="23" y="4" width="2" height="5" rx="1" fill="#1C1C1E" opacity="0.4"/></svg>
+      </div>
+      <div style="flex:none; display:flex; align-items:center; gap:4px; padding:2px 18px 0; color:#A88B6A;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg><span style="font:500 16px -apple-system,system-ui;">Oración</span></div>
+      <div style="flex:1; display:flex; flex-direction:column; padding:10px 26px 0;">
+        <div style="font:600 12px -apple-system,system-ui; color:#A88B6A; text-transform:uppercase; letter-spacing:0.6px;">Célula Norte</div>
+        <div style="margin-top:10px; font:700 25px/1.2 -apple-system,system-ui; color:#1C1C1E; letter-spacing:-0.5px;">Tratamiento de Roberto</div>
+        <div style="margin-top:8px; font:500 14px -apple-system,system-ui; color:#8A8A8E;">María González · 10 jun</div>
+        <div style="margin-top:20px; font:400 16px/1.55 -apple-system,system-ui; color:#1C1C1E;">Empieza el tratamiento el martes. Pidamos por buenos resultados, por los médicos y por paz para toda la familia en estas semanas.</div>
+        <div style="flex:1;"></div>
+        <div style="background:#FFFFFF; border:1px solid #EAE8E3; border-radius:18px; padding:18px; margin-bottom:22px;">
+          <div style="display:flex; align-items:center; gap:0; margin-bottom:14px;">
+            <div style="width:30px; height:30px; border-radius:50%; background:#F2F1EE; border:2px solid #fff; display:flex; align-items:center; justify-content:center; font:600 11px -apple-system,system-ui; color:#8A8A8E;">MG</div>
+            <div style="width:30px; height:30px; border-radius:50%; background:#F2F1EE; border:2px solid #fff; margin-left:-9px; display:flex; align-items:center; justify-content:center; font:600 11px -apple-system,system-ui; color:#8A8A8E;">PR</div>
+            <div style="width:30px; height:30px; border-radius:50%; background:#F2F1EE; border:2px solid #fff; margin-left:-9px; display:flex; align-items:center; justify-content:center; font:600 11px -apple-system,system-ui; color:#8A8A8E;">AT</div>
+            <div style="width:30px; height:30px; border-radius:50%; background:#F2F1EE; border:2px solid #fff; margin-left:-9px; display:flex; align-items:center; justify-content:center; font:600 11px -apple-system,system-ui; color:#8A8A8E;">+5</div>
+          </div>
+          <sc-if value="{{ notPraysL }}" hint-placeholder-val="{{ true }}">
+            <div style="font:500 14px -apple-system,system-ui; color:#8A8A8E; margin-bottom:14px;">8 personas están orando por esto.</div>
+            <button onClick="{{ toggleL }}" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:15px; border:1px solid #A88B6A; border-radius:14px; background:transparent; color:#A88B6A; font:600 16px -apple-system,system-ui; cursor:pointer; transition:all 0.3s ease;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S4 15.6 4 9.8C4 7.1 6 5.2 8.4 5.2c1.6 0 2.9.8 3.6 2 .7-1.2 2-2 3.6-2C18 5.2 20 7.1 20 9.8c0 5.8-8 10.7-8 10.7z"/></svg>Estoy orando por esto</button>
+          </sc-if>
+          <sc-if value="{{ praysL }}" hint-placeholder-val="{{ false }}">
+            <div style="font:500 14px -apple-system,system-ui; color:#8A8A8E; margin-bottom:14px;">9 personas están orando · vos incluido.</div>
+            <button onClick="{{ toggleL }}" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:15px; border:none; border-radius:14px; background:#A88B6A; color:#fff; font:600 16px -apple-system,system-ui; cursor:pointer; transition:all 0.3s ease;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Estás orando por esto</button>
+            <div style="margin-top:10px; text-align:center; font:400 13px -apple-system,system-ui; color:#8A8A8E;">Le avisamos a María que estás orando.</div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- F2-A OSCURO -->
+<div style="position:absolute; left:548px; top:164px; width:402px;">
+  <div data-drags-parent="1" style="position:absolute; top:-26px; font:500 12px -apple-system,system-ui; color:#8a8a8e; letter-spacing:0.3px;">MODO OSCURO · OLED</div>
+  <div style="background:#0a0a0a; border-radius:54px; padding:5px; box-shadow:0 22px 60px rgba(0,0,0,0.30), 0 4px 14px rgba(0,0,0,0.18);">
+    <div style="position:relative; width:392px; height:840px; background:#000000; border-radius:49px; overflow:hidden; display:flex; flex-direction:column;">
+      <div style="height:54px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 30px;">
+        <div style="font:600 15px -apple-system,system-ui; color:#F2F2F7; padding-top:6px;">9:41</div>
+        <div style="position:absolute; left:50%; top:11px; transform:translateX(-50%); width:108px; height:30px; background:#0a0a0a; border-radius:18px;"></div>
+        <svg style="margin-top:6px;" width="24" height="12" viewBox="0 0 26 13" fill="none"><rect x="0.5" y="0.5" width="21" height="12" rx="3.2" stroke="#F2F2F7" opacity="0.4"/><rect x="2" y="2" width="15" height="9" rx="2" fill="#F2F2F7"/><rect x="23" y="4" width="2" height="5" rx="1" fill="#F2F2F7" opacity="0.4"/></svg>
+      </div>
+      <div style="flex:none; display:flex; align-items:center; gap:4px; padding:2px 18px 0; color:#C2A57E;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg><span style="font:500 16px -apple-system,system-ui;">Oración</span></div>
+      <div style="flex:1; display:flex; flex-direction:column; padding:10px 26px 0;">
+        <div style="font:600 12px -apple-system,system-ui; color:#C2A57E; text-transform:uppercase; letter-spacing:0.6px;">Célula Norte</div>
+        <div style="margin-top:10px; font:700 25px/1.2 -apple-system,system-ui; color:#F2F2F7; letter-spacing:-0.5px;">Tratamiento de Roberto</div>
+        <div style="margin-top:8px; font:500 14px -apple-system,system-ui; color:#8E8E93;">María González · 10 jun</div>
+        <div style="margin-top:20px; font:400 16px/1.55 -apple-system,system-ui; color:#F2F2F7;">Empieza el tratamiento el martes. Pidamos por buenos resultados, por los médicos y por paz para toda la familia en estas semanas.</div>
+        <div style="flex:1;"></div>
+        <div style="background:#1C1C1E; border-radius:18px; padding:18px; margin-bottom:22px;">
+          <div style="display:flex; align-items:center; gap:0; margin-bottom:14px;">
+            <div style="width:30px; height:30px; border-radius:50%; background:#2C2C2E; border:2px solid #000; display:flex; align-items:center; justify-content:center; font:600 11px -apple-system,system-ui; color:#8E8E93;">MG</div>
+            <div style="width:30px; height:30px; border-radius:50%; background:#2C2C2E; border:2px solid #000; margin-left:-9px; display:flex; align-items:center; justify-content:center; font:600 11px -apple-system,system-ui; color:#8E8E93;">PR</div>
+            <div style="width:30px; height:30px; border-radius:50%; background:#2C2C2E; border:2px solid #000; margin-left:-9px; display:flex; align-items:center; justify-content:center; font:600 11px -apple-system,system-ui; color:#8E8E93;">AT</div>
+            <div style="width:30px; height:30px; border-radius:50%; background:#2C2C2E; border:2px solid #000; margin-left:-9px; display:flex; align-items:center; justify-content:center; font:600 11px -apple-system,system-ui; color:#8E8E93;">+5</div>
+          </div>
+          <sc-if value="{{ notPraysD }}" hint-placeholder-val="{{ true }}">
+            <div style="font:500 14px -apple-system,system-ui; color:#8E8E93; margin-bottom:14px;">8 personas están orando por esto.</div>
+            <button onClick="{{ toggleD }}" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:15px; border:1px solid #C2A57E; border-radius:14px; background:transparent; color:#C2A57E; font:600 16px -apple-system,system-ui; cursor:pointer; transition:all 0.3s ease;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S4 15.6 4 9.8C4 7.1 6 5.2 8.4 5.2c1.6 0 2.9.8 3.6 2 .7-1.2 2-2 3.6-2C18 5.2 20 7.1 20 9.8c0 5.8-8 10.7-8 10.7z"/></svg>Estoy orando por esto</button>
+          </sc-if>
+          <sc-if value="{{ praysD }}" hint-placeholder-val="{{ false }}">
+            <div style="font:500 14px -apple-system,system-ui; color:#8E8E93; margin-bottom:14px;">9 personas están orando · vos incluido.</div>
+            <button onClick="{{ toggleD }}" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:15px; border:none; border-radius:14px; background:#C2A57E; color:#1C1C1E; font:600 16px -apple-system,system-ui; cursor:pointer; transition:all 0.3s ease;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Estás orando por esto</button>
+            <div style="margin-top:10px; text-align:center; font:400 13px -apple-system,system-ui; color:#8E8E93;">Le avisamos a María que estás orando.</div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== F2-B · COMPARTIR RESPONDIDA COMO TESTIMONIO ========= -->
+<!-- ============================================================ -->
+<div style="position:absolute; left:64px; top:1100px; font:600 13px -apple-system,system-ui; color:#8a8a8e; text-transform:uppercase; letter-spacing:0.6px;">Al marcar respondida · compartir como testimonio</div>
+
+<!-- F2-B CLARO -->
+<div style="position:absolute; left:64px; top:1146px; width:402px;">
+  <div data-drags-parent="1" style="position:absolute; top:-26px; font:500 12px -apple-system,system-ui; color:#8a8a8e; letter-spacing:0.3px;">MODO CLARO</div>
+  <div style="background:#0a0a0a; border-radius:54px; padding:5px; box-shadow:0 22px 60px rgba(40,34,26,0.20), 0 4px 14px rgba(40,34,26,0.10);">
+    <div style="position:relative; width:392px; height:840px; background:#FBFBFA; border-radius:49px; overflow:hidden; display:flex; flex-direction:column;">
+      <div style="flex:none; display:flex; flex-direction:column; align-items:center; padding-top:12px;"><div style="width:36px; height:5px; border-radius:3px; background:#EAE8E3;"></div></div>
+      <div style="flex:1; display:flex; flex-direction:column; padding:26px 26px 0;">
+        <div style="align-self:center; width:72px; height:72px; border-radius:50%; background:rgba(168,139,106,0.13); display:flex; align-items:center; justify-content:center; color:#A88B6A;"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
+        <div style="margin-top:22px; text-align:center; font:700 23px -apple-system,system-ui; color:#1C1C1E; letter-spacing:-0.4px;">Oración respondida</div>
+        <div style="margin-top:10px; text-align:center; font:400 16px/1.5 -apple-system,system-ui; color:#8A8A8E;">Marcaste <b style="color:#1C1C1E; font-weight:600;">«Examen de Sofía»</b> como respondida. Queda registrada.</div>
+
+        <div style="margin-top:26px; background:#FFFFFF; border:1px solid #EAE8E3; border-radius:16px; padding:16px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;"><span style="font:500 16px -apple-system,system-ui; color:#1C1C1E;">Compartir con Célula Norte</span><div style="width:48px; height:29px; border-radius:15px; background:#A88B6A; position:relative; flex:none;"><div style="position:absolute; top:2.5px; right:2.5px; width:24px; height:24px; border-radius:50%; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,0.15);"></div></div></div>
+          <div style="margin-top:12px; padding-top:14px; border-top:1px solid #EAE8E3; font:600 12px -apple-system,system-ui; color:#8A8A8E; text-transform:uppercase; letter-spacing:0.5px;">Unas palabras (opcional)</div>
+          <div style="margin-top:8px; font:400 15px/1.45 -apple-system,system-ui; color:#1C1C1E;">Aprobó con honores. Gracias a todos los que oraron por ella.</div>
+        </div>
+        <div style="flex:1;"></div>
+        <button style="width:100%; padding:17px; border:none; border-radius:16px; background:#A88B6A; color:#fff; font:600 17px -apple-system,system-ui; letter-spacing:-0.2px; cursor:pointer;">Compartir testimonio</button>
+        <button style="width:100%; margin-top:10px; margin-bottom:20px; padding:15px; border:none; border-radius:16px; background:transparent; color:#8A8A8E; font:500 16px -apple-system,system-ui; cursor:pointer;">Ahora no</button>
+      </div>
+      <div style="flex:none; height:24px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:8px;"><div style="width:140px; height:5px; border-radius:3px; background:#1C1C1E;"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- F2-B OSCURO -->
+<div style="position:absolute; left:548px; top:1146px; width:402px;">
+  <div data-drags-parent="1" style="position:absolute; top:-26px; font:500 12px -apple-system,system-ui; color:#8a8a8e; letter-spacing:0.3px;">MODO OSCURO · OLED</div>
+  <div style="background:#0a0a0a; border-radius:54px; padding:5px; box-shadow:0 22px 60px rgba(0,0,0,0.30), 0 4px 14px rgba(0,0,0,0.18);">
+    <div style="position:relative; width:392px; height:840px; background:#000000; border-radius:49px; overflow:hidden; display:flex; flex-direction:column;">
+      <div style="flex:none; display:flex; flex-direction:column; align-items:center; padding-top:12px;"><div style="width:36px; height:5px; border-radius:3px; background:#2C2C2E;"></div></div>
+      <div style="flex:1; display:flex; flex-direction:column; padding:26px 26px 0;">
+        <div style="align-self:center; width:72px; height:72px; border-radius:50%; background:rgba(194,165,126,0.16); display:flex; align-items:center; justify-content:center; color:#C2A57E;"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
+        <div style="margin-top:22px; text-align:center; font:700 23px -apple-system,system-ui; color:#F2F2F7; letter-spacing:-0.4px;">Oración respondida</div>
+        <div style="margin-top:10px; text-align:center; font:400 16px/1.5 -apple-system,system-ui; color:#8E8E93;">Marcaste <b style="color:#F2F2F7; font-weight:600;">«Examen de Sofía»</b> como respondida. Queda registrada.</div>
+
+        <div style="margin-top:26px; background:#1C1C1E; border-radius:16px; padding:16px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;"><span style="font:500 16px -apple-system,system-ui; color:#F2F2F7;">Compartir con Célula Norte</span><div style="width:48px; height:29px; border-radius:15px; background:#C2A57E; position:relative; flex:none;"><div style="position:absolute; top:2.5px; right:2.5px; width:24px; height:24px; border-radius:50%; background:#fff;"></div></div></div>
+          <div style="margin-top:12px; padding-top:14px; border-top:1px solid #2C2C2E; font:600 12px -apple-system,system-ui; color:#8E8E93; text-transform:uppercase; letter-spacing:0.5px;">Unas palabras (opcional)</div>
+          <div style="margin-top:8px; font:400 15px/1.45 -apple-system,system-ui; color:#F2F2F7;">Aprobó con honores. Gracias a todos los que oraron por ella.</div>
+        </div>
+        <div style="flex:1;"></div>
+        <button style="width:100%; padding:17px; border:none; border-radius:16px; background:#C2A57E; color:#1C1C1E; font:600 17px -apple-system,system-ui; letter-spacing:-0.2px; cursor:pointer;">Compartir testimonio</button>
+        <button style="width:100%; margin-top:10px; margin-bottom:20px; padding:15px; border:none; border-radius:16px; background:transparent; color:#8E8E93; font:500 16px -apple-system,system-ui; cursor:pointer;">Ahora no</button>
+      </div>
+      <div style="flex:none; height:24px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:8px;"><div style="width:140px; height:5px; border-radius:3px; background:#F2F2F7;"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== F2-C · TESTIMONIOS DEL GRUPO ======================== -->
+<!-- ============================================================ -->
+<div style="position:absolute; left:64px; top:2060px; font:600 13px -apple-system,system-ui; color:#8a8a8e; text-transform:uppercase; letter-spacing:0.6px;">Testimonios · oraciones respondidas compartidas</div>
+
+<!-- F2-C CLARO -->
+<div style="position:absolute; left:64px; top:2106px; width:402px;">
+  <div data-drags-parent="1" style="position:absolute; top:-26px; font:500 12px -apple-system,system-ui; color:#8a8a8e; letter-spacing:0.3px;">MODO CLARO</div>
+  <div style="background:#0a0a0a; border-radius:54px; padding:5px; box-shadow:0 22px 60px rgba(40,34,26,0.20), 0 4px 14px rgba(40,34,26,0.10);">
+    <div style="position:relative; width:392px; height:840px; background:#FBFBFA; border-radius:49px; overflow:hidden; display:flex; flex-direction:column;">
+      <div style="height:54px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 30px;">
+        <div style="font:600 15px -apple-system,system-ui; color:#1C1C1E; padding-top:6px;">9:41</div>
+        <div style="position:absolute; left:50%; top:11px; transform:translateX(-50%); width:108px; height:30px; background:#0a0a0a; border-radius:18px;"></div>
+        <svg style="margin-top:6px;" width="24" height="12" viewBox="0 0 26 13" fill="none"><rect x="0.5" y="0.5" width="21" height="12" rx="3.2" stroke="#1C1C1E" opacity="0.4"/><rect x="2" y="2" width="15" height="9" rx="2" fill="#1C1C1E"/><rect x="23" y="4" width="2" height="5" rx="1" fill="#1C1C1E" opacity="0.4"/></svg>
+      </div>
+      <div style="flex:none; display:flex; align-items:center; gap:4px; padding:2px 18px 0; color:#A88B6A;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg><span style="font:500 16px -apple-system,system-ui;">Célula Norte</span></div>
+      <div style="flex:1; display:flex; flex-direction:column; padding:8px 26px 0; overflow:hidden;">
+        <div style="font:700 26px -apple-system,system-ui; color:#1C1C1E; letter-spacing:-0.6px;">Testimonios</div>
+        <div style="margin-top:4px; font:500 14px -apple-system,system-ui; color:#8A8A8E;">Oraciones que el grupo vio responder.</div>
+        <div style="margin-top:22px; background:#FFFFFF; border:1px solid #EAE8E3; border-radius:16px; padding:18px;">
+          <div style="display:flex; align-items:center; gap:7px; font:600 11px -apple-system,system-ui; color:#A88B6A; text-transform:uppercase; letter-spacing:0.5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Respondida · 12 jun</div>
+          <div style="margin-top:10px; font:600 18px -apple-system,system-ui; color:#1C1C1E; letter-spacing:-0.3px;">Beca universitaria</div>
+          <div style="margin-top:10px; font:400 15px/1.5 -apple-system,system-ui; color:#1C1C1E;">«Salió la beca completa. Gracias a Dios y a todos los que oraron.»</div>
+          <div style="margin-top:12px; font:500 13px -apple-system,system-ui; color:#8A8A8E;">Pedro Ruiz</div>
+        </div>
+        <div style="margin-top:12px; background:#FFFFFF; border:1px solid #EAE8E3; border-radius:16px; padding:18px;">
+          <div style="display:flex; align-items:center; gap:7px; font:600 11px -apple-system,system-ui; color:#A88B6A; text-transform:uppercase; letter-spacing:0.5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Respondida · 3 jun</div>
+          <div style="margin-top:10px; font:600 18px -apple-system,system-ui; color:#1C1C1E; letter-spacing:-0.3px;">Cirugía de mamá</div>
+          <div style="margin-top:10px; font:400 15px/1.5 -apple-system,system-ui; color:#1C1C1E;">«Todo salió bien, ya está en casa recuperándose.»</div>
+          <div style="margin-top:12px; font:500 13px -apple-system,system-ui; color:#8A8A8E;">María González</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- F2-C OSCURO -->
+<div style="position:absolute; left:548px; top:2106px; width:402px;">
+  <div data-drags-parent="1" style="position:absolute; top:-26px; font:500 12px -apple-system,system-ui; color:#8a8a8e; letter-spacing:0.3px;">MODO OSCURO · OLED</div>
+  <div style="background:#0a0a0a; border-radius:54px; padding:5px; box-shadow:0 22px 60px rgba(0,0,0,0.30), 0 4px 14px rgba(0,0,0,0.18);">
+    <div style="position:relative; width:392px; height:840px; background:#000000; border-radius:49px; overflow:hidden; display:flex; flex-direction:column;">
+      <div style="height:54px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 30px;">
+        <div style="font:600 15px -apple-system,system-ui; color:#F2F2F7; padding-top:6px;">9:41</div>
+        <div style="position:absolute; left:50%; top:11px; transform:translateX(-50%); width:108px; height:30px; background:#0a0a0a; border-radius:18px;"></div>
+        <svg style="margin-top:6px;" width="24" height="12" viewBox="0 0 26 13" fill="none"><rect x="0.5" y="0.5" width="21" height="12" rx="3.2" stroke="#F2F2F7" opacity="0.4"/><rect x="2" y="2" width="15" height="9" rx="2" fill="#F2F2F7"/><rect x="23" y="4" width="2" height="5" rx="1" fill="#F2F2F7" opacity="0.4"/></svg>
+      </div>
+      <div style="flex:none; display:flex; align-items:center; gap:4px; padding:2px 18px 0; color:#C2A57E;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg><span style="font:500 16px -apple-system,system-ui;">Célula Norte</span></div>
+      <div style="flex:1; display:flex; flex-direction:column; padding:8px 26px 0; overflow:hidden;">
+        <div style="font:700 26px -apple-system,system-ui; color:#F2F2F7; letter-spacing:-0.6px;">Testimonios</div>
+        <div style="margin-top:4px; font:500 14px -apple-system,system-ui; color:#8E8E93;">Oraciones que el grupo vio responder.</div>
+        <div style="margin-top:22px; background:#1C1C1E; border-radius:16px; padding:18px;">
+          <div style="display:flex; align-items:center; gap:7px; font:600 11px -apple-system,system-ui; color:#C2A57E; text-transform:uppercase; letter-spacing:0.5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Respondida · 12 jun</div>
+          <div style="margin-top:10px; font:600 18px -apple-system,system-ui; color:#F2F2F7; letter-spacing:-0.3px;">Beca universitaria</div>
+          <div style="margin-top:10px; font:400 15px/1.5 -apple-system,system-ui; color:#F2F2F7;">«Salió la beca completa. Gracias a Dios y a todos los que oraron.»</div>
+          <div style="margin-top:12px; font:500 13px -apple-system,system-ui; color:#8E8E93;">Pedro Ruiz</div>
+        </div>
+        <div style="margin-top:12px; background:#1C1C1E; border-radius:16px; padding:18px;">
+          <div style="display:flex; align-items:center; gap:7px; font:600 11px -apple-system,system-ui; color:#C2A57E; text-transform:uppercase; letter-spacing:0.5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Respondida · 3 jun</div>
+          <div style="margin-top:10px; font:600 18px -apple-system,system-ui; color:#F2F2F7; letter-spacing:-0.3px;">Cirugía de mamá</div>
+          <div style="margin-top:10px; font:400 15px/1.5 -apple-system,system-ui; color:#F2F2F7;">«Todo salió bien, ya está en casa recuperándose.»</div>
+          <div style="margin-top:12px; font:500 13px -apple-system,system-ui; color:#8E8E93;">María González</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== F2-D · STATS PASTORALES DEL OWNER =================== -->
+<!-- ============================================================ -->
+<div style="position:absolute; left:64px; top:3020px; font:600 13px -apple-system,system-ui; color:#8a8a8e; text-transform:uppercase; letter-spacing:0.6px;">Resumen del grupo · solo lo ve el owner</div>
+
+<!-- F2-D CLARO -->
+<div style="position:absolute; left:64px; top:3066px; width:402px;">
+  <div data-drags-parent="1" style="position:absolute; top:-26px; font:500 12px -apple-system,system-ui; color:#8a8a8e; letter-spacing:0.3px;">MODO CLARO</div>
+  <div style="background:#0a0a0a; border-radius:54px; padding:5px; box-shadow:0 22px 60px rgba(40,34,26,0.20), 0 4px 14px rgba(40,34,26,0.10);">
+    <div style="position:relative; width:392px; height:840px; background:#FBFBFA; border-radius:49px; overflow:hidden; display:flex; flex-direction:column;">
+      <div style="height:54px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 30px;">
+        <div style="font:600 15px -apple-system,system-ui; color:#1C1C1E; padding-top:6px;">9:41</div>
+        <div style="position:absolute; left:50%; top:11px; transform:translateX(-50%); width:108px; height:30px; background:#0a0a0a; border-radius:18px;"></div>
+        <svg style="margin-top:6px;" width="24" height="12" viewBox="0 0 26 13" fill="none"><rect x="0.5" y="0.5" width="21" height="12" rx="3.2" stroke="#1C1C1E" opacity="0.4"/><rect x="2" y="2" width="15" height="9" rx="2" fill="#1C1C1E"/><rect x="23" y="4" width="2" height="5" rx="1" fill="#1C1C1E" opacity="0.4"/></svg>
+      </div>
+      <div style="flex:none; display:flex; align-items:center; gap:4px; padding:2px 18px 0; color:#A88B6A;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg><span style="font:500 16px -apple-system,system-ui;">Grupos</span></div>
+      <div style="flex:1; display:flex; flex-direction:column; padding:8px 26px 0;">
+        <div style="font:700 26px -apple-system,system-ui; color:#1C1C1E; letter-spacing:-0.6px;">Célula Norte</div>
+        <div style="margin-top:3px; font:500 14px -apple-system,system-ui; color:#8A8A8E;">8 miembros · Sos el owner</div>
+
+        <div style="margin-top:22px; background:#FFFFFF; border:1px solid #EAE8E3; border-radius:18px; padding:20px;">
+          <div style="display:flex; align-items:center; gap:7px; color:#8A8A8E;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span style="font:600 12px -apple-system,system-ui; text-transform:uppercase; letter-spacing:0.5px;">Resumen · solo vos lo ves</span></div>
+          <div style="margin-top:18px; display:flex;">
+            <div style="flex:1;"><div style="font:700 30px -apple-system,system-ui; color:#A88B6A; letter-spacing:-1px;">14</div><div style="margin-top:2px; font:500 12px/1.3 -apple-system,system-ui; color:#8A8A8E;">Pedidos activos</div></div>
+            <div style="flex:1;"><div style="font:700 30px -apple-system,system-ui; color:#A88B6A; letter-spacing:-1px;">23</div><div style="margin-top:2px; font:500 12px/1.3 -apple-system,system-ui; color:#8A8A8E;">Respondidos</div></div>
+            <div style="flex:1;"><div style="font:700 30px -apple-system,system-ui; color:#A88B6A; letter-spacing:-1px;">9</div><div style="margin-top:2px; font:500 12px/1.3 -apple-system,system-ui; color:#8A8A8E;">Orando esta semana</div></div>
+          </div>
+          <div style="margin-top:18px; display:flex; height:8px; border-radius:4px; overflow:hidden; background:#F2F1EE;"><div style="width:38%; background:#A88B6A;"></div></div>
+          <div style="margin-top:8px; font:500 12px -apple-system,system-ui; color:#8A8A8E;">38% de los pedidos del grupo ya fueron respondidos.</div>
+        </div>
+        <div style="margin-top:16px; font:400 14px/1.5 -apple-system,system-ui; color:#8A8A8E;">Un pulso del grupo para acompañar mejor. No es para medir a nadie.</div>
+      </div>
+      <div style="flex:none; background:rgba(251,251,250,0.72); backdrop-filter:blur(20px); border-top:1px solid #EAE8E3; padding:9px 16px 14px; display:flex;">
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:#8A8A8E;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v15.5H5.5c-.8 0-1.5-.7-1.5-1.5V5.5z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v15.5h5.5c.8 0 1.5-.7 1.5-1.5V5.5z"/></svg><span style="font:500 10px -apple-system,system-ui;">Hoy</span></div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:#8A8A8E;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S4 15.6 4 9.8C4 7.1 6 5.2 8.4 5.2c1.6 0 2.9.8 3.6 2 .7-1.2 2-2 3.6-2C18 5.2 20 7.1 20 9.8c0 5.8-8 10.7-8 10.7z"/></svg><span style="font:500 10px -apple-system,system-ui;">Oración</span></div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:#A88B6A;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M16 5.4c1.4.2 2.5 1.4 2.5 2.9 0 1.5-1.1 2.7-2.5 2.9"/><path d="M17.5 14.2c1.8.6 3 2.2 3 4.3"/></svg><span style="font:600 10px -apple-system,system-ui;">Grupos</span></div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:#8A8A8E;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14"/><circle cx="15" cy="8" r="2.3" fill="#FBFBFA"/><path d="M5 16h14"/><circle cx="9" cy="16" r="2.3" fill="#FBFBFA"/></svg><span style="font:500 10px -apple-system,system-ui;">Ajustes</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- F2-D OSCURO -->
+<div style="position:absolute; left:548px; top:3066px; width:402px;">
+  <div data-drags-parent="1" style="position:absolute; top:-26px; font:500 12px -apple-system,system-ui; color:#8a8a8e; letter-spacing:0.3px;">MODO OSCURO · OLED</div>
+  <div style="background:#0a0a0a; border-radius:54px; padding:5px; box-shadow:0 22px 60px rgba(0,0,0,0.30), 0 4px 14px rgba(0,0,0,0.18);">
+    <div style="position:relative; width:392px; height:840px; background:#000000; border-radius:49px; overflow:hidden; display:flex; flex-direction:column;">
+      <div style="height:54px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 30px;">
+        <div style="font:600 15px -apple-system,system-ui; color:#F2F2F7; padding-top:6px;">9:41</div>
+        <div style="position:absolute; left:50%; top:11px; transform:translateX(-50%); width:108px; height:30px; background:#0a0a0a; border-radius:18px;"></div>
+        <svg style="margin-top:6px;" width="24" height="12" viewBox="0 0 26 13" fill="none"><rect x="0.5" y="0.5" width="21" height="12" rx="3.2" stroke="#F2F2F7" opacity="0.4"/><rect x="2" y="2" width="15" height="9" rx="2" fill="#F2F2F7"/><rect x="23" y="4" width="2" height="5" rx="1" fill="#F2F2F7" opacity="0.4"/></svg>
+      </div>
+      <div style="flex:none; display:flex; align-items:center; gap:4px; padding:2px 18px 0; color:#C2A57E;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg><span style="font:500 16px -apple-system,system-ui;">Grupos</span></div>
+      <div style="flex:1; display:flex; flex-direction:column; padding:8px 26px 0;">
+        <div style="font:700 26px -apple-system,system-ui; color:#F2F2F7; letter-spacing:-0.6px;">Célula Norte</div>
+        <div style="margin-top:3px; font:500 14px -apple-system,system-ui; color:#8E8E93;">8 miembros · Sos el owner</div>
+
+        <div style="margin-top:22px; background:#1C1C1E; border-radius:18px; padding:20px;">
+          <div style="display:flex; align-items:center; gap:7px; color:#8E8E93;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span style="font:600 12px -apple-system,system-ui; text-transform:uppercase; letter-spacing:0.5px;">Resumen · solo vos lo ves</span></div>
+          <div style="margin-top:18px; display:flex;">
+            <div style="flex:1;"><div style="font:700 30px -apple-system,system-ui; color:#C2A57E; letter-spacing:-1px;">14</div><div style="margin-top:2px; font:500 12px/1.3 -apple-system,system-ui; color:#8E8E93;">Pedidos activos</div></div>
+            <div style="flex:1;"><div style="font:700 30px -apple-system,system-ui; color:#C2A57E; letter-spacing:-1px;">23</div><div style="margin-top:2px; font:500 12px/1.3 -apple-system,system-ui; color:#8E8E93;">Respondidos</div></div>
+            <div style="flex:1;"><div style="font:700 30px -apple-system,system-ui; color:#C2A57E; letter-spacing:-1px;">9</div><div style="margin-top:2px; font:500 12px/1.3 -apple-system,system-ui; color:#8E8E93;">Orando esta semana</div></div>
+          </div>
+          <div style="margin-top:18px; display:flex; height:8px; border-radius:4px; overflow:hidden; background:#2C2C2E;"><div style="width:38%; background:#C2A57E;"></div></div>
+          <div style="margin-top:8px; font:500 12px -apple-system,system-ui; color:#8E8E93;">38% de los pedidos del grupo ya fueron respondidos.</div>
+        </div>
+        <div style="margin-top:16px; font:400 14px/1.5 -apple-system,system-ui; color:#8E8E93;">Un pulso del grupo para acompañar mejor. No es para medir a nadie.</div>
+      </div>
+      <div style="flex:none; background:rgba(0,0,0,0.62); backdrop-filter:blur(20px); border-top:1px solid #2C2C2E; padding:9px 16px 14px; display:flex;">
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:#8E8E93;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v15.5H5.5c-.8 0-1.5-.7-1.5-1.5V5.5z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v15.5h5.5c.8 0 1.5-.7 1.5-1.5V5.5z"/></svg><span style="font:500 10px -apple-system,system-ui;">Hoy</span></div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:#8E8E93;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S4 15.6 4 9.8C4 7.1 6 5.2 8.4 5.2c1.6 0 2.9.8 3.6 2 .7-1.2 2-2 3.6-2C18 5.2 20 7.1 20 9.8c0 5.8-8 10.7-8 10.7z"/></svg><span style="font:500 10px -apple-system,system-ui;">Oración</span></div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:#C2A57E;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M16 5.4c1.4.2 2.5 1.4 2.5 2.9 0 1.5-1.1 2.7-2.5 2.9"/><path d="M17.5 14.2c1.8.6 3 2.2 3 4.3"/></svg><span style="font:600 10px -apple-system,system-ui;">Grupos</span></div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:#8E8E93;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14"/><circle cx="15" cy="8" r="2.3" fill="#000000"/><path d="M5 16h14"/><circle cx="9" cy="16" r="2.3" fill="#000000"/></svg><span style="font:500 10px -apple-system,system-ui;">Ajustes</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== F2-E · HOY CON REFERENCIA DEL DÍA =================== -->
+<!-- ============================================================ -->
+<div style="position:absolute; left:64px; top:3980px; font:600 13px -apple-system,system-ui; color:#8a8a8e; text-transform:uppercase; letter-spacing:0.6px;">Hoy + referencia del día en portada (opcional)</div>
+
+<!-- F2-E CLARO -->
+<div style="position:absolute; left:64px; top:4026px; width:402px;">
+  <div data-drags-parent="1" style="position:absolute; top:-26px; font:500 12px -apple-system,system-ui; color:#8a8a8e; letter-spacing:0.3px;">MODO CLARO</div>
+  <div style="background:#0a0a0a; border-radius:54px; padding:5px; box-shadow:0 22px 60px rgba(40,34,26,0.20), 0 4px 14px rgba(40,34,26,0.10);">
+    <div style="position:relative; width:392px; height:840px; background:#FBFBFA; border-radius:49px; overflow:hidden; display:flex; flex-direction:column;">
+      <div style="height:54px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 30px;">
+        <div style="font:600 15px -apple-system,system-ui; color:#1C1C1E; padding-top:6px;">9:41</div>
+        <div style="position:absolute; left:50%; top:11px; transform:translateX(-50%); width:108px; height:30px; background:#0a0a0a; border-radius:18px;"></div>
+        <svg style="margin-top:6px;" width="24" height="12" viewBox="0 0 26 13" fill="none"><rect x="0.5" y="0.5" width="21" height="12" rx="3.2" stroke="#1C1C1E" opacity="0.4"/><rect x="2" y="2" width="15" height="9" rx="2" fill="#1C1C1E"/><rect x="23" y="4" width="2" height="5" rx="1" fill="#1C1C1E" opacity="0.4"/></svg>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; padding:16px 30px 0;">
+        <div style="font:500 13px -apple-system,system-ui; color:#8A8A8E; text-transform:uppercase; letter-spacing:0.6px;">Jueves 25 de junio</div>
+        <div style="margin-top:7px; font:600 15px -apple-system,system-ui; color:#A88B6A; letter-spacing:-0.1px;">Plan M'Cheyne · Día 176</div>
+        <div style="margin-top:16px; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:13px 16px; background:#FFFFFF; border:1px solid #EAE8E3; border-radius:14px;">
+          <div style="min-width:0;"><div style="font:600 11px -apple-system,system-ui; color:#8A8A8E; text-transform:uppercase; letter-spacing:0.5px;">Versículo del día</div><div style="margin-top:3px; font:600 17px -apple-system,system-ui; color:#1C1C1E; letter-spacing:-0.2px;">Salmo 46:10</div></div>
+          <span style="font:600 14px -apple-system,system-ui; color:#A88B6A; white-space:nowrap;">Abrir ↗</span>
+        </div>
+        <div style="margin-top:26px; font:500 14px -apple-system,system-ui; color:#8A8A8E;">Lectura de hoy</div>
+        <div style="margin-top:16px;">
+          <div style="font:600 36px/1.16 -apple-system,system-ui; letter-spacing:-0.7px; color:#1C1C1E;">Jeremías 33</div>
+          <div style="font:600 36px/1.16 -apple-system,system-ui; letter-spacing:-0.7px; color:#1C1C1E;">Salmos 5–6</div>
+          <div style="font:600 36px/1.16 -apple-system,system-ui; letter-spacing:-0.7px; color:#1C1C1E;">Mateo 7</div>
+        </div>
+        <div style="flex:1;"></div>
+        <button style="width:100%; padding:17px; border:none; border-radius:16px; background:#A88B6A; color:#fff; font:600 17px -apple-system,system-ui; letter-spacing:-0.2px; cursor:pointer;">Marcar como leído</button>
+        <button style="width:100%; margin-top:12px; margin-bottom:16px; padding:16px; border:1px solid #EAE8E3; border-radius:16px; background:transparent; color:#1C1C1E; font:500 17px -apple-system,system-ui; letter-spacing:-0.2px; cursor:pointer;">Abrir en mi app de Biblia ↗</button>
+      </div>
+      <div style="flex:none; background:rgba(251,251,250,0.72); backdrop-filter:blur(20px); border-top:1px solid #EAE8E3; padding:9px 16px 14px; display:flex;">
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:#A88B6A;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v15.5H5.5c-.8 0-1.5-.7-1.5-1.5V5.5z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v15.5h5.5c.8 0 1.5-.7 1.5-1.5V5.5z"/></svg><span style="font:600 10px -apple-system,system-ui;">Hoy</span></div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:#8A8A8E;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S4 15.6 4 9.8C4 7.1 6 5.2 8.4 5.2c1.6 0 2.9.8 3.6 2 .7-1.2 2-2 3.6-2C18 5.2 20 7.1 20 9.8c0 5.8-8 10.7-8 10.7z"/></svg><span style="font:500 10px -apple-system,system-ui;">Oración</span></div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:#8A8A8E;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M16 5.4c1.4.2 2.5 1.4 2.5 2.9 0 1.5-1.1 2.7-2.5 2.9"/><path d="M17.5 14.2c1.8.6 3 2.2 3 4.3"/></svg><span style="font:500 10px -apple-system,system-ui;">Grupos</span></div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:#8A8A8E;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14"/><circle cx="15" cy="8" r="2.3" fill="#FBFBFA"/><path d="M5 16h14"/><circle cx="9" cy="16" r="2.3" fill="#FBFBFA"/></svg><span style="font:500 10px -apple-system,system-ui;">Ajustes</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- F2-E OSCURO -->
+<div style="position:absolute; left:548px; top:4026px; width:402px;">
+  <div data-drags-parent="1" style="position:absolute; top:-26px; font:500 12px -apple-system,system-ui; color:#8a8a8e; letter-spacing:0.3px;">MODO OSCURO · OLED</div>
+  <div style="background:#0a0a0a; border-radius:54px; padding:5px; box-shadow:0 22px 60px rgba(0,0,0,0.30), 0 4px 14px rgba(0,0,0,0.18);">
+    <div style="position:relative; width:392px; height:840px; background:#000000; border-radius:49px; overflow:hidden; display:flex; flex-direction:column;">
+      <div style="height:54px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 30px;">
+        <div style="font:600 15px -apple-system,system-ui; color:#F2F2F7; padding-top:6px;">9:41</div>
+        <div style="position:absolute; left:50%; top:11px; transform:translateX(-50%); width:108px; height:30px; background:#0a0a0a; border-radius:18px;"></div>
+        <svg style="margin-top:6px;" width="24" height="12" viewBox="0 0 26 13" fill="none"><rect x="0.5" y="0.5" width="21" height="12" rx="3.2" stroke="#F2F2F7" opacity="0.4"/><rect x="2" y="2" width="15" height="9" rx="2" fill="#F2F2F7"/><rect x="23" y="4" width="2" height="5" rx="1" fill="#F2F2F7" opacity="0.4"/></svg>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; padding:16px 30px 0;">
+        <div style="font:500 13px -apple-system,system-ui; color:#8E8E93; text-transform:uppercase; letter-spacing:0.6px;">Jueves 25 de junio</div>
+        <div style="margin-top:7px; font:600 15px -apple-system,system-ui; color:#C2A57E; letter-spacing:-0.1px;">Plan M'Cheyne · Día 176</div>
+        <div style="margin-top:16px; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:13px 16px; background:#1C1C1E; border-radius:14px;">
+          <div style="min-width:0;"><div style="font:600 11px -apple-system,system-ui; color:#8E8E93; text-transform:uppercase; letter-spacing:0.5px;">Versículo del día</div><div style="margin-top:3px; font:600 17px -apple-system,system-ui; color:#F2F2F7; letter-spacing:-0.2px;">Salmo 46:10</div></div>
+          <span style="font:600 14px -apple-system,system-ui; color:#C2A57E; white-space:nowrap;">Abrir ↗</span>
+        </div>
+        <div style="margin-top:26px; font:500 14px -apple-system,system-ui; color:#8E8E93;">Lectura de hoy</div>
+        <div style="margin-top:16px;">
+          <div style="font:600 36px/1.16 -apple-system,system-ui; letter-spacing:-0.7px; color:#F2F2F7;">Jeremías 33</div>
+          <div style="font:600 36px/1.16 -apple-system,system-ui; letter-spacing:-0.7px; color:#F2F2F7;">Salmos 5–6</div>
+          <div style="font:600 36px/1.16 -apple-system,system-ui; letter-spacing:-0.7px; color:#F2F2F7;">Mateo 7</div>
+        </div>
+        <div style="flex:1;"></div>
+        <button style="width:100%; padding:17px; border:none; border-radius:16px; background:#C2A57E; color:#1C1C1E; font:600 17px -apple-system,system-ui; letter-spacing:-0.2px; cursor:pointer;">Marcar como leído</button>
+        <button style="width:100%; margin-top:12px; margin-bottom:16px; padding:16px; border:1px solid #2C2C2E; border-radius:16px; background:transparent; color:#F2F2F7; font:500 17px -apple-system,system-ui; letter-spacing:-0.2px; cursor:pointer;">Abrir en mi app de Biblia ↗</button>
+      </div>
+      <div style="flex:none; background:rgba(0,0,0,0.62); backdrop-filter:blur(20px); border-top:1px solid #2C2C2E; padding:9px 16px 14px; display:flex;">
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:#C2A57E;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v15.5H5.5c-.8 0-1.5-.7-1.5-1.5V5.5z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v15.5h5.5c.8 0 1.5-.7 1.5-1.5V5.5z"/></svg><span style="font:600 10px -apple-system,system-ui;">Hoy</span></div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:#8E8E93;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S4 15.6 4 9.8C4 7.1 6 5.2 8.4 5.2c1.6 0 2.9.8 3.6 2 .7-1.2 2-2 3.6-2C18 5.2 20 7.1 20 9.8c0 5.8-8 10.7-8 10.7z"/></svg><span style="font:500 10px -apple-system,system-ui;">Oración</span></div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:#8E8E93;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M16 5.4c1.4.2 2.5 1.4 2.5 2.9 0 1.5-1.1 2.7-2.5 2.9"/><path d="M17.5 14.2c1.8.6 3 2.2 3 4.3"/></svg><span style="font:500 10px -apple-system,system-ui;">Grupos</span></div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:#8E8E93;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14"/><circle cx="15" cy="8" r="2.3" fill="#000000"/><path d="M5 16h14"/><circle cx="9" cy="16" r="2.3" fill="#000000"/></svg><span style="font:500 10px -apple-system,system-ui;">Ajustes</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { praysL: false, praysD: false };
+  renderVals() {
+    return {
+      praysL: this.state.praysL,
+      notPraysL: !this.state.praysL,
+      praysD: this.state.praysD,
+      notPraysD: !this.state.praysD,
+      toggleL: () => this.setState(s => ({ praysL: !s.praysL })),
+      toggleD: () => this.setState(s => ({ praysD: !s.praysD })),
+    };
+  }
+}
+</script>
+</body>
+</html>

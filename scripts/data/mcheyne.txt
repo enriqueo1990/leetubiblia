@@ -1,0 +1,368 @@
+# Plan M'Cheyne — 365 días, 4 pasajes por día (dominio público).
+# Fuente: bibleplan.org/plans/mcheyne (calendario canónico de R. M. M'Cheyne).
+# Etiquetas traducidas al español; libro+capítulo se mapean a USFM al sembrar.
+Génesis 1; Mateo 1; Esdras 1; Hechos 1
+Génesis 2; Mateo 2; Esdras 2; Hechos 2
+Génesis 3; Mateo 3; Esdras 3; Hechos 3
+Génesis 4; Mateo 4; Esdras 4; Hechos 4
+Génesis 5; Mateo 5; Esdras 5; Hechos 5
+Génesis 6; Mateo 6; Esdras 6; Hechos 6
+Génesis 7; Mateo 7; Esdras 7; Hechos 7
+Génesis 8; Mateo 8; Esdras 8; Hechos 8
+Génesis 9-10; Mateo 9; Esdras 9; Hechos 9
+Génesis 11; Mateo 10; Esdras 10; Hechos 10
+Génesis 12; Mateo 11; Nehemías 1; Hechos 11
+Génesis 13; Mateo 12; Nehemías 2; Hechos 12
+Génesis 14; Mateo 13; Nehemías 3; Hechos 13
+Génesis 15; Mateo 14; Nehemías 4; Hechos 14
+Génesis 16; Mateo 15; Nehemías 5; Hechos 15
+Génesis 17; Mateo 16; Nehemías 6; Hechos 16
+Génesis 18; Mateo 17; Nehemías 7; Hechos 17
+Génesis 19; Mateo 18; Nehemías 8; Hechos 18
+Génesis 20; Mateo 19; Nehemías 9; Hechos 19
+Génesis 21; Mateo 20; Nehemías 10; Hechos 20
+Génesis 22; Mateo 21; Nehemías 11; Hechos 21
+Génesis 23; Mateo 22; Nehemías 12; Hechos 22
+Génesis 24; Mateo 23; Nehemías 13; Hechos 23
+Génesis 25; Mateo 24; Ester 1; Hechos 24
+Génesis 26; Mateo 25; Ester 2; Hechos 25
+Génesis 27; Mateo 26; Ester 3; Hechos 26
+Génesis 28; Mateo 27; Ester 4; Hechos 27
+Génesis 29; Mateo 28; Ester 5; Hechos 28
+Génesis 30; Marcos 1; Ester 6; Romanos 1
+Génesis 31; Marcos 2; Ester 7; Romanos 2
+Génesis 32; Marcos 3; Ester 8; Romanos 3
+Génesis 33; Marcos 4; Ester 9-10; Romanos 4
+Génesis 34; Marcos 5; Job 1; Romanos 5
+Génesis 35-36; Marcos 6; Job 2; Romanos 6
+Génesis 37; Marcos 7; Job 3; Romanos 7
+Génesis 38; Marcos 8; Job 4; Romanos 8
+Génesis 39; Marcos 9; Job 5; Romanos 9
+Génesis 40; Marcos 10; Job 6; Romanos 10
+Génesis 41; Marcos 11; Job 7; Romanos 11
+Génesis 42; Marcos 12; Job 8; Romanos 12
+Génesis 43; Marcos 13; Job 9; Romanos 13
+Génesis 44; Marcos 14; Job 10; Romanos 14
+Génesis 45; Marcos 15; Job 11; Romanos 15
+Génesis 46; Marcos 16; Job 12; Romanos 16
+Génesis 47; Lucas 1:1-38; Job 13; 1 Corintios 1
+Génesis 48; Lucas 1:39-80; Job 14; 1 Corintios 2
+Génesis 49; Lucas 2; Job 15; 1 Corintios 3
+Génesis 50; Lucas 3; Job 16-17; 1 Corintios 4
+Éxodo 1; Lucas 4; Job 18; 1 Corintios 5
+Éxodo 2; Lucas 5; Job 19; 1 Corintios 6
+Éxodo 3; Lucas 6; Job 20; 1 Corintios 7
+Éxodo 4; Lucas 7; Job 21; 1 Corintios 8
+Éxodo 5; Lucas 8; Job 22; 1 Corintios 9
+Éxodo 6; Lucas 9; Job 23; 1 Corintios 10
+Éxodo 7; Lucas 10; Job 24; 1 Corintios 11
+Éxodo 8; Lucas 11; Job 25-26; 1 Corintios 12
+Éxodo 9; Lucas 12; Job 27; 1 Corintios 13
+Éxodo 10; Lucas 13; Job 28; 1 Corintios 14
+Éxodo 11:1-12:20; Lucas 14; Job 29; 1 Corintios 15
+Éxodo 12:21-50; Lucas 15; Job 30; 1 Corintios 16
+Éxodo 13; Lucas 16; Job 31; 2 Corintios 1
+Éxodo 14; Lucas 17; Job 32; 2 Corintios 2
+Éxodo 15; Lucas 18; Job 33; 2 Corintios 3
+Éxodo 16; Lucas 19; Job 34; 2 Corintios 4
+Éxodo 17; Lucas 20; Job 35; 2 Corintios 5
+Éxodo 18; Lucas 21; Job 36; 2 Corintios 6
+Éxodo 19; Lucas 22; Job 37; 2 Corintios 7
+Éxodo 20; Lucas 23; Job 38; 2 Corintios 8
+Éxodo 21; Lucas 24; Job 39; 2 Corintios 9
+Éxodo 22; Juan 1; Job 40; 2 Corintios 10
+Éxodo 23; Juan 2; Job 41; 2 Corintios 11
+Éxodo 24; Juan 3; Job 42; 2 Corintios 12
+Éxodo 25; Juan 4; Proverbios 1; 2 Corintios 13
+Éxodo 26; Juan 5; Proverbios 2; Gálatas 1
+Éxodo 27; Juan 6; Proverbios 3; Gálatas 2
+Éxodo 28; Juan 7; Proverbios 4; Gálatas 3
+Éxodo 29; Juan 8; Proverbios 5; Gálatas 4
+Éxodo 30; Juan 9; Proverbios 6; Gálatas 5
+Éxodo 31; Juan 10; Proverbios 7; Gálatas 6
+Éxodo 32; Juan 11; Proverbios 8; Efesios 1
+Éxodo 33; Juan 12; Proverbios 9; Efesios 2
+Éxodo 34; Juan 13; Proverbios 10; Efesios 3
+Éxodo 35; Juan 14; Proverbios 11; Efesios 4
+Éxodo 36; Juan 15; Proverbios 12; Efesios 5
+Éxodo 37; Juan 16; Proverbios 13; Efesios 6
+Éxodo 38; Juan 17; Proverbios 14; Filipenses 1
+Éxodo 39; Juan 18; Proverbios 15; Filipenses 2
+Éxodo 40; Juan 19; Proverbios 16; Filipenses 3
+Levítico 1; Juan 20; Proverbios 17; Filipenses 4
+Levítico 2-3; Juan 21; Proverbios 18; Colosenses 1
+Levítico 4; Salmos 1-2; Proverbios 19; Colosenses 2
+Levítico 5; Salmos 3-4; Proverbios 20; Colosenses 3
+Levítico 6; Salmos 5-6; Proverbios 21; Colosenses 4
+Levítico 7; Salmos 7-8; Proverbios 22; 1 Tesalonicenses 1
+Levítico 8; Salmos 9; Proverbios 23; 1 Tesalonicenses 2
+Levítico 9; Salmos 10; Proverbios 24; 1 Tesalonicenses 3
+Levítico 10; Salmos 11-12; Proverbios 25; 1 Tesalonicenses 4
+Levítico 11-12; Salmos 13-14; Proverbios 26; 1 Tesalonicenses 5
+Levítico 13; Salmos 15-16; Proverbios 27; 2 Tesalonicenses 1
+Levítico 14; Salmos 17; Proverbios 28; 2 Tesalonicenses 2
+Levítico 15; Salmos 18; Proverbios 29; 2 Tesalonicenses 3
+Levítico 16; Salmos 19; Proverbios 30; 1 Timoteo 1
+Levítico 17; Salmos 20-21; Proverbios 31; 1 Timoteo 2
+Levítico 18; Salmos 22; Eclesiastés 1; 1 Timoteo 3
+Levítico 19; Salmos 23-24; Eclesiastés 2; 1 Timoteo 4
+Levítico 20; Salmos 25; Eclesiastés 3; 1 Timoteo 5
+Levítico 21; Salmos 26-27; Eclesiastés 4; 1 Timoteo 6
+Levítico 22; Salmos 28-29; Eclesiastés 5; 2 Timoteo 1
+Levítico 23; Salmos 30; Eclesiastés 6; 2 Timoteo 2
+Levítico 24; Salmos 31; Eclesiastés 7; 2 Timoteo 3
+Levítico 25; Salmos 32; Eclesiastés 8; 2 Timoteo 4
+Levítico 26; Salmos 33; Eclesiastés 9; Tito 1
+Levítico 27; Salmos 34; Eclesiastés 10; Tito 2
+Números 1; Salmos 35; Eclesiastés 11; Tito 3
+Números 2; Salmos 36; Eclesiastés 12; Filemón 1
+Números 3; Salmos 37; Cantares 1; Hebreos 1
+Números 4; Salmos 38; Cantares 2; Hebreos 2
+Números 5; Salmos 39; Cantares 3; Hebreos 3
+Números 6; Salmos 40-41; Cantares 4; Hebreos 4
+Números 7; Salmos 42-43; Cantares 5; Hebreos 5
+Números 8; Salmos 44; Cantares 6; Hebreos 6
+Números 9; Salmos 45; Cantares 7; Hebreos 7
+Números 10; Salmos 46-47; Cantares 8; Hebreos 8
+Números 11; Salmos 48; Isaías 1; Hebreos 9
+Números 12-13; Salmos 49; Isaías 2; Hebreos 10
+Números 14; Salmos 50; Isaías 3-4; Hebreos 11
+Números 15; Salmos 51; Isaías 5; Hebreos 12
+Números 16; Salmos 52-54; Isaías 6; Hebreos 13
+Números 17-18; Salmos 55; Isaías 7; Santiago 1
+Números 19; Salmos 56-57; Isaías 8:1-9:7; Santiago 2
+Números 20; Salmos 58-59; Isaías 9:8-10:4; Santiago 3
+Números 21; Salmos 60-61; Isaías 10:5-34; Santiago 4
+Números 22; Salmos 62-63; Isaías 11-12; Santiago 5
+Números 23; Salmos 64-65; Isaías 13; 1 Pedro 1
+Números 24; Salmos 66-67; Isaías 14; 1 Pedro 2
+Números 25; Salmos 68; Isaías 15; 1 Pedro 3
+Números 26; Salmos 69; Isaías 16; 1 Pedro 4
+Números 27; Salmos 70-71; Isaías 17-18; 1 Pedro 5
+Números 28; Salmos 72; Isaías 19-20; 2 Pedro 1
+Números 29; Salmos 73; Isaías 21; 2 Pedro 2
+Números 30; Salmos 74; Isaías 22; 2 Pedro 3
+Números 31; Salmos 75-76; Isaías 23; 1 Juan 1
+Números 32; Salmos 77; Isaías 24; 1 Juan 2
+Números 33; Salmos 78:1-39; Isaías 25; 1 Juan 3
+Números 34; Salmos 78:40-72; Isaías 26; 1 Juan 4
+Números 35; Salmos 79; Isaías 27; 1 Juan 5
+Números 36; Salmos 80; Isaías 28; 2 Juan 1
+Deuteronomio 1; Salmos 81-82; Isaías 29; 3 Juan 1
+Deuteronomio 2; Salmos 83-84; Isaías 30; Judas 1
+Deuteronomio 3; Salmos 85; Isaías 31; Apocalipsis 1
+Deuteronomio 4; Salmos 86-87; Isaías 32; Apocalipsis 2
+Deuteronomio 5; Salmos 88; Isaías 33; Apocalipsis 3
+Deuteronomio 6; Salmos 89; Isaías 34; Apocalipsis 4
+Deuteronomio 7; Salmos 90; Isaías 35; Apocalipsis 5
+Deuteronomio 8; Salmos 91; Isaías 36; Apocalipsis 6
+Deuteronomio 9; Salmos 92-93; Isaías 37; Apocalipsis 7
+Deuteronomio 10; Salmos 94; Isaías 38; Apocalipsis 8
+Deuteronomio 11; Salmos 95-96; Isaías 39; Apocalipsis 9
+Deuteronomio 12; Salmos 97-98; Isaías 40; Apocalipsis 10
+Deuteronomio 13-14; Salmos 99-101; Isaías 41; Apocalipsis 11
+Deuteronomio 15; Salmos 102; Isaías 42; Apocalipsis 12
+Deuteronomio 16; Salmos 103; Isaías 43; Apocalipsis 13
+Deuteronomio 17; Salmos 104; Isaías 44; Apocalipsis 14
+Deuteronomio 18; Salmos 105; Isaías 45; Apocalipsis 15
+Deuteronomio 19; Salmos 106; Isaías 46; Apocalipsis 16
+Deuteronomio 20; Salmos 107; Isaías 47; Apocalipsis 17
+Deuteronomio 21; Salmos 108-109; Isaías 48; Apocalipsis 18
+Deuteronomio 22; Salmos 110-111; Isaías 49; Apocalipsis 19
+Deuteronomio 23; Salmos 112-113; Isaías 50; Apocalipsis 20
+Deuteronomio 24; Salmos 114-115; Isaías 51; Apocalipsis 21
+Deuteronomio 25; Salmos 116; Isaías 52; Apocalipsis 22
+Deuteronomio 26; Salmos 117-118; Isaías 53; Mateo 1
+Deuteronomio 27:1-28:19; Salmos 119:1-24; Isaías 54; Mateo 2
+Deuteronomio 28:20-68; Salmos 119:25-48; Isaías 55; Mateo 3
+Deuteronomio 29; Salmos 119:49-72; Isaías 56; Mateo 4
+Deuteronomio 30; Salmos 119:73-96; Isaías 57; Mateo 5
+Deuteronomio 31; Salmos 119:97-120; Isaías 58; Mateo 6
+Deuteronomio 32; Salmos 119:121-144; Isaías 59; Mateo 7
+Deuteronomio 33-34; Salmos 119:145-176; Isaías 60; Mateo 8
+Josué 1; Salmos 120-122; Isaías 61; Mateo 9
+Josué 2; Salmos 123-125; Isaías 62; Mateo 10
+Josué 3; Salmos 126-128; Isaías 63; Mateo 11
+Josué 4; Salmos 129-131; Isaías 64; Mateo 12
+Josué 5; Salmos 132-134; Isaías 65; Mateo 13
+Josué 6; Salmos 135-136; Isaías 66; Mateo 14
+Josué 7; Salmos 137-138; Jeremías 1; Mateo 15
+Josué 8; Salmos 139; Jeremías 2; Mateo 16
+Josué 9; Salmos 140-141; Jeremías 3; Mateo 17
+Josué 10; Salmos 142-143; Jeremías 4; Mateo 18
+Josué 11; Salmos 144; Jeremías 5; Mateo 19
+Josué 12-13; Salmos 145; Jeremías 6; Mateo 20
+Josué 14-15; Salmos 146-147; Jeremías 7; Mateo 21
+Josué 16-17; Salmos 148; Jeremías 8; Mateo 22
+Josué 18-19; Salmos 149-150; Jeremías 9; Mateo 23
+Josué 20-21; Hechos 1; Jeremías 10; Mateo 24
+Josué 22; Hechos 2; Jeremías 11; Mateo 25
+Josué 23; Hechos 3; Jeremías 12; Mateo 26
+Josué 24; Hechos 4; Jeremías 13; Mateo 27
+Jueces 1; Hechos 5; Jeremías 14; Mateo 28
+Jueces 2; Hechos 6; Jeremías 15; Marcos 1
+Jueces 3; Hechos 7; Jeremías 16; Marcos 2
+Jueces 4; Hechos 8; Jeremías 17; Marcos 3
+Jueces 5; Hechos 9; Jeremías 18; Marcos 4
+Jueces 6; Hechos 10; Jeremías 19; Marcos 5
+Jueces 7; Hechos 11; Jeremías 20; Marcos 6
+Jueces 8; Hechos 12; Jeremías 21; Marcos 7
+Jueces 9; Hechos 13; Jeremías 22; Marcos 8
+Jueces 10; Hechos 14; Jeremías 23; Marcos 9
+Jueces 11; Hechos 15; Jeremías 24; Marcos 10
+Jueces 12; Hechos 16; Jeremías 25; Marcos 11
+Jueces 13; Hechos 17; Jeremías 26; Marcos 12
+Jueces 14; Hechos 18; Jeremías 27; Marcos 13
+Jueces 15; Hechos 19; Jeremías 28; Marcos 14
+Jueces 16; Hechos 20; Jeremías 29; Marcos 15
+Jueces 17; Hechos 21; Jeremías 30-31; Marcos 16
+Jueces 18; Hechos 22; Jeremías 32; Salmos 1-2
+Jueces 19; Hechos 23; Jeremías 33; Salmos 3-4
+Jueces 20; Hechos 24; Jeremías 34; Salmos 5-6
+Jueces 21; Hechos 25; Jeremías 35; Salmos 7-8
+Rut 1; Hechos 26; Jeremías 36; Jeremías 45; Salmos 9
+Rut 2; Hechos 27; Jeremías 37; Salmos 10
+Rut 3-4; Hechos 28; Jeremías 38; Salmos 11-12
+1 Samuel 1; Romanos 1; Jeremías 39; Salmos 13-14
+1 Samuel 2; Romanos 2; Jeremías 40; Salmos 15-16
+1 Samuel 3; Romanos 3; Jeremías 41; Salmos 17
+1 Samuel 4; Romanos 4; Jeremías 42; Salmos 18
+1 Samuel 5-6; Romanos 5; Jeremías 43; Salmos 19
+1 Samuel 7-8; Romanos 6; Jeremías 44; Salmos 20-21
+1 Samuel 9; Romanos 7; Jeremías 46; Salmos 22
+1 Samuel 10; Romanos 8; Jeremías 47; Salmos 23-24
+1 Samuel 11; Romanos 9; Jeremías 48; Salmos 25
+1 Samuel 12; Romanos 10; Jeremías 49; Salmos 26-27
+1 Samuel 13; Romanos 11; Jeremías 50; Salmos 28-29
+1 Samuel 14; Romanos 12; Jeremías 51; Salmos 30
+1 Samuel 15; Romanos 13; Jeremías 52; Salmos 31
+1 Samuel 16; Romanos 14; Lamentaciones 1; Salmos 32
+1 Samuel 17; Romanos 15; Lamentaciones 2; Salmos 33
+1 Samuel 18; Romanos 16; Lamentaciones 3; Salmos 34
+1 Samuel 19; 1 Corintios 1; Lamentaciones 4; Salmos 35
+1 Samuel 20; 1 Corintios 2; Lamentaciones 5; Salmos 36
+1 Samuel 21-22; 1 Corintios 3; Ezequiel 1; Salmos 37
+1 Samuel 23; 1 Corintios 4; Ezequiel 2; Salmos 38
+1 Samuel 24; 1 Corintios 5; Ezequiel 3; Salmos 39
+1 Samuel 25; 1 Corintios 6; Ezequiel 4; Salmos 40-41
+1 Samuel 26; 1 Corintios 7; Ezequiel 5; Salmos 42-43
+1 Samuel 27; 1 Corintios 8; Ezequiel 6; Salmos 44
+1 Samuel 28; 1 Corintios 9; Ezequiel 7; Salmos 45
+1 Samuel 29-30; 1 Corintios 10; Ezequiel 8; Salmos 46-47
+1 Samuel 31; 1 Corintios 11; Ezequiel 9; Salmos 48
+2 Samuel 1; 1 Corintios 12; Ezequiel 10; Salmos 49
+2 Samuel 2; 1 Corintios 13; Ezequiel 11; Salmos 50
+2 Samuel 3; 1 Corintios 14; Ezequiel 12; Salmos 51
+2 Samuel 4-5; 1 Corintios 15; Ezequiel 13; Salmos 52-54
+2 Samuel 6; 1 Corintios 16; Ezequiel 14; Salmos 55
+2 Samuel 7; 2 Corintios 1; Ezequiel 15; Salmos 56-57
+2 Samuel 8-9; 2 Corintios 2; Ezequiel 16; Salmos 58-59
+2 Samuel 10; 2 Corintios 3; Ezequiel 17; Salmos 60-61
+2 Samuel 11; 2 Corintios 4; Ezequiel 18; Salmos 62-63
+2 Samuel 12; 2 Corintios 5; Ezequiel 19; Salmos 64-65
+2 Samuel 13; 2 Corintios 6; Ezequiel 20; Salmos 66-67
+2 Samuel 14; 2 Corintios 7; Ezequiel 21; Salmos 68
+2 Samuel 15; 2 Corintios 8; Ezequiel 22; Salmos 69
+2 Samuel 16; 2 Corintios 9; Ezequiel 23; Salmos 70-71
+2 Samuel 17; 2 Corintios 10; Ezequiel 24; Salmos 72
+2 Samuel 18; 2 Corintios 11; Ezequiel 25; Salmos 73
+2 Samuel 19; 2 Corintios 12; Ezequiel 26; Salmos 74
+2 Samuel 20; 2 Corintios 13; Ezequiel 27; Salmos 75-76
+2 Samuel 21; Gálatas 1; Ezequiel 28; Salmos 77
+2 Samuel 22; Gálatas 2; Ezequiel 29; Salmos 78:1-39
+2 Samuel 23; Gálatas 3; Ezequiel 30; Salmos 78:40-72
+2 Samuel 24; Gálatas 4; Ezequiel 31; Salmos 79
+1 Reyes 1; Gálatas 5; Ezequiel 32; Salmos 80
+1 Reyes 2; Gálatas 6; Ezequiel 33; Salmos 81-82
+1 Reyes 3; Efesios 1; Ezequiel 34; Salmos 83-84
+1 Reyes 4-5; Efesios 2; Ezequiel 35; Salmos 85
+1 Reyes 6; Efesios 3; Ezequiel 36; Salmos 86
+1 Reyes 7; Efesios 4; Ezequiel 37; Salmos 87-88
+1 Reyes 8; Efesios 5; Ezequiel 38; Salmos 89
+1 Reyes 9; Efesios 6; Ezequiel 39; Salmos 90
+1 Reyes 10; Filipenses 1; Ezequiel 40; Salmos 91
+1 Reyes 11; Filipenses 2; Ezequiel 41; Salmos 92-93
+1 Reyes 12; Filipenses 3; Ezequiel 42; Salmos 94
+1 Reyes 13; Filipenses 4; Ezequiel 43; Salmos 95-96
+1 Reyes 14; Colosenses 1; Ezequiel 44; Salmos 97-98
+1 Reyes 15; Colosenses 2; Ezequiel 45; Salmos 99-101
+1 Reyes 16; Colosenses 3; Ezequiel 46; Salmos 102
+1 Reyes 17; Colosenses 4; Ezequiel 47; Salmos 103
+1 Reyes 18; 1 Tesalonicenses 1; Ezequiel 48; Salmos 104
+1 Reyes 19; 1 Tesalonicenses 2; Daniel 1; Salmos 105
+1 Reyes 20; 1 Tesalonicenses 3; Daniel 2; Salmos 106
+1 Reyes 21; 1 Tesalonicenses 4; Daniel 3; Salmos 107
+1 Reyes 22; 1 Tesalonicenses 5; Daniel 4; Salmos 108-109
+2 Reyes 1; 2 Tesalonicenses 1; Daniel 5; Salmos 110-111
+2 Reyes 2; 2 Tesalonicenses 2; Daniel 6; Salmos 112-113
+2 Reyes 3; 2 Tesalonicenses 3; Daniel 7; Salmos 114-115
+2 Reyes 4; 1 Timoteo 1; Daniel 8; Salmos 116
+2 Reyes 5; 1 Timoteo 2; Daniel 9; Salmos 117-118
+2 Reyes 6; 1 Timoteo 3; Daniel 10; Salmos 119:1-24
+2 Reyes 7; 1 Timoteo 4; Daniel 11; Salmos 119:25-48
+2 Reyes 8; 1 Timoteo 5; Daniel 12; Salmos 119:49-72
+2 Reyes 9; 1 Timoteo 6; Oseas 1; Salmos 119:73-96
+2 Reyes 10-11; 2 Timoteo 1; Oseas 2; Salmos 119:97-120
+2 Reyes 12; 2 Timoteo 2; Oseas 3-4; Salmos 119:121-144
+2 Reyes 13; 2 Timoteo 3; Oseas 5-6; Salmos 119:145-176
+2 Reyes 14; 2 Timoteo 4; Oseas 7; Salmos 120-122
+2 Reyes 15; Tito 1; Oseas 8; Salmos 123-125
+2 Reyes 16; Tito 2; Oseas 9; Salmos 126-128
+2 Reyes 17; Tito 3; Oseas 10; Salmos 129-131
+2 Reyes 18; Filemón 1; Oseas 11; Salmos 132-134
+2 Reyes 19; Hebreos 1; Oseas 12; Salmos 135-136
+2 Reyes 20; Hebreos 2; Oseas 13; Salmos 137-138
+2 Reyes 21; Hebreos 3; Oseas 14; Salmos 139
+2 Reyes 22; Hebreos 4; Joel 1; Salmos 140-141
+2 Reyes 23; Hebreos 5; Joel 2; Salmos 142
+2 Reyes 24; Hebreos 6; Joel 3; Salmos 143
+2 Reyes 25; Hebreos 7; Amós 1; Salmos 144
+1 Crónicas 1-2; Hebreos 8; Amós 2; Salmos 145
+1 Crónicas 3-4; Hebreos 9; Amós 3; Salmos 146-147
+1 Crónicas 5-6; Hebreos 10; Amós 4; Salmos 148-150
+1 Crónicas 7-8; Hebreos 11; Amós 5; Lucas 1:1-38
+1 Crónicas 9-10; Hebreos 12; Amós 6; Lucas 1:39-80
+1 Crónicas 11-12; Hebreos 13; Amós 7; Lucas 2
+1 Crónicas 13-14; Santiago 1; Amós 8; Lucas 3
+1 Crónicas 15; Santiago 2; Amós 9; Lucas 4
+1 Crónicas 16; Santiago 3; Abdías 1; Lucas 5
+1 Crónicas 17; Santiago 4; Jonás 1; Lucas 6
+1 Crónicas 18; Santiago 5; Jonás 2; Lucas 7
+1 Crónicas 19-20; 1 Pedro 1; Jonás 3; Lucas 8
+1 Crónicas 21; 1 Pedro 2; Jonás 4; Lucas 9
+1 Crónicas 22; 1 Pedro 3; Miqueas 1; Lucas 10
+1 Crónicas 23; 1 Pedro 4; Miqueas 2; Lucas 11
+1 Crónicas 24-25; 1 Pedro 5; Miqueas 3; Lucas 12
+1 Crónicas 26-27; 2 Pedro 1; Miqueas 4; Lucas 13
+1 Crónicas 28; 2 Pedro 2; Miqueas 5; Lucas 14
+1 Crónicas 29; 2 Pedro 3; Miqueas 6; Lucas 15
+2 Crónicas 1; 1 Juan 1; Miqueas 7; Lucas 16
+2 Crónicas 2; 1 Juan 2; Nahúm 1; Lucas 17
+2 Crónicas 3-4; 1 Juan 3; Nahúm 2; Lucas 18
+2 Crónicas 5:1-6:11; 1 Juan 4; Nahúm 3; Lucas 19
+2 Crónicas 6:12-42; 1 Juan 5; Habacuc 1; Lucas 20
+2 Crónicas 7; 2 Juan 1; Habacuc 2; Lucas 21
+2 Crónicas 8; 3 Juan 1; Habacuc 3; Lucas 22
+2 Crónicas 9; Judas 1; Sofonías 1; Lucas 23
+2 Crónicas 10; Apocalipsis 1; Sofonías 2; Lucas 24
+2 Crónicas 11-12; Apocalipsis 2; Sofonías 3; Juan 1
+2 Crónicas 13; Apocalipsis 3; Hageo 1; Juan 2
+2 Crónicas 14-15; Apocalipsis 4; Hageo 2; Juan 3
+2 Crónicas 16; Apocalipsis 5; Zacarías 1; Juan 4
+2 Crónicas 17; Apocalipsis 6; Zacarías 2; Juan 5
+2 Crónicas 18; Apocalipsis 7; Zacarías 3; Juan 6
+2 Crónicas 19-20; Apocalipsis 8; Zacarías 4; Juan 7
+2 Crónicas 21; Apocalipsis 9; Zacarías 5; Juan 8
+2 Crónicas 22-23; Apocalipsis 10; Zacarías 6; Juan 9
+2 Crónicas 24; Apocalipsis 11; Zacarías 7; Juan 10
+2 Crónicas 25; Apocalipsis 12; Zacarías 8; Juan 11
+2 Crónicas 26; Apocalipsis 13; Zacarías 9; Juan 12
+2 Crónicas 27-28; Apocalipsis 14; Zacarías 10; Juan 13
+2 Crónicas 29; Apocalipsis 15; Zacarías 11; Juan 14
+2 Crónicas 30; Apocalipsis 16; Zacarías 12:1-13:1; Juan 15
+2 Crónicas 31; Apocalipsis 17; Zacarías 13:2-9; Juan 16
+2 Crónicas 32; Apocalipsis 18; Zacarías 14; Juan 17
+2 Crónicas 33; Apocalipsis 19; Malaquías 1; Juan 18
+2 Crónicas 34; Apocalipsis 20; Malaquías 2; Juan 19
+2 Crónicas 35; Apocalipsis 21; Malaquías 3; Juan 20
+2 Crónicas 36; Apocalipsis 22; Malaquías 4; Juan 21
