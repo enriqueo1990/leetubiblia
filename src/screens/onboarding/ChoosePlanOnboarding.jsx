@@ -69,7 +69,7 @@ export default function ChoosePlanOnboarding() {
       <p className="mt-2 text-[16px] text-ink-soft">Un plan activo a la vez.</p>
 
       <div className="mt-6 flex-1 space-y-3">
-        {error && <p className="text-[14px]" style={{ color: '#D1453B' }}>{error}</p>}
+        {error && <p className="text-[14px]" style={{ color: 'var(--danger)' }}>{error}</p>}
         {plans === null && <p className="text-[15px] text-ink-soft">Cargando planes…</p>}
 
         {plans?.map((p) => {

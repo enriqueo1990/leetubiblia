@@ -77,8 +77,8 @@ Deno.serve(async () => {
   })
 
   const payload = JSON.stringify({
-    title: 'Lee Tu Biblia',
-    body: 'Tu lectura de hoy te espera.',
+    title: 'Tu lectura de hoy te espera 📖',
+    body: 'Tomate un momento para tu pasaje de hoy.',
     url: '/',
     tag: 'daily-reminder',
   })

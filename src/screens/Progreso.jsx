@@ -8,6 +8,16 @@ import { dayNumberFor, todayLocalISO, addDaysISO } from '../lib/db.js'
 // futuros no son tocables.
 const WEEKDAYS = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
 
+// "2026-06-26" → "26 de junio" para etiquetas accesibles del heatmap.
+function longDate(iso) {
+  const [y, m, d] = iso.split('-').map(Number)
+  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('es-ES', {
+    day: 'numeric',
+    month: 'long',
+    timeZone: 'UTC',
+  })
+}
+
 function weekdayMonFirst(iso) {
   const [y, m, d] = iso.split('-').map(Number)
   return (new Date(Date.UTC(y, m - 1, d)).getUTCDay() + 6) % 7 // 0 = lunes
@@ -84,13 +94,20 @@ export default function Progreso() {
           if (!inRange) opacity = 0.25
           else if (isFuture) opacity = 0.4
 
+          let state
+          if (!inRange) state = 'fuera del plan'
+          else if (isFuture) state = 'día futuro'
+          else if (read) state = 'leído'
+          else state = 'sin leer'
+
           return (
             <button
               key={iso}
               type="button"
               disabled={!tappable}
               onClick={() => tappable && r.toggleDay(dayNum, !read)}
-              aria-label={iso}
+              aria-label={`${longDate(iso)} · ${state}`}
+              aria-pressed={tappable ? read : undefined}
               className="rounded-pill transition-colors duration-200"
               style={{
                 aspectRatio: '1',

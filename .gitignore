@@ -6,3 +6,5 @@ dist-ssr
 *.local
 .DS_Store
 .vite
+.vapid-keys.txt
+supabase/.temp/

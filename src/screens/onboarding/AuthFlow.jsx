@@ -145,7 +145,7 @@ export default function AuthFlow() {
               letterSpacing: '6px',
             }}
           />
-          {error && <p className="mt-2 text-[13px]" style={{ color: '#D1453B' }}>{error}</p>}
+          {error && <p className="mt-2 text-[13px]" style={{ color: 'var(--danger)' }}>{error}</p>}
 
           <button
             type="submit"
@@ -208,7 +208,7 @@ export default function AuthFlow() {
             color: 'var(--text-primary)',
           }}
         />
-        {error && <p className="mt-2 text-[13px]" style={{ color: '#D1453B' }}>{error}</p>}
+        {error && <p className="mt-2 text-[13px]" style={{ color: 'var(--danger)' }}>{error}</p>}
 
         <button
           type="submit"

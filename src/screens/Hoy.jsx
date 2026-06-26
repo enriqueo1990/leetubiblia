@@ -67,6 +67,7 @@ export default function Hoy() {
         <div
           className="flex h-[84px] w-[84px] items-center justify-center rounded-full text-[34px]"
           style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--accent)' }}
+          aria-hidden="true"
         >
           ✦
         </div>
@@ -168,7 +169,7 @@ export default function Hoy() {
             type="button"
             onClick={r.dismissBehind}
             aria-label="Descartar aviso"
-            className="text-[18px] leading-none text-ink-soft"
+            className="-m-2 flex h-9 w-9 items-center justify-center text-[18px] leading-none text-ink-soft"
             style={{ opacity: 0.6 }}
           >
             ✕
@@ -219,6 +220,8 @@ export default function Hoy() {
               href={bibleUrl || '#'}
               target="_blank"
               rel="noopener noreferrer"
+              aria-disabled={bibleUrl ? undefined : 'true'}
+              tabIndex={bibleUrl ? undefined : -1}
               className="btn btn-secondary block lg:flex-1"
               style={{ pointerEvents: bibleUrl ? 'auto' : 'none', opacity: bibleUrl ? 1 : 0.5 }}
             >

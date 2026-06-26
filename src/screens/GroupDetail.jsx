@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { CopyIcon, RefreshIcon, CheckIcon, ChevronRight, LockIcon } from '../components/icons.jsx'
+import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import { getGroupDetail, regenerateInviteCode, removeMember, getGroupStats } from '../lib/db.js'
 
@@ -33,6 +34,8 @@ export default function GroupDetail() {
   const [stats, setStats] = useState(null)
   const [error, setError] = useState(null)
   const [copied, setCopied] = useState(false)
+  const [confirm, setConfirm] = useState(null) // { type: 'regen' } | { type: 'kick', member } | null
+  const [busy, setBusy] = useState(false)
 
   const load = useCallback(async () => {
     try {
@@ -81,20 +84,22 @@ export default function GroupDetail() {
       setCopied(true)
       setTimeout(() => setCopied(false), 1500)
     } catch {
-      /* algunos navegadores bloquean clipboard sin gesto seguro */
+      // Algunos navegadores bloquean clipboard sin gesto seguro: lo mostramos
+      // seleccionable para copiar a mano.
+      window.prompt('Copiá el código:', group.invite_code)
     }
   }
 
-  async function regenerate() {
-    if (!window.confirm('¿Regenerar el código? El anterior dejará de funcionar.')) return
-    await regenerateInviteCode(group.id)
-    load()
-  }
-
-  async function kick(member) {
-    if (!window.confirm(`¿Quitar a ${member.display_name} del grupo?`)) return
-    await removeMember(group.id, member.user_id)
-    load()
+  async function runConfirm() {
+    setBusy(true)
+    try {
+      if (confirm.type === 'regen') await regenerateInviteCode(group.id)
+      else if (confirm.type === 'kick') await removeMember(group.id, confirm.member.user_id)
+      await load()
+      setConfirm(null)
+    } finally {
+      setBusy(false)
+    }
   }
 
   return (
@@ -105,7 +110,7 @@ export default function GroupDetail() {
       <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">{group.name}</h1>
       <p className="mt-1 text-[14px] text-ink-soft">
         {members.length} {members.length === 1 ? 'miembro' : 'miembros'} ·{' '}
-        {isOwner ? 'Sos el owner' : 'Sos miembro'}
+        {isOwner ? 'Sos el administrador' : 'Sos miembro'}
       </p>
 
       {/* Código de invitación */}
@@ -131,7 +136,7 @@ export default function GroupDetail() {
           {isOwner && (
             <button
               type="button"
-              onClick={regenerate}
+              onClick={() => setConfirm({ type: 'regen' })}
               className="flex items-center gap-1.5 rounded-pill px-3 py-1.5 text-[14px] font-medium text-ink"
               style={{ backgroundColor: 'var(--surface-alt)' }}
             >
@@ -220,18 +225,23 @@ export default function GroupDetail() {
                   className="rounded-pill px-2 py-0.5 text-[12px] font-medium"
                   style={{ color: 'var(--accent)', backgroundColor: 'var(--accent-tint)' }}
                 >
-                  Owner
+                  Administrador
                 </span>
               ) : (
                 isOwner && (
                   <button
                     type="button"
-                    onClick={() => kick(m)}
+                    onClick={() => setConfirm({ type: 'kick', member: m })}
                     aria-label={`Quitar a ${m.display_name}`}
-                    className="flex h-7 w-7 items-center justify-center rounded-full text-ink-soft"
-                    style={{ border: '1px solid var(--hairline)' }}
+                    className="flex h-11 w-11 items-center justify-center rounded-full text-[20px] text-ink-soft"
                   >
-                    −
+                    <span
+                      className="flex h-7 w-7 items-center justify-center rounded-full"
+                      style={{ border: '1px solid var(--hairline)' }}
+                      aria-hidden="true"
+                    >
+                      −
+                    </span>
                   </button>
                 )
               )}
@@ -239,6 +249,28 @@ export default function GroupDetail() {
           )
         })}
       </ul>
+
+      {confirm?.type === 'regen' && (
+        <ConfirmDialog
+          title="¿Regenerar el código?"
+          message="El código anterior dejará de funcionar para nuevas invitaciones."
+          confirmLabel="Regenerar"
+          busy={busy}
+          onConfirm={runConfirm}
+          onCancel={() => setConfirm(null)}
+        />
+      )}
+      {confirm?.type === 'kick' && (
+        <ConfirmDialog
+          title={`¿Quitar a ${confirm.member.display_name}?`}
+          message="Dejará de ver y compartir pedidos en este grupo."
+          confirmLabel="Quitar"
+          danger
+          busy={busy}
+          onConfirm={runConfirm}
+          onCancel={() => setConfirm(null)}
+        />
+      )}
     </div>
   )
 }

@@ -20,6 +20,7 @@ export default {
         'accent-tint': 'var(--accent-tint)',
         'accent-tint-nav': 'var(--accent-tint-nav)',
         'on-accent': 'var(--on-accent)',
+        danger: 'var(--danger)',
       },
       fontFamily: {
         sans: [

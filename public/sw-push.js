@@ -9,9 +9,9 @@ self.addEventListener('push', (event) => {
   } catch (e) {
     data = {}
   }
-  const title = data.title || 'Lee Tu Biblia'
+  const title = data.title || 'Tu lectura de hoy te espera 📖'
   const options = {
-    body: data.body || 'Tu lectura de hoy te espera.',
+    body: data.body || 'Tomate un momento para tu pasaje de hoy.',
     icon: '/icons/icon-192.png',
     badge: '/icons/icon-192.png',
     tag: data.tag || 'daily-reminder',

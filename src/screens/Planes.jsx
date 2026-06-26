@@ -16,9 +16,18 @@ function durationLabel(days) {
 export default function Planes() {
   const { profile } = useAuth()
   const [plans, setPlans] = useState(null)
+  const [error, setError] = useState(false)
+
+  function load() {
+    setError(false)
+    setPlans(null)
+    getPlans()
+      .then(setPlans)
+      .catch(() => setError(true))
+  }
 
   useEffect(() => {
-    getPlans().then(setPlans).catch(() => setPlans([]))
+    load()
   }, [])
 
   const activeId = profile?.active_plan_id ?? null
@@ -32,7 +41,20 @@ export default function Planes() {
       <p className="mt-2 text-[16px] text-ink-soft">Un plan activo a la vez.</p>
 
       <div className="mt-5 space-y-3">
-        {plans === null && <p className="text-[15px] text-ink-soft">Cargando…</p>}
+        {plans === null && !error && <p className="text-[15px] text-ink-soft">Cargando…</p>}
+        {error && (
+          <div className="rounded-card p-4 text-[14px]" style={{ backgroundColor: 'var(--surface-alt)' }}>
+            <p className="text-ink">No se pudieron cargar los planes.</p>
+            <button
+              type="button"
+              onClick={load}
+              className="mt-1 font-semibold"
+              style={{ color: 'var(--accent)' }}
+            >
+              Reintentar
+            </button>
+          </div>
+        )}
         {plans?.map((p) => {
           const active = p.id === activeId
           return (

@@ -10,8 +10,11 @@ import {
   markDaysRead,
 } from '../lib/db.js'
 import Segmented from '../components/Segmented.jsx'
+import Switch from '../components/Switch.jsx'
+import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import { ChevronRight } from '../components/icons.jsx'
 import { subscribeToPush, unsubscribeFromPush } from '../lib/push.js'
+import { version as APP_VERSION } from '../../package.json'
 
 // Ajustes (documento maestro §5.7, README pantalla 7). Acento y tema persisten en
 // profiles (vía updateProfile) además de aplicarse en vivo. Recordatorio: mejor
@@ -46,6 +49,8 @@ export default function Ajustes() {
 
   const [plan, setPlan] = useState(null)
   const [deleting, setDeleting] = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState(false)
+  const [deleteError, setDeleteError] = useState(false)
   const [dayInput, setDayInput] = useState('')
   const [savingDay, setSavingDay] = useState(false)
   const [savedDay, setSavedDay] = useState(false)
@@ -100,6 +105,15 @@ export default function Ajustes() {
     updateProfile({ reminder_enabled: reminderOn, reminder_time: value + ':00' })
   }
 
+  // Avisos de pedidos del grupo (opt-out; default true). Al activar, aseguramos la
+  // subscripción a push para que lleguen aunque no use el recordatorio diario.
+  const groupNotifOn = profile?.group_prayer_notifications_enabled ?? true
+  async function toggleGroupNotif() {
+    const next = !groupNotifOn
+    if (next) await subscribeToPush(user.id)
+    updateProfile({ group_prayer_notifications_enabled: next })
+  }
+
   // Fijar el día actual del plan: mueve plan_start_date para que hoy sea ese día y
   // da por leídos los días anteriores (mismo mecanismo que el enganche del onboarding).
   async function updatePlanDay() {
@@ -122,10 +136,7 @@ export default function Ajustes() {
   }
 
   async function handleDelete() {
-    const ok = window.confirm(
-      'Esto borra tu cuenta y todos tus datos (lectura, oraciones y membresías). No se puede deshacer. ¿Continuar?'
-    )
-    if (!ok) return
+    setDeleteError(false)
     setDeleting(true)
     try {
       await deleteAccount()
@@ -133,7 +144,8 @@ export default function Ajustes() {
       // El Gate vuelve a Bienvenida al quedar sin sesión.
     } catch {
       setDeleting(false)
-      window.alert('No se pudo eliminar la cuenta. Intentá de nuevo.')
+      setConfirmDelete(false)
+      setDeleteError(true)
     }
   }
 
@@ -228,19 +240,7 @@ export default function Ajustes() {
       <div className="card divide-y divide-hairline">
         <div className="flex items-center justify-between px-4 py-3">
           <span className="text-[16px] text-ink">Activar</span>
-          <button
-            type="button"
-            role="switch"
-            aria-checked={reminderOn}
-            onClick={toggleReminder}
-            className="relative h-[29px] w-[48px] rounded-[15px] transition-colors duration-300"
-            style={{ backgroundColor: reminderOn ? 'var(--accent)' : 'var(--surface-alt)' }}
-          >
-            <span
-              className="absolute top-[2.5px] h-[24px] w-[24px] rounded-full bg-white transition-all duration-300"
-              style={{ left: reminderOn ? 21 : 3 }}
-            />
-          </button>
+          <Switch on={reminderOn} onChange={toggleReminder} label="Recordatorio diario" />
         </div>
         {reminderOn && (
           <div className="flex items-center justify-between px-4 py-3">
@@ -263,6 +263,21 @@ export default function Ajustes() {
         </p>
       )}
 
+      <SectionLabel>Avisos del grupo</SectionLabel>
+      <div className="card">
+        <div className="flex items-center justify-between px-4 py-3">
+          <span className="text-[16px] text-ink">Pedidos de oración nuevos</span>
+          <Switch
+            on={groupNotifOn}
+            onChange={toggleGroupNotif}
+            label="Avisos de pedidos del grupo"
+          />
+        </div>
+      </div>
+      <p className="mt-2 px-1 text-[12px] text-ink-soft">
+        Te avisamos cuando alguien comparte un pedido en un grupo tuyo.
+      </p>
+
       <SectionLabel>Cuenta</SectionLabel>
       <div className="card divide-y divide-hairline">
         <div className="px-4 py-3">
@@ -278,16 +293,33 @@ export default function Ajustes() {
         </button>
         <button
           type="button"
-          onClick={handleDelete}
+          onClick={() => setConfirmDelete(true)}
           disabled={deleting}
           className="w-full px-4 py-3 text-left text-[16px]"
-          style={{ color: '#D1453B' }}
+          style={{ color: 'var(--danger)' }}
         >
           {deleting ? 'Eliminando…' : 'Eliminar cuenta'}
         </button>
       </div>
+      {deleteError && (
+        <p className="mt-2 px-1 text-[13px]" style={{ color: 'var(--danger)' }}>
+          No se pudo eliminar la cuenta. Intentá de nuevo.
+        </p>
+      )}
 
-      <p className="mt-8 text-center text-[13px] text-ink-soft">Versión 1.0</p>
+      <p className="mt-8 text-center text-[13px] text-ink-soft">Versión {APP_VERSION}</p>
+
+      {confirmDelete && (
+        <ConfirmDialog
+          title="¿Eliminar tu cuenta?"
+          message="Se borran tu cuenta y todos tus datos (lectura, oraciones y membresías). No se puede deshacer."
+          confirmLabel="Eliminar"
+          danger
+          busy={deleting}
+          onConfirm={handleDelete}
+          onCancel={() => setConfirmDelete(false)}
+        />
+      )}
     </div>
   )
 }

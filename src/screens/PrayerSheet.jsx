@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import Sheet from '../components/Sheet.jsx'
 import Segmented from '../components/Segmented.jsx'
+import Switch from '../components/Switch.jsx'
 import Avatars from '../components/Avatars.jsx'
+import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import { createPrayer, updatePrayer, deletePrayer, getIntercessors } from '../lib/db.js'
 
@@ -31,35 +33,6 @@ function FieldLabel({ children, optional }) {
   )
 }
 
-// Switch estilo iOS (track 48×29, knob 24). On = acento.
-function Switch({ on }) {
-  return (
-    <span
-      className="relative inline-block shrink-0"
-      style={{
-        width: 48,
-        height: 29,
-        borderRadius: 15,
-        backgroundColor: on ? 'var(--accent)' : 'var(--surface-alt)',
-        transition: 'background-color 0.2s ease',
-      }}
-    >
-      <span
-        className="absolute rounded-full"
-        style={{
-          top: 2.5,
-          left: on ? 21.5 : 2.5,
-          width: 24,
-          height: 24,
-          backgroundColor: '#fff',
-          boxShadow: '0 1px 2px rgba(0,0,0,0.15)',
-          transition: 'left 0.2s ease',
-        }}
-      />
-    </span>
-  )
-}
-
 export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) {
   const { user } = useAuth()
   const editing = mode === 'edit'
@@ -74,6 +47,17 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
   const [testimony, setTestimony] = useState(prayer?.testimony ?? '')
   const [testimonyShared, setTestimonyShared] = useState(prayer?.testimony_shared ?? false)
   const [intercessors, setIntercessors] = useState([])
+  const [confirmDelete, setConfirmDelete] = useState(false)
+
+  // ¿Hay cambios sin guardar? Para confirmar el descarte al cerrar por scrim/Escape.
+  const dirty =
+    title !== (prayer?.title ?? '') ||
+    description !== (prayer?.description ?? '') ||
+    visibility !== (prayer?.visibility ?? 'private') ||
+    status !== (prayer?.status ?? 'active') ||
+    groupId !== (prayer?.shared_group_id ?? groups?.[0]?.id ?? null) ||
+    testimony !== (prayer?.testimony ?? '') ||
+    testimonyShared !== (prayer?.testimony_shared ?? false)
 
   // El autor ve quiénes oran por su pedido compartido (modelo pull: así "se
   // entera" sin push). Se carga sobre el pedido tal como está guardado.
@@ -128,12 +112,12 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
   }
 
   async function handleDelete() {
-    if (!window.confirm('¿Eliminar este pedido? No se puede deshacer.')) return
     setBusy(true)
     try {
       await deletePrayer(prayer.id)
       onSaved()
     } catch {
+      setConfirmDelete(false)
       setError('No se pudo eliminar.')
       setBusy(false)
     }
@@ -148,6 +132,7 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
     <Sheet
       title={editing ? 'Editar pedido' : 'Nuevo pedido'}
       onCancel={onClose}
+      dirty={dirty}
       footer={
         <button
           type="button"
@@ -235,14 +220,14 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
 
           {needsGroup && status === 'answered' && (
             <div className="card mt-4 p-4">
-              <button
-                type="button"
-                onClick={() => setTestimonyShared((v) => !v)}
-                className="flex w-full items-center justify-between gap-3 text-left"
-              >
+              <div className="flex w-full items-center justify-between gap-3">
                 <span className="text-[16px] text-ink">Compartir con {groupName}</span>
-                <Switch on={testimonyShared} />
-              </button>
+                <Switch
+                  on={testimonyShared}
+                  onChange={setTestimonyShared}
+                  label={`Compartir testimonio con ${groupName}`}
+                />
+              </div>
               <div className="mt-3 border-t border-hairline pt-3">
                 <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
                   Unas palabras <span className="font-normal lowercase">(opcional)</span>
@@ -261,15 +246,28 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
 
           <button
             type="button"
-            onClick={handleDelete}
-            className="mt-7 w-full py-3 text-center text-[16px] text-ink-soft"
+            onClick={() => setConfirmDelete(true)}
+            className="mt-7 w-full py-3 text-center text-[16px]"
+            style={{ color: 'var(--danger)' }}
           >
             Eliminar pedido
           </button>
         </>
       )}
 
-      {error && <p className="mt-3 text-[13px]" style={{ color: '#D1453B' }}>{error}</p>}
+      {error && <p className="mt-3 text-[13px]" style={{ color: 'var(--danger)' }}>{error}</p>}
+
+      {confirmDelete && (
+        <ConfirmDialog
+          title="¿Eliminar este pedido?"
+          message="No se puede deshacer."
+          confirmLabel="Eliminar"
+          danger
+          busy={busy}
+          onConfirm={handleDelete}
+          onCancel={() => setConfirmDelete(false)}
+        />
+      )}
     </Sheet>
   )
 }

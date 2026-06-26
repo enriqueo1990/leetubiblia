@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PlusIcon, LockIcon, PeopleIcon } from '../components/icons.jsx'
 import Segmented from '../components/Segmented.jsx'
+import { SkeletonCards } from '../components/Skeleton.jsx'
 import PrayerSheet from './PrayerSheet.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import { getMyPrayers, getGroupPrayers, getMyGroups } from '../lib/db.js'
@@ -61,17 +62,23 @@ export default function Oracion() {
   const [groupPrayers, setGroupPrayers] = useState(null)
   const [groups, setGroups] = useState([])
   const [sheet, setSheet] = useState(null) // { mode, prayer? } | null
+  const [error, setError] = useState(false)
 
   const load = useCallback(async () => {
     if (!user) return
-    const [m, g, gr] = await Promise.all([
-      getMyPrayers(user.id),
-      getGroupPrayers(user.id),
-      getMyGroups(user.id),
-    ])
-    setMine(m)
-    setGroupPrayers(g)
-    setGroups(gr)
+    setError(false)
+    try {
+      const [m, g, gr] = await Promise.all([
+        getMyPrayers(user.id),
+        getGroupPrayers(user.id),
+        getMyGroups(user.id),
+      ])
+      setMine(m)
+      setGroupPrayers(g)
+      setGroups(gr)
+    } catch {
+      setError(true)
+    }
   }, [user])
 
   useEffect(() => {
@@ -112,10 +119,24 @@ export default function Oracion() {
 
       <Segmented className="mt-5" options={SEGMENTS} value={seg} onChange={setSeg} />
 
+      {error && (
+        <div className="mt-4 rounded-card p-4 text-[14px]" style={{ backgroundColor: 'var(--surface-alt)' }}>
+          <p className="text-ink">No se pudieron cargar los pedidos.</p>
+          <button
+            type="button"
+            onClick={load}
+            className="mt-1 font-semibold"
+            style={{ color: 'var(--accent)' }}
+          >
+            Reintentar
+          </button>
+        </div>
+      )}
+
       {/* Míos */}
       {seg === 'mine' && (
         <div className="mt-4">
-          {mine === null && <p className="text-[15px] text-ink-soft">Cargando…</p>}
+          {mine === null && !error && <SkeletonCards count={3} />}
           {mine?.length === 0 && (
             <p className="mt-10 text-center text-[15px] text-ink-soft">
               Todavía no tenés pedidos. Tocá + para crear el primero.
@@ -155,7 +176,7 @@ export default function Oracion() {
       {/* De mis grupos */}
       {seg === 'groups' && (
         <div className="mt-4">
-          {groupPrayers === null && <p className="text-[15px] text-ink-soft">Cargando…</p>}
+          {groupPrayers === null && !error && <SkeletonCards count={3} />}
           {groupPrayers?.length === 0 && (
             <p className="mt-10 text-center text-[15px] text-ink-soft">
               No hay pedidos compartidos en tus grupos todavía.

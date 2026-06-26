@@ -64,10 +64,10 @@ function CreateGroupSheet({ onClose, onCreated }) {
         style={inputStyle}
       />
       <p className="mt-3 text-[14px] text-ink-soft">
-        Vas a ser el owner. Después podrás invitar con un código que generamos
-        automáticamente.
+        Vas a ser el administrador. Después podrás invitar con un código que
+        generamos automáticamente.
       </p>
-      {error && <p className="mt-3 text-[13px]" style={{ color: '#D1453B' }}>{error}</p>}
+      {error && <p className="mt-3 text-[13px]" style={{ color: 'var(--danger)' }}>{error}</p>}
     </Sheet>
   )
 }
@@ -116,6 +116,7 @@ function JoinGroupSheet({ onClose, onJoined }) {
         <div
           className="flex h-[64px] w-[64px] items-center justify-center rounded-full text-[28px]"
           style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--accent)' }}
+          aria-hidden="true"
         >
           ▦
         </div>
@@ -133,7 +134,7 @@ function JoinGroupSheet({ onClose, onJoined }) {
       <p className="mt-3 text-center text-[14px] text-ink-soft">
         Pedile el código a quien administra el grupo.
       </p>
-      {error && <p className="mt-3 text-center text-[13px]" style={{ color: '#D1453B' }}>{error}</p>}
+      {error && <p className="mt-3 text-center text-[13px]" style={{ color: 'var(--danger)' }}>{error}</p>}
     </Sheet>
   )
 }
@@ -197,7 +198,7 @@ export default function Grupos() {
                 <p className="text-[16px] font-semibold text-ink">{g.name}</p>
                 <p className="text-[13px] text-ink-soft">
                   {g.member_count} {g.member_count === 1 ? 'miembro' : 'miembros'} ·{' '}
-                  {g.role === 'owner' ? 'Owner' : 'Miembro'}
+                  {g.role === 'owner' ? 'Administrador' : 'Miembro'}
                 </p>
               </div>
               <span className="text-ink-soft" style={{ opacity: 0.5 }}>

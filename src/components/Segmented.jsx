@@ -4,7 +4,7 @@ export default function Segmented({ options, value, onChange, className = '' }) 
     <div
       className={`flex rounded-input p-1 ${className}`}
       style={{ backgroundColor: 'var(--segment-track)' }}
-      role="tablist"
+      role="radiogroup"
     >
       {options.map((o) => {
         const active = o.key === value
@@ -12,8 +12,8 @@ export default function Segmented({ options, value, onChange, className = '' }) 
           <button
             key={o.key}
             type="button"
-            role="tab"
-            aria-selected={active}
+            role="radio"
+            aria-checked={active}
             onClick={() => onChange(o.key)}
             className="flex-1 rounded-[11px] py-1.5 text-[14px] transition-colors duration-300"
             style={{
