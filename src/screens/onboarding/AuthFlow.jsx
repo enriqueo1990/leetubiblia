@@ -16,11 +16,13 @@ function Centered({ children }) {
 }
 
 export default function AuthFlow() {
-  const { signInWithEmail } = useAuth()
+  const { signInWithEmail, verifyEmailCode } = useAuth()
   const [step, setStep] = useState('welcome')
   const [mode, setMode] = useState('signup') // 'signup' | 'login'
   const [email, setEmail] = useState('')
+  const [code, setCode] = useState('')
   const [sending, setSending] = useState(false)
+  const [verifying, setVerifying] = useState(false)
   const [error, setError] = useState(null)
 
   const valid = EMAIL_RE.test(email.trim())
@@ -32,10 +34,25 @@ export default function AuthFlow() {
     const { error } = await signInWithEmail(email.trim())
     setSending(false)
     if (error) {
-      setError('No pudimos enviar el enlace. Probá de nuevo.')
+      setError('No pudimos enviar el código. Probá de nuevo.')
       return
     }
-    setStep('sent')
+    setCode('')
+    setStep('code')
+  }
+
+  async function handleVerify() {
+    const token = code.trim()
+    if (token.length !== 6 || verifying) return
+    setVerifying(true)
+    setError(null)
+    const { error } = await verifyEmailCode(email.trim(), token)
+    setVerifying(false)
+    if (error) {
+      setError('Código incorrecto o vencido. Revisá el correo o pedí uno nuevo.')
+      return
+    }
+    // onAuthStateChange detecta la sesión y el Gate avanza solo.
   }
 
   // ---- Bienvenida ----
@@ -83,33 +100,68 @@ export default function AuthFlow() {
     )
   }
 
-  // ---- Enlace enviado ----
-  if (step === 'sent') {
+  // ---- Ingresar código ----
+  if (step === 'code') {
     return (
       <Centered>
-        <div className="flex flex-1 flex-col items-center justify-center text-center">
-          <div
-            className="flex h-[84px] w-[84px] items-center justify-center rounded-full text-[34px]"
-            style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent)' }}
-          >
-            ✓
-          </div>
-          <h1 className="mt-7 text-[24px] font-bold tracking-tight text-ink">
-            Revisá tu correo
-          </h1>
-          <p className="mt-2 max-w-[300px] text-[16px] text-ink-soft">
-            Te enviamos un enlace de acceso a{' '}
-            <span className="text-ink">{email.trim()}</span>. Abrilo desde este
-            dispositivo para entrar.
-          </p>
-        </div>
         <button
           type="button"
-          className="btn w-full py-3 text-[16px] font-medium"
+          className="mb-6 self-start text-[15px] font-medium"
           style={{ color: 'var(--accent)' }}
           onClick={() => setStep('form')}
         >
-          Usar otro correo
+          ‹ Volver
+        </button>
+        <h1 className="text-[24px] font-bold tracking-tight text-ink">Revisá tu correo</h1>
+        <p className="mt-2 text-[16px] text-ink-soft">
+          Te enviamos un código de 6 dígitos a{' '}
+          <span className="text-ink">{email.trim()}</span>. Ingresalo acá para entrar.
+        </p>
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleVerify()
+          }}
+          className="mt-7"
+        >
+          <input
+            type="text"
+            inputMode="numeric"
+            autoComplete="one-time-code"
+            autoFocus
+            maxLength={6}
+            placeholder="000000"
+            value={code}
+            onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+            className="w-full rounded-input px-4 py-3.5 text-center text-[28px] font-bold outline-none"
+            style={{
+              backgroundColor: 'var(--surface)',
+              border: '1px solid var(--hairline)',
+              color: 'var(--text-primary)',
+              letterSpacing: '8px',
+            }}
+          />
+          {error && <p className="mt-2 text-[13px]" style={{ color: '#D1453B' }}>{error}</p>}
+
+          <button
+            type="submit"
+            disabled={code.length !== 6 || verifying}
+            className="btn btn-primary mt-4"
+            style={{ opacity: code.length !== 6 || verifying ? 0.5 : 1 }}
+          >
+            {verifying ? 'Verificando…' : 'Entrar'}
+          </button>
+        </form>
+
+        <button
+          type="button"
+          className="mt-6 text-center text-[14px] text-ink-soft"
+          onClick={handleSend}
+          disabled={sending}
+        >
+          {sending ? 'Reenviando…' : '¿No llegó? '}
+          {!sending && <span style={{ color: 'var(--accent)' }}>Reenviar código</span>}
         </button>
       </Centered>
     )
@@ -161,12 +213,12 @@ export default function AuthFlow() {
           className="btn btn-primary mt-4"
           style={{ opacity: !valid || sending ? 0.5 : 1 }}
         >
-          {sending ? 'Enviando…' : 'Enviarme el enlace de acceso'}
+          {sending ? 'Enviando…' : 'Enviarme el código'}
         </button>
       </form>
 
       <p className="mt-3 text-[13px] text-ink-soft">
-        Te mandamos un enlace a tu correo para entrar sin contraseña.
+        Te mandamos un código de 6 dígitos a tu correo para entrar sin contraseña.
       </p>
 
       <button

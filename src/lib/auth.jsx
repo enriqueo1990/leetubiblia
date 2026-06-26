@@ -52,12 +52,16 @@ export function AuthProvider({ children }) {
     }
   }, [loadProfile])
 
-  // Magic link: envía el enlace de acceso al email (sin contraseña).
+  // Envía un código de 6 dígitos al email (sin contraseña). Se usa OTP por código
+  // en vez de magic link porque el link abre el navegador y no la PWA instalada,
+  // dejando la sesión fuera de la app. El código se ingresa dentro de la PWA.
   const signInWithEmail = useCallback(async (email) => {
-    return supabase.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: window.location.origin },
-    })
+    return supabase.auth.signInWithOtp({ email })
+  }, [])
+
+  // Verifica el código de 6 dígitos e inicia sesión. onAuthStateChange hace el resto.
+  const verifyEmailCode = useCallback(async (email, token) => {
+    return supabase.auth.verifyOtp({ email, token, type: 'email' })
   }, [])
 
   const signOut = useCallback(async () => {
@@ -87,6 +91,7 @@ export function AuthProvider({ children }) {
     profile,
     loading,
     signInWithEmail,
+    verifyEmailCode,
     signOut,
     updateProfile,
     refreshProfile: () => loadProfile(session?.user?.id),

@@ -1,6 +1,7 @@
 <!--
-  Plantilla de email — Magic Link (Supabase → Authentication → Emails → Magic Link)
-  Variable obligatoria: {{ .ConfirmationURL }} (el enlace de acceso).
+  Plantilla de email — Magic Link / OTP (Supabase → Authentication → Emails → Magic Link)
+  Variable obligatoria: {{ .Token }} (código de 6 dígitos para ingresar EN la app).
+  Usamos código en vez de enlace porque el link abre el navegador, no la PWA instalada.
   Diseño email-safe: estilos inline, una columna, acento sepia.
 -->
 <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
@@ -21,20 +22,19 @@
         </tr>
         <tr>
           <td align="center" style="font-size:16px;color:#8A8A8E;line-height:1.5;padding-bottom:28px;">
-            Tocá el botón para entrar a tu cuenta. No necesitás contraseña.
+            Ingresá este código en la app para entrar. No necesitás contraseña.
           </td>
         </tr>
         <tr>
           <td align="center" style="padding-bottom:24px;">
-            <a href="{{ .ConfirmationURL }}"
-              style="display:inline-block;background:#A88B6A;color:#FFFFFF;text-decoration:none;font-size:16px;font-weight:600;padding:14px 32px;border-radius:14px;">
-              Entrar a Lee Tu Biblia
-            </a>
+            <div style="display:inline-block;background:#F2F1EE;border-radius:14px;padding:16px 28px;font-size:34px;font-weight:700;letter-spacing:8px;color:#1C1C1E;">
+              {{ .Token }}
+            </div>
           </td>
         </tr>
         <tr>
           <td align="center" style="font-size:13px;color:#8A8A8E;line-height:1.5;">
-            Si no pediste este enlace, podés ignorar este correo.
+            El código vence en una hora. Si no lo pediste, ignorá este correo.
           </td>
         </tr>
       </table>
