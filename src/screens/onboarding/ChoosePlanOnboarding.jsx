@@ -79,11 +79,7 @@ export default function ChoosePlanOnboarding() {
               key={p.id}
               type="button"
               onClick={() => pickPlan(p.id)}
-              className="w-full rounded-card p-4 text-left transition-colors duration-200"
-              style={{
-                backgroundColor: 'var(--surface)',
-                border: active ? '1.5px solid var(--accent)' : '1px solid var(--hairline)',
-              }}
+              className={`card w-full p-4 text-left transition-colors duration-200${active ? ' card-active' : ''}`}
             >
               <div className="flex items-center justify-between">
                 <span className="text-[18px] font-semibold text-ink">{p.name}</span>

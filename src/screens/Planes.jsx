@@ -62,11 +62,7 @@ export default function Planes() {
             <Link
               key={p.id}
               to={`/planes/${p.id}`}
-              className="flex w-full items-center gap-3 rounded-card p-4 text-left transition-colors duration-200"
-              style={{
-                backgroundColor: 'var(--surface)',
-                border: active ? '1.5px solid var(--accent)' : '1px solid var(--hairline)',
-              }}
+              className={`card flex w-full items-center gap-3 p-4 text-left transition-colors duration-200${active ? ' card-active' : ''}`}
             >
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">

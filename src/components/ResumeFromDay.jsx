@@ -28,7 +28,7 @@ export default function ResumeFromDay({ durationDays, day, onChange }) {
   }
 
   return (
-    <div className="rounded-card p-4" style={{ border: '1px solid var(--hairline)' }}>
+    <div className="card p-4">
       <button
         type="button"
         onClick={toggle}

@@ -188,14 +188,7 @@
     background-color: var(--surface);
     border: 1px solid var(--hairline);
   }
-  /* En oscuro las tarjetas elevan por color de superficie, sin borde */
-  :root.dark .card,
-  :root:not(.light) .card {
-    border-color: transparent;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not(.light) .card {
-      border-color: transparent;
-    }
+  .card-active {
+    border: 1.5px solid var(--accent);
   }
 }
