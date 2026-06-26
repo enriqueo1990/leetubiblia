@@ -46,6 +46,41 @@ const PLANS = [
     source: 'file', // requiere scripts/data/cronologico.txt
   },
   {
+    slug: 'at-nt',
+    name: 'Antiguo y Nuevo Testamento',
+    description: 'Un pasaje del Antiguo y uno del Nuevo Testamento cada día, toda la Biblia en un año.',
+    duration_days: 365,
+    source: 'file', // requiere scripts/data/at-nt.txt
+  },
+  {
+    slug: 'beginning',
+    name: 'De Génesis a Apocalipsis',
+    description: 'Toda la Biblia en orden, de principio a fin, en un año.',
+    duration_days: 365,
+    source: 'file', // requiere scripts/data/beginning.txt
+  },
+  {
+    slug: 'nt-24-week',
+    name: 'Nuevo Testamento en 24 semanas',
+    description: 'El Nuevo Testamento completo en seis meses, a buen ritmo.',
+    duration_days: 168,
+    source: 'file', // requiere scripts/data/nt-24-week.txt
+  },
+  {
+    slug: '40-dias-con-dios',
+    name: '40 días con Dios',
+    description: 'Cuarenta días de lecturas breves para crecer en la fe.',
+    duration_days: 40,
+    source: 'file', // requiere scripts/data/40-dias-con-dios.txt
+  },
+  {
+    slug: 'bcp-daily-office',
+    name: 'Oficio Diario (Libro de Oración Común)',
+    description: 'Leccionario litúrgico de dos años: salmos y lecturas para cada día.',
+    duration_days: 861,
+    source: 'file', // requiere scripts/data/bcp-daily-office.txt
+  },
+  {
     slug: 'proverbios',
     name: 'Proverbios en 31 días',
     description: 'Un capítulo de Proverbios por día del mes.',

@@ -87,6 +87,11 @@ const BOOKS = {
   apocalipsis: 'REV', apoc: 'REV', ap: 'REV',
 }
 
+// Libros de un solo capítulo: cualquier número que los siga son VERSÍCULOS, no
+// capítulos (ej. "Judas 17-25", "Abdías 15-21"). Se guardan siempre en el
+// capítulo 1 —al que apunta el enlace— conservando el label original.
+const SINGLE_CHAPTER = new Set(['OBA', 'PHM', '2JN', '3JN', 'JUD'])
+
 function normalize(s) {
   return s
     .toLowerCase()
@@ -121,6 +126,10 @@ export function parseRef(raw) {
   if (!m) throw new Error(`Libro no reconocido en referencia: "${raw}"`)
 
   const { usfm, rest } = m
+  // Libro de un solo capítulo: el número (si lo hay) son versículos → capítulo 1.
+  if (SINGLE_CHAPTER.has(usfm)) {
+    return { label, book_usfm: usfm, chapter: 1 }
+  }
   if (!rest) {
     // Libro entero sin capítulo (raro en planes) — capítulo 1 por defecto.
     return { label, book_usfm: usfm, chapter: 1 }

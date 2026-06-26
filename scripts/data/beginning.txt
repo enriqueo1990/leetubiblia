@@ -1,0 +1,367 @@
+# De Génesis a Apocalipsis — 365 días, la Biblia en orden de principio a fin.
+# Fuente: biblegateway.com/reading-plans. Refs en español → USFM al sembrar.
+Génesis 1-3
+Génesis 4-7
+Génesis 8-11
+Génesis 12-15
+Génesis 16-18
+Génesis 19-21
+Génesis 22-24
+Génesis 25-26
+Génesis 27-29
+Génesis 30-31
+Génesis 32-34
+Génesis 35-37
+Génesis 38-40
+Génesis 41-42
+Génesis 43-45
+Génesis 46-47
+Génesis 48-50
+Éxodo 1-3
+Éxodo 4-6
+Éxodo 7-9
+Éxodo 10-12
+Éxodo 13-15
+Éxodo 16-18
+Éxodo 19-21
+Éxodo 22-24
+Éxodo 25-27
+Éxodo 28-29
+Éxodo 30-32
+Éxodo 33-35
+Éxodo 36-38
+Éxodo 39-40
+Levítico 1-4
+Levítico 5-7
+Levítico 8-10
+Levítico 11-13
+Levítico 14-15
+Levítico 16-18
+Levítico 19-21
+Levítico 22-23
+Levítico 24-25
+Levítico 26-27
+Números 1-2
+Números 3-4
+Números 5-6
+Números 7
+Números 8-10
+Números 11-13
+Números 14-15
+Números 16-17
+Números 18-20
+Números 21-22
+Números 23-25
+Números 26-27
+Números 28-30
+Números 31-32
+Números 33-34
+Números 35-36
+Deuteronomio 1-2
+Deuteronomio 3-4
+Deuteronomio 5-7
+Deuteronomio 8-10
+Deuteronomio 11-13
+Deuteronomio 14-16
+Deuteronomio 17-20
+Deuteronomio 21-23
+Deuteronomio 24-27
+Deuteronomio 28-29
+Deuteronomio 30-31
+Deuteronomio 32-34
+Josué 1-4
+Josué 5-8
+Josué 9-11
+Josué 12-15
+Josué 16-18
+Josué 19-21
+Josué 22-24
+Jueces 1-2
+Jueces 3-5
+Jueces 6-7
+Jueces 8-9
+Jueces 10-12
+Jueces 13-15
+Jueces 16-18
+Jueces 19-21
+Rut 1-4
+1 Samuel 1-3
+1 Samuel 4-8
+1 Samuel 9-12
+1 Samuel 13-14
+1 Samuel 15-17
+1 Samuel 18-20
+1 Samuel 21-24
+1 Samuel 25-27
+1 Samuel 28-31
+2 Samuel 1-3
+2 Samuel 4-7
+2 Samuel 8-12
+2 Samuel 13-15
+2 Samuel 16-18
+2 Samuel 19-21
+2 Samuel 22-24
+1 Reyes 1-2
+1 Reyes 3-5
+1 Reyes 6-7
+1 Reyes 8-9
+1 Reyes 10-11
+1 Reyes 12-14
+1 Reyes 15-17
+1 Reyes 18-20
+1 Reyes 21-22
+2 Reyes 1-3
+2 Reyes 4-5
+2 Reyes 6-8
+2 Reyes 9-11
+2 Reyes 12-14
+2 Reyes 15-17
+2 Reyes 18-19
+2 Reyes 20-22
+2 Reyes 23-25
+1 Crónicas 1-2
+1 Crónicas 3-5
+1 Crónicas 6
+1 Crónicas 7-8
+1 Crónicas 9-11
+1 Crónicas 12-14
+1 Crónicas 15-17
+1 Crónicas 18-21
+1 Crónicas 22-24
+1 Crónicas 25-27
+1 Crónicas 28-29; 2 Crónicas 1
+2 Crónicas 2-5
+2 Crónicas 6-8
+2 Crónicas 9-12
+2 Crónicas 13-17
+2 Crónicas 18-20
+2 Crónicas 21-24
+2 Crónicas 25-27
+2 Crónicas 28-31
+2 Crónicas 32-34
+2 Crónicas 35-36
+Esdras 1-3
+Esdras 4-7
+Esdras 8-10
+Nehemías 1-3
+Nehemías 4-6
+Nehemías 7
+Nehemías 8-9
+Nehemías 10-11
+Nehemías 12-13
+Ester 1-5
+Ester 6-10
+Job 1-4
+Job 5-7
+Job 8-10
+Job 11-13
+Job 14-16
+Job 17-20
+Job 21-23
+Job 24-28
+Job 29-31
+Job 32-34
+Job 35-37
+Job 38-39
+Job 40-42
+Salmos 1-8
+Salmos 9-16
+Salmos 17-20
+Salmos 21-25
+Salmos 26-31
+Salmos 32-35
+Salmos 36-39
+Salmos 40-45
+Salmos 46-50
+Salmos 51-57
+Salmos 58-65
+Salmos 66-69
+Salmos 70-73
+Salmos 74-77
+Salmos 78-79
+Salmos 80-85
+Salmos 86-89
+Salmos 90-95
+Salmos 96-102
+Salmos 103-105
+Salmos 106-107
+Salmos 108-114
+Salmos 115-118
+Salmos 119:1-88
+Salmos 119:89-176
+Salmos 120-132
+Salmos 133-139
+Salmos 140-145
+Salmos 146-150
+Proverbios 1-3
+Proverbios 4-6
+Proverbios 7-9
+Proverbios 10-12
+Proverbios 13-15
+Proverbios 16-18
+Proverbios 19-21
+Proverbios 22-23
+Proverbios 24-26
+Proverbios 27-29
+Proverbios 30-31
+Eclesiastés 1-4
+Eclesiastés 5-8
+Eclesiastés 9-12
+Cantares 1-8
+Isaías 1-4
+Isaías 5-8
+Isaías 9-12
+Isaías 13-17
+Isaías 18-22
+Isaías 23-27
+Isaías 28-30
+Isaías 31-35
+Isaías 36-41
+Isaías 42-44
+Isaías 45-48
+Isaías 49-53
+Isaías 54-58
+Isaías 59-63
+Isaías 64-66
+Jeremías 1-3
+Jeremías 4-6
+Jeremías 7-9
+Jeremías 10-13
+Jeremías 14-17
+Jeremías 18-22
+Jeremías 23-25
+Jeremías 26-29
+Jeremías 30-31
+Jeremías 32-34
+Jeremías 35-37
+Jeremías 38-41
+Jeremías 42-45
+Jeremías 46-48
+Jeremías 49-50
+Jeremías 51-52
+Lamentaciones 1:1-3:36
+Lamentaciones 3:37-5:22
+Ezequiel 1-4
+Ezequiel 5-8
+Ezequiel 9-12
+Ezequiel 13-15
+Ezequiel 16-17
+Ezequiel 18-20
+Ezequiel 21-22
+Ezequiel 23-24
+Ezequiel 25-27
+Ezequiel 28-30
+Ezequiel 31-33
+Ezequiel 34-36
+Ezequiel 37-39
+Ezequiel 40-42
+Ezequiel 43-45
+Ezequiel 46-48
+Daniel 1-3
+Daniel 4-6
+Daniel 7-9
+Daniel 10-12
+Oseas 1-7
+Oseas 8-14
+Joel 1-3
+Amós 1-5
+Amós 6-9
+Abdías; Jonás 1-4
+Miqueas 1-7
+Nahúm 1-3
+Habacuc 1-3; Sofonías 1-3
+Hageo 1-2
+Zacarías 1-7
+Zacarías 8-14
+Malaquías 1-4
+Mateo 1-4
+Mateo 5-6
+Mateo 7-8
+Mateo 9-10
+Mateo 11-12
+Mateo 13-14
+Mateo 15-17
+Mateo 18-19
+Mateo 20-21
+Mateo 22-23
+Mateo 24-25
+Mateo 26
+Mateo 27-28
+Marcos 1-3
+Marcos 4-5
+Marcos 6-7
+Marcos 8-9
+Marcos 10-11
+Marcos 12-13
+Marcos 14
+Marcos 15-16
+Lucas 1
+Lucas 2-3
+Lucas 4-5
+Lucas 6-7
+Lucas 8-9
+Lucas 10-11
+Lucas 12-13
+Lucas 14-16
+Lucas 17-18
+Lucas 19-20
+Lucas 21-22
+Lucas 23-24
+Juan 1-2
+Juan 3-4
+Juan 5-6
+Juan 7-8
+Juan 9-10
+Juan 11-12
+Juan 13-15
+Juan 16-18
+Juan 19-21
+Hechos 1-3
+Hechos 4-6
+Hechos 7-8
+Hechos 9-10
+Hechos 11-13
+Hechos 14-15
+Hechos 16-17
+Hechos 18-20
+Hechos 21-23
+Hechos 24-26
+Hechos 27-28
+Romanos 1-3
+Romanos 4-7
+Romanos 8-10
+Romanos 11-13
+Romanos 14-16
+1 Corintios 1-4
+1 Corintios 5-8
+1 Corintios 9-11
+1 Corintios 12-14
+1 Corintios 15-16
+2 Corintios 1-4
+2 Corintios 5-9
+2 Corintios 10-13
+Gálatas 1-3
+Gálatas 4-6
+Efesios 1-3
+Efesios 4-6
+Filipenses 1-4
+Colosenses 1-4
+1 Tesalonicenses 1-5
+2 Tesalonicenses 1-3
+1 Timoteo 1-6
+2 Timoteo 1-4
+Tito 1-3; Filemón
+Hebreos 1-6
+Hebreos 7-10
+Hebreos 11-13
+Santiago 1-5
+1 Pedro 1-5
+2 Pedro 1-3
+1 Juan 1-5
+2 Juan; 3 Juan; Judas
+Apocalipsis 1-3
+Apocalipsis 4-8
+Apocalipsis 9-12
+Apocalipsis 13-16
+Apocalipsis 17-19
+Apocalipsis 20-22
