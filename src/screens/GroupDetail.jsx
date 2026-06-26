@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { CopyIcon, RefreshIcon } from '../components/icons.jsx'
+import { CopyIcon, RefreshIcon, CheckIcon, ChevronRight, LockIcon } from '../components/icons.jsx'
 import { useAuth } from '../lib/auth.jsx'
-import { getGroupDetail, regenerateInviteCode, removeMember } from '../lib/db.js'
+import { getGroupDetail, regenerateInviteCode, removeMember, getGroupStats } from '../lib/db.js'
 
 // Detalle de grupo (documento maestro §5.6, README pantalla 6).
 function initials(name) {
@@ -14,20 +14,43 @@ function initials(name) {
     .join('')
 }
 
+// Una métrica del resumen pastoral (número grande en acento + etiqueta).
+function Stat({ n, label }) {
+  return (
+    <div className="flex-1">
+      <div className="text-[30px] font-bold text-accent" style={{ letterSpacing: '-1px' }}>
+        {n}
+      </div>
+      <div className="mt-0.5 text-[12px] leading-tight text-ink-soft">{label}</div>
+    </div>
+  )
+}
+
 export default function GroupDetail() {
   const { id } = useParams()
   const { user } = useAuth()
   const [data, setData] = useState(null)
+  const [stats, setStats] = useState(null)
   const [error, setError] = useState(null)
   const [copied, setCopied] = useState(false)
 
   const load = useCallback(async () => {
     try {
-      setData(await getGroupDetail(Number(id)))
-    } catch (e) {
+      const d = await getGroupDetail(Number(id))
+      setData(d)
+      // El resumen pastoral es solo del owner (el RPC valida la propiedad adentro).
+      const owner = d.members.find((m) => m.user_id === user?.id)?.role === 'owner'
+      if (owner) {
+        try {
+          setStats(await getGroupStats(Number(id)))
+        } catch {
+          /* sin resumen si el RPC rechaza */
+        }
+      }
+    } catch {
       setError('No se pudo cargar el grupo.')
     }
-  }, [id])
+  }, [id, user])
 
   useEffect(() => {
     load()
@@ -48,6 +71,9 @@ export default function GroupDetail() {
   const { group, members } = data
   const myRole = members.find((m) => m.user_id === user?.id)?.role
   const isOwner = myRole === 'owner'
+  const answeredTotal = stats ? stats.active + stats.answered : 0
+  const answeredPct =
+    answeredTotal > 0 ? Math.round((stats.answered / answeredTotal) * 100) : 0
 
   async function copyCode() {
     try {
@@ -114,6 +140,57 @@ export default function GroupDetail() {
           )}
         </div>
       </div>
+
+      {/* Resumen pastoral — solo el owner */}
+      {isOwner && stats && (
+        <>
+          <div className="card mt-5 p-5">
+            <div className="flex items-center gap-1.5 text-ink-soft">
+              <LockIcon size={13} />
+              <span className="text-[12px] font-semibold uppercase tracking-wide">
+                Resumen · solo vos lo ves
+              </span>
+            </div>
+            <div className="mt-4 flex">
+              <Stat n={stats.active} label="Pedidos activos" />
+              <Stat n={stats.answered} label="Respondidos" />
+              <Stat n={stats.praying_week} label="Orando esta semana" />
+            </div>
+            <div
+              className="mt-4 h-2 overflow-hidden rounded-full"
+              style={{ backgroundColor: 'var(--surface-alt)' }}
+            >
+              <div
+                className="h-full"
+                style={{ width: `${answeredPct}%`, backgroundColor: 'var(--accent)' }}
+              />
+            </div>
+            <p className="mt-2 text-[12px] text-ink-soft">
+              {answeredPct}% de los pedidos del grupo ya fueron respondidos.
+            </p>
+          </div>
+          <p className="mt-3 text-[14px] leading-relaxed text-ink-soft">
+            Un pulso del grupo para acompañar mejor. No es para medir a nadie.
+          </p>
+        </>
+      )}
+
+      {/* Testimonios — todos los miembros */}
+      <Link to={`/grupos/${id}/testimonios`} className="card mt-5 flex items-center gap-3 p-4">
+        <div
+          className="flex h-[42px] w-[42px] items-center justify-center rounded-full text-accent"
+          style={{ backgroundColor: 'var(--accent-tint)' }}
+        >
+          <CheckIcon size={20} strokeWidth={2.2} />
+        </div>
+        <div className="flex-1">
+          <p className="text-[16px] font-semibold text-ink">Testimonios</p>
+          <p className="text-[13px] text-ink-soft">Oraciones respondidas que el grupo compartió</p>
+        </div>
+        <span className="text-ink-soft" style={{ opacity: 0.5 }}>
+          <ChevronRight size={20} />
+        </span>
+      </Link>
 
       {/* Miembros */}
       <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">

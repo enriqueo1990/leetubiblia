@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Sheet from '../components/Sheet.jsx'
 import Segmented from '../components/Segmented.jsx'
+import Avatars from '../components/Avatars.jsx'
 import { useAuth } from '../lib/auth.jsx'
-import { createPrayer, updatePrayer, deletePrayer } from '../lib/db.js'
+import { createPrayer, updatePrayer, deletePrayer, getIntercessors } from '../lib/db.js'
 
 // Crear / editar pedido de oración (documento maestro §5.5, README pantalla 5).
 // Solo el autor edita/borra (garantizado además por RLS).
@@ -30,6 +31,35 @@ function FieldLabel({ children, optional }) {
   )
 }
 
+// Switch estilo iOS (track 48×29, knob 24). On = acento.
+function Switch({ on }) {
+  return (
+    <span
+      className="relative inline-block shrink-0"
+      style={{
+        width: 48,
+        height: 29,
+        borderRadius: 15,
+        backgroundColor: on ? 'var(--accent)' : 'var(--surface-alt)',
+        transition: 'background-color 0.2s ease',
+      }}
+    >
+      <span
+        className="absolute rounded-full"
+        style={{
+          top: 2.5,
+          left: on ? 21.5 : 2.5,
+          width: 24,
+          height: 24,
+          backgroundColor: '#fff',
+          boxShadow: '0 1px 2px rgba(0,0,0,0.15)',
+          transition: 'left 0.2s ease',
+        }}
+      />
+    </span>
+  )
+}
+
 export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) {
   const { user } = useAuth()
   const editing = mode === 'edit'
@@ -41,10 +71,23 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
   const [status, setStatus] = useState(prayer?.status ?? 'active')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
+  const [testimony, setTestimony] = useState(prayer?.testimony ?? '')
+  const [testimonyShared, setTestimonyShared] = useState(prayer?.testimony_shared ?? false)
+  const [intercessors, setIntercessors] = useState([])
+
+  // El autor ve quiénes oran por su pedido compartido (modelo pull: así "se
+  // entera" sin push). Se carga sobre el pedido tal como está guardado.
+  useEffect(() => {
+    if (editing && prayer?.visibility === 'shared') {
+      getIntercessors(prayer.id).then(setIntercessors).catch(() => {})
+    }
+  }, [editing, prayer])
 
   const needsGroup = visibility === 'shared'
   const canSave =
     title.trim().length > 0 && (!needsGroup || groupId) && !busy
+  const groupName =
+    prayer?.group?.name || groups?.find((g) => g.id === groupId)?.name || 'tu grupo'
 
   async function handleSave() {
     if (!canSave) return
@@ -52,6 +95,9 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
     setError(null)
     try {
       if (editing) {
+        // El testimonio solo aplica a una compartida respondida; si vuelve a
+        // activa o a privada, se limpia lo compartido.
+        const canTestimony = visibility === 'shared' && status === 'answered'
         const patch = {
           title: title.trim(),
           description: description.trim() || null,
@@ -62,6 +108,12 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
           answered_at:
             status === 'answered'
               ? prayer.answered_at ?? new Date().toISOString()
+              : null,
+          testimony: canTestimony ? testimony.trim() || null : null,
+          testimony_shared: canTestimony && testimonyShared,
+          testimony_shared_at:
+            canTestimony && testimonyShared
+              ? prayer.testimony_shared_at ?? new Date().toISOString()
               : null,
         }
         await updatePrayer(prayer.id, patch)
@@ -108,6 +160,19 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
         </button>
       }
     >
+      {editing && prayer?.visibility === 'shared' && (
+        <div className="mb-1 mt-1 flex items-center gap-2.5">
+          <Avatars people={intercessors} size={26} surface="var(--bg-app)" />
+          <span className="text-[13px] text-ink-soft">
+            {intercessors.length > 0
+              ? `${intercessors.length} ${
+                  intercessors.length === 1 ? 'persona está orando' : 'personas están orando'
+                } por esto`
+              : 'Nadie se sumó a orar todavía'}
+          </span>
+        </div>
+      )}
+
       <FieldLabel>
         Título <span style={{ color: 'var(--accent)' }}>•</span>
       </FieldLabel>
@@ -166,6 +231,32 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
             <p className="mt-2 text-[13px]" style={{ color: 'var(--accent)' }}>
               ✓ Respondida el {answeredDate}
             </p>
+          )}
+
+          {needsGroup && status === 'answered' && (
+            <div className="card mt-4 p-4">
+              <button
+                type="button"
+                onClick={() => setTestimonyShared((v) => !v)}
+                className="flex w-full items-center justify-between gap-3 text-left"
+              >
+                <span className="text-[16px] text-ink">Compartir con {groupName}</span>
+                <Switch on={testimonyShared} />
+              </button>
+              <div className="mt-3 border-t border-hairline pt-3">
+                <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+                  Unas palabras <span className="font-normal lowercase">(opcional)</span>
+                </p>
+                <textarea
+                  rows={3}
+                  value={testimony}
+                  onChange={(e) => setTestimony(e.target.value)}
+                  placeholder="Contá brevemente cómo se respondió…"
+                  className="mt-2 w-full resize-none rounded-input px-3 py-2.5 text-[15px] outline-none"
+                  style={inputStyle}
+                />
+              </div>
+            </div>
           )}
 
           <button

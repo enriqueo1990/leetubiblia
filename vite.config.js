@@ -29,6 +29,8 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+        // Inyecta los handlers de Web Push en el SW generado (ver public/sw-push.js).
+        importScripts: ['sw-push.js'],
       },
     }),
   ],

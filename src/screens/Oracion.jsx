@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { PlusIcon, LockIcon, PeopleIcon } from '../components/icons.jsx'
 import Segmented from '../components/Segmented.jsx'
 import PrayerSheet from './PrayerSheet.jsx'
@@ -54,6 +55,7 @@ function PrayerItem({ p, subtitle, onClick, dimmed }) {
 
 export default function Oracion() {
   const { user } = useAuth()
+  const navigate = useNavigate()
   const [seg, setSeg] = useState('mine')
   const [mine, setMine] = useState(null)
   const [groupPrayers, setGroupPrayers] = useState(null)
@@ -174,7 +176,7 @@ export default function Oracion() {
                       p={p}
                       dimmed={p.status === 'answered'}
                       subtitle={`${p.author_name} · ${fmtDate(p.created_at)}`}
-                      onClick={() => {}}
+                      onClick={() => navigate(`/oracion/${p.id}`)}
                     />
                   ))}
                 </ul>

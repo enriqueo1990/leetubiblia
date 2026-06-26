@@ -323,3 +323,116 @@ export async function getPlanDays(planId) {
   if (error) throw error
   return data
 }
+
+// ============================================================================
+// Fase 2 — Vida del pedido compartido (intercesión, testimonios, stats).
+// Requiere la migración 0007.
+// ============================================================================
+
+// Resuelve display_name para un set de user_ids → { id: nombre }. RLS de
+// co-miembros (0004) permite ver el nombre de quienes comparten grupo conmigo.
+async function namesFor(userIds) {
+  const ids = [...new Set(userIds)]
+  if (!ids.length) return {}
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('id, display_name')
+    .in('id', ids)
+  if (error) throw error
+  return Object.fromEntries(data.map((p) => [p.id, p.display_name]))
+}
+
+// Quiénes están orando por un pedido (orden de adhesión). Devuelve [{user_id, display_name}].
+export async function getIntercessors(prayerId) {
+  const { data, error } = await supabase
+    .from('prayer_intercessions')
+    .select('user_id, created_at')
+    .eq('prayer_id', prayerId)
+    .order('created_at', { ascending: true })
+  if (error) throw error
+  const names = await namesFor(data.map((r) => r.user_id))
+  return data.map((r) => ({ user_id: r.user_id, display_name: names[r.user_id] || 'Miembro' }))
+}
+
+// Detalle de un pedido compartido (vista "estoy orando"): el pedido + grupo +
+// autor + lista de intercesores + si el usuario actual ya intercede.
+export async function getPrayerDetail(prayerId, userId) {
+  const { data: p, error } = await supabase
+    .from('prayer_requests')
+    .select('*, group:groups(id, name)')
+    .eq('id', prayerId)
+    .single()
+  if (error) throw error
+
+  const [names, intercessors] = await Promise.all([
+    namesFor([p.user_id]),
+    getIntercessors(prayerId),
+  ])
+  return {
+    ...p,
+    author_name: names[p.user_id] || 'Alguien',
+    intercessors,
+    intercessor_count: intercessors.length,
+    i_intercede: intercessors.some((x) => x.user_id === userId),
+  }
+}
+
+// Marca "estoy orando por esto". Idempotente (UNIQUE prayer+user).
+export async function addIntercession(prayerId, userId) {
+  const { error } = await supabase
+    .from('prayer_intercessions')
+    .upsert(
+      { prayer_id: prayerId, user_id: userId },
+      { onConflict: 'prayer_id,user_id', ignoreDuplicates: true }
+    )
+  if (error) throw error
+}
+
+// Retira la propia intercesión.
+export async function removeIntercession(prayerId, userId) {
+  const { error } = await supabase
+    .from('prayer_intercessions')
+    .delete()
+    .eq('prayer_id', prayerId)
+    .eq('user_id', userId)
+  if (error) throw error
+}
+
+// Testimonios de un grupo: pedidos compartidos, respondidos y marcados para
+// compartir, más recientes primero. Incluye el nombre del autor.
+export async function getGroupTestimonies(groupId) {
+  const { data, error } = await supabase
+    .from('prayer_requests')
+    .select('*')
+    .eq('shared_group_id', groupId)
+    .eq('visibility', 'shared')
+    .eq('status', 'answered')
+    .eq('testimony_shared', true)
+    .order('answered_at', { ascending: false })
+  if (error) throw error
+  const names = await namesFor(data.map((p) => p.user_id))
+  return data.map((p) => ({ ...p, author_name: names[p.user_id] || 'Alguien' }))
+}
+
+// Datos mínimos de un grupo (para encabezados; RLS permite ver mis grupos).
+export async function getGroup(groupId) {
+  const { data, error } = await supabase
+    .from('groups')
+    .select('id, name')
+    .eq('id', groupId)
+    .single()
+  if (error) throw error
+  return data
+}
+
+// Resumen pastoral del grupo (solo owner; el RPC valida la propiedad adentro).
+export async function getGroupStats(groupId) {
+  const { data, error } = await supabase.rpc('group_prayer_stats', { p_group_id: groupId })
+  if (error) throw error
+  const row = Array.isArray(data) ? data[0] : data
+  return {
+    active: row?.active ?? 0,
+    answered: row?.answered ?? 0,
+    praying_week: row?.praying_week ?? 0,
+  }
+}

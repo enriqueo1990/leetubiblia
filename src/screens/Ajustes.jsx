@@ -11,6 +11,7 @@ import {
 } from '../lib/db.js'
 import Segmented from '../components/Segmented.jsx'
 import { ChevronRight } from '../components/icons.jsx'
+import { subscribeToPush, unsubscribeFromPush } from '../lib/push.js'
 
 // Ajustes (documento maestro §5.7, README pantalla 7). Acento y tema persisten en
 // profiles (vía updateProfile) además de aplicarse en vivo. Recordatorio: mejor
@@ -85,12 +86,13 @@ export default function Ajustes() {
 
   async function toggleReminder() {
     const next = !reminderOn
-    if (next && 'Notification' in window) {
-      try {
-        await Notification.requestPermission()
-      } catch {
-        /* best-effort */
-      }
+    // Activar = pedir permiso y suscribir este dispositivo a Web Push; desactivar
+    // = quitar la subscription. Guardamos la intención igual aunque el push falle
+    // (p. ej. iOS sin instalar): el aviso de abajo guía al usuario.
+    if (next) {
+      await subscribeToPush(user.id)
+    } else {
+      await unsubscribeFromPush(user.id)
     }
     updateProfile({ reminder_enabled: next, reminder_time: reminderTime + ':00' })
   }
@@ -160,33 +162,27 @@ export default function Ajustes() {
             <p className="text-[14px] text-ink-soft">
               Día actual: <span className="font-semibold text-ink">{currentDay}</span> de {duration}
             </p>
-            <div className="mt-3 flex gap-2">
-              <input
-                type="text"
-                inputMode="numeric"
-                value={dayInput}
-                onChange={(e) => {
-                  setDayInput(e.target.value.replace(/[^\d]/g, ''))
-                  setSavedDay(false)
-                }}
-                placeholder={`Ej: ${currentDay}`}
-                className="w-full rounded-input px-4 py-3 text-[16px] outline-none"
-                style={{
-                  backgroundColor: 'var(--surface)',
-                  border: '1px solid var(--hairline)',
-                  color: 'var(--text-primary)',
-                }}
-              />
-              <button
-                type="button"
-                onClick={updatePlanDay}
-                disabled={!canUpdateDay || savingDay}
-                className="btn btn-primary shrink-0 px-5"
-                style={{ opacity: !canUpdateDay || savingDay ? 0.5 : 1 }}
-              >
-                {savingDay ? '…' : 'Actualizar'}
-              </button>
-            </div>
+            <input
+              type="text"
+              inputMode="numeric"
+              value={dayInput}
+              onChange={(e) => {
+                setDayInput(e.target.value.replace(/[^\d]/g, ''))
+                setSavedDay(false)
+              }}
+              placeholder={`Ej: ${currentDay}`}
+              className="mt-3 w-full rounded-input px-4 py-3 text-[16px] outline-none"
+              style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--text-primary)' }}
+            />
+            <button
+              type="button"
+              onClick={updatePlanDay}
+              disabled={!canUpdateDay || savingDay}
+              className="btn btn-primary mt-3"
+              style={{ opacity: !canUpdateDay || savingDay ? 0.5 : 1 }}
+            >
+              {savingDay ? '…' : 'Actualizar'}
+            </button>
             {canUpdateDay && (
               <p className="mt-2 text-[13px] text-ink-soft">
                 Hoy pasará al día {targetDay}. Los días anteriores quedan como leídos.
@@ -262,8 +258,8 @@ export default function Ajustes() {
       {reminderOn && (
         <p className="mt-2 px-1 text-[12px] text-ink-soft">
           {showReminderIOSNote
-            ? 'En iPhone, agregá la app a la pantalla de inicio para recibir avisos. La hora puede no ser exacta.'
-            : 'El recordatorio es un aviso aproximado, no una alarma exacta.'}
+            ? 'En iPhone, agregá la app a la pantalla de inicio para recibir las notificaciones.'
+            : 'Te llega una notificación a la hora elegida. Puede demorar unos minutos.'}
         </p>
       )}
 

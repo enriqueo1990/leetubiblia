@@ -67,6 +67,14 @@ export const PlusIcon = (p) => (
   </Icon>
 )
 
+// Check — confirmación (intercesión activa, testimonios). Pasale strokeWidth
+// mayor (p.ej. 2.2) en usos donde deba verse sólido.
+export const CheckIcon = (p) => (
+  <Icon {...p}>
+    <path d="M5 12l5 5L20 7" />
+  </Icon>
+)
+
 export const LockIcon = (p) => (
   <Icon {...p}>
     <rect x="5" y="11" width="14" height="9" rx="2" />
