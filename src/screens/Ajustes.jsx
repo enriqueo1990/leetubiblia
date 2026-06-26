@@ -12,7 +12,7 @@ import {
 import Segmented from '../components/Segmented.jsx'
 import Switch from '../components/Switch.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
-import { ChevronRight } from '../components/icons.jsx'
+import { ChevronRight, HeartIcon } from '../components/icons.jsx'
 import { subscribeToPush, unsubscribeFromPush } from '../lib/push.js'
 import { version as APP_VERSION } from '../../package.json'
 
@@ -277,6 +277,57 @@ export default function Ajustes() {
       <p className="mt-2 px-1 text-[12px] text-ink-soft">
         Te avisamos cuando alguien comparte un pedido en un grupo tuyo.
       </p>
+
+      <SectionLabel>Apoyá la misión</SectionLabel>
+      <div
+        className="card p-4"
+        style={{ backgroundColor: 'var(--accent-tint)', border: '1px solid var(--accent)' }}
+      >
+        <div className="flex items-start gap-2.5">
+          <span className="shrink-0 pt-0.5" style={{ color: 'var(--accent)' }}>
+            <HeartIcon size={20} />
+          </span>
+          <div>
+            <p className="text-[14px] text-ink">
+              Soy pastor misionero y creé esta app para acercarnos cada día mejor a la Palabra.
+              Tu aporte es una gran ayuda a seguir sirviendo a tiempo completo. ¡Gracias!
+            </p>
+            <a
+              href="https://dentonbible.org/missions/view-detail/smallgroup/oriolo-enrique-and-tamara/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-flex items-center gap-1 text-[13px] font-medium"
+              style={{ color: 'var(--accent)' }}
+            >
+              Conocé más sobre nuestra misión ↗
+            </a>
+          </div>
+        </div>
+        <div className="mt-4 space-y-2">
+          {[
+            { label: 'Donar con PayPal', url: 'https://www.paypal.com/paypalme/EnriqueOriolo' },
+            {
+              label: 'Donación única · MercadoPago',
+              url: 'https://link.mercadopago.com.ar/enriqueoriolo',
+            },
+            { label: 'Apoyo mensual · MercadoPago', url: 'https://mpago.la/1EEJDnZ' },
+          ].map((d) => (
+            <a
+              key={d.url}
+              href={d.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between rounded-card px-4 py-3"
+              style={{ backgroundColor: 'var(--surface)' }}
+            >
+              <span className="text-[15px] font-medium text-ink">{d.label}</span>
+              <span className="text-[14px]" style={{ color: 'var(--accent)' }} aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
 
       <SectionLabel>Cuenta</SectionLabel>
       <div className="card divide-y divide-hairline">
