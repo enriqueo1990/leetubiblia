@@ -210,7 +210,7 @@ export default function GroupDetail() {
             <button
               type="button"
               onClick={() => setEditingName(false)}
-              className="px-4 py-2 text-[15px] text-ink-soft"
+              className="btn btn-secondary"
             >
               Cancelar
             </button>

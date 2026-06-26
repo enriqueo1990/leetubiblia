@@ -166,15 +166,15 @@ export default function Grupos() {
     <div className="pt-2">
       <h1 className="text-[26px] font-bold tracking-tight text-ink">Grupos</h1>
 
-      <div className="mt-5 flex gap-3">
+      <div className="mt-5 space-y-3">
         <button
           type="button"
           onClick={() => setSheet('create')}
-          className="btn btn-primary flex flex-1 items-center justify-center gap-1.5"
+          className="btn btn-primary flex items-center justify-center gap-1.5"
         >
           <PlusIcon size={18} /> Crear grupo
         </button>
-        <button type="button" onClick={() => setSheet('join')} className="btn btn-secondary flex-1">
+        <button type="button" onClick={() => setSheet('join')} className="btn btn-secondary">
           Unirme por código
         </button>
       </div>

@@ -166,8 +166,7 @@ export default function PrayerDetail() {
                 type="button"
                 onClick={toggle}
                 disabled={busy}
-                className="flex w-full items-center justify-center gap-2 rounded-input py-[15px] text-[16px] font-semibold text-on-accent"
-                style={{ backgroundColor: 'var(--accent)' }}
+                className="btn btn-primary flex items-center justify-center gap-2"
               >
                 <CheckIcon size={19} strokeWidth={2.2} /> Estás orando por esto
               </button>
@@ -180,7 +179,7 @@ export default function PrayerDetail() {
               type="button"
               onClick={toggle}
               disabled={busy}
-              className="flex w-full items-center justify-center gap-2 rounded-input py-[15px] text-[16px] font-semibold"
+              className="btn btn-secondary flex items-center justify-center gap-2"
               style={{ border: '1px solid var(--accent)', color: 'var(--accent)' }}
             >
               <HeartIcon size={19} /> Estoy orando por esto

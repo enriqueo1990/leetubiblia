@@ -95,8 +95,8 @@ export default function AuthFlow() {
           </button>
           <button
             type="button"
-            className="btn w-full py-3 text-[16px] font-medium"
-            style={{ color: 'var(--accent)' }}
+            className="btn btn-secondary"
+            style={{ color: 'var(--accent)', borderColor: 'var(--accent)' }}
             onClick={() => {
               setMode('login')
               setStep('form')

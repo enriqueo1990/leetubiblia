@@ -39,7 +39,7 @@ function LoadError({ onRetry }) {
       <button
         onClick={retry}
         disabled={retrying}
-        className="rounded-2xl border border-hairline px-5 py-3 text-[15px] font-medium text-ink disabled:opacity-50"
+        className="btn btn-secondary disabled:opacity-50"
       >
         {retrying ? 'Reintentando…' : 'Reintentar'}
       </button>
