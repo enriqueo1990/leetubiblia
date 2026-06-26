@@ -4,6 +4,7 @@
 export default function RetryError({ message = 'No se pudo cargar.', onRetry }) {
   return (
     <div
+      role="alert"
       className="mt-4 rounded-card p-4 text-[14px]"
       style={{ backgroundColor: 'var(--surface-alt)' }}
     >

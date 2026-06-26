@@ -21,37 +21,43 @@ function Icon({ size = 24, children, ...props }) {
   )
 }
 
-// Hoy — libro abierto
-export const BookIcon = (p) => (
-  <Icon {...p}>
-    <path d="M12 6.5C10.5 5.3 8.3 5 4.5 5v12c3.8 0 6 .3 7.5 1.5 1.5-1.2 3.7-1.5 7.5-1.5V5c-3.8 0-6 .3-7.5 1.5Z" />
+// Hoy — libro abierto. Páginas izquierda/derecha animables por separado.
+export const BookIcon = ({ className = '', ...p }) => (
+  <Icon className={`icon-book ${className}`} {...p}>
+    <path className="book-left"  d="M12 6.5C10.5 5.3 8.3 5 4.5 5v12c3.8 0 6 .3 7.5 1.5" />
+    <path className="book-right" d="M12 6.5C13.5 5.3 15.7 5 19.5 5v12c-3.8 0-6 .3-7.5 1.5" />
     <path d="M12 6.5v12" />
   </Icon>
 )
 
-// Oración — corazón
-export const HeartIcon = (p) => (
-  <Icon {...p}>
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78Z" />
+// Oración — corazón. Fill separado del stroke para poder hacer fade suave.
+export const HeartIcon = ({ className = '', ...p }) => (
+  <Icon className={`icon-heart ${className}`} {...p}>
+    <path className="heart-fill"   fill="currentColor" stroke="none"
+      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78Z" />
+    <path className="heart-stroke"
+      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78Z" />
   </Icon>
 )
 
-// Grupos — personas
-export const PeopleIcon = (p) => (
-  <Icon {...p}>
+// Grupos — persona principal quieta, la segunda "llega".
+export const PeopleIcon = ({ className = '', ...p }) => (
+  <Icon className={`icon-people ${className}`} {...p}>
     <circle cx="9" cy="8" r="3.2" />
     <path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" />
-    <path d="M16 6.2A3 3 0 0 1 16 12" />
-    <path d="M17.5 14.2c2.3.5 4 2.4 4 4.8" />
+    <g className="person-secondary">
+      <path d="M16 6.2A3 3 0 0 1 16 12" />
+      <path d="M17.5 14.2c2.3.5 4 2.4 4 4.8" />
+    </g>
   </Icon>
 )
 
-// Ajustes — sliders
-export const SlidersIcon = (p) => (
-  <Icon {...p}>
-    <path d="M4 7h10M18 7h2M4 17h2M10 17h10" />
-    <circle cx="16" cy="7" r="2.2" />
-    <circle cx="8" cy="17" r="2.2" />
+// Ajustes — líneas continuas, círculos con fill sólido para tapar la línea debajo.
+export const SlidersIcon = ({ className = '', ...p }) => (
+  <Icon className={`icon-sliders ${className}`} {...p}>
+    <path d="M4 7h16M4 17h16" />
+    <circle className="knob-top"    cx="16" cy="7"  r="2.2" style={{ fill: 'var(--bg-app)' }} />
+    <circle className="knob-bottom" cx="8"  cy="17" r="2.2" style={{ fill: 'var(--bg-app)' }} />
   </Icon>
 )
 

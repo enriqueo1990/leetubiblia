@@ -4,15 +4,36 @@ import { supabase } from './supabase.js'
 // en el contexto de auth (updateProfile). Las de progreso/oración/grupos llegan
 // en sus tareas respectivas (4, 5, 6).
 
-// Lista los planes activos del catálogo, ordenados de mayor a menor duración.
+// Orden curado del catálogo (la terna de lanzamiento primero; lo demás después).
+// Da un orden estable y con intención, en vez de ordenar solo por duración —que
+// dejaba el plan de 861 días primero y los cuatro de 365 en orden indefinido.
+const PLAN_ORDER = [
+  'mcheyne',
+  'cronologico',
+  'proverbios',
+  'beginning',
+  'at-nt',
+  'nt-24-week',
+  '40-dias-con-dios',
+  'bcp-daily-office',
+]
+
+// Lista los planes activos del catálogo, en orden curado y determinista.
 export async function getPlans() {
   const { data, error } = await supabase
     .from('reading_plans')
     .select('id, slug, name, description, duration_days')
     .eq('is_active', true)
-    .order('duration_days', { ascending: false })
   if (error) throw error
-  return data
+  const rank = (slug) => {
+    const i = PLAN_ORDER.indexOf(slug)
+    return i === -1 ? PLAN_ORDER.length : i
+  }
+  return [...data].sort((a, b) => {
+    if (rank(a.slug) !== rank(b.slug)) return rank(a.slug) - rank(b.slug)
+    if (a.duration_days !== b.duration_days) return b.duration_days - a.duration_days
+    return a.slug.localeCompare(b.slug) // desempate final estable
+  })
 }
 
 // Fecha local (YYYY-MM-DD) — el plan_start_date corta a la medianoche LOCAL,
@@ -242,6 +263,18 @@ export async function removeMember(groupId, userId) {
   if (error) throw error
 }
 
+// Salir de un grupo (no-owner): borra la propia membresía. La RLS lo permite
+// (policy "leave or owner removes": user_id = auth.uid()). El owner no usa esto
+// —para irse debe reasignar/borrar el grupo, o eliminar la cuenta.
+export async function leaveGroup(groupId, userId) {
+  const { error } = await supabase
+    .from('group_members')
+    .delete()
+    .eq('group_id', groupId)
+    .eq('user_id', userId)
+  if (error) throw error
+}
+
 // "Míos": todos los pedidos del usuario (privados y compartidos).
 // Para los compartidos añade intercessor_count con una query batch (no N+1).
 export async function getMyPrayers(userId) {
@@ -271,10 +304,12 @@ export async function getGroupPrayers(userId) {
     .from('prayer_requests')
     .select('*, group:groups(name)')
     .eq('visibility', 'shared')
+    .eq('status', 'active')
     .neq('user_id', userId)
     .order('created_at', { ascending: false })
   if (error) throw error
-  // RLS ya limita a pedidos de grupos donde soy miembro.
+  // RLS ya limita a pedidos de grupos donde soy miembro. Solo activos: los
+  // respondidos viven en Testimonios, no se acumulan en "De mis grupos".
   const authorIds = [...new Set(data.map((p) => p.user_id))]
   let names = {}
   if (authorIds.length) {

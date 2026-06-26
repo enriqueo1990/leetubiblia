@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Link } from 'react-router-dom'
 import Gate from './components/Gate.jsx'
 import ProfilePrefSync from './components/ProfilePrefSync.jsx'
 import Layout from './components/Layout.jsx'
@@ -11,6 +11,7 @@ import PrayerDetail from './screens/PrayerDetail.jsx'
 import Grupos from './screens/Grupos.jsx'
 import GroupDetail from './screens/GroupDetail.jsx'
 import GroupTestimonies from './screens/GroupTestimonies.jsx'
+import Join from './screens/Join.jsx'
 import Ajustes from './screens/Ajustes.jsx'
 
 // Gate decide onboarding vs app. Una vez dentro, las rutas con tab bar/sidebar.
@@ -29,7 +30,19 @@ export default function App() {
           <Route path="grupos" element={<Grupos />} />
           <Route path="grupos/:id" element={<GroupDetail />} />
           <Route path="grupos/:id/testimonios" element={<GroupTestimonies />} />
+          <Route path="join" element={<Join />} />
           <Route path="ajustes" element={<Ajustes />} />
+          <Route
+            path="*"
+            element={
+              <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
+                <p className="text-[17px] text-ink">Esta página no existe.</p>
+                <Link to="/" className="btn btn-primary mt-6 inline-block px-8">
+                  Ir a Hoy
+                </Link>
+              </div>
+            }
+          />
         </Route>
       </Routes>
     </Gate>

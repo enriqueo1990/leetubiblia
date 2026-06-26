@@ -1,5 +1,49 @@
+import { useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { NAV_ITEMS } from './nav.js'
+
+function TabItem({ to, label, Icon, end }) {
+  const [tapped, setTapped] = useState(false)
+  const timerRef = useRef(null)
+
+  function triggerAnim() {
+    clearTimeout(timerRef.current)
+    // reinicia la animación si se toca dos veces seguidas
+    setTapped(false)
+    requestAnimationFrame(() => {
+      setTapped(true)
+      timerRef.current = setTimeout(() => setTapped(false), 1500)
+    })
+  }
+
+  return (
+    <li className="flex-1">
+      <NavLink
+        to={to}
+        end={end}
+        className={`flex flex-col items-center justify-center gap-1 py-2 select-none${tapped ? ' tab-tapped' : ''}`}
+        onTouchStart={triggerAnim}
+        onClick={triggerAnim}
+        style={({ isActive }) => ({
+          color: isActive ? 'var(--accent)' : 'var(--text-soft)',
+          minHeight: 56,
+        })}
+      >
+        {({ isActive }) => (
+          <>
+            <Icon size={25} />
+            <span
+              className="text-[11px]"
+              style={{ fontWeight: isActive ? 600 : 500 }}
+            >
+              {label}
+            </span>
+          </>
+        )}
+      </NavLink>
+    </li>
+  )
+}
 
 // Tab bar inferior translúcida (móvil/tablet). En desktop (≥1024px) se oculta y
 // la reemplaza el Sidebar. El hairline y el fondo se acotan al ancho de contenido
@@ -8,7 +52,6 @@ export default function TabBar() {
   return (
     <nav
       className="lg:hidden fixed bottom-0 inset-x-0 z-20"
-      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
       aria-label="Navegación principal"
     >
       <div
@@ -17,33 +60,12 @@ export default function TabBar() {
           backgroundColor: 'var(--tabbar-bg)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
+          paddingBottom: 'env(safe-area-inset-bottom)',
         }}
       >
         <ul className="flex">
-          {NAV_ITEMS.map(({ to, label, Icon, end }) => (
-            <li key={to} className="flex-1">
-              <NavLink
-                to={to}
-                end={end}
-                className="flex flex-col items-center justify-center gap-1 py-2"
-                style={({ isActive }) => ({
-                  color: isActive ? 'var(--accent)' : 'var(--text-soft)',
-                  minHeight: 56,
-                })}
-              >
-                {({ isActive }) => (
-                  <>
-                    <Icon size={25} />
-                    <span
-                      className="text-[11px]"
-                      style={{ fontWeight: isActive ? 600 : 500 }}
-                    >
-                      {label}
-                    </span>
-                  </>
-                )}
-              </NavLink>
-            </li>
+          {NAV_ITEMS.map((item) => (
+            <TabItem key={item.to} {...item} />
           ))}
         </ul>
       </div>

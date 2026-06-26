@@ -31,10 +31,16 @@ export default function AuthFlow() {
     if (!valid || sending) return
     setSending(true)
     setError(null)
-    const { error } = await signInWithEmail(email.trim())
+    // En "ingresar" no creamos la cuenta si no existe: así un correo mal tipeado
+    // no genera una cuenta nueva en silencio.
+    const { error } = await signInWithEmail(email.trim(), { createIfMissing: mode === 'signup' })
     setSending(false)
     if (error) {
-      setError('No pudimos enviar el código. Probá de nuevo.')
+      setError(
+        mode === 'login'
+          ? 'No encontramos una cuenta con ese correo. Revisá que esté bien escrito o creá una cuenta.'
+          : 'No pudimos enviar el código. Probá de nuevo.'
+      )
       return
     }
     setCode('')
@@ -119,6 +125,18 @@ export default function AuthFlow() {
         <p className="mt-2 text-[16px] text-ink-soft">
           Te enviamos un código a{' '}
           <span className="text-ink">{email.trim()}</span>. Ingresalo acá para entrar.
+        </p>
+        <p className="mt-1.5 text-[13px] text-ink-soft">
+          ¿No lo ves? Revisá la carpeta de spam, o{' '}
+          <button
+            type="button"
+            onClick={() => setStep('form')}
+            className="font-medium"
+            style={{ color: 'var(--accent)' }}
+          >
+            usá otro correo
+          </button>
+          .
         </p>
 
         <form

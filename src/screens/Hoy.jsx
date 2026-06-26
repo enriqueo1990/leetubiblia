@@ -134,6 +134,13 @@ export default function Hoy() {
         </Link>
       )}
 
+      {/* Racha discreta: refuerzo visible al marcar leído (antes solo en Progreso) */}
+      {!viewingAhead && r.streak > 0 && (
+        <p className="mt-2 text-[13px] font-medium" style={{ color: 'var(--accent)' }}>
+          Racha de {r.streak} {r.streak === 1 ? 'día' : 'días'}
+        </p>
+      )}
+
       {/* Nota de ritmo: el día mostrado va por delante de la fecha de hoy */}
       {aheadOfToday && !r.planFinished && (
         <p className="mt-2 text-[12px] text-ink-soft">
@@ -144,7 +151,9 @@ export default function Hoy() {
 
       {r.offline && (
         <p className="mt-2 text-[12px] text-ink-soft">
-          Sin conexión · tu marca se guarda y se sincroniza al volver.
+          {r.staleReadings
+            ? 'Sin conexión · esta lectura es de la última vez con conexión. Conectate para ver la de hoy.'
+            : 'Sin conexión · tu marca se guarda y se sincroniza al volver.'}
         </p>
       )}
 

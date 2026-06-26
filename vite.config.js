@@ -5,6 +5,12 @@ import { VitePWA } from 'vite-plugin-pwa'
 // Manifest de la PWA. theme_color usa el fondo claro por defecto; el color real
 // se sincroniza en runtime con el modo activo (ver src/hooks/useTheme.js).
 export default defineConfig({
+  // El dev server honra el PORT asignado por el entorno (p. ej. el harness de
+  // preview, que puede reasignar el puerto si 5173 está ocupado). En prod no
+  // aplica: el build no usa esta sección.
+  server: {
+    port: process.env.PORT ? Number(process.env.PORT) : 5173,
+  },
   plugins: [
     react(),
     VitePWA({

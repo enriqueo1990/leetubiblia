@@ -34,8 +34,10 @@ export default function Avatars({ people = [], count, size = 30, surface = 'var(
     </div>
   )
 
+  // Decorativo: el conteo ("N personas están orando") va siempre en texto adjunto
+  // accesible, así que ocultamos las iniciales para no leerlas como ruido.
   return (
-    <div className="flex items-center">
+    <div className="flex items-center" aria-hidden="true">
       {shown.map((p, i) => bubble(p.user_id ?? i, initials(p.display_name), i === 0))}
       {extra > 0 && bubble('extra', `+${extra}`, false)}
     </div>

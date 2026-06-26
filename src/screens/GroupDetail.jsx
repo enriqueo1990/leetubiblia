@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { CopyIcon, RefreshIcon, CheckIcon, ChevronRight, LockIcon, PencilIcon } from '../components/icons.jsx'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { CopyIcon, RefreshIcon, CheckIcon, ChevronRight, LockIcon, PencilIcon, ShareIcon } from '../components/icons.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import Avatars from '../components/Avatars.jsx'
 import { useAuth } from '../lib/auth.jsx'
@@ -8,6 +8,7 @@ import {
   getGroupDetail,
   regenerateInviteCode,
   removeMember,
+  leaveGroup,
   getGroupStats,
   renameGroup,
   getGroupPrayersWithIntercessors,
@@ -37,12 +38,14 @@ function Stat({ n, label }) {
 
 export default function GroupDetail() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const { user } = useAuth()
   const [data, setData] = useState(null)
   const [stats, setStats] = useState(null)
   const [groupPrayers, setGroupPrayers] = useState(null)
   const [error, setError] = useState(null)
   const [copied, setCopied] = useState(false)
+  const [inviteShared, setInviteShared] = useState(false)
   const [confirm, setConfirm] = useState(null) // { type: 'regen' } | { type: 'kick', member } | null
   const [busy, setBusy] = useState(false)
   const [editingName, setEditingName] = useState(false)
@@ -132,11 +135,38 @@ export default function GroupDetail() {
     }
   }
 
+  // Comparte el enlace de invitación (no solo el código a tipear). navigator.share
+  // en móvil; copia al portapapeles como fallback.
+  async function shareInvite() {
+    const url = `${window.location.origin}/join?code=${group.invite_code}`
+    const text = `Te invito al grupo "${group.name}" en Lee Tu Biblia`
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: 'Lee Tu Biblia', text, url })
+      } catch {
+        // El usuario canceló — no hacer nada.
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(url)
+        setInviteShared(true)
+        setTimeout(() => setInviteShared(false), 1500)
+      } catch {
+        window.prompt('Copiá el link de invitación:', url)
+      }
+    }
+  }
+
   async function runConfirm() {
     setBusy(true)
     try {
       if (confirm.type === 'regen') await regenerateInviteCode(group.id)
       else if (confirm.type === 'kick') await removeMember(group.id, confirm.member.user_id)
+      else if (confirm.type === 'leave') {
+        await leaveGroup(group.id, user.id)
+        navigate('/grupos', { replace: true })
+        return
+      }
       await load()
       setConfirm(null)
     } finally {
@@ -217,14 +247,22 @@ export default function GroupDetail() {
         >
           {group.invite_code}
         </p>
-        <div className="mt-3 flex gap-2">
+        <div className="mt-3 flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={shareInvite}
+            className="flex items-center gap-1.5 rounded-pill px-3 py-1.5 text-[14px] font-medium text-on-accent"
+            style={{ backgroundColor: 'var(--accent)' }}
+          >
+            <ShareIcon size={16} /> {inviteShared ? 'Copiado' : 'Compartir invitación'}
+          </button>
           <button
             type="button"
             onClick={copyCode}
             className="flex items-center gap-1.5 rounded-pill px-3 py-1.5 text-[14px] font-medium text-ink"
             style={{ backgroundColor: 'var(--surface-alt)' }}
           >
-            <CopyIcon size={16} /> {copied ? 'Copiado' : 'Copiar'}
+            <CopyIcon size={16} /> {copied ? 'Copiado' : 'Copiar código'}
           </button>
           {isOwner && (
             <button
@@ -386,6 +424,29 @@ export default function GroupDetail() {
           )
         })}
       </ul>
+
+      {!isOwner && (
+        <button
+          type="button"
+          onClick={() => setConfirm({ type: 'leave' })}
+          className="mt-7 w-full py-3 text-center text-[16px]"
+          style={{ color: 'var(--danger)' }}
+        >
+          Salir del grupo
+        </button>
+      )}
+
+      {confirm?.type === 'leave' && (
+        <ConfirmDialog
+          title={`¿Salir de ${group.name}?`}
+          message="Dejarás de ver y compartir pedidos en este grupo. Podés volver con el código."
+          confirmLabel="Salir"
+          danger
+          busy={busy}
+          onConfirm={runConfirm}
+          onCancel={() => setConfirm(null)}
+        />
+      )}
 
       {confirm?.type === 'regen' && (
         <ConfirmDialog

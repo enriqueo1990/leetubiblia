@@ -47,6 +47,97 @@
   }
 }
 
+/* ── Tab bar icon animations ─────────────────────────────────────── */
+
+/* Corazón: el fill hace fade in/out, el stroke escala suavemente */
+@keyframes heart-fade {
+  0%   { opacity: 0; }
+  35%  { opacity: 1; }
+  65%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes heart-scale {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.12); }
+  60%  { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+/* Libro: la página derecha pasa hacia la izquierda y vuelve */
+@keyframes page-turn {
+  0%   { transform: scaleX(1); }
+  30%  { transform: scaleX(0); }
+  60%  { transform: scaleX(1); }
+  78%  { transform: scaleX(0.85); }
+  100% { transform: scaleX(1); }
+}
+
+/* Segunda persona: entra desde detrás y se asienta */
+@keyframes person-arrive {
+  0%   { transform: translateX(8px) scale(0.85); opacity: 0; }
+  45%  { transform: translateX(-3px) scale(1.05); opacity: 1; }
+  70%  { transform: translateX(1px) scale(0.98); opacity: 1; }
+  100% { transform: translateX(0) scale(1); opacity: 1; }
+}
+
+/* Knobs: se deslizan en direcciones opuestas y vuelven */
+@keyframes knob-top-move {
+  0%   { transform: translateX(0); }
+  30%  { transform: translateX(-8px); }
+  65%  { transform: translateX(4px); }
+  100% { transform: translateX(0); }
+}
+@keyframes knob-bottom-move {
+  0%   { transform: translateX(0); }
+  30%  { transform: translateX(8px); }
+  65%  { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
+}
+
+.icon-heart {
+  overflow: visible;
+}
+.heart-fill {
+  opacity: 0;
+}
+.tab-tapped .heart-fill {
+  animation: heart-fade 1.4s ease-in-out forwards;
+}
+.tab-tapped .heart-stroke {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: heart-scale 1.4s ease-in-out forwards;
+}
+.icon-book {
+  overflow: visible;
+}
+.tab-tapped .book-left {
+  transform-box: fill-box;
+  transform-origin: right center;
+  animation: page-turn 1.3s ease-in-out forwards;
+}
+.tab-tapped .book-right {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: page-turn 1.3s ease-in-out forwards;
+}
+.tab-tapped .person-secondary {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: person-arrive 1.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.icon-sliders {
+  overflow: visible;
+}
+.tab-tapped .knob-top {
+  transform-box: fill-box;
+  animation: knob-top-move 1.3s ease-in-out forwards;
+}
+.tab-tapped .knob-bottom {
+  transform-box: fill-box;
+  animation: knob-bottom-move 1.3s ease-in-out forwards;
+}
+
 @layer components {
   /* Tipografía protagonista: referencia del día */
   .text-display {

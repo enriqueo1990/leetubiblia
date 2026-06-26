@@ -71,6 +71,12 @@ export function useReading() {
   // Feedback de reprogramar (requiere conexión): busy y último fallo.
   const [reprogramando, setReprogramando] = useState(false)
   const [reprogramarError, setReprogramarError] = useState(false)
+  // Racha guardada en el snapshot, para no mostrar 0 offline si el snapshot viejo
+  // no trae las fechas con que se calcula la racha. null = recalcular en vivo.
+  const [offlineStreak, setOfflineStreak] = useState(null)
+  // Fecha local en que se cacheó el snapshot. Si offline cambió el día, la lectura
+  // mostrada es de la última sync (no se pueden traer las refs del día nuevo).
+  const [snapshotDate, setSnapshotDate] = useState(null)
 
   const todayDay = planStart ? dayNumberFor(planStart) : null
 
@@ -92,6 +98,11 @@ export function useReading() {
         completed: [...map], // entradas [day_number, fechaISO] para la racha offline
         planStart,
         anchorDay: anchor,
+        // Guardamos la racha calculada: fallback si al hidratar el snapshot le
+        // faltaran las fechas (formato viejo) y no se pudiera recalcular.
+        streak: computeDateStreak(new Set(map.values()), todayLocalISO()),
+        // Fecha del cacheo: para detectar offline que el día cambió.
+        snapshotDate: todayLocalISO(),
       })
     },
     [user, planStart]
@@ -123,6 +134,8 @@ export function useReading() {
       setAnchorDay(anchor)
       setTodayRefs(refs)
       setOffline(false)
+      setOfflineStreak(null) // online: la racha se recalcula en vivo desde el map
+      setSnapshotDate(null)
       persistSnapshot(planRow, refs, map, anchor)
     } catch {
       // Sin red: hidratar desde el caché si lo hay.
@@ -132,6 +145,8 @@ export function useReading() {
         setTodayRefs(cached.todayRefs)
         setCompletedMap(rebuildCompletedMap(cached.completed))
         setAnchorDay(cached.anchorDay ?? null)
+        setOfflineStreak(typeof cached.streak === 'number' ? cached.streak : null)
+        setSnapshotDate(cached.snapshotDate ?? null)
       }
       setOffline(true)
     } finally {
@@ -205,8 +220,12 @@ export function useReading() {
   const duration = plan?.duration_days ?? null
   const completedCount = completed.size
   const percent = duration ? Math.round((completedCount / duration) * 100) : 0
-  // Racha por días reales: fechas distintas (locales) en que se marcó algo.
-  const streak = computeDateStreak(new Set(completedMap.values()), todayLocalISO())
+  // Racha por días reales: fechas distintas (locales) en que se marcó algo. Si el
+  // snapshot offline no trae fechas (formato viejo), el recálculo daría 0 aunque
+  // hayas leído: en ese caso usamos la racha guardada en el snapshot.
+  const streakLive = computeDateStreak(new Set(completedMap.values()), todayLocalISO())
+  const hasDates = [...completedMap.values()].some((v) => v != null)
+  const streak = !hasDates && offlineStreak != null ? offlineStreak : streakLive
 
   // Atraso respecto del calendario: huecos antes de hoy (sin contar hoy pendiente).
   const behindCap = todayDay != null && duration != null ? Math.min(todayDay, duration) : null
@@ -219,6 +238,9 @@ export function useReading() {
 
   // Día que muestra Hoy (ancla fijada al cargar). Hoy.jsx calcula si está marcado.
   const displayDay = anchorDay
+
+  // Offline y el día cambió desde el último cacheo: la lectura mostrada es vieja.
+  const staleReadings = offline && snapshotDate != null && snapshotDate !== todayLocalISO()
 
   // Al ponerse al día, olvidar el descarte (el próximo atraso arranca de cero).
   useEffect(() => {
@@ -245,6 +267,7 @@ export function useReading() {
     plan,
     todayDay,
     displayDay,
+    staleReadings,
     todayRefs,
     completed,
     completedCount,

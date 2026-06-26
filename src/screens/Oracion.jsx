@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { PlusIcon, LockIcon, PeopleIcon } from '../components/icons.jsx'
 import Segmented from '../components/Segmented.jsx'
 import { SkeletonCards } from '../components/Skeleton.jsx'
@@ -115,8 +115,8 @@ export default function Oracion() {
           type="button"
           aria-label="Nuevo pedido"
           onClick={() => setSheet({ mode: 'create' })}
-          className="flex h-[34px] items-center justify-center gap-1 rounded-full px-2 text-on-accent lg:px-4"
-          style={{ backgroundColor: 'var(--accent)', minWidth: 34 }}
+          className="flex h-[44px] items-center justify-center gap-1 rounded-full px-3 text-on-accent lg:px-4"
+          style={{ backgroundColor: 'var(--accent)', minWidth: 44 }}
         >
           <PlusIcon size={20} />
           <span className="hidden text-[14px] font-semibold lg:inline">Nuevo pedido</span>
@@ -144,8 +144,9 @@ export default function Oracion() {
         <div className="mt-4">
           {mine === null && !error && <SkeletonCards count={3} />}
           {mine?.length === 0 && (
-            <p className="mt-10 text-center text-[15px] text-ink-soft">
-              Todavía no tenés pedidos. Tocá + para crear el primero.
+            <p className="mt-10 text-center text-[15px] leading-relaxed text-ink-soft">
+              Todavía no tenés pedidos. Tocá + para crear el primero —privado, o
+              compartido con un grupo para que otros oren con vos.
             </p>
           )}
           <ul className="space-y-3">
@@ -173,7 +174,7 @@ export default function Oracion() {
                     key={p.id}
                     p={p}
                     dimmed
-                    subtitle={fmtDate(p.created_at)}
+                    subtitle={`Respondida · ${fmtDate(p.answered_at || p.created_at)}`}
                     onClick={
                       p.visibility === 'shared'
                         ? () => navigate(`/oracion/${p.id}`)
@@ -192,9 +193,23 @@ export default function Oracion() {
         <div className="mt-4">
           {groupPrayers === null && !error && <SkeletonCards count={3} />}
           {groupPrayers?.length === 0 && (
-            <p className="mt-10 text-center text-[15px] text-ink-soft">
-              No hay pedidos compartidos en tus grupos todavía.
-            </p>
+            <div className="mt-10 text-center">
+              {groups.length === 0 ? (
+                <>
+                  <p className="text-[15px] leading-relaxed text-ink-soft">
+                    Orá junto a otros: unite a un grupo para ver y sostener los pedidos
+                    que comparten.
+                  </p>
+                  <Link to="/grupos" className="btn btn-primary mt-5 inline-block px-8">
+                    Ir a Grupos
+                  </Link>
+                </>
+              ) : (
+                <p className="text-[15px] text-ink-soft">
+                  No hay pedidos compartidos en tus grupos todavía.
+                </p>
+              )}
+            </div>
           )}
           {Object.entries(byGroup).map(([name, items]) => {
             const active = items.filter((p) => p.status === 'active')

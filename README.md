@@ -20,6 +20,8 @@ Implementar como CSS variables en `:root`, conmutables por modo (auto vía `pref
 ### Acento sepia — 6 tonos elegibles (Ajustes)
 Es el **único color** fuera de la escala de grises en toda la app. El usuario elige uno; default `sepia_base`. En oscuro cada tono se aclara ~15%.
 
+> **Actualización (2026-06):** además de los 6 sepia, se sumaron **6 acentos pastel** elegibles (lavanda, rosa, menta, cielo, coral, turquesa; migración `0008`). Decisión de producto consciente para un público más joven: el acento sigue siendo el único color de la app, pero ya no se limita a la escala sepia. Default sigue siendo `sepia_base`.
+
 | Clave | Claro | Oscuro |
 |---|---|---|
 | `sepia_base` (default) | `#A88B6A` | `#C2A57E` |
@@ -114,6 +116,8 @@ Ver `Responsive — Hoy y Oración.dc.html` para Hoy y Oración en los tres anch
 ### 3. Selección / cambio de plan
 **Layout:** fila back "Hoy" → título "Planes" → "Un plan activo a la vez." → tarjetas de plan (radio 16). Activa: borde **1.5px acento** + badge "Plan activo" (texto acento, fondo tinte). Resto: borde hairline (claro) / superficie sin borde (oscuro). Cada tarjeta: nombre 18px/600, descripción 14px texto suave, duración 13px texto suave.
 Planes seed de lanzamiento (3): M'Cheyne (365 días, "Toda la Biblia en un año, cuatro pasajes por día." — activo), Cronológico (365), Proverbios en 31 días (31). (Nuevo Testamento en 90 días = más adelante.)
+
+> **Actualización (2026-06):** el catálogo se amplió a **8 planes** (decisión de producto, no revertir): además de la terna, se sembraron Antiguo y Nuevo Testamento (365), De Génesis a Apocalipsis (365), NT en 24 semanas (168), 40 días con Dios (40) y Oficio Diario del Libro de Oración Común (861). El orden de la lista es **curado y determinista** (la terna de lanzamiento primero), no por duración — ver `PLAN_ORDER` en `src/lib/db.js`.
 **Confirmación al cambiar:** alert centrado (radio 22, sombra) sobre el listado atenuado+scrim (`rgba(28,28,30,0.32)` / `rgba(0,0,0,0.6)`): título "¿Cambiar a {plan}?", cuerpo "El plan nuevo arranca desde el día 1. Tu progreso de M'Cheyne queda guardado, pero no se transfiere.", botones "Cancelar" (borde) / "Cambiar" (acento). Set `active_plan_id` + `plan_start_date = hoy`; no borra histórico anterior.
 
 ### 4. Oración (pestaña 2)

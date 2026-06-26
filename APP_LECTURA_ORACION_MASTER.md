@@ -159,6 +159,8 @@ prayer_requests
 ### 4.1 Acento sepia — 6 tonos elegibles
 El usuario elige uno en Ajustes. Es el **único color** fuera de la escala de grises en toda la app.
 
+> **Actualización (2026-06):** se sumaron **6 acentos pastel** elegibles (lavanda, rosa, menta, cielo, coral, turquesa; migración `0008`), además de los 6 sepia. Decisión de producto consciente (público más joven): el acento sigue siendo el único color de la app, pero ya no se limita a la escala sepia. Default sigue siendo `sepia_base`.
+
 | Clave | Hex (claro) | Hex (oscuro) | Carácter |
 |-------|-------------|--------------|----------|
 | `sepia_base`   | `#A88B6A` | `#C2A57E` | Sepia neutro (default) |
@@ -528,7 +530,9 @@ documento maestro, sección 3). Definí políticas RLS:
 - groups/group_members: visibles a miembros; solo owner administra.
 Sembrá el catálogo de **lanzamiento con 3 planes**: **M'Cheyne** (365),
 **Cronológico** (365) y **Proverbios en 31 días** (31). (NT en 90 días = más
-adelante.) Fuentes de contenido: M'Cheyne (dominio público); Cronológico
+adelante.)
+
+> **Actualización (2026-06):** el catálogo se amplió a **8 planes** sembrados (decisión de producto, no revertir): la terna + Antiguo y Nuevo Testamento (365), De Génesis a Apocalipsis (365), NT en 24 semanas (168), 40 días con Dios (40) y Oficio Diario del Libro de Oración Común (861). El orden de la lista es **curado y determinista** (terna primero), definido en `PLAN_ORDER` (`src/lib/db.js`), no por duración. El generador del seed (`scripts/seed.mjs`) y el parser (`scripts/usfm.mjs`) **abortan** ante días faltantes o texto no reconocido, para no sembrar contenido sucio. Fuentes de contenido: M'Cheyne (dominio público); Cronológico
 día-por-día de bibliavida.com/planes-lectura/cronologico.html (365 días, formato
 "Día N: Génesis 1:1-31;…"); Proverbios = capítulos 1..31. Las `references` van
 **estructuradas** (book_usfm + chapter, ver esquema sección 3): el parsing
