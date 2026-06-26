@@ -91,7 +91,7 @@ export default function PlanDetail() {
         {plan?.name || 'Plan'}
       </h1>
       {plan && (
-        <p className="mt-1 text-[14px] text-ink-soft">{durationLabel(plan.duration_days)}</p>
+        <p className="mt-1 text-[13px] text-ink-soft">{durationLabel(plan.duration_days)}</p>
       )}
       {plan?.description && (
         <p className="mt-3 text-[16px] text-ink-soft">{plan.description}</p>
@@ -155,7 +155,7 @@ export default function PlanDetail() {
               </span>
               {read && (
                 <span
-                  className="shrink-0 pt-0.5 text-[14px] font-bold"
+                  className="shrink-0 pt-0.5 text-[15px] font-bold"
                   style={{ color: 'var(--accent)' }}
                   aria-label="Leído"
                 >
@@ -180,7 +180,7 @@ export default function PlanDetail() {
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-[18px] font-bold text-ink">¿Cambiar a {plan?.name}?</h2>
-            <p className="mt-2 text-[14px] text-ink-soft">
+            <p className="mt-2 text-[15px] text-ink-soft">
               {resumeDay
                 ? `El plan nuevo arranca desde el día ${resumeDay}. Tu progreso anterior queda guardado, pero no se transfiere.`
                 : 'El plan nuevo arranca desde el día 1. Tu progreso anterior queda guardado, pero no se transfiere.'}

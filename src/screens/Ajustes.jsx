@@ -226,7 +226,7 @@ export default function Ajustes() {
         <>
           <SectionLabel>¿En qué día vas?</SectionLabel>
           <div className="card p-4">
-            <p className="text-[14px] text-ink-soft">
+            <p className="text-[15px] text-ink-soft">
               Día actual: <span className="font-semibold text-ink">{currentDay}</span> de {duration}
             </p>
             <input
@@ -366,7 +366,7 @@ export default function Ajustes() {
             <HeartIcon size={20} />
           </span>
           <div>
-            <p className="text-[14px] text-ink">
+            <p className="text-[15px] text-ink">
               Soy pastor misionero y creé esta app para acercarnos cada día mejor a la Palabra.
               Tu aporte es una gran ayuda a seguir sirviendo a tiempo completo. ¡Gracias!
             </p>
@@ -399,7 +399,7 @@ export default function Ajustes() {
               style={{ backgroundColor: 'var(--surface)' }}
             >
               <span className="text-[15px] font-medium text-ink">{d.label}</span>
-              <span className="text-[14px]" style={{ color: 'var(--accent)' }} aria-hidden="true">
+              <span className="text-[15px]" style={{ color: 'var(--accent)' }} aria-hidden="true">
                 ↗
               </span>
             </a>

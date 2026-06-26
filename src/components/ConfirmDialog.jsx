@@ -45,7 +45,7 @@ export default function ConfirmDialog({
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-[18px] font-bold text-ink">{title}</h2>
-        {message && <p className="mt-2 text-[14px] text-ink-soft">{message}</p>}
+        {message && <p className="mt-2 text-[15px] text-ink-soft">{message}</p>}
         <div className="mt-5 flex gap-3">
           <button
             type="button"

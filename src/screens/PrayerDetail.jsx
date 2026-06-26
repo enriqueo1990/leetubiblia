@@ -130,10 +130,10 @@ export default function PrayerDetail() {
           {data.group.name}
         </p>
       )}
-      <h1 className="mt-2 text-[25px] font-bold leading-tight tracking-tight text-ink">
+      <h1 className="mt-2 text-[26px] font-bold leading-tight tracking-tight text-ink">
         {data.title}
       </h1>
-      <p className="mt-2 text-[14px] text-ink-soft">
+      <p className="mt-2 text-[13px] text-ink-soft">
         {data.author_name} · {fmtDate(data.created_at)}
       </p>
 
@@ -150,7 +150,7 @@ export default function PrayerDetail() {
             <Avatars people={intercessors} count={count} />
           </div>
         )}
-        <p className="mb-3.5 text-[14px] text-ink-soft">{countLabel}</p>
+        <p className="mb-3.5 text-[13px] text-ink-soft">{countLabel}</p>
 
         {!isAuthor && data.status !== 'active' && (
           <p className="text-center text-[13px] text-ink-soft">

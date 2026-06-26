@@ -44,7 +44,7 @@ export default function Planes() {
       <div className="mt-5 space-y-3">
         {plans === null && !error && <SkeletonCards count={3} />}
         {error && (
-          <div className="rounded-card p-4 text-[14px]" style={{ backgroundColor: 'var(--surface-alt)' }}>
+          <div className="rounded-card p-4 text-[15px]" style={{ backgroundColor: 'var(--surface-alt)' }}>
             <p className="text-ink">No se pudieron cargar los planes.</p>
             <button
               type="button"
@@ -80,7 +80,7 @@ export default function Planes() {
                     </span>
                   )}
                 </div>
-                {p.description && <p className="mt-1 text-[14px] text-ink-soft">{p.description}</p>}
+                {p.description && <p className="mt-1 text-[15px] text-ink-soft">{p.description}</p>}
                 <p className="mt-1 text-[13px] text-ink-soft">{durationLabel(p.duration_days)}</p>
               </div>
               <span className="text-ink-soft" style={{ opacity: 0.5 }}>

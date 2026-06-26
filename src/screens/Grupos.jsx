@@ -65,7 +65,7 @@ function CreateGroupSheet({ onClose, onCreated }) {
         className="w-full rounded-input px-4 py-3 text-[16px] outline-none"
         style={inputStyle}
       />
-      <p className="mt-3 text-[14px] text-ink-soft">
+      <p className="mt-3 text-[13px] text-ink-soft">
         Vas a ser el administrador. Después podrás invitar con un código que
         generamos automáticamente.
       </p>
@@ -133,7 +133,7 @@ function JoinGroupSheet({ onClose, onJoined }) {
         className="w-full rounded-input px-4 py-3 text-center text-[24px] font-bold outline-none"
         style={{ ...inputStyle, letterSpacing: '3px' }}
       />
-      <p className="mt-3 text-center text-[14px] text-ink-soft">
+      <p className="mt-3 text-center text-[13px] text-ink-soft">
         Pedile el código a quien administra el grupo.
       </p>
       {error && <p className="mt-3 text-center text-[13px]" style={{ color: 'var(--danger)' }}>{error}</p>}

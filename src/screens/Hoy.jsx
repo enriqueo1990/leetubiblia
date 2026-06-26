@@ -118,7 +118,7 @@ export default function Hoy() {
             {todayLabel()}
           </p>
         )}
-        <Link to="/progreso" className="text-[14px] font-medium" style={{ color: 'var(--accent)' }}>
+        <Link to="/progreso" className="text-[13px] font-medium" style={{ color: 'var(--accent)' }}>
           Progreso ›
         </Link>
       </div>
@@ -165,14 +165,14 @@ export default function Hoy() {
             className="mt-4 flex items-center gap-3 rounded-[14px] px-4 py-3"
             style={{ backgroundColor: 'var(--surface-alt)' }}
           >
-            <span className="flex-1 text-[14px] text-ink">
+            <span className="flex-1 text-[15px] text-ink">
               Te atrasaste {r.behind} {r.behind === 1 ? 'día' : 'días'}
             </span>
             <button
               type="button"
               onClick={r.reprogramar}
               disabled={r.reprogramando}
-              className="text-[14px] font-semibold"
+              className="text-[15px] font-semibold"
               style={{ color: 'var(--accent)', opacity: r.reprogramando ? 0.5 : 1 }}
             >
               {r.reprogramando ? 'Reprogramando…' : 'Reprogramar'}
@@ -197,7 +197,7 @@ export default function Hoy() {
 
       {r.planFinished ? (
         <div className="mt-12">
-          <p className="text-[14px] font-medium text-ink-soft">Plan completado</p>
+          <p className="text-[13px] font-medium text-ink-soft">Plan completado</p>
           <p className="mt-3 text-display text-ink">Terminaste el plan 🎉</p>
           <p className="mt-3 text-[16px] text-ink-soft">
             Podés elegir uno nuevo cuando quieras desde Planes.
@@ -205,7 +205,7 @@ export default function Hoy() {
         </div>
       ) : (
         <>
-          <p className="mt-[42px] text-[14px] font-medium text-ink-soft">
+          <p className="mt-[42px] text-[13px] font-medium text-ink-soft">
             {aheadOfToday ? `Lectura del día ${dayShown}` : 'Lectura de hoy'}
           </p>
           <div className="mt-[18px] space-y-1">
