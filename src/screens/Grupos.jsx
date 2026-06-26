@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { PeopleIcon, ChevronRight, PlusIcon } from '../components/icons.jsx'
 import Sheet from '../components/Sheet.jsx'
+import RetryError from '../components/RetryError.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import { getMyGroups, createGroup, joinGroupByCode } from '../lib/db.js'
 
@@ -143,11 +144,17 @@ export default function Grupos() {
   const { user } = useAuth()
   const navigate = useNavigate()
   const [groups, setGroups] = useState(null)
+  const [error, setError] = useState(false)
   const [sheet, setSheet] = useState(null) // 'create' | 'join' | null
 
   const load = useCallback(async () => {
     if (!user) return
-    setGroups(await getMyGroups(user.id))
+    setError(false)
+    try {
+      setGroups(await getMyGroups(user.id))
+    } catch {
+      setError(true)
+    }
   }, [user])
 
   useEffect(() => {
@@ -177,8 +184,11 @@ export default function Grupos() {
         </p>
       )}
 
-      {groups === null && <p className="mt-6 text-[15px] text-ink-soft">Cargando…</p>}
-      {groups?.length === 0 && (
+      {error && <RetryError message="No se pudieron cargar tus grupos." onRetry={load} />}
+      {groups === null && !error && (
+        <p className="mt-6 text-[15px] text-ink-soft">Cargando…</p>
+      )}
+      {groups?.length === 0 && !error && (
         <p className="mt-10 text-center text-[15px] text-ink-soft">
           Todavía no estás en ningún grupo. Creá uno o unite con un código.
         </p>

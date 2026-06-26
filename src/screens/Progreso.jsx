@@ -46,94 +46,123 @@ export default function Progreso() {
       </Link>
       <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">Progreso</h1>
 
-      {/* Stat cards */}
-      <div className="mt-5 flex gap-3">
-        <div className="card flex-1 p-4">
-          <p className="text-[30px] font-bold text-accent" style={{ letterSpacing: '-1px' }}>
-            {r.streak}
-          </p>
-          <p className="text-[13px] text-ink-soft">
-            {r.streak === 1 ? 'día de racha' : 'días de racha'}
-          </p>
-        </div>
-        <div className="card flex-1 p-4">
-          <p className="text-[30px] font-bold text-ink" style={{ letterSpacing: '-1px' }}>
-            {r.percent}%
-          </p>
-          <p className="text-[13px] text-ink-soft">
-            {r.completedCount} de {duration} días
-          </p>
-        </div>
-      </div>
-
-      <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-        Últimas 5 semanas
-      </p>
-
-      {/* Header de días */}
-      <div className="mt-3 grid grid-cols-7 gap-1.5">
-        {WEEKDAYS.map((w, i) => (
-          <div key={i} className="text-center text-[11px] font-medium text-ink-soft">
-            {w}
-          </div>
-        ))}
-      </div>
-
-      {/* Heatmap interactivo */}
-      <div className="mt-1.5 grid grid-cols-7 gap-1.5">
-        {grid.map((iso) => {
-          const dayNum = planStart ? dayNumberFor(planStart, iso) : null
-          const inRange = dayNum != null && dayNum >= 1 && dayNum <= duration
-          const isFuture = iso > todayISO
-          const read = inRange && r.completed.has(dayNum)
-          const tappable = inRange && !isFuture
-
-          let bg = 'var(--surface-alt)'
-          if (read) bg = 'var(--accent)'
-          let opacity = 1
-          if (!inRange) opacity = 0.25
-          else if (isFuture) opacity = 0.4
-
-          let state
-          if (!inRange) state = 'fuera del plan'
-          else if (isFuture) state = 'día futuro'
-          else if (read) state = 'leído'
-          else state = 'sin leer'
-
-          return (
-            <button
-              key={iso}
-              type="button"
-              disabled={!tappable}
-              onClick={() => tappable && r.toggleDay(dayNum, !read)}
-              aria-label={`${longDate(iso)} · ${state}`}
-              aria-pressed={tappable ? read : undefined}
-              className="rounded-pill transition-colors duration-200"
-              style={{
-                aspectRatio: '1',
-                backgroundColor: bg,
-                opacity,
-                cursor: tappable ? 'pointer' : 'default',
-              }}
-            />
-          )
-        })}
-      </div>
-
-      {/* Nota neutra de atraso */}
-      {r.behind > 0 && (
-        <p className="mt-6 text-[14px] text-ink-soft">
-          Te atrasaste {r.behind} {r.behind === 1 ? 'día' : 'días'}. Sin apuro —{' '}
-          <button
-            type="button"
-            onClick={r.reprogramar}
-            className="font-medium"
-            style={{ color: 'var(--accent)' }}
-          >
-            podés reprogramar
-          </button>{' '}
-          y seguir.
+      {r.loading ? (
+        // Sin esto, durante la carga se veía un flash de "0 días de racha / 0%".
+        <p className="mt-8 text-[15px] text-ink-soft">Cargando…</p>
+      ) : !r.hasPlan ? (
+        <p className="mt-8 text-[15px] text-ink-soft">
+          Elegí un plan en{' '}
+          <Link to="/planes" className="font-medium" style={{ color: 'var(--accent)' }}>
+            Planes
+          </Link>{' '}
+          para ver tu progreso.
         </p>
+      ) : (
+        <>
+          {r.offline && (
+            <p className="mt-3 text-[12px] text-ink-soft">
+              Sin conexión · puede estar desactualizado.
+            </p>
+          )}
+
+          {/* Stat cards */}
+          <div className="mt-5 flex gap-3">
+            <div className="card flex-1 p-4">
+              <p className="text-[30px] font-bold text-accent" style={{ letterSpacing: '-1px' }}>
+                {r.streak}
+              </p>
+              <p className="text-[13px] text-ink-soft">
+                {r.streak === 1 ? 'día de racha' : 'días de racha'}
+              </p>
+            </div>
+            <div className="card flex-1 p-4">
+              <p className="text-[30px] font-bold text-ink" style={{ letterSpacing: '-1px' }}>
+                {r.percent}%
+              </p>
+              <p className="text-[13px] text-ink-soft">
+                {r.completedCount} de {duration} días
+              </p>
+            </div>
+          </div>
+
+          <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+            Últimas 5 semanas
+          </p>
+
+          {/* Header de días */}
+          <div className="mt-3 grid grid-cols-7 gap-1.5">
+            {WEEKDAYS.map((w, i) => (
+              <div key={i} className="text-center text-[11px] font-medium text-ink-soft">
+                {w}
+              </div>
+            ))}
+          </div>
+
+          {/* Heatmap interactivo */}
+          <div className="mt-1.5 grid grid-cols-7 gap-1.5">
+            {grid.map((iso) => {
+              const dayNum = planStart ? dayNumberFor(planStart, iso) : null
+              const inRange = dayNum != null && dayNum >= 1 && dayNum <= duration
+              const isFuture = iso > todayISO
+              const read = inRange && r.completed.has(dayNum)
+              const tappable = inRange && !isFuture
+
+              let bg = 'var(--surface-alt)'
+              if (read) bg = 'var(--accent)'
+              let opacity = 1
+              if (!inRange) opacity = 0.25
+              else if (isFuture) opacity = 0.4
+
+              let state
+              if (!inRange) state = 'fuera del plan'
+              else if (isFuture) state = 'día futuro'
+              else if (read) state = 'leído'
+              else state = 'sin leer'
+
+              return (
+                <button
+                  key={iso}
+                  type="button"
+                  disabled={!tappable}
+                  onClick={() => tappable && r.toggleDay(dayNum, !read)}
+                  aria-label={`${longDate(iso)} · ${state}`}
+                  aria-pressed={tappable ? read : undefined}
+                  className="rounded-pill transition-colors duration-200"
+                  style={{
+                    aspectRatio: '1',
+                    backgroundColor: bg,
+                    opacity,
+                    cursor: tappable ? 'pointer' : 'default',
+                  }}
+                />
+              )
+            })}
+          </div>
+
+          {/* Nota neutra de atraso */}
+          {r.behind > 0 && (
+            <>
+              <p className="mt-6 text-[14px] text-ink-soft">
+                Te atrasaste {r.behind} {r.behind === 1 ? 'día' : 'días'}. Sin apuro —{' '}
+                <button
+                  type="button"
+                  onClick={r.reprogramar}
+                  disabled={r.reprogramando}
+                  className="font-medium"
+                  style={{ color: 'var(--accent)', opacity: r.reprogramando ? 0.5 : 1 }}
+                >
+                  {r.reprogramando ? 'reprogramando…' : 'podés reprogramar'}
+                </button>{' '}
+                y seguir.
+              </p>
+              {r.reprogramarError && (
+                <p className="mt-2 text-[12px]" style={{ color: 'var(--danger)' }}>
+                  No se pudo reprogramar. Revisá tu conexión e intentá de nuevo.
+                </p>
+              )}
+            </>
+          )}
+        </>
       )}
     </div>
   )

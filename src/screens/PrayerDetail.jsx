@@ -24,6 +24,7 @@ export default function PrayerDetail() {
   const [groups, setGroups] = useState([])
 
   const load = useCallback(async () => {
+    setError(null)
     try {
       setData(await getPrayerDetail(Number(id), user?.id))
     } catch {
@@ -71,6 +72,14 @@ export default function PrayerDetail() {
           ‹ Oración
         </Link>
         <p className="mt-8 text-[15px] text-ink-soft">{error}</p>
+        <button
+          type="button"
+          onClick={load}
+          className="mt-2 text-[15px] font-semibold"
+          style={{ color: 'var(--accent)' }}
+        >
+          Reintentar
+        </button>
       </div>
     )
   }

@@ -68,6 +68,9 @@ export function useReading() {
   // Día ancla de Hoy. Se FIJA al cargar (no salta a mitad de sesión al marcar);
   // se recalcula al recargar / reprogramar. Ver computeAnchorDay.
   const [anchorDay, setAnchorDay] = useState(null)
+  // Feedback de reprogramar (requiere conexión): busy y último fallo.
+  const [reprogramando, setReprogramando] = useState(false)
+  const [reprogramarError, setReprogramarError] = useState(false)
 
   const todayDay = planStart ? dayNumberFor(planStart) : null
 
@@ -180,12 +183,23 @@ export function useReading() {
   )
 
   // Reprogramar (documento maestro §5.1): mover plan_start_date al primer día no
-  // leído. Correr y seguir, sin reinsertar saltados. Requiere conexión.
+  // leído. Correr y seguir, sin reinsertar saltados. Requiere conexión. Captura el
+  // error de updateProfile (que no lanza) y lo expone, en vez de fallar en silencio
+  // dejando al usuario atascado en el atraso.
   const reprogramar = useCallback(async () => {
     if (!planStart || todayDay == null) return
+    setReprogramarError(false)
+    if (!isOnline()) {
+      setReprogramarError(true)
+      return
+    }
+    setReprogramando(true)
     const fu = firstUnreadDay(completed, todayDay)
     const newStart = addDaysISO(todayLocalISO(), -(fu - 1))
-    await updateProfile({ plan_start_date: newStart })
+    const { error } = await updateProfile({ plan_start_date: newStart })
+    setReprogramando(false)
+    if (error) setReprogramarError(true)
+    // En éxito, el cambio de plan_start_date dispara load() y el atraso baja a 0.
   }, [planStart, todayDay, completed, updateProfile])
 
   const duration = plan?.duration_days ?? null
@@ -243,6 +257,8 @@ export function useReading() {
     planFinished,
     toggleDay,
     reprogramar,
+    reprogramando,
+    reprogramarError,
     reload: load,
   }
 }

@@ -51,6 +51,7 @@ export default function GroupDetail() {
   const [nameError, setNameError] = useState(null)
 
   const load = useCallback(async () => {
+    setError(null)
     try {
       const d = await getGroupDetail(Number(id))
       setData(d)
@@ -80,6 +81,14 @@ export default function GroupDetail() {
           ‹ Grupos
         </Link>
         <p className="mt-8 text-[15px] text-ink-soft">{error}</p>
+        <button
+          type="button"
+          onClick={load}
+          className="mt-2 text-[15px] font-semibold"
+          style={{ color: 'var(--accent)' }}
+        >
+          Reintentar
+        </button>
       </div>
     )
   }

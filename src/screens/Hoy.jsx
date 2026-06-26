@@ -150,31 +150,39 @@ export default function Hoy() {
 
       {/* Banner de atraso — sin culpa, con reprogramar o descartar */}
       {r.showBehind && !r.planFinished && !viewingAhead && (
-        <div
-          className="mt-4 flex items-center gap-3 rounded-[14px] px-4 py-3"
-          style={{ backgroundColor: 'var(--surface-alt)' }}
-        >
-          <span className="flex-1 text-[14px] text-ink">
-            Te atrasaste {r.behind} {r.behind === 1 ? 'día' : 'días'}
-          </span>
-          <button
-            type="button"
-            onClick={r.reprogramar}
-            className="text-[14px] font-semibold"
-            style={{ color: 'var(--accent)' }}
+        <>
+          <div
+            className="mt-4 flex items-center gap-3 rounded-[14px] px-4 py-3"
+            style={{ backgroundColor: 'var(--surface-alt)' }}
           >
-            Reprogramar
-          </button>
-          <button
-            type="button"
-            onClick={r.dismissBehind}
-            aria-label="Descartar aviso"
-            className="-m-2 flex h-9 w-9 items-center justify-center text-[18px] leading-none text-ink-soft"
-            style={{ opacity: 0.6 }}
-          >
-            ✕
-          </button>
-        </div>
+            <span className="flex-1 text-[14px] text-ink">
+              Te atrasaste {r.behind} {r.behind === 1 ? 'día' : 'días'}
+            </span>
+            <button
+              type="button"
+              onClick={r.reprogramar}
+              disabled={r.reprogramando}
+              className="text-[14px] font-semibold"
+              style={{ color: 'var(--accent)', opacity: r.reprogramando ? 0.5 : 1 }}
+            >
+              {r.reprogramando ? 'Reprogramando…' : 'Reprogramar'}
+            </button>
+            <button
+              type="button"
+              onClick={r.dismissBehind}
+              aria-label="Descartar aviso"
+              className="-m-2 flex h-9 w-9 items-center justify-center text-[18px] leading-none text-ink-soft"
+              style={{ opacity: 0.6 }}
+            >
+              ✕
+            </button>
+          </div>
+          {r.reprogramarError && (
+            <p className="mt-2 text-[12px]" style={{ color: 'var(--danger)' }}>
+              No se pudo reprogramar. Revisá tu conexión e intentá de nuevo.
+            </p>
+          )}
+        </>
       )}
 
       {r.planFinished ? (
