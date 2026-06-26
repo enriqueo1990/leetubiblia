@@ -13,9 +13,9 @@
 
 :root {
   /* ---- Neutros: modo claro (default) ---- */
-  --bg-app: #ECEAE6;
+  --bg-app: #F4F2EE;
   --surface: #FFFFFF;
-  --surface-alt: #F4F2EF;
+  --surface-alt: #F9F8F6;
   --segment-track: #EFEDE8;
   --segment-active: #FFFFFF;
   --text-primary: #1C1C1E;
@@ -26,7 +26,7 @@
   --faint: #B8B6B0;
   --faint-2: #D8D5CF;
   --scrim: rgba(28, 28, 30, 0.32);
-  --tabbar-bg: rgba(236, 234, 230, 0.82);
+  --tabbar-bg: rgba(244, 242, 238, 0.82);
   --danger: #D1453B;
 
   /* on-accent: texto sobre el relleno de acento. Claro = blanco. */
