@@ -15,15 +15,15 @@
   /* ---- Neutros: modo claro (default) ---- */
   --bg-app: #FBFBFA;
   --surface: #FFFFFF;
-  --surface-alt: #F2F1EE;
+  --surface-alt: #ECEAE6;
   --segment-track: #EFEDE8;
   --segment-active: #FFFFFF;
   --text-primary: #1C1C1E;
-  /* text-soft: subido a ~4.6:1 sobre --bg-app para cumplir WCAG AA en texto chico */
-  --text-soft: #6B6B70;
-  --hairline: #EAE8E3;
+  /* text-soft: ~6:1 sobre --bg-app (WCAG AA amplio en texto chico) */
+  --text-soft: #56565C;
+  --hairline: #D5D3CD;
   --placeholder: #8B8983;
-  --faint: #C9C7C2;
+  --faint: #B8B6B0;
   --faint-2: #D8D5CF;
   --scrim: rgba(28, 28, 30, 0.32);
   --tabbar-bg: rgba(251, 251, 250, 0.72);
