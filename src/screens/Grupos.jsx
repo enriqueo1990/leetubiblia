@@ -5,6 +5,7 @@ import Sheet from '../components/Sheet.jsx'
 import RetryError from '../components/RetryError.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import { getMyGroups, createGroup, joinGroupByCode } from '../lib/db.js'
+import { SkeletonCards } from '../components/Skeleton.jsx'
 
 // Grupos (documento maestro §5.6, README pantalla 6).
 const inputStyle = {
@@ -186,7 +187,7 @@ export default function Grupos() {
 
       {error && <RetryError message="No se pudieron cargar tus grupos." onRetry={load} />}
       {groups === null && !error && (
-        <p className="mt-6 text-[15px] text-ink-soft">Cargando…</p>
+        <div className="mt-5"><SkeletonCards count={3} /></div>
       )}
       {groups?.length === 0 && !error && (
         <p className="mt-10 text-center text-[15px] text-ink-soft">

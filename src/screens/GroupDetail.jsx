@@ -13,6 +13,7 @@ import {
   renameGroup,
   getGroupPrayersWithIntercessors,
 } from '../lib/db.js'
+import { SkeletonDetail } from '../components/Skeleton.jsx'
 
 // Detalle de grupo (documento maestro §5.6, README pantalla 6).
 function initials(name) {
@@ -95,7 +96,7 @@ export default function GroupDetail() {
       </div>
     )
   }
-  if (!data) return <p className="pt-10 text-[15px] text-ink-soft">Cargando…</p>
+  if (!data) return <SkeletonDetail />
 
   const { group, members } = data
   const myRole = members.find((m) => m.user_id === user?.id)?.role

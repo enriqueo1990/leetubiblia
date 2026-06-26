@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import { getPlans } from '../lib/db.js'
 import { ChevronRight } from '../components/icons.jsx'
+import { SkeletonCards } from '../components/Skeleton.jsx'
 
 // Selección / cambio de plan (documento maestro §5.3, README pantalla 3).
 // Cada tarjeta abre el detalle del plan (/planes/:id), donde se ve el listado
@@ -41,7 +42,7 @@ export default function Planes() {
       <p className="mt-2 text-[16px] text-ink-soft">Un plan activo a la vez.</p>
 
       <div className="mt-5 space-y-3">
-        {plans === null && !error && <p className="text-[15px] text-ink-soft">Cargando…</p>}
+        {plans === null && !error && <SkeletonCards count={3} />}
         {error && (
           <div className="rounded-card p-4 text-[14px]" style={{ backgroundColor: 'var(--surface-alt)' }}>
             <p className="text-ink">No se pudieron cargar los planes.</p>

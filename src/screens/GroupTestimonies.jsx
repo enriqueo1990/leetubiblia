@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { CheckIcon } from '../components/icons.jsx'
 import { getGroup, getGroupTestimonies } from '../lib/db.js'
+import { SkeletonCards } from '../components/Skeleton.jsx'
 
 // Testimonios del grupo (Fase 2, F2-C): oraciones respondidas que el autor
 // eligió compartir. Solo lectura, ordenadas de la más reciente a la más vieja.
@@ -56,7 +57,7 @@ export default function GroupTestimonies() {
           </button>
         </div>
       )}
-      {!error && items === null && <p className="mt-8 text-[15px] text-ink-soft">Cargando…</p>}
+      {!error && items === null && <div className="mt-5"><SkeletonCards count={3} /></div>}
       {items?.length === 0 && (
         <p className="mt-10 text-center text-[15px] leading-relaxed text-ink-soft">
           Todavía no hay testimonios. Cuando alguien marque una oración respondida y la comparta,

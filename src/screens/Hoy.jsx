@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useReading } from '../hooks/useReading.js'
 import { getPlanDay } from '../lib/db.js'
 import { firstYouVersionUrl } from '../lib/bible.js'
+import { SkeletonHoy } from '../components/Skeleton.jsx'
 
 // Pantalla Hoy — la cara de la app (documento maestro §5.1, README pantalla 1).
 // Se ancla en el día que dicta useReading (displayDay): si vas atrasado, el día
@@ -57,7 +58,7 @@ export default function Hoy() {
   }
 
   if (r.loading) {
-    return <p className="pt-10 text-[15px] text-ink-soft">Cargando…</p>
+    return <SkeletonHoy />
   }
 
   // Estado vacío: sin plan activo (raro tras el onboarding, pero contemplado).
@@ -209,7 +210,10 @@ export default function Hoy() {
           </p>
           <div className="mt-[18px] space-y-1">
             {viewingAhead && aheadLoading ? (
-              <p className="text-[15px] text-ink-soft">Cargando…</p>
+              <div className="animate-pulse space-y-2" aria-hidden="true">
+                <div className="rounded-pill" style={{ width: '60%', height: 32, backgroundColor: 'var(--surface-alt)' }} />
+                <div className="rounded-pill" style={{ width: '44%', height: 32, backgroundColor: 'var(--surface-alt)' }} />
+              </div>
             ) : (
               refsShown?.map((ref, i) => (
                 <p key={i} className="text-display text-ink">

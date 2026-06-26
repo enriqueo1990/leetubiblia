@@ -4,6 +4,7 @@ import { useAuth } from '../lib/auth.jsx'
 import { getPlan, getPlanDays, startDateForDay, todayLocalISO, markDaysRead } from '../lib/db.js'
 import { useReading } from '../hooks/useReading.js'
 import ResumeFromDay from '../components/ResumeFromDay.jsx'
+import { SkeletonRows } from '../components/Skeleton.jsx'
 
 // Detalle de un plan: descripción, duración, listado completo día-por-día con sus
 // pasajes, y acción de activar. Mismo estilo que el resto (drill-in iOS).
@@ -126,7 +127,7 @@ export default function PlanDetail() {
       <p className="mb-2 mt-8 px-1 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
         Lecturas por día
       </p>
-      {days === null && <p className="text-[15px] text-ink-soft">Cargando días…</p>}
+      {days === null && <SkeletonRows count={6} />}
       <ol className="card divide-y divide-hairline">
         {days?.map((d) => {
           const isCurrent = d.day_number === currentDay

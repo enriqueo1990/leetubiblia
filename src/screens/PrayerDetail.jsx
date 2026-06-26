@@ -5,6 +5,7 @@ import Avatars from '../components/Avatars.jsx'
 import PrayerSheet from './PrayerSheet.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import { getPrayerDetail, addIntercession, removeIntercession, getMyGroups } from '../lib/db.js'
+import { SkeletonDetail } from '../components/Skeleton.jsx'
 
 // Detalle de un pedido compartido con "Estoy orando por esto" (Fase 2, F2-A).
 // Lo abren los miembros desde "De mis grupos"; el autor lo ve sin el botón pero
@@ -83,7 +84,7 @@ export default function PrayerDetail() {
       </div>
     )
   }
-  if (!data) return <p className="pt-10 text-[15px] text-ink-soft">Cargando…</p>
+  if (!data) return <SkeletonDetail />
 
   const { intercessors, intercessor_count: count, i_intercede } = data
   const isAuthor = data.user_id === user?.id
