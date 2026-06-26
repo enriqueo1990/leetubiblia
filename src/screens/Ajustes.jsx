@@ -2,7 +2,13 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { usePreferences } from '../lib/preferences.jsx'
 import { useAuth } from '../lib/auth.jsx'
-import { getPlan, deleteAccount } from '../lib/db.js'
+import {
+  getPlan,
+  deleteAccount,
+  dayNumberFor,
+  startDateForDay,
+  markDaysRead,
+} from '../lib/db.js'
 import Segmented from '../components/Segmented.jsx'
 import { ChevronRight } from '../components/icons.jsx'
 
@@ -37,8 +43,11 @@ export default function Ajustes() {
   const { accent, setAccent, accents, themePref, setTheme, resolvedMode } = usePreferences()
   const { user, profile, updateProfile, signOut } = useAuth()
 
-  const [planName, setPlanName] = useState(null)
+  const [plan, setPlan] = useState(null)
   const [deleting, setDeleting] = useState(false)
+  const [dayInput, setDayInput] = useState('')
+  const [savingDay, setSavingDay] = useState(false)
+  const [savedDay, setSavedDay] = useState(false)
 
   // Recordatorio (best-effort) — refleja el perfil.
   const reminderOn = !!profile?.reminder_enabled
@@ -46,13 +55,23 @@ export default function Ajustes() {
 
   useEffect(() => {
     if (!profile?.active_plan_id) {
-      setPlanName(null)
+      setPlan(null)
       return
     }
     getPlan(profile.active_plan_id)
-      .then((p) => setPlanName(p.name))
-      .catch(() => setPlanName(null))
+      .then((p) => setPlan(p))
+      .catch(() => setPlan(null))
   }, [profile?.active_plan_id])
+
+  // Día actual del plan (según plan_start_date) y validación del día a fijar.
+  const duration = plan?.duration_days ?? null
+  const currentDay =
+    plan && profile?.plan_start_date && duration
+      ? Math.min(Math.max(dayNumberFor(profile.plan_start_date), 1), duration)
+      : null
+  const targetDay =
+    dayInput && duration ? Math.max(1, Math.min(Number(dayInput), duration)) : null
+  const canUpdateDay = targetDay != null && targetDay !== currentDay
 
   // Persistencia: aplica en vivo (hook) + guarda en profiles.
   function pickAccent(key) {
@@ -77,6 +96,27 @@ export default function Ajustes() {
   }
   function changeTime(value) {
     updateProfile({ reminder_enabled: reminderOn, reminder_time: value + ':00' })
+  }
+
+  // Fijar el día actual del plan: mueve plan_start_date para que hoy sea ese día y
+  // da por leídos los días anteriores (mismo mecanismo que el enganche del onboarding).
+  async function updatePlanDay() {
+    if (!profile?.active_plan_id || targetDay == null) return
+    const planId = profile.active_plan_id
+    setSavingDay(true)
+    const { error } = await updateProfile({ plan_start_date: startDateForDay(targetDay) })
+    if (!error && targetDay > 1 && user) {
+      try {
+        await markDaysRead(user.id, planId, targetDay - 1)
+      } catch {
+        // No es bloqueante: el día ya quedó fijado.
+      }
+    }
+    setSavingDay(false)
+    if (!error) {
+      setDayInput('')
+      setSavedDay(true)
+    }
   }
 
   async function handleDelete() {
@@ -105,12 +145,61 @@ export default function Ajustes() {
       <Link to="/planes" className="card flex items-center justify-between px-4 py-3">
         <span className="text-[16px] text-ink">Plan de lectura</span>
         <span className="flex items-center gap-1.5">
-          <span className="text-[15px] text-ink-soft">{planName || 'Elegir'}</span>
+          <span className="text-[15px] text-ink-soft">{plan?.name || 'Elegir'}</span>
           <span className="text-ink-soft" style={{ opacity: 0.5 }}>
             <ChevronRight size={18} />
           </span>
         </span>
       </Link>
+
+      {/* Fijar en qué día del plan vas (catch-up para quien ya venía leyendo). */}
+      {currentDay != null && (
+        <>
+          <SectionLabel>¿En qué día vas?</SectionLabel>
+          <div className="card p-4">
+            <p className="text-[14px] text-ink-soft">
+              Día actual: <span className="font-semibold text-ink">{currentDay}</span> de {duration}
+            </p>
+            <div className="mt-3 flex gap-2">
+              <input
+                type="text"
+                inputMode="numeric"
+                value={dayInput}
+                onChange={(e) => {
+                  setDayInput(e.target.value.replace(/[^\d]/g, ''))
+                  setSavedDay(false)
+                }}
+                placeholder={`Ej: ${currentDay}`}
+                className="w-full rounded-input px-4 py-3 text-[16px] outline-none"
+                style={{
+                  backgroundColor: 'var(--surface)',
+                  border: '1px solid var(--hairline)',
+                  color: 'var(--text-primary)',
+                }}
+              />
+              <button
+                type="button"
+                onClick={updatePlanDay}
+                disabled={!canUpdateDay || savingDay}
+                className="btn btn-primary shrink-0 px-5"
+                style={{ opacity: !canUpdateDay || savingDay ? 0.5 : 1 }}
+              >
+                {savingDay ? '…' : 'Actualizar'}
+              </button>
+            </div>
+            {canUpdateDay && (
+              <p className="mt-2 text-[13px] text-ink-soft">
+                Hoy pasará al día {targetDay}. Los días anteriores quedan como leídos.
+              </p>
+            )}
+            {savedDay && !dayInput && (
+              <p className="mt-2 text-[13px]" style={{ color: 'var(--accent)' }}>
+                ✓ Listo, hoy es el día {currentDay}
+              </p>
+            )}
+          </div>
+        </>
+      )}
 
       <SectionLabel>Color de acento</SectionLabel>
       <div className="card flex items-center justify-between p-4">
