@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import ConfirmDialog from './ConfirmDialog.jsx'
 
 // Sheet / modal (README — estructura común): grabber arriba + barra de nav
@@ -65,7 +66,7 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return (
+  return createPortal(
     <>
       {/* Scrim: cubre toda la pantalla, click cierra */}
       <div
@@ -131,6 +132,7 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
           onCancel={() => setAskDiscard(false)}
         />
       )}
-    </>
+    </>,
+    document.body
   )
 }
