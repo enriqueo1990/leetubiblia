@@ -14,7 +14,13 @@ import OnboardingExtras, { EXTRAS_DONE_KEY } from '../screens/onboarding/Onboard
 function Splash() {
   return (
     <div className="flex min-h-[100dvh] items-center justify-center bg-app">
-      <span className="text-[15px] text-ink-soft">Cargando…</span>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="80" height="80">
+        <rect width="64" height="64" rx="14" fill="#A88B6A"/>
+        <g fill="none" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z"/>
+          <path d="M32 20v28"/>
+        </g>
+      </svg>
     </div>
   )
 }
