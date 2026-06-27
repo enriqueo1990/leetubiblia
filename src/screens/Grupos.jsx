@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { PeopleIcon, ChevronRight, PlusIcon } from '../components/icons.jsx'
 import Sheet from '../components/Sheet.jsx'
@@ -18,6 +18,12 @@ function CreateGroupSheet({ onClose, onCreated }) {
   const [name, setName] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
+  const nameRef = useRef(null)
+
+  useEffect(() => {
+    const id = setTimeout(() => nameRef.current?.focus(), 350)
+    return () => clearTimeout(id)
+  }, [])
 
   async function submit() {
     if (name.trim().length < 2 || busy) return
@@ -57,8 +63,8 @@ function CreateGroupSheet({ onClose, onCreated }) {
         </div>
       </div>
       <input
+        ref={nameRef}
         type="text"
-        autoFocus
         placeholder="Nombre del grupo"
         value={name}
         onChange={(e) => setName(e.target.value)}
@@ -78,6 +84,12 @@ function JoinGroupSheet({ onClose, onJoined }) {
   const [code, setCode] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
+  const codeRef = useRef(null)
+
+  useEffect(() => {
+    const id = setTimeout(() => codeRef.current?.focus(), 350)
+    return () => clearTimeout(id)
+  }, [])
 
   async function submit() {
     const c = code.trim()
@@ -124,8 +136,8 @@ function JoinGroupSheet({ onClose, onJoined }) {
         </div>
       </div>
       <input
+        ref={codeRef}
         type="text"
-        autoFocus
         autoCapitalize="characters"
         placeholder="CÓDIGO"
         value={code}
