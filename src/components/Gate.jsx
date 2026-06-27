@@ -21,11 +21,11 @@ function Splash() {
           <path d="M32 20v28"/>
         </g>
       </svg>
-      <div className="flex flex-col items-center gap-1.5 px-10 text-center">
-        <p className="text-[14px] italic leading-relaxed text-ink-soft">
+      <div className="flex flex-col items-center gap-2 px-10 text-center">
+        <p className="text-[17px] italic leading-relaxed text-ink-soft">
           Santifícalos en la verdad;<br />Tu palabra es verdad.
         </p>
-        <span className="text-[12px] text-placeholder">Juan 17:17 · NBLA</span>
+        <span className="text-[13px] text-placeholder">Juan 17:17 · NBLA</span>
       </div>
     </div>
   )
