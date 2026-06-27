@@ -13,7 +13,7 @@ import OnboardingExtras, { EXTRAS_DONE_KEY } from '../screens/onboarding/Onboard
 //   listo                 → la app (children)
 function Splash() {
   return (
-    <div className="flex min-h-[100dvh] items-center justify-center bg-app">
+    <div className="flex min-h-[100dvh] flex-col items-center justify-center gap-7 bg-app">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="80" height="80">
         <rect width="64" height="64" rx="14" fill="#A88B6A"/>
         <g fill="none" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -21,6 +21,12 @@ function Splash() {
           <path d="M32 20v28"/>
         </g>
       </svg>
+      <div className="flex flex-col items-center gap-1.5 px-10 text-center">
+        <p className="text-[14px] italic leading-relaxed text-ink-soft">
+          Santifícalos en la verdad;<br />Tu palabra es verdad.
+        </p>
+        <span className="text-[12px] text-placeholder">Juan 17:17 · NBLA</span>
+      </div>
     </div>
   )
 }
