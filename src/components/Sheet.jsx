@@ -9,6 +9,7 @@ import ConfirmDialog from './ConfirmDialog.jsx'
 // foco al elemento previo al cerrar. Si `dirty`, cerrar por scrim/Escape pide
 // confirmación para no perder lo escrito (el footer/Guardar no pasa por acá).
 export default function Sheet({ title, onCancel, action, children, footer, dirty = false }) {
+  const scrimRef = useRef(null)
   const panelRef = useRef(null)
   const prevFocus = useRef(null)
   const dirtyRef = useRef(dirty)
@@ -64,8 +65,29 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []) // Solo al montar/desmontar — dirty se lee via dirtyRef
 
+  // En iOS el teclado virtual no mueve el viewport de layout, así que el panel
+  // quedaría detrás del teclado. visualViewport sí refleja el área visible real:
+  // calculamos el gap (= altura del teclado) y lo aplicamos como padding-bottom
+  // al scrim para que items-end empuje el panel justo encima del teclado.
+  useEffect(() => {
+    const vv = window.visualViewport
+    if (!vv) return
+    function onResize() {
+      if (!scrimRef.current) return
+      const gap = Math.max(0, window.innerHeight - vv.height - vv.offsetTop)
+      scrimRef.current.style.paddingBottom = gap > 0 ? `${gap}px` : ''
+    }
+    vv.addEventListener('resize', onResize)
+    vv.addEventListener('scroll', onResize)
+    return () => {
+      vv.removeEventListener('resize', onResize)
+      vv.removeEventListener('scroll', onResize)
+    }
+  }, [])
+
   return (
     <div
+      ref={scrimRef}
       className="fixed inset-0 z-40 flex items-end justify-center sm:items-center"
       style={{ backgroundColor: 'var(--scrim)' }}
       onClick={requestClose}
