@@ -11,9 +11,8 @@ import { SkeletonHoy } from '../components/Skeleton.jsx'
 // próximo sin leer. Marcar leído (idempotente), abrir en YouVersion, "seguir
 // leyendo" para adelantar en sesión, y estados sin-plan / plan terminado.
 function todayLabel() {
-  return new Date()
-    .toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })
-    .toUpperCase()
+  const s = new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })
+  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 export default function Hoy() {
@@ -114,39 +113,30 @@ export default function Hoy() {
             ‹ Volver a hoy
           </button>
         ) : (
-          <p className="text-[13px] font-medium text-ink-soft" style={{ letterSpacing: '0.6px' }}>
+          <p className="text-[12px] text-ink-soft">
             {todayLabel()}
           </p>
         )}
-        <Link to="/progreso" className="text-[13px] font-medium" style={{ color: 'var(--accent)' }}>
+        <Link to="/progreso" className="text-[12px] text-ink-soft transition-colors hover:text-accent">
           Progreso ›
         </Link>
       </div>
       {r.plan && (
         <Link
           to={`/planes/${r.plan.id}`}
-          className="mt-[7px] inline-flex items-center gap-1 text-[15px] font-semibold text-accent"
+          className="mt-[6px] inline-flex items-center gap-1 text-[15px] font-semibold text-accent"
         >
           {r.plan.name} · Día {dayShown}
-          {aheadOfToday && <span className="text-ink-soft"> · adelantado</span>}
-          <span aria-hidden="true" style={{ opacity: 0.7 }}>
-            ›
-          </span>
+          <span aria-hidden="true" style={{ opacity: 0.4 }}>›</span>
         </Link>
       )}
 
-      {/* Racha discreta: refuerzo visible al marcar leído (antes solo en Progreso) */}
-      {!viewingAhead && r.streak > 0 && (
-        <p className="mt-2 text-[13px] font-medium" style={{ color: 'var(--accent)' }}>
-          Racha de {r.streak} {r.streak === 1 ? 'día' : 'días'}
-        </p>
-      )}
-
-      {/* Nota de ritmo: el día mostrado va por delante de la fecha de hoy */}
-      {aheadOfToday && !r.planFinished && (
-        <p className="mt-2 text-[12px] text-ink-soft">
-          Vas {dayShown - r.todayDay} {dayShown - r.todayDay === 1 ? 'día' : 'días'} adelantado del
-          calendario
+      {/* Racha y/o estado adelantado en una sola línea discreta */}
+      {((!viewingAhead && r.streak > 0) || (aheadOfToday && !r.planFinished)) && (
+        <p className="mt-[5px] text-[12px] text-ink-soft">
+          {!viewingAhead && r.streak > 0 && `Racha de ${r.streak} ${r.streak === 1 ? 'día' : 'días'}`}
+          {!viewingAhead && r.streak > 0 && aheadOfToday && !r.planFinished && ' · '}
+          {aheadOfToday && !r.planFinished && `${dayShown - r.todayDay === 1 ? '1 día' : `${dayShown - r.todayDay} días`} adelantado`}
         </p>
       )}
 
