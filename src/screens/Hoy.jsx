@@ -120,11 +120,6 @@ export default function Hoy() {
               <span aria-hidden="true" style={{ opacity: 0.4 }}>›</span>
             </Link>
           )}
-          {aheadOfToday && !r.planFinished && (
-            <p className="mt-[5px] text-[12px] text-ink-soft">
-              {dayShown - r.todayDay === 1 ? '1 día' : `${dayShown - r.todayDay} días`} adelantado
-            </p>
-          )}
         </div>
         <Link
           to="/progreso"
