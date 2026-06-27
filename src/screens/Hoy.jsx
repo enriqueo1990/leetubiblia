@@ -258,10 +258,12 @@ export default function Hoy() {
             </button>
             {reflectionsEnabled && doneShown ? (
               // Ya leyó: abrir la Biblia ya no hace falta → ese botón invita a anotar.
+              // Sin nota todavía → destacado (accent) para que la acción se note; una vez
+              // escrita pasa a secundario (ya está, acceso tranquilo, sin insistir).
               <button
                 type="button"
                 onClick={() => setReflectOpen(true)}
-                className="btn btn-secondary block lg:flex-1"
+                className={`btn block lg:flex-1 ${note ? 'btn-secondary' : 'btn-primary'}`}
               >
                 {note
                   ? noteEditable
