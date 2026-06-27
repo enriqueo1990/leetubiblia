@@ -11,10 +11,14 @@ import ConfirmDialog from './ConfirmDialog.jsx'
 export default function Sheet({ title, onCancel, action, children, footer, dirty = false }) {
   const panelRef = useRef(null)
   const prevFocus = useRef(null)
+  const dirtyRef = useRef(dirty)
   const [askDiscard, setAskDiscard] = useState(false)
 
+  // Sincroniza dirty a un ref sin re-ejecutar el efecto principal.
+  useEffect(() => { dirtyRef.current = dirty }, [dirty])
+
   function requestClose() {
-    if (dirty) setAskDiscard(true)
+    if (dirtyRef.current) setAskDiscard(true)
     else onCancel()
   }
 
@@ -34,7 +38,8 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
     function onKey(e) {
       if (e.key === 'Escape') {
         e.preventDefault()
-        requestClose()
+        if (dirtyRef.current) setAskDiscard(true)
+        else onCancel()
         return
       }
       if (e.key !== 'Tab') return
@@ -57,7 +62,7 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
       prevFocus.current?.focus?.()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dirty])
+  }, []) // Solo al montar/desmontar — dirty se lee via dirtyRef
 
   return (
     <div
