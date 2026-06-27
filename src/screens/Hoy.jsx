@@ -116,7 +116,7 @@ export default function Hoy() {
               to={`/planes/${r.plan.id}`}
               className="inline-flex items-center gap-1 text-[15px] font-semibold text-accent"
             >
-              {r.plan.name} · Día {dayShown}
+              {r.plan.name}
               <span aria-hidden="true" style={{ opacity: 0.4 }}>›</span>
             </Link>
           )}
