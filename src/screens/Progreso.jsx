@@ -107,7 +107,7 @@ export default function Progreso() {
               const read = inRange && r.completed.has(dayNum)
               const tappable = inRange && !isFuture
 
-              let bg = 'var(--surface-alt)'
+              let bg = 'var(--hairline)'
               if (read) bg = 'var(--accent)'
               let opacity = 1
               if (!inRange) opacity = 0.25
