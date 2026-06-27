@@ -8,16 +8,18 @@ export default function AskName() {
   const { updateProfile } = useAuth()
   const [name, setName] = useState('')
   const [saving, setSaving] = useState(false)
+  const [error, setError] = useState(false)
 
   const valid = name.trim().length >= 2
 
   async function handleContinue() {
     if (!valid || saving) return
     setSaving(true)
+    setError(false)
     const { error } = await updateProfile({ display_name: name.trim() })
     setSaving(false)
     // Si todo va bien, el Gate re-evalúa solo (profile.display_name ya está).
-    if (error) console.error('[onboarding] no se pudo guardar el nombre:', error.message)
+    if (error) setError(true)
   }
 
   return (
@@ -58,6 +60,11 @@ export default function AskName() {
         >
           {saving ? 'Guardando…' : 'Continuar'}
         </button>
+        {error && (
+          <p className="mt-3 text-[14px]" style={{ color: 'var(--danger)' }}>
+            No se pudo guardar. Revisá tu conexión e intentá de nuevo.
+          </p>
+        )}
       </form>
     </div>
   )

@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '../../lib/auth.jsx'
 import { getPlans, startDateForDay, todayLocalISO, markDaysRead } from '../../lib/db.js'
 import ResumeFromDay from '../../components/ResumeFromDay.jsx'
+import RetryError from '../../components/RetryError.jsx'
 
 // Elegir plan de lectura en el onboarding (documento maestro §5.3 / §5.8).
 // Set active_plan_id + plan_start_date = hoy (local). El cambio de plan ya con
@@ -18,16 +19,23 @@ export default function ChoosePlanOnboarding() {
   const [selected, setSelected] = useState(null)
   const [resumeDay, setResumeDay] = useState(null)
   const [saving, setSaving] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null) // error al activar el plan
+  const [loadError, setLoadError] = useState(false) // error al cargar el catálogo
 
-  useEffect(() => {
+  const loadPlans = useCallback(() => {
+    setLoadError(false)
+    setPlans(null)
     getPlans()
       .then((p) => {
         setPlans(p)
         if (p.length) setSelected(p[0].id)
       })
-      .catch((e) => setError(e.message))
+      .catch(() => setLoadError(true))
   }, [])
+
+  useEffect(() => {
+    loadPlans()
+  }, [loadPlans])
 
   // Al cambiar de plan, reiniciar el "día en que voy" (la duración cambia).
   const selectedPlan = plans?.find((p) => p.id === selected) ?? null
@@ -70,7 +78,12 @@ export default function ChoosePlanOnboarding() {
 
       <div className="mt-6 flex-1 space-y-3">
         {error && <p className="text-[15px]" style={{ color: 'var(--danger)' }}>{error}</p>}
-        {plans === null && <p className="text-[15px] text-ink-soft">Cargando planes…</p>}
+        {loadError && (
+          <RetryError message="No se pudieron cargar los planes." onRetry={loadPlans} />
+        )}
+        {!loadError && plans === null && (
+          <p className="text-[15px] text-ink-soft">Cargando planes…</p>
+        )}
 
         {plans?.map((p) => {
           const active = p.id === selected

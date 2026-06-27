@@ -3,6 +3,8 @@
 ## Overview
 PWA estilo Apple, minimalista, multiusuario, para **trackear lectura bíblica** según un plan y **gestionar pedidos de oración** privados o compartidos en grupos cerrados. Modo claro/oscuro automáticos. Acento único sepia. Este paquete cubre el diseño completo de **Fase 1** (lanzamiento) más las funciones diferidas a **Fase 2**, y la especificación responsive.
 
+**Principio de producto:** "Lee Tu Biblia" significa leé *tu* Biblia física. La app es un **compañero de hábito** (plan, racha, oración, grupos) que acompaña la lectura en papel — **no** es un lector de Escritura como YouVersion, y el texto bíblico no se muestra dentro de la app a propósito.
+
 La fuente de verdad del producto es `APP_LECTURA_ORACION_MASTER.md` (incluido). Define decisiones cerradas, modelo de datos, reglas RLS y alcance. **Leerlo primero.** Este README traduce el diseño visual a especificación de implementación.
 
 ## About the Design Files
