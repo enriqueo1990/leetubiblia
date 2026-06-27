@@ -4,6 +4,8 @@ import { useAuth } from '../lib/auth.jsx'
 import { getPlan, getPlanDays, startDateForDay, todayLocalISO, markDaysRead } from '../lib/db.js'
 import { useReading } from '../hooks/useReading.js'
 import ResumeFromDay from '../components/ResumeFromDay.jsx'
+import { SkeletonRows } from '../components/Skeleton.jsx'
+import ConfirmDialog from '../components/ConfirmDialog.jsx'
 
 // Detalle de un plan: descripción, duración, listado completo día-por-día con sus
 // pasajes, y acción de activar. Mismo estilo que el resto (drill-in iOS).
@@ -90,7 +92,7 @@ export default function PlanDetail() {
         {plan?.name || 'Plan'}
       </h1>
       {plan && (
-        <p className="mt-1 text-[14px] text-ink-soft">{durationLabel(plan.duration_days)}</p>
+        <p className="mt-1 text-[13px] text-ink-soft">{durationLabel(plan.duration_days)}</p>
       )}
       {plan?.description && (
         <p className="mt-3 text-[16px] text-ink-soft">{plan.description}</p>
@@ -126,7 +128,7 @@ export default function PlanDetail() {
       <p className="mb-2 mt-8 px-1 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
         Lecturas por día
       </p>
-      {days === null && <p className="text-[15px] text-ink-soft">Cargando días…</p>}
+      {days === null && <SkeletonRows count={6} />}
       <ol className="card divide-y divide-hairline">
         {days?.map((d) => {
           const isCurrent = d.day_number === currentDay
@@ -154,7 +156,7 @@ export default function PlanDetail() {
               </span>
               {read && (
                 <span
-                  className="shrink-0 pt-0.5 text-[14px] font-bold"
+                  className="shrink-0 pt-0.5 text-[15px] font-bold"
                   style={{ color: 'var(--accent)' }}
                   aria-label="Leído"
                 >
@@ -166,34 +168,19 @@ export default function PlanDetail() {
         })}
       </ol>
 
-      {/* Confirmación de cambio */}
       {confirm && (
-        <div
-          className="fixed inset-0 z-30 flex items-center justify-center px-8"
-          style={{ backgroundColor: 'var(--scrim)' }}
-          onClick={() => setConfirm(false)}
-        >
-          <div
-            className="w-full max-w-[320px] rounded-container p-5 text-center"
-            style={{ backgroundColor: 'var(--surface)', boxShadow: '0 10px 40px rgba(0,0,0,0.25)' }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 className="text-[18px] font-bold text-ink">¿Cambiar a {plan?.name}?</h2>
-            <p className="mt-2 text-[14px] text-ink-soft">
-              {resumeDay
-                ? `El plan nuevo arranca desde el día ${resumeDay}. Tu progreso anterior queda guardado, pero no se transfiere.`
-                : 'El plan nuevo arranca desde el día 1. Tu progreso anterior queda guardado, pero no se transfiere.'}
-            </p>
-            <div className="mt-5 flex gap-3">
-              <button type="button" className="btn btn-secondary flex-1" onClick={() => setConfirm(false)}>
-                Cancelar
-              </button>
-              <button type="button" className="btn btn-primary flex-1" disabled={saving} onClick={activate}>
-                {saving ? '…' : 'Cambiar'}
-              </button>
-            </div>
-          </div>
-        </div>
+        <ConfirmDialog
+          title={`¿Cambiar a ${plan?.name}?`}
+          message={
+            resumeDay
+              ? `El plan nuevo arranca desde el día ${resumeDay}. Tu progreso anterior queda guardado, pero no se transfiere.`
+              : 'El plan nuevo arranca desde el día 1. Tu progreso anterior queda guardado, pero no se transfiere.'
+          }
+          confirmLabel={saving ? '…' : 'Cambiar'}
+          busy={saving}
+          onConfirm={activate}
+          onCancel={() => setConfirm(false)}
+        />
       )}
     </div>
   )

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { CheckIcon } from '../components/icons.jsx'
 import { getGroup, getGroupTestimonies } from '../lib/db.js'
+import { SkeletonCards } from '../components/Skeleton.jsx'
 
 // Testimonios del grupo (Fase 2, F2-C): oraciones respondidas que el autor
 // eligió compartir. Solo lectura, ordenadas de la más reciente a la más vieja.
@@ -41,7 +42,7 @@ export default function GroupTestimonies() {
       </Link>
 
       <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">Testimonios</h1>
-      <p className="mt-1 text-[14px] text-ink-soft">Oraciones que el grupo vio responder.</p>
+      <p className="mt-1 text-[15px] text-ink-soft">Oraciones que el grupo vio responder.</p>
 
       {error && (
         <div className="mt-8">
@@ -56,7 +57,7 @@ export default function GroupTestimonies() {
           </button>
         </div>
       )}
-      {!error && items === null && <p className="mt-8 text-[15px] text-ink-soft">Cargando…</p>}
+      {!error && items === null && <div className="mt-5"><SkeletonCards count={3} /></div>}
       {items?.length === 0 && (
         <p className="mt-10 text-center text-[15px] leading-relaxed text-ink-soft">
           Todavía no hay testimonios. Cuando alguien marque una oración respondida y la comparta,
@@ -67,7 +68,7 @@ export default function GroupTestimonies() {
       <ul className="mt-5 space-y-3">
         {items?.map((t) => (
           <li key={t.id} className="card p-[18px]">
-            <div className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-accent">
+            <div className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wide text-accent">
               <CheckIcon size={13} strokeWidth={2.4} />
               Respondida · {fmtDate(t.answered_at)}
             </div>

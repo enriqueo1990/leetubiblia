@@ -11,7 +11,7 @@ export default function Sidebar() {
       aria-label="Navegación principal"
     >
       <div className="px-3 pb-6">
-        <span className="text-[19px] font-bold tracking-tight text-ink">
+        <span className="text-[18px] font-bold tracking-tight text-ink">
           Lee Tu Biblia
         </span>
       </div>

@@ -5,6 +5,7 @@ import Avatars from '../components/Avatars.jsx'
 import PrayerSheet from './PrayerSheet.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import { getPrayerDetail, addIntercession, removeIntercession, getMyGroups } from '../lib/db.js'
+import { SkeletonDetail } from '../components/Skeleton.jsx'
 
 // Detalle de un pedido compartido con "Estoy orando por esto" (Fase 2, F2-A).
 // Lo abren los miembros desde "De mis grupos"; el autor lo ve sin el botón pero
@@ -83,7 +84,7 @@ export default function PrayerDetail() {
       </div>
     )
   }
-  if (!data) return <p className="pt-10 text-[15px] text-ink-soft">Cargando…</p>
+  if (!data) return <SkeletonDetail />
 
   const { intercessors, intercessor_count: count, i_intercede } = data
   const isAuthor = data.user_id === user?.id
@@ -129,10 +130,10 @@ export default function PrayerDetail() {
           {data.group.name}
         </p>
       )}
-      <h1 className="mt-2 text-[25px] font-bold leading-tight tracking-tight text-ink">
+      <h1 className="mt-2 text-[26px] font-bold leading-tight tracking-tight text-ink">
         {data.title}
       </h1>
-      <p className="mt-2 text-[14px] text-ink-soft">
+      <p className="mt-2 text-[13px] text-ink-soft">
         {data.author_name} · {fmtDate(data.created_at)}
       </p>
 
@@ -149,7 +150,7 @@ export default function PrayerDetail() {
             <Avatars people={intercessors} count={count} />
           </div>
         )}
-        <p className="mb-3.5 text-[14px] text-ink-soft">{countLabel}</p>
+        <p className="mb-3.5 text-[13px] text-ink-soft">{countLabel}</p>
 
         {!isAuthor && data.status !== 'active' && (
           <p className="text-center text-[13px] text-ink-soft">
@@ -165,8 +166,7 @@ export default function PrayerDetail() {
                 type="button"
                 onClick={toggle}
                 disabled={busy}
-                className="flex w-full items-center justify-center gap-2 rounded-input py-[15px] text-[16px] font-semibold text-on-accent"
-                style={{ backgroundColor: 'var(--accent)' }}
+                className="btn btn-primary flex items-center justify-center gap-2"
               >
                 <CheckIcon size={19} strokeWidth={2.2} /> Estás orando por esto
               </button>
@@ -179,7 +179,7 @@ export default function PrayerDetail() {
               type="button"
               onClick={toggle}
               disabled={busy}
-              className="flex w-full items-center justify-center gap-2 rounded-input py-[15px] text-[16px] font-semibold"
+              className="btn btn-secondary flex items-center justify-center gap-2"
               style={{ border: '1px solid var(--accent)', color: 'var(--accent)' }}
             >
               <HeartIcon size={19} /> Estoy orando por esto

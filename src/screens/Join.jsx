@@ -45,7 +45,7 @@ export default function Join() {
       {status === 'notfound' && (
         <>
           <p className="text-[16px] text-ink">No encontramos un grupo con ese código.</p>
-          <p className="mt-1 text-[14px] text-ink-soft">
+          <p className="mt-1 text-[15px] text-ink-soft">
             Quizás el enlace venció o se regeneró el código.
           </p>
           <Link to="/grupos" className="btn btn-primary mt-6 inline-block px-8">

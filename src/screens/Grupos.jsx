@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { PeopleIcon, ChevronRight, PlusIcon } from '../components/icons.jsx'
 import Sheet from '../components/Sheet.jsx'
 import RetryError from '../components/RetryError.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import { getMyGroups, createGroup, joinGroupByCode } from '../lib/db.js'
+import { SkeletonCards } from '../components/Skeleton.jsx'
 
 // Grupos (documento maestro §5.6, README pantalla 6).
 const inputStyle = {
@@ -17,6 +18,12 @@ function CreateGroupSheet({ onClose, onCreated }) {
   const [name, setName] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
+  const nameRef = useRef(null)
+
+  useEffect(() => {
+    const id = setTimeout(() => nameRef.current?.focus(), 350)
+    return () => clearTimeout(id)
+  }, [])
 
   async function submit() {
     if (name.trim().length < 2 || busy) return
@@ -56,15 +63,15 @@ function CreateGroupSheet({ onClose, onCreated }) {
         </div>
       </div>
       <input
+        ref={nameRef}
         type="text"
-        autoFocus
         placeholder="Nombre del grupo"
         value={name}
         onChange={(e) => setName(e.target.value)}
         className="w-full rounded-input px-4 py-3 text-[16px] outline-none"
         style={inputStyle}
       />
-      <p className="mt-3 text-[14px] text-ink-soft">
+      <p className="mt-3 text-[13px] text-ink-soft">
         Vas a ser el administrador. Después podrás invitar con un código que
         generamos automáticamente.
       </p>
@@ -77,6 +84,12 @@ function JoinGroupSheet({ onClose, onJoined }) {
   const [code, setCode] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
+  const codeRef = useRef(null)
+
+  useEffect(() => {
+    const id = setTimeout(() => codeRef.current?.focus(), 350)
+    return () => clearTimeout(id)
+  }, [])
 
   async function submit() {
     const c = code.trim()
@@ -123,8 +136,8 @@ function JoinGroupSheet({ onClose, onJoined }) {
         </div>
       </div>
       <input
+        ref={codeRef}
         type="text"
-        autoFocus
         autoCapitalize="characters"
         placeholder="CÓDIGO"
         value={code}
@@ -132,7 +145,7 @@ function JoinGroupSheet({ onClose, onJoined }) {
         className="w-full rounded-input px-4 py-3 text-center text-[24px] font-bold outline-none"
         style={{ ...inputStyle, letterSpacing: '3px' }}
       />
-      <p className="mt-3 text-center text-[14px] text-ink-soft">
+      <p className="mt-3 text-center text-[13px] text-ink-soft">
         Pedile el código a quien administra el grupo.
       </p>
       {error && <p className="mt-3 text-center text-[13px]" style={{ color: 'var(--danger)' }}>{error}</p>}
@@ -165,15 +178,15 @@ export default function Grupos() {
     <div className="pt-2">
       <h1 className="text-[26px] font-bold tracking-tight text-ink">Grupos</h1>
 
-      <div className="mt-5 flex gap-3">
+      <div className="mt-5 space-y-3">
         <button
           type="button"
           onClick={() => setSheet('create')}
-          className="btn btn-primary flex flex-1 items-center justify-center gap-1.5"
+          className="btn btn-primary flex items-center justify-center gap-1.5"
         >
           <PlusIcon size={18} /> Crear grupo
         </button>
-        <button type="button" onClick={() => setSheet('join')} className="btn btn-secondary flex-1">
+        <button type="button" onClick={() => setSheet('join')} className="btn btn-secondary">
           Unirme por código
         </button>
       </div>
@@ -186,7 +199,7 @@ export default function Grupos() {
 
       {error && <RetryError message="No se pudieron cargar tus grupos." onRetry={load} />}
       {groups === null && !error && (
-        <p className="mt-6 text-[15px] text-ink-soft">Cargando…</p>
+        <div className="mt-5"><SkeletonCards count={3} /></div>
       )}
       {groups?.length === 0 && !error && (
         <p className="mt-10 text-center text-[15px] text-ink-soft">

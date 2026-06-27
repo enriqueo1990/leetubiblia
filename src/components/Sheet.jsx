@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import ConfirmDialog from './ConfirmDialog.jsx'
 
 // Sheet / modal (README — estructura común): grabber arriba + barra de nav
@@ -8,23 +9,28 @@ import ConfirmDialog from './ConfirmDialog.jsx'
 // A11y: cierra con Escape, atrapa el foco (Tab no se va al fondo) y devuelve el
 // foco al elemento previo al cerrar. Si `dirty`, cerrar por scrim/Escape pide
 // confirmación para no perder lo escrito (el footer/Guardar no pasa por acá).
+//
+// Teclado en iOS: el scrim y el panel son dos elementos fixed independientes.
+// El panel tiene fixed bottom-0 propio, lo que hace que iOS Safari lo ancle
+// al visual viewport (encima del teclado) sin necesidad de JS.
 export default function Sheet({ title, onCancel, action, children, footer, dirty = false }) {
   const panelRef = useRef(null)
   const prevFocus = useRef(null)
+  const dirtyRef = useRef(dirty)
   const [askDiscard, setAskDiscard] = useState(false)
 
+  useEffect(() => { dirtyRef.current = dirty }, [dirty])
+
   function requestClose() {
-    if (dirty) setAskDiscard(true)
+    if (dirtyRef.current) setAskDiscard(true)
     else onCancel()
   }
 
   useEffect(() => {
     prevFocus.current = document.activeElement
-    // Bloquear el scroll del fondo mientras el sheet está abierto.
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
 
-    // Foco inicial dentro del sheet.
     const focusables = () =>
       panelRef.current?.querySelectorAll(
         'button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])'
@@ -34,7 +40,8 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
     function onKey(e) {
       if (e.key === 'Escape') {
         e.preventDefault()
-        requestClose()
+        if (dirtyRef.current) setAskDiscard(true)
+        else onCancel()
         return
       }
       if (e.key !== 'Tab') return
@@ -57,51 +64,52 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
       prevFocus.current?.focus?.()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dirty])
+  }, [])
 
-  return (
-    <div
-      className="fixed inset-0 z-40 flex items-end justify-center sm:items-center"
-      style={{ backgroundColor: 'var(--scrim)' }}
-      onClick={requestClose}
-    >
+  return createPortal(
+    <>
+      {/* Scrim: cubre toda la pantalla, click cierra */}
       <div
-        ref={panelRef}
-        role="dialog"
-        aria-modal="true"
-        aria-label={title}
-        className="flex max-h-[92dvh] w-full max-w-content flex-col rounded-t-container sm:rounded-container"
-        style={{ backgroundColor: 'var(--bg-app)', boxShadow: '0 -8px 40px rgba(0,0,0,0.25)' }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Grabber */}
-        <div className="flex justify-center pt-2.5">
-          <span className="h-[5px] w-9 rounded-full" style={{ backgroundColor: 'var(--faint)' }} />
+        className="fixed inset-0 z-40"
+        style={{ backgroundColor: 'var(--scrim)' }}
+        onClick={requestClose}
+      />
+
+      {/* Wrapper: pointer-events-none para que clicks fuera del panel traspasen
+          al scrim. Centrado en todos los tamaños con margen lateral. */}
+      <div className="pointer-events-none fixed inset-0 z-40 flex items-center justify-center px-5">
+        <div
+          ref={panelRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label={title}
+          className="pointer-events-auto flex max-h-[92dvh] w-full max-w-content flex-col rounded-container"
+          style={{ backgroundColor: 'var(--bg-app)', boxShadow: '0 8px 40px rgba(0,0,0,0.25)' }}
+        >
+          {/* Nav */}
+          <div className="flex items-center justify-between px-4 py-3">
+            <button
+              type="button"
+              onClick={requestClose}
+              className="text-[16px]"
+              style={{ color: 'var(--accent)' }}
+            >
+              Cancelar
+            </button>
+            <span className="text-[16px] font-semibold text-ink">{title}</span>
+            <span className="min-w-[64px] text-right">
+              {action ?? <span className="opacity-0">·</span>}
+            </span>
+          </div>
+
+          {/* Contenido */}
+          <div className="flex-1 overflow-y-auto px-5 pb-4 pt-2">{children}</div>
+
+          {/* Footer */}
+          {footer && (
+            <div className="px-5 pb-5 pt-2">{footer}</div>
+          )}
         </div>
-
-        {/* Nav */}
-        <div className="flex items-center justify-between px-4 py-3">
-          <button
-            type="button"
-            onClick={requestClose}
-            className="text-[16px]"
-            style={{ color: 'var(--accent)' }}
-          >
-            Cancelar
-          </button>
-          <span className="text-[16px] font-semibold text-ink">{title}</span>
-          <span className="min-w-[64px] text-right">
-            {action ?? <span className="opacity-0">·</span>}
-          </span>
-        </div>
-
-        {/* Contenido */}
-        <div className="flex-1 overflow-y-auto px-5 pb-4 pt-2">{children}</div>
-
-        {/* Footer */}
-        {footer && (
-          <div className="px-5 pb-[max(env(safe-area-inset-bottom),20px)] pt-2">{footer}</div>
-        )}
       </div>
 
       {askDiscard && (
@@ -118,6 +126,7 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
           onCancel={() => setAskDiscard(false)}
         />
       )}
-    </div>
+    </>,
+    document.body
   )
 }

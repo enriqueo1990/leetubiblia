@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 
 // Diálogo de confirmación propio (reemplaza window.confirm/alert para mantener el
 // lenguaje visual de la app, incluso en PWA instalada). Cierra con Escape o tap
@@ -30,7 +31,7 @@ export default function ConfirmDialog({
     return () => document.removeEventListener('keydown', onKey, true)
   }, [busy, onCancel])
 
-  return (
+  return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-center justify-center px-8"
       style={{ backgroundColor: 'var(--scrim)' }}
@@ -45,7 +46,7 @@ export default function ConfirmDialog({
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-[18px] font-bold text-ink">{title}</h2>
-        {message && <p className="mt-2 text-[14px] text-ink-soft">{message}</p>}
+        {message && <p className="mt-2 text-[15px] text-ink-soft">{message}</p>}
         <div className="mt-5 flex gap-3">
           <button
             type="button"
@@ -67,6 +68,7 @@ export default function ConfirmDialog({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }

@@ -9,7 +9,44 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Lee Tu Biblia" />
     <!-- theme_color inicial; useTheme lo actualiza en vivo según el modo -->
-    <meta name="theme-color" content="#FBFBFA" />
+    <meta name="theme-color" content="#F8F7F4" />
+    <!-- Splash pre-React: visible mientras baja el bundle JS, reemplazado al montar -->
+    <style>
+      #ltb-splash {
+        display: flex;
+        min-height: 100dvh;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+        background: #F8F7F4;
+      }
+      #ltb-splash-verse {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        text-align: center;
+        padding: 0 40px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      }
+      #ltb-splash-verse p {
+        margin: 0;
+        font-size: 14px;
+        font-style: italic;
+        color: #56565C;
+        line-height: 1.5;
+      }
+      #ltb-splash-verse span {
+        font-size: 12px;
+        color: #8B8983;
+      }
+      @media (prefers-color-scheme: dark) {
+        #ltb-splash { background: #000000; }
+        #ltb-splash-verse p { color: #8E8E93; }
+        #ltb-splash-verse span { color: #6A6A6E; }
+      }
+    </style>
     <title>Lee Tu Biblia</title>
     <meta
       name="description"
@@ -41,7 +78,21 @@
     <meta name="twitter:image" content="https://leetubiblia.com/og-image.png" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div id="ltb-splash">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="80" height="80">
+          <rect width="64" height="64" rx="14" fill="#A88B6A"/>
+          <g fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z"/>
+            <path d="M32 20v28"/>
+          </g>
+        </svg>
+        <div id="ltb-splash-verse">
+          <p>Santifícalos en la verdad;<br>Tu palabra es verdad.</p>
+          <span>Juan 17:17 · NBLA</span>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

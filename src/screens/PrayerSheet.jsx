@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Sheet from '../components/Sheet.jsx'
 import Segmented from '../components/Segmented.jsx'
 import Switch from '../components/Switch.jsx'
@@ -49,6 +49,15 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
   const [intercessors, setIntercessors] = useState([])
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [confirmShare, setConfirmShare] = useState(false)
+  const titleRef = useRef(null)
+
+  // En creación, esperar a que la animación del sheet termine antes de enfocar
+  // el input — evita que el teclado compita con el slide-up en mobile.
+  useEffect(() => {
+    if (editing) return
+    const id = setTimeout(() => titleRef.current?.focus(), 350)
+    return () => clearTimeout(id)
+  }, [editing])
 
   // ¿Hay cambios sin guardar? Para confirmar el descarte al cerrar por scrim/Escape.
   const dirty =
@@ -181,8 +190,8 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
         Título <span style={{ color: 'var(--accent)' }}>•</span>
       </FieldLabel>
       <input
+        ref={titleRef}
         type="text"
-        autoFocus={!editing}
         placeholder="Por qué estás orando"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
@@ -220,7 +229,7 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
               </button>
             ))
           ) : (
-            <p className="px-4 py-3 text-[14px] text-ink-soft">
+            <p className="px-4 py-3 text-[15px] text-ink-soft">
               No estás en ningún grupo todavía. Unite a uno desde Grupos para compartir.
             </p>
           )}

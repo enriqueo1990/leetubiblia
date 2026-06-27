@@ -75,7 +75,7 @@ export default function OnboardingExtras({ onDone }) {
         {showAddToHome && (
           <div className="card mt-4 p-4">
             <p className="text-[16px] font-medium text-ink">Agregá a la pantalla de inicio</p>
-            <p className="mt-1 text-[14px] text-ink-soft">
+            <p className="mt-1 text-[15px] text-ink-soft">
               Así recibís el recordatorio y podés leer sin conexión.
             </p>
             <ol className="mt-3 space-y-2">

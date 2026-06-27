@@ -115,3 +115,10 @@ export const PencilIcon = (p) => (
     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
   </Icon>
 )
+
+// Progreso — tres barras ascendentes (chart de columnas).
+export const ChartIcon = (p) => (
+  <Icon {...p}>
+    <path d="M4 20v-6M12 20V8M20 20V4" />
+  </Icon>
+)
