@@ -541,3 +541,74 @@ export async function getGroupStats(groupId) {
     praying_week: row?.praying_week ?? 0,
   }
 }
+
+// ============================================================================
+// Fase 3 — Reflexión de una línea ("Mi camino"). Requiere la migración 0015.
+// La nota es el "fruto" de la lectura en palabras del usuario, NO la Escritura.
+// ============================================================================
+
+// Reflexión del usuario para un día puntual del plan (null si no hay).
+export async function getReflection(userId, planId, dayNumber) {
+  const { data, error } = await supabase
+    .from('reading_reflections')
+    .select('id, plan_id, day_number, body, created_at, updated_at')
+    .eq('user_id', userId)
+    .eq('plan_id', planId)
+    .eq('day_number', dayNumber)
+    .maybeSingle()
+  if (error) throw error
+  return data
+}
+
+// Crea o actualiza la reflexión del día (una por usuario+plan+día).
+export async function upsertReflection(userId, planId, dayNumber, body) {
+  const { data, error } = await supabase
+    .from('reading_reflections')
+    .upsert(
+      {
+        user_id: userId,
+        plan_id: planId,
+        day_number: dayNumber,
+        body: body.trim(),
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: 'user_id,plan_id,day_number' }
+    )
+    .select()
+    .single()
+  if (error) throw error
+  return data
+}
+
+// Borra la reflexión de un día.
+export async function deleteReflection(userId, planId, dayNumber) {
+  const { error } = await supabase
+    .from('reading_reflections')
+    .delete()
+    .eq('user_id', userId)
+    .eq('plan_id', planId)
+    .eq('day_number', dayNumber)
+  if (error) throw error
+}
+
+// Diario cross-plan, más recientes primero. Paginación por cursor de created_at
+// (pasá el created_at de la última entrada como `before` para traer las siguientes).
+export async function getReflectionJournal(userId, { limit = 30, before = null } = {}) {
+  let q = supabase
+    .from('reading_reflections')
+    .select('id, plan_id, day_number, body, created_at, plan:reading_plans(name)')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .limit(limit)
+  if (before) q = q.lt('created_at', before)
+  const { data, error } = await q
+  if (error) throw error
+  return data.map((r) => ({
+    id: r.id,
+    plan_id: r.plan_id,
+    plan_name: r.plan?.name ?? 'Plan',
+    day_number: r.day_number,
+    body: r.body,
+    created_at: r.created_at,
+  }))
+}

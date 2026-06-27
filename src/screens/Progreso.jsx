@@ -1,6 +1,15 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useReading } from '../hooks/useReading.js'
+import { useAuth } from '../lib/auth.jsx'
 import { dayNumberFor, todayLocalISO, addDaysISO } from '../lib/db.js'
+import Segmented from '../components/Segmented.jsx'
+import Diario from './Diario.jsx'
+
+const PROG_VIEWS = [
+  { key: 'progreso', label: 'Progreso' },
+  { key: 'camino', label: 'Mi camino' },
+]
 
 // Progreso — sub-vista de Hoy (documento maestro §5.2, README pantalla 2).
 // Racha, % y heatmap de las últimas 5 semanas. INTERACTIVO: tocar un día pasado
@@ -32,6 +41,9 @@ function buildGrid(todayISO) {
 
 export default function Progreso() {
   const r = useReading()
+  const { profile } = useAuth()
+  const reflectionsEnabled = !!profile?.reflections_enabled
+  const [seg, setSeg] = useState('progreso')
   const todayISO = todayLocalISO()
   const grid = buildGrid(todayISO)
   const duration = r.plan?.duration_days ?? 0
@@ -46,7 +58,13 @@ export default function Progreso() {
       </Link>
       <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">Progreso</h1>
 
-      {r.loading ? (
+      {reflectionsEnabled && (
+        <Segmented className="mt-4" options={PROG_VIEWS} value={seg} onChange={setSeg} />
+      )}
+
+      {reflectionsEnabled && seg === 'camino' ? (
+        <Diario />
+      ) : r.loading ? (
         // Sin esto, durante la carga se veía un flash de "0 días de racha / 0%".
         <p className="mt-8 text-[15px] text-ink-soft">Cargando…</p>
       ) : !r.hasPlan ? (

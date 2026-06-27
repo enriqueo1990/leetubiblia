@@ -74,6 +74,7 @@ export default function Ajustes() {
   // Recordatorio (best-effort) — refleja el perfil.
   const reminderOn = !!profile?.reminder_enabled
   const reminderTime = profile?.reminder_time?.slice(0, 5) || '07:00'
+  const reflectionsOn = !!profile?.reflections_enabled
 
   useEffect(() => {
     if (!profile?.active_plan_id) {
@@ -263,6 +264,22 @@ export default function Ajustes() {
           </div>
         </>
       )}
+
+      <SectionLabel>Diario de reflexión</SectionLabel>
+      <div className="card">
+        <div className="flex items-center justify-between px-4 py-3">
+          <span className="text-[16px] text-ink">Activar</span>
+          <Switch
+            on={reflectionsOn}
+            onChange={() => updateProfile({ reflections_enabled: !reflectionsOn })}
+            label="Diario de reflexión"
+          />
+        </div>
+      </div>
+      <p className="mt-2 px-1 text-[12px] text-ink-soft">
+        Al terminar tu lectura, anotá en una línea qué te habló. Lo encontrás en Progreso › Mi
+        camino.
+      </p>
 
       <SectionLabel>Color de acento</SectionLabel>
       <div className="card grid grid-cols-6 gap-3 p-4">

@@ -72,6 +72,10 @@ create table if not exists public.reading_reflections (
 );
 create index if not exists reflections_user_idx
   on public.reading_reflections(user_id, created_at desc);
+
+-- Toggle del diario (opt-in, OFF por defecto).
+alter table public.profiles
+  add column if not exists reflections_enabled boolean not null default false;
 ```
 Tabla aparte (no columna en `reading_progress`) para: mantener liviano el camino crítico
 de racha/heatmap, permitir el diario cronológico cross-plan, y editar/borrar sin tocar el
@@ -92,21 +96,36 @@ create policy "own reflections" on public.reading_reflections
 - `getReflectionJournal(userId, { limit = 30, before = null })` → lista cross-plan ordenada
   por `created_at desc`, con `join reading_plans(name)` para mostrar "Plan · Día N".
 
+**Decisiones cerradas (2026-06-27).**
+- **Se anota al marcar leído** (no hay creación de notas sueltas).
+- **Ventana de edición "tipo WhatsApp":** la nota es editable/borrable **solo hasta la
+  medianoche local del día en que se escribió** (`localDateISO(created_at) === todayLocalISO()`).
+  Pasado ese día queda **sellada** (solo lectura). Es una regla de **UX aplicada en el cliente**;
+  no necesita backend porque la nota es privada del propio usuario (sin riesgo de datos). Si en
+  el futuro se quiere inmutabilidad real, un trigger que valide la ventana contra `profiles.timezone`.
+- **Toggle "Diario de reflexión" OFF por defecto** (opt-in).
+
 **UI.**
-1. `Hoy.jsx` — en el bloque `doneShown` (debajo del botón Marcar/Abrir, ~línea 235), un
-   affordance **discreto**: enlace "✏️ Anotá qué te habló hoy" que abre un `Sheet`
-   ("Tu reflexión · Día N") con un `<textarea>` + Guardar. Si ya hay reflexión, el enlace
-   dice "✏️ Editar tu nota". Jerarquía por debajo de Marcar/Abrir (no compite con el acto).
-2. Nueva pantalla **`/diario`** ("Mi camino"): lista de tarjetas { fecha, Plan · Día N,
-   cuerpo }, tap para editar (mismo `Sheet`), "Cargar más" (paginación con `before`).
-   Empty state + `RetryError`. Acceso desde Progreso (enlace "Mi camino ›") y opcional desde Hoy.
+1. `Ajustes.jsx` — toggle **"Diario de reflexión"** (`Switch`), **off por defecto**, persiste en
+   `profiles.reflections_enabled` (vía `updateProfile`). Off → oculta el affordance en Hoy y el
+   acceso a "Mi camino"; **no borra** las notas existentes. Incluir una línea descriptiva en el
+   toggle (al estar off por defecto, es el único punto de descubrimiento de la feature).
+2. `Hoy.jsx` — solo si el toggle está on: al marcar leído, el **botón secundario "Abrir en mi
+   app de Biblia" se transforma** en "Anotá lo que te habló Dios hoy" (ya leíste → ese botón no
+   hace falta), que abre el `ReflectionSheet`. Si ya hay nota: "Editar tu nota" / "Ver tu nota"
+   (sellada). Sin elemento suelto extra. Con el diario OFF, el botón queda como "Abrir en mi app
+   de Biblia". Placeholder que protege el principio: *"Una idea, una frase… lo que te quedó"*.
+3. Nueva pantalla **`/diario`** ("Mi camino"): tarjetas { fecha, Plan · Día N, cuerpo },
+   "Cargar más" (paginación con `before`). Las notas **de hoy** se editan/borran (mismo `Sheet`);
+   las **pasadas** son solo lectura. Empty state + `RetryError`. Acceso desde Progreso
+   ("Mi camino ›") y secundario desde Hoy tras anotar.
 
-**Offline.** MVP online-only para reflexiones (la cola offline se reserva al marcado, que es
-el acto central). Si no hay red al guardar, mostrar "se guarda cuando vuelvas a tener conexión"
-y deshabilitar Guardar. (Futuro: encolar como las marcas.)
+**Offline.** MVP online-only para reflexiones (la cola offline se reserva al marcado, el acto
+central). Sin red al guardar: "se guarda cuando vuelvas a tener conexión" y Guardar deshabilitado.
 
-**Edge cases.** Editar reflexión de un día pasado: en el MVP solo desde el Diario; más
-adelante, desde el heatmap de Progreso (tap día → ver/editar). `body` vacío al guardar = borrar.
+**Edge cases.** `body` vacío al guardar (dentro de la ventana de hoy) = borrar la nota. Marcar
+hoy un día atrasado crea una nota editable hoy (la ventana cuenta desde que se escribió, no desde
+el día del plan). Editar desde el heatmap de Progreso queda descartado por la regla de sellado.
 
 **Esfuerzo:** M. **Futuro natural:** "compartir esta reflexión con mi grupo" (enlaza con grupos).
 

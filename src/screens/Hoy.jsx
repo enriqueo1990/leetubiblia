@@ -1,10 +1,19 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useReading } from '../hooks/useReading.js'
-import { getPlanDay } from '../lib/db.js'
+import { useAuth } from '../lib/auth.jsx'
+import {
+  getPlanDay,
+  getReflection,
+  upsertReflection,
+  deleteReflection,
+  localDateISO,
+  todayLocalISO,
+} from '../lib/db.js'
 import { firstYouVersionUrl } from '../lib/bible.js'
 import { SkeletonHoy } from '../components/Skeleton.jsx'
 import { ChartIcon } from '../components/icons.jsx'
+import ReflectionSheet from '../components/ReflectionSheet.jsx'
 
 // Pantalla Hoy — la cara de la app (documento maestro §5.1, README pantalla 1).
 // Se ancla en el día que dicta useReading (displayDay): si vas atrasado, el día
@@ -14,12 +23,18 @@ import { ChartIcon } from '../components/icons.jsx'
 
 export default function Hoy() {
   const r = useReading()
+  const { user, profile } = useAuth()
+  const reflectionsEnabled = !!profile?.reflections_enabled
 
   // Lectura adelantada ("seguir leyendo"): sin mover el calendario, mostramos el
   // contenido de un día futuro y dejamos marcarlo. aheadDay = null → viendo hoy.
   const [aheadDay, setAheadDay] = useState(null)
   const [aheadRefs, setAheadRefs] = useState(null)
   const [aheadLoading, setAheadLoading] = useState(false)
+
+  // Reflexión del día ("Mi camino"): hoja abierta + nota cargada del día mostrado.
+  const [reflectOpen, setReflectOpen] = useState(false)
+  const [note, setNote] = useState(null)
 
   const planId = r.plan?.id
   const duration = r.plan?.duration_days ?? null
@@ -44,6 +59,27 @@ export default function Hoy() {
     setAheadDay(null)
     setAheadRefs(null)
   }, [planId, r.displayDay])
+
+  // Día mostrado (ancla o adelantado) y si está leído — base de la reflexión.
+  const shownDay = aheadDay != null ? aheadDay : r.displayDay
+  const shownDone = shownDay != null && r.completed.has(shownDay)
+  // Ventana de edición "tipo WhatsApp": editable solo el día en que se escribió.
+  const noteEditable = !note || localDateISO(note.created_at) === todayLocalISO()
+
+  // Cargar la reflexión del día mostrado (rotula el enlace y precarga el sheet).
+  useEffect(() => {
+    if (!reflectionsEnabled || !user || !planId || shownDay == null || !shownDone) {
+      setNote(null)
+      return
+    }
+    let on = true
+    getReflection(user.id, planId, shownDay)
+      .then((row) => on && setNote(row))
+      .catch(() => on && setNote(null))
+    return () => {
+      on = false
+    }
+  }, [reflectionsEnabled, user, planId, shownDay, shownDone])
 
   function readNext(target) {
     if (target != null) setAheadDay(target)
@@ -220,17 +256,32 @@ export default function Hoy() {
             >
               {doneShown ? (aheadOfToday ? '✓ Leído' : '✓ Leído hoy') : 'Marcar como leído'}
             </button>
-            <a
-              href={bibleUrl || '#'}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-disabled={bibleUrl ? undefined : 'true'}
-              tabIndex={bibleUrl ? undefined : -1}
-              className="btn btn-secondary block lg:flex-1"
-              style={{ pointerEvents: bibleUrl ? 'auto' : 'none', opacity: bibleUrl ? 1 : 0.5 }}
-            >
-              Abrir en mi app de Biblia ↗
-            </a>
+            {reflectionsEnabled && doneShown ? (
+              // Ya leyó: abrir la Biblia ya no hace falta → ese botón invita a anotar.
+              <button
+                type="button"
+                onClick={() => setReflectOpen(true)}
+                className="btn btn-secondary block lg:flex-1"
+              >
+                {note
+                  ? noteEditable
+                    ? 'Editar tu nota'
+                    : 'Ver tu nota'
+                  : 'Anotá lo que te habló Dios hoy'}
+              </button>
+            ) : (
+              <a
+                href={bibleUrl || '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-disabled={bibleUrl ? undefined : 'true'}
+                tabIndex={bibleUrl ? undefined : -1}
+                className="btn btn-secondary block lg:flex-1"
+                style={{ pointerEvents: bibleUrl ? 'auto' : 'none', opacity: bibleUrl ? 1 : 0.5 }}
+              >
+                Abrir en mi app de Biblia ↗
+              </a>
+            )}
           </div>
 
           {/* Seguir leyendo: tras marcar el día mostrado, o ya en modo adelantado.
@@ -246,6 +297,38 @@ export default function Hoy() {
             </button>
           )}
         </div>
+      )}
+
+      {reflectOpen && shownDay != null && (
+        <ReflectionSheet
+          planName={r.plan?.name ?? 'Plan'}
+          dayNumber={shownDay}
+          initialBody={note?.body ?? ''}
+          editable={noteEditable}
+          onClose={() => setReflectOpen(false)}
+          onSave={async (body) => {
+            try {
+              await upsertReflection(user.id, planId, shownDay, body)
+              setNote((n) => ({
+                ...(n ?? {}),
+                body,
+                created_at: n?.created_at ?? new Date().toISOString(),
+              }))
+            } catch {
+              /* el sheet cierra igual; se puede reintentar */
+            }
+            setReflectOpen(false)
+          }}
+          onDelete={async () => {
+            try {
+              await deleteReflection(user.id, planId, shownDay)
+              setNote(null)
+            } catch {
+              /* noop */
+            }
+            setReflectOpen(false)
+          }}
+        />
       )}
     </div>
   )
