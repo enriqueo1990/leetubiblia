@@ -12,6 +12,14 @@
     <meta name="theme-color" content="#F8F7F4" />
     <!-- Splash pre-React: visible mientras baja el bundle JS, reemplazado al montar -->
     <style>
+      /* Fondo en html/body para que no haya flash blanco mientras React monta */
+      html, body {
+        margin: 0;
+        background: #F8F7F4;
+      }
+      @media (prefers-color-scheme: dark) {
+        html, body { background: #000000; }
+      }
       #ltb-splash {
         display: flex;
         min-height: 100dvh;
