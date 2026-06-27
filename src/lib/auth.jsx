@@ -42,17 +42,29 @@ export function AuthProvider({ children }) {
       return
     }
     try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .maybeSingle()
+      // Timeout de 5 s: en primera apertura PWA el SW puede demorar requests de
+      // red mientras precachea. Sin timeout el promise cuelga indefinidamente y la
+      // app queda en "Cargando…" aunque el backstop de 6 s ya bajó loading a false.
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 5000)
+      let queryResult
+      try {
+        queryResult = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', userId)
+          .abortSignal(controller.signal)
+          .maybeSingle()
+      } finally {
+        clearTimeout(timeoutId)
+      }
+      const { data, error } = queryResult
       if (error) throw error
       setProfile(data ?? null)
       setProfileError(false)
       if (data) writeCachedProfile(userId, data)
     } catch (e) {
-      // Sin conexión o error transitorio: usar la última copia conocida.
+      // Sin conexión, timeout o error transitorio: usar la última copia conocida.
       const cached = readCachedProfile(userId)
       if (cached) {
         setProfile(cached)
