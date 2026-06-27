@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '../lib/auth.jsx'
 import AuthFlow from '../screens/onboarding/AuthFlow.jsx'
 import AskName from '../screens/onboarding/AskName.jsx'
@@ -65,8 +65,15 @@ export default function Gate({ children }) {
   const [extrasDone, setExtrasDone] = useState(
     () => localStorage.getItem(EXTRAS_DONE_KEY) === '1'
   )
+  // El splash se muestra al menos 1 s para que el versículo sea legible,
+  // incluso cuando la auth resuelve más rápido (datos en caché).
+  const [minDone, setMinDone] = useState(false)
+  useEffect(() => {
+    const t = setTimeout(() => setMinDone(true), 1000)
+    return () => clearTimeout(t)
+  }, [])
 
-  if (loading) return <Splash />
+  if (loading || !minDone) return <Splash />
   if (!session) return <AuthFlow />
 
   // Hay sesión pero el perfil no cargó ni hay caché: reintento, no cuelgue.
