@@ -4,16 +4,13 @@ import { useReading } from '../hooks/useReading.js'
 import { getPlanDay } from '../lib/db.js'
 import { firstYouVersionUrl } from '../lib/bible.js'
 import { SkeletonHoy } from '../components/Skeleton.jsx'
+import { ChartIcon } from '../components/icons.jsx'
 
 // Pantalla Hoy — la cara de la app (documento maestro §5.1, README pantalla 1).
 // Se ancla en el día que dicta useReading (displayDay): si vas atrasado, el día
 // del calendario (con banner de reprogramar); si vas al día o adelantado, el
 // próximo sin leer. Marcar leído (idempotente), abrir en YouVersion, "seguir
 // leyendo" para adelantar en sesión, y estados sin-plan / plan terminado.
-function todayLabel() {
-  const s = new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })
-  return s.charAt(0).toUpperCase() + s.slice(1)
-}
 
 export default function Hoy() {
   const r = useReading()
@@ -102,43 +99,41 @@ export default function Hoy() {
 
   return (
     <div className="flex min-h-[calc(100vh-120px)] flex-col pt-2">
-      <div className="flex items-baseline justify-between">
-        {viewingAhead ? (
-          <button
-            type="button"
-            onClick={backToToday}
-            className="text-[13px] font-medium"
-            style={{ color: 'var(--accent)', letterSpacing: '0.6px' }}
-          >
-            ‹ Volver a hoy
-          </button>
-        ) : (
-          <p className="text-[12px] text-ink-soft">
-            {todayLabel()}
-          </p>
-        )}
-        <Link to="/progreso" className="text-[12px] text-ink-soft transition-colors hover:text-accent">
-          Progreso ›
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          {viewingAhead && (
+            <button
+              type="button"
+              onClick={backToToday}
+              className="mb-[6px] block text-[13px] font-medium"
+              style={{ color: 'var(--accent)' }}
+            >
+              ‹ Volver a hoy
+            </button>
+          )}
+          {r.plan && (
+            <Link
+              to={`/planes/${r.plan.id}`}
+              className="inline-flex items-center gap-1 text-[15px] font-semibold text-accent"
+            >
+              {r.plan.name} · Día {dayShown}
+              <span aria-hidden="true" style={{ opacity: 0.4 }}>›</span>
+            </Link>
+          )}
+          {aheadOfToday && !r.planFinished && (
+            <p className="mt-[5px] text-[12px] text-ink-soft">
+              {dayShown - r.todayDay === 1 ? '1 día' : `${dayShown - r.todayDay} días`} adelantado
+            </p>
+          )}
+        </div>
+        <Link
+          to="/progreso"
+          aria-label="Ver progreso"
+          className="mt-0.5 shrink-0 text-ink-soft transition-colors hover:text-accent"
+        >
+          <ChartIcon size={18} />
         </Link>
       </div>
-      {r.plan && (
-        <Link
-          to={`/planes/${r.plan.id}`}
-          className="mt-[6px] inline-flex items-center gap-1 text-[15px] font-semibold text-accent"
-        >
-          {r.plan.name} · Día {dayShown}
-          <span aria-hidden="true" style={{ opacity: 0.4 }}>›</span>
-        </Link>
-      )}
-
-      {/* Racha y/o estado adelantado en una sola línea discreta */}
-      {((!viewingAhead && r.streak > 0) || (aheadOfToday && !r.planFinished)) && (
-        <p className="mt-[5px] text-[12px] text-ink-soft">
-          {!viewingAhead && r.streak > 0 && `Racha de ${r.streak} ${r.streak === 1 ? 'día' : 'días'}`}
-          {!viewingAhead && r.streak > 0 && aheadOfToday && !r.planFinished && ' · '}
-          {aheadOfToday && !r.planFinished && `${dayShown - r.todayDay === 1 ? '1 día' : `${dayShown - r.todayDay} días`} adelantado`}
-        </p>
-      )}
 
       {r.offline && (
         <p className="mt-2 text-[12px] text-ink-soft">
