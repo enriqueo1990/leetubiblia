@@ -75,23 +75,17 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
         onClick={requestClose}
       />
 
-      {/* Wrapper de posicionamiento: pointer-events-none para que clicks fuera
-          del panel traspasen al scrim. En mobile: pegado al fondo del visual
-          viewport (iOS lo maneja nativamente). En desktop: centrado. */}
-      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center sm:inset-0 sm:items-center">
+      {/* Wrapper: pointer-events-none para que clicks fuera del panel traspasen
+          al scrim. Centrado en todos los tamaños con margen lateral. */}
+      <div className="pointer-events-none fixed inset-0 z-40 flex items-center justify-center px-5">
         <div
           ref={panelRef}
           role="dialog"
           aria-modal="true"
           aria-label={title}
-          className="pointer-events-auto flex max-h-[92dvh] w-full max-w-content flex-col rounded-t-container sm:rounded-container"
-          style={{ backgroundColor: 'var(--bg-app)', boxShadow: '0 -8px 40px rgba(0,0,0,0.25)' }}
+          className="pointer-events-auto flex max-h-[92dvh] w-full max-w-content flex-col rounded-container"
+          style={{ backgroundColor: 'var(--bg-app)', boxShadow: '0 8px 40px rgba(0,0,0,0.25)' }}
         >
-          {/* Grabber */}
-          <div className="flex justify-center pt-2.5">
-            <span className="h-[5px] w-9 rounded-full" style={{ backgroundColor: 'var(--faint)' }} />
-          </div>
-
           {/* Nav */}
           <div className="flex items-center justify-between px-4 py-3">
             <button
@@ -113,7 +107,7 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
 
           {/* Footer */}
           {footer && (
-            <div className="px-5 pb-[max(env(safe-area-inset-bottom),20px)] pt-2">{footer}</div>
+            <div className="px-5 pb-5 pt-2">{footer}</div>
           )}
         </div>
       </div>
