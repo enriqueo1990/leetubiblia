@@ -69,7 +69,7 @@ export default function ChoosePlanOnboarding() {
       <p className="mt-2 text-[16px] text-ink-soft">Un plan activo a la vez.</p>
 
       <div className="mt-6 flex-1 space-y-3">
-        {error && <p className="text-[14px]" style={{ color: 'var(--danger)' }}>{error}</p>}
+        {error && <p className="text-[15px]" style={{ color: 'var(--danger)' }}>{error}</p>}
         {plans === null && <p className="text-[15px] text-ink-soft">Cargando planes…</p>}
 
         {plans?.map((p) => {
@@ -79,11 +79,7 @@ export default function ChoosePlanOnboarding() {
               key={p.id}
               type="button"
               onClick={() => pickPlan(p.id)}
-              className="w-full rounded-card p-4 text-left transition-colors duration-200"
-              style={{
-                backgroundColor: 'var(--surface)',
-                border: active ? '1.5px solid var(--accent)' : '1px solid var(--hairline)',
-              }}
+              className={`card w-full p-4 text-left transition-colors duration-200${active ? ' card-active' : ''}`}
             >
               <div className="flex items-center justify-between">
                 <span className="text-[18px] font-semibold text-ink">{p.name}</span>
@@ -92,7 +88,7 @@ export default function ChoosePlanOnboarding() {
                 </span>
               </div>
               {p.description && (
-                <p className="mt-1 text-[14px] text-ink-soft">{p.description}</p>
+                <p className="mt-1 text-[15px] text-ink-soft">{p.description}</p>
               )}
             </button>
           )

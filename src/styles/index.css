@@ -186,16 +186,9 @@
   .card {
     @apply rounded-card;
     background-color: var(--surface);
-    border: 1px solid var(--hairline);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07), 0 0 1px rgba(0, 0, 0, 0.04);
   }
-  /* En oscuro las tarjetas elevan por color de superficie, sin borde */
-  :root.dark .card,
-  :root:not(.light) .card {
-    border-color: transparent;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not(.light) .card {
-      border-color: transparent;
-    }
+  .card-active {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07), 0 0 1px rgba(0, 0, 0, 0.04), 0 0 0 1.5px var(--accent);
   }
 }

@@ -13,6 +13,7 @@ import {
   renameGroup,
   getGroupPrayersWithIntercessors,
 } from '../lib/db.js'
+import { SkeletonDetail } from '../components/Skeleton.jsx'
 
 // Detalle de grupo (documento maestro §5.6, README pantalla 6).
 function initials(name) {
@@ -95,7 +96,7 @@ export default function GroupDetail() {
       </div>
     )
   }
-  if (!data) return <p className="pt-10 text-[15px] text-ink-soft">Cargando…</p>
+  if (!data) return <SkeletonDetail />
 
   const { group, members } = data
   const myRole = members.find((m) => m.user_id === user?.id)?.role
@@ -189,7 +190,7 @@ export default function GroupDetail() {
               if (e.key === 'Enter') saveName()
               if (e.key === 'Escape') setEditingName(false)
             }}
-            className="w-full rounded-input px-4 py-3 text-[20px] font-bold outline-none"
+            className="w-full rounded-input px-4 py-3 text-[18px] font-bold outline-none"
             style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--text-primary)' }}
             maxLength={60}
           />
@@ -209,7 +210,7 @@ export default function GroupDetail() {
             <button
               type="button"
               onClick={() => setEditingName(false)}
-              className="px-4 py-2 text-[15px] text-ink-soft"
+              className="btn btn-secondary"
             >
               Cancelar
             </button>
@@ -231,7 +232,7 @@ export default function GroupDetail() {
           )}
         </div>
       )}
-      <p className="mt-1 text-[14px] text-ink-soft">
+      <p className="mt-1 text-[15px] text-ink-soft">
         {members.length} {members.length === 1 ? 'miembro' : 'miembros'} ·{' '}
         {isOwner ? 'Sos el administrador' : 'Sos miembro'}
       </p>
@@ -251,7 +252,7 @@ export default function GroupDetail() {
           <button
             type="button"
             onClick={shareInvite}
-            className="flex items-center gap-1.5 rounded-pill px-3 py-1.5 text-[14px] font-medium text-on-accent"
+            className="flex items-center gap-1.5 rounded-pill px-3 py-1.5 text-[13px] font-medium text-on-accent"
             style={{ backgroundColor: 'var(--accent)' }}
           >
             <ShareIcon size={16} /> {inviteShared ? 'Copiado' : 'Compartir invitación'}
@@ -259,7 +260,7 @@ export default function GroupDetail() {
           <button
             type="button"
             onClick={copyCode}
-            className="flex items-center gap-1.5 rounded-pill px-3 py-1.5 text-[14px] font-medium text-ink"
+            className="flex items-center gap-1.5 rounded-pill px-3 py-1.5 text-[13px] font-medium text-ink"
             style={{ backgroundColor: 'var(--surface-alt)' }}
           >
             <CopyIcon size={16} /> {copied ? 'Copiado' : 'Copiar código'}
@@ -268,7 +269,7 @@ export default function GroupDetail() {
             <button
               type="button"
               onClick={() => setConfirm({ type: 'regen' })}
-              className="flex items-center gap-1.5 rounded-pill px-3 py-1.5 text-[14px] font-medium text-ink"
+              className="flex items-center gap-1.5 rounded-pill px-3 py-1.5 text-[13px] font-medium text-ink"
               style={{ backgroundColor: 'var(--surface-alt)' }}
             >
               <RefreshIcon size={16} /> Regenerar
@@ -305,7 +306,7 @@ export default function GroupDetail() {
               {answeredPct}% de los pedidos del grupo ya fueron respondidos.
             </p>
           </div>
-          <p className="mt-3 text-[14px] leading-relaxed text-ink-soft">
+          <p className="mt-3 text-[15px] leading-relaxed text-ink-soft">
             Un pulso del grupo para acompañar mejor. No es para medir a nadie.
           </p>
         </>
@@ -327,7 +328,7 @@ export default function GroupDetail() {
                     <span className="text-[15px] font-semibold text-ink leading-snug">{p.title}</span>
                     {p.status === 'answered' && (
                       <span
-                        className="shrink-0 rounded-pill px-2 py-0.5 text-[11px] font-medium"
+                        className="shrink-0 rounded-pill px-2 py-0.5 text-[12px] font-medium"
                         style={{ color: 'var(--accent)', backgroundColor: 'var(--accent-tint)' }}
                       >
                         Respondido
@@ -383,7 +384,7 @@ export default function GroupDetail() {
           return (
             <li key={m.user_id} className="flex items-center gap-3 px-4 py-3">
               <div
-                className="flex h-[38px] w-[38px] items-center justify-center rounded-full text-[14px] font-semibold"
+                className="flex h-[38px] w-[38px] items-center justify-center rounded-full text-[15px] font-semibold"
                 style={{
                   backgroundColor: isMemberOwner ? 'var(--accent)' : 'var(--surface-alt)',
                   color: isMemberOwner ? 'var(--on-accent)' : 'var(--text-soft)',
@@ -408,7 +409,7 @@ export default function GroupDetail() {
                     type="button"
                     onClick={() => setConfirm({ type: 'kick', member: m })}
                     aria-label={`Quitar a ${m.display_name}`}
-                    className="flex h-11 w-11 items-center justify-center rounded-full text-[20px] text-ink-soft"
+                    className="flex h-11 w-11 items-center justify-center rounded-full text-[18px] text-ink-soft"
                   >
                     <span
                       className="flex h-7 w-7 items-center justify-center rounded-full"

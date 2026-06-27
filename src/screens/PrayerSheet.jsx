@@ -220,7 +220,7 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
               </button>
             ))
           ) : (
-            <p className="px-4 py-3 text-[14px] text-ink-soft">
+            <p className="px-4 py-3 text-[15px] text-ink-soft">
               No estás en ningún grupo todavía. Unite a uno desde Grupos para compartir.
             </p>
           )}

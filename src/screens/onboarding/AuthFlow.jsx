@@ -95,8 +95,8 @@ export default function AuthFlow() {
           </button>
           <button
             type="button"
-            className="btn w-full py-3 text-[16px] font-medium"
-            style={{ color: 'var(--accent)' }}
+            className="btn btn-secondary"
+            style={{ color: 'var(--accent)', borderColor: 'var(--accent)' }}
             onClick={() => {
               setMode('login')
               setStep('form')
@@ -177,7 +177,7 @@ export default function AuthFlow() {
 
         <button
           type="button"
-          className="mt-6 text-center text-[14px] text-ink-soft"
+          className="mt-6 text-center text-[15px] text-ink-soft"
           onClick={handleSend}
           disabled={sending}
         >
@@ -200,7 +200,7 @@ export default function AuthFlow() {
       >
         ‹ Volver
       </button>
-      <h1 className="text-[28px] font-bold tracking-tight text-ink">
+      <h1 className="text-[26px] font-bold tracking-tight text-ink">
         {isSignup ? 'Creá tu cuenta' : 'Ingresá'}
       </h1>
 
@@ -244,7 +244,7 @@ export default function AuthFlow() {
 
       <button
         type="button"
-        className="mt-8 text-center text-[14px] text-ink-soft"
+        className="mt-8 text-center text-[15px] text-ink-soft"
         onClick={() => setMode(isSignup ? 'login' : 'signup')}
       >
         {isSignup ? '¿Ya tenés cuenta? ' : '¿Sos nuevo? '}

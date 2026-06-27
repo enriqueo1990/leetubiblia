@@ -92,7 +92,7 @@ export default function Progreso() {
           {/* Header de días */}
           <div className="mt-3 grid grid-cols-7 gap-1.5">
             {WEEKDAYS.map((w, i) => (
-              <div key={i} className="text-center text-[11px] font-medium text-ink-soft">
+              <div key={i} className="text-center text-[12px] font-medium text-ink-soft">
                 {w}
               </div>
             ))}
@@ -142,7 +142,7 @@ export default function Progreso() {
           {/* Nota neutra de atraso */}
           {r.behind > 0 && (
             <>
-              <p className="mt-6 text-[14px] text-ink-soft">
+              <p className="mt-6 text-[15px] text-ink-soft">
                 Te atrasaste {r.behind} {r.behind === 1 ? 'día' : 'días'}. Sin apuro —{' '}
                 <button
                   type="button"

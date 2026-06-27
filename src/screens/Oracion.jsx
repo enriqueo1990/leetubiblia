@@ -119,14 +119,14 @@ export default function Oracion() {
           style={{ backgroundColor: 'var(--accent)', minWidth: 44 }}
         >
           <PlusIcon size={20} />
-          <span className="hidden text-[14px] font-semibold lg:inline">Nuevo pedido</span>
+          <span className="hidden text-[15px] font-semibold lg:inline">Nuevo pedido</span>
         </button>
       </div>
 
       <Segmented className="mt-5" options={SEGMENTS} value={seg} onChange={setSeg} />
 
       {error && (
-        <div className="mt-4 rounded-card p-4 text-[14px]" style={{ backgroundColor: 'var(--surface-alt)' }}>
+        <div className="mt-4 rounded-card p-4 text-[15px]" style={{ backgroundColor: 'var(--surface-alt)' }}>
           <p className="text-ink">No se pudieron cargar los pedidos.</p>
           <button
             type="button"

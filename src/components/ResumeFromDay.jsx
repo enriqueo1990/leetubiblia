@@ -28,7 +28,7 @@ export default function ResumeFromDay({ durationDays, day, onChange }) {
   }
 
   return (
-    <div className="rounded-card p-4" style={{ border: '1px solid var(--hairline)' }}>
+    <div className="card p-4">
       <button
         type="button"
         onClick={toggle}
@@ -50,7 +50,7 @@ export default function ResumeFromDay({ durationDays, day, onChange }) {
 
       {on && (
         <div className="mt-4">
-          <label className="text-[14px] text-ink-soft">¿En qué día vas?</label>
+          <label className="text-[15px] text-ink-soft">¿En qué día vas?</label>
           <input
             type="text"
             inputMode="numeric"

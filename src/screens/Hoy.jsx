@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useReading } from '../hooks/useReading.js'
 import { getPlanDay } from '../lib/db.js'
 import { firstYouVersionUrl } from '../lib/bible.js'
+import { SkeletonHoy } from '../components/Skeleton.jsx'
 
 // Pantalla Hoy — la cara de la app (documento maestro §5.1, README pantalla 1).
 // Se ancla en el día que dicta useReading (displayDay): si vas atrasado, el día
@@ -10,9 +11,8 @@ import { firstYouVersionUrl } from '../lib/bible.js'
 // próximo sin leer. Marcar leído (idempotente), abrir en YouVersion, "seguir
 // leyendo" para adelantar en sesión, y estados sin-plan / plan terminado.
 function todayLabel() {
-  return new Date()
-    .toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })
-    .toUpperCase()
+  const s = new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })
+  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 export default function Hoy() {
@@ -57,7 +57,7 @@ export default function Hoy() {
   }
 
   if (r.loading) {
-    return <p className="pt-10 text-[15px] text-ink-soft">Cargando…</p>
+    return <SkeletonHoy />
   }
 
   // Estado vacío: sin plan activo (raro tras el onboarding, pero contemplado).
@@ -113,39 +113,30 @@ export default function Hoy() {
             ‹ Volver a hoy
           </button>
         ) : (
-          <p className="text-[13px] font-medium text-ink-soft" style={{ letterSpacing: '0.6px' }}>
+          <p className="text-[12px] text-ink-soft">
             {todayLabel()}
           </p>
         )}
-        <Link to="/progreso" className="text-[14px] font-medium" style={{ color: 'var(--accent)' }}>
+        <Link to="/progreso" className="text-[12px] text-ink-soft transition-colors hover:text-accent">
           Progreso ›
         </Link>
       </div>
       {r.plan && (
         <Link
           to={`/planes/${r.plan.id}`}
-          className="mt-[7px] inline-flex items-center gap-1 text-[15px] font-semibold text-accent"
+          className="mt-[6px] inline-flex items-center gap-1 text-[15px] font-semibold text-accent"
         >
           {r.plan.name} · Día {dayShown}
-          {aheadOfToday && <span className="text-ink-soft"> · adelantado</span>}
-          <span aria-hidden="true" style={{ opacity: 0.7 }}>
-            ›
-          </span>
+          <span aria-hidden="true" style={{ opacity: 0.4 }}>›</span>
         </Link>
       )}
 
-      {/* Racha discreta: refuerzo visible al marcar leído (antes solo en Progreso) */}
-      {!viewingAhead && r.streak > 0 && (
-        <p className="mt-2 text-[13px] font-medium" style={{ color: 'var(--accent)' }}>
-          Racha de {r.streak} {r.streak === 1 ? 'día' : 'días'}
-        </p>
-      )}
-
-      {/* Nota de ritmo: el día mostrado va por delante de la fecha de hoy */}
-      {aheadOfToday && !r.planFinished && (
-        <p className="mt-2 text-[12px] text-ink-soft">
-          Vas {dayShown - r.todayDay} {dayShown - r.todayDay === 1 ? 'día' : 'días'} adelantado del
-          calendario
+      {/* Racha y/o estado adelantado en una sola línea discreta */}
+      {((!viewingAhead && r.streak > 0) || (aheadOfToday && !r.planFinished)) && (
+        <p className="mt-[5px] text-[12px] text-ink-soft">
+          {!viewingAhead && r.streak > 0 && `Racha de ${r.streak} ${r.streak === 1 ? 'día' : 'días'}`}
+          {!viewingAhead && r.streak > 0 && aheadOfToday && !r.planFinished && ' · '}
+          {aheadOfToday && !r.planFinished && `${dayShown - r.todayDay === 1 ? '1 día' : `${dayShown - r.todayDay} días`} adelantado`}
         </p>
       )}
 
@@ -164,14 +155,14 @@ export default function Hoy() {
             className="mt-4 flex items-center gap-3 rounded-[14px] px-4 py-3"
             style={{ backgroundColor: 'var(--surface-alt)' }}
           >
-            <span className="flex-1 text-[14px] text-ink">
+            <span className="flex-1 text-[15px] text-ink">
               Te atrasaste {r.behind} {r.behind === 1 ? 'día' : 'días'}
             </span>
             <button
               type="button"
               onClick={r.reprogramar}
               disabled={r.reprogramando}
-              className="text-[14px] font-semibold"
+              className="text-[15px] font-semibold"
               style={{ color: 'var(--accent)', opacity: r.reprogramando ? 0.5 : 1 }}
             >
               {r.reprogramando ? 'Reprogramando…' : 'Reprogramar'}
@@ -196,7 +187,7 @@ export default function Hoy() {
 
       {r.planFinished ? (
         <div className="mt-12">
-          <p className="text-[14px] font-medium text-ink-soft">Plan completado</p>
+          <p className="text-[13px] font-medium text-ink-soft">Plan completado</p>
           <p className="mt-3 text-display text-ink">Terminaste el plan 🎉</p>
           <p className="mt-3 text-[16px] text-ink-soft">
             Podés elegir uno nuevo cuando quieras desde Planes.
@@ -204,12 +195,15 @@ export default function Hoy() {
         </div>
       ) : (
         <>
-          <p className="mt-[42px] text-[14px] font-medium text-ink-soft">
+          <p className="mt-[42px] text-[13px] font-medium text-ink-soft">
             {aheadOfToday ? `Lectura del día ${dayShown}` : 'Lectura de hoy'}
           </p>
           <div className="mt-[18px] space-y-1">
             {viewingAhead && aheadLoading ? (
-              <p className="text-[15px] text-ink-soft">Cargando…</p>
+              <div className="animate-pulse space-y-2" aria-hidden="true">
+                <div className="rounded-pill" style={{ width: '60%', height: 32, backgroundColor: 'var(--surface-alt)' }} />
+                <div className="rounded-pill" style={{ width: '44%', height: 32, backgroundColor: 'var(--surface-alt)' }} />
+              </div>
             ) : (
               refsShown?.map((ref, i) => (
                 <p key={i} className="text-display text-ink">
@@ -224,7 +218,10 @@ export default function Hoy() {
       <div className="flex-1" />
 
       {!r.planFinished && (
-        <div className="space-y-3">
+        <div
+          className="sticky z-10 space-y-3 bg-app pb-2 pt-3 lg:static lg:bg-transparent lg:pb-0 lg:pt-0"
+          style={{ bottom: 'calc(72px + env(safe-area-inset-bottom))' }}
+        >
           <div className="space-y-3 lg:flex lg:max-w-[440px] lg:space-x-3 lg:space-y-0">
             <button
               type="button"
