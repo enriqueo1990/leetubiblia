@@ -73,7 +73,7 @@ create table if not exists public.reading_reflections (
 create index if not exists reflections_user_idx
   on public.reading_reflections(user_id, created_at desc);
 
--- Toggle del diario (opt-in, OFF por defecto).
+-- Toggle del diario. 0015 lo creó en false; 0016 lo pasó a true (on por defecto).
 alter table public.profiles
   add column if not exists reflections_enabled boolean not null default false;
 ```
@@ -103,13 +103,14 @@ create policy "own reflections" on public.reading_reflections
   Pasado ese día queda **sellada** (solo lectura). Es una regla de **UX aplicada en el cliente**;
   no necesita backend porque la nota es privada del propio usuario (sin riesgo de datos). Si en
   el futuro se quiere inmutabilidad real, un trigger que valide la ventana contra `profiles.timezone`.
-- **Toggle "Diario de reflexión" OFF por defecto** (opt-in).
+- **Toggle "Diario de reflexión" ON por defecto** (cambiado el 2026-06-27, migración 0016: la
+  feature es discreta y no invasiva, se activa para que se descubra sin buscar el toggle; quien
+  quiera lo apaga en Ajustes). Originalmente salió OFF (0015) y se invirtió al día siguiente.
 
 **UI.**
-1. `Ajustes.jsx` — toggle **"Diario de reflexión"** (`Switch`), **off por defecto**, persiste en
-   `profiles.reflections_enabled` (vía `updateProfile`). Off → oculta el affordance en Hoy y el
-   acceso a "Mi camino"; **no borra** las notas existentes. Incluir una línea descriptiva en el
-   toggle (al estar off por defecto, es el único punto de descubrimiento de la feature).
+1. `Ajustes.jsx` — toggle **"Diario de reflexión"** (`Switch`), **on por defecto** (migración 0016),
+   persiste en `profiles.reflections_enabled` (vía `updateProfile`). Off → oculta el affordance en
+   Hoy y el acceso a "Mi camino"; **no borra** las notas existentes.
 2. `Hoy.jsx` — solo si el toggle está on: al marcar leído, el **botón secundario "Abrir en mi
    app de Biblia" se transforma** en "Anotá lo que te habló Dios hoy" (ya leíste → ese botón no
    hace falta), que abre el `ReflectionSheet`. Si ya hay nota: "Editar tu nota" / "Ver tu nota"
