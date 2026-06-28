@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useReading } from '../hooks/useReading.js'
 import { useAuth } from '../lib/auth.jsx'
-import { dayNumberFor, todayLocalISO, addDaysISO } from '../lib/db.js'
+import { todayLocalISO, addDaysISO } from '../lib/db.js'
 import Segmented from '../components/Segmented.jsx'
 import Diario from './Diario.jsx'
 
@@ -12,9 +12,11 @@ const PROG_VIEWS = [
 ]
 
 // Progreso — sub-vista de Hoy (documento maestro §5.2, README pantalla 2).
-// Racha, % y heatmap de las últimas 5 semanas. INTERACTIVO: tocar un día pasado
-// lo marca/desmarca (único lugar para registrar atrasos ya leídos). Los días
-// futuros no son tocables.
+// Racha, % y CALENDARIO DE CONSTANCIA de las últimas 5 semanas: cada cuadrado se
+// pinta si ESE día del calendario marcaste alguna lectura (completed_at). Misma
+// base que la racha, así la grilla y el número coinciden siempre (antes la grilla
+// pintaba "el día del plan agendado para esa fecha", que divergía de la racha).
+// Solo lectura: para corregir el día se usa Ajustes › "¿en qué día vas?" o Hoy.
 const WEEKDAYS = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
 
 // "2026-06-26" → "26 de junio" para etiquetas accesibles del heatmap.
@@ -47,9 +49,6 @@ export default function Progreso() {
   const todayISO = todayLocalISO()
   const grid = buildGrid(todayISO)
   const duration = r.plan?.duration_days ?? 0
-
-  // Recalculamos plan_start_date a partir del día de hoy (misma regla canónica).
-  const planStart = r.todayDay != null ? addDaysISO(todayISO, -(r.todayDay - 1)) : null
 
   return (
     <div className="pt-2">
@@ -116,46 +115,31 @@ export default function Progreso() {
             ))}
           </div>
 
-          {/* Heatmap interactivo */}
+          {/* Calendario de constancia (solo lectura): pinta los días reales con lectura. */}
           <div className="mt-1.5 grid grid-cols-7 gap-1.5">
             {grid.map((iso) => {
-              const dayNum = planStart ? dayNumberFor(planStart, iso) : null
-              const inRange = dayNum != null && dayNum >= 1 && dayNum <= duration
               const isFuture = iso > todayISO
-              const read = inRange && r.completed.has(dayNum)
-              const tappable = inRange && !isFuture
-
-              let bg = 'var(--hairline)'
-              if (read) bg = 'var(--accent)'
-              let opacity = 1
-              if (!inRange) opacity = 0.25
-              else if (isFuture) opacity = 0.4
-
-              let state
-              if (!inRange) state = 'fuera del plan'
-              else if (isFuture) state = 'día futuro'
-              else if (read) state = 'leído'
-              else state = 'sin leer'
+              const read = r.readDates.has(iso)
+              const state = isFuture ? 'día futuro' : read ? 'leíste' : 'sin lectura'
 
               return (
-                <button
+                <div
                   key={iso}
-                  type="button"
-                  disabled={!tappable}
-                  onClick={() => tappable && r.toggleDay(dayNum, !read)}
+                  role="img"
                   aria-label={`${longDate(iso)} · ${state}`}
-                  aria-pressed={tappable ? read : undefined}
-                  className="rounded-pill transition-colors duration-200"
+                  className="rounded-pill"
                   style={{
                     aspectRatio: '1',
-                    backgroundColor: bg,
-                    opacity,
-                    cursor: tappable ? 'pointer' : 'default',
+                    backgroundColor: read ? 'var(--accent)' : 'var(--hairline)',
+                    opacity: isFuture ? 0.4 : 1,
                   }}
                 />
               )
             })}
           </div>
+          <p className="mt-2.5 text-[12px] text-ink-soft">
+            Cada cuadrado pintado es un día que marcaste tu lectura.
+          </p>
 
           {/* Nota neutra de atraso */}
           {r.behind > 0 && (

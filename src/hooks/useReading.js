@@ -84,6 +84,15 @@ export function useReading() {
   // resto del hook y las pantallas lo usan con .has/.size, igual que antes.
   const completed = useMemo(() => new Set(completedMap.keys()), [completedMap])
 
+  // Fechas locales (YYYY-MM-DD) con al menos una lectura marcada. Es la MISMA base
+  // que la racha (computeDateStreak): el calendario de constancia de Progreso pinta
+  // estas fechas, así la grilla y el número de racha coinciden siempre. Se descartan
+  // los null (snapshot viejo sin fecha), que no aportan a la racha ni se pueden pintar.
+  const readDates = useMemo(
+    () => new Set([...completedMap.values()].filter(Boolean)),
+    [completedMap]
+  )
+
   // Cargar el descarte persistido al cambiar de usuario.
   useEffect(() => {
     setDismissedBehindState(user ? getDismissedBehind(user.id) : 0)
@@ -223,7 +232,7 @@ export function useReading() {
   // Racha por días reales: fechas distintas (locales) en que se marcó algo. Si el
   // snapshot offline no trae fechas (formato viejo), el recálculo daría 0 aunque
   // hayas leído: en ese caso usamos la racha guardada en el snapshot.
-  const streakLive = computeDateStreak(new Set(completedMap.values()), todayLocalISO())
+  const streakLive = computeDateStreak(readDates, todayLocalISO())
   const hasDates = [...completedMap.values()].some((v) => v != null)
   const streak = !hasDates && offlineStreak != null ? offlineStreak : streakLive
 
@@ -270,6 +279,7 @@ export function useReading() {
     staleReadings,
     todayRefs,
     completed,
+    readDates,
     completedCount,
     percent,
     streak,
