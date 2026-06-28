@@ -562,6 +562,19 @@ export async function getGroupStats(groupId) {
 // La nota es el "fruto" de la lectura en palabras del usuario, NO la Escritura.
 // ============================================================================
 
+// Caché en memoria de la última reflexión conocida por usuario+plan+día. Deja que la
+// pantalla Hoy pinte el botón correcto ("Editar tu nota") al instante al volver, sin
+// el parpadeo de mostrar primero "Anotá…", mientras getReflection revalida por detrás
+// (stale-while-revalidate). Vive en memoria: se vacía al recargar la página.
+//   ausente (undefined) = nunca cargado   null = sin nota   objeto = hay nota
+const reflectionCache = new Map()
+const reflectionKey = (userId, planId, dayNumber) => `${userId}:${planId}:${dayNumber}`
+
+// Última reflexión conocida sin tocar la red. undefined = todavía no lo sabemos.
+export function getCachedReflection(userId, planId, dayNumber) {
+  return reflectionCache.get(reflectionKey(userId, planId, dayNumber))
+}
+
 // Reflexión del usuario para un día puntual del plan (null si no hay).
 export async function getReflection(userId, planId, dayNumber) {
   const { data, error } = await supabase
@@ -572,6 +585,7 @@ export async function getReflection(userId, planId, dayNumber) {
     .eq('day_number', dayNumber)
     .maybeSingle()
   if (error) throw error
+  reflectionCache.set(reflectionKey(userId, planId, dayNumber), data ?? null)
   return data
 }
 
@@ -592,6 +606,7 @@ export async function upsertReflection(userId, planId, dayNumber, body) {
     .select()
     .single()
   if (error) throw error
+  reflectionCache.set(reflectionKey(userId, planId, dayNumber), data)
   return data
 }
 
@@ -604,6 +619,7 @@ export async function deleteReflection(userId, planId, dayNumber) {
     .eq('plan_id', planId)
     .eq('day_number', dayNumber)
   if (error) throw error
+  reflectionCache.set(reflectionKey(userId, planId, dayNumber), null)
 }
 
 // Diario cross-plan, más recientes primero. Paginación por cursor de created_at

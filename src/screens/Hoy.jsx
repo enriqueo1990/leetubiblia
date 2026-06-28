@@ -5,6 +5,7 @@ import { useAuth } from '../lib/auth.jsx'
 import {
   getPlanDay,
   getReflection,
+  getCachedReflection,
   upsertReflection,
   deleteReflection,
   localDateISO,
@@ -33,8 +34,10 @@ export default function Hoy() {
   const [aheadLoading, setAheadLoading] = useState(false)
 
   // Reflexión del día ("Mi camino"): hoja abierta + nota cargada del día mostrado.
+  // note: undefined = aún no sabemos · null = no hay nota · objeto = hay nota.
   const [reflectOpen, setReflectOpen] = useState(false)
-  const [note, setNote] = useState(null)
+  const [note, setNote] = useState(undefined)
+  const [seededKey, setSeededKey] = useState(null)
 
   const planId = r.plan?.id
   const duration = r.plan?.duration_days ?? null
@@ -63,23 +66,38 @@ export default function Hoy() {
   // Día mostrado (ancla o adelantado) y si está leído — base de la reflexión.
   const shownDay = aheadDay != null ? aheadDay : r.displayDay
   const shownDone = shownDay != null && r.completed.has(shownDay)
+
+  // Clave del día con nota (null cuando no aplica: sin leer o función apagada).
+  const noteKey =
+    reflectionsEnabled && user && planId && shownDay != null && shownDone
+      ? `${user.id}:${planId}:${shownDay}`
+      : null
+
+  // Sembrar la nota desde la caché en el MISMO render en que cambia el día (patrón
+  // "ajustar estado al cambiar una clave"): al volver a Hoy el botón ya nace en
+  // "Editar tu nota" sin parpadear primero "Anotá…". Si la caché aún no la tiene
+  // (arranque en frío), queda undefined → se muestra "Anotá…" y la revalidación de
+  // abajo corrige si en realidad había nota. Así nunca se degrada el "marcar leído".
+  if (seededKey !== noteKey) {
+    setSeededKey(noteKey)
+    setNote(noteKey ? getCachedReflection(user.id, planId, shownDay) : null)
+  }
+
   // Ventana de edición "tipo WhatsApp": editable solo el día en que se escribió.
   const noteEditable = !note || localDateISO(note.created_at) === todayLocalISO()
 
-  // Cargar la reflexión del día mostrado (rotula el enlace y precarga el sheet).
+  // Revalidar contra el servidor por detrás; getReflection refresca la caché y, al
+  // resolver, corrige la nota mostrada si cambió. Sin red, se queda lo seedeado.
   useEffect(() => {
-    if (!reflectionsEnabled || !user || !planId || shownDay == null || !shownDone) {
-      setNote(null)
-      return
-    }
+    if (!noteKey) return
     let on = true
     getReflection(user.id, planId, shownDay)
-      .then((row) => on && setNote(row))
-      .catch(() => on && setNote(null))
+      .then((row) => on && setNote(row ?? null))
+      .catch(() => {})
     return () => {
       on = false
     }
-  }, [reflectionsEnabled, user, planId, shownDay, shownDone])
+  }, [noteKey, user, planId, shownDay])
 
   function readNext(target) {
     if (target != null) setAheadDay(target)
@@ -310,12 +328,8 @@ export default function Hoy() {
           onClose={() => setReflectOpen(false)}
           onSave={async (body) => {
             try {
-              await upsertReflection(user.id, planId, shownDay, body)
-              setNote((n) => ({
-                ...(n ?? {}),
-                body,
-                created_at: n?.created_at ?? new Date().toISOString(),
-              }))
+              const row = await upsertReflection(user.id, planId, shownDay, body)
+              setNote(row)
             } catch {
               /* el sheet cierra igual; se puede reintentar */
             }
