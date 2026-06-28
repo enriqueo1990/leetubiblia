@@ -21,7 +21,7 @@
 |------:|-------|:--------:|-------------|
 | 0 | Fix de onboarding (#1) | S | Desbloquea a usuarios nuevos; cae justo en la activación. |
 | 1 | Reflexión de una línea | M | Profundiza el acto central; mayor sentido/retención. |
-| 2 | Racha de gracia (3a) | S | Puro cálculo, sin esquema; encarna el "sin culpa". |
+| ~~2~~ | ~~Racha de gracia~~ **DESCARTADA** | — | El usuario la dejó estricta: la racha ya no cae "hoy" (cuenta hasta ayer) y un día perdido = reset, a propósito. |
 | 3 | Seguimiento de oración (#4) | M+M | Refuerza el diferenciador (loop pedido→testimonio). |
 | 4 | Presencia del grupo (#2) | M | Social; requiere opt-in y cuidado de timezone. |
 | 5 | Cierre de plan + resumen (3b) | M | Deleite; rinde más cuando ya hay historial que resumir. |
@@ -132,7 +132,12 @@ el día del plan). Editar desde el heatmap de Progreso queda descartado por la r
 
 ---
 
-## Feature 2 — Racha de gracia (sin culpa)  *(3a)*
+## Feature 2 — Racha de gracia (sin culpa)  *(3a)* — ❌ DESCARTADA (2026-06-27)
+
+> **Descartada por decisión del usuario.** La racha actual ya no se cae "hoy" (cuenta días
+> consecutivos terminando hoy *o ayer*, así que el día en curso sin leer no la baja); solo
+> resetea tras un día entero salteado, y se decidió dejarla así (estricta). Lo de abajo queda
+> como registro de la idea original, no se implementa.
 
 **Objetivo.** Faltar un día no mata la racha. Operacionaliza el ADN "sin apuro": en vez de
 caer a 0 y generar culpa, se tolera un hueco con presupuesto acotado.
