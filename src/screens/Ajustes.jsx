@@ -8,6 +8,7 @@ import {
   dayNumberFor,
   startDateForDay,
   markDaysRead,
+  unmarkDaysFrom,
 } from '../lib/db.js'
 import Segmented from '../components/Segmented.jsx'
 import Switch from '../components/Switch.jsx'
@@ -151,15 +152,19 @@ export default function Ajustes() {
   }
 
   // Fijar el día actual del plan: mueve plan_start_date para que hoy sea ese día y
-  // da por leídos los días anteriores (mismo mecanismo que el enganche del onboarding).
+  // SINCRONIZA el progreso en ambos sentidos. "Voy en el día N" = días previos
+  // leídos y día N en adelante sin leer. El backfill (markDaysRead) cubre adelantar;
+  // la limpieza (unmarkDaysFrom) cubre volver atrás —sin ella, Hoy se quedaba en el
+  // día viejo ya marcado (p. ej. ir del día 5 al 3 no movía Hoy).
   async function updatePlanDay() {
-    if (!profile?.active_plan_id || targetDay == null) return
+    if (!profile?.active_plan_id || targetDay == null || !user) return
     const planId = profile.active_plan_id
     setSavingDay(true)
     const { error } = await updateProfile({ plan_start_date: startDateForDay(targetDay) })
-    if (!error && targetDay > 1 && user) {
+    if (!error) {
       try {
-        await markDaysRead(user.id, planId, targetDay - 1)
+        if (targetDay > 1) await markDaysRead(user.id, planId, targetDay - 1)
+        await unmarkDaysFrom(user.id, planId, targetDay)
       } catch {
         // No es bloqueante: el día ya quedó fijado.
       }
@@ -253,7 +258,9 @@ export default function Ajustes() {
             </button>
             {canUpdateDay && (
               <p className="mt-2 text-[13px] text-ink-soft">
-                Hoy pasará al día {targetDay}. Los días anteriores quedan como leídos.
+                {targetDay < currentDay
+                  ? `Hoy volverá al día ${targetDay}. Se quitan las marcas de leído del día ${targetDay} en adelante.`
+                  : `Hoy pasará al día ${targetDay}. Los días anteriores quedan como leídos.`}
               </p>
             )}
             {savedDay && !dayInput && (

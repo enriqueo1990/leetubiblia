@@ -154,6 +154,21 @@ export async function unmarkRead(userId, planId, dayNumber) {
   if (error) throw error
 }
 
+// Desmarca de una sola vez los días `desde` (inclusive) en adelante. Es la mitad
+// que faltaba para "volver atrás" al fijar el día en Ajustes: si ahora vas en el
+// día N, los días N..fin dejan de estar leídos, así Hoy vuelve a ese día y no se
+// queda en el próximo día ya marcado. Sin red lanza (el llamador lo absorbe).
+export async function unmarkDaysFrom(userId, planId, desde) {
+  if (desde < 1) desde = 1
+  const { error } = await supabase
+    .from('reading_progress')
+    .delete()
+    .eq('user_id', userId)
+    .eq('plan_id', planId)
+    .gte('day_number', desde)
+  if (error) throw error
+}
+
 // Primer día NO leído dentro de [1..hastaDía]. Si todo está leído, devuelve
 // hastaDía + ... en realidad devuelve el primer hueco; si no hay, devuelve
 // hastaDía (hoy aún sin leer no cuenta como atraso).
