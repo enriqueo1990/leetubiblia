@@ -1,11 +1,3 @@
--- ============================================================
--- Lee Tu Biblia — MIGRACIONES PENDIENTES (staging incremental).
--- Pegá esto en el SQL Editor de Supabase y Run. Idempotente.
---   0017 — Presencia de lectura en el grupo: profiles.share_reading (opt-in) +
---          RPC group_reading_today(gid) (recíproco, en la tz de cada miembro).
--- (Para un deploy desde cero usá _apply_all.sql, que ya incluye todo.)
--- ============================================================
-
 -- ============================================================================
 -- Lee Tu Biblia — Fase 3: Presencia de lectura en el grupo ("de panel a sala").
 -- Migración 0017. Deja ver, dentro del grupo, quiénes mantuvieron su lectura hoy
@@ -34,6 +26,8 @@ language sql security definer stable set search_path = public as $$
   join public.profiles p on p.id = gm.user_id
   where gm.group_id = p_group_id
     and p.share_reading = true
+    -- el que llama debe ser miembro del grupo…
     and public.is_group_member(p_group_id)
+    -- …y compartir su propia lectura (recíproco: si no compartís, no ves).
     and (select share_reading from public.profiles where id = auth.uid()) = true;
 $$;

@@ -643,3 +643,63 @@ export async function getReflectionJournal(userId, { limit = 30, before = null }
     created_at: r.created_at,
   }))
 }
+
+// ============================================================================
+// Fase 3 — Presencia de lectura en el grupo ("de panel a sala"). Requiere 0017.
+// ============================================================================
+
+// Quiénes del grupo (opt-in) leyeron hoy. Recíproco: devuelve [] si vos no
+// compartís. Cada item: { user_id, has_read }. El nombre lo resuelve la pantalla
+// con la lista de miembros que ya tiene.
+export async function getGroupReadingToday(groupId) {
+  const { data, error } = await supabase.rpc('group_reading_today', { p_group_id: groupId })
+  if (error) throw error
+  return data ?? []
+}
+
+// Pedidos activos compartidos de UN grupo (la "sala", visible a todos los
+// miembros; la RLS permite ver los shared del grupo). Incluye los propios. Con
+// nombre del autor e intercessor_count (batch, no N+1).
+export async function getGroupActivePrayers(groupId) {
+  const { data, error } = await supabase
+    .from('prayer_requests')
+    .select('*, group:groups(name)')
+    .eq('shared_group_id', groupId)
+    .eq('visibility', 'shared')
+    .eq('status', 'active')
+    .order('created_at', { ascending: false })
+  if (error) throw error
+
+  const authorIds = [...new Set(data.map((p) => p.user_id))]
+  let names = {}
+  if (authorIds.length) {
+    const { data: profs, error: pe } = await supabase
+      .from('profiles')
+      .select('id, display_name')
+      .in('id', authorIds)
+    if (pe) throw pe
+    names = Object.fromEntries(profs.map((p) => [p.id, p.display_name]))
+  }
+
+  const interByPrayer = {}
+  if (data.length) {
+    const { data: ints } = await supabase
+      .from('prayer_intercessions')
+      .select('prayer_id, user_id')
+      .in('prayer_id', data.map((p) => p.id))
+    const interNames = await namesFor((ints ?? []).map((i) => i.user_id))
+    for (const i of ints ?? []) {
+      ;(interByPrayer[i.prayer_id] ??= []).push({
+        user_id: i.user_id,
+        display_name: interNames[i.user_id] || 'Miembro',
+      })
+    }
+  }
+
+  return data.map((p) => ({
+    ...p,
+    author_name: names[p.user_id] || 'Alguien',
+    intercessors: interByPrayer[p.id] || [],
+    intercessor_count: (interByPrayer[p.id] || []).length,
+  }))
+}

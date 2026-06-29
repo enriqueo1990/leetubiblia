@@ -14,7 +14,7 @@ import Segmented from '../components/Segmented.jsx'
 import Switch from '../components/Switch.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import { ChevronRight, HeartIcon, ShareIcon } from '../components/icons.jsx'
-import { subscribeToPush, unsubscribeFromPush } from '../lib/push.js'
+import { subscribeToPush, unsubscribeFromPush, getTimezone } from '../lib/push.js'
 import { version as APP_VERSION } from '../../package.json'
 
 // Ajustes (documento maestro §5.7, README pantalla 7). Acento y tema persisten en
@@ -76,6 +76,19 @@ export default function Ajustes() {
   const reminderOn = !!profile?.reminder_enabled
   const reminderTime = profile?.reminder_time?.slice(0, 5) || '07:00'
   const reflectionsOn = !!profile?.reflections_enabled
+  const shareReadingOn = !!profile?.share_reading
+
+  // Compartir lectura con grupos (Fase 3). Al activarlo, guardamos también la
+  // timezone para que el "leyó hoy" del grupo se calcule en tu hora local.
+  function toggleShareReading() {
+    const next = !shareReadingOn
+    const patch = { share_reading: next }
+    if (next) {
+      const tz = getTimezone()
+      if (tz) patch.timezone = tz
+    }
+    updateProfile(patch)
+  }
 
   useEffect(() => {
     if (!profile?.active_plan_id) {
@@ -286,6 +299,22 @@ export default function Ajustes() {
       <p className="mt-2 px-1 text-[12px] text-ink-soft">
         Al terminar tu lectura, anotá en una línea qué te habló. Lo encontrás en Progreso › Mi
         camino.
+      </p>
+
+      <SectionLabel>Lectura con mis grupos</SectionLabel>
+      <div className="card">
+        <div className="flex items-center justify-between px-4 py-3">
+          <span className="text-[16px] text-ink">Compartir mi lectura</span>
+          <Switch
+            on={shareReadingOn}
+            onChange={toggleShareReading}
+            label="Compartir mi lectura con mis grupos"
+          />
+        </div>
+      </div>
+      <p className="mt-2 px-1 text-[12px] text-ink-soft">
+        Tus grupos ven que mantenés tu lectura hoy (no qué leés), y vos ves la de ellos. Lo apagás
+        cuando quieras.
       </p>
 
       <SectionLabel>Color de acento</SectionLabel>

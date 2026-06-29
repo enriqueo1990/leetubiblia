@@ -1,8 +1,19 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { CopyIcon, RefreshIcon, CheckIcon, ChevronRight, LockIcon, PencilIcon, ShareIcon } from '../components/icons.jsx'
+import {
+  CopyIcon,
+  RefreshIcon,
+  CheckIcon,
+  ChevronRight,
+  LockIcon,
+  PencilIcon,
+  ShareIcon,
+  PlusIcon,
+  BookIcon,
+  HeartIcon,
+} from '../components/icons.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
-import Avatars from '../components/Avatars.jsx'
+import Avatars, { initials } from '../components/Avatars.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import {
   getGroupDetail,
@@ -11,21 +22,16 @@ import {
   leaveGroup,
   getGroupStats,
   renameGroup,
-  getGroupPrayersWithIntercessors,
+  getGroupActivePrayers,
+  getGroupReadingToday,
+  getGroupTestimonies,
+  addIntercession,
 } from '../lib/db.js'
 import { SkeletonDetail } from '../components/Skeleton.jsx'
 
-// Detalle de grupo (documento maestro §5.6, README pantalla 6).
-function initials(name) {
-  return (name || '?')
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((w) => w[0]?.toUpperCase() || '')
-    .join('')
-}
-
-// Una métrica del resumen pastoral (número grande en acento + etiqueta).
+// Detalle de grupo — "de panel a sala" (Fase 3): la gente y el pulso del día
+// primero; oración y lectura del grupo en la misma vista; la administración
+// (código, regenerar, renombrar) abajo.
 function Stat({ n, label }) {
   return (
     <div className="flex-1">
@@ -40,14 +46,19 @@ function Stat({ n, label }) {
 export default function GroupDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const { user, profile } = useAuth()
+  const iShare = !!profile?.share_reading
+
   const [data, setData] = useState(null)
   const [stats, setStats] = useState(null)
-  const [groupPrayers, setGroupPrayers] = useState(null)
+  const [reading, setReading] = useState([]) // [{ user_id, has_read }]
+  const [prayers, setPrayers] = useState([]) // pedidos activos del grupo
+  const [testimony, setTestimony] = useState(null) // último testimonio
+  const [prayed, setPrayed] = useState(() => new Set()) // intercesiones optimistas
   const [error, setError] = useState(null)
   const [copied, setCopied] = useState(false)
   const [inviteShared, setInviteShared] = useState(false)
-  const [confirm, setConfirm] = useState(null) // { type: 'regen' } | { type: 'kick', member } | null
+  const [confirm, setConfirm] = useState(null) // { type } | null
   const [busy, setBusy] = useState(false)
   const [editingName, setEditingName] = useState(false)
   const [nameInput, setNameInput] = useState('')
@@ -59,16 +70,17 @@ export default function GroupDetail() {
     try {
       const d = await getGroupDetail(Number(id))
       setData(d)
-      // El resumen pastoral es solo del owner (el RPC valida la propiedad adentro).
       const owner = d.members.find((m) => m.user_id === user?.id)?.role === 'owner'
-      if (owner) {
-        const [statsRes, prayersRes] = await Promise.allSettled([
-          getGroupStats(Number(id)),
-          getGroupPrayersWithIntercessors(Number(id)),
-        ])
-        if (statsRes.status === 'fulfilled') setStats(statsRes.value)
-        if (prayersRes.status === 'fulfilled') setGroupPrayers(prayersRes.value)
-      }
+      const [readRes, prayRes, testRes, statsRes] = await Promise.allSettled([
+        getGroupReadingToday(Number(id)),
+        getGroupActivePrayers(Number(id)),
+        getGroupTestimonies(Number(id)),
+        owner ? getGroupStats(Number(id)) : Promise.resolve(null),
+      ])
+      if (readRes.status === 'fulfilled') setReading(readRes.value)
+      if (prayRes.status === 'fulfilled') setPrayers(prayRes.value)
+      if (testRes.status === 'fulfilled') setTestimony(testRes.value[0] ?? null)
+      if (statsRes.status === 'fulfilled') setStats(statsRes.value)
     } catch {
       setError('No se pudo cargar el grupo.')
     }
@@ -102,8 +114,24 @@ export default function GroupDetail() {
   const myRole = members.find((m) => m.user_id === user?.id)?.role
   const isOwner = myRole === 'owner'
   const answeredTotal = stats ? stats.active + stats.answered : 0
-  const answeredPct =
-    answeredTotal > 0 ? Math.round((stats.answered / answeredTotal) * 100) : 0
+  const answeredPct = answeredTotal > 0 ? Math.round((stats.answered / answeredTotal) * 100) : 0
+
+  // Lectura del grupo: el RPC solo devuelve filas si vos compartís (recíproco).
+  const readMap = new Map(reading.map((r) => [r.user_id, r.has_read]))
+  const readCount = reading.filter((r) => r.has_read).length
+  const prayingCount = new Set(prayers.flatMap((p) => p.intercessors.map((i) => i.user_id))).size
+
+  const interceding = (p) => prayed.has(p.id) || p.intercessors.some((x) => x.user_id === user?.id)
+
+  async function orar(p) {
+    if (!user || interceding(p)) return
+    setPrayed((s) => new Set(s).add(p.id))
+    try {
+      await addIntercession(p.id, user.id)
+    } catch {
+      /* se mantiene optimista; al recargar se corrige */
+    }
+  }
 
   async function copyCode() {
     try {
@@ -111,8 +139,6 @@ export default function GroupDetail() {
       setCopied(true)
       setTimeout(() => setCopied(false), 1500)
     } catch {
-      // Algunos navegadores bloquean clipboard sin gesto seguro: lo mostramos
-      // seleccionable para copiar a mano.
       window.prompt('Copiá el código:', group.invite_code)
     }
   }
@@ -136,8 +162,6 @@ export default function GroupDetail() {
     }
   }
 
-  // Comparte el enlace de invitación (no solo el código a tipear). navigator.share
-  // en móvil; copia al portapapeles como fallback.
   async function shareInvite() {
     const url = `${window.location.origin}/join?code=${group.invite_code}`
     const text = `Te invito al grupo "${group.name}" en Lee Tu Biblia`
@@ -145,7 +169,7 @@ export default function GroupDetail() {
       try {
         await navigator.share({ title: 'Lee Tu Biblia', text, url })
       } catch {
-        // El usuario canceló — no hacer nada.
+        /* cancelado */
       }
     } else {
       try {
@@ -180,6 +204,8 @@ export default function GroupDetail() {
       <Link to="/grupos" className="text-[15px] font-medium" style={{ color: 'var(--accent)' }}>
         ‹ Grupos
       </Link>
+
+      {/* Nombre (+ editar, owner) */}
       {editingName ? (
         <div className="mt-3">
           <input
@@ -195,7 +221,9 @@ export default function GroupDetail() {
             maxLength={60}
           />
           {nameError && (
-            <p className="mt-1 text-[13px]" style={{ color: 'var(--danger)' }}>{nameError}</p>
+            <p className="mt-1 text-[13px]" style={{ color: 'var(--danger)' }}>
+              {nameError}
+            </p>
           )}
           <div className="mt-2 flex gap-2">
             <button
@@ -207,11 +235,7 @@ export default function GroupDetail() {
             >
               {savingName ? '…' : 'Guardar'}
             </button>
-            <button
-              type="button"
-              onClick={() => setEditingName(false)}
-              className="btn btn-secondary"
-            >
+            <button type="button" onClick={() => setEditingName(false)} className="btn btn-secondary">
               Cancelar
             </button>
           </div>
@@ -223,7 +247,11 @@ export default function GroupDetail() {
             <button
               type="button"
               aria-label="Editar nombre del grupo"
-              onClick={() => { setNameInput(group.name); setNameError(null); setEditingName(true) }}
+              onClick={() => {
+                setNameInput(group.name)
+                setNameError(null)
+                setEditingName(true)
+              }}
               className="mt-1 text-ink-soft"
               style={{ opacity: 0.5 }}
             >
@@ -232,20 +260,271 @@ export default function GroupDetail() {
           )}
         </div>
       )}
-      <p className="mt-1 text-[15px] text-ink-soft">
-        {members.length} {members.length === 1 ? 'miembro' : 'miembros'} ·{' '}
-        {isOwner ? 'Sos el administrador' : 'Sos miembro'}
+
+      <p className="mt-2 text-[14px] text-ink-soft">
+        {members.length === 1 ? '1 persona' : `${members.length} caminando juntos`}
+        {isOwner ? ' · sos el administrador' : ''}
       </p>
 
-      {/* Código de invitación */}
-      <div className="card mt-5 p-4">
-        <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-          Código de invitación
-        </p>
+      {/* HOY — el pulso del grupo */}
+      <div
+        className="mt-5 rounded-card p-4"
+        style={{ backgroundColor: 'var(--accent-tint)', border: '1px solid var(--accent)' }}
+      >
         <p
-          className="mt-2 text-[26px] font-bold text-accent"
-          style={{ letterSpacing: '2px' }}
+          className="text-[12px] font-semibold uppercase tracking-wide"
+          style={{ color: 'var(--accent)' }}
         >
+          Hoy
+        </p>
+        {iShare ? (
+          <div className="mt-2.5 flex items-center gap-2.5 text-ink">
+            <span style={{ color: 'var(--accent)' }}>
+              <BookIcon size={18} />
+            </span>
+            <span className="text-[15px]">
+              <b>{readCount}</b> {readCount === 1 ? 'leyó' : 'leyeron'} hoy
+            </span>
+          </div>
+        ) : (
+          <Link
+            to="/ajustes"
+            className="mt-2.5 flex items-center gap-2.5"
+            style={{ color: 'var(--accent)' }}
+          >
+            <BookIcon size={18} />
+            <span className="text-[14px] font-medium">
+              Compartí tu lectura para ver la del grupo →
+            </span>
+          </Link>
+        )}
+        <div className="mt-2 flex items-center gap-2.5 text-ink">
+          <span style={{ color: 'var(--accent)' }}>
+            <HeartIcon size={18} />
+          </span>
+          <span className="text-[15px]">
+            {prayingCount > 0 && (
+              <>
+                <b>{prayingCount}</b> orando ·{' '}
+              </>
+            )}
+            <b>{prayers.length}</b> {prayers.length === 1 ? 'pedido activo' : 'pedidos activos'}
+          </span>
+        </div>
+      </div>
+
+      {/* Oración del grupo — visible para todos, con "Orar" inline */}
+      <div className="mt-7 flex items-center justify-between">
+        <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+          Oración del grupo
+        </p>
+        <button
+          type="button"
+          onClick={() => navigate('/oracion')}
+          aria-label="Compartir un pedido"
+          className="flex h-8 w-8 items-center justify-center rounded-full text-on-accent"
+          style={{ backgroundColor: 'var(--accent)' }}
+        >
+          <PlusIcon size={18} />
+        </button>
+      </div>
+      {prayers.length === 0 ? (
+        <p className="mt-3 text-[15px] text-ink-soft">Todavía no hay pedidos compartidos.</p>
+      ) : (
+        <>
+          <ul className="mt-3 space-y-3">
+            {prayers.slice(0, 4).map((p) => (
+              <li key={p.id} className="card p-4">
+                <p className="text-[16px] font-semibold leading-snug text-ink">{p.title}</p>
+                <div className="mt-2 flex items-center justify-between gap-3">
+                  <div className="flex min-w-0 items-center gap-2">
+                    {p.intercessors.length > 0 && (
+                      <Avatars people={p.intercessors} size={22} surface="var(--surface)" />
+                    )}
+                    <span className="truncate text-[12px] text-ink-soft">
+                      {p.author_name} ·{' '}
+                      {p.intercessors.length > 0 ? `${p.intercessors.length} orando` : 'nadie aún'}
+                    </span>
+                  </div>
+                  {interceding(p) ? (
+                    <span
+                      className="flex shrink-0 items-center gap-1 text-[13px] font-semibold"
+                      style={{ color: 'var(--accent)' }}
+                    >
+                      <CheckIcon size={15} strokeWidth={2.2} /> Orando
+                    </span>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => orar(p)}
+                      className="shrink-0 rounded-pill px-4 py-1.5 text-[13px] font-semibold"
+                      style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent)' }}
+                    >
+                      Orar
+                    </button>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+          <Link
+            to="/oracion"
+            className="mt-3 inline-block text-[14px] font-semibold"
+            style={{ color: 'var(--accent)' }}
+          >
+            Ver todos →
+          </Link>
+        </>
+      )}
+
+      {/* Testimonios — preview del último (o entrada a la lista si no hay) */}
+      {testimony ? (
+        <>
+          <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+            Testimonios
+          </p>
+          <Link to={`/grupos/${id}/testimonios`} className="card mt-3 block p-4">
+            <div className="flex items-start gap-3">
+              <div
+                className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-accent"
+                style={{ backgroundColor: 'var(--accent-tint)' }}
+              >
+                <CheckIcon size={20} strokeWidth={2.2} />
+              </div>
+              <div className="min-w-0">
+                <p className="line-clamp-2 text-[15px] leading-relaxed text-ink">
+                  "{testimony.testimony || testimony.title}"
+                </p>
+                <p className="mt-1 text-[13px]" style={{ color: 'var(--accent)' }}>
+                  {testimony.author_name} · Ver todos →
+                </p>
+              </div>
+            </div>
+          </Link>
+        </>
+      ) : (
+        <Link to={`/grupos/${id}/testimonios`} className="card mt-5 flex items-center gap-3 p-4">
+          <div
+            className="flex h-[42px] w-[42px] items-center justify-center rounded-full text-accent"
+            style={{ backgroundColor: 'var(--accent-tint)' }}
+          >
+            <CheckIcon size={20} strokeWidth={2.2} />
+          </div>
+          <div className="flex-1">
+            <p className="text-[16px] font-semibold text-ink">Testimonios</p>
+            <p className="text-[13px] text-ink-soft">Oraciones respondidas que el grupo compartió</p>
+          </div>
+          <span className="text-ink-soft" style={{ opacity: 0.5 }}>
+            <ChevronRight size={20} />
+          </span>
+        </Link>
+      )}
+
+      {/* Resumen pastoral — solo el owner */}
+      {isOwner && stats && (
+        <>
+          <div className="card mt-7 p-5">
+            <div className="flex items-center gap-1.5 text-ink-soft">
+              <LockIcon size={13} />
+              <span className="text-[12px] font-semibold uppercase tracking-wide">
+                Resumen · solo vos lo ves
+              </span>
+            </div>
+            <div className="mt-4 flex">
+              <Stat n={stats.active} label="Pedidos activos" />
+              <Stat n={stats.answered} label="Respondidos" />
+              <Stat n={stats.praying_week} label="Orando esta semana" />
+            </div>
+            <div
+              className="mt-4 h-2 overflow-hidden rounded-full"
+              style={{ backgroundColor: 'var(--surface-alt)' }}
+            >
+              <div
+                className="h-full"
+                style={{ width: `${answeredPct}%`, backgroundColor: 'var(--accent)' }}
+              />
+            </div>
+            <p className="mt-2 text-[12px] text-ink-soft">
+              {answeredPct}% de los pedidos del grupo ya fueron respondidos.
+            </p>
+          </div>
+        </>
+      )}
+
+      {/* Miembros — la gente, con su lectura (cuando compartís) */}
+      <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+        Miembros · {members.length}
+      </p>
+      <ul className="mt-3 card divide-y divide-hairline">
+        {members.map((m) => {
+          const isMe = m.user_id === user?.id
+          const isMemberOwner = m.role === 'owner'
+          const shares = readMap.has(m.user_id)
+          const readToday = readMap.get(m.user_id)
+          return (
+            <li key={m.user_id} className="flex items-center gap-3 px-4 py-3">
+              <div
+                className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full text-[15px] font-semibold"
+                style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent)' }}
+              >
+                {initials(m.display_name)}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[16px] text-ink">
+                  {m.display_name}
+                  {isMe && <span className="text-ink-soft"> (vos)</span>}
+                </p>
+                {iShare &&
+                  (shares ? (
+                    readToday ? (
+                      <p className="text-[12px] font-medium" style={{ color: 'var(--accent)' }}>
+                        ✓ leyó hoy
+                      </p>
+                    ) : (
+                      <p className="text-[12px] text-ink-soft">aún no leyó hoy</p>
+                    )
+                  ) : (
+                    <p className="text-[12px] text-ink-soft" style={{ opacity: 0.7 }}>
+                      no comparte su lectura
+                    </p>
+                  ))}
+              </div>
+              {isMemberOwner ? (
+                <span
+                  className="shrink-0 rounded-pill px-2 py-0.5 text-[12px] font-medium"
+                  style={{ color: 'var(--accent)', backgroundColor: 'var(--accent-tint)' }}
+                >
+                  Administrador
+                </span>
+              ) : (
+                isOwner && (
+                  <button
+                    type="button"
+                    onClick={() => setConfirm({ type: 'kick', member: m })}
+                    aria-label={`Quitar a ${m.display_name}`}
+                    className="flex h-11 w-11 items-center justify-center rounded-full text-ink-soft"
+                  >
+                    <span
+                      className="flex h-7 w-7 items-center justify-center rounded-full"
+                      style={{ border: '1px solid var(--hairline)' }}
+                      aria-hidden="true"
+                    >
+                      −
+                    </span>
+                  </button>
+                )
+              )}
+            </li>
+          )
+        })}
+      </ul>
+
+      {/* Ajustes del grupo — invitar/administrar, abajo */}
+      <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+        Invitar al grupo
+      </p>
+      <div className="card mt-3 p-4">
+        <p className="text-[26px] font-bold text-accent" style={{ letterSpacing: '2px' }}>
           {group.invite_code}
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
@@ -278,154 +557,6 @@ export default function GroupDetail() {
         </div>
       </div>
 
-      {/* Resumen pastoral — solo el owner */}
-      {isOwner && stats && (
-        <>
-          <div className="card mt-5 p-5">
-            <div className="flex items-center gap-1.5 text-ink-soft">
-              <LockIcon size={13} />
-              <span className="text-[12px] font-semibold uppercase tracking-wide">
-                Resumen · solo vos lo ves
-              </span>
-            </div>
-            <div className="mt-4 flex">
-              <Stat n={stats.active} label="Pedidos activos" />
-              <Stat n={stats.answered} label="Respondidos" />
-              <Stat n={stats.praying_week} label="Orando esta semana" />
-            </div>
-            <div
-              className="mt-4 h-2 overflow-hidden rounded-full"
-              style={{ backgroundColor: 'var(--surface-alt)' }}
-            >
-              <div
-                className="h-full"
-                style={{ width: `${answeredPct}%`, backgroundColor: 'var(--accent)' }}
-              />
-            </div>
-            <p className="mt-2 text-[12px] text-ink-soft">
-              {answeredPct}% de los pedidos del grupo ya fueron respondidos.
-            </p>
-          </div>
-          <p className="mt-3 text-[15px] leading-relaxed text-ink-soft">
-            Un pulso del grupo para acompañar mejor. No es para medir a nadie.
-          </p>
-        </>
-      )}
-
-      {/* Pedidos del grupo con intercesores — solo el owner */}
-      {isOwner && groupPrayers !== null && (
-        <>
-          <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-            Pedidos del grupo · {groupPrayers.length}
-          </p>
-          {groupPrayers.length === 0 ? (
-            <p className="mt-3 text-[15px] text-ink-soft">Todavía no hay pedidos compartidos.</p>
-          ) : (
-            <ul className="mt-3 card divide-y divide-hairline">
-              {groupPrayers.map((p) => (
-                <li key={p.id} className="px-4 py-3">
-                  <div className="flex items-start justify-between gap-2">
-                    <span className="text-[15px] font-semibold text-ink leading-snug">{p.title}</span>
-                    {p.status === 'answered' && (
-                      <span
-                        className="shrink-0 rounded-pill px-2 py-0.5 text-[12px] font-medium"
-                        style={{ color: 'var(--accent)', backgroundColor: 'var(--accent-tint)' }}
-                      >
-                        Respondido
-                      </span>
-                    )}
-                  </div>
-                  <p className="mt-0.5 text-[13px] text-ink-soft">{p.author_name}</p>
-                  <div className="mt-2 flex items-center gap-2">
-                    {p.intercessors.length > 0 ? (
-                      <>
-                        <Avatars people={p.intercessors} size={24} surface="var(--surface)" />
-                        <span className="text-[12px] text-ink-soft">
-                          {p.intercessors.length}{' '}
-                          {p.intercessors.length === 1 ? 'persona orando' : 'personas orando'}
-                        </span>
-                      </>
-                    ) : (
-                      <span className="text-[12px] text-ink-soft">Nadie orando aún</span>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
-        </>
-      )}
-
-      {/* Testimonios — todos los miembros */}
-      <Link to={`/grupos/${id}/testimonios`} className="card mt-5 flex items-center gap-3 p-4">
-        <div
-          className="flex h-[42px] w-[42px] items-center justify-center rounded-full text-accent"
-          style={{ backgroundColor: 'var(--accent-tint)' }}
-        >
-          <CheckIcon size={20} strokeWidth={2.2} />
-        </div>
-        <div className="flex-1">
-          <p className="text-[16px] font-semibold text-ink">Testimonios</p>
-          <p className="text-[13px] text-ink-soft">Oraciones respondidas que el grupo compartió</p>
-        </div>
-        <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-          <ChevronRight size={20} />
-        </span>
-      </Link>
-
-      {/* Miembros */}
-      <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-        Miembros · {members.length}
-      </p>
-      <ul className="mt-3 card divide-y divide-hairline">
-        {members.map((m) => {
-          const isMe = m.user_id === user?.id
-          const isMemberOwner = m.role === 'owner'
-          return (
-            <li key={m.user_id} className="flex items-center gap-3 px-4 py-3">
-              <div
-                className="flex h-[38px] w-[38px] items-center justify-center rounded-full text-[15px] font-semibold"
-                style={{
-                  backgroundColor: isMemberOwner ? 'var(--accent)' : 'var(--surface-alt)',
-                  color: isMemberOwner ? 'var(--on-accent)' : 'var(--text-soft)',
-                }}
-              >
-                {initials(m.display_name)}
-              </div>
-              <span className="flex-1 text-[16px] text-ink">
-                {m.display_name}
-                {isMe && <span className="text-ink-soft"> (vos)</span>}
-              </span>
-              {isMemberOwner ? (
-                <span
-                  className="rounded-pill px-2 py-0.5 text-[12px] font-medium"
-                  style={{ color: 'var(--accent)', backgroundColor: 'var(--accent-tint)' }}
-                >
-                  Administrador
-                </span>
-              ) : (
-                isOwner && (
-                  <button
-                    type="button"
-                    onClick={() => setConfirm({ type: 'kick', member: m })}
-                    aria-label={`Quitar a ${m.display_name}`}
-                    className="flex h-11 w-11 items-center justify-center rounded-full text-[18px] text-ink-soft"
-                  >
-                    <span
-                      className="flex h-7 w-7 items-center justify-center rounded-full"
-                      style={{ border: '1px solid var(--hairline)' }}
-                      aria-hidden="true"
-                    >
-                      −
-                    </span>
-                  </button>
-                )
-              )}
-            </li>
-          )
-        })}
-      </ul>
-
       {!isOwner && (
         <button
           type="button"
@@ -448,7 +579,6 @@ export default function GroupDetail() {
           onCancel={() => setConfirm(null)}
         />
       )}
-
       {confirm?.type === 'regen' && (
         <ConfirmDialog
           title="¿Regenerar el código?"
