@@ -351,13 +351,23 @@ export async function getGroupPrayers(userId) {
   }))
 }
 
-export async function createPrayer({ userId, title, description, visibility, groupId }) {
+// Computa la fecha de vencimiento según el tipo de duración elegido.
+// 'forever' → null (sin vencimiento); el resto suma días desde ahora.
+function computeExpiresAt(durationType) {
+  const days = { day: 1, week: 7, month: 30 }[durationType]
+  if (!days) return null
+  return new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString()
+}
+
+export async function createPrayer({ userId, title, description, visibility, groupId, durationType = 'forever' }) {
   const row = {
     user_id: userId,
     title: title.trim(),
     description: description?.trim() || null,
     visibility,
     shared_group_id: visibility === 'shared' ? groupId : null,
+    duration_type: durationType,
+    expires_at: computeExpiresAt(durationType),
   }
   const { data, error } = await supabase.from('prayer_requests').insert(row).select().single()
   if (error) throw error
@@ -484,6 +494,9 @@ export async function getPrayersToReview(userId, days = 30) {
   if (error) throw error
   const cutoff = Date.now() - days * 24 * 60 * 60 * 1000
   return data.filter((p) => {
+    // Pasó su fecha de vencimiento → entra a revisión sin importar antigüedad.
+    if (p.expires_at && new Date(p.expires_at).getTime() < Date.now()) return true
+    // "Siempre" o sin vencimiento: entra si lleva más de `days` días sin revisarse.
     const anchor = p.last_reviewed_at ?? p.created_at
     return new Date(anchor).getTime() < cutoff
   })

@@ -17,6 +17,12 @@ const STATUS = [
   { key: 'active', label: 'Activo' },
   { key: 'answered', label: 'Respondido' },
 ]
+const DURATION = [
+  { key: 'day', label: 'Un día' },
+  { key: 'week', label: 'Una semana' },
+  { key: 'month', label: 'Un mes' },
+  { key: 'forever', label: 'Siempre' },
+]
 
 const inputStyle = {
   backgroundColor: 'var(--surface)',
@@ -46,6 +52,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
     prayer?.shared_group_id ?? presetGroupId ?? groups?.[0]?.id ?? null
   )
   const [status, setStatus] = useState(prayer?.status ?? 'active')
+  const [duration, setDuration] = useState(prayer?.duration_type ?? 'forever')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
   const [testimony, setTestimony] = useState(prayer?.testimony ?? '')
@@ -70,6 +77,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
     visibility !== (prayer?.visibility ?? (presetGroupId ? 'shared' : 'private')) ||
     status !== (prayer?.status ?? 'active') ||
     groupId !== (prayer?.shared_group_id ?? presetGroupId ?? groups?.[0]?.id ?? null) ||
+    duration !== (prayer?.duration_type ?? 'forever') ||
     testimony !== (prayer?.testimony ?? '') ||
     testimonyShared !== (prayer?.testimony_shared ?? false)
 
@@ -131,10 +139,16 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
             canTestimony && testimonyShared
               ? prayer.testimony_shared_at ?? new Date().toISOString()
               : null,
+          duration_type: duration,
+          // Al cambiar duración en edición, recalcula desde ahora.
+          expires_at: duration === 'forever' ? null
+            : duration !== prayer.duration_type
+              ? new Date(Date.now() + { day: 1, week: 7, month: 30 }[duration] * 86400000).toISOString()
+              : prayer.expires_at,
         }
         await updatePrayer(prayer.id, patch)
       } else {
-        await createPrayer({ userId: user.id, title, description, visibility, groupId })
+        await createPrayer({ userId: user.id, title, description, visibility, groupId, durationType: duration })
       }
       onSaved()
     } catch (e) {
@@ -212,6 +226,27 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
         className="w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
         style={inputStyle}
       />
+
+      <FieldLabel>Duración</FieldLabel>
+      <div className="grid grid-cols-2 gap-2">
+        {DURATION.map((d) => {
+          const active = duration === d.key
+          return (
+            <button
+              key={d.key}
+              type="button"
+              onClick={() => setDuration(d.key)}
+              className="rounded-input py-2.5 text-[15px] font-medium transition-colors"
+              style={{
+                backgroundColor: active ? 'var(--accent)' : 'var(--surface-alt)',
+                color: active ? 'var(--on-accent)' : 'var(--text-primary)',
+              }}
+            >
+              {d.label}
+            </button>
+          )
+        })}
+      </div>
 
       <FieldLabel>Visibilidad</FieldLabel>
       <Segmented options={VIS} value={visibility} onChange={setVisibility} />
