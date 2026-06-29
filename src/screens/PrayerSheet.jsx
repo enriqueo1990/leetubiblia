@@ -228,7 +228,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
       />
 
       <FieldLabel>Duración</FieldLabel>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="flex flex-wrap gap-2">
         {DURATION.map((d) => {
           const active = duration === d.key
           return (
@@ -236,10 +236,11 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
               key={d.key}
               type="button"
               onClick={() => setDuration(d.key)}
-              className="rounded-input py-2.5 text-[15px] font-medium transition-colors"
+              className="rounded-full px-4 py-2 text-[14px] font-medium transition-colors"
               style={{
-                backgroundColor: active ? 'var(--accent)' : 'var(--surface-alt)',
-                color: active ? 'var(--on-accent)' : 'var(--text-primary)',
+                border: `1.5px solid ${active ? 'var(--accent)' : 'var(--hairline)'}`,
+                color: active ? 'var(--accent)' : 'var(--text-soft)',
+                backgroundColor: active ? 'var(--accent-tint)' : 'transparent',
               }}
             >
               {d.label}
