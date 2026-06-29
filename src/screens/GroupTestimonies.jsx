@@ -70,7 +70,7 @@ export default function GroupTestimonies() {
           <li key={t.id} className="card p-[18px]">
             <div className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wide text-accent">
               <CheckIcon size={13} strokeWidth={2.4} />
-              Respondida · {fmtDate(t.answered_at)}
+              Respondido · {fmtDate(t.answered_at)}
             </div>
             <p className="mt-2.5 text-[18px] font-semibold tracking-tight text-ink">{t.title}</p>
             {t.testimony && (

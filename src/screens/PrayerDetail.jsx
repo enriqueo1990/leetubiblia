@@ -171,7 +171,7 @@ export default function PrayerDetail() {
                 <CheckIcon size={19} strokeWidth={2.2} /> Estás orando por esto
               </button>
               <p className="mt-2.5 text-center text-[13px] text-ink-soft">
-                {data.author_name} va a ver que estás orando.
+                {data.author_name} va a saber que estás orando por su pedido.
               </p>
             </>
           ) : (

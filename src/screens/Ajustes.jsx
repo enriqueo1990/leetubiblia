@@ -313,8 +313,8 @@ export default function Ajustes() {
         </div>
       </div>
       <p className="mt-2 px-1 text-[12px] text-ink-soft">
-        Tus grupos ven que mantenés tu lectura hoy (no qué leés), y vos ves la de ellos. Lo apagás
-        cuando quieras.
+        Tus grupos ven que leíste hoy (no qué leés), y vos ves la de ellos. Lo apagás cuando
+        quieras.
       </p>
 
       <SectionLabel>Color de acento</SectionLabel>

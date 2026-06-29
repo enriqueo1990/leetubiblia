@@ -64,7 +64,7 @@ export default function ResumeFromDay({ durationDays, day, onChange }) {
           <p className="mt-2 text-[13px] text-ink-soft">
             Empezarás en el día {day || '—'}
             {durationDays ? ` de ${durationDays}` : ''}. Los días anteriores quedan
-            dados por leídos.
+            como leídos.
           </p>
         </div>
       )}

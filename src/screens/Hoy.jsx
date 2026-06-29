@@ -187,7 +187,7 @@ export default function Hoy() {
       {r.offline && (
         <p className="mt-2 text-[12px] text-ink-soft">
           {r.staleReadings
-            ? 'Sin conexión · esta lectura es de la última vez con conexión. Conectate para ver la de hoy.'
+            ? 'Sin conexión · esta lectura es de la última vez que entraste. Conectate para ver la de hoy.'
             : 'Sin conexión · tu marca se guarda y se sincroniza al volver.'}
         </p>
       )}

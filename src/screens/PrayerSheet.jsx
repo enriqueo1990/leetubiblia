@@ -242,7 +242,7 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
           <Segmented options={STATUS} value={status} onChange={setStatus} />
           {answeredDate && (
             <p className="mt-2 text-[13px]" style={{ color: 'var(--accent)' }}>
-              ✓ Respondida el {answeredDate}
+              ✓ Respondido el {answeredDate}
             </p>
           )}
 
@@ -264,7 +264,7 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
                   rows={3}
                   value={testimony}
                   onChange={(e) => setTestimony(e.target.value)}
-                  placeholder="Contá brevemente cómo se respondió…"
+                  placeholder="Contá cómo Dios respondió…"
                   className="mt-2 w-full resize-none rounded-input px-3 py-2.5 text-[15px] outline-none"
                   style={inputStyle}
                 />

@@ -174,7 +174,7 @@ export default function Oracion() {
                     key={p.id}
                     p={p}
                     dimmed
-                    subtitle={`Respondida · ${fmtDate(p.answered_at || p.created_at)}`}
+                    subtitle={`Respondido · ${fmtDate(p.answered_at || p.created_at)}`}
                     onClick={
                       p.visibility === 'shared'
                         ? () => navigate(`/oracion/${p.id}`)

@@ -262,8 +262,9 @@ export default function GroupDetail() {
       )}
 
       <p className="mt-2 text-[14px] text-ink-soft">
-        {members.length === 1 ? '1 persona' : `${members.length} caminando juntos`}
-        {isOwner ? ' · sos el administrador' : ''}
+        {members.length === 1
+          ? 'Solo vos por ahora'
+          : `${members.length} caminando juntos${isOwner ? ' · sos el administrador' : ''}`}
       </p>
 
       {/* HOY — el pulso del grupo */}
@@ -283,7 +284,13 @@ export default function GroupDetail() {
               <BookIcon size={18} />
             </span>
             <span className="text-[15px]">
-              <b>{readCount}</b> {readCount === 1 ? 'leyó' : 'leyeron'} hoy
+              {readCount === 0 ? (
+                'Todavía nadie leyó hoy'
+              ) : (
+                <>
+                  <b>{readCount}</b> {readCount === 1 ? 'leyó' : 'leyeron'} hoy
+                </>
+              )}
             </span>
           </div>
         ) : (
@@ -343,7 +350,9 @@ export default function GroupDetail() {
                     )}
                     <span className="truncate text-[12px] text-ink-soft">
                       {p.author_name} ·{' '}
-                      {p.intercessors.length > 0 ? `${p.intercessors.length} orando` : 'nadie aún'}
+                      {p.intercessors.length > 0
+                        ? `${p.intercessors.length} orando`
+                        : 'nadie todavía'}
                     </span>
                   </div>
                   {interceding(p) ? (

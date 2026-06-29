@@ -173,8 +173,8 @@ export default function PlanDetail() {
           title={`¿Cambiar a ${plan?.name}?`}
           message={
             resumeDay
-              ? `El plan nuevo arranca desde el día ${resumeDay}. Tu progreso anterior queda guardado, pero no se transfiere.`
-              : 'El plan nuevo arranca desde el día 1. Tu progreso anterior queda guardado, pero no se transfiere.'
+              ? `El plan nuevo arranca desde el día ${resumeDay}. Tu progreso anterior se guarda aparte.`
+              : 'El plan nuevo arranca desde el día 1. Tu progreso anterior se guarda aparte.'
           }
           confirmLabel={saving ? '…' : 'Cambiar'}
           busy={saving}

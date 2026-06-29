@@ -72,8 +72,7 @@ function CreateGroupSheet({ onClose, onCreated }) {
         style={inputStyle}
       />
       <p className="mt-3 text-[13px] text-ink-soft">
-        Vas a ser el administrador. Después podrás invitar con un código que
-        generamos automáticamente.
+        Vas a ser el administrador. Te damos un código para invitar a quien quieras.
       </p>
       {error && <p className="mt-3 text-[13px]" style={{ color: 'var(--danger)' }}>{error}</p>}
     </Sheet>
