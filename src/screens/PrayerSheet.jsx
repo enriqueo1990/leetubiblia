@@ -18,9 +18,9 @@ const STATUS = [
   { key: 'answered', label: 'Respondido' },
 ]
 const DURATION = [
-  { key: 'day', label: 'Un día' },
-  { key: 'week', label: 'Una semana' },
-  { key: 'month', label: 'Un mes' },
+  { key: 'day', label: 'Día' },
+  { key: 'week', label: 'Semana' },
+  { key: 'month', label: 'Mes' },
   { key: 'forever', label: 'Siempre' },
 ]
 
@@ -228,26 +228,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
       />
 
       <FieldLabel>Duración</FieldLabel>
-      <div className="flex flex-wrap gap-2">
-        {DURATION.map((d) => {
-          const active = duration === d.key
-          return (
-            <button
-              key={d.key}
-              type="button"
-              onClick={() => setDuration(d.key)}
-              className="rounded-full px-4 py-2 text-[14px] font-medium transition-colors"
-              style={{
-                border: `1.5px solid ${active ? 'var(--accent)' : 'var(--hairline)'}`,
-                color: active ? 'var(--accent)' : 'var(--text-soft)',
-                backgroundColor: active ? 'var(--accent-tint)' : 'transparent',
-              }}
-            >
-              {d.label}
-            </button>
-          )
-        })}
-      </div>
+      <Segmented options={DURATION} value={duration} onChange={setDuration} />
 
       <FieldLabel>Visibilidad</FieldLabel>
       <Segmented options={VIS} value={visibility} onChange={setVisibility} />
