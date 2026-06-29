@@ -33,14 +33,18 @@ function FieldLabel({ children, optional }) {
   )
 }
 
-export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) {
+export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClose, onSaved }) {
   const { user } = useAuth()
   const editing = mode === 'edit'
 
   const [title, setTitle] = useState(prayer?.title ?? '')
   const [description, setDescription] = useState(prayer?.description ?? '')
-  const [visibility, setVisibility] = useState(prayer?.visibility ?? 'private')
-  const [groupId, setGroupId] = useState(prayer?.shared_group_id ?? groups?.[0]?.id ?? null)
+  const [visibility, setVisibility] = useState(
+    prayer?.visibility ?? (presetGroupId ? 'shared' : 'private')
+  )
+  const [groupId, setGroupId] = useState(
+    prayer?.shared_group_id ?? presetGroupId ?? groups?.[0]?.id ?? null
+  )
   const [status, setStatus] = useState(prayer?.status ?? 'active')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
@@ -63,9 +67,9 @@ export default function PrayerSheet({ mode, prayer, groups, onClose, onSaved }) 
   const dirty =
     title !== (prayer?.title ?? '') ||
     description !== (prayer?.description ?? '') ||
-    visibility !== (prayer?.visibility ?? 'private') ||
+    visibility !== (prayer?.visibility ?? (presetGroupId ? 'shared' : 'private')) ||
     status !== (prayer?.status ?? 'active') ||
-    groupId !== (prayer?.shared_group_id ?? groups?.[0]?.id ?? null) ||
+    groupId !== (prayer?.shared_group_id ?? presetGroupId ?? groups?.[0]?.id ?? null) ||
     testimony !== (prayer?.testimony ?? '') ||
     testimonyShared !== (prayer?.testimony_shared ?? false)
 

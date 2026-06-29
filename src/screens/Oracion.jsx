@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { PlusIcon, LockIcon, PeopleIcon } from '../components/icons.jsx'
 import Segmented from '../components/Segmented.jsx'
 import { SkeletonCards } from '../components/Skeleton.jsx'
@@ -63,7 +63,8 @@ function PrayerItem({ p, subtitle, onClick, dimmed }) {
 export default function Oracion() {
   const { user } = useAuth()
   const navigate = useNavigate()
-  const [seg, setSeg] = useState('mine')
+  const [searchParams] = useSearchParams()
+  const [seg, setSeg] = useState(searchParams.get('tab') === 'grupos' ? 'groups' : 'mine')
   const [mine, setMine] = useState(null)
   const [groupPrayers, setGroupPrayers] = useState(null)
   const [groups, setGroups] = useState([])

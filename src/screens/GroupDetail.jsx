@@ -28,6 +28,7 @@ import {
   addIntercession,
 } from '../lib/db.js'
 import { SkeletonDetail } from '../components/Skeleton.jsx'
+import PrayerSheet from './PrayerSheet.jsx'
 
 // Detalle de grupo — "de panel a sala" (Fase 3): la gente y el pulso del día
 // primero; oración y lectura del grupo en la misma vista; la administración
@@ -54,7 +55,7 @@ export default function GroupDetail() {
   const [reading, setReading] = useState([]) // [{ user_id, has_read }]
   const [prayers, setPrayers] = useState([]) // pedidos activos del grupo
   const [testimony, setTestimony] = useState(null) // último testimonio
-  const [prayed, setPrayed] = useState(() => new Set()) // intercesiones optimistas
+  const [sheetOpen, setSheetOpen] = useState(false) // sheet "compartir un pedido"
   const [error, setError] = useState(null)
   const [copied, setCopied] = useState(false)
   const [inviteShared, setInviteShared] = useState(false)
@@ -121,15 +122,22 @@ export default function GroupDetail() {
   const readCount = reading.filter((r) => r.has_read).length
   const prayingCount = new Set(prayers.flatMap((p) => p.intercessors.map((i) => i.user_id))).size
 
-  const interceding = (p) => prayed.has(p.id) || p.intercessors.some((x) => x.user_id === user?.id)
+  const interceding = (p) => p.intercessors.some((x) => x.user_id === user?.id)
 
   async function orar(p) {
     if (!user || interceding(p)) return
-    setPrayed((s) => new Set(s).add(p.id))
+    // Optimista: sumo mi intercesión al pedido → conteo + avatar + botón al instante.
+    setPrayers((list) =>
+      list.map((x) =>
+        x.id === p.id
+          ? { ...x, intercessors: [...x.intercessors, { user_id: user.id, display_name: 'Vos' }] }
+          : x
+      )
+    )
     try {
       await addIntercession(p.id, user.id)
     } catch {
-      /* se mantiene optimista; al recargar se corrige */
+      /* optimista; al recargar se corrige */
     }
   }
 
@@ -327,7 +335,7 @@ export default function GroupDetail() {
         </p>
         <button
           type="button"
-          onClick={() => navigate('/oracion')}
+          onClick={() => setSheetOpen(true)}
           aria-label="Compartir un pedido"
           className="flex h-8 w-8 items-center justify-center rounded-full text-on-accent"
           style={{ backgroundColor: 'var(--accent)' }}
@@ -355,7 +363,9 @@ export default function GroupDetail() {
                         : 'nadie todavía'}
                     </span>
                   </div>
-                  {interceding(p) ? (
+                  {p.user_id === user?.id ? (
+                    <span className="shrink-0 text-[12px] text-ink-soft">Tu pedido</span>
+                  ) : interceding(p) ? (
                     <span
                       className="flex shrink-0 items-center gap-1 text-[13px] font-semibold"
                       style={{ color: 'var(--accent)' }}
@@ -377,7 +387,7 @@ export default function GroupDetail() {
             ))}
           </ul>
           <Link
-            to="/oracion"
+            to="/oracion?tab=grupos"
             className="mt-3 inline-block text-[14px] font-semibold"
             style={{ color: 'var(--accent)' }}
           >
@@ -575,6 +585,19 @@ export default function GroupDetail() {
         >
           Salir del grupo
         </button>
+      )}
+
+      {sheetOpen && (
+        <PrayerSheet
+          mode="create"
+          groups={[{ id: group.id, name: group.name }]}
+          presetGroupId={group.id}
+          onClose={() => setSheetOpen(false)}
+          onSaved={() => {
+            setSheetOpen(false)
+            load()
+          }}
+        />
       )}
 
       {confirm?.type === 'leave' && (
