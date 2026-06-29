@@ -77,6 +77,7 @@ export default function Ajustes() {
   const reminderTime = profile?.reminder_time?.slice(0, 5) || '07:00'
   const reflectionsOn = !!profile?.reflections_enabled
   const shareReadingOn = !!profile?.share_reading
+  const prayerFollowupOn = profile?.prayer_followup_enabled !== false // default true
 
   // Compartir lectura con grupos (Fase 3). Al activarlo, guardamos también la
   // timezone para que el "leyó hoy" del grupo se calcule en tu hora local.
@@ -391,6 +392,21 @@ export default function Ajustes() {
       {pushNote?.target === 'group' && (
         <p className="mt-2 px-1 text-[12px] text-ink-soft">{pushNote.msg}</p>
       )}
+
+      <SectionLabel>Seguimiento de oración</SectionLabel>
+      <div className="card">
+        <div className="flex items-center justify-between px-4 py-3">
+          <span className="text-[16px] text-ink">Recordarme revisar pedidos</span>
+          <Switch
+            on={prayerFollowupOn}
+            onChange={() => updateProfile({ prayer_followup_enabled: !prayerFollowupOn })}
+            label="Recordarme revisar pedidos de oración"
+          />
+        </div>
+      </div>
+      <p className="mt-2 px-1 text-[12px] text-ink-soft">
+        Una vez por semana te avisamos si tenés pedidos activos que no revisaste en más de un mes.
+      </p>
 
       <SectionLabel>Compartir</SectionLabel>
       <div className="card">

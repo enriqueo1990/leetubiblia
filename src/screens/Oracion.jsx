@@ -5,7 +5,7 @@ import Segmented from '../components/Segmented.jsx'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 import PrayerSheet from './PrayerSheet.jsx'
 import { useAuth } from '../lib/auth.jsx'
-import { getMyPrayers, getGroupPrayers, getMyGroups } from '../lib/db.js'
+import { getMyPrayers, getGroupPrayers, getMyGroups, getPrayersToReview, markPrayerReviewed } from '../lib/db.js'
 
 // Oración (documento maestro §5.4, README pantalla 4).
 const SEGMENTS = [
@@ -66,6 +66,7 @@ export default function Oracion() {
   const [searchParams] = useSearchParams()
   const [seg, setSeg] = useState(searchParams.get('tab') === 'grupos' ? 'groups' : 'mine')
   const [mine, setMine] = useState(null)
+  const [toReview, setToReview] = useState([])
   const [groupPrayers, setGroupPrayers] = useState(null)
   const [groups, setGroups] = useState([])
   const [sheet, setSheet] = useState(null) // { mode, prayer? } | null
@@ -75,14 +76,16 @@ export default function Oracion() {
     if (!user) return
     setError(false)
     try {
-      const [m, g, gr] = await Promise.all([
+      const [m, g, gr, rev] = await Promise.all([
         getMyPrayers(user.id),
         getGroupPrayers(user.id),
         getMyGroups(user.id),
+        getPrayersToReview(user.id),
       ])
       setMine(m)
       setGroupPrayers(g)
       setGroups(gr)
+      setToReview(rev)
     } catch {
       setError(true)
     }
@@ -95,6 +98,20 @@ export default function Oracion() {
   function closeSheet(reload) {
     setSheet(null)
     if (reload) load()
+  }
+
+  function daysSince(iso) {
+    return Math.floor((Date.now() - new Date(iso).getTime()) / (1000 * 60 * 60 * 24))
+  }
+
+  async function sigeIgual(p) {
+    // Optimista: saco el pedido de la lista de revisión al instante.
+    setToReview((prev) => prev.filter((x) => x.id !== p.id))
+    try {
+      await markPrayerReviewed(p.id)
+    } catch {
+      setToReview((prev) => [...prev, p]) // revertir si falla
+    }
   }
 
   // "Míos": activos primero, luego respondidos atenuados.
@@ -143,6 +160,44 @@ export default function Oracion() {
       {/* Míos */}
       {seg === 'mine' && (
         <div className="mt-4">
+          {/* Para revisar */}
+          {toReview.length > 0 && (
+            <div className="mb-6">
+              <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+                Para revisar
+              </p>
+              <div className="card divide-y divide-hairline">
+                {toReview.map((p) => {
+                  const dias = daysSince(p.last_reviewed_at ?? p.created_at)
+                  return (
+                    <div key={p.id} className="p-4">
+                      <p className="truncate text-[15px] font-semibold text-ink">{p.title}</p>
+                      <p className="mt-0.5 text-[13px] text-ink-soft">
+                        Activo hace {dias} {dias === 1 ? 'día' : 'días'}
+                      </p>
+                      <div className="mt-3 flex gap-2">
+                        <button
+                          type="button"
+                          onClick={() => sigeIgual(p)}
+                          className="btn btn-secondary flex-1 py-2 text-[14px]"
+                        >
+                          Sigue igual
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setSheet({ mode: 'edit', prayer: p })}
+                          className="btn btn-primary flex-1 py-2 text-[14px]"
+                        >
+                          Revisar
+                        </button>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
           {mine === null && !error && <SkeletonCards count={3} />}
           {mine?.length === 0 && (
             <p className="mt-10 text-center text-[15px] leading-relaxed text-ink-soft">

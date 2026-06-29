@@ -472,6 +472,32 @@ export async function removeIntercession(prayerId, userId) {
   if (error) throw error
 }
 
+// Pedidos activos propios con más de `days` días sin revisarse (contados desde
+// last_reviewed_at si existe, o desde created_at). Fuente de "Para revisar".
+export async function getPrayersToReview(userId, days = 30) {
+  const { data, error } = await supabase
+    .from('prayer_requests')
+    .select('*')
+    .eq('user_id', userId)
+    .eq('status', 'active')
+    .order('created_at', { ascending: true })
+  if (error) throw error
+  const cutoff = Date.now() - days * 24 * 60 * 60 * 1000
+  return data.filter((p) => {
+    const anchor = p.last_reviewed_at ?? p.created_at
+    return new Date(anchor).getTime() < cutoff
+  })
+}
+
+// "Sigue igual": reinicia el reloj de revisión sin cambiar el estado.
+export async function markPrayerReviewed(id) {
+  const { error } = await supabase
+    .from('prayer_requests')
+    .update({ last_reviewed_at: new Date().toISOString() })
+    .eq('id', id)
+  if (error) throw error
+}
+
 // Testimonios de un grupo: pedidos compartidos, respondidos y marcados para
 // compartir, más recientes primero. Incluye el nombre del autor.
 export async function getGroupTestimonies(groupId) {
