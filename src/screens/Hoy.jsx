@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useReading } from '../hooks/useReading.js'
 import { useAuth } from '../lib/auth.jsx'
 import {
@@ -10,10 +10,16 @@ import {
   deleteReflection,
   localDateISO,
   todayLocalISO,
+  startDateForDay,
+  longestStreak,
+  recordPlanCompletion,
+  clearPlanProgress,
 } from '../lib/db.js'
 import { firstYouVersionUrl } from '../lib/bible.js'
+import { shareCompletion } from '../lib/shareImage.js'
 import { SkeletonHoy } from '../components/Skeleton.jsx'
-import { ChartIcon } from '../components/icons.jsx'
+import { ChartIcon, CheckIcon, ShareIcon } from '../components/icons.jsx'
+import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import ReflectionSheet from '../components/ReflectionSheet.jsx'
 
 // Pantalla Hoy — la cara de la app (documento maestro §5.1, README pantalla 1).
@@ -24,8 +30,16 @@ import ReflectionSheet from '../components/ReflectionSheet.jsx'
 
 export default function Hoy() {
   const r = useReading()
-  const { user, profile } = useAuth()
+  const navigate = useNavigate()
+  const { user, profile, updateProfile } = useAuth()
   const reflectionsEnabled = !!profile?.reflections_enabled
+
+  // Festejo de plan terminado (Feature 5).
+  const [confirmRenew, setConfirmRenew] = useState(false)
+  const [renewing, setRenewing] = useState(false)
+  const [sharing, setSharing] = useState(false)
+  const [shareNote, setShareNote] = useState(null) // 'downloaded' | null
+  const [recorded, setRecorded] = useState(false)
 
   // Lectura adelantada ("seguir leyendo"): sin mover el calendario, mostramos el
   // contenido de un día futuro y dejamos marcarlo. aheadDay = null → viendo hoy.
@@ -105,6 +119,80 @@ export default function Hoy() {
   function backToToday() {
     setAheadDay(null)
     setAheadRefs(null)
+  }
+
+  // Datos del logro (ajustados al plan real, no a 365 fijo).
+  const maxStreak = longestStreak(r.readDates)
+  const startedOn = profile?.plan_start_date ?? null
+  const completedOn = [...r.readDates].sort().at(-1) ?? todayLocalISO()
+  const fmtShort = (iso) => {
+    if (!iso) return null
+    const [y, m, d] = iso.split('-').map(Number)
+    return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('es-ES', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      timeZone: 'UTC',
+    })
+  }
+  const dateRange = startedOn ? `${fmtShort(startedOn)} — ${fmtShort(completedOn)}` : fmtShort(completedOn)
+
+  // Al ver el festejo, guardar el logro una vez (idempotente por día en la DB).
+  useEffect(() => {
+    if (!r.planFinished || !user || !planId || !duration || recorded) return
+    setRecorded(true)
+    recordPlanCompletion({
+      userId: user.id,
+      planId,
+      daysRead: r.completedCount,
+      totalDays: duration,
+      longestStreak: maxStreak,
+      startedOn,
+    }).catch(() => setRecorded(false)) // si falla, reintenta al próximo render
+  }, [r.planFinished, user, planId, duration, recorded, r.completedCount, maxStreak, startedOn])
+
+  // Renovar: guardar el logro (por las dudas), borrar el progreso y arrancar hoy
+  // en el día 1. El cambio de plan_start_date + progreso vacío recarga useReading.
+  async function handleRenew() {
+    if (!user || !planId || !duration) return
+    setRenewing(true)
+    try {
+      await recordPlanCompletion({
+        userId: user.id,
+        planId,
+        daysRead: r.completedCount,
+        totalDays: duration,
+        longestStreak: maxStreak,
+        startedOn,
+      })
+      await clearPlanProgress(user.id, planId)
+      await updateProfile({ plan_start_date: startDateForDay(1) })
+      setConfirmRenew(false)
+    } catch {
+      // se mantiene el diálogo abierto con el botón habilitado de nuevo
+    } finally {
+      setRenewing(false)
+    }
+  }
+
+  async function handleShare() {
+    if (sharing) return
+    setSharing(true)
+    setShareNote(null)
+    try {
+      const res = await shareCompletion({
+        planName: r.plan.name,
+        daysRead: r.completedCount,
+        longestStreak: maxStreak,
+        startedOn,
+        completedOn,
+      })
+      if (res === 'downloaded') setShareNote('downloaded')
+    } catch {
+      setShareNote('error')
+    } finally {
+      setSharing(false)
+    }
   }
 
   if (r.loading) {
@@ -230,12 +318,83 @@ export default function Hoy() {
       )}
 
       {r.planFinished ? (
-        <div className="mt-12">
-          <p className="text-[13px] font-medium text-ink-soft">Plan completado</p>
-          <p className="mt-3 text-display text-ink">Terminaste el plan 🎉</p>
-          <p className="mt-3 text-[16px] text-ink-soft">
-            Podés elegir uno nuevo cuando quieras desde Planes.
-          </p>
+        <div className="mt-8">
+          <div className="card overflow-hidden p-0">
+            {/* Cabecera cálida tipo certificado */}
+            <div
+              className="px-6 pb-6 pt-8 text-center"
+              style={{ backgroundColor: 'var(--accent-tint)' }}
+            >
+              <div
+                className="mx-auto flex h-16 w-16 items-center justify-center rounded-full"
+                style={{ backgroundColor: 'var(--surface)', color: 'var(--accent)' }}
+              >
+                <CheckIcon size={32} strokeWidth={2.4} />
+              </div>
+              <p
+                className="mt-4 text-[12px] font-semibold uppercase tracking-wide"
+                style={{ color: 'var(--accent)' }}
+              >
+                Plan completado
+              </p>
+              <p className="mt-1.5 text-[15px] text-ink-soft">Terminaste de leer</p>
+              <h2 className="mt-1 text-[26px] font-bold leading-tight text-ink">{r.plan.name}</h2>
+            </div>
+            {/* Stats ajustados al plan real */}
+            <div className="grid grid-cols-2 divide-x divide-hairline border-t border-hairline">
+              <div className="py-5 text-center">
+                <p className="text-[30px] font-bold text-ink">{r.completedCount}</p>
+                <p className="text-[13px] text-ink-soft">
+                  {r.completedCount === 1 ? 'día leído' : 'días leídos'}
+                </p>
+              </div>
+              <div className="py-5 text-center">
+                <p className="text-[30px] font-bold text-ink">{maxStreak}</p>
+                <p className="text-[13px] text-ink-soft">
+                  {maxStreak === 1 ? 'día de racha máx.' : 'días de racha máx.'}
+                </p>
+              </div>
+            </div>
+            {dateRange && (
+              <p className="border-t border-hairline py-3 text-center text-[13px] text-ink-soft">
+                {dateRange}
+              </p>
+            )}
+          </div>
+
+          {/* Acciones */}
+          <div className="mt-5 space-y-3">
+            <button
+              type="button"
+              onClick={handleShare}
+              disabled={sharing}
+              className="btn btn-primary flex items-center justify-center gap-2"
+              style={{ opacity: sharing ? 0.6 : 1 }}
+            >
+              <ShareIcon size={18} /> {sharing ? 'Generando imagen…' : 'Compartir mi logro'}
+            </button>
+            <button type="button" onClick={() => setConfirmRenew(true)} className="btn btn-secondary">
+              Volver a leer este plan
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate('/planes')}
+              className="w-full py-2 text-center text-[15px] font-medium"
+              style={{ color: 'var(--accent)' }}
+            >
+              Elegir otro plan
+            </button>
+          </div>
+          {shareNote === 'downloaded' && (
+            <p className="mt-3 text-center text-[13px] text-ink-soft">
+              Imagen descargada. ¡Compartila donde quieras!
+            </p>
+          )}
+          {shareNote === 'error' && (
+            <p className="mt-3 text-center text-[13px]" style={{ color: 'var(--danger)' }}>
+              No se pudo generar la imagen. Probá de nuevo.
+            </p>
+          )}
         </div>
       ) : (
         <>
@@ -344,6 +503,17 @@ export default function Hoy() {
             }
             setReflectOpen(false)
           }}
+        />
+      )}
+
+      {confirmRenew && (
+        <ConfirmDialog
+          title={`¿Volver a leer ${r.plan?.name ?? 'este plan'}?`}
+          message="Empezás de nuevo desde el día 1, con fecha de hoy. Tu logro queda guardado."
+          confirmLabel="Empezar de nuevo"
+          busy={renewing}
+          onConfirm={handleRenew}
+          onCancel={() => setConfirmRenew(false)}
         />
       )}
     </div>

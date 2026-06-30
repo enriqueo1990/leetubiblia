@@ -193,6 +193,49 @@ export function computeDateStreak(dateSet, todayISO = todayLocalISO()) {
   return streak
 }
 
+// Racha MÁS LARGA del historial: el run más largo de fechas de calendario
+// consecutivas, sin importar dónde termine (a diferencia de computeDateStreak,
+// que mide la racha viva). dateSet = Set/Array de fechas YYYY-MM-DD locales.
+export function longestStreak(dates) {
+  const sorted = [...new Set(dates)].sort()
+  let best = 0
+  let run = 0
+  let prev = null
+  for (const d of sorted) {
+    run = prev && addDaysISO(prev, 1) === d ? run + 1 : 1
+    if (run > best) best = run
+    prev = d
+  }
+  return best
+}
+
+// Guarda el logro de plan terminado. Idempotente por día (unique user+plan+fecha):
+// re-abrir el festejo el mismo día no duplica. Llamar ANTES de borrar el progreso.
+export async function recordPlanCompletion({ userId, planId, daysRead, totalDays, longestStreak: streak, startedOn }) {
+  const { error } = await supabase.from('plan_completions').upsert(
+    {
+      user_id: userId,
+      plan_id: planId,
+      days_read: daysRead,
+      total_days: totalDays,
+      longest_streak: streak ?? 0,
+      started_on: startedOn ?? null,
+    },
+    { onConflict: 'user_id,plan_id,completed_on', ignoreDuplicates: true }
+  )
+  if (error) throw error
+}
+
+// Borra el progreso de un plan (para "renovar": releerlo desde el día 1).
+export async function clearPlanProgress(userId, planId) {
+  const { error } = await supabase
+    .from('reading_progress')
+    .delete()
+    .eq('user_id', userId)
+    .eq('plan_id', planId)
+  if (error) throw error
+}
+
 // ============================================================================
 // Oración (Tarea 5 — documento maestro §5.4 / §5.5)
 // ============================================================================

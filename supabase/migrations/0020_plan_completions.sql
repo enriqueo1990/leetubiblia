@@ -1,9 +1,9 @@
--- ============================================================
--- Lee Tu Biblia — MIGRACIONES PENDIENTES (staging incremental).
--- Aplicar en Supabase SQL Editor. Luego vaciar este archivo.
--- ============================================================
+-- Logros de plan terminado (Feature 5 Fase 3).
+-- Snapshot permanente al completar un plan: sobrevive aunque se renueve el plan
+-- (que borra el progreso) o se cambie de plan. Alimenta el resumen / historial.
+-- unique(user_id, plan_id, completed_on): idempotente por día (re-renders del
+-- festejo no duplican); permite volver a completar el mismo plan otro día.
 
--- 0020_plan_completions.sql
 create table if not exists public.plan_completions (
   id             bigint generated always as identity primary key,
   user_id        uuid not null references auth.users(id) on delete cascade,
