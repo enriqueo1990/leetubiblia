@@ -141,6 +141,17 @@ export default function Progreso() {
             Cada cuadrado pintado es un día que marcaste tu lectura.
           </p>
 
+          {/* Acceso al recorrido (logros + números acumulados) */}
+          <Link to="/recorrido" className="card mt-6 flex items-center justify-between px-4 py-3.5">
+            <span>
+              <span className="block text-[15px] font-semibold text-ink">Tu recorrido</span>
+              <span className="block text-[13px] text-ink-soft">Tus logros y números en la Palabra</span>
+            </span>
+            <span aria-hidden="true" className="text-[18px]" style={{ color: 'var(--accent)' }}>
+              ›
+            </span>
+          </Link>
+
           {/* Nota neutra de atraso */}
           {r.behind > 0 && (
             <>

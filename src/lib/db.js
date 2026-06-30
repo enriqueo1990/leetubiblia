@@ -236,6 +236,46 @@ export async function clearPlanProgress(userId, planId) {
   if (error) throw error
 }
 
+// Planes terminados (logros), más recientes primero. Cada registro es una vez que
+// se completó un plan; incluye el nombre del plan.
+export async function getCompletedPlans(userId) {
+  const { data, error } = await supabase
+    .from('plan_completions')
+    .select('id, plan_id, days_read, total_days, longest_streak, started_on, completed_on, plan:reading_plans(name)')
+    .eq('user_id', userId)
+    .order('completed_on', { ascending: false })
+  if (error) throw error
+  return (data ?? []).map((c) => ({ ...c, plan_name: c.plan?.name ?? 'Plan' }))
+}
+
+// Números acumulados para "Tu recorrido". Días en la Palabra = fechas distintas con
+// lectura (huella actual); racha más larga = máx entre la actual y la guardada en
+// logros (renovar borra el progreso, pero el logro conserva su racha).
+export async function getYearStats(userId) {
+  const [prog, comps, answered] = await Promise.all([
+    supabase.from('reading_progress').select('completed_at').eq('user_id', userId),
+    supabase.from('plan_completions').select('longest_streak').eq('user_id', userId),
+    supabase
+      .from('prayer_requests')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', userId)
+      .eq('status', 'answered'),
+  ])
+  if (prog.error) throw prog.error
+  if (comps.error) throw comps.error
+  if (answered.error) throw answered.error
+
+  const dates = new Set((prog.data ?? []).map((r) => localDateISO(r.completed_at)))
+  const curStreak = longestStreak([...dates])
+  const compStreak = Math.max(0, ...(comps.data ?? []).map((c) => c.longest_streak ?? 0))
+  return {
+    totalDaysRead: dates.size,
+    longestStreak: Math.max(curStreak, compStreak),
+    plansCompleted: (comps.data ?? []).length,
+    prayersAnswered: answered.count ?? 0,
+  }
+}
+
 // ============================================================================
 // Oración (Tarea 5 — documento maestro §5.4 / §5.5)
 // ============================================================================
