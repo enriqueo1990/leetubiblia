@@ -13,10 +13,26 @@ if (!url || !anonKey) {
   )
 }
 
+// Lock en memoria que serializa el acceso al token dentro de esta única ventana.
+// Reemplaza el navigatorLock por defecto de supabase-js, que usa navigator.locks
+// y en PWA standalone de iOS puede quedar colgado en la primera llamada a
+// getSession() (síntoma: "carga infinita la 1ª apertura, anda la 2ª"). La app
+// corre en una sola ventana, así que no necesitamos coordinación entre pestañas.
+let lockChain = Promise.resolve()
+function inMemoryLock(_name, _acquireTimeout, fn) {
+  const run = lockChain.then(fn, fn) // encadena tras la anterior (resuelva o falle)
+  lockChain = run.then(
+    () => {},
+    () => {}
+  )
+  return run
+}
+
 export const supabase = createClient(url, anonKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
     detectSessionInUrl: true, // necesario para el magic link (Tarea 3)
+    lock: inMemoryLock,
   },
 })

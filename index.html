@@ -102,5 +102,35 @@
       </div>
     </div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      // Red de seguridad contra la "carga infinita en la 1ª apertura" de la PWA:
+      // si React no montó (sigue presente el splash estático) varios segundos
+      // después de cargar —típicamente porque el bundle o el service worker no
+      // resolvieron en el primer arranque standalone—, recargamos UNA sola vez.
+      // En la 2ª carga el SW ya sirve todo desde precache y monta bien. El flag en
+      // sessionStorage evita un bucle de recargas.
+      (function () {
+        var KEY = 'ltb.bootReload'
+        window.addEventListener('load', function () {
+          setTimeout(function () {
+            // Si #ltb-splash ya no está, React montó y reemplazó el contenido: OK.
+            if (!document.getElementById('ltb-splash')) return
+            try {
+              if (sessionStorage.getItem(KEY)) return // ya recargamos una vez
+              sessionStorage.setItem(KEY, '1')
+            } catch (e) {}
+            // Telemetría temporal: dejamos rastro en la cola (sobrevive al reload)
+            // para confirmar que este camino se disparó. Ver src/lib/diag.js.
+            try {
+              var Q = 'ltb.diag.queue'
+              var q = JSON.parse(localStorage.getItem(Q) || '[]')
+              q.push({ event: 'boot_reload', detail: { waitedMs: 8000 }, ts: Date.now() })
+              localStorage.setItem(Q, JSON.stringify(q.slice(-20)))
+            } catch (e) {}
+            location.reload()
+          }, 8000)
+        })
+      })()
+    </script>
   </body>
 </html>

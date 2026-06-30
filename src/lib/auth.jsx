@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react'
 import { supabase } from './supabase.js'
+import { recordDiag } from './diag.js'
 
 // Contexto de autenticación. Expone la sesión, el perfil del usuario y las
 // acciones de auth (magic link, sign out). El onboarding decide qué pantalla
@@ -86,12 +87,21 @@ export function AuthProvider({ children }) {
       }
     }
     // Backstop: si getSession se cuelga (red), no quedarse en "Cargando…".
-    const timer = setTimeout(finishLoading, 6000)
+    // Telemetría temporal: marcamos si el backstop tuvo que disparar (getSession
+    // no resolvió en 6 s → sospechoso del lock de navigator.locks en iOS PWA).
+    const timer = setTimeout(() => {
+      recordDiag('getsession_slow', { resolved: false, waitedMs: 6000 })
+      finishLoading()
+    }, 6000)
 
     // Sesión inicial (incluye la que llega por el magic link vía detectSessionInUrl).
+    const getSessionStart = Date.now()
     supabase.auth
       .getSession()
       .then(async ({ data }) => {
+        // Si tardó más de 3 s en resolver, dejamos rastro (degradado, no colgado).
+        const elapsed = Date.now() - getSessionStart
+        if (elapsed > 3000) recordDiag('getsession_slow', { resolved: true, elapsedMs: elapsed })
         if (!active) return
         let sess = data.session
 
@@ -132,6 +142,22 @@ export function AuthProvider({ children }) {
       sub.subscription.unsubscribe()
     }
   }, [loadProfile])
+
+  // Hay sesión pero el perfil aún no existe (no es error de red: la fila todavía
+  // no fue creada por el trigger de alta, típico en la 1ª apertura tras registrarse).
+  // Reintentamos en vez de dejar al Gate en el splash para siempre (ver Gate.jsx).
+  useEffect(() => {
+    if (!session?.user?.id || profile || profileError) return
+    let n = 0
+    // Telemetría temporal: este camino solía colgar el Gate en el splash.
+    recordDiag('profile_retry', { reason: 'session sin profile al montar' })
+    const t = setInterval(() => {
+      n += 1
+      loadProfile(session.user.id)
+      if (n >= 5) clearInterval(t) // ~10 s de reintentos; luego paramos
+    }, 2000)
+    return () => clearInterval(t)
+  }, [session, profile, profileError, loadProfile])
 
   // Envía un código de 6 dígitos al email (sin contraseña). Se usa OTP por código
   // en vez de magic link porque el link abre el navegador y no la PWA instalada,
