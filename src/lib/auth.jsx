@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useCallback } from 'react'
+import { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react'
 import { supabase } from './supabase.js'
 import { recordDiag } from './diag.js'
 
@@ -33,6 +33,9 @@ export function AuthProvider({ children }) {
   // true cuando hay sesión pero no pudimos cargar el perfil y tampoco hay caché:
   // el Gate ofrece reintentar en vez de quedarse en "Cargando…" para siempre.
   const [profileError, setProfileError] = useState(false)
+  // Último user id para el que ya pedimos el perfil. Evita recargas redundantes
+  // en cada TOKEN_REFRESHED (que no cambia el perfil) y deduplica el arranque.
+  const lastUid = useRef(null)
 
   // Trae (o refresca) la fila de profiles del usuario logueado. Nunca lanza:
   // ante fallo de red/RLS cae a la caché local y, si no hay, marca profileError.
@@ -121,6 +124,7 @@ export function AuthProvider({ children }) {
         }
 
         setSession(sess)
+        lastUid.current = sess?.user?.id ?? null
         await loadProfile(sess?.user?.id)
       })
       .catch((e) => console.error('[auth] getSession falló:', e?.message || e))
@@ -129,11 +133,24 @@ export function AuthProvider({ children }) {
         finishLoading()
       })
 
-    // Cambios de sesión (login por link, logout, refresh de token).
-    const { data: sub } = supabase.auth.onAuthStateChange(async (_event, sess) => {
+    // Cambios de sesión (login por código, logout, refresh de token).
+    // OJO: supabase-js ejecuta este callback con el lock del token TOMADO. Hacer
+    // aquí un await a la BD (loadProfile → query que también pide el lock) genera
+    // un deadlock con nuestro lock serial (ver supabase.js). Se manifiesta como
+    // "splash infinito en la 1ª apertura" (evento INITIAL_SESSION) y "pantalla en
+    // blanco al volver a la pestaña" (TOKEN_REFRESHED). La solución canónica es
+    // diferir el trabajo con setTimeout(…, 0): el lock se libera antes de correr.
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, sess) => {
       if (!active) return
       setSession(sess)
-      await loadProfile(sess?.user?.id)
+      const uid = sess?.user?.id ?? null
+      setTimeout(() => {
+        if (!active) return
+        // El refresh de token no cambia el perfil: recargá solo si cambió el user.
+        if (uid && uid === lastUid.current) return
+        lastUid.current = uid
+        loadProfile(uid)
+      }, 0)
     })
 
     return () => {
