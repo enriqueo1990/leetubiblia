@@ -73,6 +73,18 @@ export const PlusIcon = (p) => (
   </Icon>
 )
 
+export const MinusIcon = (p) => (
+  <Icon {...p}>
+    <path d="M5 12h14" />
+  </Icon>
+)
+
+export const XIcon = (p) => (
+  <Icon {...p}>
+    <path d="M6 6l12 12M18 6 6 18" />
+  </Icon>
+)
+
 // Check — confirmación (intercesión activa, testimonios). Pasale strokeWidth
 // mayor (p.ej. 2.2) en usos donde deba verse sólido.
 export const CheckIcon = (p) => (

@@ -17,15 +17,41 @@ export default function ConfirmDialog({
   onCancel,
 }) {
   const confirmRef = useRef(null)
+  const panelRef = useRef(null)
+  const prevFocus = useRef(null)
+
+  // Foco inicial + devolución al cerrar. Deps vacías: no debe re-ejecutarse al
+  // cambiar `busy` (si no, robaría el foco a mitad de la acción async).
+  useEffect(() => {
+    prevFocus.current = document.activeElement
+    confirmRef.current?.focus()
+    return () => prevFocus.current?.focus?.()
+  }, [])
 
   useEffect(() => {
-    confirmRef.current?.focus()
     function onKey(e) {
-      if (e.key !== 'Escape') return
-      // Consumir el Escape acá: si este diálogo está anidado en un Sheet, evita
-      // que el Sheet también reaccione (capture + stopImmediatePropagation).
-      e.stopImmediatePropagation()
-      if (!busy) onCancel()
+      if (e.key === 'Escape') {
+        // Consumir el Escape acá: si este diálogo está anidado en un Sheet, evita
+        // que el Sheet también reaccione (capture + stopImmediatePropagation).
+        e.stopImmediatePropagation()
+        if (!busy) onCancel()
+        return
+      }
+      // Trampa de foco: Tab no se escapa al contenido de fondo.
+      if (e.key !== 'Tab') return
+      const els = Array.from(
+        panelRef.current?.querySelectorAll('button:not([disabled])') ?? []
+      )
+      if (els.length === 0) return
+      const first = els[0]
+      const last = els[els.length - 1]
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
     }
     document.addEventListener('keydown', onKey, true)
     return () => document.removeEventListener('keydown', onKey, true)
@@ -41,6 +67,7 @@ export default function ConfirmDialog({
       aria-label={title}
     >
       <div
+        ref={panelRef}
         className="w-full max-w-[320px] rounded-container p-5 text-center"
         style={{ backgroundColor: 'var(--surface)', boxShadow: '0 10px 40px rgba(0,0,0,0.25)' }}
         onClick={(e) => e.stopPropagation()}

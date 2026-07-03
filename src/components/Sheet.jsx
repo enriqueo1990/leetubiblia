@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import ConfirmDialog from './ConfirmDialog.jsx'
+import { XIcon } from './icons.jsx'
 
 // Sheet / modal (README — estructura común): grabber arriba + barra de nav
 // (Cancelar / título / acción opcional) → contenido scroll → footer fijo.
@@ -100,17 +101,20 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
               ✕
             </button>
           ) : (
-            <div className="flex items-center justify-between px-4 py-3">
-              <button
-                type="button"
-                onClick={requestClose}
-                className="text-[16px]"
-                style={{ color: 'var(--accent)' }}
-              >
-                Cancelar
-              </button>
+            <div className="flex items-center justify-between px-3 py-2.5">
+              <span className="min-w-[44px]">
+                <button
+                  type="button"
+                  onClick={requestClose}
+                  aria-label="Cerrar"
+                  className="flex h-9 w-9 items-center justify-center rounded-full text-ink-soft"
+                  style={{ opacity: 0.6 }}
+                >
+                  <XIcon size={22} />
+                </button>
+              </span>
               <span className="text-[16px] font-semibold text-ink">{title}</span>
-              <span className="min-w-[64px] text-right">
+              <span className="min-w-[44px] text-right">
                 {action ?? <span className="opacity-0">·</span>}
               </span>
             </div>

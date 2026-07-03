@@ -8,6 +8,7 @@ import {
   PencilIcon,
   ShareIcon,
   PlusIcon,
+  MinusIcon,
   BookIcon,
   HeartIcon,
 } from '../components/icons.jsx'
@@ -28,6 +29,7 @@ import {
 } from '../lib/db.js'
 import { SkeletonDetail } from '../components/Skeleton.jsx'
 import RetryError from '../components/RetryError.jsx'
+import Sheet from '../components/Sheet.jsx'
 import PrayerSheet from './PrayerSheet.jsx'
 
 // Detalle de grupo — "de panel a sala" (Fase 3): la gente y el pulso del día
@@ -56,6 +58,7 @@ export default function GroupDetail() {
   const [prayers, setPrayers] = useState([]) // pedidos activos del grupo
   const [testimony, setTestimony] = useState(null) // último testimonio
   const [sheetOpen, setSheetOpen] = useState(false) // sheet "compartir un pedido"
+  const [inviteOpen, setInviteOpen] = useState(false) // sheet "invitar al grupo"
   const [error, setError] = useState(null)
   const [copied, setCopied] = useState(false)
   const [inviteShared, setInviteShared] = useState(false)
@@ -86,6 +89,16 @@ export default function GroupDetail() {
       setError('No se pudo cargar el grupo.')
     }
   }, [id, user])
+
+  // Refresco liviano: crear un pedido solo cambia la oración (y el pulso "Hoy"
+  // deriva de ella), así que no vale recargar el grupo entero.
+  const loadPrayers = useCallback(async () => {
+    try {
+      setPrayers(await getGroupActivePrayers(Number(id)))
+    } catch {
+      /* el pulso queda como estaba; se corrige en la próxima carga */
+    }
+  }, [id])
 
   useEffect(() => {
     load()
@@ -118,7 +131,8 @@ export default function GroupDetail() {
 
   async function orar(p) {
     if (!user || interceding(p)) return
-    // Optimista: sumo mi intercesión al pedido → conteo + avatar + botón al instante.
+    // Optimista: sumo mi intercesión al pedido → conteo + avatar + botón al
+    // instante (el pulso "Hoy" también, porque deriva de `prayers`).
     setPrayers((list) =>
       list.map((x) =>
         x.id === p.id
@@ -129,7 +143,14 @@ export default function GroupDetail() {
     try {
       await addIntercession(p.id, user.id)
     } catch {
-      /* optimista; al recargar se corrige */
+      // Revertir: si no quedó guardado, no mostramos "Orando" como si hubiera pasado.
+      setPrayers((list) =>
+        list.map((x) =>
+          x.id === p.id
+            ? { ...x, intercessors: x.intercessors.filter((i) => i.user_id !== user.id) }
+            : x
+        )
+      )
     }
   }
 
@@ -241,23 +262,36 @@ export default function GroupDetail() {
           </div>
         </div>
       ) : (
-        <div className="mt-3 flex items-center gap-2">
-          <h1 className="text-[26px] font-bold tracking-tight text-ink">{group.name}</h1>
-          {isOwner && (
-            <button
-              type="button"
-              aria-label="Editar nombre del grupo"
-              onClick={() => {
-                setNameInput(group.name)
-                setNameError(null)
-                setEditingName(true)
-              }}
-              className="mt-1 text-ink-soft"
-              style={{ opacity: 0.5 }}
-            >
-              <PencilIcon size={16} />
-            </button>
-          )}
+        <div className="mt-3 flex items-center justify-between gap-2">
+          <div className="flex min-w-0 items-center gap-2">
+            <h1 className="truncate text-[26px] font-bold tracking-tight text-ink">{group.name}</h1>
+            {isOwner && (
+              <button
+                type="button"
+                aria-label="Editar nombre del grupo"
+                onClick={() => {
+                  setNameInput(group.name)
+                  setNameError(null)
+                  setEditingName(true)
+                }}
+                className="mt-1 shrink-0 text-ink-soft"
+                style={{ opacity: 0.5 }}
+              >
+                <PencilIcon size={16} />
+              </button>
+            )}
+          </div>
+          {/* Acción primaria en el header, como en Grupos/Oración: invitar. */}
+          <button
+            type="button"
+            aria-label="Invitar al grupo"
+            onClick={() => setInviteOpen(true)}
+            className="flex h-[44px] shrink-0 items-center justify-center gap-1.5 rounded-full px-3 text-on-accent lg:px-4"
+            style={{ backgroundColor: 'var(--accent)', minWidth: 44 }}
+          >
+            <ShareIcon size={18} />
+            <span className="hidden text-[15px] font-semibold lg:inline">Invitar</span>
+          </button>
         </div>
       )}
 
@@ -320,10 +354,10 @@ export default function GroupDetail() {
         </div>
       </div>
 
-      {/* Oración del grupo — visible para todos, con "Orar" inline */}
+      {/* Oración — visible para todos, con "Orar" inline */}
       <div className="mt-7 flex items-center justify-between">
         <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-          Oración del grupo
+          Oración
         </p>
         <button
           type="button"
@@ -336,7 +370,25 @@ export default function GroupDetail() {
         </button>
       </div>
       {prayers.length === 0 ? (
-        <p className="mt-3 text-[15px] text-ink-soft">Todavía no hay pedidos compartidos.</p>
+        <button
+          type="button"
+          onClick={() => setSheetOpen(true)}
+          className="card mt-3 flex w-full items-center gap-3 p-4 text-left"
+        >
+          <span
+            className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-accent"
+            style={{ backgroundColor: 'var(--accent-tint)' }}
+            aria-hidden="true"
+          >
+            <HeartIcon size={20} />
+          </span>
+          <span className="min-w-0">
+            <span className="block text-[15px] text-ink">Todavía no hay pedidos compartidos</span>
+            <span className="mt-0.5 block text-[13px] font-semibold" style={{ color: 'var(--accent)' }}>
+              Compartí el primero →
+            </span>
+          </span>
+        </button>
       ) : (
         <>
           <ul className="mt-3 space-y-3">
@@ -469,28 +521,22 @@ export default function GroupDetail() {
                 <p className="text-[16px] text-ink">
                   {m.display_name}
                   {isMe && <span className="text-ink-soft"> (vos)</span>}
+                  {isMemberOwner && <span className="text-[13px] text-ink-soft"> · admin</span>}
                 </p>
-                {/* Quien no comparte su lectura simplemente no muestra línea: la
-                    ausencia ya lo dice, sin repetir un estado gris por miembro. */}
-                {iShare &&
-                  shares &&
-                  (readToday ? (
-                    <p className="text-[12px] font-medium" style={{ color: 'var(--accent)' }}>
-                      ✓ leyó hoy
-                    </p>
-                  ) : (
-                    <p className="text-[12px] text-ink-soft">aún no leyó hoy</p>
-                  ))}
               </div>
-              {isMemberOwner ? (
-                <span
-                  className="shrink-0 rounded-pill px-2 py-0.5 text-[12px] font-medium"
-                  style={{ color: 'var(--accent)', backgroundColor: 'var(--accent-tint)' }}
-                >
-                  Administrador
-                </span>
-              ) : (
-                isOwner && (
+              {/* Solo señalamos lo positivo: quien leyó hoy. El resto no muestra
+                  nada — nada de "no leyó" que suene a reproche. Recíproco: el chip
+                  solo aparece si vos también compartís tu lectura. */}
+              <div className="flex shrink-0 items-center gap-2">
+                {iShare && shares && readToday && (
+                  <span
+                    className="flex items-center gap-1 rounded-pill px-2.5 py-1 text-[12px] font-medium"
+                    style={{ color: 'var(--accent)', backgroundColor: 'var(--accent-tint)' }}
+                  >
+                    <CheckIcon size={13} strokeWidth={2.2} /> Leyó hoy
+                  </span>
+                )}
+                {isOwner && !isMemberOwner && (
                   <button
                     type="button"
                     onClick={() => setConfirm({ type: 'kick', member: m })}
@@ -502,54 +548,15 @@ export default function GroupDetail() {
                       style={{ border: '1px solid var(--hairline)' }}
                       aria-hidden="true"
                     >
-                      −
+                      <MinusIcon size={16} />
                     </span>
                   </button>
-                )
-              )}
+                )}
+              </div>
             </li>
           )
         })}
       </ul>
-
-      {/* Ajustes del grupo — invitar/administrar, abajo */}
-      <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-        Invitar al grupo
-      </p>
-      <div className="card mt-3 p-4">
-        {/* El código en tinta neutra: el acento queda para la acción real (compartir). */}
-        <p className="text-[26px] font-bold text-ink" style={{ letterSpacing: '2px' }}>
-          {group.invite_code}
-        </p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={shareInvite}
-            className="flex items-center gap-1.5 rounded-pill px-3 py-1.5 text-[13px] font-medium text-on-accent"
-            style={{ backgroundColor: 'var(--accent)' }}
-          >
-            <ShareIcon size={16} /> {inviteShared ? 'Copiado' : 'Compartir invitación'}
-          </button>
-          <button
-            type="button"
-            onClick={copyCode}
-            className="flex items-center gap-1.5 rounded-pill px-3 py-1.5 text-[13px] font-medium text-ink"
-            style={{ backgroundColor: 'var(--surface-alt)' }}
-          >
-            <CopyIcon size={16} /> {copied ? 'Copiado' : 'Copiar código'}
-          </button>
-          {isOwner && (
-            <button
-              type="button"
-              onClick={() => setConfirm({ type: 'regen' })}
-              className="flex items-center gap-1.5 rounded-pill px-3 py-1.5 text-[13px] font-medium text-ink"
-              style={{ backgroundColor: 'var(--surface-alt)' }}
-            >
-              <RefreshIcon size={16} /> Regenerar
-            </button>
-          )}
-        </div>
-      </div>
 
       {!isOwner && (
         <button
@@ -570,9 +577,55 @@ export default function GroupDetail() {
           onClose={() => setSheetOpen(false)}
           onSaved={() => {
             setSheetOpen(false)
-            load()
+            loadPrayers()
           }}
         />
+      )}
+
+      {inviteOpen && (
+        <Sheet title="Invitar al grupo" onCancel={() => setInviteOpen(false)}>
+          <div className="pb-1 text-center">
+            <p className="text-[15px] text-ink-soft">
+              Compartí este código con quien quieras sumar al grupo.
+            </p>
+            {/* El código en tinta neutra: el acento queda para la acción real (compartir). */}
+            <p
+              className="mt-6 text-[40px] font-bold text-ink"
+              style={{ letterSpacing: '6px', paddingLeft: '6px' }}
+            >
+              {group.invite_code}
+            </p>
+            <div className="mt-7 space-y-3">
+              <button
+                type="button"
+                onClick={shareInvite}
+                className="btn btn-primary flex items-center justify-center gap-2"
+              >
+                <ShareIcon size={18} /> {inviteShared ? 'Copiado' : 'Compartir invitación'}
+              </button>
+              <button
+                type="button"
+                onClick={copyCode}
+                className="btn btn-secondary flex items-center justify-center gap-2"
+              >
+                <CopyIcon size={18} /> {copied ? 'Copiado' : 'Copiar código'}
+              </button>
+              {isOwner && (
+                <button
+                  type="button"
+                  onClick={() => setConfirm({ type: 'regen' })}
+                  className="flex w-full items-center justify-center gap-1.5 py-2 text-[14px] font-medium text-ink-soft"
+                >
+                  <RefreshIcon size={15} /> Regenerar código
+                </button>
+              )}
+            </div>
+            {/* El cambio de texto a "Copiado" es solo visual; lo anunciamos para lectores. */}
+            <span className="sr-only" role="status" aria-live="polite">
+              {copied ? 'Código copiado' : inviteShared ? 'Link de invitación copiado' : ''}
+            </span>
+          </div>
+        </Sheet>
       )}
 
       {confirm?.type === 'leave' && (
