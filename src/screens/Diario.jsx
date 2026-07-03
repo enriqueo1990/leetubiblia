@@ -9,6 +9,7 @@ import {
 } from '../lib/db.js'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 import RetryError from '../components/RetryError.jsx'
+import EmptyState from '../components/EmptyState.jsx'
 import ReflectionSheet from '../components/ReflectionSheet.jsx'
 import { PencilIcon } from '../components/icons.jsx'
 
@@ -18,11 +19,13 @@ import { PencilIcon } from '../components/icons.jsx'
 const PAGE = 30
 
 function fmtDay(iso) {
-  return new Date(iso).toLocaleDateString('es-ES', {
+  const s = new Date(iso).toLocaleDateString('es-ES', {
     weekday: 'short',
     day: 'numeric',
     month: 'short',
   })
+  // es-ES devuelve "sáb, 27 jun"; la metadata arranca cada línea en mayúscula.
+  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 export default function Diario() {
@@ -77,20 +80,11 @@ export default function Diario() {
 
   if (entries.length === 0) {
     return (
-      <div className="mt-16 flex flex-col items-center text-center">
-        <div
-          className="flex h-[72px] w-[72px] items-center justify-center rounded-full text-[30px]"
-          style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--accent)' }}
-          aria-hidden="true"
-        >
-          ✦
-        </div>
-        <h2 className="mt-5 text-[20px] font-semibold text-ink">Tu camino empieza acá</h2>
-        <p className="mt-2 max-w-[300px] text-[15px] leading-relaxed text-ink-soft">
-          Al terminar tu lectura en Hoy, anotá una línea de lo que te habló y la vas a encontrar
-          acá, día tras día.
-        </p>
-      </div>
+      <EmptyState
+        icon="✦"
+        title="Tu camino empieza acá"
+        text="Al terminar tu lectura en Hoy, anotá una línea de lo que te habló y la vas a encontrar acá, día tras día."
+      />
     )
   }
 
@@ -101,14 +95,17 @@ export default function Diario() {
           const editable = isEditable(e)
           return (
             <li key={e.id}>
+              {/* La nota es el título: primero las palabras, la metadata como pie
+                  en voz baja (sin plan — se ve al abrir; sin mayúsculas de sección). */}
               <button
                 type="button"
                 onClick={() => setSheet(e)}
                 className="card w-full p-4 text-left"
               >
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-                    {fmtDay(e.created_at)} · {e.plan_name} · Día {e.day_number}
+                <p className="text-[16px] leading-relaxed text-ink">{e.body}</p>
+                <div className="mt-2.5 flex items-center justify-between gap-3">
+                  <p className="text-[12px] text-ink-soft">
+                    {fmtDay(e.created_at)} · Día {e.day_number}
                   </p>
                   {editable && (
                     <span
@@ -120,7 +117,6 @@ export default function Diario() {
                     </span>
                   )}
                 </div>
-                <p className="mt-2 text-[16px] leading-relaxed text-ink">{e.body}</p>
               </button>
             </li>
           )
@@ -142,6 +138,7 @@ export default function Diario() {
         <ReflectionSheet
           planName={sheet.plan_name}
           dayNumber={sheet.day_number}
+          dateLabel={fmtDay(sheet.created_at)}
           initialBody={sheet.body}
           editable={isEditable(sheet)}
           onClose={() => setSheet(null)}

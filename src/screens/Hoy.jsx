@@ -15,11 +15,12 @@ import {
   recordPlanCompletion,
   clearPlanProgress,
 } from '../lib/db.js'
-import { firstYouVersionUrl } from '../lib/bible.js'
+import { firstYouVersionUrl, youVersionUrl } from '../lib/bible.js'
 import { shareCompletion } from '../lib/shareImage.js'
 import { SkeletonHoy } from '../components/Skeleton.jsx'
 import { ChartIcon, CheckIcon, ShareIcon } from '../components/icons.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
+import EmptyState from '../components/EmptyState.jsx'
 import ReflectionSheet from '../components/ReflectionSheet.jsx'
 
 // Pantalla Hoy — la cara de la app (documento maestro §5.1, README pantalla 1).
@@ -202,20 +203,15 @@ export default function Hoy() {
   // Estado vacío: sin plan activo (raro tras el onboarding, pero contemplado).
   if (!r.hasPlan) {
     return (
-      <div className="flex min-h-[70vh] flex-col items-center justify-center text-center">
-        <div
-          className="flex h-[84px] w-[84px] items-center justify-center rounded-full text-[34px]"
-          style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--accent)' }}
-          aria-hidden="true"
-        >
-          ✦
-        </div>
-        <h2 className="mt-6 text-[24px] font-bold text-ink">Elegí un plan para empezar</h2>
-        <p className="mt-2 text-[16px] text-ink-soft">Tu lectura diaria aparece acá.</p>
-        <Link to="/planes" className="btn btn-primary mt-8 inline-block px-8">
+      <EmptyState
+        icon="✦"
+        title="Elegí un plan para empezar"
+        text="Tu lectura diaria aparece acá."
+      >
+        <Link to="/planes" className="btn btn-primary inline-block px-8">
           Ver planes
         </Link>
-      </div>
+      </EmptyState>
     )
   }
 
@@ -253,22 +249,26 @@ export default function Hoy() {
               ‹ Volver a hoy
             </button>
           )}
+          {/* El plan es metadata, no contenido: miga de pan en tono suave; el
+              protagonismo tipográfico queda para la lectura. */}
           {r.plan && (
             <Link
               to={`/planes/${r.plan.id}`}
-              className="inline-flex items-center gap-1 text-[15px] font-semibold text-accent"
+              className="flex max-w-full items-center gap-1 py-1 text-[13px] font-medium text-ink-soft"
             >
-              {r.plan.name}
-              <span aria-hidden="true" style={{ opacity: 0.4 }}>›</span>
+              <span className="truncate">{r.plan.name}</span>
+              <span aria-hidden="true" className="shrink-0" style={{ opacity: 0.5 }}>›</span>
             </Link>
           )}
         </div>
+        {/* Única puerta a Progreso (y al diario): ícono + etiqueta, en el mismo
+            gris del breadcrumb. Fijo a la derecha; el nombre del plan trunca. */}
         <Link
           to="/progreso"
-          aria-label="Ver progreso"
-          className="mt-0.5 shrink-0 text-ink-soft transition-colors hover:text-accent"
+          className="-mr-1 -mt-2 flex h-11 shrink-0 items-center gap-1.5 px-1 text-[13px] font-medium text-ink-soft transition-colors hover:text-accent"
         >
-          <ChartIcon size={18} />
+          <ChartIcon size={16} />
+          Progreso
         </Link>
       </div>
 
@@ -280,21 +280,19 @@ export default function Hoy() {
         </p>
       )}
 
-      {/* Banner de atraso — sin culpa, con reprogramar o descartar */}
+      {/* Aviso de atraso — sin culpa y sin caja: una línea en el tono del resto
+          del texto, con la acción en acento y el descarte apenas presente. */}
       {r.showBehind && !r.planFinished && !viewingAhead && (
         <>
-          <div
-            className="mt-4 flex items-center gap-3 rounded-[14px] px-4 py-3"
-            style={{ backgroundColor: 'var(--surface-alt)' }}
-          >
-            <span className="flex-1 text-[15px] text-ink">
+          <div className="mt-4 flex items-center">
+            <p className="text-[14px] text-ink-soft">
               Te atrasaste {r.behind} {r.behind === 1 ? 'día' : 'días'}
-            </span>
+            </p>
             <button
               type="button"
               onClick={r.reprogramar}
               disabled={r.reprogramando}
-              className="text-[15px] font-semibold"
+              className="ml-3 py-2 text-[14px] font-semibold"
               style={{ color: 'var(--accent)', opacity: r.reprogramando ? 0.5 : 1 }}
             >
               {r.reprogramando ? 'Reprogramando…' : 'Reprogramar'}
@@ -303,14 +301,14 @@ export default function Hoy() {
               type="button"
               onClick={r.dismissBehind}
               aria-label="Descartar aviso"
-              className="-m-2 flex h-9 w-9 items-center justify-center text-[18px] leading-none text-ink-soft"
-              style={{ opacity: 0.6 }}
+              className="ml-auto flex h-9 w-9 items-center justify-center text-[15px] leading-none text-ink-soft"
+              style={{ opacity: 0.5 }}
             >
               ✕
             </button>
           </div>
           {r.reprogramarError && (
-            <p className="mt-2 text-[12px]" style={{ color: 'var(--danger)' }}>
+            <p className="mt-1 text-[12px]" style={{ color: 'var(--danger)' }}>
               No se pudo reprogramar. Revisá tu conexión e intentá de nuevo.
             </p>
           )}
@@ -399,7 +397,9 @@ export default function Hoy() {
       ) : (
         <>
           <p className="mt-[42px] text-[13px] font-medium text-ink-soft">
-            {aheadOfToday ? `Lectura del día ${dayShown}` : 'Lectura de hoy'}
+            {aheadOfToday
+              ? `Lectura del día ${dayShown}`
+              : `Lectura de hoy${dayShown != null ? ` · Día ${dayShown}` : ''}`}
           </p>
           <div className="mt-[18px] space-y-1">
             {viewingAhead && aheadLoading ? (
@@ -408,11 +408,26 @@ export default function Hoy() {
                 <div className="rounded-pill" style={{ width: '44%', height: 32, backgroundColor: 'var(--surface-alt)' }} />
               </div>
             ) : (
-              refsShown?.map((ref, i) => (
-                <p key={i} className="text-display text-ink">
-                  {ref.label}
-                </p>
-              ))
+              // Cada referencia abre su propio pasaje (no solo la primera): el
+              // texto que ya es la pantalla se vuelve funcional, sin cromo nuevo.
+              refsShown?.map((ref, i) => {
+                const url = youVersionUrl(ref)
+                return url ? (
+                  <a
+                    key={i}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-fit text-display text-ink transition-opacity active:opacity-50"
+                  >
+                    {ref.label}
+                  </a>
+                ) : (
+                  <p key={i} className="text-display text-ink">
+                    {ref.label}
+                  </p>
+                )
+              })
             )}
           </div>
         </>
@@ -462,6 +477,19 @@ export default function Hoy() {
               </a>
             )}
           </div>
+
+          {/* Cierre del ciclo: la racha aparece solo al marcar el día de hoy (y
+              recién desde 2 — "1 día seguido" no dice nada). El resto del tiempo
+              vive en Progreso, sin insistir. */}
+          {doneShown && !viewingAhead && r.streak >= 2 && (
+            <Link
+              to="/progreso"
+              className="block py-1 text-center text-[13px] font-medium text-ink-soft lg:max-w-[440px]"
+            >
+              <span aria-hidden="true" style={{ color: 'var(--accent)' }}>✦</span> {r.streak} días
+              seguidos
+            </Link>
+          )}
 
           {/* Seguir leyendo: tras marcar el día mostrado, o ya en modo adelantado.
               Salta al próximo día sin leer, sin re-pisar lo ya marcado. */}

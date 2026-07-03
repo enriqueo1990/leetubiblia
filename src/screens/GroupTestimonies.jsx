@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { CheckIcon } from '../components/icons.jsx'
 import { getGroup, getGroupTestimonies } from '../lib/db.js'
+import RetryError from '../components/RetryError.jsx'
+import EmptyState from '../components/EmptyState.jsx'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 
 // Testimonios del grupo (Fase 2, F2-C): oraciones respondidas que el autor
@@ -44,25 +46,13 @@ export default function GroupTestimonies() {
       <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">Testimonios</h1>
       <p className="mt-1 text-[15px] text-ink-soft">Oraciones que el grupo vio responder.</p>
 
-      {error && (
-        <div className="mt-8">
-          <p className="text-[15px] text-ink-soft">{error}</p>
-          <button
-            type="button"
-            onClick={load}
-            className="mt-2 text-[15px] font-semibold"
-            style={{ color: 'var(--accent)' }}
-          >
-            Reintentar
-          </button>
-        </div>
-      )}
+      {error && <RetryError message={error} onRetry={load} />}
       {!error && items === null && <div className="mt-5"><SkeletonCards count={3} /></div>}
       {items?.length === 0 && (
-        <p className="mt-10 text-center text-[15px] leading-relaxed text-ink-soft">
-          Todavía no hay testimonios. Cuando alguien marque una oración respondida y la comparta,
-          aparece acá.
-        </p>
+        <EmptyState
+          icon={<CheckIcon size={30} strokeWidth={2.2} />}
+          text="Todavía no hay testimonios. Cuando alguien marque una oración respondida y la comparta, aparece acá."
+        />
       )}
 
       <ul className="mt-5 space-y-3">

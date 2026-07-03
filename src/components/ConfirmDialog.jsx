@@ -33,7 +33,7 @@ export default function ConfirmDialog({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center px-8"
+      className="fixed inset-0 z-50 flex items-center justify-center px-8 backdrop-blur-sm"
       style={{ backgroundColor: 'var(--scrim)' }}
       onClick={() => !busy && onCancel()}
       role="alertdialog"

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import { getPlans } from '../lib/db.js'
 import { ChevronRight } from '../components/icons.jsx'
+import RetryError from '../components/RetryError.jsx'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 
 // Selección / cambio de plan (documento maestro §5.3, README pantalla 3).
@@ -43,19 +44,7 @@ export default function Planes() {
 
       <div className="mt-5 space-y-3">
         {plans === null && !error && <SkeletonCards count={3} />}
-        {error && (
-          <div className="rounded-card p-4 text-[15px]" style={{ backgroundColor: 'var(--surface-alt)' }}>
-            <p className="text-ink">No se pudieron cargar los planes.</p>
-            <button
-              type="button"
-              onClick={load}
-              className="mt-1 font-semibold"
-              style={{ color: 'var(--accent)' }}
-            >
-              Reintentar
-            </button>
-          </div>
-        )}
+        {error && <RetryError message="No se pudieron cargar los planes." onRetry={load} />}
         {plans?.map((p) => {
           const active = p.id === activeId
           return (

@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { PlusIcon, LockIcon, PeopleIcon } from '../components/icons.jsx'
+import { PlusIcon, LockIcon, PeopleIcon, HeartIcon } from '../components/icons.jsx'
 import Segmented from '../components/Segmented.jsx'
+import RetryError from '../components/RetryError.jsx'
+import EmptyState from '../components/EmptyState.jsx'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 import PrayerSheet from './PrayerSheet.jsx'
 import { useAuth } from '../lib/auth.jsx'
@@ -15,21 +17,6 @@ const SEGMENTS = [
 
 function fmtDate(iso) {
   return new Date(iso).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })
-}
-
-function StatusBadge({ status }) {
-  const answered = status === 'answered'
-  return (
-    <span
-      className="rounded-pill px-2 py-0.5 text-[12px] font-medium"
-      style={{
-        color: answered ? 'var(--accent)' : 'var(--text-soft)',
-        backgroundColor: answered ? 'var(--accent-tint)' : 'var(--surface-alt)',
-      }}
-    >
-      {answered ? 'Respondido' : 'Activo'}
-    </span>
-  )
 }
 
 function PrayerItem({ p, subtitle, onClick, dimmed }) {
@@ -53,7 +40,15 @@ function PrayerItem({ p, subtitle, onClick, dimmed }) {
         </div>
         <div className="flex shrink-0 items-center gap-2 text-ink-soft">
           {p.visibility === 'private' ? <LockIcon size={15} /> : <PeopleIcon size={16} />}
-          <StatusBadge status={p.status} />
+          {/* "Activo" es el estado por defecto: solo se señala la excepción. */}
+          {p.status === 'answered' && (
+            <span
+              className="rounded-pill px-2 py-0.5 text-[12px] font-medium"
+              style={{ color: 'var(--accent)', backgroundColor: 'var(--accent-tint)' }}
+            >
+              Respondido
+            </span>
+          )}
         </div>
       </button>
     </li>
@@ -143,19 +138,7 @@ export default function Oracion() {
 
       <Segmented className="mt-5" options={SEGMENTS} value={seg} onChange={setSeg} />
 
-      {error && (
-        <div className="mt-4 rounded-card p-4 text-[15px]" style={{ backgroundColor: 'var(--surface-alt)' }}>
-          <p className="text-ink">No se pudieron cargar los pedidos.</p>
-          <button
-            type="button"
-            onClick={load}
-            className="mt-1 font-semibold"
-            style={{ color: 'var(--accent)' }}
-          >
-            Reintentar
-          </button>
-        </div>
-      )}
+      {error && <RetryError message="No se pudieron cargar los pedidos." onRetry={load} />}
 
       {/* Míos */}
       {seg === 'mine' && (
@@ -200,10 +183,10 @@ export default function Oracion() {
 
           {mine === null && !error && <SkeletonCards count={3} />}
           {mine?.length === 0 && (
-            <p className="mt-10 text-center text-[15px] leading-relaxed text-ink-soft">
-              Todavía no tenés pedidos. Tocá + para crear el primero —privado, o
-              compartido con un grupo para que otros oren con vos.
-            </p>
+            <EmptyState
+              icon={<HeartIcon size={32} />}
+              text="Todavía no tenés pedidos. Tocá + para crear el primero —privado, o compartido con un grupo para que otros oren con vos."
+            />
           )}
           <ul className="space-y-3">
             {myActive.map((p) => (
@@ -248,25 +231,19 @@ export default function Oracion() {
       {seg === 'groups' && (
         <div className="mt-4">
           {groupPrayers === null && !error && <SkeletonCards count={3} />}
-          {groupPrayers?.length === 0 && (
-            <div className="mt-10 text-center">
-              {groups.length === 0 ? (
-                <>
-                  <p className="text-[15px] leading-relaxed text-ink-soft">
-                    Orá junto a otros: unite a un grupo para ver y sostener los pedidos
-                    que comparten.
-                  </p>
-                  <Link to="/grupos" className="btn btn-primary mt-5 inline-block px-8">
-                    Ir a Grupos
-                  </Link>
-                </>
-              ) : (
-                <p className="text-[15px] text-ink-soft">
-                  No hay pedidos compartidos en tus grupos todavía.
-                </p>
-              )}
-            </div>
-          )}
+          {groupPrayers?.length === 0 &&
+            (groups.length === 0 ? (
+              <EmptyState
+                icon={<PeopleIcon size={32} />}
+                text="Orá junto a otros: unite a un grupo para ver y sostener los pedidos que comparten."
+              >
+                <Link to="/grupos" className="btn btn-primary inline-block px-8">
+                  Ir a Grupos
+                </Link>
+              </EmptyState>
+            ) : (
+              <EmptyState text="No hay pedidos compartidos en tus grupos todavía." />
+            ))}
           {Object.entries(byGroup).map(([name, items]) => {
             const active = items.filter((p) => p.status === 'active')
             const answered = items.filter((p) => p.status === 'answered')

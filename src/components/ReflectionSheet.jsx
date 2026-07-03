@@ -4,9 +4,13 @@ import Sheet from './Sheet.jsx'
 // Hoja para anotar/editar la reflexión del día ("¿Qué te habló hoy?"). Feature 1.
 // Componente presentacional: la persistencia (db.js) la cablea el contenedor.
 // editable=false → la nota quedó sellada (día pasado): solo lectura.
+//
+// Mismo lenguaje que las tarjetas de Mi camino: la nota primero, la metadata
+// (fecha opcional · día · plan) como pie en gris, sin mayúsculas ni acento.
 export default function ReflectionSheet({
   planName,
   dayNumber,
+  dateLabel,
   initialBody = '',
   editable = true,
   onClose,
@@ -16,11 +20,12 @@ export default function ReflectionSheet({
   const [body, setBody] = useState(initialBody)
   const dirty = editable && body.trim() !== initialBody.trim()
   const canSave = editable && body.trim().length > 0 && dirty
-  const meta = `${planName} · Día ${dayNumber}`
+  const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s)
 
   return (
     <Sheet
-      title="Tu reflexión"
+      title={editable ? '¿Qué te habló hoy?' : 'Tu reflexión'}
+      plain={!editable}
       dirty={dirty}
       onCancel={onClose}
       footer={
@@ -37,16 +42,11 @@ export default function ReflectionSheet({
         ) : null
       }
     >
-      <p
-        className="text-[13px] font-medium"
-        style={{ color: 'var(--accent)', letterSpacing: '0.4px' }}
-      >
-        {meta.toUpperCase()}
-      </p>
-
       {editable ? (
         <>
-          <p className="mt-3 text-[15px] text-ink">¿Qué te habló hoy?</p>
+          <p className="text-[13px] text-ink-soft">
+            {[cap(dateLabel), `Día ${dayNumber}`, planName].filter(Boolean).join(' · ')}
+          </p>
           <textarea
             autoFocus
             value={body}
@@ -54,34 +54,42 @@ export default function ReflectionSheet({
             maxLength={1000}
             rows={4}
             placeholder="Una idea, una frase… lo que te quedó"
-            className="mt-2 w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
+            className="mt-3 w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
             style={{
               backgroundColor: 'var(--surface)',
               border: '1px solid var(--hairline)',
               color: 'var(--text-primary)',
             }}
           />
-          <p className="mt-2 text-[12px] text-ink-soft">
-            Podés editarla hoy. Mañana queda guardada como está.
-          </p>
-          {initialBody && onDelete && (
-            <button
-              type="button"
-              onClick={onDelete}
-              className="mt-4 text-[14px] font-medium"
-              style={{ color: 'var(--danger)' }}
-            >
-              Eliminar nota
-            </button>
-          )}
+          <div className="mt-2 flex items-center justify-between gap-3">
+            <p className="text-[12px] text-ink-soft">
+              Podés editarla hoy. Mañana queda guardada como está.
+            </p>
+            {initialBody && onDelete && (
+              <button
+                type="button"
+                onClick={onDelete}
+                className="shrink-0 py-1 text-[13px] font-medium"
+                style={{ color: 'var(--danger)' }}
+              >
+                Eliminar
+              </button>
+            )}
+          </div>
         </>
       ) : (
-        <>
-          <p className="mt-3 text-[17px] leading-relaxed text-ink">{initialBody}</p>
-          <p className="mt-4 text-[12px] text-ink-soft">
-            Esta nota quedó sellada. Las reflexiones se editan solo el día que las escribís.
+        /* Estampita: la nota al centro, fecha y día como pie, firma de la app.
+           Pensada para que una captura se comparta tal cual (sin plan ni avisos). */
+        <div className="pb-4 pt-6 text-center">
+          <p className="text-[20px] leading-relaxed text-ink">{initialBody}</p>
+          <p className="mt-5 text-[13px] text-ink-soft">
+            {[cap(dateLabel), `Día ${dayNumber}`].filter(Boolean).join(' · ')}
           </p>
-        </>
+          <p className="mt-9 text-[12px] font-medium">
+            <span aria-hidden="true" style={{ color: 'var(--accent)' }}>✦ </span>
+            <span className="text-ink-soft" style={{ opacity: 0.8 }}>Lee Tu Biblia</span>
+          </p>
+        </div>
       )}
     </Sheet>
   )

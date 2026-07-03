@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { PeopleIcon, ChevronRight, PlusIcon } from '../components/icons.jsx'
 import Sheet from '../components/Sheet.jsx'
 import RetryError from '../components/RetryError.jsx'
+import EmptyState from '../components/EmptyState.jsx'
+import { initials } from '../components/Avatars.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import { getMyGroups, createGroup, joinGroupByCode } from '../lib/db.js'
 import { SkeletonCards } from '../components/Skeleton.jsx'
@@ -54,14 +56,6 @@ function CreateGroupSheet({ onClose, onCreated }) {
         </button>
       }
     >
-      <div className="flex justify-center py-3">
-        <div
-          className="flex h-[64px] w-[64px] items-center justify-center rounded-full text-ink-soft"
-          style={{ backgroundColor: 'var(--surface-alt)' }}
-        >
-          <PeopleIcon size={30} />
-        </div>
-      </div>
       <input
         ref={nameRef}
         type="text"
@@ -125,19 +119,12 @@ function JoinGroupSheet({ onClose, onJoined }) {
         </button>
       }
     >
-      <div className="flex justify-center py-3">
-        <div
-          className="flex h-[64px] w-[64px] items-center justify-center rounded-full text-[28px]"
-          style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--accent)' }}
-          aria-hidden="true"
-        >
-          ▦
-        </div>
-      </div>
       <input
         ref={codeRef}
         type="text"
         autoCapitalize="characters"
+        autoCorrect="off"
+        spellCheck={false}
         placeholder="CÓDIGO"
         value={code}
         onChange={(e) => setCode(e.target.value.toUpperCase())}
@@ -157,7 +144,7 @@ export default function Grupos() {
   const navigate = useNavigate()
   const [groups, setGroups] = useState(null)
   const [error, setError] = useState(false)
-  const [sheet, setSheet] = useState(null) // 'create' | 'join' | null
+  const [sheet, setSheet] = useState(null) // 'menu' | 'create' | 'join' | null
 
   const load = useCallback(async () => {
     if (!user) return
@@ -175,52 +162,60 @@ export default function Grupos() {
 
   return (
     <div className="pt-2">
-      <h1 className="text-[26px] font-bold tracking-tight text-ink">Grupos</h1>
-
-      <div className="mt-5 space-y-3">
+      {/* Acción primaria en el header, como en Oración: el contenido empieza bajo el título. */}
+      <div className="flex items-center justify-between">
+        <h1 className="text-[26px] font-bold tracking-tight text-ink">Grupos</h1>
         <button
           type="button"
-          onClick={() => setSheet('create')}
-          className="btn btn-primary flex items-center justify-center gap-1.5"
+          aria-label="Agregar grupo"
+          onClick={() => setSheet('menu')}
+          className="flex h-[44px] items-center justify-center gap-1 rounded-full px-3 text-on-accent lg:px-4"
+          style={{ backgroundColor: 'var(--accent)', minWidth: 44 }}
         >
-          <PlusIcon size={18} /> Crear grupo
-        </button>
-        <button type="button" onClick={() => setSheet('join')} className="btn btn-secondary">
-          Unirme por código
+          <PlusIcon size={20} />
+          <span className="hidden text-[15px] font-semibold lg:inline">Agregar grupo</span>
         </button>
       </div>
-
-      {groups?.length > 0 && (
-        <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-          Mis grupos
-        </p>
-      )}
 
       {error && <RetryError message="No se pudieron cargar tus grupos." onRetry={load} />}
       {groups === null && !error && (
         <div className="mt-5"><SkeletonCards count={3} /></div>
       )}
+
       {groups?.length === 0 && !error && (
-        <p className="mt-10 text-center text-[15px] text-ink-soft">
-          Todavía no estás en ningún grupo. Creá uno o unite con un código.
-        </p>
+        <EmptyState
+          icon={<PeopleIcon size={32} />}
+          text="Todavía no estás en ningún grupo. Creá uno o unite con un código."
+        >
+          <button
+            type="button"
+            onClick={() => setSheet('create')}
+            className="btn btn-primary flex items-center justify-center gap-1.5"
+          >
+            <PlusIcon size={18} /> Crear grupo
+          </button>
+          <button type="button" onClick={() => setSheet('join')} className="btn btn-secondary">
+            Unirme por código
+          </button>
+        </EmptyState>
       )}
 
-      <ul className="mt-3 space-y-3">
+      <ul className="mt-5 space-y-3">
         {groups?.map((g) => (
           <li key={g.id}>
             <Link to={`/grupos/${g.id}`} className="card flex items-center gap-3 p-4">
               <div
-                className="flex h-[42px] w-[42px] items-center justify-center rounded-full text-ink-soft"
-                style={{ backgroundColor: 'var(--surface-alt)' }}
+                className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-[15px] font-semibold"
+                style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent)' }}
+                aria-hidden="true"
               >
-                <PeopleIcon size={22} />
+                {initials(g.name)}
               </div>
-              <div className="flex-1">
-                <p className="text-[16px] font-semibold text-ink">{g.name}</p>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[16px] font-semibold text-ink">{g.name}</p>
                 <p className="text-[13px] text-ink-soft">
-                  {g.member_count} {g.member_count === 1 ? 'miembro' : 'miembros'} ·{' '}
-                  {g.role === 'owner' ? 'Administrador' : 'Miembro'}
+                  {g.member_count} {g.member_count === 1 ? 'miembro' : 'miembros'}
+                  {g.role === 'owner' && ' · Administrador'}
                 </p>
               </div>
               <span className="text-ink-soft" style={{ opacity: 0.5 }}>
@@ -231,6 +226,23 @@ export default function Grupos() {
         ))}
       </ul>
 
+      {/* Chooser: el + del header ofrece las dos entradas, igual que el empty state. */}
+      {sheet === 'menu' && (
+        <Sheet title="Agregar grupo" onCancel={() => setSheet(null)}>
+          <div className="space-y-3 pb-2">
+            <button
+              type="button"
+              onClick={() => setSheet('create')}
+              className="btn btn-primary flex items-center justify-center gap-1.5"
+            >
+              <PlusIcon size={18} /> Crear grupo
+            </button>
+            <button type="button" onClick={() => setSheet('join')} className="btn btn-secondary">
+              Unirme por código
+            </button>
+          </div>
+        </Sheet>
+      )}
       {sheet === 'create' && (
         <CreateGroupSheet
           onClose={() => setSheet(null)}

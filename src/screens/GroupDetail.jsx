@@ -4,7 +4,6 @@ import {
   CopyIcon,
   RefreshIcon,
   CheckIcon,
-  ChevronRight,
   LockIcon,
   PencilIcon,
   ShareIcon,
@@ -28,6 +27,7 @@ import {
   addIntercession,
 } from '../lib/db.js'
 import { SkeletonDetail } from '../components/Skeleton.jsx'
+import RetryError from '../components/RetryError.jsx'
 import PrayerSheet from './PrayerSheet.jsx'
 
 // Detalle de grupo — "de panel a sala" (Fase 3): la gente y el pulso del día
@@ -97,15 +97,7 @@ export default function GroupDetail() {
         <Link to="/grupos" className="text-[15px] font-medium" style={{ color: 'var(--accent)' }}>
           ‹ Grupos
         </Link>
-        <p className="mt-8 text-[15px] text-ink-soft">{error}</p>
-        <button
-          type="button"
-          onClick={load}
-          className="mt-2 text-[15px] font-semibold"
-          style={{ color: 'var(--accent)' }}
-        >
-          Reintentar
-        </button>
+        <RetryError message={error} onRetry={load} />
       </div>
     )
   }
@@ -396,8 +388,9 @@ export default function GroupDetail() {
         </>
       )}
 
-      {/* Testimonios — preview del último (o entrada a la lista si no hay) */}
-      {testimony ? (
+      {/* Testimonios — solo cuando existe el primero; una sección vacía que dice
+          "no hay nada" es ruido (el flujo para crearlos nace en la oración). */}
+      {testimony && (
         <>
           <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
             Testimonios
@@ -421,22 +414,6 @@ export default function GroupDetail() {
             </div>
           </Link>
         </>
-      ) : (
-        <Link to={`/grupos/${id}/testimonios`} className="card mt-5 flex items-center gap-3 p-4">
-          <div
-            className="flex h-[42px] w-[42px] items-center justify-center rounded-full text-accent"
-            style={{ backgroundColor: 'var(--accent-tint)' }}
-          >
-            <CheckIcon size={20} strokeWidth={2.2} />
-          </div>
-          <div className="flex-1">
-            <p className="text-[16px] font-semibold text-ink">Testimonios</p>
-            <p className="text-[13px] text-ink-soft">Oraciones respondidas que el grupo compartió</p>
-          </div>
-          <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-            <ChevronRight size={20} />
-          </span>
-        </Link>
       )}
 
       {/* Resumen pastoral — solo el owner */}
@@ -483,7 +460,7 @@ export default function GroupDetail() {
           return (
             <li key={m.user_id} className="flex items-center gap-3 px-4 py-3">
               <div
-                className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full text-[15px] font-semibold"
+                className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-[15px] font-semibold"
                 style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent)' }}
               >
                 {initials(m.display_name)}
@@ -493,19 +470,16 @@ export default function GroupDetail() {
                   {m.display_name}
                   {isMe && <span className="text-ink-soft"> (vos)</span>}
                 </p>
+                {/* Quien no comparte su lectura simplemente no muestra línea: la
+                    ausencia ya lo dice, sin repetir un estado gris por miembro. */}
                 {iShare &&
-                  (shares ? (
-                    readToday ? (
-                      <p className="text-[12px] font-medium" style={{ color: 'var(--accent)' }}>
-                        ✓ leyó hoy
-                      </p>
-                    ) : (
-                      <p className="text-[12px] text-ink-soft">aún no leyó hoy</p>
-                    )
-                  ) : (
-                    <p className="text-[12px] text-ink-soft" style={{ opacity: 0.7 }}>
-                      no comparte su lectura
+                  shares &&
+                  (readToday ? (
+                    <p className="text-[12px] font-medium" style={{ color: 'var(--accent)' }}>
+                      ✓ leyó hoy
                     </p>
+                  ) : (
+                    <p className="text-[12px] text-ink-soft">aún no leyó hoy</p>
                   ))}
               </div>
               {isMemberOwner ? (
@@ -543,7 +517,8 @@ export default function GroupDetail() {
         Invitar al grupo
       </p>
       <div className="card mt-3 p-4">
-        <p className="text-[26px] font-bold text-accent" style={{ letterSpacing: '2px' }}>
+        {/* El código en tinta neutra: el acento queda para la acción real (compartir). */}
+        <p className="text-[26px] font-bold text-ink" style={{ letterSpacing: '2px' }}>
           {group.invite_code}
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
