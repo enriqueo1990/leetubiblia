@@ -15,6 +15,7 @@ import GroupDetail from './screens/GroupDetail.jsx'
 import GroupTestimonies from './screens/GroupTestimonies.jsx'
 import Join from './screens/Join.jsx'
 import Ajustes from './screens/Ajustes.jsx'
+import Admin from './screens/Admin.jsx'
 
 // Cubre la app con el splash branding durante 1 s sin bloquear que Gate y sus
 // hijos monten y carguen datos por debajo. Cuando desaparece, el contenido ya
@@ -53,6 +54,8 @@ export default function App() {
       <Gate>
         <ProfilePrefSync />
         <Routes>
+          {/* Panel privado del dueño: fuera del Layout (sin tab bar), por URL directa. */}
+          <Route path="admin" element={<Admin />} />
           <Route element={<Layout />}>
             <Route index element={<Hoy />} />
             <Route path="progreso" element={<Progreso />} />

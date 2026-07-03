@@ -1,9 +1,3 @@
--- ============================================================
--- Lee Tu Biblia — MIGRACIONES PENDIENTES (staging incremental).
--- Aplicar en Supabase SQL Editor. Luego vaciar este archivo.
--- ============================================================
-
--- 0021_admin_analytics.sql
 -- ============================================================================
 -- Lee Tu Biblia — Panel admin (solo para el dueño).
 -- Migración 0021. Aplicar DESPUÉS de 0001..0020.

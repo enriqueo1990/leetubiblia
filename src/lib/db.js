@@ -825,3 +825,21 @@ export async function getGroupActivePrayers(groupId) {
     intercessor_count: (interByPrayer[p.id] || []).length,
   }))
 }
+
+// ---- Panel admin (solo dueño) ---------------------------------------------
+// Ambas llaman a funciones SECURITY DEFINER gated por email en el servidor
+// (migración 0021). Si el que llama no es el dueño, Postgres lanza "no autorizado".
+
+// Resumen general: usuarios, instalaciones, activos, planes y países.
+export async function getAdminOverview() {
+  const { data, error } = await supabase.rpc('admin_overview')
+  if (error) throw error
+  return data
+}
+
+// Serie de altas por día para los últimos `days` días.
+export async function getAdminSignupsSeries(days = 30) {
+  const { data, error } = await supabase.rpc('admin_signups_series', { days })
+  if (error) throw error
+  return data || []
+}

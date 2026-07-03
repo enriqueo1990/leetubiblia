@@ -6,7 +6,8 @@ import ErrorBoundary from './components/ErrorBoundary.jsx'
 import { AuthProvider } from './lib/auth.jsx'
 import { PreferencesProvider } from './lib/preferences.jsx'
 import './styles/index.css'
-import { flushDiag } from './lib/diag.js'
+import { flushDiag, recordAppOpen } from './lib/diag.js'
+import { recordPresence } from './lib/presence.js'
 
 // PreferencesProvider va por fuera de Auth: aplica tema/acento al instante y
 // también sin sesión (onboarding). La sincronización con profiles ocurre dentro
@@ -36,6 +37,11 @@ try {
 // Telemetría temporal: vuelca a Supabase los breadcrumbs de arranque acumulados
 // (watchdog, reintento de perfil, getSession lento). Diferido para no competir
 // con la carga inicial. Ver src/lib/diag.js — borrar cuando se confirme la causa.
+// Registra la apertura del día antes del flush para que viaje en el mismo lote.
+recordAppOpen()
+
 setTimeout(() => {
   flushDiag()
+  // Captura país + última actividad para el panel /admin (best-effort, diferido).
+  recordPresence()
 }, 4000)
