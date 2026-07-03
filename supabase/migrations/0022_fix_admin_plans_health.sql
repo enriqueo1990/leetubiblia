@@ -1,9 +1,3 @@
--- ============================================================
--- Lee Tu Biblia — MIGRACIONES PENDIENTES (staging incremental).
--- Aplicar en Supabase SQL Editor. Luego vaciar este archivo.
--- ============================================================
-
--- 0022_fix_admin_plans_health.sql
 -- ============================================================================
 -- Lee Tu Biblia — Fix del panel admin.
 -- Migración 0022. Aplicar DESPUÉS de 0021.

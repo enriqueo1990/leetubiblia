@@ -163,16 +163,16 @@ function PlansHealth({ rows }) {
 export default function Admin() {
   const { user } = useAuth()
   const [data, setData] = useState(null) // { overview, series }
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(null) // string | null
   const isAdmin = user?.email === ADMIN_EMAIL
 
   const load = useCallback(async () => {
-    setError(false)
+    setError(null)
     try {
       const [overview, series] = await Promise.all([getAdminOverview(), getAdminSignupsSeries(30)])
       setData({ overview, series })
-    } catch {
-      setError(true)
+    } catch (e) {
+      setError(e?.message || e?.hint || String(e))
     }
   }, [])
 
@@ -224,6 +224,7 @@ export default function Admin() {
       {error ? (
         <div className="mt-8">
           <RetryError message="No se pudo cargar el panel." onRetry={load} />
+          <p className="mt-3 break-words text-center text-[12px] text-placeholder">{error}</p>
         </div>
       ) : !o ? (
         <p className="mt-10 text-[15px] text-ink-soft">Cargando…</p>
