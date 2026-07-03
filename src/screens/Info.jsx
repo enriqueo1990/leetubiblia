@@ -120,16 +120,11 @@ function Eyebrow({ children }) {
   )
 }
 
-// ── Mock de la pantalla Hoy ──────────────────────────────────────────
-// Evidencia de producto sin traicionar el principio: se ven las REFERENCIAS del
-// día, nunca el texto bíblico — el mock demuestra la idea al lado del manifiesto.
-function PhoneMock() {
-  const today = new Date()
-    .toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })
-    .toUpperCase()
-  const dayOfYear = Math.floor(
-    (Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000
-  )
+// ── Mocks de producto ────────────────────────────────────────────────
+// Dos pantallas, una por audiencia — y NO más: la de Hoy junto al manifiesto
+// (individuo) y la del grupo en discipulado (líder). Marco compartido.
+function PhoneFrame({ caption, active, children }) {
+  const tabs = [BookIcon, HeartIcon, PeopleIcon, SlidersIcon]
   return (
     <figure className="mx-auto w-fit">
       <div
@@ -139,39 +134,115 @@ function PhoneMock() {
       >
         <div className="flex h-[540px] w-[252px] flex-col overflow-hidden rounded-[36px] bg-app px-6 pb-4 pt-6">
           <div className="mx-auto mb-5 h-[5px] w-14 rounded-full bg-segment-track" />
-          <p className="text-[10.5px] font-medium uppercase tracking-[0.6px] text-ink-soft">
-            {today}
-          </p>
-          <p className="mt-1.5 text-[12px] font-semibold text-accent">
-            Plan M’Cheyne · Día {dayOfYear}
-          </p>
-          <p className="mt-6 text-[11px] font-medium text-ink-soft">Lectura de hoy</p>
-          <div className="mt-2 flex flex-col gap-[3px] text-[23px] font-medium leading-[1.28] tracking-[-0.4px] text-ink">
-            <span>Jeremías 33</span>
-            <span>Salmos 5–6</span>
-            <span>Mateo 7</span>
-            <span>Lucas 22</span>
-          </div>
-          <p className="mt-5 text-[11.5px] font-semibold text-accent">Racha de 12 días</p>
-          <div className="flex-1" />
-          <div className="rounded-[12px] bg-accent py-2.5 text-center text-[12.5px] font-semibold text-on-accent">
-            Marcar como leído
-          </div>
-          <div className="mt-2 rounded-[12px] border border-hairline py-2 text-center text-[11.5px] font-medium text-ink">
-            Abrir en mi app de Biblia ↗
-          </div>
+          {children}
           <div className="mt-3 flex items-center justify-around border-t border-hairline pt-2.5">
-            <BookIcon size={16} className="text-accent" />
-            <HeartIcon size={16} style={{ color: 'var(--faint)' }} />
-            <PeopleIcon size={16} style={{ color: 'var(--faint)' }} />
-            <SlidersIcon size={16} style={{ color: 'var(--faint)' }} />
+            {tabs.map((T, i) => (
+              <T
+                key={i}
+                size={16}
+                className={i === active ? 'text-accent' : undefined}
+                style={i === active ? undefined : { color: 'var(--faint)' }}
+              />
+            ))}
           </div>
         </div>
       </div>
       <figcaption className="mx-auto mt-5 max-w-[250px] text-center text-[13.5px] leading-snug text-ink-soft">
-        Así se ve Hoy: tus pasajes del día. El texto queda en tu Biblia.
+        {caption}
       </figcaption>
     </figure>
+  )
+}
+
+// Pantalla Hoy: evidencia sin traicionar el principio — se ven las REFERENCIAS
+// del día, nunca el texto bíblico. El mock demuestra la idea junto al manifiesto.
+function PhoneMock() {
+  const today = new Date()
+    .toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })
+    .toUpperCase()
+  const dayOfYear = Math.floor(
+    (Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000
+  )
+  return (
+    <PhoneFrame
+      active={0}
+      caption="Así se ve Hoy: tus pasajes del día. El texto queda en tu Biblia."
+    >
+      <p className="text-[10.5px] font-medium uppercase tracking-[0.6px] text-ink-soft">
+        {today}
+      </p>
+      <p className="mt-1.5 text-[12px] font-semibold text-accent">
+        Plan M’Cheyne · Día {dayOfYear}
+      </p>
+      <p className="mt-6 text-[11px] font-medium text-ink-soft">Lectura de hoy</p>
+      <div className="mt-2 flex flex-col gap-[3px] text-[23px] font-medium leading-[1.28] tracking-[-0.4px] text-ink">
+        <span>Jeremías 33</span>
+        <span>Salmos 5–6</span>
+        <span>Mateo 7</span>
+        <span>Lucas 22</span>
+      </div>
+      <p className="mt-5 text-[11.5px] font-semibold text-accent">Racha de 12 días</p>
+      <div className="flex-1" />
+      <div className="rounded-[12px] bg-accent py-2.5 text-center text-[12.5px] font-semibold text-on-accent">
+        Marcar como leído
+      </div>
+      <div className="mt-2 rounded-[12px] border border-hairline py-2 text-center text-[11.5px] font-medium text-ink">
+        Abrir en mi app de Biblia ↗
+      </div>
+    </PhoneFrame>
+  )
+}
+
+// Pantalla de grupo: el pulso de hoy, los miembros y el código — vuelve
+// tangibles las cuatro afirmaciones de la sección de discipulado.
+function GroupMock() {
+  const members = [
+    { name: 'Ana', read: true },
+    { name: 'Marcos', read: true },
+    { name: 'Sofía', read: true },
+    { name: 'David', read: false },
+  ]
+  return (
+    <PhoneFrame
+      active={2}
+      caption="El grupo de un vistazo: el pulso de hoy y el código para invitar."
+    >
+      <p className="text-[10.5px] font-semibold text-accent">‹ Grupos</p>
+      <p className="mt-2.5 text-[17px] font-bold tracking-[-0.3px] text-ink">Célula Norte</p>
+      <p className="mt-0.5 text-[10.5px] text-ink-soft">8 miembros · Sos el admin</p>
+      <div className="card mt-4 rounded-[12px] px-3.5 py-3">
+        <p className="text-[9px] font-semibold uppercase tracking-[0.8px] text-ink-soft">Hoy</p>
+        <p className="mt-1 text-[12.5px] text-ink">
+          <span className="font-semibold">3 leyeron hoy</span>
+          <span className="text-ink-soft"> · 2 pedidos activos</span>
+        </p>
+      </div>
+      <p className="mt-4 text-[9px] font-semibold uppercase tracking-[0.8px] text-ink-soft">
+        Miembros · 8
+      </p>
+      <div className="mt-2 flex flex-col gap-2.5">
+        {members.map((m) => (
+          <div key={m.name} className="flex items-center gap-2.5">
+            <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-accent-tint text-[11px] font-semibold text-accent">
+              {m.name[0]}
+            </span>
+            <span className="text-[12.5px] font-medium text-ink">{m.name}</span>
+            {m.read ? (
+              <CheckIcon size={13} strokeWidth={2.4} className="ml-auto text-accent" />
+            ) : (
+              <span className="ml-auto text-[10px] text-ink-soft">aún no</span>
+            )}
+          </div>
+        ))}
+      </div>
+      <div className="flex-1" />
+      <div className="card rounded-[12px] px-3.5 py-3">
+        <p className="text-[8.5px] font-semibold uppercase tracking-[0.8px] text-ink-soft">
+          Código de invitación
+        </p>
+        <p className="mt-1 text-[15px] font-bold tracking-[2px] text-ink">CN-7K9Q</p>
+      </div>
+    </PhoneFrame>
   )
 }
 
@@ -372,7 +443,7 @@ export default function Info() {
 
       {/* ── DISCIPULADO (sección propia, destacada) ──────────── */}
       <section className="mt-16 border-y border-hairline bg-surface-alt/60 py-20">
-        <div className="mx-auto w-full max-w-[720px] px-6">
+        <div className="mx-auto w-full max-w-[880px] px-6">
           <Eyebrow>Para líderes y pastores</Eyebrow>
           <h2 className="mt-4 max-w-[560px] text-[28px] font-bold leading-[1.14] tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[34px]">
             Una herramienta para discipular, no solo una app personal
@@ -384,16 +455,25 @@ export default function Info() {
             privacidad de cada uno como punto de partida.
           </p>
 
-          <div className="mt-11 grid gap-x-10 gap-y-8 sm:grid-cols-2">
-            {DISCIPULADO.map((d) => (
-              <div key={d.title} className="flex items-start gap-4">
-                <IconBadge>{d.icon}</IconBadge>
-                <div>
-                  <h3 className="text-[17px] font-semibold text-ink">{d.title}</h3>
-                  <p className="mt-1 text-[15px] leading-snug text-ink-soft">{d.desc}</p>
-                </div>
+          {/* Espejo de "La idea": acá el teléfono va a la IZQUIERDA (desktop).
+              En mobile el DOM manda: primero los puntos, después la pantalla. */}
+          <div className="mt-12 lg:flex lg:items-center lg:gap-16">
+            <div className="lg:order-2 lg:flex-1">
+              <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-1">
+                {DISCIPULADO.map((d) => (
+                  <div key={d.title} className="flex items-start gap-4">
+                    <IconBadge>{d.icon}</IconBadge>
+                    <div>
+                      <h3 className="text-[17px] font-semibold text-ink">{d.title}</h3>
+                      <p className="mt-1 text-[15px] leading-snug text-ink-soft">{d.desc}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+            <div className="mt-12 shrink-0 lg:order-1 lg:mt-0">
+              <GroupMock />
+            </div>
           </div>
 
           {/* El camino del líder: empezar cuesta un minuto. */}
