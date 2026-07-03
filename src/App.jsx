@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import Gate from './components/Gate.jsx'
+import Info from './screens/Info.jsx'
 import ProfilePrefSync from './components/ProfilePrefSync.jsx'
 import Layout from './components/Layout.jsx'
 import Hoy from './screens/Hoy.jsx'
@@ -48,6 +49,13 @@ function LaunchOverlay() {
 
 // Gate decide onboarding vs app. Una vez dentro, las rutas con tab bar/sidebar.
 export default function App() {
+  const { pathname } = useLocation()
+
+  // /info es la única página PÚBLICA: vive fuera del Gate y del splash, para que
+  // quien llega en frío (redes, un pastor pasando el link) vea de qué se trata
+  // sin caer en el login. Sus CTA llevan a "/" y ahí sí entra el Gate → AuthFlow.
+  if (pathname === '/info') return <Info />
+
   return (
     <>
       <LaunchOverlay />
