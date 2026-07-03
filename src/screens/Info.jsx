@@ -14,15 +14,9 @@ import {
 // Landing pública /info — la única página fuera del Gate (ver App.jsx). Le habla
 // a quien llega en frío (redes, un pastor pasando el link) antes de decidir
 // crear cuenta. Concepto: la app acompaña la Biblia FÍSICA, no la reemplaza
-// (product-principle-physical-bible). Un solo acento sepia, firma serif para el
-// objeto-libro, ancho de lectura acotado, aire en vez de tarjetas flotantes.
-
-// Firma tipográfica del "objeto libro": serif del sistema, sin sumar webfonts a
-// la PWA (coherente con su ética offline/rápida).
-const serif = {
-  fontFamily:
-    'Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", ui-serif, serif',
-}
+// (product-principle-physical-bible). Un solo acento sepia, la MISMA sans del
+// sistema que usa la app (la landing no introduce tipografías que la app no tiene),
+// ancho de lectura acotado, aire en vez de tarjetas flotantes.
 
 // Íconos que la app aún no tiene, en el mismo trazo (1.7, currentColor).
 function MiniIcon({ children, size = 22 }) {
@@ -83,7 +77,7 @@ function IconBadge({ children }) {
   )
 }
 
-// Wordmark reutilizable (serif + marca libro).
+// Wordmark reutilizable (sans bold, como el onboarding de la app + marca libro).
 function Wordmark({ size = 'sm' }) {
   const s = size === 'lg'
   return (
@@ -108,8 +102,7 @@ function Wordmark({ size = 'sm' }) {
         </svg>
       </span>
       <span
-        style={serif}
-        className={`font-semibold tracking-[-0.01em] text-ink ${s ? 'text-[26px]' : 'text-[19px]'}`}
+        className={`font-bold tracking-[-0.02em] text-ink ${s ? 'text-[24px]' : 'text-[18px]'}`}
       >
         Lee Tu Biblia
       </span>
@@ -303,11 +296,8 @@ export default function Info() {
         />
         <div className="screen-enter relative mx-auto w-full max-w-[680px] px-6 pb-16 pt-10 text-center sm:pt-16">
           <Eyebrow>Compañero de lectura bíblica</Eyebrow>
-          <h1
-            style={serif}
-            className="mx-auto mt-5 max-w-[560px] text-[40px] font-semibold leading-[1.12] tracking-[-0.02em] text-ink [text-wrap:balance] sm:text-[52px]"
-          >
-            El hábito de abrir <span className="text-accent">tu Biblia</span>, sostenido día a día.
+          <h1 className="mx-auto mt-5 max-w-[560px] text-[38px] font-bold leading-[1.12] tracking-[-0.03em] text-ink [text-wrap:balance] sm:text-[48px]">
+            El hábito de abrir <span className="whitespace-nowrap text-accent">tu Biblia</span>, sostenido día a día.
           </h1>
           <p className="mx-auto mt-6 max-w-[480px] text-[18px] leading-relaxed text-ink-soft">
             Tu plan, tu racha, tu diario y tus oraciones —solo o con tu grupo—
@@ -335,10 +325,7 @@ export default function Info() {
         <div className="border-t border-hairline pt-12 lg:flex lg:items-center lg:gap-16">
           <div className="lg:flex-1">
             <Eyebrow>La idea</Eyebrow>
-            <p
-              style={serif}
-              className="mt-5 max-w-[560px] text-[24px] font-medium leading-[1.5] tracking-[-0.01em] text-ink sm:text-[27px]"
-            >
+            <p className="mt-5 max-w-[560px] text-[22px] font-medium leading-[1.5] tracking-[-0.02em] text-ink sm:text-[25px]">
               «Lee Tu Biblia» significa leé <span className="text-accent">tu</span>{' '}
               Biblia: la de papel, la que subrayás. La app no compite con ese
               momento —lo cuida. El texto vive en tus páginas; acá vive el hábito.
@@ -358,10 +345,7 @@ export default function Info() {
       {/* ── FUNCIONALIDADES ──────────────────────────────────── */}
       <section className="mx-auto w-full max-w-[720px] px-6 py-8">
         <Eyebrow>Qué incluye</Eyebrow>
-        <h2
-          style={serif}
-          className="mt-4 text-[30px] font-semibold tracking-[-0.02em] text-ink [text-wrap:balance] sm:text-[34px]"
-        >
+        <h2 className="mt-4 text-[28px] font-bold tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[32px]">
           Todo lo que sostiene el hábito
         </h2>
         <div className="mt-10 flex flex-col gap-12">
@@ -390,10 +374,7 @@ export default function Info() {
       <section className="mt-16 border-y border-hairline bg-surface-alt/60 py-20">
         <div className="mx-auto w-full max-w-[720px] px-6">
           <Eyebrow>Para líderes y pastores</Eyebrow>
-          <h2
-            style={serif}
-            className="mt-4 max-w-[560px] text-[30px] font-semibold leading-[1.14] tracking-[-0.02em] text-ink [text-wrap:balance] sm:text-[36px]"
-          >
+          <h2 className="mt-4 max-w-[560px] text-[28px] font-bold leading-[1.14] tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[34px]">
             Una herramienta para discipular, no solo una app personal
           </h2>
           <p className="mt-6 max-w-[560px] text-[18px] leading-relaxed text-ink-soft">
@@ -439,10 +420,7 @@ export default function Info() {
       {/* ── INSTALACIÓN ──────────────────────────────────────── */}
       <section className="mx-auto w-full max-w-[720px] px-6 py-20">
         <Eyebrow>En 2 minutos</Eyebrow>
-        <h2
-          style={serif}
-          className="mt-4 text-[30px] font-semibold tracking-[-0.02em] text-ink [text-wrap:balance] sm:text-[34px]"
-        >
+        <h2 className="mt-4 text-[28px] font-bold tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[32px]">
           Instalala como app
         </h2>
         <p className="mt-4 max-w-[520px] text-[16px] leading-relaxed text-ink-soft">
@@ -476,10 +454,7 @@ export default function Info() {
       {/* ── CTA FINAL ────────────────────────────────────────── */}
       <section className="border-t border-hairline">
         <div className="mx-auto w-full max-w-[680px] px-6 py-20 text-center">
-          <h2
-            style={serif}
-            className="text-[34px] font-semibold tracking-[-0.02em] text-ink sm:text-[40px]"
-          >
+          <h2 className="text-[32px] font-bold tracking-[-0.025em] text-ink sm:text-[38px]">
             Empezá hoy
           </h2>
           <p className="mx-auto mt-4 max-w-[380px] text-[18px] leading-relaxed text-ink-soft">
@@ -492,10 +467,7 @@ export default function Info() {
           </div>
 
           {/* La firma que ya usa el splash de la app: landing y producto, unidos. */}
-          <p
-            style={serif}
-            className="mx-auto mt-16 max-w-[420px] text-[19px] italic leading-relaxed text-ink-soft"
-          >
+          <p className="mx-auto mt-16 max-w-[420px] text-[17px] italic leading-relaxed text-ink-soft">
             «Santifícalos en la verdad; Tu palabra es verdad.»
           </p>
           <p className="mt-2 text-[13px] text-ink-soft">Juan 17:17 · NBLA</p>
