@@ -8,17 +8,41 @@
 -- Lee Tu Biblia — Fix del panel admin.
 -- Migración 0022. Aplicar DESPUÉS de 0021.
 --
--- Bug: en admin_overview() el bloque 'plans_health' calculaba 'started' y
--- 'stall_day' con subconsultas en el FROM que referenciaban la tabla externa
--- `rp` (reading_plans). Postgres NO permite esa correlación sin LATERAL, así que
--- la función fallaba en tiempo de ejecución ("invalid reference to FROM-clause
--- entry for table rp"). No se detectó antes porque el guard is_admin() corta
--- ANTES del cuerpo: con una cuenta no-admin el SQL nunca llegaba a ejecutarse.
+-- Arregla dos cosas:
 --
--- Fix: recalcular plans_health con CTEs (agregados por plan, sin correlación).
--- El resto del jsonb queda idéntico.
+-- (A) boot_diagnostics fue BORRADA (en 0015 estaba marcada como "temporal"). Su
+--     ausencia rompía el flushDiag del cliente (POST 404) y admin_overview (que
+--     lee count(*) de esa tabla para 'total_opens'). Como ahora es permanente
+--     (registra 'app_open'), la recreamos idéntica a 0015. Idempotente.
+--
+-- (B) admin_overview(): el bloque 'plans_health' calculaba 'started'/'stall_day'
+--     con subconsultas en el FROM que referenciaban la tabla externa `rp`
+--     (correlación sin LATERAL, no permitida por Postgres → error en runtime).
+--     No se detectó antes porque el guard is_admin() corta ANTES del cuerpo.
+--     Fix: recalcular plans_health con CTEs por plan, sin correlación.
 -- ============================================================================
 
+-- ---- (A) Recrear boot_diagnostics (permanente) ----------------------------
+create table if not exists public.boot_diagnostics (
+  id         bigint generated always as identity primary key,
+  created_at timestamptz not null default now(),
+  user_id    uuid references auth.users(id) on delete set null,
+  event      text not null,
+  detail     jsonb,
+  standalone boolean,
+  user_agent text
+);
+create index if not exists boot_diag_event_idx on public.boot_diagnostics(event, created_at);
+
+alter table public.boot_diagnostics enable row level security;
+
+-- Cualquier cliente (anónimo o logueado) puede registrar su arranque; nadie lee
+-- ni modifica desde el cliente (el panel lee con las funciones SECURITY DEFINER).
+drop policy if exists "anyone can insert boot diagnostics" on public.boot_diagnostics;
+create policy "anyone can insert boot diagnostics" on public.boot_diagnostics
+  for insert to anon, authenticated with check (true);
+
+-- ---- (B) admin_overview() sin correlación ilegal --------------------------
 create or replace function public.admin_overview()
 returns jsonb
 language plpgsql security definer set search_path = public as $$
