@@ -1,1 +1,4 @@
+# /info tiene su propio HTML estático (og-info.png + meta propias) para que el
+# preview del link sea distinto al genérico. Debe ir ANTES del fallback SPA.
+/info    /info.html    200
 /*    /index.html   200
