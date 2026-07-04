@@ -1,4 +1,4 @@
-import { BookIcon, HeartIcon, PeopleIcon, SlidersIcon, CheckIcon } from '../components/icons.jsx'
+import { BookIcon, HeartIcon, PeopleIcon, SlidersIcon, LockIcon } from '../components/icons.jsx'
 
 // Kit compartido por las landings públicas (/info y /grupos-de-discipulado): primitivos
 // de marca, íconos y mocks de producto. Vive fuera del Gate. Concepto transversal:
@@ -207,19 +207,21 @@ export function PhoneMock() {
   )
 }
 
-// Pantalla de grupo: el pulso de hoy, los miembros y el código — vuelve
-// tangibles las afirmaciones de la sección de discipulado.
+// Pantalla de grupo, en la VISTA DEL LÍDER: el pulso de hoy, la lectura de la
+// semana de cada miembro (tarjeta privada owner-only, como en GroupDetail) y el
+// código — vuelve tangibles las afirmaciones de la sección de discipulado.
+// Consistencia interna: la última columna de puntos ES hoy → 3 llenos = "3 leyeron hoy".
 export function GroupMock() {
   const members = [
-    { name: 'Ana', read: true },
-    { name: 'Marcos', read: true },
-    { name: 'Sofía', read: true },
-    { name: 'David', read: false },
+    { name: 'Ana', week: [1, 1, 1, 1, 1, 1, 1] },
+    { name: 'Marcos', week: [1, 1, 0, 1, 1, 1, 1] },
+    { name: 'Sofía', week: [1, 0, 1, 1, 0, 1, 1] },
+    { name: 'David', week: [0, 1, 1, 0, 1, 0, 0] },
   ]
   return (
     <PhoneFrame
       active={2}
-      caption="El grupo de un vistazo: el pulso de hoy y el código para invitar."
+      caption="La vista del líder: el pulso de hoy, la semana de cada uno y el código para invitar."
     >
       <p className="text-[10.5px] font-semibold text-accent">‹ Grupos</p>
       <p className="mt-2.5 text-[17px] font-bold tracking-[-0.3px] text-ink">Grupo Norte</p>
@@ -231,23 +233,38 @@ export function GroupMock() {
           <span className="text-ink-soft"> · 2 pedidos activos</span>
         </p>
       </div>
-      <p className="mt-4 text-[9px] font-semibold uppercase tracking-[0.8px] text-ink-soft">
-        Miembros · 8
-      </p>
-      <div className="mt-2 flex flex-col gap-2.5">
-        {members.map((m) => (
-          <div key={m.name} className="flex items-center gap-2.5">
-            <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-accent-tint text-[11px] font-semibold text-accent">
-              {m.name[0]}
-            </span>
-            <span className="text-[12.5px] font-medium text-ink">{m.name}</span>
-            {m.read ? (
-              <CheckIcon size={13} strokeWidth={2.4} className="ml-auto text-accent" />
-            ) : (
-              <span className="ml-auto text-[10px] text-ink-soft">aún no</span>
-            )}
-          </div>
-        ))}
+      <div className="card mt-2.5 rounded-[12px] px-3.5 py-3">
+        <p className="flex items-center gap-1.5 text-[8.5px] font-semibold uppercase tracking-[0.8px] text-ink-soft">
+          <LockIcon size={9} /> Lectura de la semana · solo vos
+        </p>
+        <div className="mt-2.5 flex flex-col gap-[8px]">
+          {members.map((m) => (
+            <div key={m.name} className="flex items-center">
+              <span className="min-w-0 flex-1 truncate text-[11.5px] font-medium text-ink">
+                {m.name}
+              </span>
+              <span className="flex gap-[5px]">
+                {m.week.map((r, i) => (
+                  <span
+                    key={i}
+                    className="h-[7px] w-[7px] rounded-full"
+                    style={
+                      r
+                        ? { backgroundColor: 'var(--accent)' }
+                        : {
+                            backgroundColor: 'var(--surface-alt)',
+                            border: '1px solid var(--hairline)',
+                          }
+                    }
+                  />
+                ))}
+              </span>
+            </div>
+          ))}
+        </div>
+        <p className="mt-2.5 text-[8.5px] leading-snug text-ink-soft">
+          Los últimos 7 días de cada uno, aunque hoy no entres.
+        </p>
       </div>
       <div className="flex-1" />
       <div className="card rounded-[12px] px-3.5 py-3">

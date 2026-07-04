@@ -29,8 +29,8 @@ const PILAR_LECTURA = [
   },
   {
     icon: <CheckIcon size={22} strokeWidth={2} />,
-    title: 'Quién marcó su lectura',
-    desc: 'Ves quién marcó la lectura de hoy —solo lo positivo, sin “no leyó” que suene a reproche.',
+    title: 'La semana de cada uno, de un vistazo',
+    desc: 'Ves quién marcó su lectura hoy y en los últimos 7 días —solo lo ves vos, y no perdés el pulso aunque un día no entres.',
   },
   {
     icon: <HeartIcon size={22} />,
@@ -240,7 +240,9 @@ export default function GruposDiscipulado() {
               <p className="mt-2 max-w-[540px] text-[15.5px] leading-relaxed text-ink-soft">
                 El grupo es cerrado: nadie entra sin el código. Cada persona
                 elige qué comparte —su lectura, sus pedidos— y qué se guarda para
-                sí. Solo se señala lo positivo; nadie queda expuesto por atrasarse.
+                sí. Ante el grupo solo se señala lo positivo; la semana completa
+                la ve únicamente el líder, y solo de quienes comparten su
+                lectura. Nadie queda expuesto por atrasarse.
               </p>
             </div>
           </div>
