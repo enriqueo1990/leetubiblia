@@ -1,5 +1,5 @@
-import { readFileSync, writeFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -8,14 +8,20 @@ import { VitePWA } from 'vite-plugin-pwa'
 // GruposDiscipulado.jsx). El sitio es un SPA con las meta OG estáticas en index.html;
 // los scrapers (WhatsApp, Facebook…) NO ejecutan JS, así que un preview distinto
 // por ruta exige un HTML estático propio. El plugin clona el index.html ya
-// construido —conservando los assets hasheados, de modo que cada .html bootea la
-// MISMA app— y sólo reemplaza el bloque SEO/social (desde <title> hasta el último
-// meta de Twitter). En _redirects, cada ruta se sirve desde su .html antes del
-// fallback SPA. Para sumar una landing: agregá una entrada acá + su regla en
-// public/_redirects, y generá su og-*.png (scripts/og-*.mjs).
+// construido —conservando los assets hasheados (absolutos), de modo que cada
+// página bootea la MISMA app— y sólo reemplaza el bloque SEO/social entre los
+// marcadores SEO:start/SEO:end.
+//
+// IMPORTANTE: cada landing se emite como ÍNDICE DE CARPETA (info/index.html), no
+// como info.html. Netlify sirve /info desde info/index.html directamente, sin
+// redirección. Un archivo plano /info.html entraría en bucle con las "Pretty
+// URLs" de Netlify (que redirigen /info.html → /info mientras un rewrite manda
+// /info → /info.html). Por eso NO hay regla de reescritura en _redirects: basta
+// el índice de carpeta + el fallback SPA. Para sumar una landing: entrada acá +
+// su og-*.png (scripts/og-*.mjs). No toca _redirects.
 const LANDING_PAGES = [
   {
-    file: 'info.html',
+    file: 'info/index.html',
     title: 'Lee Tu Biblia — el hábito de abrir tu Biblia, sostenido',
     description:
       'Plan, racha, diario y oraciones —solo o con tu grupo— para acompañar tu Biblia de papel. Una herramienta para discipular, no otro lector de Escritura.',
@@ -24,7 +30,7 @@ const LANDING_PAGES = [
     alt: 'Lee Tu Biblia — compañero de lectura bíblica',
   },
   {
-    file: 'grupos-de-discipulado.html',
+    file: 'grupos-de-discipulado/index.html',
     title: 'Lee Tu Biblia — Para líderes de grupos de discipulado',
     description:
       'Guiá a tu grupo en la Palabra sin chats desbordados: lean al mismo ritmo, anímense a leer y oren juntos por sus pedidos y testimonios.',
@@ -87,7 +93,9 @@ function landingHtmlPlugin() {
 
       for (const page of LANDING_PAGES) {
         const block = `\n    ${seoBlock(page)}\n    <!-- SEO:end -->`
-        writeFileSync(resolve(outDir, page.file), html.slice(0, start) + block + html.slice(end))
+        const outFile = resolve(outDir, page.file)
+        mkdirSync(dirname(outFile), { recursive: true })
+        writeFileSync(outFile, html.slice(0, start) + block + html.slice(end))
       }
     },
   }

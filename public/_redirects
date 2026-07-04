@@ -1,5 +1,5 @@
-# Las landings públicas tienen su HTML estático propio (og-*.png + meta propias)
-# para que el preview del link sea distinto al genérico. Van ANTES del fallback SPA.
-/info               /info.html               200
-/grupos-de-discipulado    /grupos-de-discipulado.html    200
+# Las landings públicas (/info, /grupos-de-discipulado) NO necesitan regla: se
+# emiten como índice de carpeta (info/index.html…) y Netlify las sirve directo,
+# sin .html que las "Pretty URLs" recorten (eso causaba un bucle 308). Ver
+# vite.config.js. Solo queda el fallback SPA para el resto de rutas de React.
 /*    /index.html   200
