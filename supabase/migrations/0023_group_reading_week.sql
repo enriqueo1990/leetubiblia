@@ -1,9 +1,3 @@
--- ============================================================
--- Lee Tu Biblia — MIGRACIONES PENDIENTES (staging incremental).
--- Contiene: 0023_group_reading_week.sql (historial 7 días para el owner).
--- Pegá este archivo en el SQL Editor de Supabase y Run. Idempotente.
--- ============================================================
-
 -- ============================================================================
 -- Lee Tu Biblia — Historial de lectura del grupo (últimos 7 días, solo owner).
 -- Migración 0023. Complementa la 0017 (presencia "hoy"): el pulso diario se

@@ -779,6 +779,15 @@ export async function getGroupReadingToday(groupId) {
   return data ?? []
 }
 
+// Historial de la semana (solo owner, recíproco; requiere 0023): por cada
+// miembro que comparte, { user_id, week } con week[0]=hace 6 días … week[6]=hoy,
+// cada día en la zona horaria del miembro.
+export async function getGroupReadingWeek(groupId) {
+  const { data, error } = await supabase.rpc('group_reading_week', { p_group_id: groupId })
+  if (error) throw error
+  return data ?? []
+}
+
 // Pedidos activos compartidos de UN grupo (la "sala", visible a todos los
 // miembros; la RLS permite ver los shared del grupo). Incluye los propios. Con
 // nombre del autor e intercessor_count (batch, no N+1).

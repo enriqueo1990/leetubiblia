@@ -24,6 +24,7 @@ import {
   renameGroup,
   getGroupActivePrayers,
   getGroupReadingToday,
+  getGroupReadingWeek,
   getGroupTestimonies,
   addIntercession,
 } from '../lib/db.js'
@@ -55,6 +56,7 @@ export default function GroupDetail() {
   const [data, setData] = useState(null)
   const [stats, setStats] = useState(null)
   const [reading, setReading] = useState([]) // [{ user_id, has_read }]
+  const [weekly, setWeekly] = useState([]) // [{ user_id, week: boolean[7] }] — solo owner
   const [prayers, setPrayers] = useState([]) // pedidos activos del grupo
   const [testimony, setTestimony] = useState(null) // último testimonio
   const [sheetOpen, setSheetOpen] = useState(false) // sheet "compartir un pedido"
@@ -75,16 +77,18 @@ export default function GroupDetail() {
       const d = await getGroupDetail(Number(id))
       setData(d)
       const owner = d.members.find((m) => m.user_id === user?.id)?.role === 'owner'
-      const [readRes, prayRes, testRes, statsRes] = await Promise.allSettled([
+      const [readRes, prayRes, testRes, statsRes, weekRes] = await Promise.allSettled([
         getGroupReadingToday(Number(id)),
         getGroupActivePrayers(Number(id)),
         getGroupTestimonies(Number(id)),
         owner ? getGroupStats(Number(id)) : Promise.resolve(null),
+        owner ? getGroupReadingWeek(Number(id)) : Promise.resolve([]),
       ])
       if (readRes.status === 'fulfilled') setReading(readRes.value)
       if (prayRes.status === 'fulfilled') setPrayers(prayRes.value)
       if (testRes.status === 'fulfilled') setTestimony(testRes.value[0] ?? null)
       if (statsRes.status === 'fulfilled') setStats(statsRes.value)
+      if (weekRes.status === 'fulfilled') setWeekly(weekRes.value)
     } catch {
       setError('No se pudo cargar el grupo.')
     }
@@ -125,6 +129,19 @@ export default function GroupDetail() {
   // Lectura del grupo: el RPC solo devuelve filas si vos compartís (recíproco).
   const readMap = new Map(reading.map((r) => [r.user_id, r.has_read]))
   const readCount = reading.filter((r) => r.has_read).length
+
+  // Semana del grupo (solo owner): filas en el orden de la lista de miembros,
+  // con nombre resuelto. Letras de los días reales que terminan hoy.
+  const weekMap = new Map(weekly.map((r) => [r.user_id, r.week ?? []]))
+  const weekRows = members
+    .filter((m) => weekMap.has(m.user_id))
+    .map((m) => ({ ...m, week: weekMap.get(m.user_id) }))
+  const DAY_LETTERS = ['D', 'L', 'M', 'M', 'J', 'V', 'S']
+  const weekDates = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date()
+    d.setDate(d.getDate() - (6 - i))
+    return d
+  })
   const prayingCount = new Set(prayers.flatMap((p) => p.intercessors.map((i) => i.user_id))).size
 
   const interceding = (p) => p.intercessors.some((x) => x.user_id === user?.id)
@@ -497,6 +514,73 @@ export default function GroupDetail() {
             </p>
           </div>
         </>
+      )}
+
+      {/* La semana del grupo — solo el owner (y recíproco: el RPC devuelve []
+          si él no comparte). Info para acompañar aunque un día no entre; los
+          miembros nunca ven esta tarjeta. */}
+      {isOwner && weekRows.length > 0 && (
+        <div className="card mt-7 p-5">
+          <div className="flex items-center gap-1.5 text-ink-soft">
+            <LockIcon size={13} />
+            <span className="text-[12px] font-semibold uppercase tracking-wide">
+              Lectura de la semana · solo vos lo ves
+            </span>
+          </div>
+          <div className="mt-4 space-y-2.5">
+            {/* Header con la letra del día real de cada columna; "hoy" en acento. */}
+            <div className="flex items-center gap-3" aria-hidden="true">
+              <span className="min-w-0 flex-1" />
+              <div className="flex gap-1.5">
+                {weekDates.map((d, i) => (
+                  <span
+                    key={i}
+                    className="flex h-[18px] w-[18px] items-center justify-center text-[10px] font-semibold"
+                    style={{ color: i === 6 ? 'var(--accent)' : 'var(--text-soft)' }}
+                  >
+                    {DAY_LETTERS[d.getDay()]}
+                  </span>
+                ))}
+              </div>
+            </div>
+            {weekRows.map((m) => {
+              const readDays = m.week.filter(Boolean).length
+              return (
+                <div
+                  key={m.user_id}
+                  className="flex items-center gap-3"
+                  aria-label={`${m.display_name}: marcó su lectura ${readDays} de los últimos 7 días`}
+                >
+                  <span className="min-w-0 flex-1 truncate text-[14px] text-ink">
+                    {m.display_name}
+                    {m.user_id === user?.id && <span className="text-ink-soft"> (vos)</span>}
+                  </span>
+                  <div className="flex gap-1.5" aria-hidden="true">
+                    {m.week.map((read, i) => (
+                      <span key={i} className="flex h-[18px] w-[18px] items-center justify-center">
+                        <span
+                          className="h-[10px] w-[10px] rounded-full"
+                          style={
+                            read
+                              ? { backgroundColor: 'var(--accent)' }
+                              : {
+                                  backgroundColor: 'var(--surface-alt)',
+                                  border: '1px solid var(--hairline)',
+                                }
+                          }
+                        />
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+          <p className="mt-3 text-[12px] text-ink-soft">
+            Cada punto es un día en que esa persona marcó su lectura. Solo aparecen quienes
+            comparten.
+          </p>
+        </div>
       )}
 
       {/* Miembros — la gente, con su lectura (cuando compartís) */}
