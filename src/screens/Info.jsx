@@ -284,7 +284,7 @@ const DISCIPULADO = [
   {
     icon: <BookIcon size={22} />,
     title: 'Quién leyó hoy',
-    desc: 'Ves el pulso del grupo —cuántos abrieron su Biblia hoy— con respeto por quien prefiere no compartir.',
+    desc: 'Ves el pulso del grupo —quién marcó su lectura de hoy— con respeto por quien prefiere no compartir.',
   },
   {
     icon: <HeartIcon size={22} />,
