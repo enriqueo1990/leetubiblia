@@ -12,7 +12,7 @@ import {
   HandsIcon,
 } from './landingKit.jsx'
 
-// Landing pública /grupos-pequenos — hermana de /info (ver App.jsx), fuera del
+// Landing pública /grupos-de-discipulado — hermana de /info (ver App.jsx), fuera del
 // Gate. Le habla directamente al LÍDER de grupo de discipulado:
 // cómo usar la app para (1) animarse mutuamente a leer la Biblia y (2) orar
 // juntos por peticiones y celebrar testimonios. Mismo lenguaje de diseño que
@@ -101,7 +101,7 @@ function Pilar({ eyebrow, title, intro, points, mock, mockSide = 'right' }) {
   )
 }
 
-export default function GruposPequenos() {
+export default function GruposDiscipulado() {
   useEffect(() => {
     document.title = 'Lee Tu Biblia — Para líderes de grupos de discipulado'
     window.scrollTo(0, 0)

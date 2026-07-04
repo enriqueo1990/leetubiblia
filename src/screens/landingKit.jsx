@@ -1,6 +1,6 @@
 import { BookIcon, HeartIcon, PeopleIcon, SlidersIcon, CheckIcon } from '../components/icons.jsx'
 
-// Kit compartido por las landings públicas (/info y /grupos-pequenos): primitivos
+// Kit compartido por las landings públicas (/info y /grupos-de-discipulado): primitivos
 // de marca, íconos y mocks de producto. Vive fuera del Gate. Concepto transversal:
 // la app acompaña la Biblia FÍSICA, no la reemplaza (product-principle-physical-bible).
 // Un solo acento sepia, la MISMA sans del sistema, aire en vez de tarjetas flotantes

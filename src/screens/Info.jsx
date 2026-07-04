@@ -26,7 +26,7 @@ import {
 // llega en frío (redes, un pastor pasando el link) antes de decidir crear cuenta.
 // Concepto: la app acompaña la Biblia FÍSICA, no la reemplaza
 // (product-principle-physical-bible). Los primitivos de marca y los mocks viven
-// en landingKit.jsx, compartidos con /grupos-pequenos. Un solo acento sepia, la
+// en landingKit.jsx, compartidos con /grupos-de-discipulado. Un solo acento sepia, la
 // MISMA sans del sistema, ancho de lectura acotado, aire en vez de tarjetas.
 
 // Funcionalidades agrupadas: tres clusters con jerarquía en vez de una grilla

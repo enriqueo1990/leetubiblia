@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 // Meta social propia de cada landing pública (ver src/screens/Info.jsx y
-// GruposPequenos.jsx). El sitio es un SPA con las meta OG estáticas en index.html;
+// GruposDiscipulado.jsx). El sitio es un SPA con las meta OG estáticas en index.html;
 // los scrapers (WhatsApp, Facebook…) NO ejecutan JS, así que un preview distinto
 // por ruta exige un HTML estático propio. El plugin clona el index.html ya
 // construido —conservando los assets hasheados, de modo que cada .html bootea la
@@ -24,11 +24,11 @@ const LANDING_PAGES = [
     alt: 'Lee Tu Biblia — compañero de lectura bíblica',
   },
   {
-    file: 'grupos-pequenos.html',
+    file: 'grupos-de-discipulado.html',
     title: 'Lee Tu Biblia — Para líderes de grupos de discipulado',
     description:
       'Guiá a tu grupo en la Palabra sin chats desbordados: lean al mismo ritmo, anímense a leer y oren juntos por sus pedidos y testimonios.',
-    url: 'https://leetubiblia.com/grupos-pequenos',
+    url: 'https://leetubiblia.com/grupos-de-discipulado',
     image: 'https://leetubiblia.com/og-grupos.png',
     alt: 'Lee Tu Biblia — para líderes de grupos de discipulado',
   },

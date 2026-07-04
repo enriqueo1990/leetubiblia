@@ -1,4 +1,4 @@
-// Genera public/og-grupos.png: la imagen Open Graph propia de /grupos-pequenos.
+// Genera public/og-grupos.png: la imagen Open Graph propia de /grupos-de-discipulado.
 // Misma familia visual que og-info.mjs (papel, marca del libro en sepia, misma
 // sans, un solo acento, marca de agua sangrando) pero le habla al LÍDER de grupo
 // de discipulado — no "célula". La marca de agua es el ícono de personas/grupo
@@ -65,7 +65,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" 
   <text x="82" y="508" font-family="${font}" font-size="24" font-weight="400" fill="${soft}">—cada quien en su Biblia de papel.</text>
 
   <!-- URL -->
-  <text x="82" y="570" font-family="${font}" font-size="21" font-weight="600" letter-spacing="0.3" fill="${accent}">leetubiblia.com/grupos-pequenos</text>
+  <text x="82" y="570" font-family="${font}" font-size="21" font-weight="600" letter-spacing="0.3" fill="${accent}">leetubiblia.com/grupos-de-discipulado</text>
 </svg>`
 
 const out = fileURLToPath(new URL('../public/og-grupos.png', import.meta.url))

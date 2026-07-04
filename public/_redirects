@@ -1,5 +1,5 @@
 # Las landings públicas tienen su HTML estático propio (og-*.png + meta propias)
 # para que el preview del link sea distinto al genérico. Van ANTES del fallback SPA.
 /info               /info.html               200
-/grupos-pequenos    /grupos-pequenos.html    200
+/grupos-de-discipulado    /grupos-de-discipulado.html    200
 /*    /index.html   200

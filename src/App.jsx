@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import Gate from './components/Gate.jsx'
 import Info from './screens/Info.jsx'
-import GruposPequenos from './screens/GruposPequenos.jsx'
+import GruposDiscipulado from './screens/GruposDiscipulado.jsx'
 import ProfilePrefSync from './components/ProfilePrefSync.jsx'
 import Layout from './components/Layout.jsx'
 import Hoy from './screens/Hoy.jsx'
@@ -56,8 +56,8 @@ export default function App() {
   // quien llega en frío (redes, un pastor pasando el link) vea de qué se trata
   // sin caer en el login. Sus CTA llevan a "/" y ahí sí entra el Gate → AuthFlow.
   if (pathname === '/info') return <Info />
-  // Landing hermana enfocada al líder de grupo pequeño (misma condición pública).
-  if (pathname === '/grupos-pequenos') return <GruposPequenos />
+  // Landing hermana enfocada al líder de grupo de discipulado (misma condición pública).
+  if (pathname === '/grupos-de-discipulado') return <GruposDiscipulado />
 
   return (
     <>
