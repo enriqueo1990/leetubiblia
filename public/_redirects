@@ -1,4 +1,5 @@
-# /info tiene su propio HTML estático (og-info.png + meta propias) para que el
-# preview del link sea distinto al genérico. Debe ir ANTES del fallback SPA.
-/info    /info.html    200
+# Las landings públicas tienen su HTML estático propio (og-*.png + meta propias)
+# para que el preview del link sea distinto al genérico. Van ANTES del fallback SPA.
+/info               /info.html               200
+/grupos-pequenos    /grupos-pequenos.html    200
 /*    /index.html   200
