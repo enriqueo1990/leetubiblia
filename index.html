@@ -55,35 +55,61 @@
         #ltb-splash-verse span { color: #6A6A6E; }
       }
     </style>
-    <title>Lee Tu Biblia</title>
-    <meta
-      name="description"
-      content="Tu lectura bíblica diaria y tus oraciones, privadas o compartidas con tu grupo. Simple y sin ruido."
-    />
+    <!-- SEO:start — bloque SEO/social por página. En el build, vite.config.js lo
+         reemplaza íntegro para /info y /grupos-pequenos (mismo orden de tags). -->
+    <title>Lee Tu Biblia — lectura bíblica diaria y oración</title>
+    <meta name="description" content="Sostené el hábito de leer tu Biblia: planes de lectura, racha, diario y oración —solo o con tu grupo de discipulado—. Acompaña tu Biblia de papel, no la reemplaza." />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://leetubiblia.com/" />
 
     <!-- Open Graph (WhatsApp, Facebook, LinkedIn…) -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Lee Tu Biblia" />
     <meta property="og:locale" content="es_ES" />
     <meta property="og:url" content="https://leetubiblia.com/" />
-    <meta property="og:title" content="Lee Tu Biblia" />
-    <meta
-      property="og:description"
-      content="Tu lectura bíblica diaria y tus oraciones, en un solo lugar tranquilo."
-    />
+    <meta property="og:title" content="Lee Tu Biblia — lectura bíblica diaria y oración" />
+    <meta property="og:description" content="Sostené el hábito de leer tu Biblia: planes, racha, diario y oración —solo o con tu grupo de discipulado—." />
     <meta property="og:image" content="https://leetubiblia.com/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Lee Tu Biblia" />
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Lee Tu Biblia" />
-    <meta
-      name="twitter:description"
-      content="Tu lectura bíblica diaria y tus oraciones, en un solo lugar tranquilo."
-    />
+    <meta name="twitter:title" content="Lee Tu Biblia — lectura bíblica diaria y oración" />
+    <meta name="twitter:description" content="Sostené el hábito de leer tu Biblia: planes, racha, diario y oración —solo o con tu grupo de discipulado—." />
     <meta name="twitter:image" content="https://leetubiblia.com/og-image.png" />
+    <meta name="twitter:image:alt" content="Lee Tu Biblia" />
+    <!-- SEO:end -->
+
+    <!-- Datos estructurados: describen la app (constantes en todas las páginas,
+         fuera del bloque por-página; ayudan a Google y a motores de IA). -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://leetubiblia.com/#org",
+            "name": "Lee Tu Biblia",
+            "url": "https://leetubiblia.com/",
+            "logo": "https://leetubiblia.com/icons/icon-512.png"
+          },
+          {
+            "@type": "WebApplication",
+            "name": "Lee Tu Biblia",
+            "url": "https://leetubiblia.com/",
+            "applicationCategory": "LifestyleApplication",
+            "operatingSystem": "Web (PWA)",
+            "inLanguage": "es",
+            "description": "App para sostener el hábito de leer la Biblia: planes de lectura, racha, diario y oración —solo o con tu grupo de discipulado—. Acompaña tu Biblia de papel.",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+            "publisher": { "@id": "https://leetubiblia.com/#org" }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root">

@@ -1,0 +1,27 @@
+# Lee Tu Biblia — abierto a buscadores y a motores de IA.
+User-agent: *
+Allow: /
+
+# Crawlers de IA/asistentes: permitidos explícitamente (descubribilidad).
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://leetubiblia.com/sitemap.xml

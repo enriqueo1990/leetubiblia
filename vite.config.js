@@ -34,30 +34,12 @@ const LANDING_PAGES = [
   },
 ]
 
-function landingHtmlPlugin() {
-  return {
-    name: 'ltb-landing-html',
-    apply: 'build',
-    closeBundle() {
-      const outDir = resolve(process.cwd(), 'dist')
-      const html = readFileSync(resolve(outDir, 'index.html'), 'utf8')
-
-      // Anclas del bloque a reemplazar. Si el index cambia y dejan de existir,
-      // fallamos ruidosamente en vez de emitir HTML con meta erróneas.
-      const start = html.indexOf('<title>')
-      const endMarker =
-        '<meta name="twitter:image" content="https://leetubiblia.com/og-image.png" />'
-      const endAt = html.indexOf(endMarker)
-      if (start === -1 || endAt === -1) {
-        throw new Error(
-          '[ltb-landing-html] No encuentro el bloque SEO/social en dist/index.html — revisa las anclas.'
-        )
-      }
-      const end = endAt + endMarker.length
-
-      for (const { file, title, description, url, image, alt } of LANDING_PAGES) {
-        const block = `<title>${title}</title>
+// Genera el bloque SEO/social por página (mismo orden de tags que index.html).
+function seoBlock({ title, description, url, image, alt }) {
+  return `<title>${title}</title>
     <meta name="description" content="${description}" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="${url}" />
 
     <!-- Open Graph (WhatsApp, Facebook, LinkedIn…) -->
     <meta property="og:type" content="website" />
@@ -67,6 +49,7 @@ function landingHtmlPlugin() {
     <meta property="og:title" content="${title}" />
     <meta property="og:description" content="${description}" />
     <meta property="og:image" content="${image}" />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="${alt}" />
@@ -75,9 +58,36 @@ function landingHtmlPlugin() {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${title}" />
     <meta name="twitter:description" content="${description}" />
-    <meta name="twitter:image" content="${image}" />`
+    <meta name="twitter:image" content="${image}" />
+    <meta name="twitter:image:alt" content="${alt}" />`
+}
 
-        writeFileSync(resolve(outDir, file), html.slice(0, start) + block + html.slice(end))
+function landingHtmlPlugin() {
+  return {
+    name: 'ltb-landing-html',
+    apply: 'build',
+    closeBundle() {
+      const outDir = resolve(process.cwd(), 'dist')
+      const html = readFileSync(resolve(outDir, 'index.html'), 'utf8')
+
+      // Reemplazamos SOLO el bloque entre los marcadores SEO:start/SEO:end (el
+      // JSON-LD y el resto del <head> se conservan). Si faltan, fallamos ruidoso.
+      const open = '<!-- SEO:start'
+      const close = '<!-- SEO:end -->'
+      const openAt = html.indexOf(open)
+      const startBody = html.indexOf('-->', openAt)
+      const closeAt = html.indexOf(close)
+      if (openAt === -1 || startBody === -1 || closeAt === -1) {
+        throw new Error(
+          '[ltb-landing-html] No encuentro los marcadores SEO:start/SEO:end en dist/index.html.'
+        )
+      }
+      const start = startBody + 3
+      const end = closeAt + close.length
+
+      for (const page of LANDING_PAGES) {
+        const block = `\n    ${seoBlock(page)}\n    <!-- SEO:end -->`
+        writeFileSync(resolve(outDir, page.file), html.slice(0, start) + block + html.slice(end))
       }
     },
   }
