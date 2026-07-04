@@ -485,35 +485,95 @@ export default function GroupDetail() {
         </>
       )}
 
+      {/* Miembros — la gente, con su lectura (cuando compartís) */}
+      <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+        Miembros · {members.length}
+      </p>
+      <ul className="mt-3 card divide-y divide-hairline">
+        {members.map((m) => {
+          const isMe = m.user_id === user?.id
+          const isMemberOwner = m.role === 'owner'
+          const shares = readMap.has(m.user_id)
+          const readToday = readMap.get(m.user_id)
+          return (
+            <li key={m.user_id} className="flex items-center gap-3 px-4 py-3">
+              <div
+                className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-[15px] font-semibold"
+                style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent)' }}
+              >
+                {initials(m.display_name)}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[16px] text-ink">
+                  {m.display_name}
+                  {isMe && <span className="text-ink-soft"> (vos)</span>}
+                  {isMemberOwner && <span className="text-[13px] text-ink-soft"> · admin</span>}
+                </p>
+              </div>
+              {/* Solo señalamos lo positivo: quien leyó hoy. El resto no muestra
+                  nada — nada de "no leyó" que suene a reproche. Recíproco: el chip
+                  solo aparece si vos también compartís tu lectura. */}
+              <div className="flex shrink-0 items-center gap-2">
+                {iShare && shares && readToday && (
+                  <span
+                    className="flex items-center gap-1 rounded-pill px-2.5 py-1 text-[12px] font-medium"
+                    style={{ color: 'var(--accent)', backgroundColor: 'var(--accent-tint)' }}
+                  >
+                    <CheckIcon size={13} strokeWidth={2.2} /> Leyó hoy
+                  </span>
+                )}
+                {isOwner && !isMemberOwner && (
+                  <button
+                    type="button"
+                    onClick={() => setConfirm({ type: 'kick', member: m })}
+                    aria-label={`Quitar a ${m.display_name}`}
+                    className="flex h-11 w-11 items-center justify-center rounded-full text-ink-soft"
+                  >
+                    <span
+                      className="flex h-7 w-7 items-center justify-center rounded-full"
+                      style={{ border: '1px solid var(--hairline)' }}
+                      aria-hidden="true"
+                    >
+                      <MinusIcon size={16} />
+                    </span>
+                  </button>
+                )}
+              </div>
+            </li>
+          )
+        })}
+      </ul>
+
+      {/* Lo privado del líder va debajo de todo: primero la sala compartida
+          (pulso, oración, testimonios, miembros), después lo que solo él ve. */}
+
       {/* Resumen pastoral — solo el owner */}
       {isOwner && stats && (
-        <>
-          <div className="card mt-7 p-5">
-            <div className="flex items-center gap-1.5 text-ink-soft">
-              <LockIcon size={13} />
-              <span className="text-[12px] font-semibold uppercase tracking-wide">
-                Resumen · solo vos lo ves
-              </span>
-            </div>
-            <div className="mt-4 flex">
-              <Stat n={stats.active} label="Pedidos activos" />
-              <Stat n={stats.answered} label="Respondidos" />
-              <Stat n={stats.praying_week} label="Orando esta semana" />
-            </div>
-            <div
-              className="mt-4 h-2 overflow-hidden rounded-full"
-              style={{ backgroundColor: 'var(--surface-alt)' }}
-            >
-              <div
-                className="h-full"
-                style={{ width: `${answeredPct}%`, backgroundColor: 'var(--accent)' }}
-              />
-            </div>
-            <p className="mt-2 text-[12px] text-ink-soft">
-              {answeredPct}% de los pedidos del grupo ya fueron respondidos.
-            </p>
+        <div className="card mt-7 p-5">
+          <div className="flex items-center gap-1.5 text-ink-soft">
+            <LockIcon size={13} />
+            <span className="text-[12px] font-semibold uppercase tracking-wide">
+              Resumen · solo vos lo ves
+            </span>
           </div>
-        </>
+          <div className="mt-4 flex">
+            <Stat n={stats.active} label="Pedidos activos" />
+            <Stat n={stats.answered} label="Respondidos" />
+            <Stat n={stats.praying_week} label="Orando esta semana" />
+          </div>
+          <div
+            className="mt-4 h-2 overflow-hidden rounded-full"
+            style={{ backgroundColor: 'var(--surface-alt)' }}
+          >
+            <div
+              className="h-full"
+              style={{ width: `${answeredPct}%`, backgroundColor: 'var(--accent)' }}
+            />
+          </div>
+          <p className="mt-2 text-[12px] text-ink-soft">
+            {answeredPct}% de los pedidos del grupo ya fueron respondidos.
+          </p>
+        </div>
       )}
 
       {/* La semana del grupo — solo el owner (y recíproco: el RPC devuelve []
@@ -582,65 +642,6 @@ export default function GroupDetail() {
           </p>
         </div>
       )}
-
-      {/* Miembros — la gente, con su lectura (cuando compartís) */}
-      <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-        Miembros · {members.length}
-      </p>
-      <ul className="mt-3 card divide-y divide-hairline">
-        {members.map((m) => {
-          const isMe = m.user_id === user?.id
-          const isMemberOwner = m.role === 'owner'
-          const shares = readMap.has(m.user_id)
-          const readToday = readMap.get(m.user_id)
-          return (
-            <li key={m.user_id} className="flex items-center gap-3 px-4 py-3">
-              <div
-                className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-[15px] font-semibold"
-                style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent)' }}
-              >
-                {initials(m.display_name)}
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-[16px] text-ink">
-                  {m.display_name}
-                  {isMe && <span className="text-ink-soft"> (vos)</span>}
-                  {isMemberOwner && <span className="text-[13px] text-ink-soft"> · admin</span>}
-                </p>
-              </div>
-              {/* Solo señalamos lo positivo: quien leyó hoy. El resto no muestra
-                  nada — nada de "no leyó" que suene a reproche. Recíproco: el chip
-                  solo aparece si vos también compartís tu lectura. */}
-              <div className="flex shrink-0 items-center gap-2">
-                {iShare && shares && readToday && (
-                  <span
-                    className="flex items-center gap-1 rounded-pill px-2.5 py-1 text-[12px] font-medium"
-                    style={{ color: 'var(--accent)', backgroundColor: 'var(--accent-tint)' }}
-                  >
-                    <CheckIcon size={13} strokeWidth={2.2} /> Leyó hoy
-                  </span>
-                )}
-                {isOwner && !isMemberOwner && (
-                  <button
-                    type="button"
-                    onClick={() => setConfirm({ type: 'kick', member: m })}
-                    aria-label={`Quitar a ${m.display_name}`}
-                    className="flex h-11 w-11 items-center justify-center rounded-full text-ink-soft"
-                  >
-                    <span
-                      className="flex h-7 w-7 items-center justify-center rounded-full"
-                      style={{ border: '1px solid var(--hairline)' }}
-                      aria-hidden="true"
-                    >
-                      <MinusIcon size={16} />
-                    </span>
-                  </button>
-                )}
-              </div>
-            </li>
-          )
-        })}
-      </ul>
 
       {!isOwner && (
         <button
