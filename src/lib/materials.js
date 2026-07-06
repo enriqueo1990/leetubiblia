@@ -33,6 +33,13 @@ export const MATERIALS = [
     description: '84 preguntas de la tradición reformada bautista (1855), claras y concisas, con pasajes para tu Biblia.',
     load: () => import('../data/materials/spurgeon.json'),
   },
+  {
+    slug: 'keach',
+    name: 'Catecismo de Keach',
+    shortName: 'Keach',
+    description: '114 preguntas de la tradición bautista particular (1693), con pasajes para tu Biblia.',
+    load: () => import('../data/materials/keach.json'),
+  },
 ]
 
 export function getMaterial(slug) {
