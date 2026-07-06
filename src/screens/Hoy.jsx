@@ -442,7 +442,7 @@ export default function Hoy() {
 
       {!r.planFinished && (
         <div
-          className="sticky z-10 space-y-3 bg-app pb-2 pt-3 lg:static lg:bg-transparent lg:pb-0 lg:pt-0"
+          className="sticky z-10 space-y-3 bg-app pb-2 pt-3 lg:static lg:mt-8 lg:bg-transparent lg:pb-0 lg:pt-0"
           style={{ bottom: 'calc(72px + env(safe-area-inset-bottom))' }}
         >
           <div className="space-y-3 lg:flex lg:max-w-[440px] lg:space-x-3 lg:space-y-0">
