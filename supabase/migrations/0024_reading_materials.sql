@@ -1,11 +1,5 @@
--- ============================================================
--- Lee Tu Biblia — MIGRACIONES PENDIENTES (staging incremental).
--- Contiene: 0024_reading_materials.sql (materiales de lectura opcionales).
--- Pegá este archivo en el SQL Editor de Supabase y Run. Idempotente.
--- ============================================================
-
--- Materiales de lectura opcionales (catecismos/devocionales que acompañan la
--- lectura, activables desde Ajustes). El contenido vive como JSON estático en el
+-- Materiales de lectura opcionales (Feature: catecismos/devocionales que acompañan
+-- la lectura, activables desde Ajustes). El contenido vive como JSON estático en el
 -- bundle; acá solo guardamos QUÉ materiales activó cada usuario y en qué posición va.
 --
 -- active_materials: array de { "slug": "westminster-menor", "position": 12 }.

@@ -17,6 +17,8 @@ import GroupDetail from './screens/GroupDetail.jsx'
 import GroupTestimonies from './screens/GroupTestimonies.jsx'
 import Join from './screens/Join.jsx'
 import Ajustes from './screens/Ajustes.jsx'
+import Materiales from './screens/Materiales.jsx'
+import MaterialReader from './screens/MaterialReader.jsx'
 import Admin from './screens/Admin.jsx'
 
 // Cubre la app con el splash branding durante 1 s sin bloquear que Gate y sus
@@ -80,6 +82,8 @@ export default function App() {
             <Route path="grupos/:id/testimonios" element={<GroupTestimonies />} />
             <Route path="join" element={<Join />} />
             <Route path="ajustes" element={<Ajustes />} />
+            <Route path="materiales" element={<Materiales />} />
+            <Route path="materiales/:slug" element={<MaterialReader />} />
             <Route
               path="*"
               element={

@@ -15,6 +15,7 @@ import Switch from '../components/Switch.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import { ChevronRight, HeartIcon, ShareIcon } from '../components/icons.jsx'
 import { subscribeToPush, unsubscribeFromPush, getTimezone } from '../lib/push.js'
+import { activeMaterials } from '../lib/materials.js'
 import { version as APP_VERSION } from '../../package.json'
 
 // Ajustes (documento maestro §5.7, README pantalla 7). Acento y tema persisten en
@@ -78,6 +79,7 @@ export default function Ajustes() {
   const reflectionsOn = !!profile?.reflections_enabled
   const shareReadingOn = !!profile?.share_reading
   const prayerFollowupOn = profile?.prayer_followup_enabled !== false // default true
+  const materialsCount = activeMaterials(profile).length
 
   // Compartir lectura con grupos (Fase 3). Al activarlo, guardamos también la
   // timezone para que el "leyó hoy" del grupo se calcule en tu hora local.
@@ -231,15 +233,28 @@ export default function Ajustes() {
       <h1 className="text-[26px] font-bold tracking-tight text-ink">Ajustes</h1>
 
       <SectionLabel>Lectura</SectionLabel>
-      <Link to="/planes" className="card flex items-center justify-between px-4 py-3">
-        <span className="text-[16px] text-ink">Plan de lectura</span>
-        <span className="flex items-center gap-1.5">
-          <span className="text-[15px] text-ink-soft">{plan?.name || 'Elegir'}</span>
-          <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-            <ChevronRight size={18} />
+      <div className="card divide-y divide-hairline">
+        <Link to="/planes" className="flex items-center justify-between px-4 py-3">
+          <span className="text-[16px] text-ink">Plan de lectura</span>
+          <span className="flex items-center gap-1.5">
+            <span className="text-[15px] text-ink-soft">{plan?.name || 'Elegir'}</span>
+            <span className="text-ink-soft" style={{ opacity: 0.5 }}>
+              <ChevronRight size={18} />
+            </span>
           </span>
-        </span>
-      </Link>
+        </Link>
+        <Link to="/materiales" className="flex items-center justify-between px-4 py-3">
+          <span className="text-[16px] text-ink">Materiales de lectura</span>
+          <span className="flex items-center gap-1.5">
+            <span className="text-[15px] text-ink-soft">
+              {materialsCount > 0 ? `${materialsCount} activo${materialsCount > 1 ? 's' : ''}` : 'Ninguno'}
+            </span>
+            <span className="text-ink-soft" style={{ opacity: 0.5 }}>
+              <ChevronRight size={18} />
+            </span>
+          </span>
+        </Link>
+      </div>
 
       {/* Fijar en qué día del plan vas (catch-up para quien ya venía leyendo). */}
       {currentDay != null && (
