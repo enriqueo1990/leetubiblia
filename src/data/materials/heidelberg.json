@@ -1,0 +1,5093 @@
+{
+  "slug": "heidelberg",
+  "name": "Catecismo de Heidelberg",
+  "description": "Catecismo reformado de 1563, cálido y pastoral, organizado en 129 preguntas y respuestas distribuidas en 52 Días del Señor. Estructurado en tres partes: la miseria del hombre, su redención y su gratitud.",
+  "intro": [
+    "El Catecismo de Heidelberg vio la luz en 1563, en el Palatinado alemán, por encargo del príncipe Federico III, que deseaba unir a su pueblo en una fe común y clara. Su redacción se atribuye sobre todo a dos jóvenes teólogos formados en la tradición reformada, Zacarías Ursino y Gaspar Oleviano.",
+    "A diferencia de otros catecismos, el de Heidelberg es cálido y personal: no pregunta «qué es la fe» en abstracto, sino «cuál es tu único consuelo». Sus 129 preguntas se ordenan en tres partes —la miseria del hombre, su redención en Cristo y la gratitud que brota de la salvación— repartidas en 52 Días del Señor, uno por cada domingo del año. Es uno de los documentos más queridos de la Reforma, y todavía hoy muchas iglesias lo enseñan y predican."
+  ],
+  "cadence": "sequence",
+  "source": "Traducción original al español realizada a partir de la edición inglesa histórica de dominio público (basada en el texto de 1563). Citas bíblicas de los Diez Mandamientos (P.92) y el Padrenuestro (P.119) según Reina-Valera 1909 (dominio público). El Credo Apostólico (P.23) sigue el texto litúrgico tradicional en español. Referencias: proof texts del Catecismo de Heidelberg.",
+  "entries": [
+    {
+      "block": 1,
+      "title": "Día del Señor 1: El único consuelo",
+      "questions": [
+        {
+          "number": 1,
+          "question": "¿Cuál es tu único consuelo en la vida y en la muerte?",
+          "answer": "Que ni en la vida ni en la muerte me pertenezco a mí mismo —ni en el cuerpo ni en el alma—, sino que soy de mi fiel Salvador Jesucristo. Con su sangre preciosa saldó por entero la deuda de todos mis pecados y me rescató de cuanto poder tiene el diablo. Él me cuida tan de cerca que ni un cabello de mi cabeza puede caer sin que lo quiera mi Padre celestial; es más, todo lo encamina para mi salvación. Por eso, por medio de su Espíritu Santo, me da también la certeza de la vida eterna y me vuelve el corazón dispuesto y listo para vivir desde ahora para él.",
+          "refs": [
+            {
+              "label": "1 Corintios 6:19-20",
+              "book_usfm": "1CO",
+              "chapter": 6
+            },
+            {
+              "label": "Romanos 14:7-9",
+              "book_usfm": "ROM",
+              "chapter": 14
+            },
+            {
+              "label": "1 Pedro 1:18-19",
+              "book_usfm": "1PE",
+              "chapter": 1
+            },
+            {
+              "label": "1 Juan 1:7",
+              "book_usfm": "1JN",
+              "chapter": 1
+            },
+            {
+              "label": "1 Juan 3:8",
+              "book_usfm": "1JN",
+              "chapter": 3
+            },
+            {
+              "label": "Juan 6:39",
+              "book_usfm": "JHN",
+              "chapter": 6
+            },
+            {
+              "label": "Mateo 10:29-31",
+              "book_usfm": "MAT",
+              "chapter": 10
+            },
+            {
+              "label": "Romanos 8:28",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "2 Corintios 1:21-22",
+              "book_usfm": "2CO",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 8:14",
+              "book_usfm": "ROM",
+              "chapter": 8
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "question": "¿Cuántas cosas necesitas saber para vivir y morir felizmente en este consuelo?",
+          "answer": "Tres cosas: la primera, cuán grandes son mi pecado y mi miseria; la segunda, cómo soy librado de todos mis pecados y miserias; y la tercera, cómo he de ser agradecido a Dios por tal liberación.",
+          "refs": [
+            {
+              "label": "Mateo 11:28-30",
+              "book_usfm": "MAT",
+              "chapter": 11
+            },
+            {
+              "label": "Romanos 3:9-10",
+              "book_usfm": "ROM",
+              "chapter": 3
+            },
+            {
+              "label": "Juan 17:3",
+              "book_usfm": "JHN",
+              "chapter": 17
+            },
+            {
+              "label": "Efesios 5:8-11",
+              "book_usfm": "EPH",
+              "chapter": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 2,
+      "title": "Día del Señor 2: El conocimiento del pecado por la ley",
+      "questions": [
+        {
+          "number": 3,
+          "question": "¿De dónde conoces tu miseria?",
+          "answer": "De la ley de Dios.",
+          "refs": [
+            {
+              "label": "Romanos 3:20",
+              "book_usfm": "ROM",
+              "chapter": 3
+            },
+            {
+              "label": "Romanos 7:7",
+              "book_usfm": "ROM",
+              "chapter": 7
+            }
+          ]
+        },
+        {
+          "number": 4,
+          "question": "¿Qué exige de nosotros la ley de Dios?",
+          "answer": "Esto nos lo enseña Cristo en resumen, en Mateo 22: «Amarás al Señor tu Dios con todo tu corazón, y con toda tu alma, y con toda tu mente. Este es el primero y grande mandamiento. Y el segundo es semejante a él: Amarás a tu prójimo como a ti mismo. De estos dos mandamientos depende toda la ley y los profetas».",
+          "refs": [
+            {
+              "label": "Mateo 22:37-40",
+              "book_usfm": "MAT",
+              "chapter": 22
+            },
+            {
+              "label": "Lucas 10:27",
+              "book_usfm": "LUK",
+              "chapter": 10
+            }
+          ]
+        },
+        {
+          "number": 5,
+          "question": "¿Puedes cumplir todo esto perfectamente?",
+          "answer": "No, porque por naturaleza soy propenso a aborrecer a Dios y a mi prójimo.",
+          "refs": [
+            {
+              "label": "Romanos 3:10",
+              "book_usfm": "ROM",
+              "chapter": 3
+            },
+            {
+              "label": "Romanos 3:23",
+              "book_usfm": "ROM",
+              "chapter": 3
+            },
+            {
+              "label": "1 Juan 1:8",
+              "book_usfm": "1JN",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 8:7",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "Efesios 2:3",
+              "book_usfm": "EPH",
+              "chapter": 2
+            },
+            {
+              "label": "Tito 3:3",
+              "book_usfm": "TIT",
+              "chapter": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 3,
+      "title": "Día del Señor 3: La creación y la caída del hombre",
+      "questions": [
+        {
+          "number": 6,
+          "question": "¿Entonces Dios creó al hombre malo y perverso?",
+          "answer": "No. Dios lo creó bueno y a su propia imagen —esto es, con justicia y santidad verdaderas—, para que reconociera bien a Dios, su Creador, lo amara de todo corazón y viviera junto a él en dicha eterna, alabándolo y glorificándolo.",
+          "refs": [
+            {
+              "label": "Génesis 1:31",
+              "book_usfm": "GEN",
+              "chapter": 1
+            },
+            {
+              "label": "Génesis 1:26-27",
+              "book_usfm": "GEN",
+              "chapter": 1
+            },
+            {
+              "label": "Efesios 4:24",
+              "book_usfm": "EPH",
+              "chapter": 4
+            },
+            {
+              "label": "Colosenses 3:10",
+              "book_usfm": "COL",
+              "chapter": 3
+            },
+            {
+              "label": "Salmo 8:5-6",
+              "book_usfm": "PSA",
+              "chapter": 8
+            }
+          ]
+        },
+        {
+          "number": 7,
+          "question": "¿De dónde procede, entonces, esta naturaleza corrompida del hombre?",
+          "answer": "Del pecado de Adán y Eva, nuestros primeros padres, que desobedecieron en el paraíso; por su caída nuestra naturaleza quedó tan corrompida que todos venimos al mundo concebidos y nacidos en pecado.",
+          "refs": [
+            {
+              "label": "Génesis 3",
+              "book_usfm": "GEN",
+              "chapter": 3
+            },
+            {
+              "label": "Romanos 5:12",
+              "book_usfm": "ROM",
+              "chapter": 5
+            },
+            {
+              "label": "Romanos 5:18-19",
+              "book_usfm": "ROM",
+              "chapter": 5
+            },
+            {
+              "label": "Salmo 51:5",
+              "book_usfm": "PSA",
+              "chapter": 51
+            }
+          ]
+        },
+        {
+          "number": 8,
+          "question": "¿Pero estamos nosotros tan corrompidos que somos totalmente incapaces de hacer bien alguno e inclinados a todo mal?",
+          "answer": "Sí, a menos que seamos regenerados por el Espíritu de Dios.",
+          "refs": [
+            {
+              "label": "Génesis 8:21",
+              "book_usfm": "GEN",
+              "chapter": 8
+            },
+            {
+              "label": "Génesis 6:5",
+              "book_usfm": "GEN",
+              "chapter": 6
+            },
+            {
+              "label": "Job 14:4",
+              "book_usfm": "JOB",
+              "chapter": 14
+            },
+            {
+              "label": "Juan 3:6",
+              "book_usfm": "JHN",
+              "chapter": 3
+            },
+            {
+              "label": "Juan 3:5",
+              "book_usfm": "JHN",
+              "chapter": 3
+            },
+            {
+              "label": "1 Corintios 2:14",
+              "book_usfm": "1CO",
+              "chapter": 2
+            },
+            {
+              "label": "Efesios 2:5",
+              "book_usfm": "EPH",
+              "chapter": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 4,
+      "title": "Día del Señor 4: La justicia y la misericordia de Dios",
+      "questions": [
+        {
+          "number": 9,
+          "question": "¿No comete entonces Dios injusticia con el hombre al exigir en su ley lo que este no puede cumplir?",
+          "answer": "No, porque Dios creó al hombre capaz de cumplirla; pero el hombre, por instigación del diablo, mediante desobediencia deliberada, se privó a sí mismo y a todos sus descendientes de estos dones.",
+          "refs": [
+            {
+              "label": "Efesios 4:24",
+              "book_usfm": "EPH",
+              "chapter": 4
+            },
+            {
+              "label": "Eclesiastés 7:29",
+              "book_usfm": "ECC",
+              "chapter": 7
+            },
+            {
+              "label": "Génesis 3:13",
+              "book_usfm": "GEN",
+              "chapter": 3
+            },
+            {
+              "label": "1 Timoteo 2:13-14",
+              "book_usfm": "1TI",
+              "chapter": 2
+            },
+            {
+              "label": "Romanos 5:12",
+              "book_usfm": "ROM",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 10,
+          "question": "¿Dejará Dios sin castigo tal desobediencia y apostasía?",
+          "answer": "De ninguna manera; antes bien, se aíra terriblemente contra el pecado tanto original como actual, y lo castigará por justo juicio en el tiempo y en la eternidad, como ha declarado: «Maldito todo aquel que no permaneciere en todas las cosas escritas en el libro de la ley, para hacerlas».",
+          "refs": [
+            {
+              "label": "Éxodo 34:7",
+              "book_usfm": "EXO",
+              "chapter": 34
+            },
+            {
+              "label": "Salmo 5:5",
+              "book_usfm": "PSA",
+              "chapter": 5
+            },
+            {
+              "label": "Deuteronomio 27:26",
+              "book_usfm": "DEU",
+              "chapter": 27
+            },
+            {
+              "label": "Gálatas 3:10",
+              "book_usfm": "GAL",
+              "chapter": 3
+            },
+            {
+              "label": "Hebreos 9:27",
+              "book_usfm": "HEB",
+              "chapter": 9
+            }
+          ]
+        },
+        {
+          "number": 11,
+          "question": "¿Pero no es Dios también misericordioso?",
+          "answer": "Dios es en verdad misericordioso, pero también es justo; por eso su justicia exige que el pecado, cometido contra la majestad suprema de Dios, sea también castigado con la pena suprema, esto es, con castigo eterno de cuerpo y alma.",
+          "refs": [
+            {
+              "label": "Éxodo 34:6-7",
+              "book_usfm": "EXO",
+              "chapter": 34
+            },
+            {
+              "label": "Éxodo 20:5",
+              "book_usfm": "EXO",
+              "chapter": 20
+            },
+            {
+              "label": "Salmo 7:11",
+              "book_usfm": "PSA",
+              "chapter": 7
+            },
+            {
+              "label": "2 Corintios 6",
+              "book_usfm": "2CO",
+              "chapter": 6
+            },
+            {
+              "label": "Mateo 25:41",
+              "book_usfm": "MAT",
+              "chapter": 25
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 5,
+      "title": "Día del Señor 5: La satisfacción por el pecado",
+      "questions": [
+        {
+          "number": 12,
+          "question": "Puesto que, según el justo juicio de Dios, merecemos castigo temporal y eterno, ¿cómo podemos escapar de este castigo y volver a ser recibidos en su gracia?",
+          "answer": "Dios quiere que se satisfaga a su justicia; por tanto, es necesario que hagamos plena satisfacción, sea por nosotros mismos, sea por medio de otro.",
+          "refs": [
+            {
+              "label": "Éxodo 23:7",
+              "book_usfm": "EXO",
+              "chapter": 23
+            },
+            {
+              "label": "Romanos 2:1-11",
+              "book_usfm": "ROM",
+              "chapter": 2
+            },
+            {
+              "label": "Isaías 53:11",
+              "book_usfm": "ISA",
+              "chapter": 53
+            },
+            {
+              "label": "Romanos 8:3-4",
+              "book_usfm": "ROM",
+              "chapter": 8
+            }
+          ]
+        },
+        {
+          "number": 13,
+          "question": "¿Podemos nosotros mismos hacer esta satisfacción?",
+          "answer": "De ninguna manera; al contrario, aumentamos cada día nuestra deuda.",
+          "refs": [
+            {
+              "label": "Job 9:2-3",
+              "book_usfm": "JOB",
+              "chapter": 9
+            },
+            {
+              "label": "Job 15:15-16",
+              "book_usfm": "JOB",
+              "chapter": 15
+            },
+            {
+              "label": "Mateo 6:12",
+              "book_usfm": "MAT",
+              "chapter": 6
+            },
+            {
+              "label": "Salmo 130:3",
+              "book_usfm": "PSA",
+              "chapter": 130
+            }
+          ]
+        },
+        {
+          "number": 14,
+          "question": "¿Puede hallarse en alguna parte una simple criatura que sea capaz de satisfacer por nosotros?",
+          "answer": "Ninguna; porque, en primer lugar, Dios no quiere castigar en ninguna otra criatura el pecado que el hombre ha cometido; y además, ninguna simple criatura puede soportar la carga de la ira eterna de Dios contra el pecado, ni librar de ella a otros.",
+          "refs": [
+            {
+              "label": "Hebreos 2:14-18",
+              "book_usfm": "HEB",
+              "chapter": 2
+            },
+            {
+              "label": "Salmo 130:3",
+              "book_usfm": "PSA",
+              "chapter": 130
+            },
+            {
+              "label": "Nahúm 1:6",
+              "book_usfm": "NAM",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 15,
+          "question": "¿Qué clase de mediador y libertador debemos entonces buscar?",
+          "answer": "Uno que sea verdadero hombre y perfectamente justo, y sin embargo más poderoso que todas las criaturas, es decir, que sea al mismo tiempo verdadero Dios.",
+          "refs": [
+            {
+              "label": "1 Corintios 15:21",
+              "book_usfm": "1CO",
+              "chapter": 15
+            },
+            {
+              "label": "Jeremías 23:6",
+              "book_usfm": "JER",
+              "chapter": 23
+            },
+            {
+              "label": "Isaías 7:14",
+              "book_usfm": "ISA",
+              "chapter": 7
+            },
+            {
+              "label": "Romanos 8:3-4",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "Hebreos 7:26",
+              "book_usfm": "HEB",
+              "chapter": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 6,
+      "title": "Día del Señor 6: El Mediador, verdadero Dios y verdadero hombre",
+      "questions": [
+        {
+          "number": 16,
+          "question": "¿Por qué debe ser verdadero hombre y perfectamente justo?",
+          "answer": "Porque la justicia de Dios exige que la misma naturaleza humana que pecó pague por el pecado; pero uno que él mismo fuera pecador no podría pagar por otros.",
+          "refs": [
+            {
+              "label": "Romanos 5:12",
+              "book_usfm": "ROM",
+              "chapter": 5
+            },
+            {
+              "label": "Romanos 5:15",
+              "book_usfm": "ROM",
+              "chapter": 5
+            },
+            {
+              "label": "1 Pedro 3:18",
+              "book_usfm": "1PE",
+              "chapter": 3
+            },
+            {
+              "label": "Isaías 53:3-5",
+              "book_usfm": "ISA",
+              "chapter": 53
+            },
+            {
+              "label": "Hebreos 7:26-27",
+              "book_usfm": "HEB",
+              "chapter": 7
+            }
+          ]
+        },
+        {
+          "number": 17,
+          "question": "¿Por qué debe ser al mismo tiempo verdadero Dios?",
+          "answer": "Para que, por el poder de su divinidad, pudiera soportar en su naturaleza humana la carga de la ira de Dios, y así adquirir y devolvernos la justicia y la vida.",
+          "refs": [
+            {
+              "label": "Isaías 53",
+              "book_usfm": "ISA",
+              "chapter": 53
+            },
+            {
+              "label": "Hechos 2:24",
+              "book_usfm": "ACT",
+              "chapter": 2
+            },
+            {
+              "label": "1 Pedro 3:18",
+              "book_usfm": "1PE",
+              "chapter": 3
+            },
+            {
+              "label": "Juan 3:16",
+              "book_usfm": "JHN",
+              "chapter": 3
+            },
+            {
+              "label": "Hechos 20:28",
+              "book_usfm": "ACT",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 18,
+          "question": "¿Pero quién es ese mediador que a la vez es verdadero Dios y verdadero hombre justo?",
+          "answer": "Nuestro Señor Jesucristo, que nos ha sido dado por completa redención y justicia.",
+          "refs": [
+            {
+              "label": "1 Timoteo 2:5",
+              "book_usfm": "1TI",
+              "chapter": 2
+            },
+            {
+              "label": "Mateo 1:23",
+              "book_usfm": "MAT",
+              "chapter": 1
+            },
+            {
+              "label": "1 Timoteo 3:16",
+              "book_usfm": "1TI",
+              "chapter": 3
+            },
+            {
+              "label": "Lucas 2:11",
+              "book_usfm": "LUK",
+              "chapter": 2
+            },
+            {
+              "label": "1 Corintios 1:30",
+              "book_usfm": "1CO",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 19,
+          "question": "¿De dónde sabes esto?",
+          "answer": "Por el santo evangelio, que Dios dio a conocer ya desde el paraíso, luego anunció por los patriarcas y profetas, prefiguró en los sacrificios y demás ceremonias de la ley, y por fin cumplió en su Hijo amado.",
+          "refs": [
+            {
+              "label": "Génesis 3:15",
+              "book_usfm": "GEN",
+              "chapter": 3
+            },
+            {
+              "label": "Génesis 22:18",
+              "book_usfm": "GEN",
+              "chapter": 22
+            },
+            {
+              "label": "Romanos 1:2",
+              "book_usfm": "ROM",
+              "chapter": 1
+            },
+            {
+              "label": "Hebreos 1:1",
+              "book_usfm": "HEB",
+              "chapter": 1
+            },
+            {
+              "label": "Hechos 10:43",
+              "book_usfm": "ACT",
+              "chapter": 10
+            },
+            {
+              "label": "Juan 5:46",
+              "book_usfm": "JHN",
+              "chapter": 5
+            },
+            {
+              "label": "Gálatas 4:4",
+              "book_usfm": "GAL",
+              "chapter": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 7,
+      "title": "Día del Señor 7: La verdadera fe",
+      "questions": [
+        {
+          "number": 20,
+          "question": "¿Serán, pues, salvos por Cristo todos los hombres, como todos perecieron por Adán?",
+          "answer": "No; sino solamente aquellos que, por verdadera fe, son injertados en él y reciben todos sus beneficios.",
+          "refs": [
+            {
+              "label": "Mateo 7:14",
+              "book_usfm": "MAT",
+              "chapter": 7
+            },
+            {
+              "label": "Juan 3:16",
+              "book_usfm": "JHN",
+              "chapter": 3
+            },
+            {
+              "label": "Juan 1:12",
+              "book_usfm": "JHN",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 11:20",
+              "book_usfm": "ROM",
+              "chapter": 11
+            },
+            {
+              "label": "Hebreos 4:2-3",
+              "book_usfm": "HEB",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 21,
+          "question": "¿Qué es la verdadera fe?",
+          "answer": "No es solo un conocimiento seguro con el que doy por cierto cuanto Dios nos declaró en su Palabra, sino además una confianza del corazón, que el Espíritu Santo enciende en mí por el evangelio: que Dios, por pura gracia y solo por los méritos de Cristo, me ha regalado también a mí —y no únicamente a otros— el perdón de los pecados, la justicia eterna y la salvación.",
+          "refs": [
+            {
+              "label": "Santiago 2:19",
+              "book_usfm": "JAS",
+              "chapter": 2
+            },
+            {
+              "label": "Hebreos 11:1-3",
+              "book_usfm": "HEB",
+              "chapter": 11
+            },
+            {
+              "label": "Romanos 4:16-18",
+              "book_usfm": "ROM",
+              "chapter": 4
+            },
+            {
+              "label": "Romanos 1:16",
+              "book_usfm": "ROM",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 10:17",
+              "book_usfm": "ROM",
+              "chapter": 10
+            },
+            {
+              "label": "Gálatas 2:20",
+              "book_usfm": "GAL",
+              "chapter": 2
+            },
+            {
+              "label": "Efesios 2:7-9",
+              "book_usfm": "EPH",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 22,
+          "question": "¿Qué es necesario que crea el cristiano?",
+          "answer": "Todo lo que se nos promete en el evangelio, que los artículos de nuestra fe católica e indubitable nos enseñan en resumen.",
+          "refs": [
+            {
+              "label": "Juan 20:31",
+              "book_usfm": "JHN",
+              "chapter": 20
+            },
+            {
+              "label": "Mateo 28:19",
+              "book_usfm": "MAT",
+              "chapter": 28
+            }
+          ]
+        },
+        {
+          "number": 23,
+          "question": "¿Cuáles son estos artículos?",
+          "answer": "Creo en Dios Padre todopoderoso, Creador del cielo y de la tierra. Y en Jesucristo, su único Hijo, nuestro Señor; que fue concebido por el Espíritu Santo, nació de la virgen María; padeció bajo el poder de Poncio Pilato, fue crucificado, muerto y sepultado; descendió a los infiernos; al tercer día resucitó de entre los muertos; subió a los cielos, y está sentado a la diestra de Dios Padre todopoderoso; desde allí ha de venir a juzgar a los vivos y a los muertos. Creo en el Espíritu Santo; la santa Iglesia universal, la comunión de los santos; el perdón de los pecados; la resurrección de la carne; y la vida perpetua. Amén.",
+          "refs": [
+            {
+              "label": "Mateo 28:19",
+              "book_usfm": "MAT",
+              "chapter": 28
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 8,
+      "title": "Día del Señor 8: La Trinidad",
+      "questions": [
+        {
+          "number": 24,
+          "question": "¿Cómo se dividen estos artículos?",
+          "answer": "En tres partes: la primera trata de Dios Padre y de nuestra creación; la segunda, de Dios Hijo y de nuestra redención; la tercera, de Dios Espíritu Santo y de nuestra santificación.",
+          "refs": [
+            {
+              "label": "1 Pedro 1:2",
+              "book_usfm": "1PE",
+              "chapter": 1
+            },
+            {
+              "label": "1 Juan 5:7",
+              "book_usfm": "1JN",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 25,
+          "question": "Puesto que hay una sola esencia divina, ¿por qué nombras a estos tres: Padre, Hijo y Espíritu Santo?",
+          "answer": "Porque así se ha revelado Dios en su Palabra: que estas tres personas distintas son el único, verdadero y eterno Dios.",
+          "refs": [
+            {
+              "label": "Deuteronomio 6:4",
+              "book_usfm": "DEU",
+              "chapter": 6
+            },
+            {
+              "label": "Mateo 28:19",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "2 Corintios 13:14",
+              "book_usfm": "2CO",
+              "chapter": 13
+            },
+            {
+              "label": "Isaías 61:1",
+              "book_usfm": "ISA",
+              "chapter": 61
+            },
+            {
+              "label": "Salmo 110:1",
+              "book_usfm": "PSA",
+              "chapter": 110
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 9,
+      "title": "Día del Señor 9: Dios el Padre y la creación",
+      "questions": [
+        {
+          "number": 26,
+          "question": "¿Qué crees cuando dices: «Creo en Dios Padre todopoderoso, Creador del cielo y de la tierra»?",
+          "answer": "Que el Padre eterno de nuestro Señor Jesucristo —quien hizo de la nada el cielo, la tierra y todo cuanto contienen, y todavía los sostiene y rige por su consejo y providencia eternos— es, por causa de su Hijo Cristo, mi Dios y mi Padre. En él confío de tal modo que no dudo que suplirá cuanto necesite mi cuerpo y mi alma, y que todo mal que me mande en este valle de lágrimas lo tornará en bien para mí; pues siendo Dios todopoderoso puede hacerlo, y siendo Padre fiel también quiere.",
+          "refs": [
+            {
+              "label": "Génesis 1",
+              "book_usfm": "GEN",
+              "chapter": 1
+            },
+            {
+              "label": "Salmo 33:6",
+              "book_usfm": "PSA",
+              "chapter": 33
+            },
+            {
+              "label": "Mateo 10:29-30",
+              "book_usfm": "MAT",
+              "chapter": 10
+            },
+            {
+              "label": "Hebreos 1:3",
+              "book_usfm": "HEB",
+              "chapter": 1
+            },
+            {
+              "label": "Salmo 104:27-30",
+              "book_usfm": "PSA",
+              "chapter": 104
+            },
+            {
+              "label": "Juan 1:12",
+              "book_usfm": "JHN",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 8:15",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "Mateo 6:25-26",
+              "book_usfm": "MAT",
+              "chapter": 6
+            },
+            {
+              "label": "Romanos 8:28",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "Romanos 10:12",
+              "book_usfm": "ROM",
+              "chapter": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 10,
+      "title": "Día del Señor 10: La providencia de Dios",
+      "questions": [
+        {
+          "number": 27,
+          "question": "¿Qué entiendes por la providencia de Dios?",
+          "answer": "El poder de Dios, todopoderoso y presente en todas partes, por el cual, como con su mano, aún sostiene el cielo y la tierra con todas las criaturas, y de tal modo los gobierna, que hierbas y plantas, lluvia y sequía, años fértiles y estériles, comida y bebida, salud y enfermedad, riqueza y pobreza, en fin, todas las cosas, no vienen por azar, sino de su mano paternal.",
+          "refs": [
+            {
+              "label": "Hechos 17:25-28",
+              "book_usfm": "ACT",
+              "chapter": 17
+            },
+            {
+              "label": "Hebreos 1:3",
+              "book_usfm": "HEB",
+              "chapter": 1
+            },
+            {
+              "label": "Jeremías 5:24",
+              "book_usfm": "JER",
+              "chapter": 5
+            },
+            {
+              "label": "Hechos 14:17",
+              "book_usfm": "ACT",
+              "chapter": 14
+            },
+            {
+              "label": "Juan 9:3",
+              "book_usfm": "JHN",
+              "chapter": 9
+            },
+            {
+              "label": "Proverbios 22:2",
+              "book_usfm": "PRO",
+              "chapter": 22
+            },
+            {
+              "label": "Salmo 103:19",
+              "book_usfm": "PSA",
+              "chapter": 103
+            },
+            {
+              "label": "Mateo 10:29-30",
+              "book_usfm": "MAT",
+              "chapter": 10
+            }
+          ]
+        },
+        {
+          "number": 28,
+          "question": "¿Qué nos aprovecha conocer la creación y providencia de Dios?",
+          "answer": "Que en toda adversidad seamos pacientes, en la prosperidad agradecidos, y para lo por venir tengamos buena confianza en nuestro fiel Dios y Padre, de que ninguna criatura nos apartará de su amor; pues todas las criaturas están de tal modo en su mano, que sin su voluntad no pueden ni moverse.",
+          "refs": [
+            {
+              "label": "Romanos 5:3-4",
+              "book_usfm": "ROM",
+              "chapter": 5
+            },
+            {
+              "label": "Santiago 1:3",
+              "book_usfm": "JAS",
+              "chapter": 1
+            },
+            {
+              "label": "Salmo 39:9",
+              "book_usfm": "PSA",
+              "chapter": 39
+            },
+            {
+              "label": "Job 1:21",
+              "book_usfm": "JOB",
+              "chapter": 1
+            },
+            {
+              "label": "Deuteronomio 8:10",
+              "book_usfm": "DEU",
+              "chapter": 8
+            },
+            {
+              "label": "1 Tesalonicenses 5:18",
+              "book_usfm": "1TH",
+              "chapter": 5
+            },
+            {
+              "label": "Romanos 8:38-39",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "Job 1:12",
+              "book_usfm": "JOB",
+              "chapter": 1
+            },
+            {
+              "label": "Hechos 17:28",
+              "book_usfm": "ACT",
+              "chapter": 17
+            },
+            {
+              "label": "Proverbios 21:1",
+              "book_usfm": "PRO",
+              "chapter": 21
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 11,
+      "title": "Día del Señor 11: Jesús, el Salvador",
+      "questions": [
+        {
+          "number": 29,
+          "question": "¿Por qué se llama al Hijo de Dios «Jesús», que significa Salvador?",
+          "answer": "Porque él nos salva de nuestros pecados, y porque en ningún otro se ha de buscar ni hallar salvación alguna.",
+          "refs": [
+            {
+              "label": "Mateo 1:21",
+              "book_usfm": "MAT",
+              "chapter": 1
+            },
+            {
+              "label": "Hebreos 7:25",
+              "book_usfm": "HEB",
+              "chapter": 7
+            },
+            {
+              "label": "Hechos 4:12",
+              "book_usfm": "ACT",
+              "chapter": 4
+            },
+            {
+              "label": "Juan 15:5",
+              "book_usfm": "JHN",
+              "chapter": 15
+            }
+          ]
+        },
+        {
+          "number": 30,
+          "question": "¿Creen, pues, en el único Salvador Jesús los que buscan su salvación y bienestar en los santos, en sí mismos o en otra parte?",
+          "answer": "No; aunque de palabra se glorían en él, de hecho niegan al único Salvador Jesús; porque una de dos: o Jesús no es un Salvador perfecto, o los que por verdadera fe reciben a este Salvador han de tener en él todo lo necesario para su salvación.",
+          "refs": [
+            {
+              "label": "1 Corintios 1:13",
+              "book_usfm": "1CO",
+              "chapter": 1
+            },
+            {
+              "label": "1 Corintios 1:30-31",
+              "book_usfm": "1CO",
+              "chapter": 1
+            },
+            {
+              "label": "Gálatas 5:4",
+              "book_usfm": "GAL",
+              "chapter": 5
+            },
+            {
+              "label": "Colosenses 1:19-20",
+              "book_usfm": "COL",
+              "chapter": 1
+            },
+            {
+              "label": "Colosenses 2:10",
+              "book_usfm": "COL",
+              "chapter": 2
+            },
+            {
+              "label": "1 Juan 1:7",
+              "book_usfm": "1JN",
+              "chapter": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 12,
+      "title": "Día del Señor 12: Cristo el Ungido, y el cristiano",
+      "questions": [
+        {
+          "number": 31,
+          "question": "¿Por qué se le llama «Cristo», es decir, Ungido?",
+          "answer": "Porque ha sido ordenado por Dios Padre y ungido con el Espíritu Santo como nuestro supremo Profeta y Maestro, que nos ha revelado plenamente el secreto consejo y voluntad de Dios acerca de nuestra redención; como nuestro único Sumo Sacerdote, que con el único sacrificio de su cuerpo nos ha redimido, y que continuamente intercede por nosotros ante el Padre; y como nuestro eterno Rey, que nos gobierna con su Palabra y Espíritu, y nos defiende y conserva en la redención adquirida para nosotros.",
+          "refs": [
+            {
+              "label": "Salmo 45:7",
+              "book_usfm": "PSA",
+              "chapter": 45
+            },
+            {
+              "label": "Hebreos 1:9",
+              "book_usfm": "HEB",
+              "chapter": 1
+            },
+            {
+              "label": "Deuteronomio 18:15",
+              "book_usfm": "DEU",
+              "chapter": 18
+            },
+            {
+              "label": "Hechos 3:22",
+              "book_usfm": "ACT",
+              "chapter": 3
+            },
+            {
+              "label": "Isaías 61:1",
+              "book_usfm": "ISA",
+              "chapter": 61
+            },
+            {
+              "label": "Hebreos 10:12-14",
+              "book_usfm": "HEB",
+              "chapter": 10
+            },
+            {
+              "label": "Salmo 110:4",
+              "book_usfm": "PSA",
+              "chapter": 110
+            },
+            {
+              "label": "Romanos 8:34",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "Salmo 2:6",
+              "book_usfm": "PSA",
+              "chapter": 2
+            },
+            {
+              "label": "Lucas 1:33",
+              "book_usfm": "LUK",
+              "chapter": 1
+            },
+            {
+              "label": "Mateo 28:18",
+              "book_usfm": "MAT",
+              "chapter": 28
+            }
+          ]
+        },
+        {
+          "number": 32,
+          "question": "¿Y tú por qué eres llamado cristiano?",
+          "answer": "Porque por la fe soy miembro de Cristo, y así participo de su unción; a fin de que también yo confiese su nombre, me presente a mí mismo como sacrificio vivo de gratitud, y con libre y buena conciencia luche en esta vida contra el pecado y el diablo, y después reine con él eternamente sobre todas las criaturas.",
+          "refs": [
+            {
+              "label": "Hechos 11:26",
+              "book_usfm": "ACT",
+              "chapter": 11
+            },
+            {
+              "label": "1 Juan 2:27",
+              "book_usfm": "1JN",
+              "chapter": 2
+            },
+            {
+              "label": "Hechos 2:17",
+              "book_usfm": "ACT",
+              "chapter": 2
+            },
+            {
+              "label": "Marcos 8:38",
+              "book_usfm": "MRK",
+              "chapter": 8
+            },
+            {
+              "label": "Romanos 12:1",
+              "book_usfm": "ROM",
+              "chapter": 12
+            },
+            {
+              "label": "1 Pedro 2:9",
+              "book_usfm": "1PE",
+              "chapter": 2
+            },
+            {
+              "label": "Apocalipsis 5:10",
+              "book_usfm": "REV",
+              "chapter": 5
+            },
+            {
+              "label": "1 Timoteo 1:18-19",
+              "book_usfm": "1TI",
+              "chapter": 1
+            },
+            {
+              "label": "2 Timoteo 2:12",
+              "book_usfm": "2TI",
+              "chapter": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 13,
+      "title": "Día del Señor 13: El Hijo único y nuestro Señor",
+      "questions": [
+        {
+          "number": 33,
+          "question": "¿Por qué se le llama «Hijo único» de Dios, si también nosotros somos hijos de Dios?",
+          "answer": "Porque únicamente Cristo es Hijo de Dios eterno y por naturaleza; nosotros, en cambio, llegamos a ser hijos de Dios por adopción, por gracia y gracias a él.",
+          "refs": [
+            {
+              "label": "Juan 1:14",
+              "book_usfm": "JHN",
+              "chapter": 1
+            },
+            {
+              "label": "Juan 1:18",
+              "book_usfm": "JHN",
+              "chapter": 1
+            },
+            {
+              "label": "Hebreos 1:1-2",
+              "book_usfm": "HEB",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 8:15-17",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "Efesios 1:5-6",
+              "book_usfm": "EPH",
+              "chapter": 1
+            },
+            {
+              "label": "Juan 1:12",
+              "book_usfm": "JHN",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 34,
+          "question": "¿Por qué le llamas «nuestro Señor»?",
+          "answer": "Porque, no con oro ni con plata, sino con su preciosa sangre, nos ha redimido y comprado, en cuerpo y alma, de todos nuestros pecados, librándonos de todo el poder del diablo, para hacernos suyos.",
+          "refs": [
+            {
+              "label": "1 Pedro 1:18-19",
+              "book_usfm": "1PE",
+              "chapter": 1
+            },
+            {
+              "label": "1 Corintios 6:20",
+              "book_usfm": "1CO",
+              "chapter": 6
+            },
+            {
+              "label": "1 Corintios 7:23",
+              "book_usfm": "1CO",
+              "chapter": 7
+            },
+            {
+              "label": "Colosenses 1:13-14",
+              "book_usfm": "COL",
+              "chapter": 1
+            },
+            {
+              "label": "Hebreos 2:14-15",
+              "book_usfm": "HEB",
+              "chapter": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 14,
+      "title": "Día del Señor 14: La concepción y el nacimiento de Cristo",
+      "questions": [
+        {
+          "number": 35,
+          "question": "¿Qué crees cuando dices: «que fue concebido por el Espíritu Santo, nació de la virgen María»?",
+          "answer": "Que el eterno Hijo de Dios, que es y permanece verdadero y eterno Dios, tomó sobre sí verdadera naturaleza humana de la carne y sangre de la virgen María, por obra del Espíritu Santo; para ser también la verdadera simiente de David, semejante a sus hermanos en todo, excepto en el pecado.",
+          "refs": [
+            {
+              "label": "1 Juan 5:20",
+              "book_usfm": "1JN",
+              "chapter": 5
+            },
+            {
+              "label": "Juan 1:1",
+              "book_usfm": "JHN",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 1:3-4",
+              "book_usfm": "ROM",
+              "chapter": 1
+            },
+            {
+              "label": "Gálatas 4:4",
+              "book_usfm": "GAL",
+              "chapter": 4
+            },
+            {
+              "label": "Lucas 1:35",
+              "book_usfm": "LUK",
+              "chapter": 1
+            },
+            {
+              "label": "Mateo 1:18-20",
+              "book_usfm": "MAT",
+              "chapter": 1
+            },
+            {
+              "label": "Salmo 132:11",
+              "book_usfm": "PSA",
+              "chapter": 132
+            },
+            {
+              "label": "Hebreos 2:14",
+              "book_usfm": "HEB",
+              "chapter": 2
+            },
+            {
+              "label": "Hebreos 4:15",
+              "book_usfm": "HEB",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 36,
+          "question": "¿Qué provecho recibes de la santa concepción y nacimiento de Cristo?",
+          "answer": "Que él es nuestro Mediador, y que con su inocencia y perfecta santidad cubre delante de Dios mi pecado, en el cual fui concebido y nacido.",
+          "refs": [
+            {
+              "label": "Hebreos 7:26-27",
+              "book_usfm": "HEB",
+              "chapter": 7
+            },
+            {
+              "label": "1 Pedro 1:18-19",
+              "book_usfm": "1PE",
+              "chapter": 1
+            },
+            {
+              "label": "1 Pedro 3:18",
+              "book_usfm": "1PE",
+              "chapter": 3
+            },
+            {
+              "label": "1 Corintios 1:30-31",
+              "book_usfm": "1CO",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 8:3-4",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "Isaías 53:11",
+              "book_usfm": "ISA",
+              "chapter": 53
+            },
+            {
+              "label": "Salmo 32:1",
+              "book_usfm": "PSA",
+              "chapter": 32
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 15,
+      "title": "Día del Señor 15: El sufrimiento de Cristo",
+      "questions": [
+        {
+          "number": 37,
+          "question": "¿Qué entiendes por la palabra «padeció»?",
+          "answer": "Que en todo el tiempo de su vida terrena, y sobre todo al final, llevó en cuerpo y alma el peso de la ira divina contra el pecado del género humano entero; para que con su padecer, como único sacrificio que expía, librara nuestro cuerpo y alma de la condenación eterna y nos ganara la gracia de Dios, la justicia y la vida eterna.",
+          "refs": [
+            {
+              "label": "Isaías 53:4",
+              "book_usfm": "ISA",
+              "chapter": 53
+            },
+            {
+              "label": "1 Pedro 2:24",
+              "book_usfm": "1PE",
+              "chapter": 2
+            },
+            {
+              "label": "1 Pedro 3:18",
+              "book_usfm": "1PE",
+              "chapter": 3
+            },
+            {
+              "label": "1 Timoteo 2:6",
+              "book_usfm": "1TI",
+              "chapter": 2
+            },
+            {
+              "label": "Isaías 53:12",
+              "book_usfm": "ISA",
+              "chapter": 53
+            },
+            {
+              "label": "Romanos 3:25-26",
+              "book_usfm": "ROM",
+              "chapter": 3
+            },
+            {
+              "label": "1 Juan 2:2",
+              "book_usfm": "1JN",
+              "chapter": 2
+            },
+            {
+              "label": "Gálatas 3:13",
+              "book_usfm": "GAL",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 38,
+          "question": "¿Por qué padeció «bajo el poder de Poncio Pilato», como juez?",
+          "answer": "Para que, siendo inocente, fuera condenado por un juez terrenal, y así nos librara del severo juicio de Dios que había de caer sobre nosotros.",
+          "refs": [
+            {
+              "label": "Juan 18:38",
+              "book_usfm": "JHN",
+              "chapter": 18
+            },
+            {
+              "label": "Mateo 27:24",
+              "book_usfm": "MAT",
+              "chapter": 27
+            },
+            {
+              "label": "Hechos 4:27-28",
+              "book_usfm": "ACT",
+              "chapter": 4
+            },
+            {
+              "label": "Lucas 23:14-15",
+              "book_usfm": "LUK",
+              "chapter": 23
+            },
+            {
+              "label": "Salmo 69:4",
+              "book_usfm": "PSA",
+              "chapter": 69
+            },
+            {
+              "label": "2 Corintios 5:21",
+              "book_usfm": "2CO",
+              "chapter": 5
+            },
+            {
+              "label": "Gálatas 3:13",
+              "book_usfm": "GAL",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 39,
+          "question": "¿Hay algo más en que haya sido crucificado, que si hubiese muerto de otra manera?",
+          "answer": "Sí; pues así tengo la certeza de que cargó sobre sí la maldición que a mí me correspondía, ya que la muerte en cruz era tenida por Dios como maldita.",
+          "refs": [
+            {
+              "label": "Gálatas 3:13",
+              "book_usfm": "GAL",
+              "chapter": 3
+            },
+            {
+              "label": "Deuteronomio 21:23",
+              "book_usfm": "DEU",
+              "chapter": 21
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 16,
+      "title": "Día del Señor 16: La muerte y sepultura de Cristo",
+      "questions": [
+        {
+          "number": 40,
+          "question": "¿Por qué fue necesario que Cristo se humillara hasta la muerte?",
+          "answer": "Porque, a causa de la justicia y verdad de Dios, no podía hacerse satisfacción por nuestros pecados de otro modo, sino por la muerte del Hijo de Dios.",
+          "refs": [
+            {
+              "label": "Génesis 2:17",
+              "book_usfm": "GEN",
+              "chapter": 2
+            },
+            {
+              "label": "Hebreos 2:9",
+              "book_usfm": "HEB",
+              "chapter": 2
+            },
+            {
+              "label": "Hebreos 2:14-15",
+              "book_usfm": "HEB",
+              "chapter": 2
+            },
+            {
+              "label": "Romanos 8:3-4",
+              "book_usfm": "ROM",
+              "chapter": 8
+            }
+          ]
+        },
+        {
+          "number": 41,
+          "question": "¿Por qué fue sepultado?",
+          "answer": "Para dar testimonio de que verdaderamente había muerto.",
+          "refs": [
+            {
+              "label": "Isaías 53:9",
+              "book_usfm": "ISA",
+              "chapter": 53
+            },
+            {
+              "label": "Juan 19:38-42",
+              "book_usfm": "JHN",
+              "chapter": 19
+            },
+            {
+              "label": "Hechos 13:29",
+              "book_usfm": "ACT",
+              "chapter": 13
+            },
+            {
+              "label": "1 Corintios 15:3-4",
+              "book_usfm": "1CO",
+              "chapter": 15
+            }
+          ]
+        },
+        {
+          "number": 42,
+          "question": "Si Cristo murió por nosotros, ¿por qué hemos de morir también nosotros?",
+          "answer": "Nuestra muerte no es satisfacción por nuestros pecados, sino solo un morir al pecado y un paso a la vida eterna.",
+          "refs": [
+            {
+              "label": "Filipenses 1:23",
+              "book_usfm": "PHP",
+              "chapter": 1
+            },
+            {
+              "label": "Juan 5:24",
+              "book_usfm": "JHN",
+              "chapter": 5
+            },
+            {
+              "label": "Romanos 7:24-25",
+              "book_usfm": "ROM",
+              "chapter": 7
+            }
+          ]
+        },
+        {
+          "number": 43,
+          "question": "¿Qué otro provecho recibimos del sacrificio y muerte de Cristo en la cruz?",
+          "answer": "Que por su poder nuestro viejo hombre es con él crucificado, muerto y sepultado; para que ya no reinen en nosotros las malas concupiscencias de la carne, sino que nos ofrezcamos a él en sacrificio de gratitud.",
+          "refs": [
+            {
+              "label": "Romanos 6:6-8",
+              "book_usfm": "ROM",
+              "chapter": 6
+            },
+            {
+              "label": "Romanos 6:11-12",
+              "book_usfm": "ROM",
+              "chapter": 6
+            },
+            {
+              "label": "Colosenses 2:12",
+              "book_usfm": "COL",
+              "chapter": 2
+            },
+            {
+              "label": "Romanos 12:1",
+              "book_usfm": "ROM",
+              "chapter": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 17,
+      "title": "Día del Señor 17: El descenso a los infiernos",
+      "questions": [
+        {
+          "number": 44,
+          "question": "¿Por qué se añade: «descendió a los infiernos»?",
+          "answer": "Para que en mis mayores tentaciones esté seguro y del todo consolado de que mi Señor Jesucristo, con sus angustias, dolores y terrores inexpresables, que también en su alma padeció en la cruz y antes, me ha librado de la angustia y del tormento del infierno.",
+          "refs": [
+            {
+              "label": "Salmo 18:5",
+              "book_usfm": "PSA",
+              "chapter": 18
+            },
+            {
+              "label": "Salmo 116:3",
+              "book_usfm": "PSA",
+              "chapter": 116
+            },
+            {
+              "label": "Mateo 26:38",
+              "book_usfm": "MAT",
+              "chapter": 26
+            },
+            {
+              "label": "Hebreos 5:7",
+              "book_usfm": "HEB",
+              "chapter": 5
+            },
+            {
+              "label": "Isaías 53:10",
+              "book_usfm": "ISA",
+              "chapter": 53
+            },
+            {
+              "label": "Mateo 27:46",
+              "book_usfm": "MAT",
+              "chapter": 27
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 18,
+      "title": "Día del Señor 18: La resurrección de Cristo",
+      "questions": [
+        {
+          "number": 45,
+          "question": "¿Qué provecho nos trae la resurrección de Cristo?",
+          "answer": "Primero, que con su resurrección venció a la muerte, para hacernos partícipes de la justicia que nos había adquirido con su muerte. Segundo, que también nosotros somos ya resucitados a una vida nueva por su poder. Tercero, que la resurrección de Cristo es para nosotros prenda segura de nuestra bienaventurada resurrección.",
+          "refs": [
+            {
+              "label": "1 Corintios 15:16-20",
+              "book_usfm": "1CO",
+              "chapter": 15
+            },
+            {
+              "label": "Romanos 4:25",
+              "book_usfm": "ROM",
+              "chapter": 4
+            },
+            {
+              "label": "1 Pedro 1:3-4",
+              "book_usfm": "1PE",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 6:4",
+              "book_usfm": "ROM",
+              "chapter": 6
+            },
+            {
+              "label": "Efesios 2:5-6",
+              "book_usfm": "EPH",
+              "chapter": 2
+            },
+            {
+              "label": "Colosenses 3:1-3",
+              "book_usfm": "COL",
+              "chapter": 3
+            },
+            {
+              "label": "1 Corintios 15:20-21",
+              "book_usfm": "1CO",
+              "chapter": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 19,
+      "title": "Día del Señor 19: La ascensión de Cristo",
+      "questions": [
+        {
+          "number": 46,
+          "question": "¿Qué entiendes por: «subió a los cielos»?",
+          "answer": "Que Cristo, a la vista de sus discípulos, fue elevado de la tierra al cielo, y que allí permanece para nuestro bien, hasta que venga otra vez a juzgar a los vivos y a los muertos.",
+          "refs": [
+            {
+              "label": "Hechos 1:9",
+              "book_usfm": "ACT",
+              "chapter": 1
+            },
+            {
+              "label": "Marcos 16:19",
+              "book_usfm": "MRK",
+              "chapter": 16
+            },
+            {
+              "label": "Lucas 24:51",
+              "book_usfm": "LUK",
+              "chapter": 24
+            },
+            {
+              "label": "Hebreos 4:14",
+              "book_usfm": "HEB",
+              "chapter": 4
+            },
+            {
+              "label": "Hebreos 9:24",
+              "book_usfm": "HEB",
+              "chapter": 9
+            },
+            {
+              "label": "Hechos 1:11",
+              "book_usfm": "ACT",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 8:34",
+              "book_usfm": "ROM",
+              "chapter": 8
+            }
+          ]
+        },
+        {
+          "number": 47,
+          "question": "¿No está entonces Cristo con nosotros hasta el fin del mundo, como nos lo prometió?",
+          "answer": "Cristo es verdadero hombre y verdadero Dios. Según su naturaleza humana, ya no está en la tierra; pero según su divinidad, majestad, gracia y Espíritu, nunca se aparta de nosotros.",
+          "refs": [
+            {
+              "label": "Mateo 28:20",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "Juan 16:28",
+              "book_usfm": "JHN",
+              "chapter": 16
+            },
+            {
+              "label": "Juan 17:11",
+              "book_usfm": "JHN",
+              "chapter": 17
+            },
+            {
+              "label": "Hechos 3:21",
+              "book_usfm": "ACT",
+              "chapter": 3
+            },
+            {
+              "label": "Mateo 28:18-20",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "Juan 14:18",
+              "book_usfm": "JHN",
+              "chapter": 14
+            }
+          ]
+        },
+        {
+          "number": 48,
+          "question": "Pero si su humanidad no está presente dondequiera que está su divinidad, ¿no se separan entonces las dos naturalezas en Cristo?",
+          "answer": "De ningún modo; porque, siendo la divinidad incomprensible y presente en todas partes, se sigue que está en verdad fuera de la naturaleza humana que asumió, y sin embargo no menos dentro de ella, y permanece unida a ella personalmente.",
+          "refs": [
+            {
+              "label": "Jeremías 23:24",
+              "book_usfm": "JER",
+              "chapter": 23
+            },
+            {
+              "label": "Hechos 7:49",
+              "book_usfm": "ACT",
+              "chapter": 7
+            },
+            {
+              "label": "Juan 1:14",
+              "book_usfm": "JHN",
+              "chapter": 1
+            },
+            {
+              "label": "Juan 3:13",
+              "book_usfm": "JHN",
+              "chapter": 3
+            },
+            {
+              "label": "Colosenses 2:9",
+              "book_usfm": "COL",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 49,
+          "question": "¿Qué provecho nos trae la ascensión de Cristo al cielo?",
+          "answer": "Primero, que es nuestro Abogado ante el Padre en el cielo. Segundo, que nuestra propia carne está ya en el cielo como garantía de que él, siendo la cabeza, nos llevará también a nosotros, sus miembros, adonde él está. Tercero, que nos manda su Espíritu como prenda, y por su fuerza anhelamos lo de arriba —donde Cristo reina a la diestra de Dios— y no lo de la tierra.",
+          "refs": [
+            {
+              "label": "1 Juan 2:1",
+              "book_usfm": "1JN",
+              "chapter": 2
+            },
+            {
+              "label": "Romanos 8:34",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "Juan 14:2",
+              "book_usfm": "JHN",
+              "chapter": 14
+            },
+            {
+              "label": "Juan 20:17",
+              "book_usfm": "JHN",
+              "chapter": 20
+            },
+            {
+              "label": "Efesios 2:6",
+              "book_usfm": "EPH",
+              "chapter": 2
+            },
+            {
+              "label": "Juan 14:16",
+              "book_usfm": "JHN",
+              "chapter": 14
+            },
+            {
+              "label": "Hechos 2:33",
+              "book_usfm": "ACT",
+              "chapter": 2
+            },
+            {
+              "label": "Colosenses 3:1-4",
+              "book_usfm": "COL",
+              "chapter": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 20,
+      "title": "Día del Señor 20: Sentado a la diestra de Dios",
+      "questions": [
+        {
+          "number": 50,
+          "question": "¿Por qué se añade: «y está sentado a la diestra de Dios»?",
+          "answer": "Porque Cristo subió al cielo para manifestarse allí como cabeza de su Iglesia cristiana, por medio de la cual el Padre gobierna todas las cosas.",
+          "refs": [
+            {
+              "label": "Efesios 1:20-23",
+              "book_usfm": "EPH",
+              "chapter": 1
+            },
+            {
+              "label": "Colosenses 1:18",
+              "book_usfm": "COL",
+              "chapter": 1
+            },
+            {
+              "label": "Mateo 28:18",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "Juan 5:22",
+              "book_usfm": "JHN",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 51,
+          "question": "¿Qué provecho nos trae esta gloria de Cristo, nuestra cabeza?",
+          "answer": "Primero, que por su Espíritu Santo derrama dones celestiales sobre nosotros, sus miembros. Luego, que con su poder nos defiende y conserva contra todos los enemigos.",
+          "refs": [
+            {
+              "label": "Hechos 2:33",
+              "book_usfm": "ACT",
+              "chapter": 2
+            },
+            {
+              "label": "Efesios 4:8",
+              "book_usfm": "EPH",
+              "chapter": 4
+            },
+            {
+              "label": "Salmo 2:9",
+              "book_usfm": "PSA",
+              "chapter": 2
+            },
+            {
+              "label": "Juan 10:28-30",
+              "book_usfm": "JHN",
+              "chapter": 10
+            },
+            {
+              "label": "Salmo 110:1-2",
+              "book_usfm": "PSA",
+              "chapter": 110
+            }
+          ]
+        },
+        {
+          "number": 52,
+          "question": "¿Qué te consuela la vuelta de Cristo para juzgar a los vivos y a los muertos?",
+          "answer": "Que en todas mis tribulaciones y persecuciones espero con la cabeza en alto al mismo que antes se ofreció por mí ante el juicio de Dios y quitó de mí toda maldición, para que venga como juez del cielo; el cual arrojará a la condenación eterna a todos sus enemigos y los míos, pero a mí, con todos los escogidos, me llevará consigo al gozo y a la gloria celestial.",
+          "refs": [
+            {
+              "label": "Lucas 21:28",
+              "book_usfm": "LUK",
+              "chapter": 21
+            },
+            {
+              "label": "Romanos 8:22-24",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "Filipenses 3:20-21",
+              "book_usfm": "PHP",
+              "chapter": 3
+            },
+            {
+              "label": "Tito 2:13",
+              "book_usfm": "TIT",
+              "chapter": 2
+            },
+            {
+              "label": "1 Tesalonicenses 4:16-17",
+              "book_usfm": "1TH",
+              "chapter": 4
+            },
+            {
+              "label": "2 Tesalonicenses 1:6-10",
+              "book_usfm": "2TH",
+              "chapter": 1
+            },
+            {
+              "label": "Mateo 25:31-46",
+              "book_usfm": "MAT",
+              "chapter": 25
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 21,
+      "title": "Día del Señor 21: El Espíritu Santo, la Iglesia y el perdón",
+      "questions": [
+        {
+          "number": 53,
+          "question": "¿Qué crees acerca del Espíritu Santo?",
+          "answer": "Primero, que es, junto con el Padre y el Hijo, verdadero y eterno Dios. Segundo, que también a mí me es dado, para hacerme por verdadera fe partícipe de Cristo y de todos sus beneficios, consolarme y quedarse conmigo para siempre.",
+          "refs": [
+            {
+              "label": "Génesis 1:2",
+              "book_usfm": "GEN",
+              "chapter": 1
+            },
+            {
+              "label": "1 Corintios 3:16",
+              "book_usfm": "1CO",
+              "chapter": 3
+            },
+            {
+              "label": "1 Corintios 6:19",
+              "book_usfm": "1CO",
+              "chapter": 6
+            },
+            {
+              "label": "Hechos 5:3-4",
+              "book_usfm": "ACT",
+              "chapter": 5
+            },
+            {
+              "label": "Mateo 28:19",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "Gálatas 4:6",
+              "book_usfm": "GAL",
+              "chapter": 4
+            },
+            {
+              "label": "1 Pedro 1:2",
+              "book_usfm": "1PE",
+              "chapter": 1
+            },
+            {
+              "label": "Juan 14:16-17",
+              "book_usfm": "JHN",
+              "chapter": 14
+            },
+            {
+              "label": "1 Pedro 4:14",
+              "book_usfm": "1PE",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 54,
+          "question": "¿Qué crees acerca de la «santa Iglesia universal»?",
+          "answer": "Que el Hijo de Dios, de todo el género humano, desde el principio hasta el fin del mundo, se reúne, defiende y conserva para sí, por su Espíritu y Palabra, en la unidad de la verdadera fe, una comunidad escogida para la vida eterna; y que yo soy y para siempre seré miembro vivo de ella.",
+          "refs": [
+            {
+              "label": "Juan 10:11",
+              "book_usfm": "JHN",
+              "chapter": 10
+            },
+            {
+              "label": "Génesis 26:4",
+              "book_usfm": "GEN",
+              "chapter": 26
+            },
+            {
+              "label": "Romanos 9:24",
+              "book_usfm": "ROM",
+              "chapter": 9
+            },
+            {
+              "label": "Efesios 1:10-13",
+              "book_usfm": "EPH",
+              "chapter": 1
+            },
+            {
+              "label": "Salmo 71:18",
+              "book_usfm": "PSA",
+              "chapter": 71
+            },
+            {
+              "label": "1 Corintios 1:8-9",
+              "book_usfm": "1CO",
+              "chapter": 1
+            },
+            {
+              "label": "Juan 10:28",
+              "book_usfm": "JHN",
+              "chapter": 10
+            },
+            {
+              "label": "1 Juan 3:14",
+              "book_usfm": "1JN",
+              "chapter": 3
+            },
+            {
+              "label": "1 Juan 3:19-21",
+              "book_usfm": "1JN",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 55,
+          "question": "¿Qué entiendes por «la comunión de los santos»?",
+          "answer": "Primero, que todos y cada uno de los creyentes, como miembros, tienen comunión con el Señor Cristo y participación en todos sus tesoros y dones. Segundo, que cada uno debe considerarse obligado a emplear sus dones con prontitud y alegría para provecho y salvación de los demás miembros.",
+          "refs": [
+            {
+              "label": "1 Juan 1:3",
+              "book_usfm": "1JN",
+              "chapter": 1
+            },
+            {
+              "label": "1 Corintios 1:9",
+              "book_usfm": "1CO",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 8:32",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "1 Corintios 12:12-13",
+              "book_usfm": "1CO",
+              "chapter": 12
+            },
+            {
+              "label": "1 Corintios 12:21",
+              "book_usfm": "1CO",
+              "chapter": 12
+            },
+            {
+              "label": "1 Corintios 13:5",
+              "book_usfm": "1CO",
+              "chapter": 13
+            },
+            {
+              "label": "Filipenses 2:4-8",
+              "book_usfm": "PHP",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 56,
+          "question": "¿Qué crees acerca del «perdón de los pecados»?",
+          "answer": "Que Dios, en virtud de la satisfacción de Cristo, no quiere recordar jamás mis pecados ni la inclinación pecaminosa contra la que debo pelear toda la vida; antes bien, por gracia me reviste de la justicia de Cristo para que nunca caiga en condenación.",
+          "refs": [
+            {
+              "label": "1 Juan 2:2",
+              "book_usfm": "1JN",
+              "chapter": 2
+            },
+            {
+              "label": "1 Juan 1:7",
+              "book_usfm": "1JN",
+              "chapter": 1
+            },
+            {
+              "label": "2 Corintios 5:19",
+              "book_usfm": "2CO",
+              "chapter": 5
+            },
+            {
+              "label": "Jeremías 31:34",
+              "book_usfm": "JER",
+              "chapter": 31
+            },
+            {
+              "label": "Salmo 103:3",
+              "book_usfm": "PSA",
+              "chapter": 103
+            },
+            {
+              "label": "Salmo 103:10",
+              "book_usfm": "PSA",
+              "chapter": 103
+            },
+            {
+              "label": "Romanos 8:1-4",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "Juan 3:18",
+              "book_usfm": "JHN",
+              "chapter": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 22,
+      "title": "Día del Señor 22: La resurrección de la carne y la vida eterna",
+      "questions": [
+        {
+          "number": 57,
+          "question": "¿Qué consuelo te da «la resurrección de la carne»?",
+          "answer": "Que no solo mi alma, después de esta vida, será llevada inmediatamente a Cristo su cabeza, sino que también esta mi carne, resucitada por el poder de Cristo, será de nuevo unida a mi alma y hecha semejante al cuerpo glorioso de Cristo.",
+          "refs": [
+            {
+              "label": "Lucas 23:43",
+              "book_usfm": "LUK",
+              "chapter": 23
+            },
+            {
+              "label": "Filipenses 1:21-23",
+              "book_usfm": "PHP",
+              "chapter": 1
+            },
+            {
+              "label": "1 Corintios 15:53-54",
+              "book_usfm": "1CO",
+              "chapter": 15
+            },
+            {
+              "label": "Job 19:25-26",
+              "book_usfm": "JOB",
+              "chapter": 19
+            },
+            {
+              "label": "1 Juan 3:2",
+              "book_usfm": "1JN",
+              "chapter": 3
+            },
+            {
+              "label": "Filipenses 3:21",
+              "book_usfm": "PHP",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 58,
+          "question": "¿Qué consuelo tomas del artículo «la vida perpetua»?",
+          "answer": "Que, puesto que ahora siento en mi corazón el comienzo de la alegría eterna, después de esta vida poseeré la bienaventuranza perfecta, que ningún ojo vio, ni oído oyó, ni ha subido al corazón del hombre, para alabar en ella a Dios eternamente.",
+          "refs": [
+            {
+              "label": "2 Corintios 5:2-3",
+              "book_usfm": "2CO",
+              "chapter": 5
+            },
+            {
+              "label": "Romanos 14:17",
+              "book_usfm": "ROM",
+              "chapter": 14
+            },
+            {
+              "label": "Juan 17:3",
+              "book_usfm": "JHN",
+              "chapter": 17
+            },
+            {
+              "label": "1 Corintios 2:9",
+              "book_usfm": "1CO",
+              "chapter": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 23,
+      "title": "Día del Señor 23: La justificación por la fe",
+      "questions": [
+        {
+          "number": 59,
+          "question": "¿Pero de qué te aprovecha ahora que creas todo esto?",
+          "answer": "Que en Cristo soy justo delante de Dios, y heredero de la vida eterna.",
+          "refs": [
+            {
+              "label": "Habacuc 2:4",
+              "book_usfm": "HAB",
+              "chapter": 2
+            },
+            {
+              "label": "Romanos 1:17",
+              "book_usfm": "ROM",
+              "chapter": 1
+            },
+            {
+              "label": "Juan 3:36",
+              "book_usfm": "JHN",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 60,
+          "question": "¿Cómo eres justo delante de Dios?",
+          "answer": "Solo por la fe verdadera en Jesucristo. Aunque mi conciencia me acusa de haber transgredido gravemente cada uno de los mandamientos de Dios, sin cumplir ni uno solo, y de seguir inclinado a todo mal, con todo, Dios —sin mérito de mi parte, por su sola gracia— me atribuye y me da la satisfacción, la justicia y la santidad perfectas de Cristo, como si nunca hubiese pecado ni cometido falta alguna, y como si yo mismo hubiera prestado toda la obediencia que Cristo prestó en mi lugar. Basta con que reciba este don con un corazón que cree.",
+          "refs": [
+            {
+              "label": "Romanos 3:21-25",
+              "book_usfm": "ROM",
+              "chapter": 3
+            },
+            {
+              "label": "Gálatas 2:16",
+              "book_usfm": "GAL",
+              "chapter": 2
+            },
+            {
+              "label": "Efesios 2:8-9",
+              "book_usfm": "EPH",
+              "chapter": 2
+            },
+            {
+              "label": "Filipenses 3:9",
+              "book_usfm": "PHP",
+              "chapter": 3
+            },
+            {
+              "label": "Romanos 3:9-10",
+              "book_usfm": "ROM",
+              "chapter": 3
+            },
+            {
+              "label": "Romanos 7:23",
+              "book_usfm": "ROM",
+              "chapter": 7
+            },
+            {
+              "label": "Tito 3:5",
+              "book_usfm": "TIT",
+              "chapter": 3
+            },
+            {
+              "label": "2 Corintios 5:19",
+              "book_usfm": "2CO",
+              "chapter": 5
+            },
+            {
+              "label": "1 Juan 2:1-2",
+              "book_usfm": "1JN",
+              "chapter": 2
+            },
+            {
+              "label": "Romanos 4:3-5",
+              "book_usfm": "ROM",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 61,
+          "question": "¿Por qué dices que eres justo solo por la fe?",
+          "answer": "No porque yo agrade a Dios por el valor de mi fe; sino porque solo la satisfacción, justicia y santidad de Cristo son mi justicia delante de Dios, y no puedo recibirla ni hacerla mía sino solo por la fe.",
+          "refs": [
+            {
+              "label": "1 Corintios 1:30-31",
+              "book_usfm": "1CO",
+              "chapter": 1
+            },
+            {
+              "label": "1 Corintios 2:2",
+              "book_usfm": "1CO",
+              "chapter": 2
+            },
+            {
+              "label": "Romanos 10:10",
+              "book_usfm": "ROM",
+              "chapter": 10
+            },
+            {
+              "label": "1 Juan 5:10-12",
+              "book_usfm": "1JN",
+              "chapter": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 24,
+      "title": "Día del Señor 24: Las buenas obras y la justicia",
+      "questions": [
+        {
+          "number": 62,
+          "question": "¿Pero por qué nuestras buenas obras no pueden ser la justicia delante de Dios, o parte de ella?",
+          "answer": "Porque la justicia que ha de resistir el juicio de Dios tiene que ser enteramente perfecta y del todo conforme a su ley; y hasta las mejores obras que hacemos en esta vida son todas parciales y están contaminadas de pecado.",
+          "refs": [
+            {
+              "label": "Gálatas 3:10",
+              "book_usfm": "GAL",
+              "chapter": 3
+            },
+            {
+              "label": "Deuteronomio 27:26",
+              "book_usfm": "DEU",
+              "chapter": 27
+            },
+            {
+              "label": "Isaías 64:6",
+              "book_usfm": "ISA",
+              "chapter": 64
+            }
+          ]
+        },
+        {
+          "number": 63,
+          "question": "¿Cómo no merecen nada nuestras buenas obras, si Dios promete recompensarlas en esta vida y en la venidera?",
+          "answer": "Esta recompensa no se da por mérito, sino por gracia.",
+          "refs": [
+            {
+              "label": "Lucas 17:10",
+              "book_usfm": "LUK",
+              "chapter": 17
+            },
+            {
+              "label": "Romanos 11:6",
+              "book_usfm": "ROM",
+              "chapter": 11
+            },
+            {
+              "label": "2 Timoteo 4:7-8",
+              "book_usfm": "2TI",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 64,
+          "question": "¿Pero no hace esta doctrina hombres despreocupados e impíos?",
+          "answer": "No; porque es imposible que quienes son injertados en Cristo por verdadera fe no produzcan frutos de gratitud.",
+          "refs": [
+            {
+              "label": "Mateo 7:18",
+              "book_usfm": "MAT",
+              "chapter": 7
+            },
+            {
+              "label": "Juan 15:5",
+              "book_usfm": "JHN",
+              "chapter": 15
+            },
+            {
+              "label": "Romanos 6:1-2",
+              "book_usfm": "ROM",
+              "chapter": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 25,
+      "title": "Día del Señor 25: Los sacramentos",
+      "questions": [
+        {
+          "number": 65,
+          "question": "Puesto que solo la fe nos hace partícipes de Cristo y de todos sus beneficios, ¿de dónde procede esa fe?",
+          "answer": "El Espíritu Santo la obra en nuestros corazones por la predicación del santo evangelio, y la confirma por el uso de los santos sacramentos.",
+          "refs": [
+            {
+              "label": "Efesios 2:8",
+              "book_usfm": "EPH",
+              "chapter": 2
+            },
+            {
+              "label": "Efesios 6:23",
+              "book_usfm": "EPH",
+              "chapter": 6
+            },
+            {
+              "label": "Juan 3:5",
+              "book_usfm": "JHN",
+              "chapter": 3
+            },
+            {
+              "label": "Romanos 10:17",
+              "book_usfm": "ROM",
+              "chapter": 10
+            },
+            {
+              "label": "1 Pedro 1:22-23",
+              "book_usfm": "1PE",
+              "chapter": 1
+            },
+            {
+              "label": "Mateo 28:19-20",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "1 Corintios 10:16",
+              "book_usfm": "1CO",
+              "chapter": 10
+            }
+          ]
+        },
+        {
+          "number": 66,
+          "question": "¿Qué son los sacramentos?",
+          "answer": "Son signos y sellos sagrados y visibles, instituidos por Dios para que, por el uso de ellos, nos declare y selle más plenamente la promesa del evangelio: que por causa del único sacrificio de Cristo consumado en la cruz, nos concede gratuitamente el perdón de los pecados y la vida eterna.",
+          "refs": [
+            {
+              "label": "Génesis 17:11",
+              "book_usfm": "GEN",
+              "chapter": 17
+            },
+            {
+              "label": "Romanos 4:11",
+              "book_usfm": "ROM",
+              "chapter": 4
+            },
+            {
+              "label": "Deuteronomio 30:6",
+              "book_usfm": "DEU",
+              "chapter": 30
+            },
+            {
+              "label": "Levítico 6:25",
+              "book_usfm": "LEV",
+              "chapter": 6
+            },
+            {
+              "label": "Hebreos 9:7-9",
+              "book_usfm": "HEB",
+              "chapter": 9
+            },
+            {
+              "label": "Ezequiel 20:12",
+              "book_usfm": "EZK",
+              "chapter": 20
+            },
+            {
+              "label": "Isaías 6:6-7",
+              "book_usfm": "ISA",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 67,
+          "question": "¿Están entonces la Palabra y los sacramentos destinados a dirigir nuestra fe al sacrificio de Cristo en la cruz como único fundamento de nuestra salvación?",
+          "answer": "Así es en verdad; porque el Espíritu Santo enseña en el evangelio y confirma por los sacramentos que toda nuestra salvación se funda en el único sacrificio de Cristo ofrecido por nosotros en la cruz.",
+          "refs": [
+            {
+              "label": "Romanos 6:3",
+              "book_usfm": "ROM",
+              "chapter": 6
+            },
+            {
+              "label": "Gálatas 3:27",
+              "book_usfm": "GAL",
+              "chapter": 3
+            },
+            {
+              "label": "Hechos 2:38-39",
+              "book_usfm": "ACT",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 68,
+          "question": "¿Cuántos sacramentos instituyó Cristo en el Nuevo Testamento?",
+          "answer": "Dos: el santo bautismo y la santa cena.",
+          "refs": [
+            {
+              "label": "Mateo 28:19",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "1 Corintios 11:23-26",
+              "book_usfm": "1CO",
+              "chapter": 11
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 26,
+      "title": "Día del Señor 26: El santo bautismo",
+      "questions": [
+        {
+          "number": 69,
+          "question": "¿Cómo se te recuerda y asegura en el santo bautismo que el único sacrificio de Cristo en la cruz te aprovecha?",
+          "answer": "Así: que Cristo instituyó este lavamiento externo con agua, y prometió con ello que, tan ciertamente como el agua lava la suciedad del cuerpo, así también su sangre y su Espíritu lavan la impureza de mi alma, es decir, todos mis pecados.",
+          "refs": [
+            {
+              "label": "Mateo 28:19",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "Hechos 2:38",
+              "book_usfm": "ACT",
+              "chapter": 2
+            },
+            {
+              "label": "Mateo 3:11",
+              "book_usfm": "MAT",
+              "chapter": 3
+            },
+            {
+              "label": "Marcos 16:16",
+              "book_usfm": "MRK",
+              "chapter": 16
+            },
+            {
+              "label": "Juan 1:33",
+              "book_usfm": "JHN",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 6:3-4",
+              "book_usfm": "ROM",
+              "chapter": 6
+            },
+            {
+              "label": "1 Pedro 3:21",
+              "book_usfm": "1PE",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 70,
+          "question": "¿Qué es ser lavado con la sangre y el Espíritu de Cristo?",
+          "answer": "Es recibir de Dios el perdón de los pecados por gracia, a causa de la sangre de Cristo derramada por nosotros en su sacrificio en la cruz; y también ser renovados por el Espíritu Santo y santificados como miembros de Cristo, para que cada vez más muramos al pecado y vivamos vida santa e irreprensible.",
+          "refs": [
+            {
+              "label": "Ezequiel 36:25-27",
+              "book_usfm": "EZK",
+              "chapter": 36
+            },
+            {
+              "label": "Zacarías 13:1",
+              "book_usfm": "ZEC",
+              "chapter": 13
+            },
+            {
+              "label": "Hebreos 12:24",
+              "book_usfm": "HEB",
+              "chapter": 12
+            },
+            {
+              "label": "1 Pedro 1:2",
+              "book_usfm": "1PE",
+              "chapter": 1
+            },
+            {
+              "label": "Apocalipsis 1:5-6",
+              "book_usfm": "REV",
+              "chapter": 1
+            },
+            {
+              "label": "1 Corintios 6:11",
+              "book_usfm": "1CO",
+              "chapter": 6
+            },
+            {
+              "label": "Romanos 6:4",
+              "book_usfm": "ROM",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 71,
+          "question": "¿Dónde prometió Cristo que seremos tan ciertamente lavados con su sangre y Espíritu como con el agua del bautismo?",
+          "answer": "En la institución del bautismo, que dice así: «Id, pues, y haced discípulos a todas las naciones, bautizándolos en el nombre del Padre, y del Hijo, y del Espíritu Santo». Y: «El que creyere y fuere bautizado, será salvo; mas el que no creyere, será condenado». Esta promesa se repite también donde la Escritura llama al bautismo el lavamiento de la regeneración y el lavamiento de los pecados.",
+          "refs": [
+            {
+              "label": "Mateo 28:19",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "Marcos 16:16",
+              "book_usfm": "MRK",
+              "chapter": 16
+            },
+            {
+              "label": "Tito 3:5",
+              "book_usfm": "TIT",
+              "chapter": 3
+            },
+            {
+              "label": "Hechos 22:16",
+              "book_usfm": "ACT",
+              "chapter": 22
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 27,
+      "title": "Día del Señor 27: El bautismo y los niños",
+      "questions": [
+        {
+          "number": 72,
+          "question": "¿Es, entonces, el lavamiento externo con agua el lavamiento mismo de los pecados?",
+          "answer": "No; solo nos purifican de todo pecado la sangre de Jesucristo y el Espíritu Santo.",
+          "refs": [
+            {
+              "label": "Mateo 3:11",
+              "book_usfm": "MAT",
+              "chapter": 3
+            },
+            {
+              "label": "1 Pedro 3:21",
+              "book_usfm": "1PE",
+              "chapter": 3
+            },
+            {
+              "label": "1 Juan 1:7",
+              "book_usfm": "1JN",
+              "chapter": 1
+            },
+            {
+              "label": "1 Corintios 6:11",
+              "book_usfm": "1CO",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 73,
+          "question": "¿Por qué, pues, el Espíritu Santo llama al bautismo el lavamiento de la regeneración y el lavamiento de los pecados?",
+          "answer": "Dios no habla así sin gran razón; a saber, no solo para enseñarnos que, así como la suciedad del cuerpo se quita con el agua, así también nuestros pecados son quitados por la sangre y el Espíritu de Cristo; sino mucho más para asegurarnos, por esta prenda y señal divina, que somos tan realmente lavados de nuestros pecados espiritualmente, como somos lavados externamente con agua.",
+          "refs": [
+            {
+              "label": "Apocalipsis 1:5",
+              "book_usfm": "REV",
+              "chapter": 1
+            },
+            {
+              "label": "Apocalipsis 7:14",
+              "book_usfm": "REV",
+              "chapter": 7
+            },
+            {
+              "label": "1 Corintios 6:11",
+              "book_usfm": "1CO",
+              "chapter": 6
+            },
+            {
+              "label": "Marcos 16:16",
+              "book_usfm": "MRK",
+              "chapter": 16
+            },
+            {
+              "label": "Gálatas 3:27",
+              "book_usfm": "GAL",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 74,
+          "question": "¿Han de ser bautizados también los niños pequeños?",
+          "answer": "Sí; porque, así como pertenecen ellos al pacto y a la Iglesia de Dios lo mismo que los adultos, y a ellos, no menos que a los adultos, se les promete en la sangre de Cristo la redención de los pecados y el Espíritu Santo, autor de la fe; también han de ser injertados en la Iglesia cristiana por el bautismo, como señal del pacto, y distinguidos de los hijos de los incrédulos, como se hacía en el Antiguo Testamento por la circuncisión, en cuyo lugar en el Nuevo Testamento se instituyó el bautismo.",
+          "refs": [
+            {
+              "label": "Génesis 17:7",
+              "book_usfm": "GEN",
+              "chapter": 17
+            },
+            {
+              "label": "Mateo 19:14",
+              "book_usfm": "MAT",
+              "chapter": 19
+            },
+            {
+              "label": "Lucas 1:14-15",
+              "book_usfm": "LUK",
+              "chapter": 1
+            },
+            {
+              "label": "Salmo 22:10",
+              "book_usfm": "PSA",
+              "chapter": 22
+            },
+            {
+              "label": "Isaías 44:1-3",
+              "book_usfm": "ISA",
+              "chapter": 44
+            },
+            {
+              "label": "Hechos 2:39",
+              "book_usfm": "ACT",
+              "chapter": 2
+            },
+            {
+              "label": "Hechos 16:33",
+              "book_usfm": "ACT",
+              "chapter": 16
+            },
+            {
+              "label": "Colosenses 2:11-13",
+              "book_usfm": "COL",
+              "chapter": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 28,
+      "title": "Día del Señor 28: La santa cena del Señor",
+      "questions": [
+        {
+          "number": 75,
+          "question": "¿Cómo se te recuerda y asegura en la santa cena que participas del único sacrificio de Cristo en la cruz y de todos sus beneficios?",
+          "answer": "Así: que Cristo mandó a mí y a todos los creyentes comer de este pan partido y beber de esta copa, en memoria suya; y añadió estas promesas: primera, que su cuerpo fue tan ciertamente ofrecido y partido por mí en la cruz, y su sangre derramada por mí, como veo con mis ojos que el pan del Señor se parte para mí y la copa se me da; y además, que con su cuerpo crucificado y su sangre derramada alimenta y sustenta mi alma para la vida eterna, tan ciertamente como recibo de mano del ministro y gusto con mi boca el pan y la copa del Señor, que se me dan como señales ciertas del cuerpo y la sangre de Cristo.",
+          "refs": [
+            {
+              "label": "Mateo 26:26-28",
+              "book_usfm": "MAT",
+              "chapter": 26
+            },
+            {
+              "label": "Marcos 14:22-24",
+              "book_usfm": "MRK",
+              "chapter": 14
+            },
+            {
+              "label": "Lucas 22:19-20",
+              "book_usfm": "LUK",
+              "chapter": 22
+            },
+            {
+              "label": "1 Corintios 11:23-25",
+              "book_usfm": "1CO",
+              "chapter": 11
+            },
+            {
+              "label": "1 Corintios 10:16-17",
+              "book_usfm": "1CO",
+              "chapter": 10
+            },
+            {
+              "label": "1 Corintios 12:13",
+              "book_usfm": "1CO",
+              "chapter": 12
+            }
+          ]
+        },
+        {
+          "number": 76,
+          "question": "¿Qué es comer el cuerpo crucificado de Cristo y beber su sangre derramada?",
+          "answer": "No es solo acoger con corazón creyente toda la pasión y muerte de Cristo, y así recibir el perdón y la vida eterna; es además quedar cada vez más unidos a su cuerpo bendito por el Espíritu Santo, que mora tanto en Cristo como en nosotros. De ahí que, aunque él esté en el cielo y nosotros aquí en la tierra, somos carne de su carne y hueso de sus huesos, y vivimos y somos regidos por un solo y mismo Espíritu, como los miembros del cuerpo por una sola alma.",
+          "refs": [
+            {
+              "label": "Juan 6:35",
+              "book_usfm": "JHN",
+              "chapter": 6
+            },
+            {
+              "label": "Juan 6:40",
+              "book_usfm": "JHN",
+              "chapter": 6
+            },
+            {
+              "label": "Juan 6:47-48",
+              "book_usfm": "JHN",
+              "chapter": 6
+            },
+            {
+              "label": "Juan 6:50-54",
+              "book_usfm": "JHN",
+              "chapter": 6
+            },
+            {
+              "label": "Juan 6:55-56",
+              "book_usfm": "JHN",
+              "chapter": 6
+            },
+            {
+              "label": "Hechos 3:21",
+              "book_usfm": "ACT",
+              "chapter": 3
+            },
+            {
+              "label": "Efesios 5:29-30",
+              "book_usfm": "EPH",
+              "chapter": 5
+            },
+            {
+              "label": "1 Corintios 6:15",
+              "book_usfm": "1CO",
+              "chapter": 6
+            },
+            {
+              "label": "1 Juan 3:24",
+              "book_usfm": "1JN",
+              "chapter": 3
+            },
+            {
+              "label": "1 Juan 4:13",
+              "book_usfm": "1JN",
+              "chapter": 4
+            },
+            {
+              "label": "Efesios 4:15-16",
+              "book_usfm": "EPH",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 77,
+          "question": "¿Dónde prometió Cristo que alimenta y sustenta a los creyentes con su cuerpo y sangre tan ciertamente como comen de este pan partido y beben de esta copa?",
+          "answer": "En la institución de la santa cena, que dice así: «El Señor Jesús, la noche que fue entregado, tomó pan; y habiendo dado gracias, lo partió, y dijo: Tomad, comed; esto es mi cuerpo que por vosotros es partido; haced esto en memoria de mí. Asimismo tomó también la copa, después de haber cenado, diciendo: Esta copa es el nuevo pacto en mi sangre; haced esto todas las veces que la bebiereis, en memoria de mí. Porque todas las veces que comiereis este pan, y bebiereis esta copa, la muerte del Señor anunciáis hasta que venga». Esta promesa la repite también san Pablo cuando dice: «La copa de bendición que bendecimos, ¿no es la comunión de la sangre de Cristo? El pan que partimos, ¿no es la comunión del cuerpo de Cristo? Porque un pan, es que muchos somos un cuerpo; pues todos participamos de aquel mismo pan».",
+          "refs": [
+            {
+              "label": "1 Corintios 11:23-26",
+              "book_usfm": "1CO",
+              "chapter": 11
+            },
+            {
+              "label": "1 Corintios 10:16-17",
+              "book_usfm": "1CO",
+              "chapter": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 29,
+      "title": "Día del Señor 29: El pan y el vino en la cena",
+      "questions": [
+        {
+          "number": 78,
+          "question": "¿Se convierten, entonces, el pan y el vino en el verdadero cuerpo y sangre de Cristo?",
+          "answer": "No; pues así como el agua del bautismo no pasa a ser sangre de Cristo ni es en sí el lavado de los pecados, sino señal y garantía que Dios da de ello, tampoco el pan de la cena pasa a ser el cuerpo mismo de Cristo, aunque —por la naturaleza y el uso de los sacramentos— se lo llame cuerpo de Cristo.",
+          "refs": [
+            {
+              "label": "Mateo 26:29",
+              "book_usfm": "MAT",
+              "chapter": 26
+            },
+            {
+              "label": "1 Corintios 11:26-28",
+              "book_usfm": "1CO",
+              "chapter": 11
+            },
+            {
+              "label": "Génesis 17:10-11",
+              "book_usfm": "GEN",
+              "chapter": 17
+            },
+            {
+              "label": "Éxodo 12:11",
+              "book_usfm": "EXO",
+              "chapter": 12
+            },
+            {
+              "label": "Éxodo 12:27",
+              "book_usfm": "EXO",
+              "chapter": 12
+            },
+            {
+              "label": "Tito 3:5",
+              "book_usfm": "TIT",
+              "chapter": 3
+            },
+            {
+              "label": "1 Corintios 10:1-4",
+              "book_usfm": "1CO",
+              "chapter": 10
+            }
+          ]
+        },
+        {
+          "number": 79,
+          "question": "¿Por qué, entonces, Cristo llama al pan su cuerpo, y a la copa su sangre, o el nuevo pacto en su sangre; y san Pablo, la comunión del cuerpo y de la sangre de Cristo?",
+          "answer": "Cristo no lo dice sin gran motivo: no solo para enseñarnos que, tal como el pan y el vino alimentan nuestra vida pasajera, así su cuerpo crucificado y su sangre derramada son verdadera comida y bebida para nuestras almas hacia la vida eterna; sino, más aún, para asegurarnos por esta señal y prenda visible que somos partícipes de su verdadero cuerpo y sangre, por obra del Espíritu Santo, tan de veras como recibimos con la boca estos signos santos en memoria suya; y que su pasión y obediencia son nuestras con tanta certeza como si nosotros mismos hubiésemos padecido y pagado por nuestros pecados.",
+          "refs": [
+            {
+              "label": "Juan 6:51",
+              "book_usfm": "JHN",
+              "chapter": 6
+            },
+            {
+              "label": "Juan 6:55",
+              "book_usfm": "JHN",
+              "chapter": 6
+            },
+            {
+              "label": "1 Corintios 10:16-17",
+              "book_usfm": "1CO",
+              "chapter": 10
+            },
+            {
+              "label": "1 Corintios 11:26-28",
+              "book_usfm": "1CO",
+              "chapter": 11
+            },
+            {
+              "label": "Romanos 6:5-11",
+              "book_usfm": "ROM",
+              "chapter": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 30,
+      "title": "Día del Señor 30: La cena del Señor y la misa",
+      "questions": [
+        {
+          "number": 80,
+          "question": "¿Qué diferencia hay entre la cena del Señor y la misa papal?",
+          "answer": "La cena del Señor nos certifica que tenemos entero perdón de todos nuestros pecados por el único sacrificio de Jesucristo, que él mismo consumó una sola vez en la cruz; y que el Espíritu Santo nos injerta en Cristo, el cual, según su humanidad, ya no habita la tierra sino el cielo, sentado a la diestra del Padre, y allí quiere que lo adoremos. La misa, en cambio, enseña que ni los vivos ni los muertos reciben perdón por la pasión de Cristo si Cristo no es aún ofrecido cada día por los sacerdotes; y que Cristo está corporalmente bajo las formas del pan y el vino, y por eso ha de ser adorado allí. Así, en el fondo, la misa niega el único sacrificio y la pasión de Jesucristo, y es una idolatría abominable.",
+          "refs": [
+            {
+              "label": "Hebreos 7:27",
+              "book_usfm": "HEB",
+              "chapter": 7
+            },
+            {
+              "label": "Hebreos 9:12",
+              "book_usfm": "HEB",
+              "chapter": 9
+            },
+            {
+              "label": "Hebreos 9:25-28",
+              "book_usfm": "HEB",
+              "chapter": 9
+            },
+            {
+              "label": "Hebreos 10:10-18",
+              "book_usfm": "HEB",
+              "chapter": 10
+            },
+            {
+              "label": "Juan 19:30",
+              "book_usfm": "JHN",
+              "chapter": 19
+            },
+            {
+              "label": "Mateo 26:28",
+              "book_usfm": "MAT",
+              "chapter": 26
+            },
+            {
+              "label": "Lucas 22:19-20",
+              "book_usfm": "LUK",
+              "chapter": 22
+            },
+            {
+              "label": "Hechos 7:55-56",
+              "book_usfm": "ACT",
+              "chapter": 7
+            },
+            {
+              "label": "Hebreos 1:3",
+              "book_usfm": "HEB",
+              "chapter": 1
+            },
+            {
+              "label": "Juan 4:21-24",
+              "book_usfm": "JHN",
+              "chapter": 4
+            },
+            {
+              "label": "Juan 20:17",
+              "book_usfm": "JHN",
+              "chapter": 20
+            },
+            {
+              "label": "Colosenses 3:1",
+              "book_usfm": "COL",
+              "chapter": 3
+            },
+            {
+              "label": "Filipenses 3:20-21",
+              "book_usfm": "PHP",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 81,
+          "question": "¿Para quiénes fue instituida la cena del Señor?",
+          "answer": "Para aquellos que verdaderamente se duelen de sus pecados, y sin embargo confían en que estos les son perdonados por causa de Cristo, y que su restante flaqueza es cubierta por su pasión y muerte; y que también desean cada vez más fortalecer su fe y enmendar su vida. Pero los hipócritas y los que no se vuelven a Dios de corazón comen y beben su propia condenación.",
+          "refs": [
+            {
+              "label": "Mateo 5:3-6",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Mateo 11:28",
+              "book_usfm": "MAT",
+              "chapter": 11
+            },
+            {
+              "label": "Salmo 51:1-4",
+              "book_usfm": "PSA",
+              "chapter": 51
+            },
+            {
+              "label": "Salmo 51:17",
+              "book_usfm": "PSA",
+              "chapter": 51
+            },
+            {
+              "label": "1 Corintios 10:19-22",
+              "book_usfm": "1CO",
+              "chapter": 10
+            },
+            {
+              "label": "1 Corintios 11:28-29",
+              "book_usfm": "1CO",
+              "chapter": 11
+            }
+          ]
+        },
+        {
+          "number": 82,
+          "question": "¿Se han de admitir a esta cena también aquellos que por su confesión y vida se muestran incrédulos e impíos?",
+          "answer": "No; porque así se profana el pacto de Dios y se provoca su ira contra toda la congregación. Por tanto, la Iglesia cristiana está obligada, conforme a la ordenanza de Cristo y de sus apóstoles, a excluir a tales personas por el oficio de las llaves, hasta que enmienden su vida.",
+          "refs": [
+            {
+              "label": "1 Corintios 11:20",
+              "book_usfm": "1CO",
+              "chapter": 11
+            },
+            {
+              "label": "1 Corintios 11:34",
+              "book_usfm": "1CO",
+              "chapter": 11
+            },
+            {
+              "label": "Isaías 1:11-15",
+              "book_usfm": "ISA",
+              "chapter": 1
+            },
+            {
+              "label": "Isaías 66:3",
+              "book_usfm": "ISA",
+              "chapter": 66
+            },
+            {
+              "label": "Jeremías 7:21-23",
+              "book_usfm": "JER",
+              "chapter": 7
+            },
+            {
+              "label": "Salmo 50:16",
+              "book_usfm": "PSA",
+              "chapter": 50
+            },
+            {
+              "label": "1 Corintios 11:30-32",
+              "book_usfm": "1CO",
+              "chapter": 11
+            },
+            {
+              "label": "Tito 3:10-11",
+              "book_usfm": "TIT",
+              "chapter": 3
+            },
+            {
+              "label": "Mateo 7:6",
+              "book_usfm": "MAT",
+              "chapter": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 31,
+      "title": "Día del Señor 31: Las llaves del reino",
+      "questions": [
+        {
+          "number": 83,
+          "question": "¿Qué es el oficio de las llaves?",
+          "answer": "La predicación del santo evangelio y la disciplina cristiana; por las cuales dos cosas el reino de los cielos se abre a los creyentes y se cierra a los incrédulos.",
+          "refs": [
+            {
+              "label": "Mateo 16:18-19",
+              "book_usfm": "MAT",
+              "chapter": 16
+            },
+            {
+              "label": "Mateo 18:15-18",
+              "book_usfm": "MAT",
+              "chapter": 18
+            },
+            {
+              "label": "Juan 20:21-23",
+              "book_usfm": "JHN",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 84,
+          "question": "¿Cómo se abre y se cierra el reino de los cielos por la predicación del santo evangelio?",
+          "answer": "De este modo: que, según Cristo lo mandó, se proclama y atestigua a los creyentes —a todos en común y a cada uno en particular— que cada vez que abrazan con fe verdadera la promesa del evangelio, Dios les perdona de veras todos sus pecados por los méritos de Cristo; y a los incrédulos e hipócritas se les declara, en cambio, que sobre ellos pesan la ira de Dios y la condenación eterna mientras no se conviertan. Conforme a este testimonio del evangelio juzgará Dios, ya en esta vida, ya en la venidera.",
+          "refs": [
+            {
+              "label": "Juan 20:21-23",
+              "book_usfm": "JHN",
+              "chapter": 20
+            },
+            {
+              "label": "Mateo 16:19",
+              "book_usfm": "MAT",
+              "chapter": 16
+            },
+            {
+              "label": "2 Corintios 2:15-16",
+              "book_usfm": "2CO",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 85,
+          "question": "¿Cómo se cierra y se abre el reino de los cielos por la disciplina cristiana?",
+          "answer": "Así: que, conforme al mandato de Cristo, si algunos que llevan el nombre de cristianos muestran doctrina o vida no cristiana, y después de ser amonestados fraternalmente varias veces no dejan sus errores o desórdenes, se los denuncia a la Iglesia o a sus ministros; y si tampoco atienden a la amonestación de estos, se les prohíbe el uso de los sacramentos y se los excluye de la comunión de la Iglesia, y por Dios mismo, del reino de Cristo; y son de nuevo recibidos como miembros de Cristo y de la Iglesia cuando prometen y muestran verdadera enmienda.",
+          "refs": [
+            {
+              "label": "Mateo 18:15-18",
+              "book_usfm": "MAT",
+              "chapter": 18
+            },
+            {
+              "label": "1 Corintios 5:3-5",
+              "book_usfm": "1CO",
+              "chapter": 5
+            },
+            {
+              "label": "1 Corintios 5:11",
+              "book_usfm": "1CO",
+              "chapter": 5
+            },
+            {
+              "label": "2 Tesalonicenses 3:14-15",
+              "book_usfm": "2TH",
+              "chapter": 3
+            },
+            {
+              "label": "2 Corintios 2:6-8",
+              "book_usfm": "2CO",
+              "chapter": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 32,
+      "title": "Día del Señor 32: La gratitud y las buenas obras",
+      "questions": [
+        {
+          "number": 86,
+          "question": "Puesto que somos librados de nuestra miseria por gracia, solo por Cristo, sin ningún mérito nuestro, ¿por qué hemos de hacer buenas obras?",
+          "answer": "Porque Cristo, habiéndonos redimido con su sangre, también nos renueva por su Espíritu Santo a su propia imagen; para que con toda nuestra vida mostremos gratitud a Dios por sus beneficios, y él sea glorificado por nosotros; y además, para que cada uno esté seguro de su fe por sus frutos, y para que por nuestra vida piadosa ganemos también a otros para Cristo.",
+          "refs": [
+            {
+              "label": "Romanos 6:13",
+              "book_usfm": "ROM",
+              "chapter": 6
+            },
+            {
+              "label": "Romanos 12:1-2",
+              "book_usfm": "ROM",
+              "chapter": 12
+            },
+            {
+              "label": "1 Pedro 2:5",
+              "book_usfm": "1PE",
+              "chapter": 2
+            },
+            {
+              "label": "1 Pedro 2:9",
+              "book_usfm": "1PE",
+              "chapter": 2
+            },
+            {
+              "label": "1 Corintios 6:20",
+              "book_usfm": "1CO",
+              "chapter": 6
+            },
+            {
+              "label": "Mateo 5:16",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "2 Pedro 1:10",
+              "book_usfm": "2PE",
+              "chapter": 1
+            },
+            {
+              "label": "Mateo 7:17-18",
+              "book_usfm": "MAT",
+              "chapter": 7
+            },
+            {
+              "label": "Gálatas 5:22-24",
+              "book_usfm": "GAL",
+              "chapter": 5
+            },
+            {
+              "label": "1 Pedro 3:1-2",
+              "book_usfm": "1PE",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 87,
+          "question": "¿No pueden, entonces, ser salvos los que no se convierten a Dios de su vida ingrata e impenitente?",
+          "answer": "De ningún modo; porque, como dice la Escritura, ni los fornicarios, ni los idólatras, ni los adúlteros, ni los ladrones, ni los avaros, ni los borrachos, ni los maldicientes, ni los estafadores, ni ninguno semejante, heredarán el reino de Dios.",
+          "refs": [
+            {
+              "label": "1 Corintios 6:9-10",
+              "book_usfm": "1CO",
+              "chapter": 6
+            },
+            {
+              "label": "Gálatas 5:19-21",
+              "book_usfm": "GAL",
+              "chapter": 5
+            },
+            {
+              "label": "Efesios 5:5-6",
+              "book_usfm": "EPH",
+              "chapter": 5
+            },
+            {
+              "label": "1 Juan 3:14-15",
+              "book_usfm": "1JN",
+              "chapter": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 33,
+      "title": "Día del Señor 33: La verdadera conversión",
+      "questions": [
+        {
+          "number": 88,
+          "question": "¿En cuántas partes consiste la verdadera conversión del hombre?",
+          "answer": "En dos: en la mortificación del viejo hombre y en la vivificación del nuevo.",
+          "refs": [
+            {
+              "label": "Romanos 6:1-11",
+              "book_usfm": "ROM",
+              "chapter": 6
+            },
+            {
+              "label": "Efesios 4:22-24",
+              "book_usfm": "EPH",
+              "chapter": 4
+            },
+            {
+              "label": "Colosenses 3:5-10",
+              "book_usfm": "COL",
+              "chapter": 3
+            },
+            {
+              "label": "1 Corintios 5:7",
+              "book_usfm": "1CO",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 89,
+          "question": "¿Qué es la mortificación del viejo hombre?",
+          "answer": "Es sentir verdadero pesar por haber irritado a Dios con nuestros pecados, y aborrecerlos y apartarnos de ellos cada vez más.",
+          "refs": [
+            {
+              "label": "Romanos 8:13",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "Joel 2:13",
+              "book_usfm": "JOL",
+              "chapter": 2
+            },
+            {
+              "label": "Oseas 6:1",
+              "book_usfm": "HOS",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 90,
+          "question": "¿Qué es la vivificación del nuevo hombre?",
+          "answer": "Es el gozo cordial en Dios por Cristo, y el amor y deleite en vivir conforme a la voluntad de Dios en toda buena obra.",
+          "refs": [
+            {
+              "label": "Romanos 5:1",
+              "book_usfm": "ROM",
+              "chapter": 5
+            },
+            {
+              "label": "Romanos 14:17",
+              "book_usfm": "ROM",
+              "chapter": 14
+            },
+            {
+              "label": "Isaías 57:15",
+              "book_usfm": "ISA",
+              "chapter": 57
+            },
+            {
+              "label": "Romanos 6:10-11",
+              "book_usfm": "ROM",
+              "chapter": 6
+            },
+            {
+              "label": "Gálatas 2:20",
+              "book_usfm": "GAL",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 91,
+          "question": "¿Pero qué son buenas obras?",
+          "answer": "Solo aquellas que proceden de verdadera fe, se hacen conforme a la ley de Dios, y para su gloria; y no las que se fundan en nuestra propia opinión o en tradiciones de hombres.",
+          "refs": [
+            {
+              "label": "Romanos 14:23",
+              "book_usfm": "ROM",
+              "chapter": 14
+            },
+            {
+              "label": "Levítico 18:4",
+              "book_usfm": "LEV",
+              "chapter": 18
+            },
+            {
+              "label": "1 Samuel 15:22",
+              "book_usfm": "1SA",
+              "chapter": 15
+            },
+            {
+              "label": "Efesios 2:10",
+              "book_usfm": "EPH",
+              "chapter": 2
+            },
+            {
+              "label": "1 Corintios 10:31",
+              "book_usfm": "1CO",
+              "chapter": 10
+            },
+            {
+              "label": "Deuteronomio 12:32",
+              "book_usfm": "DEU",
+              "chapter": 12
+            },
+            {
+              "label": "Isaías 29:13",
+              "book_usfm": "ISA",
+              "chapter": 29
+            },
+            {
+              "label": "Ezequiel 20:18-19",
+              "book_usfm": "EZK",
+              "chapter": 20
+            },
+            {
+              "label": "Mateo 15:9",
+              "book_usfm": "MAT",
+              "chapter": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 34,
+      "title": "Día del Señor 34: La ley de Dios y el primer mandamiento",
+      "questions": [
+        {
+          "number": 92,
+          "question": "¿Cuál es la ley de Dios?",
+          "answer": "Dios habló todas estas palabras, diciendo: «Yo soy Jehová tu Dios, que te saqué de la tierra de Egipto, de casa de siervos. No tendrás dioses ajenos delante de mí. No te harás imagen, ni ninguna semejanza de cosa que esté arriba en el cielo, ni abajo en la tierra, ni en las aguas debajo de la tierra. No te inclinarás á ellas, ni las honrarás; porque yo soy Jehová tu Dios, fuerte, celoso, que visito la maldad de los padres sobre los hijos, sobre los terceros y sobre los cuartos, á los que me aborrecen, y que hago misericordia en millares á los que me aman, y guardan mis mandamientos. No tomarás el nombre de Jehová tu Dios en vano; porque no dará por inocente Jehová al que tomare su nombre en vano. Acordarte has del día del reposo, para santificarlo. Seis días trabajarás, y harás toda tu obra; mas el séptimo día será reposo para Jehová tu Dios: no hagas en él obra alguna, tú, ni tu hijo, ni tu hija, ni tu siervo, ni tu criada, ni tu bestia, ni tu extranjero que está dentro de tus puertas. Porque en seis días hizo Jehová los cielos y la tierra, la mar y todas las cosas que en ellos hay, y reposó en el séptimo día: por tanto Jehová bendijo el día del reposo y lo santificó. Honra á tu padre y á tu madre, porque tus días se alarguen en la tierra que Jehová tu Dios te da. No matarás. No cometerás adulterio. No hurtarás. No hablarás contra tu prójimo falso testimonio. No codiciarás la casa de tu prójimo, no codiciarás la mujer de tu prójimo, ni su siervo, ni su criada, ni su buey, ni su asno, ni cosa alguna de tu prójimo».",
+          "refs": [
+            {
+              "label": "Éxodo 20:1-17",
+              "book_usfm": "EXO",
+              "chapter": 20
+            },
+            {
+              "label": "Deuteronomio 5:6-21",
+              "book_usfm": "DEU",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 93,
+          "question": "¿Cómo se dividen estos mandamientos?",
+          "answer": "En dos tablas: la primera enseña, en cuatro mandamientos, cómo hemos de comportarnos para con Dios; la segunda, en seis mandamientos, cuáles son nuestros deberes para con el prójimo.",
+          "refs": [
+            {
+              "label": "Éxodo 34:28",
+              "book_usfm": "EXO",
+              "chapter": 34
+            },
+            {
+              "label": "Deuteronomio 4:13",
+              "book_usfm": "DEU",
+              "chapter": 4
+            },
+            {
+              "label": "Mateo 22:37-40",
+              "book_usfm": "MAT",
+              "chapter": 22
+            }
+          ]
+        },
+        {
+          "number": 94,
+          "question": "¿Qué exige Dios en el primer mandamiento?",
+          "answer": "Que, so pena de perder mi salvación, evite y huya de toda idolatría, hechicería, encantamientos, invocación de los santos o de otras criaturas; y que reconozca rectamente al único y verdadero Dios, confíe solo en él, con toda humildad y paciencia me someta a él, espere de él todo bien, y le ame, tema y honre de todo corazón; de suerte que antes renuncie a todas las criaturas que hacer la menor cosa contra su voluntad.",
+          "refs": [
+            {
+              "label": "1 Corintios 6:9-10",
+              "book_usfm": "1CO",
+              "chapter": 6
+            },
+            {
+              "label": "1 Corintios 10:7",
+              "book_usfm": "1CO",
+              "chapter": 10
+            },
+            {
+              "label": "1 Corintios 10:14",
+              "book_usfm": "1CO",
+              "chapter": 10
+            },
+            {
+              "label": "1 Juan 5:21",
+              "book_usfm": "1JN",
+              "chapter": 5
+            },
+            {
+              "label": "Deuteronomio 18:10-12",
+              "book_usfm": "DEU",
+              "chapter": 18
+            },
+            {
+              "label": "Mateo 4:10",
+              "book_usfm": "MAT",
+              "chapter": 4
+            },
+            {
+              "label": "Apocalipsis 19:10",
+              "book_usfm": "REV",
+              "chapter": 19
+            },
+            {
+              "label": "Juan 5:23",
+              "book_usfm": "JHN",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 95,
+          "question": "¿Qué es idolatría?",
+          "answer": "Idolatría es, en lugar del único Dios verdadero que se ha revelado en su Palabra, o junto a él, imaginarse o tener otra cosa en que poner la confianza.",
+          "refs": [
+            {
+              "label": "Efesios 5:5",
+              "book_usfm": "EPH",
+              "chapter": 5
+            },
+            {
+              "label": "1 Crónicas 16:26",
+              "book_usfm": "1CH",
+              "chapter": 16
+            },
+            {
+              "label": "Filipenses 3:19",
+              "book_usfm": "PHP",
+              "chapter": 3
+            },
+            {
+              "label": "Gálatas 4:8",
+              "book_usfm": "GAL",
+              "chapter": 4
+            },
+            {
+              "label": "Efesios 2:12",
+              "book_usfm": "EPH",
+              "chapter": 2
+            },
+            {
+              "label": "1 Juan 2:23",
+              "book_usfm": "1JN",
+              "chapter": 2
+            },
+            {
+              "label": "2 Juan 1:9",
+              "book_usfm": "2JN",
+              "chapter": 1
+            },
+            {
+              "label": "Juan 5:23",
+              "book_usfm": "JHN",
+              "chapter": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 35,
+      "title": "Día del Señor 35: El segundo mandamiento",
+      "questions": [
+        {
+          "number": 96,
+          "question": "¿Qué exige Dios en el segundo mandamiento?",
+          "answer": "Que de ninguna manera representemos a Dios con imágenes, ni le demos culto de otro modo que el que él ha mandado en su Palabra.",
+          "refs": [
+            {
+              "label": "Deuteronomio 4:15-19",
+              "book_usfm": "DEU",
+              "chapter": 4
+            },
+            {
+              "label": "Isaías 40:18-25",
+              "book_usfm": "ISA",
+              "chapter": 40
+            },
+            {
+              "label": "Romanos 1:22-24",
+              "book_usfm": "ROM",
+              "chapter": 1
+            },
+            {
+              "label": "Hechos 17:29",
+              "book_usfm": "ACT",
+              "chapter": 17
+            },
+            {
+              "label": "1 Samuel 15:23",
+              "book_usfm": "1SA",
+              "chapter": 15
+            },
+            {
+              "label": "Deuteronomio 12:30-32",
+              "book_usfm": "DEU",
+              "chapter": 12
+            },
+            {
+              "label": "Mateo 15:9",
+              "book_usfm": "MAT",
+              "chapter": 15
+            }
+          ]
+        },
+        {
+          "number": 97,
+          "question": "¿No se puede, entonces, hacer imagen alguna?",
+          "answer": "Dios no puede ni debe ser representado de ninguna manera; y en cuanto a las criaturas, aunque puedan ser representadas, Dios prohíbe hacer o tener imagen alguna de ellas para adorarlas, o para servir con ellas a Dios.",
+          "refs": [
+            {
+              "label": "Deuteronomio 4:15-16",
+              "book_usfm": "DEU",
+              "chapter": 4
+            },
+            {
+              "label": "Éxodo 23:24-25",
+              "book_usfm": "EXO",
+              "chapter": 23
+            },
+            {
+              "label": "Éxodo 34:13-14",
+              "book_usfm": "EXO",
+              "chapter": 34
+            },
+            {
+              "label": "Números 33:52",
+              "book_usfm": "NUM",
+              "chapter": 33
+            },
+            {
+              "label": "2 Reyes 18:4",
+              "book_usfm": "2KI",
+              "chapter": 18
+            }
+          ]
+        },
+        {
+          "number": 98,
+          "question": "¿No se pueden tolerar las imágenes en las iglesias como libros para los legos?",
+          "answer": "No; porque no debemos pretender ser más sabios que Dios, el cual no quiere que su pueblo cristiano sea instruido por medio de imágenes mudas, sino por la viva predicación de su Palabra.",
+          "refs": [
+            {
+              "label": "Jeremías 10:8",
+              "book_usfm": "JER",
+              "chapter": 10
+            },
+            {
+              "label": "Habacuc 2:18-19",
+              "book_usfm": "HAB",
+              "chapter": 2
+            },
+            {
+              "label": "2 Pedro 1:19",
+              "book_usfm": "2PE",
+              "chapter": 1
+            },
+            {
+              "label": "2 Timoteo 3:16-17",
+              "book_usfm": "2TI",
+              "chapter": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 36,
+      "title": "Día del Señor 36: El tercer mandamiento",
+      "questions": [
+        {
+          "number": 99,
+          "question": "¿Qué exige el tercer mandamiento?",
+          "answer": "Que no solo con maldiciones o falso juramento, sino tampoco con uso innecesario, profanemos ni abusemos del nombre de Dios; ni que, con nuestro silencio y tolerancia, seamos partícipes de tan horribles pecados en otros; y, en resumen, que no usemos el santo nombre de Dios sino con temor y reverencia, para que sea rectamente confesado e invocado por nosotros, y glorificado en todas nuestras palabras y obras.",
+          "refs": [
+            {
+              "label": "Levítico 24:11-16",
+              "book_usfm": "LEV",
+              "chapter": 24
+            },
+            {
+              "label": "Levítico 19:12",
+              "book_usfm": "LEV",
+              "chapter": 19
+            },
+            {
+              "label": "Mateo 5:37",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Santiago 5:12",
+              "book_usfm": "JAS",
+              "chapter": 5
+            },
+            {
+              "label": "Levítico 5:1",
+              "book_usfm": "LEV",
+              "chapter": 5
+            },
+            {
+              "label": "Proverbios 29:24",
+              "book_usfm": "PRO",
+              "chapter": 29
+            },
+            {
+              "label": "Salmo 99:1-3",
+              "book_usfm": "PSA",
+              "chapter": 99
+            },
+            {
+              "label": "Jeremías 4:2",
+              "book_usfm": "JER",
+              "chapter": 4
+            },
+            {
+              "label": "Isaías 45:23",
+              "book_usfm": "ISA",
+              "chapter": 45
+            },
+            {
+              "label": "Mateo 10:32",
+              "book_usfm": "MAT",
+              "chapter": 10
+            }
+          ]
+        },
+        {
+          "number": 100,
+          "question": "¿Es, pues, tan grave pecado profanar el nombre de Dios con juramentos y maldiciones, que Dios se aíra también contra los que no lo impiden y prohíben cuanto pueden?",
+          "answer": "Ciertamente sí; porque ningún pecado es mayor ni provoca más la ira de Dios que la profanación de su nombre; por lo cual mandó castigarlo con pena de muerte.",
+          "refs": [
+            {
+              "label": "Levítico 5:1",
+              "book_usfm": "LEV",
+              "chapter": 5
+            },
+            {
+              "label": "Levítico 24:15-16",
+              "book_usfm": "LEV",
+              "chapter": 24
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 37,
+      "title": "Día del Señor 37: El juramento",
+      "questions": [
+        {
+          "number": 101,
+          "question": "¿Pero se puede jurar píamente por el nombre de Dios?",
+          "answer": "Sí, cuando la autoridad lo exige de sus súbditos, o cuando la necesidad lo requiere para conservar y promover la fidelidad y la verdad, para gloria de Dios y bien del prójimo; porque tal juramento está fundado en la Palabra de Dios, y por eso fue rectamente usado por los santos en el Antiguo y en el Nuevo Testamento.",
+          "refs": [
+            {
+              "label": "Deuteronomio 6:13",
+              "book_usfm": "DEU",
+              "chapter": 6
+            },
+            {
+              "label": "Deuteronomio 10:20",
+              "book_usfm": "DEU",
+              "chapter": 10
+            },
+            {
+              "label": "Isaías 48:1",
+              "book_usfm": "ISA",
+              "chapter": 48
+            },
+            {
+              "label": "Hebreos 6:16",
+              "book_usfm": "HEB",
+              "chapter": 6
+            },
+            {
+              "label": "Génesis 21:24",
+              "book_usfm": "GEN",
+              "chapter": 21
+            },
+            {
+              "label": "Josué 9:15",
+              "book_usfm": "JOS",
+              "chapter": 9
+            },
+            {
+              "label": "1 Samuel 24:22",
+              "book_usfm": "1SA",
+              "chapter": 24
+            },
+            {
+              "label": "2 Corintios 1:23",
+              "book_usfm": "2CO",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 1:9",
+              "book_usfm": "ROM",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 102,
+          "question": "¿Se puede también jurar por los santos o por otras criaturas?",
+          "answer": "No; porque jurar legítimamente es llamar a Dios, el único que ve el corazón, para que confirme la verdad y me castigue si miento bajo juramento; y ese honor no le corresponde a ninguna criatura.",
+          "refs": [
+            {
+              "label": "2 Corintios 1:23",
+              "book_usfm": "2CO",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 9:1",
+              "book_usfm": "ROM",
+              "chapter": 9
+            },
+            {
+              "label": "Mateo 5:34-36",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Santiago 5:12",
+              "book_usfm": "JAS",
+              "chapter": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 38,
+      "title": "Día del Señor 38: El cuarto mandamiento",
+      "questions": [
+        {
+          "number": 103,
+          "question": "¿Qué exige Dios en el cuarto mandamiento?",
+          "answer": "Primero, que se sostengan el ministerio del evangelio y la enseñanza, y que yo —sobre todo el día de reposo— acuda con constancia a la congregación de Dios a escuchar su Palabra, participar de los santos sacramentos, invocar juntos al Señor y ofrecer una ofrenda cristiana para los necesitados. Segundo, que todos los días de mi vida deje mis malas obras, permita que el Señor obre en mí por su Espíritu, y así empiece desde esta vida el descanso eterno.",
+          "refs": [
+            {
+              "label": "Tito 1:5",
+              "book_usfm": "TIT",
+              "chapter": 1
+            },
+            {
+              "label": "1 Timoteo 3:14-15",
+              "book_usfm": "1TI",
+              "chapter": 3
+            },
+            {
+              "label": "2 Timoteo 2:2",
+              "book_usfm": "2TI",
+              "chapter": 2
+            },
+            {
+              "label": "2 Timoteo 3:14-15",
+              "book_usfm": "2TI",
+              "chapter": 3
+            },
+            {
+              "label": "1 Corintios 14:31-40",
+              "book_usfm": "1CO",
+              "chapter": 14
+            },
+            {
+              "label": "1 Timoteo 4:13",
+              "book_usfm": "1TI",
+              "chapter": 4
+            },
+            {
+              "label": "Génesis 2:3",
+              "book_usfm": "GEN",
+              "chapter": 2
+            },
+            {
+              "label": "Salmo 40:9-10",
+              "book_usfm": "PSA",
+              "chapter": 40
+            },
+            {
+              "label": "Hechos 20:7",
+              "book_usfm": "ACT",
+              "chapter": 20
+            },
+            {
+              "label": "1 Corintios 11:33",
+              "book_usfm": "1CO",
+              "chapter": 11
+            },
+            {
+              "label": "Isaías 66:23",
+              "book_usfm": "ISA",
+              "chapter": 66
+            },
+            {
+              "label": "Hebreos 4:9-10",
+              "book_usfm": "HEB",
+              "chapter": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 39,
+      "title": "Día del Señor 39: El quinto mandamiento",
+      "questions": [
+        {
+          "number": 104,
+          "question": "¿Qué exige Dios en el quinto mandamiento?",
+          "answer": "Que muestre todo honor, amor y fidelidad a mi padre y a mi madre, y a todos los que tienen autoridad sobre mí; que me someta con la debida obediencia a toda buena instrucción y corrección, y que tenga también paciencia con sus faltas, puesto que Dios quiere gobernarnos por medio de ellos.",
+          "refs": [
+            {
+              "label": "Efesios 6:1-5",
+              "book_usfm": "EPH",
+              "chapter": 6
+            },
+            {
+              "label": "Colosenses 3:18-24",
+              "book_usfm": "COL",
+              "chapter": 3
+            },
+            {
+              "label": "Proverbios 1:8",
+              "book_usfm": "PRO",
+              "chapter": 1
+            },
+            {
+              "label": "Proverbios 4:1",
+              "book_usfm": "PRO",
+              "chapter": 4
+            },
+            {
+              "label": "Proverbios 15:20",
+              "book_usfm": "PRO",
+              "chapter": 15
+            },
+            {
+              "label": "Proverbios 20:20",
+              "book_usfm": "PRO",
+              "chapter": 20
+            },
+            {
+              "label": "Éxodo 21:17",
+              "book_usfm": "EXO",
+              "chapter": 21
+            },
+            {
+              "label": "Romanos 13:1-7",
+              "book_usfm": "ROM",
+              "chapter": 13
+            },
+            {
+              "label": "Efesios 6:4",
+              "book_usfm": "EPH",
+              "chapter": 6
+            },
+            {
+              "label": "Colosenses 3:19-21",
+              "book_usfm": "COL",
+              "chapter": 3
+            },
+            {
+              "label": "Mateo 22:21",
+              "book_usfm": "MAT",
+              "chapter": 22
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 40,
+      "title": "Día del Señor 40: El sexto mandamiento",
+      "questions": [
+        {
+          "number": 105,
+          "question": "¿Qué exige Dios en el sexto mandamiento?",
+          "answer": "Que ni con pensamientos, ni con palabras o gestos, y mucho menos con obras, deshonre, aborrezca, hiera o mate a mi prójimo, sea por mí mismo o por medio de otros; sino que deponga todo deseo de venganza; y que tampoco me dañe a mí mismo ni me exponga temerariamente al peligro. Por eso también la autoridad lleva la espada, para impedir el homicidio.",
+          "refs": [
+            {
+              "label": "Mateo 5:21-22",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Mateo 26:52",
+              "book_usfm": "MAT",
+              "chapter": 26
+            },
+            {
+              "label": "Génesis 9:6",
+              "book_usfm": "GEN",
+              "chapter": 9
+            },
+            {
+              "label": "Efesios 4:26",
+              "book_usfm": "EPH",
+              "chapter": 4
+            },
+            {
+              "label": "Romanos 12:19",
+              "book_usfm": "ROM",
+              "chapter": 12
+            },
+            {
+              "label": "Mateo 5:25",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Mateo 18:35",
+              "book_usfm": "MAT",
+              "chapter": 18
+            },
+            {
+              "label": "Romanos 13:14",
+              "book_usfm": "ROM",
+              "chapter": 13
+            },
+            {
+              "label": "Colosenses 2:23",
+              "book_usfm": "COL",
+              "chapter": 2
+            },
+            {
+              "label": "Mateo 4:7",
+              "book_usfm": "MAT",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 106,
+          "question": "¿Pero este mandamiento habla solo del homicidio?",
+          "answer": "No; porque, al prohibir el homicidio, Dios enseña que aborrece la raíz de él, como la envidia, el odio, la ira y el deseo de venganza; y que todo esto es a sus ojos un homicidio oculto.",
+          "refs": [
+            {
+              "label": "Proverbios 14:30",
+              "book_usfm": "PRO",
+              "chapter": 14
+            },
+            {
+              "label": "Romanos 1:29",
+              "book_usfm": "ROM",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 12:19",
+              "book_usfm": "ROM",
+              "chapter": 12
+            },
+            {
+              "label": "1 Juan 2:9-11",
+              "book_usfm": "1JN",
+              "chapter": 2
+            },
+            {
+              "label": "Mateo 5:21-22",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "1 Juan 3:15",
+              "book_usfm": "1JN",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 107,
+          "question": "¿Pero cumplimos este mandamiento con no matar al prójimo de esa manera?",
+          "answer": "No; porque, al condenar Dios la envidia, el odio y la ira, exige que amemos a nuestro prójimo como a nosotros mismos, que le mostremos paciencia, paz, mansedumbre, misericordia y benignidad, que apartemos de él, cuanto podamos, todo daño, y que hagamos bien aun a nuestros enemigos.",
+          "refs": [
+            {
+              "label": "Mateo 7:12",
+              "book_usfm": "MAT",
+              "chapter": 7
+            },
+            {
+              "label": "Mateo 22:39",
+              "book_usfm": "MAT",
+              "chapter": 22
+            },
+            {
+              "label": "Romanos 12:10",
+              "book_usfm": "ROM",
+              "chapter": 12
+            },
+            {
+              "label": "Efesios 4:2",
+              "book_usfm": "EPH",
+              "chapter": 4
+            },
+            {
+              "label": "Gálatas 6:1-2",
+              "book_usfm": "GAL",
+              "chapter": 6
+            },
+            {
+              "label": "Mateo 5:5",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Romanos 12:18",
+              "book_usfm": "ROM",
+              "chapter": 12
+            },
+            {
+              "label": "Éxodo 23:5",
+              "book_usfm": "EXO",
+              "chapter": 23
+            },
+            {
+              "label": "Mateo 5:44-45",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Romanos 12:20-21",
+              "book_usfm": "ROM",
+              "chapter": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 41,
+      "title": "Día del Señor 41: El séptimo mandamiento",
+      "questions": [
+        {
+          "number": 108,
+          "question": "¿Qué nos enseña el séptimo mandamiento?",
+          "answer": "Que toda impureza es maldita por Dios, y que por eso debemos aborrecerla de corazón, y vivir con castidad y templanza, tanto en el santo estado del matrimonio como fuera de él.",
+          "refs": [
+            {
+              "label": "Levítico 18:27-28",
+              "book_usfm": "LEV",
+              "chapter": 18
+            },
+            {
+              "label": "Judas 1:23",
+              "book_usfm": "JUD",
+              "chapter": 1
+            },
+            {
+              "label": "1 Tesalonicenses 4:3-5",
+              "book_usfm": "1TH",
+              "chapter": 4
+            },
+            {
+              "label": "Hebreos 13:4",
+              "book_usfm": "HEB",
+              "chapter": 13
+            },
+            {
+              "label": "1 Corintios 7:1-4",
+              "book_usfm": "1CO",
+              "chapter": 7
+            },
+            {
+              "label": "1 Corintios 7:7-9",
+              "book_usfm": "1CO",
+              "chapter": 7
+            }
+          ]
+        },
+        {
+          "number": 109,
+          "question": "¿Prohíbe Dios en este mandamiento solo el adulterio y semejantes torpezas?",
+          "answer": "Puesto que tanto nuestro cuerpo como nuestra alma son templos del Espíritu Santo, Dios quiere que conservemos ambos puros y santos; y por eso prohíbe todos los actos, gestos, palabras, pensamientos, deseos impuros, y cuanto pueda incitar al hombre a ellos.",
+          "refs": [
+            {
+              "label": "1 Corintios 6:18-20",
+              "book_usfm": "1CO",
+              "chapter": 6
+            },
+            {
+              "label": "Mateo 5:27-30",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Efesios 5:3-4",
+              "book_usfm": "EPH",
+              "chapter": 5
+            },
+            {
+              "label": "1 Corintios 6:9-10",
+              "book_usfm": "1CO",
+              "chapter": 6
+            },
+            {
+              "label": "Colosenses 3:5",
+              "book_usfm": "COL",
+              "chapter": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 42,
+      "title": "Día del Señor 42: El octavo mandamiento",
+      "questions": [
+        {
+          "number": 110,
+          "question": "¿Qué prohíbe Dios en el octavo mandamiento?",
+          "answer": "Dios prohíbe no solo el hurto y el robo que la autoridad castiga, sino que llama también hurto a todos los malos ardides y artimañas con que pretendemos apropiarnos de los bienes del prójimo, sea por fuerza, sea con apariencia de derecho, como con pesas, medidas, mercaderías o monedas falsas, con usura, o por cualquier medio prohibido por Dios; y también toda avaricia, y todo abuso y desperdicio de sus dones.",
+          "refs": [
+            {
+              "label": "1 Corintios 6:10",
+              "book_usfm": "1CO",
+              "chapter": 6
+            },
+            {
+              "label": "Levítico 19:11",
+              "book_usfm": "LEV",
+              "chapter": 19
+            },
+            {
+              "label": "Levítico 19:13",
+              "book_usfm": "LEV",
+              "chapter": 19
+            },
+            {
+              "label": "Deuteronomio 25:13-16",
+              "book_usfm": "DEU",
+              "chapter": 25
+            },
+            {
+              "label": "Proverbios 11:1",
+              "book_usfm": "PRO",
+              "chapter": 11
+            },
+            {
+              "label": "Ezequiel 45:9-12",
+              "book_usfm": "EZK",
+              "chapter": 45
+            },
+            {
+              "label": "Lucas 3:14",
+              "book_usfm": "LUK",
+              "chapter": 3
+            },
+            {
+              "label": "Salmo 15:5",
+              "book_usfm": "PSA",
+              "chapter": 15
+            },
+            {
+              "label": "Lucas 6:35",
+              "book_usfm": "LUK",
+              "chapter": 6
+            },
+            {
+              "label": "1 Corintios 5:10",
+              "book_usfm": "1CO",
+              "chapter": 5
+            },
+            {
+              "label": "Proverbios 5:10",
+              "book_usfm": "PRO",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 111,
+          "question": "¿Pero qué te manda Dios en este mandamiento?",
+          "answer": "Que promueva el provecho de mi prójimo dondequiera que pueda y deba, que obre con él como quisiera que obren conmigo, y que trabaje fielmente, para poder también socorrer al necesitado.",
+          "refs": [
+            {
+              "label": "Mateo 7:12",
+              "book_usfm": "MAT",
+              "chapter": 7
+            },
+            {
+              "label": "Efesios 4:28",
+              "book_usfm": "EPH",
+              "chapter": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 43,
+      "title": "Día del Señor 43: El noveno mandamiento",
+      "questions": [
+        {
+          "number": 112,
+          "question": "¿Qué exige el noveno mandamiento?",
+          "answer": "Que no dé falso testimonio contra nadie, ni tuerza las palabras de otro, ni sea murmurador o calumniador, ni condene a nadie sin oírlo o a la ligera; sino que evite, so pena de la ira de Dios, toda mentira y engaño como obras propias del diablo; y que en asuntos de juicio y en todo lo demás ame la verdad, la diga y la confiese con sinceridad, y defienda y promueva cuanto pueda el honor y la buena fama de mi prójimo.",
+          "refs": [
+            {
+              "label": "Salmo 15:3",
+              "book_usfm": "PSA",
+              "chapter": 15
+            },
+            {
+              "label": "Proverbios 19:5",
+              "book_usfm": "PRO",
+              "chapter": 19
+            },
+            {
+              "label": "Mateo 7:1-2",
+              "book_usfm": "MAT",
+              "chapter": 7
+            },
+            {
+              "label": "Lucas 6:37",
+              "book_usfm": "LUK",
+              "chapter": 6
+            },
+            {
+              "label": "Romanos 1:28-30",
+              "book_usfm": "ROM",
+              "chapter": 1
+            },
+            {
+              "label": "Juan 8:44",
+              "book_usfm": "JHN",
+              "chapter": 8
+            },
+            {
+              "label": "Levítico 19:11",
+              "book_usfm": "LEV",
+              "chapter": 19
+            },
+            {
+              "label": "Proverbios 12:22",
+              "book_usfm": "PRO",
+              "chapter": 12
+            },
+            {
+              "label": "1 Pedro 4:8",
+              "book_usfm": "1PE",
+              "chapter": 4
+            },
+            {
+              "label": "1 Corintios 13:6",
+              "book_usfm": "1CO",
+              "chapter": 13
+            },
+            {
+              "label": "Efesios 4:25",
+              "book_usfm": "EPH",
+              "chapter": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 44,
+      "title": "Día del Señor 44: El décimo mandamiento",
+      "questions": [
+        {
+          "number": 113,
+          "question": "¿Qué exige el décimo mandamiento?",
+          "answer": "Que ni aun el menor deseo o pensamiento contrario a algún mandamiento de Dios suba jamás a nuestro corazón; sino que en todo tiempo aborrezcamos de todo corazón todo pecado, y hallemos placer en toda justicia.",
+          "refs": [
+            {
+              "label": "Romanos 7:7-8",
+              "book_usfm": "ROM",
+              "chapter": 7
+            },
+            {
+              "label": "Mateo 5:28",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Santiago 1:14-15",
+              "book_usfm": "JAS",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 7:22-24",
+              "book_usfm": "ROM",
+              "chapter": 7
+            }
+          ]
+        },
+        {
+          "number": 114,
+          "question": "¿Pero pueden los convertidos a Dios guardar perfectamente estos mandamientos?",
+          "answer": "No; sino que aun los más santos, mientras están en esta vida, no tienen sino un pequeño comienzo de esta obediencia; pero de tal modo que con firme propósito comienzan a vivir, no solo según algunos, sino según todos los mandamientos de Dios.",
+          "refs": [
+            {
+              "label": "1 Juan 1:8-10",
+              "book_usfm": "1JN",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 7:14-15",
+              "book_usfm": "ROM",
+              "chapter": 7
+            },
+            {
+              "label": "Eclesiastés 7:20",
+              "book_usfm": "ECC",
+              "chapter": 7
+            },
+            {
+              "label": "1 Corintios 13:9",
+              "book_usfm": "1CO",
+              "chapter": 13
+            },
+            {
+              "label": "Romanos 7:22",
+              "book_usfm": "ROM",
+              "chapter": 7
+            },
+            {
+              "label": "Santiago 2:10-11",
+              "book_usfm": "JAS",
+              "chapter": 2
+            },
+            {
+              "label": "Salmo 1:1-2",
+              "book_usfm": "PSA",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 115,
+          "question": "¿Por qué, entonces, quiere Dios que se nos predique tan estrictamente la ley, si nadie puede guardarla en esta vida?",
+          "answer": "Primero, para que durante toda nuestra vida conozcamos cada vez más nuestra naturaleza pecaminosa, y así busquemos con mayor anhelo el perdón de los pecados y la justicia en Cristo. Segundo, para que sin cesar nos esforcemos y pidamos a Dios la gracia del Espíritu Santo, a fin de renovarnos cada vez más a la imagen de Dios, hasta que después de esta vida alcancemos la perfección propuesta.",
+          "refs": [
+            {
+              "label": "Romanos 3:20",
+              "book_usfm": "ROM",
+              "chapter": 3
+            },
+            {
+              "label": "1 Juan 1:9",
+              "book_usfm": "1JN",
+              "chapter": 1
+            },
+            {
+              "label": "Salmo 32:5",
+              "book_usfm": "PSA",
+              "chapter": 32
+            },
+            {
+              "label": "Mateo 5:6",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Romanos 7:24-25",
+              "book_usfm": "ROM",
+              "chapter": 7
+            },
+            {
+              "label": "1 Corintios 9:24-25",
+              "book_usfm": "1CO",
+              "chapter": 9
+            },
+            {
+              "label": "Filipenses 3:12-14",
+              "book_usfm": "PHP",
+              "chapter": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 45,
+      "title": "Día del Señor 45: La oración",
+      "questions": [
+        {
+          "number": 116,
+          "question": "¿Por qué es necesaria la oración para los cristianos?",
+          "answer": "Porque es lo más importante del agradecimiento que Dios nos pide; y porque Dios quiere dar su gracia y su Espíritu Santo únicamente a quienes sin cesar y con hondo anhelo se los piden y le dan gracias por ellos.",
+          "refs": [
+            {
+              "label": "Salmo 50:14-15",
+              "book_usfm": "PSA",
+              "chapter": 50
+            },
+            {
+              "label": "Salmo 116:12-19",
+              "book_usfm": "PSA",
+              "chapter": 116
+            },
+            {
+              "label": "1 Tesalonicenses 5:16-18",
+              "book_usfm": "1TH",
+              "chapter": 5
+            },
+            {
+              "label": "Mateo 7:7-8",
+              "book_usfm": "MAT",
+              "chapter": 7
+            },
+            {
+              "label": "Lucas 11:9-13",
+              "book_usfm": "LUK",
+              "chapter": 11
+            }
+          ]
+        },
+        {
+          "number": 117,
+          "question": "¿Qué se requiere en una oración agradable a Dios y oída por él?",
+          "answer": "Primero, que invoquemos de corazón solo al único Dios verdadero, que se nos ha revelado en su Palabra, por todo lo que nos ha mandado pedir. Segundo, que conozcamos bien y de veras nuestra necesidad y miseria, para humillarnos delante de la majestad divina. Tercero, que tengamos el firme fundamento de que Dios, a pesar de que no lo merecemos, quiere ciertamente oír nuestra oración por causa de Cristo el Señor, como nos lo ha prometido en su Palabra.",
+          "refs": [
+            {
+              "label": "Juan 4:22-24",
+              "book_usfm": "JHN",
+              "chapter": 4
+            },
+            {
+              "label": "Romanos 8:26",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "1 Juan 5:14",
+              "book_usfm": "1JN",
+              "chapter": 5
+            },
+            {
+              "label": "Salmo 145:18-19",
+              "book_usfm": "PSA",
+              "chapter": 145
+            },
+            {
+              "label": "2 Crónicas 7:14",
+              "book_usfm": "2CH",
+              "chapter": 7
+            },
+            {
+              "label": "Salmo 2:11",
+              "book_usfm": "PSA",
+              "chapter": 2
+            },
+            {
+              "label": "Salmo 34:18",
+              "book_usfm": "PSA",
+              "chapter": 34
+            },
+            {
+              "label": "Isaías 66:2",
+              "book_usfm": "ISA",
+              "chapter": 66
+            },
+            {
+              "label": "Romanos 10:13",
+              "book_usfm": "ROM",
+              "chapter": 10
+            },
+            {
+              "label": "Juan 14:13-14",
+              "book_usfm": "JHN",
+              "chapter": 14
+            },
+            {
+              "label": "Daniel 9:17-18",
+              "book_usfm": "DAN",
+              "chapter": 9
+            },
+            {
+              "label": "Mateo 7:8",
+              "book_usfm": "MAT",
+              "chapter": 7
+            }
+          ]
+        },
+        {
+          "number": 118,
+          "question": "¿Qué nos mandó Dios pedirle?",
+          "answer": "Cuanto necesitamos para el cuerpo y para el alma, todo lo cual encerró Cristo el Señor en la oración que él mismo nos enseñó.",
+          "refs": [
+            {
+              "label": "Santiago 1:17",
+              "book_usfm": "JAS",
+              "chapter": 1
+            },
+            {
+              "label": "Mateo 6:33",
+              "book_usfm": "MAT",
+              "chapter": 6
+            },
+            {
+              "label": "Filipenses 4:6",
+              "book_usfm": "PHP",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 119,
+          "question": "¿Cuál es esa oración?",
+          "answer": "Padre nuestro que estás en los cielos, santificado sea tu nombre. Venga tu reino. Sea hecha tu voluntad, como en el cielo, así también en la tierra. Danos hoy nuestro pan cotidiano. Y perdónanos nuestras deudas, como también nosotros perdonamos á nuestros deudores. Y no nos metas en tentación, mas líbranos del mal: porque tuyo es el reino, y el poder, y la gloria, por todos los siglos. Amén.",
+          "refs": [
+            {
+              "label": "Mateo 6:9-13",
+              "book_usfm": "MAT",
+              "chapter": 6
+            },
+            {
+              "label": "Lucas 11:2-4",
+              "book_usfm": "LUK",
+              "chapter": 11
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 46,
+      "title": "Día del Señor 46: «Padre nuestro que estás en los cielos»",
+      "questions": [
+        {
+          "number": 120,
+          "question": "¿Por qué te mandó Cristo dirigirte a Dios así: «Padre nuestro»?",
+          "answer": "Para despertar en nosotros, desde el comienzo mismo de la oración, aquella reverencia y confianza filial hacia Dios, que ha de ser el fundamento de nuestra oración; a saber, que Dios se ha hecho nuestro Padre por Cristo, y que mucho menos nos negará lo que le pidamos con verdadera fe, que lo que nuestros padres nos niegan de las cosas terrenales.",
+          "refs": [
+            {
+              "label": "Mateo 7:9-11",
+              "book_usfm": "MAT",
+              "chapter": 7
+            },
+            {
+              "label": "Lucas 11:11-13",
+              "book_usfm": "LUK",
+              "chapter": 11
+            },
+            {
+              "label": "Mateo 6:8",
+              "book_usfm": "MAT",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 121,
+          "question": "¿Por qué se añade: «que estás en los cielos»?",
+          "answer": "Para que no imaginemos nada terreno acerca de su celestial majestad, y para que esperemos de su omnipotencia todo lo que hace falta al cuerpo y al alma.",
+          "refs": [
+            {
+              "label": "Jeremías 23:23-24",
+              "book_usfm": "JER",
+              "chapter": 23
+            },
+            {
+              "label": "Hechos 17:24-27",
+              "book_usfm": "ACT",
+              "chapter": 17
+            },
+            {
+              "label": "Romanos 10:12",
+              "book_usfm": "ROM",
+              "chapter": 10
+            },
+            {
+              "label": "Mateo 6:25-34",
+              "book_usfm": "MAT",
+              "chapter": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 47,
+      "title": "Día del Señor 47: La primera petición",
+      "questions": [
+        {
+          "number": 122,
+          "question": "¿Cuál es la primera petición?",
+          "answer": "«Santificado sea tu nombre». Es decir: concédenos primeramente que te conozcamos rectamente, y que te santifiquemos, glorifiquemos y alabemos en todas tus obras, en las que resplandecen tu omnipotencia, sabiduría, bondad, justicia, misericordia y verdad; y también que dispongamos toda nuestra vida, pensamientos, palabras y obras, de tal modo que tu nombre no sea blasfemado por causa nuestra, sino honrado y alabado.",
+          "refs": [
+            {
+              "label": "Juan 17:3",
+              "book_usfm": "JHN",
+              "chapter": 17
+            },
+            {
+              "label": "Jeremías 9:23-24",
+              "book_usfm": "JER",
+              "chapter": 9
+            },
+            {
+              "label": "Jeremías 31:33-34",
+              "book_usfm": "JER",
+              "chapter": 31
+            },
+            {
+              "label": "Mateo 16:17",
+              "book_usfm": "MAT",
+              "chapter": 16
+            },
+            {
+              "label": "Santiago 1:5",
+              "book_usfm": "JAS",
+              "chapter": 1
+            },
+            {
+              "label": "Salmo 119:105",
+              "book_usfm": "PSA",
+              "chapter": 119
+            },
+            {
+              "label": "Salmo 71:8",
+              "book_usfm": "PSA",
+              "chapter": 71
+            },
+            {
+              "label": "Salmo 100:3-4",
+              "book_usfm": "PSA",
+              "chapter": 100
+            },
+            {
+              "label": "Romanos 2:24",
+              "book_usfm": "ROM",
+              "chapter": 2
+            },
+            {
+              "label": "Salmo 115:1",
+              "book_usfm": "PSA",
+              "chapter": 115
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 48,
+      "title": "Día del Señor 48: La segunda petición",
+      "questions": [
+        {
+          "number": 123,
+          "question": "¿Cuál es la segunda petición?",
+          "answer": "«Venga tu reino». Es decir: gobiérnanos de tal modo por tu Palabra y tu Espíritu, que cada vez más nos sometamos a ti; conserva y aumenta tu Iglesia; destruye las obras del diablo, y todo poder que se levante contra ti, y todo consejo malvado que se trame contra tu santa Palabra, hasta que se cumpla la plenitud de tu reino, en la cual serás todo en todos.",
+          "refs": [
+            {
+              "label": "Mateo 6:33",
+              "book_usfm": "MAT",
+              "chapter": 6
+            },
+            {
+              "label": "Salmo 119:5",
+              "book_usfm": "PSA",
+              "chapter": 119
+            },
+            {
+              "label": "Salmo 143:10",
+              "book_usfm": "PSA",
+              "chapter": 143
+            },
+            {
+              "label": "Salmo 51:18",
+              "book_usfm": "PSA",
+              "chapter": 51
+            },
+            {
+              "label": "Mateo 16:18",
+              "book_usfm": "MAT",
+              "chapter": 16
+            },
+            {
+              "label": "Romanos 16:20",
+              "book_usfm": "ROM",
+              "chapter": 16
+            },
+            {
+              "label": "1 Juan 3:8",
+              "book_usfm": "1JN",
+              "chapter": 3
+            },
+            {
+              "label": "Apocalipsis 22:17",
+              "book_usfm": "REV",
+              "chapter": 22
+            },
+            {
+              "label": "Apocalipsis 22:20",
+              "book_usfm": "REV",
+              "chapter": 22
+            },
+            {
+              "label": "Romanos 8:22-23",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "1 Corintios 15:28",
+              "book_usfm": "1CO",
+              "chapter": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 49,
+      "title": "Día del Señor 49: La tercera petición",
+      "questions": [
+        {
+          "number": 124,
+          "question": "¿Cuál es la tercera petición?",
+          "answer": "«Sea hecha tu voluntad, como en el cielo, así también en la tierra». Es decir: haz que nosotros y todos los hombres neguemos nuestra propia voluntad y acatemos sin réplica la tuya, que es la única buena; para que cada cual desempeñe su oficio y su vocación con la misma prontitud y fidelidad con que los ángeles lo hacen en el cielo.",
+          "refs": [
+            {
+              "label": "Mateo 16:24",
+              "book_usfm": "MAT",
+              "chapter": 16
+            },
+            {
+              "label": "Tito 2:11-12",
+              "book_usfm": "TIT",
+              "chapter": 2
+            },
+            {
+              "label": "Lucas 22:42",
+              "book_usfm": "LUK",
+              "chapter": 22
+            },
+            {
+              "label": "Efesios 5:10",
+              "book_usfm": "EPH",
+              "chapter": 5
+            },
+            {
+              "label": "Romanos 12:2",
+              "book_usfm": "ROM",
+              "chapter": 12
+            },
+            {
+              "label": "1 Corintios 7:24",
+              "book_usfm": "1CO",
+              "chapter": 7
+            },
+            {
+              "label": "Salmo 103:20-21",
+              "book_usfm": "PSA",
+              "chapter": 103
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 50,
+      "title": "Día del Señor 50: La cuarta petición",
+      "questions": [
+        {
+          "number": 125,
+          "question": "¿Cuál es la cuarta petición?",
+          "answer": "«Danos hoy nuestro pan cotidiano». Es decir: abastece cuanto nuestro cuerpo necesita, para que por ello reconozcamos que tú, y solo tú, eres el manantial de todo bien, y que sin tu bendición no nos aprovechan ni nuestro afán y trabajo ni tus propios dones; y así retiremos nuestra confianza de toda criatura y la depositemos únicamente en ti.",
+          "refs": [
+            {
+              "label": "Salmo 104:27-28",
+              "book_usfm": "PSA",
+              "chapter": 104
+            },
+            {
+              "label": "Salmo 145:15-16",
+              "book_usfm": "PSA",
+              "chapter": 145
+            },
+            {
+              "label": "Mateo 6:25-26",
+              "book_usfm": "MAT",
+              "chapter": 6
+            },
+            {
+              "label": "Hechos 14:17",
+              "book_usfm": "ACT",
+              "chapter": 14
+            },
+            {
+              "label": "Hechos 17:27-28",
+              "book_usfm": "ACT",
+              "chapter": 17
+            },
+            {
+              "label": "1 Corintios 15:58",
+              "book_usfm": "1CO",
+              "chapter": 15
+            },
+            {
+              "label": "Deuteronomio 8:3",
+              "book_usfm": "DEU",
+              "chapter": 8
+            },
+            {
+              "label": "Salmo 37:3-7",
+              "book_usfm": "PSA",
+              "chapter": 37
+            },
+            {
+              "label": "Salmo 127:1-2",
+              "book_usfm": "PSA",
+              "chapter": 127
+            },
+            {
+              "label": "Jeremías 17:5-8",
+              "book_usfm": "JER",
+              "chapter": 17
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 51,
+      "title": "Día del Señor 51: La quinta petición",
+      "questions": [
+        {
+          "number": 126,
+          "question": "¿Cuál es la quinta petición?",
+          "answer": "«Y perdónanos nuestras deudas, como también nosotros perdonamos a nuestros deudores». Es decir: no nos imputes a nosotros, míseros pecadores, ninguna de nuestras transgresiones, ni la maldad que todavía está adherida a nosotros, por causa de la sangre de Cristo; así como también nosotros sentimos en nosotros este testimonio de tu gracia, que tenemos el firme propósito de perdonar de corazón a nuestro prójimo.",
+          "refs": [
+            {
+              "label": "Salmo 51:1-4",
+              "book_usfm": "PSA",
+              "chapter": 51
+            },
+            {
+              "label": "Salmo 143:2",
+              "book_usfm": "PSA",
+              "chapter": 143
+            },
+            {
+              "label": "Romanos 8:1",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "1 Juan 2:1-2",
+              "book_usfm": "1JN",
+              "chapter": 2
+            },
+            {
+              "label": "Mateo 6:14-15",
+              "book_usfm": "MAT",
+              "chapter": 6
+            },
+            {
+              "label": "Mateo 18:21-35",
+              "book_usfm": "MAT",
+              "chapter": 18
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 52,
+      "title": "Día del Señor 52: La sexta petición y la conclusión",
+      "questions": [
+        {
+          "number": 127,
+          "question": "¿Cuál es la sexta petición?",
+          "answer": "«Y no nos metas en tentación, mas líbranos del mal». Es decir: puesto que nosotros somos tan débiles que no podemos sostenernos ni un solo momento, y además nuestros enemigos jurados —el diablo, el mundo y nuestra propia carne— no cesan de atacarnos, sostennos y fortalécenos con el poder de tu Espíritu Santo, para que podamos resistirles firmemente y no seamos vencidos en esta lucha espiritual, hasta que alcancemos por fin la victoria completa.",
+          "refs": [
+            {
+              "label": "Salmo 103:14-16",
+              "book_usfm": "PSA",
+              "chapter": 103
+            },
+            {
+              "label": "Juan 15:5",
+              "book_usfm": "JHN",
+              "chapter": 15
+            },
+            {
+              "label": "Salmo 51:11-12",
+              "book_usfm": "PSA",
+              "chapter": 51
+            },
+            {
+              "label": "Efesios 6:10-13",
+              "book_usfm": "EPH",
+              "chapter": 6
+            },
+            {
+              "label": "1 Pedro 5:8",
+              "book_usfm": "1PE",
+              "chapter": 5
+            },
+            {
+              "label": "1 Juan 2:15-16",
+              "book_usfm": "1JN",
+              "chapter": 2
+            },
+            {
+              "label": "Juan 15:19",
+              "book_usfm": "JHN",
+              "chapter": 15
+            },
+            {
+              "label": "Romanos 7:23",
+              "book_usfm": "ROM",
+              "chapter": 7
+            },
+            {
+              "label": "Gálatas 5:17",
+              "book_usfm": "GAL",
+              "chapter": 5
+            },
+            {
+              "label": "Mateo 26:41",
+              "book_usfm": "MAT",
+              "chapter": 26
+            },
+            {
+              "label": "1 Tesalonicenses 3:13",
+              "book_usfm": "1TH",
+              "chapter": 3
+            },
+            {
+              "label": "1 Corintios 10:13",
+              "book_usfm": "1CO",
+              "chapter": 10
+            }
+          ]
+        },
+        {
+          "number": 128,
+          "question": "¿Cómo concluyes esta oración?",
+          "answer": "«Porque tuyo es el reino, y el poder, y la gloria, por todos los siglos». Es decir: todo esto te pedimos porque tú, como nuestro Rey todopoderoso, quieres y puedes darnos todo bien; y para que por ello no seamos nosotros, sino tu santo nombre, glorificado eternamente.",
+          "refs": [
+            {
+              "label": "Romanos 10:11-13",
+              "book_usfm": "ROM",
+              "chapter": 10
+            },
+            {
+              "label": "2 Pedro 2:9",
+              "book_usfm": "2PE",
+              "chapter": 2
+            },
+            {
+              "label": "Salmo 115:1",
+              "book_usfm": "PSA",
+              "chapter": 115
+            },
+            {
+              "label": "Juan 14:13",
+              "book_usfm": "JHN",
+              "chapter": 14
+            },
+            {
+              "label": "Jeremías 33:8-9",
+              "book_usfm": "JER",
+              "chapter": 33
+            },
+            {
+              "label": "Salmo 50:14-15",
+              "book_usfm": "PSA",
+              "chapter": 50
+            }
+          ]
+        },
+        {
+          "number": 129,
+          "question": "¿Qué significa la palabra «Amén»?",
+          "answer": "«Amén» significa: esto será verdadero y cierto; porque mi oración es mucho más ciertamente oída por Dios de lo que yo siento en mi corazón que deseo estas cosas de él.",
+          "refs": [
+            {
+              "label": "2 Corintios 1:20",
+              "book_usfm": "2CO",
+              "chapter": 1
+            },
+            {
+              "label": "2 Timoteo 2:13",
+              "book_usfm": "2TI",
+              "chapter": 2
+            },
+            {
+              "label": "Isaías 65:24",
+              "book_usfm": "ISA",
+              "chapter": 65
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

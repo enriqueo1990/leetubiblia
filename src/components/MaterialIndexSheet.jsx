@@ -25,6 +25,26 @@ export default function MaterialIndexSheet({ content, frontier, current, onPick,
 
   return (
     <Sheet title="Índice" onCancel={onClose}>
+      {Array.isArray(content.intro) && content.intro.length > 0 && (
+        <div className="mb-6">
+          <div className="card divide-y divide-hairline">
+            <button
+              ref={current === 0 ? currentRef : undefined}
+              type="button"
+              onClick={() => onPick(0)}
+              className="flex w-full items-baseline gap-3 px-4 py-2.5 text-left"
+            >
+              <span className="w-7 shrink-0" aria-hidden="true" />
+              <span
+                className="min-w-0 flex-1 truncate text-[15px] text-ink"
+                style={current === 0 ? { color: 'var(--accent)' } : undefined}
+              >
+                Introducción
+              </span>
+            </button>
+          </div>
+        </div>
+      )}
       {blocks.map((b) => (
         <div key={b.title ?? 'bloque'} className="mb-6">
           {b.title && (

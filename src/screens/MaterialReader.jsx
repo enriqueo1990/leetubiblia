@@ -55,10 +55,12 @@ export default function MaterialReader() {
     if (saved != null) setPos(saved)
   }, [profile, slug, pos])
 
-  // Abrir en la pregunta actual (marcador), acotada al total.
+  // Abrir en la pregunta actual (marcador), acotada al total. Si todavía no leyó
+  // nada y el material tiene introducción, abrir en la portada (n=0).
   useEffect(() => {
     if (n != null || pos == null || !content) return
-    setN(Math.min(pos, content.total))
+    const hasIntro = Array.isArray(content.intro) && content.intro.length > 0
+    setN(pos === 1 && hasIntro ? 0 : Math.min(pos, content.total))
   }, [n, pos, content])
 
   // Al cambiar de pregunta, volver arriba: si la anterior era larga y quedaste
@@ -82,11 +84,13 @@ export default function MaterialReader() {
   }
 
   const total = content.total
-  const entry = content.entries[n - 1]
+  const hasIntro = Array.isArray(content.intro) && content.intro.length > 0
+  const isIntro = n === 0 // "ficha 0": portada con contexto histórico, sin marcador
+  const entry = isIntro ? null : content.entries[n - 1]
   const completed = pos > total
   const atFrontier = !completed && n === pos // la pregunta actual, lista para marcar
   const maxN = Math.min(pos, total) // no se avanza más allá de lo leído (+ la del frente)
-  const canPrev = n > 1
+  const canPrev = n > (hasIntro ? 0 : 1)
   const canNext = n < maxN
 
   // Avance optimista PERO honesto: la UI avanza ya, y si el guardado falla se
@@ -116,7 +120,7 @@ export default function MaterialReader() {
     const revertPos = pos
     const revertN = n
     setPos(1)
-    setN(1)
+    setN(hasIntro ? 0 : 1) // volver a empezar = volver a la portada
     persist(1, revertPos, revertN)
   }
 
@@ -150,6 +154,23 @@ export default function MaterialReader() {
           de un marco estable. La miga y las acciones quedan fuera del contenedor.
           key={n} + screen-enter: al cambiar de pregunta la ficha entra con la misma
           transición que las pantallas de la app (reduced-motion ya cubierto global). */}
+      {isIntro ? (
+        /* Ficha 0 — portada: contexto histórico. No es una pregunta: no se marca,
+           no mueve el marcador. Acá vive el nombre completo del material. */
+        <div key="intro" className="screen-enter card mt-6 p-5">
+          <p className="text-[13px] font-medium text-ink-soft">Introducción</p>
+          <h1 className="mt-2.5 text-[20px] font-semibold leading-snug text-ink">
+            {content.name}
+          </h1>
+          <div className="mt-3.5 space-y-3">
+            {content.intro.map((p, i) => (
+              <p key={i} className="text-[17px] leading-relaxed text-ink">
+                {p}
+              </p>
+            ))}
+          </div>
+        </div>
+      ) : (
       <div key={n} className="screen-enter card mt-6 p-5">
         {/* Una sola línea de metadata: posición y bloque. El estado leída/actual NO
             va acá: ya lo comunica la zona de abajo (botón teal = actual; navegación
@@ -203,22 +224,25 @@ export default function MaterialReader() {
           </p>
         )}
       </div>
+      )}
 
-      {completed && (
+      {completed && !isIntro && (
         <p className="mt-6 text-[14px] text-ink-soft">
           <span aria-hidden="true" style={{ color: 'var(--accent)' }}>✓ </span>
           Completaste el catecismo. Podés repasarlo o volver a empezar.
         </p>
       )}
 
-      <div className="flex-1" />
+      {/* En móvil crece para empujar la barra sticky al fondo; en desktop no crece,
+          así la acción queda pegada a la ficha en vez de vararse abajo del viewport. */}
+      <div className="flex-1 lg:hidden" />
 
       {/* Zona de acción (sticky, como en Hoy). Una acción por estado:
           — frontera: marcar como leído (+ repaso discreto de la anterior)
           — repaso: solo navegación
           — completado: navegación + volver a empezar */}
       <div
-        className="sticky z-10 space-y-1 bg-app pb-2 pt-3 lg:static lg:max-w-[440px] lg:bg-transparent"
+        className="sticky z-10 space-y-1 bg-app pb-2 pt-3 lg:static lg:mt-8 lg:max-w-[440px] lg:bg-transparent"
         style={{ bottom: 'calc(72px + env(safe-area-inset-bottom))' }}
       >
         {saveError && (
@@ -226,7 +250,12 @@ export default function MaterialReader() {
             No se pudo guardar tu avance. Revisá tu conexión e intentá de nuevo.
           </p>
         )}
-        {atFrontier ? (
+        {isIntro && pos === 1 ? (
+          /* Primera visita (nada leído): la portada invita a arrancar. */
+          <button type="button" onClick={() => setN(1)} className="btn btn-primary">
+            Comenzar
+          </button>
+        ) : atFrontier ? (
           <>
             <button type="button" onClick={markRead} className="btn btn-primary">
               Marcar como leído
@@ -237,7 +266,7 @@ export default function MaterialReader() {
                 onClick={() => setN(n - 1)}
                 className="block w-full py-2 text-center text-[14px] font-medium text-ink-soft"
               >
-                ‹ Ver la pregunta anterior
+                {n === 1 && hasIntro ? '‹ Ver la introducción' : '‹ Ver la pregunta anterior'}
               </button>
             )}
           </>

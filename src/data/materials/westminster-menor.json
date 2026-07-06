@@ -2,6 +2,10 @@
   "slug": "westminster-menor",
   "name": "Catecismo Menor de Westminster",
   "description": "Resumen catequético de la fe reformada en 107 preguntas y respuestas, redactado por la Asamblea de Westminster (1647). Enseña lo que el hombre ha de creer acerca de Dios y el deber que Dios exige.",
+  "intro": [
+    "El Catecismo Menor de Westminster nació en Londres en 1647, redactado por la Asamblea de Westminster: más de cien pastores y teólogos ingleses y escoceses convocados por el Parlamento, en plena guerra civil, para ordenar la fe y el culto de la iglesia. De aquella asamblea salieron también la Confesión de Fe de Westminster y el Catecismo Mayor.",
+    "El Menor fue escrito para enseñar la fe a los niños y a los nuevos creyentes: 107 preguntas y respuestas breves, pensadas para memorizarse, que recorren lo esencial — quién es Dios, qué enseñan las Escrituras, la obra de Cristo, los diez mandamientos, los sacramentos y el Padrenuestro. Casi cuatro siglos después sigue siendo uno de los catecismos más usados del mundo, y empieza con una de las preguntas más célebres de la historia de la iglesia."
+  ],
   "cadence": "sequence",
   "source": "Traducción original al español realizada a partir del texto inglés de 1647 (dominio público). Citas bíblicas de los mandamientos y el Padrenuestro según Reina-Valera 1909 (dominio público). Referencias: proof texts oficiales del Catecismo Menor de Westminster.",
   "entries": [

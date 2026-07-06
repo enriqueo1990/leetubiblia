@@ -19,6 +19,13 @@ export const MATERIALS = [
     description: '107 preguntas y respuestas sobre la fe, con pasajes para buscar en tu Biblia.',
     load: () => import('../data/materials/westminster-menor.json'),
   },
+  {
+    slug: 'heidelberg',
+    name: 'Catecismo de Heidelberg',
+    shortName: 'Heidelberg',
+    description: '129 preguntas cálidas y pastorales (1563), del consuelo a la gratitud, con pasajes para tu Biblia.',
+    load: () => import('../data/materials/heidelberg.json'),
+  },
 ]
 
 export function getMaterial(slug) {
@@ -53,6 +60,9 @@ export async function loadMaterialContent(slug) {
     slug: data.slug,
     name: data.name,
     description: data.description,
+    // Párrafos de introducción (contexto histórico). Se muestran como "ficha 0"
+    // del lector: portada al abrir por primera vez, accesible desde el índice.
+    intro: Array.isArray(data.intro) && data.intro.length > 0 ? data.intro : null,
     source: data.source ?? null,
     entries,
     total: entries.length,
