@@ -26,6 +26,13 @@ export const MATERIALS = [
     description: '129 preguntas cálidas y pastorales (1563), del consuelo a la gratitud, con pasajes para tu Biblia.',
     load: () => import('../data/materials/heidelberg.json'),
   },
+  {
+    slug: 'spurgeon',
+    name: 'Catecismo de Spurgeon',
+    shortName: 'Spurgeon',
+    description: '84 preguntas de la tradición reformada bautista (1855), claras y concisas, con pasajes para tu Biblia.',
+    load: () => import('../data/materials/spurgeon.json'),
+  },
 ]
 
 export function getMaterial(slug) {
