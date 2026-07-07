@@ -97,15 +97,89 @@
             "logo": "https://leetubiblia.com/icons/icon-512.png"
           },
           {
+            "@type": "WebSite",
+            "@id": "https://leetubiblia.com/#website",
+            "name": "Lee Tu Biblia",
+            "url": "https://leetubiblia.com/",
+            "inLanguage": "es",
+            "publisher": { "@id": "https://leetubiblia.com/#org" }
+          },
+          {
             "@type": "WebApplication",
+            "@id": "https://leetubiblia.com/#app",
             "name": "Lee Tu Biblia",
             "url": "https://leetubiblia.com/",
             "applicationCategory": "LifestyleApplication",
             "operatingSystem": "Web (PWA)",
             "inLanguage": "es",
-            "description": "App para sostener el hábito de leer la Biblia: planes de lectura, racha, diario y oración —solo o con tu grupo de discipulado—. Acompaña tu Biblia de papel.",
+            "isPartOf": { "@id": "https://leetubiblia.com/#website" },
+            "description": "App para sostener el hábito de leer la Biblia: planes de lectura, racha, diario y oración —solo o con tu grupo de discipulado—. Acompaña tu Biblia de papel, no la reemplaza.",
+            "featureList": [
+              "Ocho planes de lectura bíblica, de 31 días a dos años",
+              "Racha y progreso sin culpa",
+              "Diario de reflexiones",
+              "Materiales opcionales: catecismos de Westminster, Heidelberg, Spurgeon y Keach",
+              "Pedidos de oración privados o compartidos",
+              "Grupos de discipulado cerrados con pulso de lectura semanal",
+              "Instalable como PWA, funciona sin conexión",
+              "Modo claro y oscuro, doce colores de acento"
+            ],
             "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
             "publisher": { "@id": "https://leetubiblia.com/#org" }
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://leetubiblia.com/#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "¿Qué es Lee Tu Biblia?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Es una app gratuita en español para sostener el hábito de leer la Biblia cada día: elegís un plan de lectura, cuidás tu racha, llevás un diario de reflexiones y gestionás tus pedidos de oración, solo o con tu grupo de discipulado."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Muestra el texto bíblico dentro de la app?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No, y es una decisión de producto. Lee Tu Biblia acompaña la lectura en tu Biblia de papel: te dice qué leer y lleva tu avance, pero el texto lo leés en tu propia Biblia. No es un lector de Escritura."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Es gratis?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Sí, es completamente gratuita."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Qué planes de lectura ofrece?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Ocho planes, desde 31 días hasta dos años: M'Cheyne, Antiguo y Nuevo Testamento, De Génesis a Apocalipsis, Cronológico, Nuevo Testamento en 24 semanas, Proverbios en 31 días, 40 días con Dios y el Oficio Diario del Libro de Oración Común. Un plan activo a la vez."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Sirve para grupos de discipulado?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Sí. Podés crear o unirte a grupos cerrados y privados donde leen al mismo ritmo, comparten pedidos de oración y testimonios, y el líder ve el pulso de lectura de los últimos siete días de cada miembro."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Funciona sin conexión?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Sí. Es una PWA que podés instalar en tu pantalla de inicio y usar con o sin conexión."
+                }
+              }
+            ]
           }
         ]
       }

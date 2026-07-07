@@ -24,4 +24,7 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
+# Resumen del sitio para asistentes de IA (estándar llms.txt).
+# https://leetubiblia.com/llms.txt
+
 Sitemap: https://leetubiblia.com/sitemap.xml

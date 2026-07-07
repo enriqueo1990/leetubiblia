@@ -1,0 +1,47 @@
+# Lee Tu Biblia
+
+> App gratuita, en español, para sostener el hábito de leer la Biblia cada día: planes de lectura, racha, diario de reflexiones y oración —solo o con tu grupo de discipulado—. No es un lector de Escritura: acompaña tu Biblia de papel, no la reemplaza.
+
+Lee Tu Biblia es una PWA (aplicación web instalable) que funciona con o sin conexión. Su principio de producto es central: "Lee Tu Biblia" significa leé *tu* Biblia física. La app es un compañero de hábito —plan, racha, oración, grupos— y deliberadamente NO muestra el texto bíblico adentro. Cada mañana te dice qué leer, registra tu avance sin culpa y conecta tu vida de oración con tu comunidad.
+
+## Qué hace
+
+- **Lectura del día**: muestra solo las referencias que toca leer hoy, según tu plan. Un toque para marcarlas como leídas; un botón abre el capítulo exacto en tu app de Biblia (versión NBLA), pero la lectura la hacés en tu Biblia de papel.
+- **Progreso sin culpa**: racha de días, porcentaje completado y un mapa de las últimas cinco semanas. Si te atrasás, podés reprogramar sin regaños.
+- **Diario "Mi camino"**: notas de reflexión sobre lo que Dios te habla en la lectura.
+- **Tu recorrido**: resumen de logros y números; al terminar un plan, festejo y un logro para compartir.
+- **Oración**: pedidos privados o compartidos con tu grupo, con duración configurable (un día, una semana, un mes o siempre).
+- **Grupos de discipulado**: grupos cerrados y privados; leen al mismo ritmo, comparten pedidos y testimonios, y el líder ve el pulso de lectura de los últimos siete días de cada miembro.
+- **Personalización**: modo claro/oscuro automático y doce colores de acento (seis sepia y seis pastel).
+
+## Planes de lectura (ocho, uno activo a la vez)
+
+- **M'Cheyne** — toda la Biblia en un año, cuatro pasajes por día (365 días).
+- **Antiguo y Nuevo Testamento** — un pasaje de cada uno cada día (365 días).
+- **De Génesis a Apocalipsis** — toda la Biblia en orden, de principio a fin (365 días).
+- **Cronológico** — la Biblia en el orden en que ocurrieron los hechos (365 días).
+- **Nuevo Testamento en 24 semanas** — el Nuevo Testamento completo en seis meses (168 días).
+- **Proverbios en 31 días** — un capítulo por día del mes (31 días).
+- **40 días con Dios** — lecturas breves para crecer en la fe (40 días).
+- **Oficio Diario (Libro de Oración Común)** — leccionario litúrgico de dos años (861 días).
+
+## Materiales de lectura opcionales
+
+Catecismos históricos para acompañar el tiempo de lectura, cada uno con su introducción: Catecismo Menor de Westminster, Catecismo de Heidelberg, Catecismo de Spurgeon y Catecismo de Keach.
+
+## Para quién es
+
+Personas que quieren leer su Biblia con constancia, y líderes de grupos de discipulado que quieren guiar a su grupo en la Palabra sin depender de chats desbordados.
+
+## Páginas
+
+- [Qué es la app](https://leetubiblia.com/info): presentación, funcionalidades y sección de discipulado.
+- [Para líderes de grupos de discipulado](https://leetubiblia.com/grupos-de-discipulado): cómo guiar a un grupo con la app.
+- [Abrir la app](https://leetubiblia.com/): entrar y empezar a leer.
+
+## Datos
+
+- Idioma: español.
+- Precio: gratis.
+- Plataforma: web / PWA instalable (funciona sin conexión).
+- Privacidad: los pedidos de oración pueden ser privados; los grupos son cerrados.
