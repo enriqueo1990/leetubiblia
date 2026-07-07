@@ -33,6 +33,7 @@ import { SkeletonDetail } from '../components/Skeleton.jsx'
 import RetryError from '../components/RetryError.jsx'
 import Sheet from '../components/Sheet.jsx'
 import PrayerSheet from './PrayerSheet.jsx'
+import { usePreferences } from '../lib/preferences.jsx'
 
 // Detalle de grupo — "de panel a sala" (Fase 3): la gente y el pulso del día
 // primero; oración y lectura del grupo en la misma vista; la administración
@@ -52,6 +53,7 @@ export default function GroupDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { user, profile } = useAuth()
+  const { t } = usePreferences()
   const iShare = !!profile?.share_reading
 
   const [data, setData] = useState(null)
@@ -91,9 +93,9 @@ export default function GroupDetail() {
       if (statsRes.status === 'fulfilled') setStats(statsRes.value)
       if (weekRes.status === 'fulfilled') setWeekly(weekRes.value)
     } catch {
-      setError('No se pudo cargar el grupo.')
+      setError(t('groupDetail.loadError'))
     }
-  }, [id, user])
+  }, [id, user, t])
 
   // Refresco liviano: crear un pedido solo cambia la oración (y el pulso "Hoy"
   // deriva de ella), así que no vale recargar el grupo entero.
@@ -112,7 +114,7 @@ export default function GroupDetail() {
   if (error) {
     return (
       <div className="pt-2">
-        <BackLink to="/grupos" label="Grupos" />
+        <BackLink to="/grupos" label={t('nav.grupos')} />
         <RetryError message={error} onRetry={load} />
       </div>
     )
@@ -135,7 +137,7 @@ export default function GroupDetail() {
   const weekRows = members
     .filter((m) => weekMap.has(m.user_id))
     .map((m) => ({ ...m, week: weekMap.get(m.user_id) }))
-  const DAY_LETTERS = ['D', 'L', 'M', 'M', 'J', 'V', 'S']
+  const DAY_LETTERS = t('groupDetail.weekDayLetters').split(',')
   const weekDates = Array.from({ length: 7 }, (_, i) => {
     const d = new Date()
     d.setDate(d.getDate() - (6 - i))
@@ -152,7 +154,7 @@ export default function GroupDetail() {
     setPrayers((list) =>
       list.map((x) =>
         x.id === p.id
-          ? { ...x, intercessors: [...x.intercessors, { user_id: user.id, display_name: 'Vos' }] }
+          ? { ...x, intercessors: [...x.intercessors, { user_id: user.id, display_name: t('common.you') }] }
           : x
       )
     )
@@ -176,7 +178,7 @@ export default function GroupDetail() {
       setCopied(true)
       setTimeout(() => setCopied(false), 1500)
     } catch {
-      window.prompt('Copiá el código:', group.invite_code)
+      window.prompt(t('groupDetail.copyCodePrompt'), group.invite_code)
     }
   }
 
@@ -193,7 +195,7 @@ export default function GroupDetail() {
       setData((d) => ({ ...d, group: { ...d.group, name: trimmed } }))
       setEditingName(false)
     } catch {
-      setNameError('No se pudo guardar el nombre.')
+      setNameError(t('groupDetail.nameError'))
     } finally {
       setSavingName(false)
     }
@@ -201,7 +203,7 @@ export default function GroupDetail() {
 
   async function shareInvite() {
     const url = `${window.location.origin}/join?code=${group.invite_code}`
-    const text = `Te invito al grupo "${group.name}" en Lee Tu Biblia`
+    const text = t('groupDetail.inviteText', { name: group.name })
     if (navigator.share) {
       try {
         await navigator.share({ title: 'Lee Tu Biblia', text, url })
@@ -214,7 +216,7 @@ export default function GroupDetail() {
         setInviteShared(true)
         setTimeout(() => setInviteShared(false), 1500)
       } catch {
-        window.prompt('Copiá el link de invitación:', url)
+        window.prompt(t('groupDetail.copyInvitePrompt'), url)
       }
     }
   }
@@ -238,7 +240,7 @@ export default function GroupDetail() {
 
   return (
     <div className="pt-2">
-      <BackLink to="/grupos" label="Grupos" />
+      <BackLink to="/grupos" label={t('nav.grupos')} />
 
       {/* Nombre (+ editar, owner) */}
       {editingName ? (
@@ -268,10 +270,10 @@ export default function GroupDetail() {
               className="btn btn-primary"
               style={{ opacity: savingName || !nameInput.trim() ? 0.5 : 1 }}
             >
-              {savingName ? '…' : 'Guardar'}
+              {savingName ? '…' : t('common.save')}
             </button>
             <button type="button" onClick={() => setEditingName(false)} className="btn btn-secondary">
-              Cancelar
+              {t('common.cancel')}
             </button>
           </div>
         </div>
@@ -282,7 +284,7 @@ export default function GroupDetail() {
             {isOwner && (
               <button
                 type="button"
-                aria-label="Editar nombre del grupo"
+                aria-label={t('groupDetail.editNameAria')}
                 onClick={() => {
                   setNameInput(group.name)
                   setNameError(null)
@@ -298,21 +300,21 @@ export default function GroupDetail() {
           {/* Acción primaria en el header, como en Grupos/Oración: invitar. */}
           <button
             type="button"
-            aria-label="Invitar al grupo"
+            aria-label={t('groupDetail.inviteAria')}
             onClick={() => setInviteOpen(true)}
             className="flex h-[44px] shrink-0 items-center justify-center gap-1.5 rounded-full px-3 text-on-accent lg:px-4"
             style={{ backgroundColor: 'var(--accent)', minWidth: 44 }}
           >
             <ShareIcon size={18} />
-            <span className="hidden text-[15px] font-semibold lg:inline">Invitar</span>
+            <span className="hidden text-[15px] font-semibold lg:inline">{t('groupDetail.invite')}</span>
           </button>
         </div>
       )}
 
       <p className="mt-2 text-[14px] text-ink-soft">
         {members.length === 1
-          ? 'Solo vos por ahora'
-          : `${members.length} caminando juntos${isOwner ? ' · sos el administrador' : ''}`}
+          ? t('groupDetail.onlyYou')
+          : `${t('groupDetail.walkingTogether', { count: members.length })}${isOwner ? t('groupDetail.adminSuffix') : ''}`}
       </p>
 
       {/* HOY — el pulso del grupo */}
@@ -324,7 +326,7 @@ export default function GroupDetail() {
           className="text-[12px] font-semibold uppercase tracking-wide"
           style={{ color: 'var(--accent-ink)' }}
         >
-          Hoy
+          {t('groupDetail.today')}
         </p>
         {iShare ? (
           <div className="mt-2.5 flex items-center gap-2.5 text-ink">
@@ -333,10 +335,10 @@ export default function GroupDetail() {
             </span>
             <span className="text-[15px]">
               {readCount === 0 ? (
-                'Todavía nadie leyó hoy'
+                t('groupDetail.noneReadToday')
               ) : (
                 <>
-                  <b>{readCount}</b> {readCount === 1 ? 'leyó' : 'leyeron'} hoy
+                  <b>{readCount}</b> {t('groupDetail.readTodaySuffix', { count: readCount })}
                 </>
               )}
             </span>
@@ -349,7 +351,7 @@ export default function GroupDetail() {
           >
             <BookIcon size={18} />
             <span className="text-[14px] font-medium">
-              Compartí tu lectura para ver la del grupo →
+              {t('groupDetail.shareToSee')} →
             </span>
           </Link>
         )}
@@ -360,10 +362,10 @@ export default function GroupDetail() {
           <span className="text-[15px]">
             {prayingCount > 0 && (
               <>
-                <b>{prayingCount}</b> orando ·{' '}
+                <b>{prayingCount}</b> {t('groupDetail.praying')} ·{' '}
               </>
             )}
-            <b>{prayers.length}</b> {prayers.length === 1 ? 'pedido activo' : 'pedidos activos'}
+            <b>{prayers.length}</b> {t('groupDetail.activePrayers', { count: prayers.length })}
           </span>
         </div>
       </div>
@@ -371,12 +373,12 @@ export default function GroupDetail() {
       {/* Oración — visible para todos, con "Orar" inline */}
       <div className="mt-7 flex items-center justify-between">
         <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-          Oración
+          {t('nav.oracion')}
         </p>
         <button
           type="button"
           onClick={() => setSheetOpen(true)}
-          aria-label="Compartir un pedido"
+          aria-label={t('groupDetail.sharePrayerAria')}
           className="flex h-8 w-8 items-center justify-center rounded-full text-on-accent"
           style={{ backgroundColor: 'var(--accent)' }}
         >
@@ -397,9 +399,9 @@ export default function GroupDetail() {
             <HeartIcon size={20} />
           </span>
           <span className="min-w-0">
-            <span className="block text-[15px] text-ink">Todavía no hay pedidos compartidos</span>
+            <span className="block text-[15px] text-ink">{t('groupDetail.noPrayers')}</span>
             <span className="mt-0.5 block text-[13px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
-              Compartí el primero →
+              {t('groupDetail.shareFirst')} →
             </span>
           </span>
         </button>
@@ -417,18 +419,18 @@ export default function GroupDetail() {
                     <span className="truncate text-[12px] text-ink-soft">
                       {p.author_name} ·{' '}
                       {p.intercessors.length > 0
-                        ? `${p.intercessors.length} orando`
-                        : 'nadie todavía'}
+                        ? t('groupDetail.nPraying', { count: p.intercessors.length })
+                        : t('groupDetail.nobodyYet')}
                     </span>
                   </div>
                   {p.user_id === user?.id ? (
-                    <span className="shrink-0 text-[12px] text-ink-soft">Tu pedido</span>
+                    <span className="shrink-0 text-[12px] text-ink-soft">{t('groupDetail.yourPrayer')}</span>
                   ) : interceding(p) ? (
                     <span
                       className="flex shrink-0 items-center gap-1 text-[13px] font-semibold"
                       style={{ color: 'var(--accent-ink)' }}
                     >
-                      <CheckIcon size={15} strokeWidth={2.2} /> Orando
+                      <CheckIcon size={15} strokeWidth={2.2} /> {t('groupDetail.prayingStatus')}
                     </span>
                   ) : (
                     <button
@@ -437,7 +439,7 @@ export default function GroupDetail() {
                       className="shrink-0 rounded-pill px-4 py-1.5 text-[13px] font-semibold"
                       style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
                     >
-                      Orar
+                      {t('groupDetail.pray')}
                     </button>
                   )}
                 </div>
@@ -449,7 +451,7 @@ export default function GroupDetail() {
             className="mt-3 inline-block text-[14px] font-semibold"
             style={{ color: 'var(--accent-ink)' }}
           >
-            Ver todos →
+            {t('groupDetail.seeAll')} →
           </Link>
         </>
       )}
@@ -459,7 +461,7 @@ export default function GroupDetail() {
       {testimony && (
         <>
           <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-            Testimonios
+            {t('groupDetail.testimonies')}
           </p>
           <Link to={`/grupos/${id}/testimonios`} className="card mt-3 block p-4">
             <div className="flex items-start gap-3">
@@ -474,7 +476,7 @@ export default function GroupDetail() {
                   "{testimony.testimony || testimony.title}"
                 </p>
                 <p className="mt-1 text-[13px]" style={{ color: 'var(--accent-ink)' }}>
-                  {testimony.author_name} · Ver todos →
+                  {testimony.author_name} · {t('groupDetail.seeAll')} →
                 </p>
               </div>
             </div>
@@ -484,7 +486,7 @@ export default function GroupDetail() {
 
       {/* Miembros — la gente, con su lectura (cuando compartís) */}
       <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-        Miembros · {members.length}
+        {t('groupDetail.members')} · {members.length}
       </p>
       <ul className="mt-3 card divide-y divide-hairline">
         {members.map((m) => {
@@ -503,8 +505,8 @@ export default function GroupDetail() {
               <div className="min-w-0 flex-1">
                 <p className="text-[16px] text-ink">
                   {m.display_name}
-                  {isMe && <span className="text-ink-soft"> (vos)</span>}
-                  {isMemberOwner && <span className="text-[13px] text-ink-soft"> · admin</span>}
+                  {isMe && <span className="text-ink-soft"> {t('groupDetail.youParen')}</span>}
+                  {isMemberOwner && <span className="text-[13px] text-ink-soft"> · {t('groupDetail.adminShort')}</span>}
                 </p>
               </div>
               {/* Solo señalamos lo positivo: quien leyó hoy. El resto no muestra
@@ -516,14 +518,14 @@ export default function GroupDetail() {
                     className="flex items-center gap-1 rounded-pill px-2.5 py-1 text-[12px] font-medium"
                     style={{ color: 'var(--accent-ink)', backgroundColor: 'var(--accent-tint)' }}
                   >
-                    <CheckIcon size={13} strokeWidth={2.2} /> Leyó hoy
+                    <CheckIcon size={13} strokeWidth={2.2} /> {t('groupDetail.readTodayChip')}
                   </span>
                 )}
                 {isOwner && !isMemberOwner && (
                   <button
                     type="button"
                     onClick={() => setConfirm({ type: 'kick', member: m })}
-                    aria-label={`Quitar a ${m.display_name}`}
+                    aria-label={t('groupDetail.removeAria', { name: m.display_name })}
                     className="flex h-11 w-11 items-center justify-center rounded-full text-ink-soft"
                   >
                     <span
@@ -550,13 +552,13 @@ export default function GroupDetail() {
           <div className="flex items-center gap-1.5 text-ink-soft">
             <LockIcon size={13} />
             <span className="text-[12px] font-semibold uppercase tracking-wide">
-              Resumen · solo vos lo ves
+              {t('groupDetail.summaryPrivate')}
             </span>
           </div>
           <div className="mt-4 flex">
-            <Stat n={stats.active} label="Pedidos activos" />
-            <Stat n={stats.answered} label="Respondidos" />
-            <Stat n={stats.praying_week} label="Orando esta semana" />
+            <Stat n={stats.active} label={t('groupDetail.statActive')} />
+            <Stat n={stats.answered} label={t('groupDetail.statAnswered')} />
+            <Stat n={stats.praying_week} label={t('groupDetail.statPrayingWeek')} />
           </div>
           <div
             className="mt-4 h-2 overflow-hidden rounded-full"
@@ -568,7 +570,7 @@ export default function GroupDetail() {
             />
           </div>
           <p className="mt-2 text-[12px] text-ink-soft">
-            {answeredPct}% de los pedidos del grupo ya fueron respondidos.
+            {t('groupDetail.answeredPct', { pct: answeredPct })}
           </p>
         </div>
       )}
@@ -581,7 +583,7 @@ export default function GroupDetail() {
           <div className="flex items-center gap-1.5 text-ink-soft">
             <LockIcon size={13} />
             <span className="text-[12px] font-semibold uppercase tracking-wide">
-              Lectura de la semana · solo vos lo ves
+              {t('groupDetail.weekPrivate')}
             </span>
           </div>
           <div className="mt-4 space-y-2.5">
@@ -606,7 +608,7 @@ export default function GroupDetail() {
                 <div
                   key={m.user_id}
                   className="flex items-center gap-3"
-                  aria-label={`${m.display_name}: marcó su lectura ${readDays} de los últimos 7 días`}
+                  aria-label={t('groupDetail.weekAria', { name: m.display_name, days: readDays })}
                 >
                   <span className="min-w-0 flex-1 truncate text-[14px] text-ink">
                     {m.display_name}
@@ -634,8 +636,7 @@ export default function GroupDetail() {
             })}
           </div>
           <p className="mt-3 text-[12px] text-ink-soft">
-            Cada punto es un día en que esa persona marcó su lectura. Solo aparecen quienes
-            comparten.
+            {t('groupDetail.weekHint')}
           </p>
         </div>
       )}
@@ -647,7 +648,7 @@ export default function GroupDetail() {
           className="mt-7 w-full py-3 text-center text-[16px]"
           style={{ color: 'var(--danger)' }}
         >
-          Salir del grupo
+          {t('groupDetail.leaveGroup')}
         </button>
       )}
 
@@ -665,10 +666,10 @@ export default function GroupDetail() {
       )}
 
       {inviteOpen && (
-        <Sheet title="Invitar al grupo" onCancel={() => setInviteOpen(false)}>
+        <Sheet title={t('groupDetail.inviteAria')} onCancel={() => setInviteOpen(false)}>
           <div className="pb-1 text-center">
             <p className="text-[15px] text-ink-soft">
-              Compartí este código con quien quieras sumar al grupo.
+              {t('groupDetail.inviteDesc')}
             </p>
             {/* El código en tinta neutra: el acento queda para la acción real (compartir). */}
             <p
@@ -683,14 +684,14 @@ export default function GroupDetail() {
                 onClick={shareInvite}
                 className="btn btn-primary flex items-center justify-center gap-2"
               >
-                <ShareIcon size={18} /> {inviteShared ? 'Copiado' : 'Compartir invitación'}
+                <ShareIcon size={18} /> {inviteShared ? t('groupDetail.copied') : t('groupDetail.shareInvite')}
               </button>
               <button
                 type="button"
                 onClick={copyCode}
                 className="btn btn-secondary flex items-center justify-center gap-2"
               >
-                <CopyIcon size={18} /> {copied ? 'Copiado' : 'Copiar código'}
+                <CopyIcon size={18} /> {copied ? t('groupDetail.copied') : t('groupDetail.copyCode')}
               </button>
               {isOwner && (
                 <button
@@ -698,13 +699,13 @@ export default function GroupDetail() {
                   onClick={() => setConfirm({ type: 'regen' })}
                   className="flex w-full items-center justify-center gap-1.5 py-2 text-[14px] font-medium text-ink-soft"
                 >
-                  <RefreshIcon size={15} /> Regenerar código
+                  <RefreshIcon size={15} /> {t('groupDetail.regenCode')}
                 </button>
               )}
             </div>
             {/* El cambio de texto a "Copiado" es solo visual; lo anunciamos para lectores. */}
             <span className="sr-only" role="status" aria-live="polite">
-              {copied ? 'Código copiado' : inviteShared ? 'Link de invitación copiado' : ''}
+              {copied ? t('groupDetail.srCodeCopied') : inviteShared ? t('groupDetail.srInviteCopied') : ''}
             </span>
           </div>
         </Sheet>
@@ -712,9 +713,9 @@ export default function GroupDetail() {
 
       {confirm?.type === 'leave' && (
         <ConfirmDialog
-          title={`¿Salir de ${group.name}?`}
-          message="Dejarás de ver y compartir pedidos en este grupo. Podés volver con el código."
-          confirmLabel="Salir"
+          title={t('groupDetail.leaveTitle', { name: group.name })}
+          message={t('groupDetail.leaveMsg')}
+          confirmLabel={t('groupDetail.leave')}
           danger
           busy={busy}
           onConfirm={runConfirm}
@@ -723,9 +724,9 @@ export default function GroupDetail() {
       )}
       {confirm?.type === 'regen' && (
         <ConfirmDialog
-          title="¿Regenerar el código?"
-          message="El código anterior dejará de funcionar para nuevas invitaciones."
-          confirmLabel="Regenerar"
+          title={t('groupDetail.regenTitle')}
+          message={t('groupDetail.regenMsg')}
+          confirmLabel={t('groupDetail.regen')}
           busy={busy}
           onConfirm={runConfirm}
           onCancel={() => setConfirm(null)}
@@ -733,9 +734,9 @@ export default function GroupDetail() {
       )}
       {confirm?.type === 'kick' && (
         <ConfirmDialog
-          title={`¿Quitar a ${confirm.member.display_name}?`}
-          message="Dejará de ver y compartir pedidos en este grupo."
-          confirmLabel="Quitar"
+          title={t('groupDetail.kickTitle', { name: confirm.member.display_name })}
+          message={t('groupDetail.kickMsg')}
+          confirmLabel={t('groupDetail.kick')}
           danger
           busy={busy}
           onConfirm={runConfirm}

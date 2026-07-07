@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import Sheet from './Sheet.jsx'
+import { usePreferences } from '../lib/preferences.jsx'
 
 // Índice de un material (catecismo): los bloques temáticos con sus preguntas, en el
 // lenguaje de listas agrupadas de la app (mismo patrón que Ajustes: etiqueta de
@@ -10,6 +11,7 @@ import Sheet from './Sheet.jsx'
 // se marca solo con color acento (el color dice el estado; sin negritas ni checks).
 // Abre centrado en la pregunta actual.
 export default function MaterialIndexSheet({ content, frontier, current, onPick, onClose }) {
+  const { t } = usePreferences()
   // Las entradas vienen aplanadas y en orden: re-agrupar por bloque para los títulos.
   const blocks = []
   for (const e of content.entries) {
@@ -24,7 +26,7 @@ export default function MaterialIndexSheet({ content, frontier, current, onPick,
   }, [])
 
   return (
-    <Sheet title="Índice" onCancel={onClose}>
+    <Sheet title={t('materialReader.index')} onCancel={onClose}>
       {Array.isArray(content.intro) && content.intro.length > 0 && (
         <div className="mb-6">
           <div className="card divide-y divide-hairline">
@@ -39,7 +41,7 @@ export default function MaterialIndexSheet({ content, frontier, current, onPick,
                 className="min-w-0 flex-1 truncate text-[15px] text-ink"
                 style={current === 0 ? { color: 'var(--accent-ink)' } : undefined}
               >
-                Introducción
+                {t('materialReader.intro')}
               </span>
             </button>
           </div>

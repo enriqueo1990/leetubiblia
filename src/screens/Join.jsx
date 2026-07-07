@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
+import { usePreferences } from '../lib/preferences.jsx'
 import { joinGroupByCode } from '../lib/db.js'
 
 // Aterrizaje del enlace de invitación: app/join?code=XXXX (documento maestro §5.6).
@@ -11,6 +12,7 @@ export default function Join() {
   const [params] = useSearchParams()
   const code = (params.get('code') || '').trim()
   const { user } = useAuth()
+  const { t } = usePreferences()
   const navigate = useNavigate()
   const [status, setStatus] = useState('joining') // joining | notfound | error
   const done = useRef(false)
@@ -40,29 +42,29 @@ export default function Join() {
 
   return (
     <div className="flex min-h-[70vh] flex-col items-center justify-center px-8 text-center">
-      {status === 'joining' && <p className="text-[15px] text-ink-soft">Uniéndote al grupo…</p>}
+      {status === 'joining' && <p className="text-[15px] text-ink-soft">{t('join.joining')}</p>}
 
       {status === 'notfound' && (
         <>
-          <p className="text-[16px] text-ink">No encontramos un grupo con ese código.</p>
+          <p className="text-[16px] text-ink">{t('grupos.notFound')}</p>
           <p className="mt-1 text-[15px] text-ink-soft">
-            Quizás el enlace venció o se regeneró el código.
+            {t('join.linkExpired')}
           </p>
           <Link to="/grupos" className="btn btn-primary mt-6 inline-block px-8">
-            Ir a Grupos
+            {t('oracion.goToGroups')}
           </Link>
         </>
       )}
 
       {status === 'error' && (
         <>
-          <p className="text-[16px] text-ink">No se pudo unir al grupo.</p>
+          <p className="text-[16px] text-ink">{t('grupos.joinError')}</p>
           <div className="mt-4 flex gap-3">
             <button type="button" onClick={retry} className="btn btn-primary px-6">
-              Reintentar
+              {t('common.retry')}
             </button>
             <Link to="/grupos" className="btn btn-secondary px-6">
-              Ir a Grupos
+              {t('oracion.goToGroups')}
             </Link>
           </div>
         </>

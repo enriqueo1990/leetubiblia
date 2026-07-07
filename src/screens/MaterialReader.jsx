@@ -8,6 +8,8 @@ import {
   withMaterialPosition,
 } from '../lib/materials.js'
 import { youVersionUrl } from '../lib/bible.js'
+import { usePreferences } from '../lib/preferences.jsx'
+import { bookLabel } from '../i18n/books.js'
 import { ListIcon } from '../components/icons.jsx'
 import BackLink from '../components/BackLink.jsx'
 import MaterialIndexSheet from '../components/MaterialIndexSheet.jsx'
@@ -28,6 +30,7 @@ import ConfirmDialog from '../components/ConfirmDialog.jsx'
 export default function MaterialReader() {
   const { slug } = useParams()
   const { profile, updateProfile } = useAuth()
+  const { t, locale } = usePreferences()
 
   const [content, setContent] = useState(null) // null = cargando
   const [notFound, setNotFound] = useState(false)
@@ -133,14 +136,14 @@ export default function MaterialReader() {
           vuelve a Materiales; desde Hoy, a Hoy). "Índice" abre la hoja de bloques
           y preguntas. */}
       <div className="flex items-center justify-between">
-        <BackLink to="/" label="Hoy" />
+        <BackLink to="/" label={t('nav.hoy')} />
         <button
           type="button"
           onClick={() => setIndexOpen(true)}
           className="-mr-1 flex h-9 items-center gap-1.5 px-1 text-[13px] font-medium text-ink-soft transition-colors hover:text-accent-ink"
         >
           <ListIcon size={16} />
-          Índice
+          {t('materialReader.index')}
         </button>
       </div>
 
@@ -153,7 +156,7 @@ export default function MaterialReader() {
         /* Ficha 0 — portada: contexto histórico. No es una pregunta: no se marca,
            no mueve el marcador. Acá vive el nombre completo del material. */
         <div key="intro" className="screen-enter card mt-6 p-5">
-          <p className="text-[13px] font-medium text-ink-soft">Introducción</p>
+          <p className="text-[13px] font-medium text-ink-soft">{t('materialReader.intro')}</p>
           <h1 className="mt-2.5 text-[20px] font-semibold leading-snug text-ink">
             {content.name}
           </h1>
@@ -171,7 +174,7 @@ export default function MaterialReader() {
             va acá: ya lo comunica la zona de abajo (botón primario = actual;
             solo navegación = repaso). Cada estado se dice una sola vez. */}
         <p className="text-[13px] font-medium text-ink-soft">
-          {[`Pregunta ${entry.number} de ${total}`, entry.blockTitle].filter(Boolean).join(' · ')}
+          {[t('materialsToday.questionOf', { n: entry.number, total }), entry.blockTitle].filter(Boolean).join(' · ')}
         </p>
 
         <h1 className="mt-2.5 text-[20px] font-semibold leading-snug text-ink">
@@ -186,7 +189,7 @@ export default function MaterialReader() {
         {entry.refs.length > 0 && (
           <p className="mt-5 border-t border-hairline pt-4 leading-relaxed">
             {entry.refs.map((ref, i) => {
-              const url = youVersionUrl(ref)
+              const url = youVersionUrl(ref, locale)
               const last = i === entry.refs.length - 1
               return (
                 // nowrap por pasaje con el "·" pegado al final: el separador cierra
@@ -201,10 +204,10 @@ export default function MaterialReader() {
                         className="inline-block py-1 text-[15px] font-medium transition-opacity active:opacity-50"
                         style={{ color: 'var(--accent-ink)' }}
                       >
-                        {ref.label}
+                        {bookLabel(ref, locale)}
                       </a>
                     ) : (
-                      <span className="text-[15px] text-ink">{ref.label}</span>
+                      <span className="text-[15px] text-ink">{bookLabel(ref, locale)}</span>
                     )}
                     {!last && (
                       <span aria-hidden="true" className="text-ink-soft" style={{ opacity: 0.5 }}>
@@ -224,7 +227,7 @@ export default function MaterialReader() {
       {completed && !isIntro && (
         <p className="mt-6 text-[14px] text-ink-soft">
           <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✓ </span>
-          Completaste el catecismo. Podés repasarlo o volver a empezar.
+          {t('materialReader.completed')}
         </p>
       )}
 
@@ -246,19 +249,19 @@ export default function MaterialReader() {
       <div className="action-bar space-y-1">
         {saveError && (
           <p className="pb-1 text-[12px]" style={{ color: 'var(--danger)' }}>
-            No se pudo guardar tu avance. Revisá tu conexión e intentá de nuevo.
+            {t('materialReader.saveError')}
           </p>
         )}
         {isIntro && pos === 1 ? (
           /* Primera visita (nada leído): la portada invita a arrancar. */
           <button type="button" onClick={() => setN(1)} className="btn btn-primary">
-            Comenzar
+            {t('materialReader.start')}
           </button>
         ) : (
           <>
             {atFrontier && (
               <button type="button" onClick={markRead} className="btn btn-primary">
-                Marcar como leído
+                {t('hoy.markRead')}
               </button>
             )}
             {(canPrev || canNext) && (
@@ -271,7 +274,7 @@ export default function MaterialReader() {
                     style={{ color: 'var(--accent-ink)' }}
                   >
                     {/* Desde la pregunta 1 lo anterior es la portada: decirlo. */}
-                    {n === 1 && hasIntro ? '‹ Introducción' : '‹ Anterior'}
+                    ‹ {n === 1 && hasIntro ? t('materialReader.intro') : t('materialReader.previous')}
                   </button>
                 ) : (
                   <span />
@@ -283,7 +286,7 @@ export default function MaterialReader() {
                     className="py-2.5 pl-4 text-[15px] font-medium"
                     style={{ color: 'var(--accent-ink)' }}
                   >
-                    Siguiente ›
+                    {t('materialReader.next')} ›
                   </button>
                 )}
               </div>
@@ -294,7 +297,7 @@ export default function MaterialReader() {
                 onClick={() => setConfirmRestart(true)}
                 className="btn btn-secondary"
               >
-                Volver a empezar
+                {t('materialReader.restart')}
               </button>
             )}
           </>
@@ -318,9 +321,9 @@ export default function MaterialReader() {
           resto): pide confirmación, como renovar un plan en Hoy. */}
       {confirmRestart && (
         <ConfirmDialog
-          title="¿Volver a empezar el catecismo?"
-          message="El marcador vuelve a la pregunta 1 y las demás quedan como no leídas."
-          confirmLabel="Volver a empezar"
+          title={t('materialReader.restartTitle')}
+          message={t('materialReader.restartMsg')}
+          confirmLabel={t('materialReader.restart')}
           onConfirm={() => {
             setConfirmRestart(false)
             restart()
