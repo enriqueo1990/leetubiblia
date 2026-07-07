@@ -240,9 +240,12 @@ export default function MaterialReader() {
       {/* Zona de acción (sticky, como en Hoy). Una acción por estado:
           — frontera: marcar como leído (+ repaso discreto de la anterior)
           — repaso: solo navegación
-          — completado: navegación + volver a empezar */}
+          — completado: navegación + volver a empezar
+          En desktop se alinea al ancho de la ficha (sin cap de 440px): acá el
+          contenido vive en un .card con bordes visibles, así que el botón debe
+          quedar a ras de esos bordes, no varado más angosto. */}
       <div
-        className="sticky z-10 space-y-1 bg-app pb-2 pt-3 lg:static lg:mt-8 lg:max-w-[440px] lg:bg-transparent"
+        className="sticky z-10 space-y-1 bg-app pb-2 pt-3 lg:static lg:mt-8 lg:bg-transparent"
         style={{ bottom: 'calc(72px + env(safe-area-inset-bottom))' }}
       >
         {saveError && (
