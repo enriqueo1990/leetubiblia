@@ -8,7 +8,7 @@ import { ensureSubscribed } from '../lib/push.js'
 // arranque local. No genera bucles: Ajustes ya deja local y perfil en el mismo
 // valor, así que este efecto queda en no-op tras un cambio del usuario.
 export default function ProfilePrefSync() {
-  const { profile, user } = useAuth()
+  const { profile, user, updateProfile } = useAuth()
   const { accent, setAccent, themePref, setTheme, locale, setLocale } = usePreferences()
 
   useEffect(() => {
@@ -19,8 +19,14 @@ export default function ProfilePrefSync() {
     if (profile.theme_pref && profile.theme_pref !== themePref) {
       setTheme(profile.theme_pref)
     }
-    if (profile.locale && profile.locale !== locale) {
-      setLocale(profile.locale)
+    // Idioma: si el perfil ya tiene uno elegido, manda (fuente de verdad entre
+    // dispositivos). Si NO (usuario nuevo, locale null), sembramos el que detectó
+    // el cliente del dispositivo —navigator.language vía useLocale— en vez de
+    // pisarlo con un default. Queda no-op tras el primer guardado.
+    if (profile.locale) {
+      if (profile.locale !== locale) setLocale(profile.locale)
+    } else {
+      updateProfile({ locale })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile?.accent_color, profile?.theme_pref, profile?.locale])

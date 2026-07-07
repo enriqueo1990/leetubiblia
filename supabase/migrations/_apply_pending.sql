@@ -18,9 +18,10 @@
 alter table public.profiles
   add column if not exists active_materials jsonb not null default '[]'::jsonb;
 
--- Idioma de la interfaz por usuario (i18n es/en/pt). El cliente arranca desde
--- localStorage (ltb.locale) y ProfilePrefSync empuja este valor al cargar el
--- perfil. Default 'es' → los usuarios existentes siguen en español.
+-- Idioma de la interfaz por usuario (i18n es/en/pt). Columna NULLABLE:
+-- null = "no eligió idioma" → el cliente detecta el del dispositivo y lo
+-- siembra (ProfilePrefSync). Usuarios nuevos: null (se detecta). Usuarios
+-- existentes: backfill a 'es' (no se les cambia el idioma).
 do $$
 begin
   if not exists (select 1 from pg_type where typname = 'locale') then
@@ -29,4 +30,6 @@ begin
 end $$;
 
 alter table public.profiles
-  add column if not exists locale locale not null default 'es';
+  add column if not exists locale locale;
+
+update public.profiles set locale = 'es' where locale is null;
