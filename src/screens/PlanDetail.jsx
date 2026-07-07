@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 import { useAuth } from '../lib/auth.jsx'
+import { usePreferences } from '../lib/preferences.jsx'
+import { bookLabel } from '../i18n/books.js'
 import BackLink from '../components/BackLink.jsx'
 import { getPlan, getPlanDays, startDateForDay, todayLocalISO, markDaysRead } from '../lib/db.js'
 import { useReading } from '../hooks/useReading.js'
@@ -11,16 +13,14 @@ import ConfirmDialog from '../components/ConfirmDialog.jsx'
 
 // Detalle de un plan: descripción, duración, listado completo día-por-día con sus
 // pasajes, y acción de activar. Mismo estilo que el resto (drill-in iOS).
-function durationLabel(days) {
-  if (days === 365) return 'Un año · 365 días'
-  if (days === 31) return '31 días'
-  return `${days} días`
-}
 
 export default function PlanDetail() {
   const { id } = useParams()
   const planId = Number(id)
   const { user, profile, updateProfile } = useAuth()
+  const { t, locale } = usePreferences()
+  const durationLabel = (days) =>
+    days === 365 ? t('planes.durationYearLong') : t('planes.durationDays', { days })
   const r = useReading() // progreso del plan ACTIVO (para resaltar dónde vas leyendo)
   const navigate = useNavigate()
 
@@ -86,10 +86,10 @@ export default function PlanDetail() {
 
   return (
     <div className="pt-2">
-      <BackLink to="/planes" label="Planes" />
+      <BackLink to="/planes" label={t('nav.planes')} />
 
       <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">
-        {plan?.name || 'Plan'}
+        {plan?.name || t('common.plan')}
       </h1>
       {plan && (
         <p className="mt-1 text-[13px] text-ink-soft">{durationLabel(plan.duration_days)}</p>
@@ -116,17 +116,17 @@ export default function PlanDetail() {
         disabled={saving}
         className={`btn mt-5 ${isActive ? 'btn-secondary' : 'btn-primary'}`}
       >
-        {isActive ? 'Ir a Hoy' : saving ? 'Activando…' : 'Usar este plan'}
+        {isActive ? t('planes.goToday') : saving ? t('planes.activating') : t('planes.useThisPlan')}
       </button>
       {isActive && (
         <p className="mt-2 text-center text-[13px]" style={{ color: 'var(--accent-ink)' }}>
-          Es tu plan activo
+          {t('planes.isYourActive')}
         </p>
       )}
 
       {/* Listado día-por-día */}
       <p className="mb-2 mt-8 px-1 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-        Lecturas por día
+        {t('planes.readingsPerDay')}
       </p>
       {days === null && <SkeletonRows count={6} />}
       <ol className="card divide-y divide-hairline">
@@ -144,12 +144,12 @@ export default function PlanDetail() {
                 className="w-12 shrink-0 pt-0.5 text-[12px] font-semibold uppercase tracking-wide"
                 style={{ color: isCurrent || read ? 'var(--accent-ink)' : 'var(--text-soft)' }}
               >
-                Día {d.day_number}
+                {t('planes.dayN', { n: d.day_number })}
               </span>
               <span className="flex-1 text-[15px] text-ink">
                 {d.refs.map((ref, i) => (
                   <span key={i}>
-                    {ref.label}
+                    {bookLabel(ref, locale)}
                     {i < d.refs.length - 1 && <span className="text-ink-soft"> · </span>}
                   </span>
                 ))}
@@ -158,7 +158,7 @@ export default function PlanDetail() {
                 <span
                   className="shrink-0 pt-0.5 text-[15px] font-bold"
                   style={{ color: 'var(--accent-ink)' }}
-                  aria-label="Leído"
+                  aria-label={t('hoy.read')}
                 >
                   ✓
                 </span>
@@ -170,13 +170,13 @@ export default function PlanDetail() {
 
       {confirm && (
         <ConfirmDialog
-          title={`¿Cambiar a ${plan?.name}?`}
+          title={t('planes.changeTitle', { name: plan?.name })}
           message={
             resumeDay
-              ? `El plan nuevo arranca desde el día ${resumeDay}. Tu progreso anterior se guarda aparte.`
-              : 'El plan nuevo arranca desde el día 1. Tu progreso anterior se guarda aparte.'
+              ? t('planes.changeMsgResume', { day: resumeDay })
+              : t('planes.changeMsgNew')
           }
-          confirmLabel={saving ? '…' : 'Cambiar'}
+          confirmLabel={saving ? '…' : t('planes.change')}
           busy={saving}
           onConfirm={activate}
           onCancel={() => setConfirm(false)}

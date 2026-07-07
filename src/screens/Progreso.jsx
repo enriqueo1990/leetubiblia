@@ -2,14 +2,11 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useReading } from '../hooks/useReading.js'
 import { useAuth } from '../lib/auth.jsx'
+import { usePreferences } from '../lib/preferences.jsx'
+import { fmtISODate } from '../i18n/dates.js'
 import { todayLocalISO, addDaysISO } from '../lib/db.js'
 import Segmented from '../components/Segmented.jsx'
 import Diario from './Diario.jsx'
-
-const PROG_VIEWS = [
-  { key: 'progreso', label: 'Progreso' },
-  { key: 'camino', label: 'Mi camino' },
-]
 
 // Progreso — sub-vista de Hoy (documento maestro §5.2, README pantalla 2).
 // Racha, % y CALENDARIO DE CONSTANCIA de las últimas 5 semanas: cada cuadrado se
@@ -17,17 +14,6 @@ const PROG_VIEWS = [
 // base que la racha, así la grilla y el número coinciden siempre (antes la grilla
 // pintaba "el día del plan agendado para esa fecha", que divergía de la racha).
 // Solo lectura: para corregir el día se usa Ajustes › "¿en qué día vas?" o Hoy.
-const WEEKDAYS = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
-
-// "2026-06-26" → "26 de junio" para etiquetas accesibles del heatmap.
-function longDate(iso) {
-  const [y, m, d] = iso.split('-').map(Number)
-  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('es-ES', {
-    day: 'numeric',
-    month: 'long',
-    timeZone: 'UTC',
-  })
-}
 
 function weekdayMonFirst(iso) {
   const [y, m, d] = iso.split('-').map(Number)
@@ -44,16 +30,25 @@ function buildGrid(todayISO) {
 export default function Progreso() {
   const r = useReading()
   const { profile } = useAuth()
+  const { t, locale } = usePreferences()
   const reflectionsEnabled = !!profile?.reflections_enabled
   const [seg, setSeg] = useState('progreso')
   const todayISO = todayLocalISO()
   const grid = buildGrid(todayISO)
   const duration = r.plan?.duration_days ?? 0
 
+  const PROG_VIEWS = [
+    { key: 'progreso', label: t('progreso.view.progreso') },
+    { key: 'camino', label: t('progreso.view.camino') },
+  ]
+  const WEEKDAYS = t('progreso.weekdays').split(',')
+  // "2026-06-26" → "26 de junio" para etiquetas accesibles del heatmap.
+  const longDate = (iso) => fmtISODate(iso, locale, { day: 'numeric', month: 'long' })
+
   return (
     <div className="pt-2">
       {/* Pantalla top-level (4º ítem de la nav primaria desde 2026-07): sin miga. */}
-      <h1 className="text-[26px] font-bold tracking-tight text-ink">Progreso</h1>
+      <h1 className="text-[26px] font-bold tracking-tight text-ink">{t('nav.progreso')}</h1>
 
       {reflectionsEnabled && (
         <Segmented className="mt-4" options={PROG_VIEWS} value={seg} onChange={setSeg} />
@@ -63,25 +58,25 @@ export default function Progreso() {
         <Diario />
       ) : r.loading ? (
         // Sin esto, durante la carga se veía un flash de "0 días de racha / 0%".
-        <p className="mt-8 text-[15px] text-ink-soft">Cargando…</p>
+        <p className="mt-8 text-[15px] text-ink-soft">{t('common.loading')}</p>
       ) : !r.hasPlan ? (
         <p className="mt-8 text-[15px] text-ink-soft">
-          Elegí un plan en{' '}
+          {t('progreso.noPlanPre')}
           <Link
             to="/planes"
-            state={{ from: { to: '/progreso', label: 'Progreso' } }}
+            state={{ from: { to: '/progreso', label: t('nav.progreso') } }}
             className="font-medium"
             style={{ color: 'var(--accent-ink)' }}
           >
-            Planes
-          </Link>{' '}
-          para ver tu progreso.
+            {t('nav.planes')}
+          </Link>
+          {t('progreso.noPlanPost')}
         </p>
       ) : (
         <>
           {r.offline && (
             <p className="mt-3 text-[12px] text-ink-soft">
-              Sin conexión · puede estar desactualizado.
+              {t('progreso.offline')}
             </p>
           )}
 
@@ -92,7 +87,7 @@ export default function Progreso() {
                 {r.streak}
               </p>
               <p className="text-[13px] text-ink-soft">
-                {r.streak === 1 ? 'día de racha' : 'días de racha'}
+                {t('progreso.streakDays', { count: r.streak })}
               </p>
             </div>
             <div className="card flex-1 p-4">
@@ -100,13 +95,13 @@ export default function Progreso() {
                 {r.percent}%
               </p>
               <p className="text-[13px] text-ink-soft">
-                {r.completedCount} de {duration} días
+                {t('progreso.ofDays', { done: r.completedCount, total: duration })}
               </p>
             </div>
           </div>
 
           <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-            Últimas 5 semanas
+            {t('progreso.last5weeks')}
           </p>
 
           {/* Header de días */}
@@ -123,7 +118,11 @@ export default function Progreso() {
             {grid.map((iso) => {
               const isFuture = iso > todayISO
               const read = r.readDates.has(iso)
-              const state = isFuture ? 'día futuro' : read ? 'leíste' : 'sin lectura'
+              const state = isFuture
+                ? t('progreso.state.future')
+                : read
+                  ? t('progreso.state.read')
+                  : t('progreso.state.unread')
 
               return (
                 <div
@@ -141,14 +140,14 @@ export default function Progreso() {
             })}
           </div>
           <p className="mt-2.5 text-[12px] text-ink-soft">
-            Cada cuadrado pintado es un día que marcaste tu lectura.
+            {t('progreso.heatmapHint')}
           </p>
 
           {/* Acceso al recorrido (logros + números acumulados) */}
           <Link to="/recorrido" className="card mt-6 flex items-center justify-between px-4 py-3.5">
             <span>
-              <span className="block text-[15px] font-semibold text-ink">Tu recorrido</span>
-              <span className="block text-[13px] text-ink-soft">Tus logros y números en la Palabra</span>
+              <span className="block text-[15px] font-semibold text-ink">{t('progreso.recorrido.title')}</span>
+              <span className="block text-[13px] text-ink-soft">{t('progreso.recorrido.subtitle')}</span>
             </span>
             <span aria-hidden="true" className="text-[18px]" style={{ color: 'var(--accent-ink)' }}>
               ›
@@ -159,7 +158,7 @@ export default function Progreso() {
           {r.behind > 0 && (
             <>
               <p className="mt-6 text-[15px] text-ink-soft">
-                Te atrasaste {r.behind} {r.behind === 1 ? 'día' : 'días'}. Sin apuro —{' '}
+                {t('progreso.behindPre', { count: r.behind })}
                 <button
                   type="button"
                   onClick={r.reprogramar}
@@ -167,13 +166,13 @@ export default function Progreso() {
                   className="font-medium"
                   style={{ color: 'var(--accent-ink)', opacity: r.reprogramando ? 0.5 : 1 }}
                 >
-                  {r.reprogramando ? 'reprogramando…' : 'podés reprogramar'}
-                </button>{' '}
-                y seguir.
+                  {r.reprogramando ? t('progreso.behindReprogramando') : t('progreso.behindReprogramar')}
+                </button>
+                {t('progreso.behindPost')}
               </p>
               {r.reprogramarError && (
                 <p className="mt-2 text-[12px]" style={{ color: 'var(--danger)' }}>
-                  No se pudo reprogramar. Revisá tu conexión e intentá de nuevo.
+                  {t('hoy.reprogramarError')}
                 </p>
               )}
             </>

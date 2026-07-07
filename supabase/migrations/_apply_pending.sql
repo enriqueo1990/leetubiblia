@@ -1,6 +1,7 @@
 -- ============================================================
 -- Lee Tu Biblia — MIGRACIONES PENDIENTES (staging incremental).
--- Contiene: 0024_reading_materials.sql (materiales de lectura opcionales).
+-- Contiene: 0024_reading_materials.sql (materiales de lectura opcionales),
+--           0025_profile_locale.sql (idioma de interfaz por usuario, i18n).
 -- Pegá este archivo en el SQL Editor de Supabase y Run. Idempotente.
 -- ============================================================
 
@@ -16,3 +17,16 @@
 
 alter table public.profiles
   add column if not exists active_materials jsonb not null default '[]'::jsonb;
+
+-- Idioma de la interfaz por usuario (i18n es/en/pt). El cliente arranca desde
+-- localStorage (ltb.locale) y ProfilePrefSync empuja este valor al cargar el
+-- perfil. Default 'es' → los usuarios existentes siguen en español.
+do $$
+begin
+  if not exists (select 1 from pg_type where typname = 'locale') then
+    create type locale as enum ('es', 'en', 'pt');
+  end if;
+end $$;
+
+alter table public.profiles
+  add column if not exists locale locale not null default 'es';

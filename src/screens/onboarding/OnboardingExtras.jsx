@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../../lib/auth.jsx'
+import { usePreferences } from '../../lib/preferences.jsx'
 import { subscribeToPush } from '../../lib/push.js'
 
 // Último paso del onboarding (documento maestro §5.8): ofrecer recordatorio y, en
@@ -20,6 +21,7 @@ function isStandalone() {
 
 export default function OnboardingExtras({ onDone }) {
   const { updateProfile, user } = useAuth()
+  const { t } = usePreferences()
   const [reminder, setReminder] = useState(false)
   const [busy, setBusy] = useState(false)
   const showAddToHome = isIOS() && !isStandalone()
@@ -43,17 +45,17 @@ export default function OnboardingExtras({ onDone }) {
   return (
     <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col px-7 py-10">
       <div className="flex-1">
-        <h1 className="text-[24px] font-bold tracking-tight text-ink">Casi listo</h1>
+        <h1 className="text-[24px] font-bold tracking-tight text-ink">{t('onboarding.extras.title')}</h1>
         <p className="mt-2 text-[16px] text-ink-soft">
-          Dos cosas opcionales para que la lectura no se te escape.
+          {t('onboarding.extras.subtitle')}
         </p>
 
         {/* Recordatorio */}
         <div className="card mt-6 flex items-center justify-between p-4">
           <div className="pr-4">
-            <p className="text-[16px] font-medium text-ink">Recordatorio diario</p>
+            <p className="text-[16px] font-medium text-ink">{t('ajustes.section.recordatorio')}</p>
             <p className="text-[13px] text-ink-soft">
-              Un aviso suave por la mañana (07:00).
+              {t('onboarding.extras.reminderDesc')}
             </p>
           </div>
           <button
@@ -74,12 +76,12 @@ export default function OnboardingExtras({ onDone }) {
         {/* Agregar a inicio (solo iOS no instalado) */}
         {showAddToHome && (
           <div className="card mt-4 p-4">
-            <p className="text-[16px] font-medium text-ink">Agregá a la pantalla de inicio</p>
+            <p className="text-[16px] font-medium text-ink">{t('onboarding.extras.addToHomeTitle')}</p>
             <p className="mt-1 text-[15px] text-ink-soft">
-              Así recibís el recordatorio y podés leer sin conexión.
+              {t('onboarding.extras.addToHomeDesc')}
             </p>
             <ol className="mt-3 space-y-2">
-              {['Tocá el botón Compartir', 'Elegí “Agregar a inicio”'].map((t, i) => (
+              {[t('onboarding.extras.step1'), t('onboarding.extras.step2')].map((step, i) => (
                 <li key={i} className="flex items-center gap-3">
                   <span
                     className="flex h-6 w-6 items-center justify-center rounded-full text-[13px] font-semibold text-on-accent"
@@ -87,7 +89,7 @@ export default function OnboardingExtras({ onDone }) {
                   >
                     {i + 1}
                   </span>
-                  <span className="text-[15px] text-ink">{t}</span>
+                  <span className="text-[15px] text-ink">{step}</span>
                 </li>
               ))}
             </ol>
@@ -101,7 +103,7 @@ export default function OnboardingExtras({ onDone }) {
         disabled={busy}
         onClick={finish}
       >
-        {busy ? 'Un momento…' : 'Entendido'}
+        {busy ? t('onboarding.extras.finishing') : t('onboarding.extras.gotIt')}
       </button>
     </div>
   )

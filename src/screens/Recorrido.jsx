@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '../lib/auth.jsx'
+import { usePreferences } from '../lib/preferences.jsx'
+import { fmtISODate } from '../i18n/dates.js'
 import BackLink from '../components/BackLink.jsx'
 import { getCompletedPlans, getYearStats } from '../lib/db.js'
 import { SkeletonCards } from '../components/Skeleton.jsx'
@@ -8,17 +10,6 @@ import RetryError from '../components/RetryError.jsx'
 // "Tu recorrido en la Palabra" (Feature 5, parte 2): números acumulados + planes
 // terminados. Se nutre de plan_completions (logros permanentes) y de los datos
 // existentes (lectura, oración). No trae Escritura adentro: resume el hábito.
-
-function fmtDate(iso) {
-  if (!iso) return null
-  const [y, m, d] = iso.split('-').map(Number)
-  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('es-ES', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-    timeZone: 'UTC',
-  })
-}
 
 function Stat({ value, label, accent }) {
   return (
@@ -36,6 +27,8 @@ function Stat({ value, label, accent }) {
 
 export default function Recorrido() {
   const { user } = useAuth()
+  const { t, locale } = usePreferences()
+  const fmtDate = (iso) => fmtISODate(iso, locale, { day: 'numeric', month: 'short', year: 'numeric' })
   const [stats, setStats] = useState(null) // null = cargando
   const [plans, setPlans] = useState([])
   const [error, setError] = useState(false)
@@ -57,7 +50,7 @@ export default function Recorrido() {
   }, [load])
 
   const back = (
-    <BackLink to="/progreso" label="Progreso" />
+    <BackLink to="/progreso" label={t('nav.progreso')} />
   )
 
   if (error) {
@@ -65,7 +58,7 @@ export default function Recorrido() {
       <div className="pt-2">
         {back}
         <div className="mt-6">
-          <RetryError message="No se pudo cargar tu recorrido." onRetry={load} />
+          <RetryError message={t('recorrido.loadError')} onRetry={load} />
         </div>
       </div>
     )
@@ -74,8 +67,8 @@ export default function Recorrido() {
   return (
     <div className="pt-2">
       {back}
-      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">Tu recorrido</h1>
-      <p className="mt-1 text-[15px] text-ink-soft">Lo que fuiste caminando en la Palabra.</p>
+      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">{t('recorrido.title')}</h1>
+      <p className="mt-1 text-[15px] text-ink-soft">{t('recorrido.subtitle')}</p>
 
       {stats === null ? (
         <div className="mt-6">
@@ -90,10 +83,9 @@ export default function Recorrido() {
           >
             ✦
           </div>
-          <h2 className="mt-5 text-[20px] font-semibold text-ink">Tu recorrido empieza hoy</h2>
+          <h2 className="mt-5 text-[20px] font-semibold text-ink">{t('recorrido.empty.title')}</h2>
           <p className="mt-2 max-w-[300px] text-[15px] leading-relaxed text-ink-soft">
-            Cada día que marcás tu lectura suma. Acá vas a ver crecer tus números y los planes que
-            vayas terminando.
+            {t('recorrido.empty.text')}
           </p>
         </div>
       ) : (
@@ -101,29 +93,29 @@ export default function Recorrido() {
           <div className="mt-6 flex gap-3">
             <Stat
               value={stats.plansCompleted}
-              label={stats.plansCompleted === 1 ? 'plan terminado' : 'planes terminados'}
+              label={t('recorrido.plansCompleted', { count: stats.plansCompleted })}
               accent
             />
             <Stat
               value={stats.longestStreak}
-              label={stats.longestStreak === 1 ? 'día de racha máx.' : 'días de racha máx.'}
+              label={t('hoy.maxStreak', { count: stats.longestStreak })}
             />
           </div>
           <div className="mt-3 flex gap-3">
             <Stat
               value={stats.totalDaysRead}
-              label={stats.totalDaysRead === 1 ? 'día en la Palabra' : 'días en la Palabra'}
+              label={t('recorrido.daysInWord', { count: stats.totalDaysRead })}
             />
             <Stat
               value={stats.prayersAnswered}
-              label={stats.prayersAnswered === 1 ? 'oración respondida' : 'oraciones respondidas'}
+              label={t('recorrido.prayersAnswered', { count: stats.prayersAnswered })}
             />
           </div>
 
           {plans.length > 0 ? (
             <>
               <p className="mt-8 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-                Planes que terminaste
+                {t('recorrido.plansYouFinished')}
               </p>
               <ul className="mt-3 space-y-3">
                 {plans.map((c) => (
@@ -140,7 +132,7 @@ export default function Recorrido() {
                       </span>
                     </div>
                     <p className="mt-1 text-[13px] text-ink-soft">
-                      {c.days_read} de {c.total_days} días · racha máx. {c.longest_streak}
+                      {t('recorrido.planStats', { read: c.days_read, total: c.total_days, streak: c.longest_streak })}
                     </p>
                   </li>
                 ))}
@@ -148,8 +140,7 @@ export default function Recorrido() {
             </>
           ) : (
             <p className="mt-8 text-[15px] leading-relaxed text-ink-soft">
-              Todavía no terminaste un plan, pero vas en camino. Cuando completes uno, tu logro va a
-              quedar acá.
+              {t('recorrido.noPlansYet')}
             </p>
           )}
         </>

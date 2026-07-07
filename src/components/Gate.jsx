@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../lib/auth.jsx'
+import { usePreferences } from '../lib/preferences.jsx'
+import { bibleVersion } from '../lib/bible.js'
 import AuthFlow from '../screens/onboarding/AuthFlow.jsx'
 import AskName from '../screens/onboarding/AskName.jsx'
 import ChoosePlanOnboarding from '../screens/onboarding/ChoosePlanOnboarding.jsx'
@@ -12,6 +14,7 @@ import OnboardingExtras, { EXTRAS_DONE_KEY } from '../screens/onboarding/Onboard
 //   sin extras hechos      → recordatorio + agregar a inicio (una vez)
 //   listo                 → la app (children)
 function Splash() {
+  const { t, locale } = usePreferences()
   return (
     <div className="flex min-h-[100dvh] flex-col items-center justify-center gap-7 bg-app">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="80" height="80">
@@ -23,9 +26,11 @@ function Splash() {
       </svg>
       <div className="flex flex-col items-center gap-2 px-10 text-center">
         <p className="text-[17px] italic leading-relaxed text-ink-soft">
-          Santifícalos en la verdad;<br />Tu palabra es verdad.
+          {t('gate.verseText')}
         </p>
-        <span className="text-[13px] text-placeholder">Juan 17:17 · NBLA</span>
+        <span className="text-[13px] text-placeholder">
+          {t('gate.verseRef')} · {bibleVersion(locale).code}
+        </span>
       </div>
     </div>
   )
@@ -34,6 +39,7 @@ function Splash() {
 // Hay sesión pero no se pudo cargar el perfil y no hay copia en caché (típico:
 // primer arranque sin conexión). Ofrece reintentar en vez de colgarse.
 function LoadError({ onRetry }) {
+  const { t } = usePreferences()
   const [retrying, setRetrying] = useState(false)
   const retry = async () => {
     setRetrying(true)
@@ -46,14 +52,14 @@ function LoadError({ onRetry }) {
   return (
     <div className="flex min-h-[100dvh] flex-col items-center justify-center gap-4 bg-app px-8 text-center">
       <p className="max-w-[280px] text-[15px] text-ink-soft">
-        No pudimos cargar tu perfil. Revisá tu conexión y volvé a intentar.
+        {t('gate.loadError')}
       </p>
       <button
         onClick={retry}
         disabled={retrying}
         className="btn btn-secondary disabled:opacity-50"
       >
-        {retrying ? 'Reintentando…' : 'Reintentar'}
+        {retrying ? t('common.retrying') : t('common.retry')}
       </button>
     </div>
   )

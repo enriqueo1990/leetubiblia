@@ -7,19 +7,14 @@ import EmptyState from '../components/EmptyState.jsx'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 import PrayerSheet from './PrayerSheet.jsx'
 import { useAuth } from '../lib/auth.jsx'
+import { usePreferences } from '../lib/preferences.jsx'
+import { fmtDate } from '../i18n/dates.js'
 import { getMyPrayers, getGroupPrayers, getMyGroups, getPrayersToReview, markPrayerReviewed } from '../lib/db.js'
 
 // Oración (documento maestro §5.4, README pantalla 4).
-const SEGMENTS = [
-  { key: 'mine', label: 'Míos' },
-  { key: 'groups', label: 'De mis grupos' },
-]
-
-function fmtDate(iso) {
-  return new Date(iso).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })
-}
 
 function PrayerItem({ p, subtitle, onClick, dimmed }) {
+  const { t } = usePreferences()
   const count = p.intercessor_count ?? 0
   return (
     <li>
@@ -34,7 +29,7 @@ function PrayerItem({ p, subtitle, onClick, dimmed }) {
           <p className="text-[13px] text-ink-soft">{subtitle}</p>
           {p.visibility === 'shared' && count > 0 && (
             <p className="mt-0.5 text-[12px] font-medium" style={{ color: 'var(--accent-ink)' }}>
-              {count} {count === 1 ? 'persona orando' : 'personas orando'}
+              {t('oracion.praying', { count })}
             </p>
           )}
         </div>
@@ -46,7 +41,7 @@ function PrayerItem({ p, subtitle, onClick, dimmed }) {
               className="rounded-pill px-2 py-0.5 text-[12px] font-medium"
               style={{ color: 'var(--accent-ink)', backgroundColor: 'var(--accent-tint)' }}
             >
-              Respondido
+              {t('oracion.answered')}
             </span>
           )}
         </div>
@@ -57,7 +52,13 @@ function PrayerItem({ p, subtitle, onClick, dimmed }) {
 
 export default function Oracion() {
   const { user } = useAuth()
+  const { t, locale } = usePreferences()
   const navigate = useNavigate()
+  const fmtD = (iso) => fmtDate(iso, locale, { day: 'numeric', month: 'short' })
+  const SEGMENTS = [
+    { key: 'mine', label: t('oracion.tab.mine') },
+    { key: 'groups', label: t('oracion.tab.groups') },
+  ]
   const [searchParams] = useSearchParams()
   const [seg, setSeg] = useState(searchParams.get('tab') === 'grupos' ? 'groups' : 'mine')
   const [mine, setMine] = useState(null)
@@ -116,29 +117,29 @@ export default function Oracion() {
   // "De mis grupos": agrupados por nombre de grupo.
   const byGroup = {}
   for (const p of groupPrayers ?? []) {
-    const name = p.group?.name ?? 'Grupo'
+    const name = p.group?.name ?? t('common.grupo')
     ;(byGroup[name] ??= []).push(p)
   }
 
   return (
     <div className="pt-2">
       <div className="flex items-center justify-between">
-        <h1 className="text-[26px] font-bold tracking-tight text-ink">Oración</h1>
+        <h1 className="text-[26px] font-bold tracking-tight text-ink">{t('oracion.title')}</h1>
         <button
           type="button"
-          aria-label="Nuevo pedido"
+          aria-label={t('oracion.new')}
           onClick={() => setSheet({ mode: 'create' })}
           className="flex h-[44px] items-center justify-center gap-1 rounded-full px-3 text-on-accent lg:px-4"
           style={{ backgroundColor: 'var(--accent)', minWidth: 44 }}
         >
           <PlusIcon size={20} />
-          <span className="hidden text-[15px] font-semibold lg:inline">Nuevo pedido</span>
+          <span className="hidden text-[15px] font-semibold lg:inline">{t('oracion.new')}</span>
         </button>
       </div>
 
       <Segmented className="mt-5" options={SEGMENTS} value={seg} onChange={setSeg} />
 
-      {error && <RetryError message="No se pudieron cargar los pedidos." onRetry={load} />}
+      {error && <RetryError message={t('oracion.loadError')} onRetry={load} />}
 
       {/* Míos */}
       {seg === 'mine' && (
@@ -147,7 +148,7 @@ export default function Oracion() {
           {toReview.length > 0 && (
             <div className="mb-6">
               <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-                Para revisar
+                {t('oracion.toReview')}
               </p>
               <div className="card divide-y divide-hairline">
                 {toReview.map((p) => {
@@ -156,7 +157,7 @@ export default function Oracion() {
                     <div key={p.id} className="p-4">
                       <p className="truncate text-[15px] font-semibold text-ink">{p.title}</p>
                       <p className="mt-0.5 text-[13px] text-ink-soft">
-                        Activo hace {dias} {dias === 1 ? 'día' : 'días'}
+                        {t('oracion.activeFor', { count: dias })}
                       </p>
                       <div className="mt-3 flex gap-2">
                         <button
@@ -164,14 +165,14 @@ export default function Oracion() {
                           onClick={() => sigeIgual(p)}
                           className="btn btn-secondary flex-1 py-2 text-[14px]"
                         >
-                          Sigue igual
+                          {t('oracion.stillSame')}
                         </button>
                         <button
                           type="button"
                           onClick={() => setSheet({ mode: 'edit', prayer: p })}
                           className="btn btn-primary flex-1 py-2 text-[14px]"
                         >
-                          Revisar
+                          {t('oracion.review')}
                         </button>
                       </div>
                     </div>
@@ -185,7 +186,7 @@ export default function Oracion() {
           {mine?.length === 0 && (
             <EmptyState
               icon={<HeartIcon size={32} />}
-              text="Todavía no tenés pedidos. Tocá + para crear el primero —privado, o compartido con un grupo para que otros oren con vos."
+              text={t('oracion.empty.mine')}
             />
           )}
           <ul className="space-y-3">
@@ -193,7 +194,7 @@ export default function Oracion() {
               <PrayerItem
                 key={p.id}
                 p={p}
-                subtitle={fmtDate(p.created_at)}
+                subtitle={fmtD(p.created_at)}
                 onClick={
                   p.visibility === 'shared'
                     ? () => navigate(`/oracion/${p.id}`)
@@ -205,7 +206,7 @@ export default function Oracion() {
           {myAnswered.length > 0 && (
             <>
               <p className="mb-2 mt-6 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-                Respondidos
+                {t('oracion.answeredSection')}
               </p>
               <ul className="space-y-3">
                 {myAnswered.map((p) => (
@@ -213,7 +214,7 @@ export default function Oracion() {
                     key={p.id}
                     p={p}
                     dimmed
-                    subtitle={`Respondido · ${fmtDate(p.answered_at || p.created_at)}`}
+                    subtitle={t('oracion.answeredOn', { date: fmtD(p.answered_at || p.created_at) })}
                     onClick={
                       p.visibility === 'shared'
                         ? () => navigate(`/oracion/${p.id}`)
@@ -235,14 +236,14 @@ export default function Oracion() {
             (groups.length === 0 ? (
               <EmptyState
                 icon={<PeopleIcon size={32} />}
-                text="Orá junto a otros: unite a un grupo para ver y sostener los pedidos que comparten."
+                text={t('oracion.empty.groups')}
               >
                 <Link to="/grupos" className="btn btn-primary inline-block px-8">
-                  Ir a Grupos
+                  {t('oracion.goToGroups')}
                 </Link>
               </EmptyState>
             ) : (
-              <EmptyState text="No hay pedidos compartidos en tus grupos todavía." />
+              <EmptyState text={t('oracion.empty.noShared')} />
             ))}
           {Object.entries(byGroup).map(([name, items]) => {
             const active = items.filter((p) => p.status === 'active')
@@ -258,7 +259,7 @@ export default function Oracion() {
                       key={p.id}
                       p={p}
                       dimmed={p.status === 'answered'}
-                      subtitle={`${p.author_name} · ${fmtDate(p.created_at)}`}
+                      subtitle={`${p.author_name} · ${fmtD(p.created_at)}`}
                       onClick={() => navigate(`/oracion/${p.id}`)}
                     />
                   ))}

@@ -9,7 +9,7 @@ import { ensureSubscribed } from '../lib/push.js'
 // valor, así que este efecto queda en no-op tras un cambio del usuario.
 export default function ProfilePrefSync() {
   const { profile, user } = useAuth()
-  const { accent, setAccent, themePref, setTheme } = usePreferences()
+  const { accent, setAccent, themePref, setTheme, locale, setLocale } = usePreferences()
 
   useEffect(() => {
     if (!profile) return
@@ -19,8 +19,11 @@ export default function ProfilePrefSync() {
     if (profile.theme_pref && profile.theme_pref !== themePref) {
       setTheme(profile.theme_pref)
     }
+    if (profile.locale && profile.locale !== locale) {
+      setLocale(profile.locale)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profile?.accent_color, profile?.theme_pref])
+  }, [profile?.accent_color, profile?.theme_pref, profile?.locale])
 
   // Si el recordatorio está activo y el permiso ya fue concedido, asegura que
   // este dispositivo tenga su subscription Web Push (re-suscribe en silencio).

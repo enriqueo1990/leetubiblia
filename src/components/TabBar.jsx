@@ -1,9 +1,11 @@
 import { useRef, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { NAV_ITEMS, matchesExtra } from './nav.js'
+import { usePreferences } from '../lib/preferences.jsx'
 
-function TabItem({ to, label, Icon, end, match }) {
+function TabItem({ to, labelKey, Icon, end, match }) {
   const { pathname } = useLocation()
+  const { t } = usePreferences()
   // Encendido también en el subárbol del ítem (p. ej. Progreso en /recorrido):
   // el usuario nunca desaparece del mapa primario.
   const extra = matchesExtra({ match }, pathname)
@@ -40,7 +42,7 @@ function TabItem({ to, label, Icon, end, match }) {
               className="text-[12px]"
               style={{ fontWeight: isActive || extra ? 600 : 500 }}
             >
-              {label}
+              {t(labelKey)}
             </span>
           </>
         )}
@@ -53,10 +55,11 @@ function TabItem({ to, label, Icon, end, match }) {
 // la reemplaza el Sidebar. El hairline y el fondo se acotan al ancho de contenido
 // para que en tablet quede "centrada bajo la columna" (README — Responsive).
 export default function TabBar() {
+  const { t } = usePreferences()
   return (
     <nav
       className="lg:hidden fixed bottom-0 inset-x-0 z-20"
-      aria-label="Navegación principal"
+      aria-label={t('nav.main')}
     >
       <div
         className="mx-auto max-w-content border-t border-hairline"

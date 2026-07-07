@@ -9,10 +9,10 @@ import { BookIcon, HeartIcon, PeopleIcon, ChartIcon } from './icons.jsx'
 // que las pantallas de segundo anillo no dejen el mapa apagado. Todo lo que
 // cuelga de Ajustes (planes, materiales) cuelga a su vez de Hoy.
 export const NAV_ITEMS = [
-  { to: '/', label: 'Hoy', Icon: BookIcon, end: true, match: ['/ajustes', '/planes', '/materiales'] },
-  { to: '/oracion', label: 'Oración', Icon: HeartIcon },
-  { to: '/grupos', label: 'Grupos', Icon: PeopleIcon, match: ['/join'] },
-  { to: '/progreso', label: 'Progreso', Icon: ChartIcon, match: ['/recorrido'] },
+  { to: '/', labelKey: 'nav.hoy', Icon: BookIcon, end: true, match: ['/ajustes', '/planes', '/materiales'] },
+  { to: '/oracion', labelKey: 'nav.oracion', Icon: HeartIcon },
+  { to: '/grupos', labelKey: 'nav.grupos', Icon: PeopleIcon, match: ['/join'] },
+  { to: '/progreso', labelKey: 'nav.progreso', Icon: ChartIcon, match: ['/recorrido'] },
 ]
 
 // ¿La ruta actual pertenece al subárbol de este ítem (sin ser su ruta propia)?

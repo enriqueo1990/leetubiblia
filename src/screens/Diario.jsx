@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '../lib/auth.jsx'
+import { usePreferences } from '../lib/preferences.jsx'
+import { fmtWeekdayDayMonth, capitalize } from '../i18n/dates.js'
 import {
   getReflectionJournal,
   upsertReflection,
@@ -18,18 +20,11 @@ import { PencilIcon } from '../components/icons.jsx'
 // pasadas quedan selladas (solo lectura). Cross-plan, más recientes primero.
 const PAGE = 30
 
-function fmtDay(iso) {
-  const s = new Date(iso).toLocaleDateString('es-ES', {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'short',
-  })
-  // es-ES devuelve "sáb, 27 jun"; la metadata arranca cada línea en mayúscula.
-  return s.charAt(0).toUpperCase() + s.slice(1)
-}
-
 export default function Diario() {
   const { user } = useAuth()
+  const { t, locale } = usePreferences()
+  // "sáb, 27 jun" — la metadata arranca cada línea en mayúscula.
+  const fmtDay = (iso) => capitalize(fmtWeekdayDayMonth(iso, locale))
   const [entries, setEntries] = useState(null) // null = cargando
   const [error, setError] = useState(false)
   const [hasMore, setHasMore] = useState(false)
@@ -75,15 +70,15 @@ export default function Diario() {
   }
 
   if (error) {
-    return <RetryError message="No se pudo cargar tu camino." onRetry={load} />
+    return <RetryError message={t('diario.loadError')} onRetry={load} />
   }
 
   if (entries.length === 0) {
     return (
       <EmptyState
         icon="✦"
-        title="Tu camino empieza acá"
-        text="Al terminar tu lectura en Hoy, anotá una línea de lo que te habló y la vas a encontrar acá, día tras día."
+        title={t('diario.empty.title')}
+        text={t('diario.empty.text')}
       />
     )
   }
@@ -105,7 +100,7 @@ export default function Diario() {
                 <p className="text-[16px] leading-relaxed text-ink">{e.body}</p>
                 <div className="mt-2.5 flex items-center justify-between gap-3">
                   <p className="text-[12px] text-ink-soft">
-                    {fmtDay(e.created_at)} · Día {e.day_number}
+                    {t('diario.entryMeta', { date: fmtDay(e.created_at), day: e.day_number })}
                   </p>
                   {editable && (
                     <span
@@ -113,7 +108,7 @@ export default function Diario() {
                       style={{ color: 'var(--accent-ink)' }}
                     >
                       <PencilIcon size={13} />
-                      Editar
+                      {t('common.edit')}
                     </span>
                   )}
                 </div>
@@ -130,7 +125,7 @@ export default function Diario() {
           className="mt-3 w-full py-2 text-center text-[14px] font-semibold"
           style={{ color: 'var(--accent-ink)' }}
         >
-          Cargar más
+          {t('common.loadMore')}
         </button>
       )}
 

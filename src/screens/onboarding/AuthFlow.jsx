@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../../lib/auth.jsx'
+import { usePreferences } from '../../lib/preferences.jsx'
 import { BookIcon } from '../../components/icons.jsx'
 
 // Bienvenida + auth por magic link (documento maestro §5.8, README pantalla 8).
@@ -17,6 +18,7 @@ function Centered({ children }) {
 
 export default function AuthFlow() {
   const { signInWithEmail, verifyEmailCode } = useAuth()
+  const { t } = usePreferences()
   const [step, setStep] = useState('welcome')
   const [mode, setMode] = useState('signup') // 'signup' | 'login'
   const [email, setEmail] = useState('')
@@ -38,8 +40,8 @@ export default function AuthFlow() {
     if (error) {
       setError(
         mode === 'login'
-          ? 'No encontramos una cuenta con ese correo. Revisá que esté bien escrito o creá una cuenta.'
-          : 'No pudimos enviar el código. Probá de nuevo.'
+          ? t('onboarding.auth.loginNotFound')
+          : t('onboarding.auth.sendError')
       )
       return
     }
@@ -58,7 +60,7 @@ export default function AuthFlow() {
     const { error } = await verifyEmailCode(email.trim(), token)
     setVerifying(false)
     if (error) {
-      setError('Código incorrecto o vencido. Revisá el correo o pedí uno nuevo.')
+      setError(t('onboarding.auth.codeError'))
       return
     }
     // onAuthStateChange detecta la sesión y el Gate avanza solo.
@@ -79,7 +81,7 @@ export default function AuthFlow() {
             Lee Tu Biblia
           </h1>
           <p className="mt-2 max-w-[280px] text-[17px] text-ink-soft">
-            Tu lectura diaria y tus oraciones, en un solo lugar tranquilo.
+            {t('onboarding.auth.tagline')}
           </p>
         </div>
         <div className="space-y-3">
@@ -91,7 +93,7 @@ export default function AuthFlow() {
               setStep('form')
             }}
           >
-            Crear cuenta
+            {t('onboarding.auth.createAccount')}
           </button>
           <button
             type="button"
@@ -102,7 +104,7 @@ export default function AuthFlow() {
               setStep('form')
             }}
           >
-            Ya tengo cuenta
+            {t('onboarding.auth.haveAccount')}
           </button>
         </div>
       </Centered>
@@ -119,22 +121,22 @@ export default function AuthFlow() {
           style={{ color: 'var(--accent-ink)' }}
           onClick={() => setStep('form')}
         >
-          ‹ Volver
+          ‹ {t('common.back')}
         </button>
-        <h1 className="text-[24px] font-bold tracking-tight text-ink">Revisá tu correo</h1>
+        <h1 className="text-[24px] font-bold tracking-tight text-ink">{t('onboarding.auth.checkEmail')}</h1>
         <p className="mt-2 text-[16px] text-ink-soft">
-          Te enviamos un código a{' '}
-          <span className="text-ink">{email.trim()}</span>. Ingresalo acá para entrar.
+          {t('onboarding.auth.sentCodePre')}
+          <span className="text-ink">{email.trim()}</span>{t('onboarding.auth.sentCodePost')}
         </p>
         <p className="mt-1.5 text-[13px] text-ink-soft">
-          ¿No lo ves? Revisá la carpeta de spam, o{' '}
+          {t('onboarding.auth.spamHintPre')}
           <button
             type="button"
             onClick={() => setStep('form')}
             className="font-medium"
             style={{ color: 'var(--accent-ink)' }}
           >
-            usá otro correo
+            {t('onboarding.auth.useAnotherEmail')}
           </button>
           .
         </p>
@@ -152,7 +154,7 @@ export default function AuthFlow() {
             autoComplete="one-time-code"
             autoFocus
             maxLength={10}
-            placeholder="Código"
+            placeholder={t('onboarding.auth.codePlaceholder')}
             value={code}
             onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 10))}
             className="w-full rounded-input px-4 py-3.5 text-center text-[26px] font-bold outline-none"
@@ -171,7 +173,7 @@ export default function AuthFlow() {
             className="btn btn-primary mt-4"
             style={{ opacity: !codeValid || verifying ? 0.5 : 1 }}
           >
-            {verifying ? 'Verificando…' : 'Entrar'}
+            {verifying ? t('onboarding.auth.verifying') : t('onboarding.auth.enter')}
           </button>
         </form>
 
@@ -181,8 +183,8 @@ export default function AuthFlow() {
           onClick={handleSend}
           disabled={sending}
         >
-          {sending ? 'Reenviando…' : '¿No llegó? '}
-          {!sending && <span style={{ color: 'var(--accent-ink)' }}>Reenviar código</span>}
+          {sending ? t('onboarding.auth.resending') : t('onboarding.auth.notArrived')}
+          {!sending && <span style={{ color: 'var(--accent-ink)' }}>{t('onboarding.auth.resendCode')}</span>}
         </button>
       </Centered>
     )
@@ -198,10 +200,10 @@ export default function AuthFlow() {
         style={{ color: 'var(--accent-ink)' }}
         onClick={() => setStep('welcome')}
       >
-        ‹ Volver
+        ‹ {t('common.back')}
       </button>
       <h1 className="text-[26px] font-bold tracking-tight text-ink">
-        {isSignup ? 'Creá tu cuenta' : 'Ingresá'}
+        {isSignup ? t('onboarding.auth.createTitle') : t('onboarding.auth.login')}
       </h1>
 
       <form
@@ -216,7 +218,7 @@ export default function AuthFlow() {
           inputMode="email"
           autoComplete="email"
           autoFocus
-          placeholder="tu@correo.com"
+          placeholder={t('onboarding.auth.emailPlaceholder')}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full rounded-input px-4 py-3.5 text-[16px] outline-none"
@@ -234,12 +236,12 @@ export default function AuthFlow() {
           className="btn btn-primary mt-4"
           style={{ opacity: !valid || sending ? 0.5 : 1 }}
         >
-          {sending ? 'Enviando…' : 'Enviarme el código'}
+          {sending ? t('onboarding.auth.sending') : t('onboarding.auth.sendCode')}
         </button>
       </form>
 
       <p className="mt-3 text-[13px] text-ink-soft">
-        Te mandamos un código a tu correo para entrar sin contraseña.
+        {t('onboarding.auth.passwordlessNote')}
       </p>
 
       <button
@@ -247,9 +249,9 @@ export default function AuthFlow() {
         className="mt-8 text-center text-[15px] text-ink-soft"
         onClick={() => setMode(isSignup ? 'login' : 'signup')}
       >
-        {isSignup ? '¿Ya tenés cuenta? ' : '¿Sos nuevo? '}
+        {isSignup ? t('onboarding.auth.haveAccountQ') : t('onboarding.auth.newQ')}
         <span style={{ color: 'var(--accent-ink)' }}>
-          {isSignup ? 'Ingresá' : 'Creá una cuenta'}
+          {isSignup ? t('onboarding.auth.login') : t('onboarding.auth.createOne')}
         </span>
       </button>
     </Centered>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Sheet from './Sheet.jsx'
+import { usePreferences } from '../lib/preferences.jsx'
 
 // Hoja para anotar/editar la reflexión del día ("¿Qué te habló hoy?"). Feature 1.
 // Componente presentacional: la persistencia (db.js) la cablea el contenedor.
@@ -17,6 +18,7 @@ export default function ReflectionSheet({
   onSave,
   onDelete,
 }) {
+  const { t } = usePreferences()
   const [body, setBody] = useState(initialBody)
   const dirty = editable && body.trim() !== initialBody.trim()
   const canSave = editable && body.trim().length > 0 && dirty
@@ -24,7 +26,7 @@ export default function ReflectionSheet({
 
   return (
     <Sheet
-      title={editable ? '¿Qué te habló hoy?' : 'Tu reflexión'}
+      title={editable ? t('reflectionSheet.titleEdit') : t('reflectionSheet.titleView')}
       plain={!editable}
       dirty={dirty}
       onCancel={onClose}
@@ -37,7 +39,7 @@ export default function ReflectionSheet({
             className="btn btn-primary"
             style={{ opacity: canSave ? 1 : 0.5 }}
           >
-            Guardar
+            {t('common.save')}
           </button>
         ) : null
       }
@@ -45,7 +47,7 @@ export default function ReflectionSheet({
       {editable ? (
         <>
           <p className="text-[13px] text-ink-soft">
-            {[cap(dateLabel), `Día ${dayNumber}`, planName].filter(Boolean).join(' · ')}
+            {[cap(dateLabel), t('planes.dayN', { n: dayNumber }), planName].filter(Boolean).join(' · ')}
           </p>
           <textarea
             autoFocus
@@ -53,7 +55,7 @@ export default function ReflectionSheet({
             onChange={(e) => setBody(e.target.value)}
             maxLength={1000}
             rows={4}
-            placeholder="Una idea, una frase… lo que te quedó"
+            placeholder={t('reflectionSheet.placeholder')}
             className="mt-3 w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
             style={{
               backgroundColor: 'var(--surface)',
@@ -63,7 +65,7 @@ export default function ReflectionSheet({
           />
           <div className="mt-2 flex items-center justify-between gap-3">
             <p className="text-[12px] text-ink-soft">
-              Podés editarla hoy. Mañana queda guardada como está.
+              {t('reflectionSheet.editHint')}
             </p>
             {initialBody && onDelete && (
               <button
@@ -72,7 +74,7 @@ export default function ReflectionSheet({
                 className="shrink-0 py-1 text-[13px] font-medium"
                 style={{ color: 'var(--danger)' }}
               >
-                Eliminar
+                {t('ajustes.eliminar')}
               </button>
             )}
           </div>
@@ -83,7 +85,7 @@ export default function ReflectionSheet({
         <div className="pb-4 pt-6 text-center">
           <p className="text-[20px] leading-relaxed text-ink">{initialBody}</p>
           <p className="mt-5 text-[13px] text-ink-soft">
-            {[cap(dateLabel), `Día ${dayNumber}`].filter(Boolean).join(' · ')}
+            {[cap(dateLabel), t('planes.dayN', { n: dayNumber })].filter(Boolean).join(' · ')}
           </p>
           <p className="mt-9 text-[12px] font-medium">
             <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✦ </span>

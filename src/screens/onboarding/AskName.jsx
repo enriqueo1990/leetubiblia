@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { useAuth } from '../../lib/auth.jsx'
+import { usePreferences } from '../../lib/preferences.jsx'
 
 // "¿Cómo te llamás?" — solo en la primera entrada (documento maestro §5.8).
 // El magic link no captura nombre y la app lo muestra en Grupos y pedidos
 // compartidos. Set profiles.display_name.
 export default function AskName() {
   const { updateProfile } = useAuth()
+  const { t } = usePreferences()
   const [name, setName] = useState('')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(false)
@@ -25,10 +27,10 @@ export default function AskName() {
   return (
     <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col justify-center px-7 py-10">
       <h1 className="text-[24px] font-bold tracking-tight text-ink">
-        ¿Cómo te llamás?
+        {t('onboarding.askName.title')}
       </h1>
       <p className="mt-2 text-[16px] text-ink-soft">
-        Así te ven tus grupos y aparece en los pedidos que compartís.
+        {t('onboarding.askName.subtitle')}
       </p>
 
       <form
@@ -42,7 +44,7 @@ export default function AskName() {
           type="text"
           autoFocus
           autoComplete="name"
-          placeholder="Tu nombre"
+          placeholder={t('ajustes.tuNombre')}
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="w-full rounded-input px-4 py-3.5 text-[16px] outline-none"
@@ -58,11 +60,11 @@ export default function AskName() {
           className="btn btn-primary mt-4"
           style={{ opacity: !valid || saving ? 0.5 : 1 }}
         >
-          {saving ? 'Guardando…' : 'Continuar'}
+          {saving ? t('common.saving') : t('common.continue')}
         </button>
         {error && (
           <p className="mt-3 text-[14px]" style={{ color: 'var(--danger)' }}>
-            No se pudo guardar. Revisá tu conexión e intentá de nuevo.
+            {t('common.saveError')}
           </p>
         )}
       </form>

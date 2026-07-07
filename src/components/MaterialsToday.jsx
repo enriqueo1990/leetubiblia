@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
+import { usePreferences } from '../lib/preferences.jsx'
 import { activeMaterials, loadMaterialContent } from '../lib/materials.js'
 import { ChevronRight } from './icons.jsx'
 
@@ -11,6 +12,7 @@ import { ChevronRight } from './icons.jsx'
 // confirmación — acá no hay acciones destructivas).
 export default function MaterialsToday() {
   const { profile } = useAuth()
+  const { t } = usePreferences()
   const list = activeMaterials(profile)
 
   // Contenido cargado por slug (import dinámico, cacheado en materials.js).
@@ -37,7 +39,7 @@ export default function MaterialsToday() {
 
   return (
     <div className="mt-10">
-      <p className="mb-3 text-[13px] font-medium text-ink-soft">Mis otras lecturas</p>
+      <p className="mb-3 text-[13px] font-medium text-ink-soft">{t('materialsToday.otherReadings')}</p>
 
       <div className="space-y-3">
         {list.map((m) => {
@@ -58,10 +60,10 @@ export default function MaterialsToday() {
                   {done ? (
                     <>
                       <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✓ </span>
-                      Completado
+                      {t('materialsToday.completed')}
                     </>
                   ) : (
-                    `Pregunta ${entry?.number ?? m.position} de ${content.total}`
+                    t('materialsToday.questionOf', { n: entry?.number ?? m.position, total: content.total })
                   )}
                 </span>
               </span>

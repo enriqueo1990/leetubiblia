@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '../../lib/auth.jsx'
+import { usePreferences } from '../../lib/preferences.jsx'
 import { getPlans, startDateForDay, todayLocalISO, markDaysRead } from '../../lib/db.js'
 import ResumeFromDay from '../../components/ResumeFromDay.jsx'
 import RetryError from '../../components/RetryError.jsx'
@@ -7,14 +8,12 @@ import RetryError from '../../components/RetryError.jsx'
 // Elegir plan de lectura en el onboarding (documento maestro §5.3 / §5.8).
 // Set active_plan_id + plan_start_date = hoy (local). El cambio de plan ya con
 // progreso existente, con su confirmación, se maneja en Tarea 4.
-function planDurationLabel(days) {
-  if (days === 365) return 'Un año'
-  if (days === 31) return '31 días'
-  return `${days} días`
-}
 
 export default function ChoosePlanOnboarding() {
   const { user, updateProfile } = useAuth()
+  const { t } = usePreferences()
+  const planDurationLabel = (days) =>
+    days === 365 ? t('planes.durationYear') : t('planes.durationDays', { days })
   const [plans, setPlans] = useState(null)
   const [selected, setSelected] = useState(null)
   const [resumeDay, setResumeDay] = useState(null)
@@ -55,7 +54,7 @@ export default function ChoosePlanOnboarding() {
     })
     if (error) {
       setSaving(false)
-      setError('No se pudo activar el plan. Probá de nuevo.')
+      setError(t('onboarding.choosePlan.activateError'))
       return
     }
     // Engancharse a mitad de plan: dar por leídos los días anteriores (1..N−1).
@@ -72,17 +71,17 @@ export default function ChoosePlanOnboarding() {
   return (
     <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col px-7 py-10">
       <h1 className="text-[26px] font-bold tracking-tight text-ink">
-        Elegí un plan
+        {t('onboarding.choosePlan.title')}
       </h1>
-      <p className="mt-2 text-[16px] text-ink-soft">Un plan activo a la vez.</p>
+      <p className="mt-2 text-[16px] text-ink-soft">{t('planes.subtitle')}</p>
 
       <div className="mt-6 flex-1 space-y-3">
         {error && <p className="text-[15px]" style={{ color: 'var(--danger)' }}>{error}</p>}
         {loadError && (
-          <RetryError message="No se pudieron cargar los planes." onRetry={loadPlans} />
+          <RetryError message={t('planes.loadError')} onRetry={loadPlans} />
         )}
         {!loadError && plans === null && (
-          <p className="text-[15px] text-ink-soft">Cargando planes…</p>
+          <p className="text-[15px] text-ink-soft">{t('onboarding.choosePlan.loadingPlans')}</p>
         )}
 
         {plans?.map((p) => {
@@ -125,7 +124,7 @@ export default function ChoosePlanOnboarding() {
         style={{ opacity: !selected || saving ? 0.5 : 1 }}
         onClick={handleStart}
       >
-        {saving ? 'Activando…' : 'Empezar'}
+        {saving ? t('planes.activating') : t('onboarding.choosePlan.start')}
       </button>
     </div>
   )

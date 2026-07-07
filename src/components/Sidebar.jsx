@@ -1,15 +1,17 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import { NAV_ITEMS, matchesExtra } from './nav.js'
+import { usePreferences } from '../lib/preferences.jsx'
 
 // Sidebar de navegación (desktop ≥1024px) — reemplaza la tab bar inferior.
 // ~250px, superficie con borde derecho hairline, marca + nav vertical.
 // Ítem activo: texto en acento sobre tinte sutil, radio 12px.
 export default function Sidebar() {
   const { pathname } = useLocation()
+  const { t } = usePreferences()
   return (
     <aside
       className="hidden lg:flex fixed inset-y-0 left-0 w-[250px] flex-col border-r border-hairline bg-surface px-4 py-7"
-      aria-label="Navegación principal"
+      aria-label={t('nav.main')}
     >
       <div className="px-3 pb-6">
         <span className="text-[18px] font-bold tracking-tight text-ink">
@@ -18,7 +20,7 @@ export default function Sidebar() {
       </div>
       <nav>
         <ul className="flex flex-col gap-1">
-          {NAV_ITEMS.map(({ to, label, Icon, end, match }) => {
+          {NAV_ITEMS.map(({ to, labelKey, Icon, end, match }) => {
             // Encendido también en el subárbol del ítem (ver nav.js): el
             // usuario nunca desaparece del mapa primario.
             const extra = matchesExtra({ match }, pathname)
@@ -40,7 +42,7 @@ export default function Sidebar() {
                         className="text-[15px]"
                         style={{ fontWeight: isActive || extra ? 600 : 500 }}
                       >
-                        {label}
+                        {t(labelKey)}
                       </span>
                     </>
                   )}

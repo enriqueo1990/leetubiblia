@@ -22,11 +22,6 @@ import { version as APP_VERSION } from '../../package.json'
 // Ajustes (documento maestro §5.7, README pantalla 7). Acento y tema persisten en
 // profiles (vía updateProfile) además de aplicarse en vivo. Recordatorio: mejor
 // esfuerzo (sin prometer hora fija en iOS). Eliminar cuenta: borrado en cascada.
-const THEMES = [
-  { key: 'auto', label: 'Auto' },
-  { key: 'light', label: 'Claro' },
-  { key: 'dark', label: 'Oscuro' },
-]
 
 function SectionLabel({ children }) {
   return (
@@ -48,19 +43,18 @@ function isStandalone() {
 
 // Mensaje honesto cuando no se pudo activar el push (subscribeToPush devuelve
 // { ok:false, reason }). Así el switch no queda en ON mintiendo.
-function pushReasonMessage(reason) {
-  if (reason === 'denied')
-    return 'Activá el permiso de notificaciones para esta app en los ajustes de tu teléfono o navegador.'
+function pushReasonMessage(reason, t) {
+  if (reason === 'denied') return t('ajustes.push.denied')
   if (reason === 'unsupported')
     return isIOS() && !isStandalone()
-      ? 'Agregá la app a la pantalla de inicio para recibir notificaciones.'
-      : 'Tu navegador no admite notificaciones.'
-  if (reason === 'no-key') return 'Las notificaciones no están configuradas todavía.'
-  return 'No se pudieron activar las notificaciones. Probá de nuevo.'
+      ? t('ajustes.push.unsupportedIOS')
+      : t('ajustes.push.unsupported')
+  if (reason === 'no-key') return t('ajustes.push.noKey')
+  return t('ajustes.push.generic')
 }
 
 export default function Ajustes() {
-  const { accent, setAccent, accents, themePref, setTheme, resolvedMode } = usePreferences()
+  const { accent, setAccent, accents, themePref, setTheme, resolvedMode, locale, setLocale, locales, t } = usePreferences()
   const { user, profile, updateProfile, signOut } = useAuth()
 
   const [plan, setPlan] = useState(null)
@@ -123,6 +117,15 @@ export default function Ajustes() {
     setTheme(key)
     updateProfile({ theme_pref: key })
   }
+  function pickLocale(key) {
+    setLocale(key)
+    updateProfile({ locale: key })
+  }
+  const THEMES = [
+    { key: 'auto', label: t('ajustes.theme.auto') },
+    { key: 'light', label: t('ajustes.theme.light') },
+    { key: 'dark', label: t('ajustes.theme.dark') },
+  ]
 
   // La subscripción Web Push es del dispositivo y la comparten el recordatorio y
   // los avisos de grupo. Solo la borramos cuando se apagan AMBAS features; así
@@ -137,7 +140,7 @@ export default function Ajustes() {
       // mostramos por qué en vez de mentir que está activo.
       const res = await subscribeToPush(user.id)
       if (!res.ok) {
-        setPushNote({ target: 'reminder', msg: pushReasonMessage(res.reason) })
+        setPushNote({ target: 'reminder', msg: pushReasonMessage(res.reason, t) })
         return
       }
       await updateProfile({ reminder_enabled: true, reminder_time: reminderTime + ':00' })
@@ -158,7 +161,7 @@ export default function Ajustes() {
     if (next) {
       const res = await subscribeToPush(user.id)
       if (!res.ok) {
-        setPushNote({ target: 'group', msg: pushReasonMessage(res.reason) })
+        setPushNote({ target: 'group', msg: pushReasonMessage(res.reason, t) })
         return
       }
       await updateProfile({ group_prayer_notifications_enabled: true })
@@ -195,7 +198,7 @@ export default function Ajustes() {
 
   async function shareApp() {
     const url = window.location.origin
-    const text = 'Te invito a leer la Biblia juntos con Lee Tu Biblia'
+    const text = t('ajustes.shareInviteText')
     if (navigator.share) {
       try {
         await navigator.share({ title: 'Lee Tu Biblia', text, url })
@@ -208,7 +211,7 @@ export default function Ajustes() {
         setShared(true)
         setTimeout(() => setShared(false), 2000)
       } catch {
-        window.prompt('Copiá el link de la app:', url)
+        window.prompt(t('ajustes.copyPrompt'), url)
       }
     }
   }
@@ -233,19 +236,19 @@ export default function Ajustes() {
     <div className="pt-2">
       {/* Ajustes cuelga de Hoy (engranaje en su header) desde que Progreso tomó
           el 4º slot de la nav primaria. */}
-      <BackLink to="/" label="Hoy" />
-      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">Ajustes</h1>
+      <BackLink to="/" label={t('nav.hoy')} />
+      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">{t('nav.ajustes')}</h1>
 
-      <SectionLabel>Lectura</SectionLabel>
+      <SectionLabel>{t('ajustes.section.lectura')}</SectionLabel>
       <div className="card divide-y divide-hairline">
         <Link
           to="/planes"
-          state={{ from: { to: '/ajustes', label: 'Ajustes' } }}
+          state={{ from: { to: '/ajustes', label: t('nav.ajustes') } }}
           className="flex items-center justify-between px-4 py-3"
         >
-          <span className="text-[16px] text-ink">Plan de lectura</span>
+          <span className="text-[16px] text-ink">{t('ajustes.planDeLectura')}</span>
           <span className="flex items-center gap-1.5">
-            <span className="text-[15px] text-ink-soft">{plan?.name || 'Elegir'}</span>
+            <span className="text-[15px] text-ink-soft">{plan?.name || t('ajustes.elegir')}</span>
             <span className="text-ink-soft" style={{ opacity: 0.5 }}>
               <ChevronRight size={18} />
             </span>
@@ -253,13 +256,13 @@ export default function Ajustes() {
         </Link>
         <Link
           to="/materiales"
-          state={{ from: { to: '/ajustes', label: 'Ajustes' } }}
+          state={{ from: { to: '/ajustes', label: t('nav.ajustes') } }}
           className="flex items-center justify-between px-4 py-3"
         >
-          <span className="text-[16px] text-ink">Materiales de lectura</span>
+          <span className="text-[16px] text-ink">{t('ajustes.materialesDeLectura')}</span>
           <span className="flex items-center gap-1.5">
             <span className="text-[15px] text-ink-soft">
-              {materialsCount > 0 ? `${materialsCount} activo${materialsCount > 1 ? 's' : ''}` : 'Ninguno'}
+              {materialsCount > 0 ? t('ajustes.materialsActive', { count: materialsCount }) : t('ajustes.ninguno')}
             </span>
             <span className="text-ink-soft" style={{ opacity: 0.5 }}>
               <ChevronRight size={18} />
@@ -271,10 +274,11 @@ export default function Ajustes() {
       {/* Fijar en qué día del plan vas (catch-up para quien ya venía leyendo). */}
       {currentDay != null && (
         <>
-          <SectionLabel>¿En qué día vas?</SectionLabel>
+          <SectionLabel>{t('ajustes.section.queDia')}</SectionLabel>
           <div className="card p-4">
             <p className="text-[15px] text-ink-soft">
-              Día actual: <span className="font-semibold text-ink">{currentDay}</span> de {duration}
+              {t('ajustes.currentDay')}: <span className="font-semibold text-ink">{currentDay}</span>{' '}
+              {t('ajustes.ofTotal', { total: duration })}
             </p>
             <input
               type="text"
@@ -284,7 +288,7 @@ export default function Ajustes() {
                 setDayInput(e.target.value.replace(/[^\d]/g, ''))
                 setSavedDay(false)
               }}
-              placeholder={`Ej: ${currentDay}`}
+              placeholder={t('ajustes.dayPlaceholder', { day: currentDay })}
               className="mt-3 w-full rounded-input px-4 py-3 text-[16px] outline-none"
               style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--text-primary)' }}
             />
@@ -295,57 +299,55 @@ export default function Ajustes() {
               className="btn btn-primary mt-3"
               style={{ opacity: !canUpdateDay || savingDay ? 0.5 : 1 }}
             >
-              {savingDay ? '…' : 'Actualizar'}
+              {savingDay ? '…' : t('ajustes.actualizar')}
             </button>
             {canUpdateDay && (
               <p className="mt-2 text-[13px] text-ink-soft">
                 {targetDay < currentDay
-                  ? `Hoy volverá al día ${targetDay}. Se quitan las marcas de leído del día ${targetDay} en adelante.`
-                  : `Hoy pasará al día ${targetDay}. Los días anteriores quedan como leídos.`}
+                  ? t('ajustes.dayChangeBack', { day: targetDay })
+                  : t('ajustes.dayChangeForward', { day: targetDay })}
               </p>
             )}
             {savedDay && !dayInput && (
               <p className="mt-2 text-[13px]" style={{ color: 'var(--accent-ink)' }}>
-                ✓ Listo, hoy es el día {currentDay}
+                ✓ {t('ajustes.daySaved', { day: currentDay })}
               </p>
             )}
           </div>
         </>
       )}
 
-      <SectionLabel>Diario de reflexión</SectionLabel>
+      <SectionLabel>{t('ajustes.section.diario')}</SectionLabel>
       <div className="card">
         <div className="flex items-center justify-between px-4 py-3">
-          <span className="text-[16px] text-ink">Activar</span>
+          <span className="text-[16px] text-ink">{t('ajustes.activar')}</span>
           <Switch
             on={reflectionsOn}
             onChange={() => updateProfile({ reflections_enabled: !reflectionsOn })}
-            label="Diario de reflexión"
+            label={t('ajustes.section.diario')}
           />
         </div>
       </div>
       <p className="mt-2 px-1 text-[12px] text-ink-soft">
-        Al terminar tu lectura, anotá en una línea qué te habló. Lo encontrás en Progreso › Mi
-        camino.
+        {t('ajustes.diarioHelp')}
       </p>
 
-      <SectionLabel>Lectura con mis grupos</SectionLabel>
+      <SectionLabel>{t('ajustes.section.lecturaGrupos')}</SectionLabel>
       <div className="card">
         <div className="flex items-center justify-between px-4 py-3">
-          <span className="text-[16px] text-ink">Compartir mi lectura</span>
+          <span className="text-[16px] text-ink">{t('ajustes.compartirLectura')}</span>
           <Switch
             on={shareReadingOn}
             onChange={toggleShareReading}
-            label="Compartir mi lectura con mis grupos"
+            label={t('ajustes.compartirLecturaLabel')}
           />
         </div>
       </div>
       <p className="mt-2 px-1 text-[12px] text-ink-soft">
-        Tus grupos ven que leíste hoy (no qué leés), y vos ves la de ellos. Lo apagás cuando
-        quieras.
+        {t('ajustes.compartirLecturaHelp')}
       </p>
 
-      <SectionLabel>Color de acento</SectionLabel>
+      <SectionLabel>{t('ajustes.section.acento')}</SectionLabel>
       <div className="card grid grid-cols-6 gap-3 p-4">
         {accents.map((a) => {
           const selected = a.key === accent
@@ -369,18 +371,21 @@ export default function Ajustes() {
         })}
       </div>
 
-      <SectionLabel>Tema</SectionLabel>
+      <SectionLabel>{t('ajustes.section.tema')}</SectionLabel>
       <Segmented options={THEMES} value={themePref} onChange={pickTheme} />
 
-      <SectionLabel>Recordatorio diario</SectionLabel>
+      <SectionLabel>{t('ajustes.idioma')}</SectionLabel>
+      <Segmented options={locales} value={locale} onChange={pickLocale} />
+
+      <SectionLabel>{t('ajustes.section.recordatorio')}</SectionLabel>
       <div className="card divide-y divide-hairline">
         <div className="flex items-center justify-between px-4 py-3">
-          <span className="text-[16px] text-ink">Activar</span>
-          <Switch on={reminderOn} onChange={toggleReminder} label="Recordatorio diario" />
+          <span className="text-[16px] text-ink">{t('ajustes.activar')}</span>
+          <Switch on={reminderOn} onChange={toggleReminder} label={t('ajustes.section.recordatorio')} />
         </div>
         {reminderOn && (
           <div className="flex items-center justify-between px-4 py-3">
-            <span className="text-[16px] text-ink">Hora</span>
+            <span className="text-[16px] text-ink">{t('ajustes.hora')}</span>
             <input
               type="time"
               value={reminderTime}
@@ -393,81 +398,79 @@ export default function Ajustes() {
       </div>
       {reminderOn && (
         <p className="mt-2 px-1 text-[12px] text-ink-soft">
-          {showReminderIOSNote
-            ? 'En iPhone, agregá la app a la pantalla de inicio para recibir las notificaciones.'
-            : 'Te llega una notificación a la hora elegida. Puede demorar unos minutos.'}
+          {showReminderIOSNote ? t('ajustes.reminderIOSNote') : t('ajustes.reminderHelp')}
         </p>
       )}
       {pushNote?.target === 'reminder' && (
         <p className="mt-2 px-1 text-[12px] text-ink-soft">{pushNote.msg}</p>
       )}
 
-      <SectionLabel>Avisos del grupo</SectionLabel>
+      <SectionLabel>{t('ajustes.section.avisosGrupo')}</SectionLabel>
       <div className="card">
         <div className="flex items-center justify-between px-4 py-3">
-          <span className="text-[16px] text-ink">Pedidos de oración nuevos</span>
+          <span className="text-[16px] text-ink">{t('ajustes.pedidosNuevos')}</span>
           <Switch
             on={groupNotifOn}
             onChange={toggleGroupNotif}
-            label="Avisos de pedidos del grupo"
+            label={t('ajustes.avisosGrupoLabel')}
           />
         </div>
       </div>
       <p className="mt-2 px-1 text-[12px] text-ink-soft">
-        Te avisamos cuando alguien comparte un pedido en un grupo tuyo.
+        {t('ajustes.avisosGrupoHelp')}
       </p>
       {pushNote?.target === 'group' && (
         <p className="mt-2 px-1 text-[12px] text-ink-soft">{pushNote.msg}</p>
       )}
 
-      <SectionLabel>Seguimiento de oración</SectionLabel>
+      <SectionLabel>{t('ajustes.section.seguimiento')}</SectionLabel>
       <div className="card">
         <div className="flex items-center justify-between px-4 py-3">
-          <span className="text-[16px] text-ink">Recordarme revisar pedidos</span>
+          <span className="text-[16px] text-ink">{t('ajustes.recordarRevisar')}</span>
           <Switch
             on={prayerFollowupOn}
             onChange={() => updateProfile({ prayer_followup_enabled: !prayerFollowupOn })}
-            label="Recordarme revisar pedidos de oración"
+            label={t('ajustes.recordarRevisarLabel')}
           />
         </div>
       </div>
       <p className="mt-2 px-1 text-[12px] text-ink-soft">
-        Una vez por semana te avisamos si tenés pedidos activos que no revisaste en más de un mes.
+        {t('ajustes.seguimientoHelp')}
       </p>
 
-      <SectionLabel>Compartir</SectionLabel>
+      <SectionLabel>{t('ajustes.section.compartir')}</SectionLabel>
       <div className="card">
         <button
           type="button"
           onClick={shareApp}
           className="flex w-full items-center justify-between px-4 py-3"
         >
-          <span className="text-[16px] text-ink">Compartir la app</span>
+          <span className="text-[16px] text-ink">{t('ajustes.compartirApp')}</span>
           <span className="flex items-center gap-1.5 text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
-            {shared ? '¡Copiado!' : <ShareIcon size={18} />}
+            {shared ? t('ajustes.copiado') : <ShareIcon size={18} />}
           </span>
         </button>
       </div>
       <p className="mt-2 px-1 text-[12px] text-ink-soft">
-        Invitá a amigos y familia a leer la Biblia juntos.
+        {t('ajustes.compartirHelp')}
       </p>
 
-      <SectionLabel>Ayuda</SectionLabel>
+      <SectionLabel>{t('ajustes.section.ayuda')}</SectionLabel>
       <div className="card">
         {/* /guia es pública (vive fuera del Gate) pero antes no tenía ninguna
             puerta desde adentro de la app. */}
         <Link to="/guia" className="flex items-center justify-between px-4 py-3">
-          <span className="text-[16px] text-ink">Guía de la app</span>
+          <span className="text-[16px] text-ink">{t('ajustes.guiaApp')}</span>
           <span className="text-ink-soft" style={{ opacity: 0.5 }}>
             <ChevronRight size={18} />
           </span>
         </Link>
       </div>
       <p className="mt-2 px-1 text-[12px] text-ink-soft">
-        Todo lo que hace Lee Tu Biblia, explicado con ejemplos.
+        {t('ajustes.ayudaHelp')}
       </p>
 
-      <SectionLabel>Apoyá la misión</SectionLabel>
+      <SectionLabel>{t('ajustes.section.mision')}</SectionLabel>
       <div
         className="card p-4"
         style={{ backgroundColor: 'var(--accent-tint)', border: '1px solid var(--accent)' }}
@@ -478,8 +481,7 @@ export default function Ajustes() {
           </span>
           <div>
             <p className="text-[15px] text-ink">
-              Soy pastor misionero y creé esta app para acercarnos cada día mejor a la Palabra.
-              Tu aporte es una gran ayuda a seguir sirviendo a tiempo completo. ¡Gracias!
+              {t('ajustes.misionText')}
             </p>
             <a
               href="https://dentonbible.org/missions/view-detail/smallgroup/oriolo-enrique-and-tamara/"
@@ -488,18 +490,18 @@ export default function Ajustes() {
               className="mt-2 inline-flex items-center gap-1 text-[13px] font-medium"
               style={{ color: 'var(--accent-ink)' }}
             >
-              Conocé más sobre nuestra misión ↗
+              {t('ajustes.misionLink')} ↗
             </a>
           </div>
         </div>
         <div className="mt-4 space-y-2">
           {[
-            { label: 'Donar con PayPal', url: 'https://www.paypal.com/paypalme/EnriqueOriolo' },
+            { label: t('ajustes.donarPaypal'), url: 'https://www.paypal.com/paypalme/EnriqueOriolo' },
             {
-              label: 'Donación única · MercadoPago',
+              label: t('ajustes.donarMPunica'),
               url: 'https://link.mercadopago.com.ar/enriqueoriolo',
             },
-            { label: 'Apoyo mensual · MercadoPago', url: 'https://mpago.la/1EEJDnZ' },
+            { label: t('ajustes.donarMPmensual'), url: 'https://mpago.la/1EEJDnZ' },
           ].map((d) => (
             <a
               key={d.url}
@@ -518,10 +520,10 @@ export default function Ajustes() {
         </div>
       </div>
 
-      <SectionLabel>Cuenta</SectionLabel>
+      <SectionLabel>{t('ajustes.section.cuenta')}</SectionLabel>
       <div className="card divide-y divide-hairline">
         <div className="px-4 py-3">
-          <p className="text-[16px] text-ink">{profile?.display_name || 'Tu nombre'}</p>
+          <p className="text-[16px] text-ink">{profile?.display_name || t('ajustes.tuNombre')}</p>
           <p className="text-[13px] text-ink-soft">{user?.email}</p>
         </div>
         <button
@@ -529,7 +531,7 @@ export default function Ajustes() {
           onClick={signOut}
           className="w-full px-4 py-3 text-left text-[16px] text-ink"
         >
-          Cerrar sesión
+          {t('ajustes.cerrarSesion')}
         </button>
         <button
           type="button"
@@ -538,22 +540,22 @@ export default function Ajustes() {
           className="w-full px-4 py-3 text-left text-[16px]"
           style={{ color: 'var(--danger)' }}
         >
-          {deleting ? 'Eliminando…' : 'Eliminar cuenta'}
+          {deleting ? t('ajustes.eliminando') : t('ajustes.eliminarCuenta')}
         </button>
       </div>
       {deleteError && (
         <p className="mt-2 px-1 text-[13px]" style={{ color: 'var(--danger)' }}>
-          No se pudo eliminar la cuenta. Intentá de nuevo.
+          {t('ajustes.deleteError')}
         </p>
       )}
 
-      <p className="mt-8 text-center text-[13px] text-ink-soft">Versión {APP_VERSION}</p>
+      <p className="mt-8 text-center text-[13px] text-ink-soft">{t('ajustes.version', { version: APP_VERSION })}</p>
 
       {confirmDelete && (
         <ConfirmDialog
-          title="¿Eliminar tu cuenta?"
-          message="Se borran tu cuenta y todos tus datos (lectura, oraciones y membresías). No se puede deshacer."
-          confirmLabel="Eliminar"
+          title={t('ajustes.deleteTitle')}
+          message={t('ajustes.deleteMessage')}
+          confirmLabel={t('ajustes.eliminar')}
           danger
           busy={deleting}
           onConfirm={handleDelete}

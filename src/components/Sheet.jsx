@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import ConfirmDialog from './ConfirmDialog.jsx'
 import { XIcon } from './icons.jsx'
+import { usePreferences } from '../lib/preferences.jsx'
 
 // Sheet / modal (README — estructura común): grabber arriba + barra de nav
 // (Cancelar / título / acción opcional) → contenido scroll → footer fijo.
@@ -17,6 +18,7 @@ import { XIcon } from './icons.jsx'
 // `plain`: sin barra de nav (Cancelar/título) — solo una ✕ flotante. Para
 // contenido tipo estampita (ver una nota) donde el cromo arruina la captura.
 export default function Sheet({ title, onCancel, action, children, footer, dirty = false, plain = false }) {
+  const { t } = usePreferences()
   const panelRef = useRef(null)
   const prevFocus = useRef(null)
   const dirtyRef = useRef(dirty)
@@ -94,7 +96,7 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
             <button
               type="button"
               onClick={requestClose}
-              aria-label="Cerrar"
+              aria-label={t('common.close')}
               className="absolute right-1.5 top-1.5 z-10 flex h-11 w-11 items-center justify-center text-[16px] leading-none text-ink-soft"
               style={{ opacity: 0.55 }}
             >
@@ -106,7 +108,7 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
                 <button
                   type="button"
                   onClick={requestClose}
-                  aria-label="Cerrar"
+                  aria-label={t('common.close')}
                   className="flex h-9 w-9 items-center justify-center rounded-full text-ink-soft"
                   style={{ opacity: 0.6 }}
                 >
@@ -132,10 +134,10 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
 
       {askDiscard && (
         <ConfirmDialog
-          title="¿Descartar cambios?"
-          message="Lo que escribiste no se guardará."
-          confirmLabel="Descartar"
-          cancelLabel="Seguir editando"
+          title={t('sheet.discardTitle')}
+          message={t('sheet.discardMessage')}
+          confirmLabel={t('sheet.discard')}
+          cancelLabel={t('sheet.keepEditing')}
           danger
           onConfirm={() => {
             setAskDiscard(false)

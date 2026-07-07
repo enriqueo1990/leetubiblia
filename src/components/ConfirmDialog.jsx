@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
+import { usePreferences } from '../lib/preferences.jsx'
 
 // Diálogo de confirmación propio (reemplaza window.confirm/alert para mantener el
 // lenguaje visual de la app, incluso en PWA instalada). Cierra con Escape o tap
@@ -9,13 +10,16 @@ import { createPortal } from 'react-dom'
 export default function ConfirmDialog({
   title,
   message,
-  confirmLabel = 'Confirmar',
-  cancelLabel = 'Cancelar',
+  confirmLabel,
+  cancelLabel,
   danger = false,
   busy = false,
   onConfirm,
   onCancel,
 }) {
+  const { t } = usePreferences()
+  const confirm = confirmLabel ?? t('common.confirm')
+  const cancel = cancelLabel ?? t('common.cancel')
   const confirmRef = useRef(null)
   const panelRef = useRef(null)
   const prevFocus = useRef(null)
@@ -81,7 +85,7 @@ export default function ConfirmDialog({
             disabled={busy}
             onClick={onCancel}
           >
-            {cancelLabel}
+            {cancel}
           </button>
           <button
             ref={confirmRef}
@@ -91,7 +95,7 @@ export default function ConfirmDialog({
             style={danger ? { backgroundColor: 'var(--danger)', color: '#fff' } : undefined}
             onClick={onConfirm}
           >
-            {busy ? '…' : confirmLabel}
+            {busy ? '…' : confirm}
           </button>
         </div>
       </div>

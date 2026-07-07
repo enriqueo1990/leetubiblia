@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
+import { usePreferences } from '../lib/preferences.jsx'
 import BackLink from '../components/BackLink.jsx'
 import { getPlans } from '../lib/db.js'
 import { ChevronRight } from '../components/icons.jsx'
@@ -10,14 +11,12 @@ import { SkeletonCards } from '../components/Skeleton.jsx'
 // Selección / cambio de plan (documento maestro §5.3, README pantalla 3).
 // Cada tarjeta abre el detalle del plan (/planes/:id), donde se ve el listado
 // día-por-día y se activa. El cambio con progreso existente se confirma allí.
-function durationLabel(days) {
-  if (days === 365) return 'Un año'
-  if (days === 31) return '31 días'
-  return `${days} días`
-}
 
 export default function Planes() {
   const { profile } = useAuth()
+  const { t } = usePreferences()
+  const durationLabel = (days) =>
+    days === 365 ? t('planes.durationYear') : t('planes.durationDays', { days })
   const [plans, setPlans] = useState(null)
   const [error, setError] = useState(false)
 
@@ -37,13 +36,13 @@ export default function Planes() {
 
   return (
     <div className="pt-2">
-      <BackLink to="/" label="Hoy" />
-      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">Planes</h1>
-      <p className="mt-2 text-[16px] text-ink-soft">Un plan activo a la vez.</p>
+      <BackLink to="/" label={t('nav.hoy')} />
+      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">{t('nav.planes')}</h1>
+      <p className="mt-2 text-[16px] text-ink-soft">{t('planes.subtitle')}</p>
 
       <div className="mt-5 space-y-3">
         {plans === null && !error && <SkeletonCards count={3} />}
-        {error && <RetryError message="No se pudieron cargar los planes." onRetry={load} />}
+        {error && <RetryError message={t('planes.loadError')} onRetry={load} />}
         {plans?.map((p) => {
           const active = p.id === activeId
           return (
@@ -60,7 +59,7 @@ export default function Planes() {
                       className="rounded-pill px-2 py-0.5 text-[12px] font-medium"
                       style={{ color: 'var(--accent-ink)', backgroundColor: 'var(--accent-tint)' }}
                     >
-                      Activo
+                      {t('planes.active')}
                     </span>
                   )}
                 </div>

@@ -6,20 +6,21 @@ import BackLink from '../components/BackLink.jsx'
 import Avatars from '../components/Avatars.jsx'
 import PrayerSheet from './PrayerSheet.jsx'
 import { useAuth } from '../lib/auth.jsx'
+import { usePreferences } from '../lib/preferences.jsx'
+import { fmtDate } from '../i18n/dates.js'
 import { getPrayerDetail, addIntercession, removeIntercession, getMyGroups } from '../lib/db.js'
 import { SkeletonDetail } from '../components/Skeleton.jsx'
 
 // Detalle de un pedido compartido con "Estoy orando por esto" (Fase 2, F2-A).
 // Lo abren los miembros desde "De mis grupos"; el autor lo ve sin el botón pero
 // con el conteo de quiénes oran (así "se entera" sin push, modelo pull).
-function fmtDate(iso) {
-  return new Date(iso).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })
-}
 
 export default function PrayerDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { user, profile } = useAuth()
+  const { t, locale } = usePreferences()
+  const fmtD = (iso) => fmtDate(iso, locale, { day: 'numeric', month: 'short' })
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [busy, setBusy] = useState(false)
@@ -31,9 +32,9 @@ export default function PrayerDetail() {
     try {
       setData(await getPrayerDetail(Number(id), user?.id))
     } catch {
-      setError('No se pudo cargar el pedido.')
+      setError(t('prayerDetail.loadError'))
     }
-  }, [id, user])
+  }, [id, user, t])
 
   useEffect(() => {
     load()
@@ -48,7 +49,7 @@ export default function PrayerDetail() {
     if (busy || !data || data.status !== 'active') return
     setBusy(true)
     const next = !data.i_intercede
-    const meName = profile?.display_name || 'Vos'
+    const meName = profile?.display_name || t('common.you')
     // Optimista: reflejamos el cambio antes de la red.
     setData((d) => ({
       ...d,
@@ -71,7 +72,7 @@ export default function PrayerDetail() {
   if (error) {
     return (
       <div className="pt-2">
-        <BackLink to="/oracion" label="Oración" />
+        <BackLink to="/oracion" label={t('nav.oracion')} />
         <p className="mt-8 text-[15px] text-ink-soft">{error}</p>
         <button
           type="button"
@@ -79,7 +80,7 @@ export default function PrayerDetail() {
           className="mt-2 text-[15px] font-semibold"
           style={{ color: 'var(--accent-ink)' }}
         >
-          Reintentar
+          {t('common.retry')}
         </button>
       </div>
     )
@@ -91,11 +92,11 @@ export default function PrayerDetail() {
 
   let countLabel
   if (i_intercede) {
-    countLabel = `${count} ${count === 1 ? 'persona está orando' : 'personas están orando'} · vos incluido.`
+    countLabel = t('prayerDetail.prayingYouIncluded', { count })
   } else if (count > 0) {
-    countLabel = `${count} ${count === 1 ? 'persona está orando' : 'personas están orando'} por esto.`
+    countLabel = t('prayerDetail.prayingForThis', { count })
   } else {
-    countLabel = isAuthor ? 'Todavía nadie se sumó a orar.' : 'Sé el primero en orar por esto.'
+    countLabel = isAuthor ? t('prayerDetail.noneYet') : t('prayerDetail.beFirst')
   }
 
   async function handleSheetSaved() {
@@ -110,7 +111,7 @@ export default function PrayerDetail() {
   return (
     <div className="pt-2">
       <div className="flex items-center justify-between">
-        <BackLink to="/oracion" label="Oración" />
+        <BackLink to="/oracion" label={t('nav.oracion')} />
         {isAuthor && (
           <button
             type="button"
@@ -118,7 +119,7 @@ export default function PrayerDetail() {
             className="text-[15px] font-medium"
             style={{ color: 'var(--accent-ink)' }}
           >
-            Editar
+            {t('common.edit')}
           </button>
         )}
       </div>
@@ -132,7 +133,7 @@ export default function PrayerDetail() {
         {data.title}
       </h1>
       <p className="mt-2 text-[13px] text-ink-soft">
-        {data.author_name} · {fmtDate(data.created_at)}
+        {data.author_name} · {fmtD(data.created_at)}
       </p>
 
       {data.description && (
@@ -152,7 +153,7 @@ export default function PrayerDetail() {
 
         {!isAuthor && data.status !== 'active' && (
           <p className="text-center text-[13px] text-ink-soft">
-            Este pedido ya fue respondido.
+            {t('prayerDetail.answered')}
           </p>
         )}
 
@@ -166,10 +167,10 @@ export default function PrayerDetail() {
                 disabled={busy}
                 className="btn btn-primary flex items-center justify-center gap-2"
               >
-                <CheckIcon size={19} strokeWidth={2.2} /> Estás orando por esto
+                <CheckIcon size={19} strokeWidth={2.2} /> {t('prayerDetail.youArePraying')}
               </button>
               <p className="mt-2.5 text-center text-[13px] text-ink-soft">
-                {data.author_name} va a saber que estás orando por su pedido.
+                {t('prayerDetail.authorWillKnow', { author: data.author_name })}
               </p>
             </>
           ) : (
@@ -180,7 +181,7 @@ export default function PrayerDetail() {
               className="btn btn-secondary flex items-center justify-center gap-2"
               style={{ border: '1px solid var(--accent-ink)', color: 'var(--accent-ink)' }}
             >
-              <HeartIcon size={19} /> Estoy orando por esto
+              <HeartIcon size={19} /> {t('prayerDetail.iAmPraying')}
             </button>
           ))}
       </div>

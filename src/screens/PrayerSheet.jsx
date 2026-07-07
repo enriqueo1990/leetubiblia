@@ -5,24 +5,12 @@ import Switch from '../components/Switch.jsx'
 import Avatars from '../components/Avatars.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import { useAuth } from '../lib/auth.jsx'
+import { usePreferences } from '../lib/preferences.jsx'
+import { fmtDate } from '../i18n/dates.js'
 import { createPrayer, updatePrayer, deletePrayer, getIntercessors } from '../lib/db.js'
 
 // Crear / editar pedido de oración (documento maestro §5.5, README pantalla 5).
 // Solo el autor edita/borra (garantizado además por RLS).
-const VIS = [
-  { key: 'private', label: 'Privado' },
-  { key: 'shared', label: 'Compartir con grupo' },
-]
-const STATUS = [
-  { key: 'active', label: 'Activo' },
-  { key: 'answered', label: 'Respondido' },
-]
-const DURATION = [
-  { key: 'day', label: 'Día' },
-  { key: 'week', label: 'Semana' },
-  { key: 'month', label: 'Mes' },
-  { key: 'forever', label: 'Siempre' },
-]
 
 const inputStyle = {
   backgroundColor: 'var(--surface)',
@@ -31,17 +19,33 @@ const inputStyle = {
 }
 
 function FieldLabel({ children, optional }) {
+  const { t } = usePreferences()
   return (
     <p className="mb-1.5 mt-4 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
       {children}
-      {optional && <span className="font-normal lowercase"> (opcional)</span>}
+      {optional && <span className="font-normal lowercase"> ({t('common.optional')})</span>}
     </p>
   )
 }
 
 export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClose, onSaved }) {
   const { user } = useAuth()
+  const { t, locale } = usePreferences()
   const editing = mode === 'edit'
+  const VIS = [
+    { key: 'private', label: t('prayerSheet.vis.private') },
+    { key: 'shared', label: t('prayerSheet.vis.shared') },
+  ]
+  const STATUS = [
+    { key: 'active', label: t('prayerSheet.status.active') },
+    { key: 'answered', label: t('prayerSheet.status.answered') },
+  ]
+  const DURATION = [
+    { key: 'day', label: t('prayerSheet.duration.day') },
+    { key: 'week', label: t('prayerSheet.duration.week') },
+    { key: 'month', label: t('prayerSheet.duration.month') },
+    { key: 'forever', label: t('prayerSheet.duration.forever') },
+  ]
 
   const [title, setTitle] = useState(prayer?.title ?? '')
   const [description, setDescription] = useState(prayer?.description ?? '')
@@ -93,7 +97,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
   const canSave =
     title.trim().length > 0 && (!needsGroup || groupId) && !busy
   const groupName =
-    prayer?.group?.name || groups?.find((g) => g.id === groupId)?.name || 'tu grupo'
+    prayer?.group?.name || groups?.find((g) => g.id === groupId)?.name || t('prayerSheet.yourGroupFallback')
 
   // Editar un pedido para exponerlo a un grupo (de privado a compartido, o
   // cambiándolo a otro grupo) muestra a gente nueva algo que antes era privado:
@@ -152,7 +156,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
       }
       onSaved()
     } catch (e) {
-      setError('No se pudo guardar. Revisá los datos e intentá de nuevo.')
+      setError(t('prayerSheet.saveError'))
       setBusy(false)
     }
   }
@@ -164,19 +168,19 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
       onSaved()
     } catch {
       setConfirmDelete(false)
-      setError('No se pudo eliminar.')
+      setError(t('prayerSheet.deleteError'))
       setBusy(false)
     }
   }
 
   const answeredDate =
     editing && status === 'answered' && prayer?.answered_at
-      ? new Date(prayer.answered_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'long' })
+      ? fmtDate(prayer.answered_at, locale, { day: 'numeric', month: 'long' })
       : null
 
   return (
     <Sheet
-      title={editing ? 'Editar pedido' : 'Nuevo pedido'}
+      title={editing ? t('prayerSheet.editTitle') : t('prayerSheet.newTitle')}
       onCancel={onClose}
       dirty={dirty}
       footer={
@@ -187,7 +191,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
           style={{ opacity: canSave ? 1 : 0.5 }}
           onClick={requestSave}
         >
-          {busy ? 'Guardando…' : 'Guardar pedido'}
+          {busy ? t('prayerSheet.saving') : t('prayerSheet.save')}
         </button>
       }
     >
@@ -196,41 +200,39 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
           <Avatars people={intercessors} size={26} surface="var(--bg-app)" />
           <span className="text-[13px] text-ink-soft">
             {intercessors.length > 0
-              ? `${intercessors.length} ${
-                  intercessors.length === 1 ? 'persona está orando' : 'personas están orando'
-                } por esto`
-              : 'Nadie se sumó a orar todavía'}
+              ? t('prayerSheet.prayingForThis', { count: intercessors.length })
+              : t('prayerSheet.noneYet')}
           </span>
         </div>
       )}
 
       <FieldLabel>
-        Título <span style={{ color: 'var(--accent-ink)' }}>•</span>
+        {t('prayerSheet.fieldTitle')} <span style={{ color: 'var(--accent-ink)' }}>•</span>
       </FieldLabel>
       <input
         ref={titleRef}
         type="text"
-        placeholder="Por qué estás orando"
+        placeholder={t('prayerSheet.titlePlaceholder')}
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         className="w-full rounded-input px-4 py-3 text-[16px] outline-none"
         style={inputStyle}
       />
 
-      <FieldLabel optional>Descripción</FieldLabel>
+      <FieldLabel optional>{t('prayerSheet.fieldDescription')}</FieldLabel>
       <textarea
         rows={3}
-        placeholder="Detalles, si querés…"
+        placeholder={t('prayerSheet.descPlaceholder')}
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         className="w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
         style={inputStyle}
       />
 
-      <FieldLabel>Duración</FieldLabel>
+      <FieldLabel>{t('prayerSheet.fieldDuration')}</FieldLabel>
       <Segmented options={DURATION} value={duration} onChange={setDuration} />
 
-      <FieldLabel>Visibilidad</FieldLabel>
+      <FieldLabel>{t('prayerSheet.fieldVisibility')}</FieldLabel>
       <Segmented options={VIS} value={visibility} onChange={setVisibility} />
 
       {needsGroup && (
@@ -251,7 +253,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
             ))
           ) : (
             <p className="px-4 py-3 text-[15px] text-ink-soft">
-              No estás en ningún grupo todavía. Unite a uno desde Grupos para compartir.
+              {t('prayerSheet.noGroups')}
             </p>
           )}
         </div>
@@ -259,33 +261,33 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
 
       {editing && (
         <>
-          <FieldLabel>Estado</FieldLabel>
+          <FieldLabel>{t('prayerSheet.fieldStatus')}</FieldLabel>
           <Segmented options={STATUS} value={status} onChange={setStatus} />
           {answeredDate && (
             <p className="mt-2 text-[13px]" style={{ color: 'var(--accent-ink)' }}>
-              ✓ Respondido el {answeredDate}
+              ✓ {t('prayerSheet.answeredOn', { date: answeredDate })}
             </p>
           )}
 
           {needsGroup && status === 'answered' && (
             <div className="card mt-4 p-4">
               <div className="flex w-full items-center justify-between gap-3">
-                <span className="text-[16px] text-ink">Compartir con {groupName}</span>
+                <span className="text-[16px] text-ink">{t('prayerSheet.shareWith', { group: groupName })}</span>
                 <Switch
                   on={testimonyShared}
                   onChange={setTestimonyShared}
-                  label={`Compartir testimonio con ${groupName}`}
+                  label={t('prayerSheet.shareTestimonyLabel', { group: groupName })}
                 />
               </div>
               <div className="mt-3 border-t border-hairline pt-3">
                 <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-                  Unas palabras <span className="font-normal lowercase">(opcional)</span>
+                  {t('prayerSheet.fewWords')} <span className="font-normal lowercase">({t('common.optional')})</span>
                 </p>
                 <textarea
                   rows={3}
                   value={testimony}
                   onChange={(e) => setTestimony(e.target.value)}
-                  placeholder="Contá cómo Dios respondió…"
+                  placeholder={t('prayerSheet.testimonyPlaceholder')}
                   className="mt-2 w-full resize-none rounded-input px-3 py-2.5 text-[15px] outline-none"
                   style={inputStyle}
                 />
@@ -299,7 +301,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
             className="mt-7 w-full py-3 text-center text-[16px]"
             style={{ color: 'var(--danger)' }}
           >
-            Eliminar pedido
+            {t('prayerSheet.deletePrayer')}
           </button>
         </>
       )}
@@ -308,13 +310,13 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
 
       {confirmShare && (
         <ConfirmDialog
-          title={`¿Compartir con ${groupName}?`}
+          title={t('prayerSheet.confirmShareTitle', { group: groupName })}
           message={
             prayer?.visibility !== 'shared'
-              ? `Este pedido era privado. Al compartirlo, todos los miembros de ${groupName} van a poder verlo.`
-              : `Todos los miembros de ${groupName} van a poder ver este pedido.`
+              ? t('prayerSheet.confirmShareMsgPrivate', { group: groupName })
+              : t('prayerSheet.confirmShareMsg', { group: groupName })
           }
-          confirmLabel="Compartir"
+          confirmLabel={t('prayerSheet.share')}
           busy={busy}
           onConfirm={handleSave}
           onCancel={() => setConfirmShare(false)}
@@ -323,9 +325,9 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
 
       {confirmDelete && (
         <ConfirmDialog
-          title="¿Eliminar este pedido?"
-          message="No se puede deshacer."
-          confirmLabel="Eliminar"
+          title={t('prayerSheet.confirmDeleteTitle')}
+          message={t('prayerSheet.confirmDeleteMsg')}
+          confirmLabel={t('ajustes.eliminar')}
           danger
           busy={busy}
           onConfirm={handleDelete}

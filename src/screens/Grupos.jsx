@@ -6,6 +6,7 @@ import RetryError from '../components/RetryError.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import { initials } from '../components/Avatars.jsx'
 import { useAuth } from '../lib/auth.jsx'
+import { usePreferences } from '../lib/preferences.jsx'
 import { getMyGroups, createGroup, joinGroupByCode } from '../lib/db.js'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 
@@ -17,6 +18,7 @@ const inputStyle = {
 }
 
 function CreateGroupSheet({ onClose, onCreated }) {
+  const { t } = usePreferences()
   const [name, setName] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
@@ -35,14 +37,14 @@ function CreateGroupSheet({ onClose, onCreated }) {
       const g = await createGroup(name.trim())
       onCreated(g)
     } catch {
-      setError('No se pudo crear el grupo.')
+      setError(t('grupos.createError'))
       setBusy(false)
     }
   }
 
   return (
     <Sheet
-      title="Crear grupo"
+      title={t('grupos.createTitle')}
       onCancel={onClose}
       footer={
         <button
@@ -52,21 +54,21 @@ function CreateGroupSheet({ onClose, onCreated }) {
           style={{ opacity: name.trim().length < 2 || busy ? 0.5 : 1 }}
           onClick={submit}
         >
-          {busy ? 'Creando…' : 'Crear grupo'}
+          {busy ? t('grupos.creating') : t('grupos.createTitle')}
         </button>
       }
     >
       <input
         ref={nameRef}
         type="text"
-        placeholder="Nombre del grupo"
+        placeholder={t('grupos.namePlaceholder')}
         value={name}
         onChange={(e) => setName(e.target.value)}
         className="w-full rounded-input px-4 py-3 text-[16px] outline-none"
         style={inputStyle}
       />
       <p className="mt-3 text-[13px] text-ink-soft">
-        Vas a ser el administrador. Te damos un código para invitar a quien quieras.
+        {t('grupos.createHelp')}
       </p>
       {error && <p className="mt-3 text-[13px]" style={{ color: 'var(--danger)' }}>{error}</p>}
     </Sheet>
@@ -74,6 +76,7 @@ function CreateGroupSheet({ onClose, onCreated }) {
 }
 
 function JoinGroupSheet({ onClose, onJoined }) {
+  const { t } = usePreferences()
   const [code, setCode] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
@@ -92,20 +95,20 @@ function JoinGroupSheet({ onClose, onJoined }) {
     try {
       const g = await joinGroupByCode(c)
       if (!g) {
-        setError('No encontramos un grupo con ese código.')
+        setError(t('grupos.notFound'))
         setBusy(false)
         return
       }
       onJoined(g)
     } catch {
-      setError('No se pudo unir al grupo.')
+      setError(t('grupos.joinError'))
       setBusy(false)
     }
   }
 
   return (
     <Sheet
-      title="Unirme por código"
+      title={t('grupos.joinTitle')}
       onCancel={onClose}
       footer={
         <button
@@ -115,7 +118,7 @@ function JoinGroupSheet({ onClose, onJoined }) {
           style={{ opacity: code.trim().length < 4 || busy ? 0.5 : 1 }}
           onClick={submit}
         >
-          {busy ? 'Uniéndote…' : 'Unirme al grupo'}
+          {busy ? t('grupos.joining') : t('grupos.joinButton')}
         </button>
       }
     >
@@ -125,14 +128,14 @@ function JoinGroupSheet({ onClose, onJoined }) {
         autoCapitalize="characters"
         autoCorrect="off"
         spellCheck={false}
-        placeholder="CÓDIGO"
+        placeholder={t('grupos.codePlaceholder')}
         value={code}
         onChange={(e) => setCode(e.target.value.toUpperCase())}
         className="w-full rounded-input px-4 py-3 text-center text-[24px] font-bold outline-none"
         style={{ ...inputStyle, letterSpacing: '3px' }}
       />
       <p className="mt-3 text-center text-[13px] text-ink-soft">
-        Pedile el código a quien administra el grupo.
+        {t('grupos.joinHelp')}
       </p>
       {error && <p className="mt-3 text-center text-[13px]" style={{ color: 'var(--danger)' }}>{error}</p>}
     </Sheet>
@@ -141,6 +144,7 @@ function JoinGroupSheet({ onClose, onJoined }) {
 
 export default function Grupos() {
   const { user } = useAuth()
+  const { t } = usePreferences()
   const navigate = useNavigate()
   const [groups, setGroups] = useState(null)
   const [error, setError] = useState(false)
@@ -164,20 +168,20 @@ export default function Grupos() {
     <div className="pt-2">
       {/* Acción primaria en el header, como en Oración: el contenido empieza bajo el título. */}
       <div className="flex items-center justify-between">
-        <h1 className="text-[26px] font-bold tracking-tight text-ink">Grupos</h1>
+        <h1 className="text-[26px] font-bold tracking-tight text-ink">{t('nav.grupos')}</h1>
         <button
           type="button"
-          aria-label="Agregar grupo"
+          aria-label={t('grupos.addGroup')}
           onClick={() => setSheet('menu')}
           className="flex h-[44px] items-center justify-center gap-1 rounded-full px-3 text-on-accent lg:px-4"
           style={{ backgroundColor: 'var(--accent)', minWidth: 44 }}
         >
           <PlusIcon size={20} />
-          <span className="hidden text-[15px] font-semibold lg:inline">Agregar grupo</span>
+          <span className="hidden text-[15px] font-semibold lg:inline">{t('grupos.addGroup')}</span>
         </button>
       </div>
 
-      {error && <RetryError message="No se pudieron cargar tus grupos." onRetry={load} />}
+      {error && <RetryError message={t('grupos.loadError')} onRetry={load} />}
       {groups === null && !error && (
         <div className="mt-5"><SkeletonCards count={3} /></div>
       )}
@@ -185,17 +189,17 @@ export default function Grupos() {
       {groups?.length === 0 && !error && (
         <EmptyState
           icon={<PeopleIcon size={32} />}
-          text="Todavía no estás en ningún grupo. Creá uno o unite con un código."
+          text={t('grupos.empty')}
         >
           <button
             type="button"
             onClick={() => setSheet('create')}
             className="btn btn-primary flex items-center justify-center gap-1.5"
           >
-            <PlusIcon size={18} /> Crear grupo
+            <PlusIcon size={18} /> {t('grupos.createTitle')}
           </button>
           <button type="button" onClick={() => setSheet('join')} className="btn btn-secondary">
-            Unirme por código
+            {t('grupos.joinTitle')}
           </button>
         </EmptyState>
       )}
@@ -214,8 +218,8 @@ export default function Grupos() {
               <div className="min-w-0 flex-1">
                 <p className="truncate text-[16px] font-semibold text-ink">{g.name}</p>
                 <p className="text-[13px] text-ink-soft">
-                  {g.member_count} {g.member_count === 1 ? 'miembro' : 'miembros'}
-                  {g.role === 'owner' && ' · Administrador'}
+                  {t('grupos.members', { count: g.member_count })}
+                  {g.role === 'owner' && ` · ${t('grupos.admin')}`}
                 </p>
               </div>
               <span className="text-ink-soft" style={{ opacity: 0.5 }}>
@@ -228,17 +232,17 @@ export default function Grupos() {
 
       {/* Chooser: el + del header ofrece las dos entradas, igual que el empty state. */}
       {sheet === 'menu' && (
-        <Sheet title="Agregar grupo" onCancel={() => setSheet(null)}>
+        <Sheet title={t('grupos.addGroup')} onCancel={() => setSheet(null)}>
           <div className="space-y-3 pb-2">
             <button
               type="button"
               onClick={() => setSheet('create')}
               className="btn btn-primary flex items-center justify-center gap-1.5"
             >
-              <PlusIcon size={18} /> Crear grupo
+              <PlusIcon size={18} /> {t('grupos.createTitle')}
             </button>
             <button type="button" onClick={() => setSheet('join')} className="btn btn-secondary">
-              Unirme por código
+              {t('grupos.joinTitle')}
             </button>
           </div>
         </Sheet>

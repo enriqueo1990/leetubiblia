@@ -16,6 +16,9 @@ import {
   clearPlanProgress,
 } from '../lib/db.js'
 import { firstYouVersionUrl, youVersionUrl } from '../lib/bible.js'
+import { usePreferences } from '../lib/preferences.jsx'
+import { bookLabel } from '../i18n/books.js'
+import { fmtISODate } from '../i18n/dates.js'
 import { shareCompletion } from '../lib/shareImage.js'
 import { SkeletonHoy } from '../components/Skeleton.jsx'
 import { CheckIcon, ShareIcon, SlidersIcon } from '../components/icons.jsx'
@@ -34,6 +37,7 @@ export default function Hoy() {
   const r = useReading()
   const navigate = useNavigate()
   const { user, profile, updateProfile } = useAuth()
+  const { t, locale } = usePreferences()
   const reflectionsEnabled = !!profile?.reflections_enabled
 
   // Festejo de plan terminado (Feature 5).
@@ -127,16 +131,8 @@ export default function Hoy() {
   const maxStreak = longestStreak(r.readDates)
   const startedOn = profile?.plan_start_date ?? null
   const completedOn = [...r.readDates].sort().at(-1) ?? todayLocalISO()
-  const fmtShort = (iso) => {
-    if (!iso) return null
-    const [y, m, d] = iso.split('-').map(Number)
-    return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('es-ES', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-      timeZone: 'UTC',
-    })
-  }
+  const fmtShort = (iso) =>
+    fmtISODate(iso, locale, { day: 'numeric', month: 'short', year: 'numeric' })
   const dateRange = startedOn ? `${fmtShort(startedOn)} — ${fmtShort(completedOn)}` : fmtShort(completedOn)
 
   // Al ver el festejo, guardar el logro una vez (idempotente por día en la DB).
@@ -206,11 +202,11 @@ export default function Hoy() {
     return (
       <EmptyState
         icon="✦"
-        title="Elegí un plan para empezar"
-        text="Tu lectura diaria aparece acá."
+        title={t('hoy.empty.title')}
+        text={t('hoy.empty.text')}
       >
         <Link to="/planes" className="btn btn-primary inline-block px-8">
-          Ver planes
+          {t('hoy.empty.cta')}
         </Link>
       </EmptyState>
     )
@@ -223,7 +219,7 @@ export default function Hoy() {
   const doneShown = dayShown != null && r.completed.has(dayShown)
   // ¿El día mostrado va por delante de la fecha de hoy? (ancla adelantada o sesión)
   const aheadOfToday = dayShown != null && r.todayDay != null && dayShown > r.todayDay
-  const bibleUrl = firstYouVersionUrl(refsShown)
+  const bibleUrl = firstYouVersionUrl(refsShown, locale)
 
   // Próximo día sin leer hacia adelante: "seguir leyendo" salta lo ya marcado.
   let nextDay = null
@@ -247,7 +243,7 @@ export default function Hoy() {
               className="mb-[6px] block text-[15px] font-medium"
               style={{ color: 'var(--accent-ink)' }}
             >
-              ‹ Volver a hoy
+              ‹ {t('hoy.backToToday')}
             </button>
           )}
           {/* El plan es metadata, no contenido: miga de pan en tono suave; el
@@ -255,7 +251,7 @@ export default function Hoy() {
           {r.plan && (
             <Link
               to={`/planes/${r.plan.id}`}
-              state={{ from: { to: '/', label: 'Hoy' } }}
+              state={{ from: { to: '/', label: t('nav.hoy') } }}
               className="flex max-w-full items-center gap-1 py-1 text-[13px] font-medium text-ink-soft"
             >
               <span className="truncate">{r.plan.name}</span>
@@ -271,15 +267,13 @@ export default function Hoy() {
           className="-mr-1 -mt-2 flex h-11 shrink-0 items-center gap-1.5 px-1 text-[13px] font-medium text-ink-soft transition-colors hover:text-accent-ink"
         >
           <SlidersIcon size={16} />
-          Ajustes
+          {t('nav.ajustes')}
         </Link>
       </div>
 
       {r.offline && (
         <p className="mt-2 text-[12px] text-ink-soft">
-          {r.staleReadings
-            ? 'Sin conexión · esta lectura es de la última vez que entraste. Conectate para ver la de hoy.'
-            : 'Sin conexión · tu marca se guarda y se sincroniza al volver.'}
+          {r.staleReadings ? t('hoy.offline.stale') : t('hoy.offline.fresh')}
         </p>
       )}
 
@@ -289,7 +283,7 @@ export default function Hoy() {
         <>
           <div className="mt-4 flex items-center">
             <p className="text-[14px] text-ink-soft">
-              Te atrasaste {r.behind} {r.behind === 1 ? 'día' : 'días'}
+              {t('hoy.behind', { count: r.behind })}
             </p>
             <button
               type="button"
@@ -298,12 +292,12 @@ export default function Hoy() {
               className="ml-3 py-2 text-[14px] font-semibold"
               style={{ color: 'var(--accent-ink)', opacity: r.reprogramando ? 0.5 : 1 }}
             >
-              {r.reprogramando ? 'Reprogramando…' : 'Reprogramar'}
+              {r.reprogramando ? t('hoy.reprogramando') : t('hoy.reprogramar')}
             </button>
             <button
               type="button"
               onClick={r.dismissBehind}
-              aria-label="Descartar aviso"
+              aria-label={t('hoy.dismissBehind')}
               className="ml-auto flex h-9 w-9 items-center justify-center text-[15px] leading-none text-ink-soft"
               style={{ opacity: 0.5 }}
             >
@@ -312,7 +306,7 @@ export default function Hoy() {
           </div>
           {r.reprogramarError && (
             <p className="mt-1 text-[12px]" style={{ color: 'var(--danger)' }}>
-              No se pudo reprogramar. Revisá tu conexión e intentá de nuevo.
+              {t('hoy.reprogramarError')}
             </p>
           )}
         </>
@@ -336,9 +330,9 @@ export default function Hoy() {
                 className="mt-4 text-[12px] font-semibold uppercase tracking-wide"
                 style={{ color: 'var(--accent-ink)' }}
               >
-                Plan completado
+                {t('hoy.planCompleted')}
               </p>
-              <p className="mt-1.5 text-[15px] text-ink-soft">Terminaste de leer</p>
+              <p className="mt-1.5 text-[15px] text-ink-soft">{t('hoy.finishedReading')}</p>
               <h2 className="mt-1 text-[26px] font-bold leading-tight text-ink">{r.plan.name}</h2>
             </div>
             {/* Stats ajustados al plan real */}
@@ -346,13 +340,13 @@ export default function Hoy() {
               <div className="py-5 text-center">
                 <p className="text-[30px] font-bold text-ink">{r.completedCount}</p>
                 <p className="text-[13px] text-ink-soft">
-                  {r.completedCount === 1 ? 'día leído' : 'días leídos'}
+                  {t('hoy.daysRead', { count: r.completedCount })}
                 </p>
               </div>
               <div className="py-5 text-center">
                 <p className="text-[30px] font-bold text-ink">{maxStreak}</p>
                 <p className="text-[13px] text-ink-soft">
-                  {maxStreak === 1 ? 'día de racha máx.' : 'días de racha máx.'}
+                  {t('hoy.maxStreak', { count: maxStreak })}
                 </p>
               </div>
             </div>
@@ -372,10 +366,10 @@ export default function Hoy() {
               className="btn btn-primary flex items-center justify-center gap-2"
               style={{ opacity: sharing ? 0.6 : 1 }}
             >
-              <ShareIcon size={18} /> {sharing ? 'Generando imagen…' : 'Compartir mi logro'}
+              <ShareIcon size={18} /> {sharing ? t('hoy.generatingImage') : t('hoy.shareAchievement')}
             </button>
             <button type="button" onClick={() => setConfirmRenew(true)} className="btn btn-secondary">
-              Volver a leer este plan
+              {t('hoy.readPlanAgain')}
             </button>
             <button
               type="button"
@@ -383,17 +377,17 @@ export default function Hoy() {
               className="w-full py-2 text-center text-[15px] font-medium"
               style={{ color: 'var(--accent-ink)' }}
             >
-              Elegir otro plan
+              {t('hoy.chooseAnotherPlan')}
             </button>
           </div>
           {shareNote === 'downloaded' && (
             <p className="mt-3 text-center text-[13px] text-ink-soft">
-              Imagen descargada. ¡Compartila donde quieras!
+              {t('hoy.imageDownloaded')}
             </p>
           )}
           {shareNote === 'error' && (
             <p className="mt-3 text-center text-[13px]" style={{ color: 'var(--danger)' }}>
-              No se pudo generar la imagen. Probá de nuevo.
+              {t('hoy.imageError')}
             </p>
           )}
         </div>
@@ -401,8 +395,10 @@ export default function Hoy() {
         <>
           <p className="mt-[42px] text-[13px] font-medium text-ink-soft">
             {aheadOfToday
-              ? `Lectura del día ${dayShown}`
-              : `Lectura de hoy${dayShown != null ? ` · Día ${dayShown}` : ''}`}
+              ? t('hoy.readingDay', { day: dayShown })
+              : dayShown != null
+                ? t('hoy.readingTodayWithDay', { day: dayShown })
+                : t('hoy.readingToday')}
           </p>
           <div className="mt-[18px] space-y-1">
             {viewingAhead && aheadLoading ? (
@@ -414,7 +410,7 @@ export default function Hoy() {
               // Cada referencia abre su propio pasaje (no solo la primera): el
               // texto que ya es la pantalla se vuelve funcional, sin cromo nuevo.
               refsShown?.map((ref, i) => {
-                const url = youVersionUrl(ref)
+                const url = youVersionUrl(ref, locale)
                 return url ? (
                   <a
                     key={i}
@@ -423,11 +419,11 @@ export default function Hoy() {
                     rel="noopener noreferrer"
                     className="block w-fit text-display text-ink transition-opacity active:opacity-50"
                   >
-                    {ref.label}
+                    {bookLabel(ref, locale)}
                   </a>
                 ) : (
                   <p key={i} className="text-display text-ink">
-                    {ref.label}
+                    {bookLabel(ref, locale)}
                   </p>
                 )
               })
@@ -450,7 +446,7 @@ export default function Hoy() {
               onClick={() => dayShown != null && r.toggleDay(dayShown)}
               className={`btn lg:flex-1 ${doneShown ? 'btn-done' : 'btn-primary'}`}
             >
-              {doneShown ? (aheadOfToday ? '✓ Leído' : '✓ Leído hoy') : 'Marcar como leído'}
+              {doneShown ? (aheadOfToday ? `✓ ${t('hoy.read')}` : `✓ ${t('hoy.readToday')}`) : t('hoy.markRead')}
             </button>
             {reflectionsEnabled && doneShown ? (
               // Ya leyó: abrir la Biblia ya no hace falta → ese botón invita a anotar.
@@ -463,9 +459,9 @@ export default function Hoy() {
               >
                 {note
                   ? noteEditable
-                    ? 'Editar tu nota'
-                    : 'Ver tu nota'
-                  : 'Anotá lo que te habló Dios hoy'}
+                    ? t('hoy.editNote')
+                    : t('hoy.viewNote')
+                  : t('hoy.writeNote')}
               </button>
             ) : (
               <a
@@ -477,7 +473,7 @@ export default function Hoy() {
                 className="btn btn-secondary block lg:flex-1"
                 style={{ pointerEvents: bibleUrl ? 'auto' : 'none', opacity: bibleUrl ? 1 : 0.5 }}
               >
-                Abrir en mi app de Biblia ↗
+                {t('hoy.openBible')} ↗
               </a>
             )}
           </div>
@@ -490,8 +486,8 @@ export default function Hoy() {
               to="/progreso"
               className="block py-1 text-center text-[13px] font-medium text-ink-soft lg:max-w-[440px]"
             >
-              <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✦</span> {r.streak} días
-              seguidos
+              <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✦</span>{' '}
+              {t('hoy.streakDays', { count: r.streak })}
             </Link>
           )}
 
@@ -504,7 +500,7 @@ export default function Hoy() {
               className="block w-full py-1 text-center text-[15px] font-semibold lg:max-w-[440px]"
               style={{ color: 'var(--accent-ink)' }}
             >
-              Leer el día siguiente →
+              {t('hoy.readNextDay')} →
             </button>
           )}
         </div>
@@ -512,7 +508,7 @@ export default function Hoy() {
 
       {reflectOpen && shownDay != null && (
         <ReflectionSheet
-          planName={r.plan?.name ?? 'Plan'}
+          planName={r.plan?.name ?? t('common.plan')}
           dayNumber={shownDay}
           initialBody={note?.body ?? ''}
           editable={noteEditable}
@@ -540,9 +536,9 @@ export default function Hoy() {
 
       {confirmRenew && (
         <ConfirmDialog
-          title={`¿Volver a leer ${r.plan?.name ?? 'este plan'}?`}
-          message="Empezás de nuevo desde el día 1, con fecha de hoy. Tu logro queda guardado."
-          confirmLabel="Empezar de nuevo"
+          title={t('hoy.renewTitle', { name: r.plan?.name ?? t('common.plan') })}
+          message={t('hoy.renewMessage')}
+          confirmLabel={t('hoy.renewConfirm')}
           busy={renewing}
           onConfirm={handleRenew}
           onCancel={() => setConfirmRenew(false)}

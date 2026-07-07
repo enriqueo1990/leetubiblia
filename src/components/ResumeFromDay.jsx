@@ -3,6 +3,8 @@
 // Componente controlado: `day` es el número de día (>=1) o null si está apagado.
 // Al guardar, el padre calcula plan_start_date = hoy − (día − 1) y da por leídos
 // los días anteriores (ver startDateForDay / markDaysRead en lib/db.js).
+import { usePreferences } from '../lib/preferences.jsx'
+
 const inputStyle = {
   backgroundColor: 'var(--surface)',
   border: '1px solid var(--hairline)',
@@ -10,6 +12,7 @@ const inputStyle = {
 }
 
 export default function ResumeFromDay({ durationDays, day, onChange }) {
+  const { t } = usePreferences()
   const on = day != null
 
   function toggle() {
@@ -35,7 +38,7 @@ export default function ResumeFromDay({ durationDays, day, onChange }) {
         className="flex w-full items-center justify-between text-left"
       >
         <span className="text-[15px] font-medium text-ink">
-          Ya venía leyendo este plan
+          {t('resume.alreadyReading')}
         </span>
         <span
           className="relative h-[26px] w-[44px] shrink-0 rounded-full transition-colors duration-200"
@@ -50,21 +53,21 @@ export default function ResumeFromDay({ durationDays, day, onChange }) {
 
       {on && (
         <div className="mt-4">
-          <label className="text-[15px] text-ink-soft">¿En qué día vas?</label>
+          <label className="text-[15px] text-ink-soft">{t('ajustes.section.queDia')}</label>
           <input
             type="text"
             inputMode="numeric"
             autoFocus
             value={day ?? ''}
             onChange={onInput}
-            placeholder="Ej: 140"
+            placeholder={t('resume.placeholder')}
             className="mt-2 w-full rounded-input px-4 py-3 text-[16px] outline-none"
             style={inputStyle}
           />
           <p className="mt-2 text-[13px] text-ink-soft">
-            Empezarás en el día {day || '—'}
-            {durationDays ? ` de ${durationDays}` : ''}. Los días anteriores quedan
-            como leídos.
+            {durationDays
+              ? t('resume.startInfo', { day: day || '—', total: durationDays })
+              : t('resume.startInfoNoTotal', { day: day || '—' })}
           </p>
         </div>
       )}
