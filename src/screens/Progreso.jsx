@@ -52,10 +52,8 @@ export default function Progreso() {
 
   return (
     <div className="pt-2">
-      <Link to="/" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
-        ‹ Hoy
-      </Link>
-      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">Progreso</h1>
+      {/* Pantalla top-level (4º ítem de la nav primaria desde 2026-07): sin miga. */}
+      <h1 className="text-[26px] font-bold tracking-tight text-ink">Progreso</h1>
 
       {reflectionsEnabled && (
         <Segmented className="mt-4" options={PROG_VIEWS} value={seg} onChange={setSeg} />
@@ -69,7 +67,12 @@ export default function Progreso() {
       ) : !r.hasPlan ? (
         <p className="mt-8 text-[15px] text-ink-soft">
           Elegí un plan en{' '}
-          <Link to="/planes" className="font-medium" style={{ color: 'var(--accent-ink)' }}>
+          <Link
+            to="/planes"
+            state={{ from: { to: '/progreso', label: 'Progreso' } }}
+            className="font-medium"
+            style={{ color: 'var(--accent-ink)' }}
+          >
             Planes
           </Link>{' '}
           para ver tu progreso.

@@ -12,6 +12,7 @@ import {
 } from '../lib/db.js'
 import Segmented from '../components/Segmented.jsx'
 import Switch from '../components/Switch.jsx'
+import BackLink from '../components/BackLink.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import { ChevronRight, HeartIcon, ShareIcon } from '../components/icons.jsx'
 import { subscribeToPush, unsubscribeFromPush, getTimezone } from '../lib/push.js'
@@ -230,11 +231,18 @@ export default function Ajustes() {
 
   return (
     <div className="pt-2">
-      <h1 className="text-[26px] font-bold tracking-tight text-ink">Ajustes</h1>
+      {/* Ajustes cuelga de Hoy (engranaje en su header) desde que Progreso tomó
+          el 4º slot de la nav primaria. */}
+      <BackLink to="/" label="Hoy" />
+      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">Ajustes</h1>
 
       <SectionLabel>Lectura</SectionLabel>
       <div className="card divide-y divide-hairline">
-        <Link to="/planes" className="flex items-center justify-between px-4 py-3">
+        <Link
+          to="/planes"
+          state={{ from: { to: '/ajustes', label: 'Ajustes' } }}
+          className="flex items-center justify-between px-4 py-3"
+        >
           <span className="text-[16px] text-ink">Plan de lectura</span>
           <span className="flex items-center gap-1.5">
             <span className="text-[15px] text-ink-soft">{plan?.name || 'Elegir'}</span>
@@ -243,7 +251,11 @@ export default function Ajustes() {
             </span>
           </span>
         </Link>
-        <Link to="/materiales" className="flex items-center justify-between px-4 py-3">
+        <Link
+          to="/materiales"
+          state={{ from: { to: '/ajustes', label: 'Ajustes' } }}
+          className="flex items-center justify-between px-4 py-3"
+        >
           <span className="text-[16px] text-ink">Materiales de lectura</span>
           <span className="flex items-center gap-1.5">
             <span className="text-[15px] text-ink-soft">
@@ -438,6 +450,21 @@ export default function Ajustes() {
       </div>
       <p className="mt-2 px-1 text-[12px] text-ink-soft">
         Invitá a amigos y familia a leer la Biblia juntos.
+      </p>
+
+      <SectionLabel>Ayuda</SectionLabel>
+      <div className="card">
+        {/* /guia es pública (vive fuera del Gate) pero antes no tenía ninguna
+            puerta desde adentro de la app. */}
+        <Link to="/guia" className="flex items-center justify-between px-4 py-3">
+          <span className="text-[16px] text-ink">Guía de la app</span>
+          <span className="text-ink-soft" style={{ opacity: 0.5 }}>
+            <ChevronRight size={18} />
+          </span>
+        </Link>
+      </div>
+      <p className="mt-2 px-1 text-[12px] text-ink-soft">
+        Todo lo que hace Lee Tu Biblia, explicado con ejemplos.
       </p>
 
       <SectionLabel>Apoyá la misión</SectionLabel>

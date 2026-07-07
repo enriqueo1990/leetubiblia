@@ -13,6 +13,7 @@ import {
   HeartIcon,
 } from '../components/icons.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
+import BackLink from '../components/BackLink.jsx'
 import Avatars, { initials } from '../components/Avatars.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import {
@@ -111,9 +112,7 @@ export default function GroupDetail() {
   if (error) {
     return (
       <div className="pt-2">
-        <Link to="/grupos" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
-          ‹ Grupos
-        </Link>
+        <BackLink to="/grupos" label="Grupos" />
         <RetryError message={error} onRetry={load} />
       </div>
     )
@@ -239,9 +238,7 @@ export default function GroupDetail() {
 
   return (
     <div className="pt-2">
-      <Link to="/grupos" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
-        ‹ Grupos
-      </Link>
+      <BackLink to="/grupos" label="Grupos" />
 
       {/* Nombre (+ editar, owner) */}
       {editingName ? (

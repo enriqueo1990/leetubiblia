@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
+import BackLink from '../components/BackLink.jsx'
 import { getPlans } from '../lib/db.js'
 import { ChevronRight } from '../components/icons.jsx'
 import RetryError from '../components/RetryError.jsx'
@@ -36,9 +37,7 @@ export default function Planes() {
 
   return (
     <div className="pt-2">
-      <Link to="/" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
-        ‹ Hoy
-      </Link>
+      <BackLink to="/" label="Hoy" />
       <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">Planes</h1>
       <p className="mt-2 text-[16px] text-ink-soft">Un plan activo a la vez.</p>
 

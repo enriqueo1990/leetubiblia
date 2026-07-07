@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
+import BackLink from '../components/BackLink.jsx'
 import { getCompletedPlans, getYearStats } from '../lib/db.js'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 import RetryError from '../components/RetryError.jsx'
@@ -57,9 +57,7 @@ export default function Recorrido() {
   }, [load])
 
   const back = (
-    <Link to="/progreso" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
-      ‹ Progreso
-    </Link>
+    <BackLink to="/progreso" label="Progreso" />
   )
 
   if (error) {

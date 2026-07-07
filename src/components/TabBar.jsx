@@ -1,8 +1,12 @@
 import { useRef, useState } from 'react'
-import { NavLink } from 'react-router-dom'
-import { NAV_ITEMS } from './nav.js'
+import { NavLink, useLocation } from 'react-router-dom'
+import { NAV_ITEMS, matchesExtra } from './nav.js'
 
-function TabItem({ to, label, Icon, end }) {
+function TabItem({ to, label, Icon, end, match }) {
+  const { pathname } = useLocation()
+  // Encendido también en el subárbol del ítem (p. ej. Progreso en /recorrido):
+  // el usuario nunca desaparece del mapa primario.
+  const extra = matchesExtra({ match }, pathname)
   const [tapped, setTapped] = useState(false)
   const timerRef = useRef(null)
 
@@ -25,7 +29,7 @@ function TabItem({ to, label, Icon, end }) {
         onTouchStart={triggerAnim}
         onClick={triggerAnim}
         style={({ isActive }) => ({
-          color: isActive ? 'var(--accent-ink)' : 'var(--text-soft)',
+          color: isActive || extra ? 'var(--accent-ink)' : 'var(--text-soft)',
           minHeight: 56,
         })}
       >
@@ -34,7 +38,7 @@ function TabItem({ to, label, Icon, end }) {
             <Icon size={25} />
             <span
               className="text-[12px]"
-              style={{ fontWeight: isActive ? 600 : 500 }}
+              style={{ fontWeight: isActive || extra ? 600 : 500 }}
             >
               {label}
             </span>

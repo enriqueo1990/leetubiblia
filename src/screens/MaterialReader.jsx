@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate, Navigate } from 'react-router-dom'
+import { useParams, Navigate } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import {
   loadMaterialContent,
@@ -8,7 +8,8 @@ import {
   withMaterialPosition,
 } from '../lib/materials.js'
 import { youVersionUrl } from '../lib/bible.js'
-import { ChevronRight, ListIcon } from '../components/icons.jsx'
+import { ListIcon } from '../components/icons.jsx'
+import BackLink from '../components/BackLink.jsx'
 import MaterialIndexSheet from '../components/MaterialIndexSheet.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 
@@ -26,7 +27,6 @@ import ConfirmDialog from '../components/ConfirmDialog.jsx'
 // deshabilitados ocupando lugar.
 export default function MaterialReader() {
   const { slug } = useParams()
-  const navigate = useNavigate()
   const { profile, updateProfile } = useAuth()
 
   const [content, setContent] = useState(null) // null = cargando
@@ -129,19 +129,11 @@ export default function MaterialReader() {
   return (
     <div className="flex min-h-[calc(100vh-120px)] flex-col pt-2">
       {/* Header según el canon (como Hoy: navegación a la izquierda, acción a la
-          derecha). "‹ Hoy" = vuelta atrás — en PWA standalone de iOS no hay atrás
-          del navegador. "Índice" abre la hoja de bloques y preguntas. */}
+          derecha). La miga es BackLink: honesta con el origen (desde el catálogo
+          vuelve a Materiales; desde Hoy, a Hoy). "Índice" abre la hoja de bloques
+          y preguntas. */}
       <div className="flex items-center justify-between">
-        <button
-          type="button"
-          onClick={() => navigate('/')}
-          className="inline-flex items-center gap-1 py-1 text-[13px] font-medium text-ink-soft"
-        >
-          <span aria-hidden="true" className="rotate-180" style={{ opacity: 0.5 }}>
-            <ChevronRight size={16} />
-          </span>
-          Hoy
-        </button>
+        <BackLink to="/" label="Hoy" />
         <button
           type="button"
           onClick={() => setIndexOpen(true)}

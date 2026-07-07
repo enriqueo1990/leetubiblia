@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
+
 import { useAuth } from '../lib/auth.jsx'
+import BackLink from '../components/BackLink.jsx'
 import { getPlan, getPlanDays, startDateForDay, todayLocalISO, markDaysRead } from '../lib/db.js'
 import { useReading } from '../hooks/useReading.js'
 import ResumeFromDay from '../components/ResumeFromDay.jsx'
@@ -84,9 +86,7 @@ export default function PlanDetail() {
 
   return (
     <div className="pt-2">
-      <Link to="/planes" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
-        ‹ Planes
-      </Link>
+      <BackLink to="/planes" label="Planes" />
 
       <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">
         {plan?.name || 'Plan'}

@@ -10,6 +10,7 @@ import {
   withMaterialDeactivated,
 } from '../lib/materials.js'
 import Switch from '../components/Switch.jsx'
+import BackLink from '../components/BackLink.jsx'
 import { ChevronRight } from '../components/icons.jsx'
 
 // Materiales de lectura opcionales — catálogo con toggles (Ajustes › Materiales).
@@ -53,17 +54,9 @@ export default function Materiales() {
 
   return (
     <div className="pt-2">
-      <Link
-        to="/ajustes"
-        className="mb-1 inline-flex items-center gap-1 py-1 text-[13px] font-medium text-ink-soft"
-      >
-        <span aria-hidden="true" className="rotate-180">
-          <ChevronRight size={16} />
-        </span>
-        Ajustes
-      </Link>
+      <BackLink to="/ajustes" label="Ajustes" />
 
-      <h1 className="text-[26px] font-bold tracking-tight text-ink">Materiales de lectura</h1>
+      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">Materiales de lectura</h1>
       <p className="mt-2 px-1 text-[14px] text-ink-soft">
         Lecturas opcionales que acompañan tu Biblia. Al activar una, aparece en Hoy debajo de la
         lectura del día. Avanzás a tu ritmo.
@@ -91,7 +84,11 @@ export default function Materiales() {
             <div key={m.slug} className="card flex items-start justify-between gap-3 p-4">
               {on ? (
                 // Activo: el cuerpo navega al lector (drill-in), el toggle apaga.
-                <Link to={`/materiales/${m.slug}`} className="min-w-0 flex-1">
+                <Link
+                  to={`/materiales/${m.slug}`}
+                  state={{ from: { to: '/materiales', label: 'Materiales' } }}
+                  className="min-w-0 flex-1"
+                >
                   {body}
                 </Link>
               ) : (

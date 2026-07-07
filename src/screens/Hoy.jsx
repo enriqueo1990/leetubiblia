@@ -18,7 +18,7 @@ import {
 import { firstYouVersionUrl, youVersionUrl } from '../lib/bible.js'
 import { shareCompletion } from '../lib/shareImage.js'
 import { SkeletonHoy } from '../components/Skeleton.jsx'
-import { ChartIcon, CheckIcon, ShareIcon } from '../components/icons.jsx'
+import { CheckIcon, ShareIcon, SlidersIcon } from '../components/icons.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import ReflectionSheet from '../components/ReflectionSheet.jsx'
@@ -244,7 +244,7 @@ export default function Hoy() {
             <button
               type="button"
               onClick={backToToday}
-              className="mb-[6px] block text-[13px] font-medium"
+              className="mb-[6px] block text-[15px] font-medium"
               style={{ color: 'var(--accent-ink)' }}
             >
               ‹ Volver a hoy
@@ -255,6 +255,7 @@ export default function Hoy() {
           {r.plan && (
             <Link
               to={`/planes/${r.plan.id}`}
+              state={{ from: { to: '/', label: 'Hoy' } }}
               className="flex max-w-full items-center gap-1 py-1 text-[13px] font-medium text-ink-soft"
             >
               <span className="truncate">{r.plan.name}</span>
@@ -262,14 +263,15 @@ export default function Hoy() {
             </Link>
           )}
         </div>
-        {/* Única puerta a Progreso (y al diario): ícono + etiqueta, en el mismo
-            gris del breadcrumb. Fijo a la derecha; el nombre del plan trunca. */}
+        {/* Puerta a Ajustes (Progreso ya vive en la nav primaria): ícono +
+            etiqueta, en el mismo gris del breadcrumb. Fijo a la derecha; el
+            nombre del plan trunca. */}
         <Link
-          to="/progreso"
+          to="/ajustes"
           className="-mr-1 -mt-2 flex h-11 shrink-0 items-center gap-1.5 px-1 text-[13px] font-medium text-ink-soft transition-colors hover:text-accent-ink"
         >
-          <ChartIcon size={16} />
-          Progreso
+          <SlidersIcon size={16} />
+          Ajustes
         </Link>
       </div>
 

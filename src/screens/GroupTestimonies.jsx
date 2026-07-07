@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+
 import { CheckIcon } from '../components/icons.jsx'
+import BackLink from '../components/BackLink.jsx'
 import { getGroup, getGroupTestimonies } from '../lib/db.js'
 import RetryError from '../components/RetryError.jsx'
 import EmptyState from '../components/EmptyState.jsx'
@@ -35,13 +37,7 @@ export default function GroupTestimonies() {
 
   return (
     <div className="pt-2">
-      <Link
-        to={`/grupos/${id}`}
-        className="text-[15px] font-medium"
-        style={{ color: 'var(--accent-ink)' }}
-      >
-        ‹ {group?.name ?? 'Grupo'}
-      </Link>
+      <BackLink to={`/grupos/${id}`} label={group?.name ?? 'Grupo'} />
 
       <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">Testimonios</h1>
       <p className="mt-1 text-[15px] text-ink-soft">Oraciones que el grupo vio responder.</p>

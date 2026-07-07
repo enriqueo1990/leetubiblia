@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+
 import { HeartIcon, CheckIcon } from '../components/icons.jsx'
+import BackLink from '../components/BackLink.jsx'
 import Avatars from '../components/Avatars.jsx'
 import PrayerSheet from './PrayerSheet.jsx'
 import { useAuth } from '../lib/auth.jsx'
@@ -69,9 +71,7 @@ export default function PrayerDetail() {
   if (error) {
     return (
       <div className="pt-2">
-        <Link to="/oracion" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
-          ‹ Oración
-        </Link>
+        <BackLink to="/oracion" label="Oración" />
         <p className="mt-8 text-[15px] text-ink-soft">{error}</p>
         <button
           type="button"
@@ -110,9 +110,7 @@ export default function PrayerDetail() {
   return (
     <div className="pt-2">
       <div className="flex items-center justify-between">
-        <Link to="/oracion" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
-          ‹ Oración
-        </Link>
+        <BackLink to="/oracion" label="Oración" />
         {isAuthor && (
           <button
             type="button"
