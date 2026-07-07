@@ -86,7 +86,7 @@ export default function ReflectionSheet({
             {[cap(dateLabel), `Día ${dayNumber}`].filter(Boolean).join(' · ')}
           </p>
           <p className="mt-9 text-[12px] font-medium">
-            <span aria-hidden="true" style={{ color: 'var(--accent)' }}>✦ </span>
+            <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✦ </span>
             <span className="text-ink-soft" style={{ opacity: 0.8 }}>Lee Tu Biblia</span>
           </p>
         </div>

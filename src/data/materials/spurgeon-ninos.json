@@ -1,0 +1,855 @@
+{
+  "slug": "spurgeon-ninos",
+  "name": "Catecismo para Niños de Spurgeon",
+  "description": "Catecismo breve para la instrucción de los niños, en la tradición de C. H. Spurgeon, con 48 preguntas y respuestas sencillas de una o dos líneas. Recorre la doctrina básica: Dios, el pecado, Cristo, la fe y las ordenanzas.",
+  "cadence": "sequence",
+  "source": "Traducción original al español a partir de la edición inglesa de dominio público del catecismo infantil de tradición spurgeoniana. Padrenuestro según Reina-Valera 1909 (dominio público). Referencias bíblicas de apoyo seleccionadas para esta edición.",
+  "intro": [
+    "Este catecismo para niños pertenece a la tradición de C. H. Spurgeon, el célebre predicador bautista de Londres, que insistía en que la instrucción de los más pequeños no debía esperar: las verdades grandes pueden decirse con palabras sencillas. Sus respuestas, de una o dos líneas, están pensadas para que un niño las memorice, las entienda y las conserve.",
+    "Sus 48 preguntas recorren lo esencial de la fe: quién es Dios, qué es el pecado, quién es Cristo y cómo salva, la oración y las dos ordenanzas —el bautismo del creyente y la Cena del Señor—. Es una puerta de entrada ideal antes de pasar a un catecismo mayor, como el de Spurgeon para adultos."
+  ],
+  "entries": [
+    {
+      "block": 1,
+      "title": "Dios, el Creador",
+      "questions": [
+        {
+          "number": 1,
+          "question": "¿Quién te hizo?",
+          "answer": "Dios me hizo.",
+          "refs": [
+            {
+              "label": "Génesis 1:27",
+              "book_usfm": "GEN",
+              "chapter": 1
+            },
+            {
+              "label": "Salmo 100:3",
+              "book_usfm": "PSA",
+              "chapter": 100
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "question": "¿Qué más hizo Dios?",
+          "answer": "Dios hizo todas las cosas.",
+          "refs": [
+            {
+              "label": "Génesis 1:1",
+              "book_usfm": "GEN",
+              "chapter": 1
+            },
+            {
+              "label": "Hechos 17:24",
+              "book_usfm": "ACT",
+              "chapter": 17
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "question": "¿Por qué te hizo Dios a ti y a todas las cosas?",
+          "answer": "Para su propia gloria.",
+          "refs": [
+            {
+              "label": "Apocalipsis 4:11",
+              "book_usfm": "REV",
+              "chapter": 4
+            },
+            {
+              "label": "Romanos 11:36",
+              "book_usfm": "ROM",
+              "chapter": 11
+            }
+          ]
+        },
+        {
+          "number": 4,
+          "question": "¿Cómo puedes glorificar a Dios?",
+          "answer": "Amándolo y haciendo lo que él manda.",
+          "refs": [
+            {
+              "label": "Eclesiastés 12:13",
+              "book_usfm": "ECC",
+              "chapter": 12
+            },
+            {
+              "label": "Juan 14:15",
+              "book_usfm": "JHN",
+              "chapter": 14
+            }
+          ]
+        },
+        {
+          "number": 5,
+          "question": "¿Por qué estás obligado a glorificar a Dios?",
+          "answer": "Porque él me hizo y me cuida.",
+          "refs": [
+            {
+              "label": "Salmo 95:6-7",
+              "book_usfm": "PSA",
+              "chapter": 95
+            },
+            {
+              "label": "Hechos 17:28",
+              "book_usfm": "ACT",
+              "chapter": 17
+            }
+          ]
+        },
+        {
+          "number": 6,
+          "question": "¿Hay más de un Dios?",
+          "answer": "Hay un solo Dios.",
+          "refs": [
+            {
+              "label": "Deuteronomio 6:4",
+              "book_usfm": "DEU",
+              "chapter": 6
+            },
+            {
+              "label": "1 Corintios 8:4",
+              "book_usfm": "1CO",
+              "chapter": 8
+            }
+          ]
+        },
+        {
+          "number": 7,
+          "question": "¿En cuántas personas existe este único Dios?",
+          "answer": "En tres personas.",
+          "refs": [
+            {
+              "label": "Mateo 28:19",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "2 Corintios 13:14",
+              "book_usfm": "2CO",
+              "chapter": 13
+            }
+          ]
+        },
+        {
+          "number": 8,
+          "question": "¿Quiénes son?",
+          "answer": "El Padre, el Hijo y el Espíritu Santo.",
+          "refs": [
+            {
+              "label": "Mateo 3:16-17",
+              "book_usfm": "MAT",
+              "chapter": 3
+            },
+            {
+              "label": "1 Juan 5:7",
+              "book_usfm": "1JN",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 9,
+          "question": "¿Qué es Dios?",
+          "answer": "Dios es Espíritu, y no tiene cuerpo como los hombres.",
+          "refs": [
+            {
+              "label": "Juan 4:24",
+              "book_usfm": "JHN",
+              "chapter": 4
+            },
+            {
+              "label": "Lucas 24:39",
+              "book_usfm": "LUK",
+              "chapter": 24
+            }
+          ]
+        },
+        {
+          "number": 10,
+          "question": "¿Dónde está Dios?",
+          "answer": "Dios está en todas partes.",
+          "refs": [
+            {
+              "label": "Salmo 139:7-10",
+              "book_usfm": "PSA",
+              "chapter": 139
+            },
+            {
+              "label": "Jeremías 23:24",
+              "book_usfm": "JER",
+              "chapter": 23
+            }
+          ]
+        },
+        {
+          "number": 11,
+          "question": "¿Puede verte Dios?",
+          "answer": "Sí; Dios me ve siempre, aun de noche, como de día.",
+          "refs": [
+            {
+              "label": "Proverbios 15:3",
+              "book_usfm": "PRO",
+              "chapter": 15
+            },
+            {
+              "label": "Salmo 139:11-12",
+              "book_usfm": "PSA",
+              "chapter": 139
+            }
+          ]
+        },
+        {
+          "number": 12,
+          "question": "¿Sabe Dios todas las cosas?",
+          "answer": "Sí; nada se puede esconder de Dios.",
+          "refs": [
+            {
+              "label": "1 Juan 3:20",
+              "book_usfm": "1JN",
+              "chapter": 3
+            },
+            {
+              "label": "Hebreos 4:13",
+              "book_usfm": "HEB",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 13,
+          "question": "¿Puede Dios hacer todas las cosas?",
+          "answer": "Sí; Dios puede hacer todo lo que quiere.",
+          "refs": [
+            {
+              "label": "Salmo 115:3",
+              "book_usfm": "PSA",
+              "chapter": 115
+            },
+            {
+              "label": "Mateo 19:26",
+              "book_usfm": "MAT",
+              "chapter": 19
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 2,
+      "title": "La Biblia y la creación del hombre",
+      "questions": [
+        {
+          "number": 14,
+          "question": "¿Dónde aprendes a amar y a obedecer a Dios?",
+          "answer": "En la Biblia solamente.",
+          "refs": [
+            {
+              "label": "2 Timoteo 3:15-16",
+              "book_usfm": "2TI",
+              "chapter": 3
+            },
+            {
+              "label": "Isaías 8:20",
+              "book_usfm": "ISA",
+              "chapter": 8
+            }
+          ]
+        },
+        {
+          "number": 15,
+          "question": "¿Quién escribió la Biblia?",
+          "answer": "Hombres santos, guiados por el Espíritu Santo.",
+          "refs": [
+            {
+              "label": "2 Pedro 1:21",
+              "book_usfm": "2PE",
+              "chapter": 1
+            },
+            {
+              "label": "2 Timoteo 3:16",
+              "book_usfm": "2TI",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 16,
+          "question": "¿Quiénes fueron los primeros hombres?",
+          "answer": "Adán y Eva.",
+          "refs": [
+            {
+              "label": "Génesis 1:27",
+              "book_usfm": "GEN",
+              "chapter": 1
+            },
+            {
+              "label": "Génesis 2:7",
+              "book_usfm": "GEN",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 17,
+          "question": "¿Cómo eran cuando Dios los hizo?",
+          "answer": "Buenos y santos.",
+          "refs": [
+            {
+              "label": "Génesis 1:31",
+              "book_usfm": "GEN",
+              "chapter": 1
+            },
+            {
+              "label": "Eclesiastés 7:29",
+              "book_usfm": "ECC",
+              "chapter": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 3,
+      "title": "El pecado y la caída",
+      "questions": [
+        {
+          "number": 18,
+          "question": "¿Permanecieron buenos y santos?",
+          "answer": "No; pecaron contra Dios.",
+          "refs": [
+            {
+              "label": "Génesis 3:6",
+              "book_usfm": "GEN",
+              "chapter": 3
+            },
+            {
+              "label": "Romanos 5:12",
+              "book_usfm": "ROM",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 19,
+          "question": "¿Sabes lo que es el pecado?",
+          "answer": "El pecado es quebrantar la ley de Dios.",
+          "refs": [
+            {
+              "label": "1 Juan 3:4",
+              "book_usfm": "1JN",
+              "chapter": 3
+            },
+            {
+              "label": "Santiago 4:17",
+              "book_usfm": "JAS",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 20,
+          "question": "¿Qué fue el pecado de Adán y Eva?",
+          "answer": "Comer del fruto prohibido.",
+          "refs": [
+            {
+              "label": "Génesis 2:17",
+              "book_usfm": "GEN",
+              "chapter": 2
+            },
+            {
+              "label": "Génesis 3:6",
+              "book_usfm": "GEN",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 21,
+          "question": "¿Por qué comieron del fruto prohibido?",
+          "answer": "Porque no creyeron a Dios ni le obedecieron.",
+          "refs": [
+            {
+              "label": "Génesis 3:1-6",
+              "book_usfm": "GEN",
+              "chapter": 3
+            },
+            {
+              "label": "Romanos 5:19",
+              "book_usfm": "ROM",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 22,
+          "question": "¿Qué les sucedió cuando pecaron?",
+          "answer": "En lugar de ser buenos y felices, se hicieron pecadores y desdichados.",
+          "refs": [
+            {
+              "label": "Génesis 3:7-8",
+              "book_usfm": "GEN",
+              "chapter": 3
+            },
+            {
+              "label": "Romanos 6:23",
+              "book_usfm": "ROM",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 23,
+          "question": "¿Trajo su pecado algún mal sobre nosotros?",
+          "answer": "Sí; por su pecado todos nacemos con una naturaleza pecaminosa.",
+          "refs": [
+            {
+              "label": "Salmo 51:5",
+              "book_usfm": "PSA",
+              "chapter": 51
+            },
+            {
+              "label": "Romanos 5:12",
+              "book_usfm": "ROM",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 24,
+          "question": "¿Qué es esa naturaleza pecaminosa?",
+          "answer": "La inclinación a hacer el mal que hay en todos nosotros desde que nacemos.",
+          "refs": [
+            {
+              "label": "Génesis 8:21",
+              "book_usfm": "GEN",
+              "chapter": 8
+            },
+            {
+              "label": "Efesios 2:3",
+              "book_usfm": "EPH",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 25,
+          "question": "¿Puedes tú ir al cielo con esa naturaleza pecaminosa?",
+          "answer": "No; mi corazón debe ser cambiado antes de poder entrar al cielo.",
+          "refs": [
+            {
+              "label": "Juan 3:3",
+              "book_usfm": "JHN",
+              "chapter": 3
+            },
+            {
+              "label": "Hebreos 12:14",
+              "book_usfm": "HEB",
+              "chapter": 12
+            }
+          ]
+        },
+        {
+          "number": 26,
+          "question": "¿Quién puede cambiar tu corazón?",
+          "answer": "Solo el Espíritu Santo.",
+          "refs": [
+            {
+              "label": "Ezequiel 36:26-27",
+              "book_usfm": "EZK",
+              "chapter": 36
+            },
+            {
+              "label": "Tito 3:5",
+              "book_usfm": "TIT",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 27,
+          "question": "¿Puede alguno salvarse a sí mismo del pecado?",
+          "answer": "No; nadie puede salvarse a sí mismo.",
+          "refs": [
+            {
+              "label": "Efesios 2:8-9",
+              "book_usfm": "EPH",
+              "chapter": 2
+            },
+            {
+              "label": "Romanos 3:20",
+              "book_usfm": "ROM",
+              "chapter": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 4,
+      "title": "Cristo el Salvador",
+      "questions": [
+        {
+          "number": 28,
+          "question": "¿Quién es entonces el único que puede salvarte?",
+          "answer": "El Señor Jesucristo.",
+          "refs": [
+            {
+              "label": "Hechos 4:12",
+              "book_usfm": "ACT",
+              "chapter": 4
+            },
+            {
+              "label": "Mateo 1:21",
+              "book_usfm": "MAT",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 29,
+          "question": "¿Quién es Jesucristo?",
+          "answer": "El Hijo de Dios, que se hizo hombre para salvar a los pecadores.",
+          "refs": [
+            {
+              "label": "Juan 1:14",
+              "book_usfm": "JHN",
+              "chapter": 1
+            },
+            {
+              "label": "1 Timoteo 1:15",
+              "book_usfm": "1TI",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 30,
+          "question": "¿Cómo vino Jesús al mundo como hombre?",
+          "answer": "Nació de la virgen María.",
+          "refs": [
+            {
+              "label": "Lucas 2:7",
+              "book_usfm": "LUK",
+              "chapter": 2
+            },
+            {
+              "label": "Mateo 1:23",
+              "book_usfm": "MAT",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 31,
+          "question": "¿Cómo pudo Jesús salvar a los pecadores?",
+          "answer": "Muriendo por ellos en la cruz.",
+          "refs": [
+            {
+              "label": "1 Pedro 2:24",
+              "book_usfm": "1PE",
+              "chapter": 2
+            },
+            {
+              "label": "Romanos 5:8",
+              "book_usfm": "ROM",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 32,
+          "question": "¿Se quedó Jesús muerto?",
+          "answer": "No; resucitó al tercer día.",
+          "refs": [
+            {
+              "label": "1 Corintios 15:4",
+              "book_usfm": "1CO",
+              "chapter": 15
+            },
+            {
+              "label": "Lucas 24:6",
+              "book_usfm": "LUK",
+              "chapter": 24
+            }
+          ]
+        },
+        {
+          "number": 33,
+          "question": "¿Dónde está Jesús ahora?",
+          "answer": "En el cielo, a la diestra de Dios.",
+          "refs": [
+            {
+              "label": "Hechos 1:11",
+              "book_usfm": "ACT",
+              "chapter": 1
+            },
+            {
+              "label": "Hebreos 1:3",
+              "book_usfm": "HEB",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 34,
+          "question": "¿Cómo recibes el perdón de tus pecados?",
+          "answer": "Confesándolos y creyendo en el Señor Jesús.",
+          "refs": [
+            {
+              "label": "1 Juan 1:9",
+              "book_usfm": "1JN",
+              "chapter": 1
+            },
+            {
+              "label": "Hechos 16:31",
+              "book_usfm": "ACT",
+              "chapter": 16
+            }
+          ]
+        },
+        {
+          "number": 35,
+          "question": "¿Qué es creer en Jesús?",
+          "answer": "Confiar solo en él para que me salve.",
+          "refs": [
+            {
+              "label": "Juan 3:16",
+              "book_usfm": "JHN",
+              "chapter": 3
+            },
+            {
+              "label": "Filipenses 3:9",
+              "book_usfm": "PHP",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 36,
+          "question": "¿Qué es el arrepentimiento?",
+          "answer": "Dolerme por mi pecado y apartarme de él.",
+          "refs": [
+            {
+              "label": "Hechos 3:19",
+              "book_usfm": "ACT",
+              "chapter": 3
+            },
+            {
+              "label": "2 Corintios 7:10",
+              "book_usfm": "2CO",
+              "chapter": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 5,
+      "title": "La fe, el arrepentimiento y la vida cristiana",
+      "questions": [
+        {
+          "number": 37,
+          "question": "¿Cómo debes vivir para agradar a Dios?",
+          "answer": "Debo amarlo y guardar sus mandamientos.",
+          "refs": [
+            {
+              "label": "Juan 14:15",
+              "book_usfm": "JHN",
+              "chapter": 14
+            },
+            {
+              "label": "Miqueas 6:8",
+              "book_usfm": "MIC",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 38,
+          "question": "¿Cuál es el resumen de los mandamientos de Dios?",
+          "answer": "Amar a Dios con todo mi corazón, y a mi prójimo como a mí mismo.",
+          "refs": [
+            {
+              "label": "Mateo 22:37-40",
+              "book_usfm": "MAT",
+              "chapter": 22
+            }
+          ]
+        },
+        {
+          "number": 39,
+          "question": "¿Cómo puedes conocer y hacer la voluntad de Dios?",
+          "answer": "Pidiendo su ayuda en oración, y leyendo su Palabra.",
+          "refs": [
+            {
+              "label": "Salmo 119:105",
+              "book_usfm": "PSA",
+              "chapter": 119
+            },
+            {
+              "label": "Santiago 1:5",
+              "book_usfm": "JAS",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 40,
+          "question": "¿Qué oración enseñó Jesús a sus discípulos?",
+          "answer": "La oración del Señor, el Padrenuestro.",
+          "refs": [
+            {
+              "label": "Mateo 6:9",
+              "book_usfm": "MAT",
+              "chapter": 6
+            },
+            {
+              "label": "Lucas 11:1-2",
+              "book_usfm": "LUK",
+              "chapter": 11
+            }
+          ]
+        },
+        {
+          "number": 41,
+          "question": "Repite el Padrenuestro.",
+          "answer": "Padre nuestro que estás en los cielos, santificado sea tu nombre. Venga tu reino. Sea hecha tu voluntad, como en el cielo, así también en la tierra. Danos hoy nuestro pan cotidiano. Y perdónanos nuestras deudas, como también nosotros perdonamos á nuestros deudores. Y no nos metas en tentación, mas líbranos del mal: porque tuyo es el reino, y el poder, y la gloria, por todos los siglos. Amén.",
+          "refs": [
+            {
+              "label": "Mateo 6:9-13",
+              "book_usfm": "MAT",
+              "chapter": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 6,
+      "title": "Las ordenanzas y la venida de Cristo",
+      "questions": [
+        {
+          "number": 42,
+          "question": "¿Qué son las dos ordenanzas que Cristo dio a su Iglesia?",
+          "answer": "El bautismo y la Cena del Señor.",
+          "refs": [
+            {
+              "label": "Mateo 28:19",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "1 Corintios 11:23-26",
+              "book_usfm": "1CO",
+              "chapter": 11
+            }
+          ]
+        },
+        {
+          "number": 43,
+          "question": "¿Quiénes deben ser bautizados?",
+          "answer": "Solo los que se arrepienten de sus pecados y creen en Jesús.",
+          "refs": [
+            {
+              "label": "Hechos 2:38",
+              "book_usfm": "ACT",
+              "chapter": 2
+            },
+            {
+              "label": "Hechos 8:12",
+              "book_usfm": "ACT",
+              "chapter": 8
+            }
+          ]
+        },
+        {
+          "number": 44,
+          "question": "¿Qué representa el bautismo?",
+          "answer": "La muerte, sepultura y resurrección de Cristo, y mi unión con él.",
+          "refs": [
+            {
+              "label": "Romanos 6:3-4",
+              "book_usfm": "ROM",
+              "chapter": 6
+            },
+            {
+              "label": "Colosenses 2:12",
+              "book_usfm": "COL",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 45,
+          "question": "¿Qué representa la Cena del Señor?",
+          "answer": "El cuerpo y la sangre de Cristo, dados por los pecadores.",
+          "refs": [
+            {
+              "label": "1 Corintios 11:23-26",
+              "book_usfm": "1CO",
+              "chapter": 11
+            },
+            {
+              "label": "Lucas 22:19-20",
+              "book_usfm": "LUK",
+              "chapter": 22
+            }
+          ]
+        },
+        {
+          "number": 46,
+          "question": "¿Cuándo volverá Jesús otra vez?",
+          "answer": "En el día que Dios ha señalado, para juzgar al mundo.",
+          "refs": [
+            {
+              "label": "Hechos 17:31",
+              "book_usfm": "ACT",
+              "chapter": 17
+            },
+            {
+              "label": "Mateo 25:31-32",
+              "book_usfm": "MAT",
+              "chapter": 25
+            }
+          ]
+        },
+        {
+          "number": 47,
+          "question": "¿Qué será de los que no aman ni obedecen a Jesús?",
+          "answer": "Serán echados al castigo eterno.",
+          "refs": [
+            {
+              "label": "Mateo 25:46",
+              "book_usfm": "MAT",
+              "chapter": 25
+            },
+            {
+              "label": "2 Tesalonicenses 1:8-9",
+              "book_usfm": "2TH",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 48,
+          "question": "¿Qué será de los que aman a Jesús y confían en él?",
+          "answer": "Vivirán con él para siempre en el cielo.",
+          "refs": [
+            {
+              "label": "Juan 3:16",
+              "book_usfm": "JHN",
+              "chapter": 3
+            },
+            {
+              "label": "1 Tesalonicenses 4:17",
+              "book_usfm": "1TH",
+              "chapter": 4
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

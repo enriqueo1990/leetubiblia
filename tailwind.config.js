@@ -17,6 +17,7 @@ export default {
         hairline: 'var(--hairline)',
         placeholder: 'var(--placeholder)',
         accent: 'var(--accent)',
+        'accent-ink': 'var(--accent-ink)',
         'accent-tint': 'var(--accent-tint)',
         'accent-tint-nav': 'var(--accent-tint-nav)',
         'on-accent': 'var(--on-accent)',

@@ -94,7 +94,7 @@ function Steps({ title, steps }) {
               {i + 1}
             </span>
             <span
-              className="pt-1 text-[16px] leading-snug text-ink [&_b]:font-semibold [&_b]:text-accent"
+              className="pt-1 text-[16px] leading-snug text-ink [&_b]:font-semibold [&_b]:text-accent-ink"
               dangerouslySetInnerHTML={{ __html: s }}
             />
           </li>
@@ -119,7 +119,7 @@ export default function Info() {
         <Wordmark />
         <Link
           to="/"
-          className="rounded-pill px-3 py-2 text-[15px] font-semibold text-ink-soft transition-colors hover:text-accent"
+          className="rounded-pill px-3 py-2 text-[15px] font-semibold text-ink-soft transition-colors hover:text-accent-ink"
         >
           Entrar
         </Link>
@@ -139,7 +139,7 @@ export default function Info() {
         <div className="screen-enter relative mx-auto w-full max-w-[680px] px-6 pb-16 pt-10 text-center sm:pt-16">
           <Eyebrow>Compañero de lectura bíblica</Eyebrow>
           <h1 className="mx-auto mt-5 max-w-[560px] text-[38px] font-bold leading-[1.12] tracking-[-0.03em] text-ink [text-wrap:balance] sm:text-[48px]">
-            El hábito de abrir <span className="whitespace-nowrap text-accent">tu Biblia</span>, sostenido día a día.
+            El hábito de abrir <span className="whitespace-nowrap text-accent-ink">tu Biblia</span>, sostenido día a día.
           </h1>
           <p className="mx-auto mt-6 max-w-[480px] text-[18px] leading-relaxed text-ink-soft">
             Tu plan, tu racha, tu diario y tus oraciones —solo o con tu grupo—
@@ -168,7 +168,7 @@ export default function Info() {
           <div className="lg:flex-1">
             <Eyebrow>La idea</Eyebrow>
             <p className="mt-5 max-w-[560px] text-[22px] font-medium leading-[1.5] tracking-[-0.02em] text-ink sm:text-[25px]">
-              «Lee Tu Biblia» significa leé <span className="text-accent">tu</span>{' '}
+              «Lee Tu Biblia» significa leé <span className="text-accent-ink">tu</span>{' '}
               Biblia: la de papel, la que subrayás. La app no compite con ese
               momento —lo cuida. El texto vive en tus páginas; acá vive el hábito.
             </p>
@@ -254,9 +254,9 @@ export default function Info() {
             </p>
             <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[17px] font-semibold text-ink">
               <span>Creá el grupo</span>
-              <span aria-hidden="true" className="text-accent">→</span>
+              <span aria-hidden="true" className="text-accent-ink">→</span>
               <span>Compartí el código</span>
-              <span aria-hidden="true" className="text-accent">→</span>
+              <span aria-hidden="true" className="text-accent-ink">→</span>
               <span>Caminen juntos</span>
             </p>
           </div>

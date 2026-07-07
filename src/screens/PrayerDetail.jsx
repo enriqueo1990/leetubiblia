@@ -69,7 +69,7 @@ export default function PrayerDetail() {
   if (error) {
     return (
       <div className="pt-2">
-        <Link to="/oracion" className="text-[15px] font-medium" style={{ color: 'var(--accent)' }}>
+        <Link to="/oracion" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
           ‹ Oración
         </Link>
         <p className="mt-8 text-[15px] text-ink-soft">{error}</p>
@@ -77,7 +77,7 @@ export default function PrayerDetail() {
           type="button"
           onClick={load}
           className="mt-2 text-[15px] font-semibold"
-          style={{ color: 'var(--accent)' }}
+          style={{ color: 'var(--accent-ink)' }}
         >
           Reintentar
         </button>
@@ -110,7 +110,7 @@ export default function PrayerDetail() {
   return (
     <div className="pt-2">
       <div className="flex items-center justify-between">
-        <Link to="/oracion" className="text-[15px] font-medium" style={{ color: 'var(--accent)' }}>
+        <Link to="/oracion" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
           ‹ Oración
         </Link>
         {isAuthor && (
@@ -118,7 +118,7 @@ export default function PrayerDetail() {
             type="button"
             onClick={() => setEditing(true)}
             className="text-[15px] font-medium"
-            style={{ color: 'var(--accent)' }}
+            style={{ color: 'var(--accent-ink)' }}
           >
             Editar
           </button>
@@ -126,7 +126,7 @@ export default function PrayerDetail() {
       </div>
 
       {data.group?.name && (
-        <p className="mt-4 text-[12px] font-semibold uppercase tracking-wide text-accent">
+        <p className="mt-4 text-[12px] font-semibold uppercase tracking-wide text-accent-ink">
           {data.group.name}
         </p>
       )}
@@ -180,7 +180,7 @@ export default function PrayerDetail() {
               onClick={toggle}
               disabled={busy}
               className="btn btn-secondary flex items-center justify-center gap-2"
-              style={{ border: '1px solid var(--accent)', color: 'var(--accent)' }}
+              style={{ border: '1px solid var(--accent-ink)', color: 'var(--accent-ink)' }}
             >
               <HeartIcon size={19} /> Estoy orando por esto
             </button>

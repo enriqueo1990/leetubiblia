@@ -38,7 +38,7 @@ export default function GroupTestimonies() {
       <Link
         to={`/grupos/${id}`}
         className="text-[15px] font-medium"
-        style={{ color: 'var(--accent)' }}
+        style={{ color: 'var(--accent-ink)' }}
       >
         ‹ {group?.name ?? 'Grupo'}
       </Link>
@@ -58,7 +58,7 @@ export default function GroupTestimonies() {
       <ul className="mt-5 space-y-3">
         {items?.map((t) => (
           <li key={t.id} className="card p-[18px]">
-            <div className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wide text-accent">
+            <div className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wide text-accent-ink">
               <CheckIcon size={13} strokeWidth={2.4} />
               Respondido · {fmtDate(t.answered_at)}
             </div>

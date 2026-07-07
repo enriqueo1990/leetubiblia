@@ -7,7 +7,7 @@ export default function EmptyState({ icon, title, text, children }) {
       {icon && (
         <div
           className="flex h-[72px] w-[72px] items-center justify-center rounded-full text-[30px]"
-          style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--accent)' }}
+          style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--accent-ink)' }}
           aria-hidden="true"
         >
           {icon}

@@ -11,20 +11,35 @@
 
 // Catálogo curado. Para sumar un material: agregá el JSON en src/data/materials/ y
 // una entrada acá. `load` difiere la descarga del contenido hasta que se necesita.
+// Ordenado cronológicamente por fecha de origen del material.
 export const MATERIALS = [
-  {
-    slug: 'westminster-menor',
-    name: 'Catecismo Menor de Westminster',
-    shortName: 'Catecismo Menor',
-    description: '107 preguntas y respuestas sobre la fe, con pasajes para buscar en tu Biblia.',
-    load: () => import('../data/materials/westminster-menor.json'),
-  },
   {
     slug: 'heidelberg',
     name: 'Catecismo de Heidelberg',
     shortName: 'Heidelberg',
     description: '129 preguntas cálidas y pastorales (1563), del consuelo a la gratitud, con pasajes para tu Biblia.',
     load: () => import('../data/materials/heidelberg.json'),
+  },
+  {
+    slug: 'dort',
+    name: 'Cánones de Dort',
+    shortName: 'Dort',
+    description: '59 artículos del Sínodo de Dort (1618-1619) sobre la gracia soberana de Dios, con pasajes para tu Biblia.',
+    load: () => import('../data/materials/dort.json'),
+  },
+  {
+    slug: 'westminster-menor',
+    name: 'Catecismo Menor de Westminster',
+    shortName: 'Catecismo Menor',
+    description: '107 preguntas y respuestas sobre la fe (1647), con pasajes para buscar en tu Biblia.',
+    load: () => import('../data/materials/westminster-menor.json'),
+  },
+  {
+    slug: 'keach',
+    name: 'Catecismo de Keach',
+    shortName: 'Keach',
+    description: '114 preguntas de la tradición bautista particular (1693), con pasajes para tu Biblia.',
+    load: () => import('../data/materials/keach.json'),
   },
   {
     slug: 'spurgeon',
@@ -34,11 +49,11 @@ export const MATERIALS = [
     load: () => import('../data/materials/spurgeon.json'),
   },
   {
-    slug: 'keach',
-    name: 'Catecismo de Keach',
-    shortName: 'Keach',
-    description: '114 preguntas de la tradición bautista particular (1693), con pasajes para tu Biblia.',
-    load: () => import('../data/materials/keach.json'),
+    slug: 'spurgeon-ninos',
+    name: 'Catecismo para Niños de Spurgeon',
+    shortName: 'Spurgeon para Niños',
+    description: '48 preguntas sencillas para los más chicos, en la tradición de Spurgeon, con pasajes para tu Biblia.',
+    load: () => import('../data/materials/spurgeon-ninos.json'),
   },
 ]
 

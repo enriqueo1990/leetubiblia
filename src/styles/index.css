@@ -36,9 +36,10 @@
     }
   }
 
-  /* Accesibilidad: foco visible solo por teclado, en color de acento. */
+  /* Accesibilidad: foco visible solo por teclado, en acento entintado (el
+     acento puro no llega a 3:1 sobre fondo claro). */
   :focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--accent-ink);
     outline-offset: 2px;
     border-radius: 6px;
   }

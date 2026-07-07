@@ -96,7 +96,7 @@ export default function AuthFlow() {
           <button
             type="button"
             className="btn btn-secondary"
-            style={{ color: 'var(--accent)', borderColor: 'var(--accent)' }}
+            style={{ color: 'var(--accent-ink)', borderColor: 'var(--accent-ink)' }}
             onClick={() => {
               setMode('login')
               setStep('form')
@@ -116,7 +116,7 @@ export default function AuthFlow() {
         <button
           type="button"
           className="mb-6 self-start text-[15px] font-medium"
-          style={{ color: 'var(--accent)' }}
+          style={{ color: 'var(--accent-ink)' }}
           onClick={() => setStep('form')}
         >
           ‹ Volver
@@ -132,7 +132,7 @@ export default function AuthFlow() {
             type="button"
             onClick={() => setStep('form')}
             className="font-medium"
-            style={{ color: 'var(--accent)' }}
+            style={{ color: 'var(--accent-ink)' }}
           >
             usá otro correo
           </button>
@@ -182,7 +182,7 @@ export default function AuthFlow() {
           disabled={sending}
         >
           {sending ? 'Reenviando…' : '¿No llegó? '}
-          {!sending && <span style={{ color: 'var(--accent)' }}>Reenviar código</span>}
+          {!sending && <span style={{ color: 'var(--accent-ink)' }}>Reenviar código</span>}
         </button>
       </Centered>
     )
@@ -195,7 +195,7 @@ export default function AuthFlow() {
       <button
         type="button"
         className="mb-6 self-start text-[15px] font-medium"
-        style={{ color: 'var(--accent)' }}
+        style={{ color: 'var(--accent-ink)' }}
         onClick={() => setStep('welcome')}
       >
         ‹ Volver
@@ -248,7 +248,7 @@ export default function AuthFlow() {
         onClick={() => setMode(isSignup ? 'login' : 'signup')}
       >
         {isSignup ? '¿Ya tenés cuenta? ' : '¿Sos nuevo? '}
-        <span style={{ color: 'var(--accent)' }}>
+        <span style={{ color: 'var(--accent-ink)' }}>
           {isSignup ? 'Ingresá' : 'Creá una cuenta'}
         </span>
       </button>

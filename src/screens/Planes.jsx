@@ -36,7 +36,7 @@ export default function Planes() {
 
   return (
     <div className="pt-2">
-      <Link to="/" className="text-[15px] font-medium" style={{ color: 'var(--accent)' }}>
+      <Link to="/" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
         ‹ Hoy
       </Link>
       <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">Planes</h1>
@@ -59,7 +59,7 @@ export default function Planes() {
                   {active && (
                     <span
                       className="rounded-pill px-2 py-0.5 text-[12px] font-medium"
-                      style={{ color: 'var(--accent)', backgroundColor: 'var(--accent-tint)' }}
+                      style={{ color: 'var(--accent-ink)', backgroundColor: 'var(--accent-tint)' }}
                     >
                       Activo
                     </span>

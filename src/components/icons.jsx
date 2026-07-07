@@ -134,3 +134,11 @@ export const ChartIcon = (p) => (
     <path d="M4 20v-6M12 20V8M20 20V4" />
   </Icon>
 )
+
+// Índice — lista con viñetas (list.bullet).
+export const ListIcon = (p) => (
+  <Icon {...p}>
+    <path d="M9 6h12M9 12h12M9 18h12" />
+    <path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01" />
+  </Icon>
+)

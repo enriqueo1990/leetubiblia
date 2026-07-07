@@ -1,0 +1,1385 @@
+{
+  "slug": "dort",
+  "name": "Cánones de Dort",
+  "description": "Cánones del Sínodo de Dort (1618-1619), que exponen la respuesta reformada al arminianismo en cinco cabezas de doctrina, conocidas como los cinco puntos del calvinismo. Esta edición recoge los artículos positivos de cada cabeza (sin las secciones de rechazo de errores).",
+  "cadence": "sequence",
+  "source": "Traducción original al español a partir del texto latino/inglés de dominio público de los Cánones de Dort (1619). Se incluyen únicamente los artículos positivos de las cinco cabezas de doctrina. Referencias bíblicas de apoyo seleccionadas para esta edición.",
+  "intro": [
+    "Los Cánones de Dort fueron redactados por el Sínodo internacional reunido en la ciudad de Dordrecht (Países Bajos) entre 1618 y 1619, para responder a las objeciones de los seguidores de Jacobo Arminio, presentadas en la llamada Remonstrancia de 1610. El Sínodo respondió punto por punto exponiendo la doctrina reformada de la gracia soberana de Dios en la salvación.",
+    "Sus cinco cabezas de doctrina —la elección incondicional, la redención definida, la corrupción total y la conversión por gracia, y la perseverancia de los santos— dieron origen a lo que después se resumió como los cinco puntos del calvinismo. Esta edición presenta los artículos positivos de cada cabeza, que son los que exponen la enseñanza reformada de manera directa, dejando fuera las secciones de rechazo de errores."
+  ],
+  "entries": [
+    {
+      "block": 1,
+      "title": "Primera cabeza: La elección y la reprobación divinas",
+      "questions": [
+        {
+          "number": 1,
+          "question": "Primer artículo: La condenación justa de todos los hombres",
+          "answer": "Como todos los hombres han pecado en Adán y se han hecho reos de maldición y de muerte eterna, Dios no habría cometido injusticia alguna con nadie si hubiera querido dejar a todo el género humano en el pecado y bajo la maldición, y condenarlo a causa del pecado, según aquellas palabras del apóstol: «Todo el mundo está bajo el juicio de Dios», y: «Por cuanto todos pecaron, y están destituidos de la gloria de Dios», y: «La paga del pecado es muerte».",
+          "refs": [
+            {
+              "label": "Romanos 3:19",
+              "book_usfm": "ROM",
+              "chapter": 3
+            },
+            {
+              "label": "Romanos 3:23",
+              "book_usfm": "ROM",
+              "chapter": 3
+            },
+            {
+              "label": "Romanos 6:23",
+              "book_usfm": "ROM",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "question": "Segundo artículo: El amor de Dios manifestado",
+          "answer": "Pero en esto se manifestó el amor de Dios: en que envió al mundo a su Hijo unigénito, para que todo aquel que en él cree no se pierda, sino que tenga vida eterna.",
+          "refs": [
+            {
+              "label": "1 Juan 4:9",
+              "book_usfm": "1JN",
+              "chapter": 4
+            },
+            {
+              "label": "Juan 3:16",
+              "book_usfm": "JHN",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "question": "Tercer artículo: La predicación del evangelio",
+          "answer": "Y para que los hombres sean llevados a la fe, Dios envía misericordiosamente heraldos de estas nuevas tan gozosas a quienes él quiere y cuando él quiere; por cuya predicación los hombres son llamados al arrepentimiento y a la fe en Cristo crucificado.",
+          "refs": [
+            {
+              "label": "Romanos 10:14-15",
+              "book_usfm": "ROM",
+              "chapter": 10
+            },
+            {
+              "label": "Romanos 10:17",
+              "book_usfm": "ROM",
+              "chapter": 10
+            }
+          ]
+        },
+        {
+          "number": 4,
+          "question": "Cuarto artículo: La doble respuesta al evangelio",
+          "answer": "La ira de Dios permanece sobre aquellos que no creen este evangelio; pero los que lo reciben y abrazan a Jesús el Salvador con fe verdadera y viva, son librados por él de la ira de Dios y de la perdición, y reciben el don de la vida eterna.",
+          "refs": [
+            {
+              "label": "Juan 3:36",
+              "book_usfm": "JHN",
+              "chapter": 3
+            },
+            {
+              "label": "Marcos 16:16",
+              "book_usfm": "MRK",
+              "chapter": 16
+            }
+          ]
+        },
+        {
+          "number": 5,
+          "question": "Quinto artículo: El origen de la incredulidad y de la fe",
+          "answer": "La causa o culpa de esta incredulidad, así como de todos los demás pecados, no está de ninguna manera en Dios, sino en el hombre. En cambio, la fe en Jesucristo y la salvación por medio de él es un don gratuito de Dios, según está escrito: «Por gracia sois salvos, por la fe; y esto no de vosotros, pues es don de Dios».",
+          "refs": [
+            {
+              "label": "Efesios 2:8",
+              "book_usfm": "EPH",
+              "chapter": 2
+            },
+            {
+              "label": "Filipenses 1:29",
+              "book_usfm": "PHP",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 6,
+          "question": "Sexto artículo: El eterno decreto de Dios",
+          "answer": "Que Dios conceda la fe a unos en el tiempo y no a otros, procede de su eterno decreto. Conforme a este decreto, Dios ablanda misericordiosamente los corazones de los elegidos, por muy duros que sean, y los inclina a creer; pero a los que no son elegidos los deja, por su justo juicio, en su propia maldad y dureza. Y aquí se nos descubre especialmente aquella profunda, misericordiosa y a la vez justa distinción entre los hombres igualmente perdidos: es decir, el decreto de la elección y de la reprobación, revelado en la Palabra de Dios.",
+          "refs": [
+            {
+              "label": "Hechos 13:48",
+              "book_usfm": "ACT",
+              "chapter": 13
+            },
+            {
+              "label": "Romanos 9:18",
+              "book_usfm": "ROM",
+              "chapter": 9
+            },
+            {
+              "label": "2 Timoteo 2:19",
+              "book_usfm": "2TI",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 7,
+          "question": "Séptimo artículo: La definición de la elección",
+          "answer": "La elección es el propósito inmutable de Dios, por el cual, antes de la fundación del mundo, escogió de todo el género humano —caído por su propia culpa de su integridad original en el pecado y la perdición— a cierto número de hombres, ni mejores ni más dignos que otros, sino hundidos en la común miseria, para la salvación en Cristo, a quien también desde la eternidad constituyó Mediador y cabeza de todos los elegidos y fundamento de la salvación.",
+          "refs": [
+            {
+              "label": "Efesios 1:4",
+              "book_usfm": "EPH",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 8:30",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "2 Tesalonicenses 2:13",
+              "book_usfm": "2TH",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 8,
+          "question": "Octavo artículo: La unidad de la elección",
+          "answer": "Esta elección no es de muchas clases, sino una sola y misma para todos los que han de ser salvos, tanto en el Antiguo como en el Nuevo Testamento; puesto que la Escritura nos declara un solo beneplácito, propósito y consejo de la voluntad de Dios, por el cual nos ha elegido desde la eternidad para gracia y para gloria, para salvación y para el camino de la salvación, que él dispuso para que anduviésemos en él.",
+          "refs": [
+            {
+              "label": "Efesios 1:4-5",
+              "book_usfm": "EPH",
+              "chapter": 1
+            },
+            {
+              "label": "2 Timoteo 1:9",
+              "book_usfm": "2TI",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 9,
+          "question": "Noveno artículo: La elección no se funda en la fe prevista",
+          "answer": "Esta misma elección se hizo, no en virtud de una fe prevista, de la obediencia de la fe, de la santidad ni de ninguna otra buena cualidad o disposición, como causa o condición previamente exigida en el hombre que había de ser elegido; sino para la fe, para la obediencia de la fe, para la santidad. Y así, la elección es la fuente de todo bien salvífico, de la cual manan la fe, la santidad y los demás dones salvíficos, y por fin la vida eterna misma, como sus frutos y efectos.",
+          "refs": [
+            {
+              "label": "Romanos 9:11-13",
+              "book_usfm": "ROM",
+              "chapter": 9
+            },
+            {
+              "label": "Efesios 1:4",
+              "book_usfm": "EPH",
+              "chapter": 1
+            },
+            {
+              "label": "Tito 3:5",
+              "book_usfm": "TIT",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 10,
+          "question": "Décimo artículo: El buen beneplácito de Dios",
+          "answer": "La causa de esta gracia y elección es únicamente el buen beneplácito de Dios; el cual no consiste en que él, entre todas las condiciones posibles, escogiera ciertas cualidades u obras humanas como condición de la salvación, sino en que se dignó tomar por suyos a ciertos hombres entre la multitud de los pecadores. Como está escrito: «No habían aún nacido, ni habían hecho bien ni mal... se le dijo que el mayor serviría al menor; como está escrito: A Jacob amé, mas a Esaú aborrecí».",
+          "refs": [
+            {
+              "label": "Romanos 9:11-13",
+              "book_usfm": "ROM",
+              "chapter": 9
+            },
+            {
+              "label": "Hechos 13:48",
+              "book_usfm": "ACT",
+              "chapter": 13
+            }
+          ]
+        },
+        {
+          "number": 11,
+          "question": "Undécimo artículo: La inmutabilidad de la elección",
+          "answer": "Y así como Dios mismo es sapientísimo, inmutable, omnisciente y omnipotente, así también la elección hecha por él no puede ser interrumpida ni cambiada, revocada ni anulada; ni pueden los elegidos ser desechados, ni disminuido su número.",
+          "refs": [
+            {
+              "label": "2 Timoteo 2:19",
+              "book_usfm": "2TI",
+              "chapter": 2
+            },
+            {
+              "label": "Juan 6:39",
+              "book_usfm": "JHN",
+              "chapter": 6
+            },
+            {
+              "label": "Romanos 11:29",
+              "book_usfm": "ROM",
+              "chapter": 11
+            }
+          ]
+        },
+        {
+          "number": 12,
+          "question": "Duodécimo artículo: La seguridad de la elección",
+          "answer": "De su elección eterna e inmutable para la salvación, los elegidos son hechos ciertos a su debido tiempo, aunque por grados diversos y en medida desigual; no escudriñando curiosamente los secretos y profundidades de Dios, sino observando en sí mismos, con gozo espiritual y santo deleite, los frutos infalibles de la elección señalados en la Palabra de Dios, tales como la verdadera fe en Cristo, el temor filial de Dios, el dolor por el pecado y el hambre y sed de justicia.",
+          "refs": [
+            {
+              "label": "2 Pedro 1:10",
+              "book_usfm": "2PE",
+              "chapter": 1
+            },
+            {
+              "label": "2 Corintios 13:5",
+              "book_usfm": "2CO",
+              "chapter": 13
+            },
+            {
+              "label": "Efesios 1:13",
+              "book_usfm": "EPH",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 13,
+          "question": "Decimotercer artículo: El fruto de esta seguridad",
+          "answer": "Del sentimiento y la certeza de esta elección, los hijos de Dios toman diariamente mayor motivo para humillarse delante de Dios, para adorar la profundidad de sus misericordias, para purificarse a sí mismos y para amar ardientemente, en correspondencia, a aquel que primero los amó a ellos con tan gran amor.",
+          "refs": [
+            {
+              "label": "Efesios 1:6",
+              "book_usfm": "EPH",
+              "chapter": 1
+            },
+            {
+              "label": "1 Juan 4:19",
+              "book_usfm": "1JN",
+              "chapter": 4
+            },
+            {
+              "label": "1 Juan 3:3",
+              "book_usfm": "1JN",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 14,
+          "question": "Decimocuarto artículo: La enseñanza de la elección",
+          "answer": "Así como, por la sabia disposición de Dios, esta doctrina de la elección divina ha sido predicada por los profetas, por Cristo mismo y por los apóstoles, tanto en el Antiguo como en el Nuevo Testamento, y luego consignada en las Sagradas Escrituras, así también hoy ha de proponerse a su debido tiempo y lugar en la Iglesia de Dios —a la cual está peculiarmente destinada—, con espíritu de discreción, con reverencia y santidad, sin escudriñar curiosamente los caminos del Altísimo, para gloria del santísimo nombre de Dios y para el vivo consuelo de su pueblo.",
+          "refs": [
+            {
+              "label": "Romanos 11:33",
+              "book_usfm": "ROM",
+              "chapter": 11
+            },
+            {
+              "label": "Deuteronomio 29:29",
+              "book_usfm": "DEU",
+              "chapter": 29
+            },
+            {
+              "label": "Hechos 20:27",
+              "book_usfm": "ACT",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 15,
+          "question": "Decimoquinto artículo: La reprobación",
+          "answer": "Lo que particularmente resalta y encarece ante nosotros la gracia eterna e inmerecida de nuestra elección, es el testimonio de la Sagrada Escritura de que no todos los hombres son elegidos, sino que algunos no lo son, o sea, aquellos que en el eterno decreto de Dios fueron dejados de lado; a quienes Dios, por su soberano, justísimo, irreprensible e inmutable beneplácito, decretó dejar en la común miseria en que por su propia culpa se hundieron, y no concederles la fe salvadora y la gracia de la conversión, sino, permitiéndolos en sus propios caminos y bajo su justo juicio, condenarlos y castigarlos eternamente, no solo por causa de su incredulidad, sino también de todos sus demás pecados, para declaración de su justicia. Y este es el decreto de la reprobación, que de ninguna manera hace a Dios autor del pecado (lo cual es blasfemo siquiera pensarlo), sino que lo declara juez tremendo, irreprensible y justo, y vengador del pecado.",
+          "refs": [
+            {
+              "label": "Romanos 9:18",
+              "book_usfm": "ROM",
+              "chapter": 9
+            },
+            {
+              "label": "Romanos 9:22",
+              "book_usfm": "ROM",
+              "chapter": 9
+            },
+            {
+              "label": "1 Pedro 2:8",
+              "book_usfm": "1PE",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 16,
+          "question": "Decimosexto artículo: El consuelo para los débiles",
+          "answer": "Los que todavía no experimentan viva en su corazón la fe eficaz en Cristo, la confianza segura del alma, la paz de la conciencia, el afán de la obediencia filial y el gloriarse en Dios por Cristo, pero que sin embargo usan de los medios por los cuales Dios ha prometido obrar estas cosas en nosotros, no deben desanimarse cuando oyen hablar de la reprobación, ni contarse entre los reprobados, sino continuar diligentemente en el uso de los medios, anhelar con fervor un tiempo de gracia más abundante y esperarlo con reverencia y humildad.",
+          "refs": [
+            {
+              "label": "Isaías 42:3",
+              "book_usfm": "ISA",
+              "chapter": 42
+            },
+            {
+              "label": "Mateo 12:20",
+              "book_usfm": "MAT",
+              "chapter": 12
+            },
+            {
+              "label": "Filipenses 1:6",
+              "book_usfm": "PHP",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 17,
+          "question": "Decimoséptimo artículo: Los hijos de los creyentes",
+          "answer": "Puesto que hemos de juzgar de la voluntad de Dios por su Palabra, la cual testifica que los hijos de los creyentes son santos, no por naturaleza, sino en virtud del pacto de gracia en que están comprendidos con sus padres, los padres piadosos no deben dudar de la elección y salvación de sus hijos a quienes Dios llama de esta vida en su infancia.",
+          "refs": [
+            {
+              "label": "Génesis 17:7",
+              "book_usfm": "GEN",
+              "chapter": 17
+            },
+            {
+              "label": "Hechos 2:39",
+              "book_usfm": "ACT",
+              "chapter": 2
+            },
+            {
+              "label": "1 Corintios 7:14",
+              "book_usfm": "1CO",
+              "chapter": 7
+            }
+          ]
+        },
+        {
+          "number": 18,
+          "question": "Decimoctavo artículo: La adoración ante este misterio",
+          "answer": "Contra los que murmuran de esta gracia de la elección inmerecida y del rigor de la justa reprobación, oponemos aquella palabra del apóstol: «Mas antes, oh hombre, ¿quién eres tú, para que alterques con Dios?», y aquella otra: «¿No tengo yo potestad de hacer de mi barro lo que quiera?». Por tanto, adorando reverentemente estos misterios, exclamamos con el apóstol: «¡Oh profundidad de las riquezas de la sabiduría y de la ciencia de Dios! ¡Cuán insondables son sus juicios, e inescrutables sus caminos!».",
+          "refs": [
+            {
+              "label": "Romanos 9:20",
+              "book_usfm": "ROM",
+              "chapter": 9
+            },
+            {
+              "label": "Romanos 11:33-36",
+              "book_usfm": "ROM",
+              "chapter": 11
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 2,
+      "title": "Segunda cabeza: La muerte de Cristo y la redención del hombre",
+      "questions": [
+        {
+          "number": 19,
+          "question": "Primer artículo: La justicia de Dios exige satisfacción",
+          "answer": "Dios no es solamente sumamente misericordioso, sino también sumamente justo. Y su justicia exige (según él se ha revelado en su Palabra) que nuestros pecados, cometidos contra su infinita majestad, sean castigados no solo con penas temporales, sino también con penas eternas, así en el cuerpo como en el alma; penas que no podemos evitar, si no es satisfaciéndose la justicia de Dios.",
+          "refs": [
+            {
+              "label": "Éxodo 34:7",
+              "book_usfm": "EXO",
+              "chapter": 34
+            },
+            {
+              "label": "Romanos 2:5-6",
+              "book_usfm": "ROM",
+              "chapter": 2
+            },
+            {
+              "label": "2 Tesalonicenses 1:6",
+              "book_usfm": "2TH",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 20,
+          "question": "Segundo artículo: Cristo, satisfacción por nosotros",
+          "answer": "Mas como nosotros no podemos hacer esa satisfacción por nosotros mismos, ni librarnos de la ira de Dios, Dios, por su infinita misericordia, nos ha dado a su Hijo unigénito por fiador, quien, para satisfacer por nosotros, se hizo pecado y maldición en la cruz en lugar nuestro.",
+          "refs": [
+            {
+              "label": "2 Corintios 5:21",
+              "book_usfm": "2CO",
+              "chapter": 5
+            },
+            {
+              "label": "Gálatas 3:13",
+              "book_usfm": "GAL",
+              "chapter": 3
+            },
+            {
+              "label": "1 Juan 2:2",
+              "book_usfm": "1JN",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 21,
+          "question": "Tercer artículo: El valor infinito de la muerte de Cristo",
+          "answer": "Esta muerte del Hijo de Dios es el único y perfectísimo sacrificio y satisfacción por los pecados, de infinito valor y precio, más que suficiente para expiar los pecados de todo el mundo.",
+          "refs": [
+            {
+              "label": "1 Juan 2:2",
+              "book_usfm": "1JN",
+              "chapter": 2
+            },
+            {
+              "label": "Hebreos 9:14",
+              "book_usfm": "HEB",
+              "chapter": 9
+            },
+            {
+              "label": "Hebreos 10:14",
+              "book_usfm": "HEB",
+              "chapter": 10
+            }
+          ]
+        },
+        {
+          "number": 22,
+          "question": "Cuarto artículo: Por qué es de infinito valor",
+          "answer": "Esta muerte es de tan gran valor y precio porque la persona que la padeció no solo es verdadero y perfectamente santo hombre, sino también el Hijo unigénito de Dios, de la misma eterna e infinita esencia con el Padre y el Espíritu Santo, cual convenía que fuese nuestro Salvador; y también porque su muerte estuvo acompañada del sentimiento de la ira y de la maldición de Dios, que nosotros por nuestros pecados habíamos merecido.",
+          "refs": [
+            {
+              "label": "Hebreos 7:26",
+              "book_usfm": "HEB",
+              "chapter": 7
+            },
+            {
+              "label": "Hechos 20:28",
+              "book_usfm": "ACT",
+              "chapter": 20
+            },
+            {
+              "label": "1 Pedro 1:18-19",
+              "book_usfm": "1PE",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 23,
+          "question": "Quinto artículo: La promesa universal del evangelio",
+          "answer": "Además, la promesa del evangelio es que todo aquel que cree en Cristo crucificado no se pierda, sino que tenga vida eterna. Esta promesa debe anunciarse y proponerse, con el mandato de arrepentirse y creer, a todas las naciones y a todos los hombres, a quienes Dios según su beneplácito envía el evangelio, sin distinción alguna.",
+          "refs": [
+            {
+              "label": "Juan 3:16",
+              "book_usfm": "JHN",
+              "chapter": 3
+            },
+            {
+              "label": "Marcos 16:15",
+              "book_usfm": "MRK",
+              "chapter": 16
+            },
+            {
+              "label": "Mateo 28:19",
+              "book_usfm": "MAT",
+              "chapter": 28
+            }
+          ]
+        },
+        {
+          "number": 24,
+          "question": "Sexto artículo: La incredulidad es culpa del hombre",
+          "answer": "Y que muchos, llamados por el evangelio, no se arrepientan ni crean en Cristo, sino que perezcan en su incredulidad, esto no proviene de defecto ni de insuficiencia del sacrificio ofrecido por Cristo en la cruz, sino de su propia culpa.",
+          "refs": [
+            {
+              "label": "Juan 3:19",
+              "book_usfm": "JHN",
+              "chapter": 3
+            },
+            {
+              "label": "Juan 5:40",
+              "book_usfm": "JHN",
+              "chapter": 5
+            },
+            {
+              "label": "Romanos 10:16",
+              "book_usfm": "ROM",
+              "chapter": 10
+            }
+          ]
+        },
+        {
+          "number": 25,
+          "question": "Séptimo artículo: La fe es don de Dios",
+          "answer": "Mas cuantos verdaderamente creen, y por la muerte de Cristo son librados y salvados del pecado y de la perdición, gozan de este beneficio por la sola gracia de Dios, que les es debida a ellos desde la eternidad en Cristo, y no por mérito alguno propio.",
+          "refs": [
+            {
+              "label": "Efesios 2:8",
+              "book_usfm": "EPH",
+              "chapter": 2
+            },
+            {
+              "label": "Romanos 3:24",
+              "book_usfm": "ROM",
+              "chapter": 3
+            },
+            {
+              "label": "1 Corintios 4:7",
+              "book_usfm": "1CO",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 26,
+          "question": "Octavo artículo: La eficacia particular de la muerte de Cristo",
+          "answer": "Porque este fue el soberano consejo y la gratísima voluntad y propósito de Dios Padre: que la virtud vivificadora y salvadora de la preciosísima muerte de su Hijo se extendiese a todos los elegidos, para darles solo a ellos la fe justificadora y por ella conducirlos infaliblemente a la salvación. Es decir, Dios quiso que Cristo, por la sangre de su cruz, redimiese eficazmente de todo pueblo, tribu, nación y lengua a todos aquellos, y a solos aquellos, que desde la eternidad fueron elegidos para la salvación y le fueron dados por el Padre.",
+          "refs": [
+            {
+              "label": "Juan 10:15",
+              "book_usfm": "JHN",
+              "chapter": 10
+            },
+            {
+              "label": "Juan 17:9",
+              "book_usfm": "JHN",
+              "chapter": 17
+            },
+            {
+              "label": "Efesios 5:25",
+              "book_usfm": "EPH",
+              "chapter": 5
+            },
+            {
+              "label": "Apocalipsis 5:9",
+              "book_usfm": "REV",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 27,
+          "question": "Noveno artículo: El cumplimiento del propósito de Dios",
+          "answer": "Este propósito, nacido del amor eterno hacia los elegidos, desde el principio del mundo hasta el presente ha sido y será poderosamente cumplido, en vano resistiéndolo las puertas del infierno; de suerte que los elegidos, a su tiempo, sean reunidos en uno, y que siempre haya una Iglesia de creyentes fundada en la sangre de Cristo, que constantemente lo ame, lo sirva y lo alabe con perseverancia como a su Salvador, que por ellos (como esposo por su esposa) entregó su vida en la cruz.",
+          "refs": [
+            {
+              "label": "Efesios 5:25-27",
+              "book_usfm": "EPH",
+              "chapter": 5
+            },
+            {
+              "label": "Mateo 16:18",
+              "book_usfm": "MAT",
+              "chapter": 16
+            },
+            {
+              "label": "Juan 10:28",
+              "book_usfm": "JHN",
+              "chapter": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 3,
+      "title": "Tercera y cuarta cabeza: La corrupción del hombre y su conversión a Dios",
+      "questions": [
+        {
+          "number": 28,
+          "question": "Primer artículo: La integridad original y la caída",
+          "answer": "El hombre fue creado en un principio a imagen de Dios, adornado su entendimiento con verdadero y saludable conocimiento de su Creador y de las cosas espirituales, su voluntad y corazón con justicia, y todos sus afectos con pureza; en suma, todo el hombre era santo. Mas apartándose de Dios por instigación del diablo y por su propio libre albedrío, se privó de estos excelentes dones, y en su lugar contrajo ceguera, horribles tinieblas, vanidad y perversidad de juicio en su entendimiento; malicia, rebeldía y dureza en su voluntad y corazón; e impureza, en fin, en todos sus afectos.",
+          "refs": [
+            {
+              "label": "Génesis 1:27",
+              "book_usfm": "GEN",
+              "chapter": 1
+            },
+            {
+              "label": "Eclesiastés 7:29",
+              "book_usfm": "ECC",
+              "chapter": 7
+            },
+            {
+              "label": "Génesis 3:6",
+              "book_usfm": "GEN",
+              "chapter": 3
+            },
+            {
+              "label": "Efesios 4:18",
+              "book_usfm": "EPH",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 29,
+          "question": "Segundo artículo: La transmisión de la corrupción",
+          "answer": "Cual el hombre se hizo después de la caída, tales hijos engendró; es decir, siendo él corrompido, corrompidos. De suerte que la corrupción se derivó de Adán a toda su posteridad (excepto solo Cristo) no por imitación, como antiguamente afirmaban los pelagianos, sino por propagación de la naturaleza viciada, por justo juicio de Dios.",
+          "refs": [
+            {
+              "label": "Salmo 51:5",
+              "book_usfm": "PSA",
+              "chapter": 51
+            },
+            {
+              "label": "Romanos 5:12",
+              "book_usfm": "ROM",
+              "chapter": 5
+            },
+            {
+              "label": "Juan 3:6",
+              "book_usfm": "JHN",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 30,
+          "question": "Tercer artículo: La incapacidad total del hombre",
+          "answer": "Por tanto, todos los hombres son concebidos en pecado y nacen hijos de ira, inhábiles para todo bien salvador, inclinados al mal, muertos en sus pecados y esclavos del pecado; y sin la gracia del Espíritu Santo que regenera, ni quieren ni pueden volver a Dios, ni corregir su naturaleza depravada, ni disponerse para tal corrección.",
+          "refs": [
+            {
+              "label": "Efesios 2:1-3",
+              "book_usfm": "EPH",
+              "chapter": 2
+            },
+            {
+              "label": "Romanos 8:7",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "Juan 6:44",
+              "book_usfm": "JHN",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 31,
+          "question": "Cuarto artículo: La luz de la naturaleza es insuficiente",
+          "answer": "Cierto es que después de la caída quedó en el hombre alguna luz de la naturaleza, por la cual conserva algunas nociones de Dios, de las cosas naturales, de la diferencia entre lo honesto y lo deshonesto, y muestra algún cuidado de la virtud y del buen orden exterior. Pero tan lejos está esta luz de la naturaleza de poder conducir al hombre al conocimiento salvador de Dios y a la verdadera conversión, que ni aun en las cosas naturales y civiles la usa rectamente; antes bien, de diversos modos la mancha del todo, y la detiene con injusticia; haciéndolo así inexcusable delante de Dios.",
+          "refs": [
+            {
+              "label": "Romanos 1:18-21",
+              "book_usfm": "ROM",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 2:14-15",
+              "book_usfm": "ROM",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 32,
+          "question": "Quinto artículo: La ley tampoco puede salvar",
+          "answer": "En esto mismo que la luz de la naturaleza, cae también la Ley de los Diez Mandamientos, dada por Dios por medio de Moisés al pueblo judío. Porque aunque descubre la grandeza del pecado y convence más y más al hombre de su culpa, no le ofrece remedio ni le da fuerzas para salir de la miseria; y así, debilitada por la carne, deja al transgresor bajo la maldición, no pudiendo el hombre por ella alcanzar la gracia salvadora.",
+          "refs": [
+            {
+              "label": "Romanos 3:20",
+              "book_usfm": "ROM",
+              "chapter": 3
+            },
+            {
+              "label": "Romanos 7:7-8",
+              "book_usfm": "ROM",
+              "chapter": 7
+            },
+            {
+              "label": "Gálatas 3:21",
+              "book_usfm": "GAL",
+              "chapter": 3
+            },
+            {
+              "label": "Romanos 8:3",
+              "book_usfm": "ROM",
+              "chapter": 8
+            }
+          ]
+        },
+        {
+          "number": 33,
+          "question": "Sexto artículo: El evangelio como remedio",
+          "answer": "Por tanto, lo que ni la luz de la naturaleza ni la Ley podían hacer, lo hace Dios por la virtud del Espíritu Santo, mediante la palabra o el ministerio de la reconciliación, que es el evangelio del Mesías, por el cual plugo a Dios salvar a los creyentes, tanto en el Antiguo como en el Nuevo Testamento.",
+          "refs": [
+            {
+              "label": "Romanos 1:16",
+              "book_usfm": "ROM",
+              "chapter": 1
+            },
+            {
+              "label": "1 Corintios 1:21",
+              "book_usfm": "1CO",
+              "chapter": 1
+            },
+            {
+              "label": "2 Corintios 5:18-19",
+              "book_usfm": "2CO",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 34,
+          "question": "Séptimo artículo: La revelación más plena en el evangelio",
+          "answer": "Este secreto de su voluntad, Dios lo reveló en el Antiguo Testamento a un pequeño número; en el Nuevo Testamento, quitada la diferencia de los pueblos, lo manifiesta a muchos. La causa de esta dispensación no ha de atribuirse a la dignidad de una nación sobre otra, ni al mejor uso de la luz de la naturaleza, sino al soberano beneplácito y al gratuito amor de Dios.",
+          "refs": [
+            {
+              "label": "Romanos 16:25-26",
+              "book_usfm": "ROM",
+              "chapter": 16
+            },
+            {
+              "label": "Mateo 11:25-26",
+              "book_usfm": "MAT",
+              "chapter": 11
+            },
+            {
+              "label": "Hechos 14:16",
+              "book_usfm": "ACT",
+              "chapter": 14
+            }
+          ]
+        },
+        {
+          "number": 35,
+          "question": "Octavo artículo: El llamamiento sincero de Dios",
+          "answer": "Cuantos son llamados por el evangelio, son llamados seriamente; porque Dios muestra sincera y verdaderamente en su Palabra qué le es agradable: que los llamados vengan a él. Y también promete seriamente el reposo del alma y la vida eterna a cuantos vengan a él y crean.",
+          "refs": [
+            {
+              "label": "Ezequiel 33:11",
+              "book_usfm": "EZK",
+              "chapter": 33
+            },
+            {
+              "label": "Mateo 11:28",
+              "book_usfm": "MAT",
+              "chapter": 11
+            },
+            {
+              "label": "2 Corintios 5:20",
+              "book_usfm": "2CO",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 36,
+          "question": "Noveno artículo: La culpa de rechazar el evangelio",
+          "answer": "Que muchos, llamados por el ministerio del evangelio, no vengan y no se conviertan, no es por culpa del evangelio, ni de Cristo ofrecido por él, ni de Dios que por el evangelio los llama y aun les confiere diversos dones; sino por culpa de los llamados mismos, de los cuales unos, descuidados, no reciben la palabra de vida; otros la reciben, pero no en lo íntimo del corazón, y por eso, después de un gozo pasajero de la fe temporal, se apartan; otros, con las espinas de los cuidados y con los deleites del mundo, ahogan la semilla de la palabra y no dan fruto. Esto lo enseña nuestro Salvador en la parábola del sembrador.",
+          "refs": [
+            {
+              "label": "Mateo 13:20-22",
+              "book_usfm": "MAT",
+              "chapter": 13
+            },
+            {
+              "label": "Mateo 22:5",
+              "book_usfm": "MAT",
+              "chapter": 22
+            },
+            {
+              "label": "Hebreos 4:2",
+              "book_usfm": "HEB",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 37,
+          "question": "Décimo artículo: La conversión es obra de Dios",
+          "answer": "Mas que otros, llamados por el ministerio del evangelio, vengan y se conviertan, no ha de atribuirse al hombre, como si él, por su libre albedrío, se distinguiese de los demás dotados de igual o suficiente gracia para creer y convertirse; sino que ha de atribuirse a Dios, quien, así como eligió a los suyos desde la eternidad en Cristo, así también en el tiempo los llama eficazmente, les da la fe y el arrepentimiento, y, arrancándolos del poder de las tinieblas, los traslada al reino de su Hijo.",
+          "refs": [
+            {
+              "label": "1 Corintios 4:7",
+              "book_usfm": "1CO",
+              "chapter": 4
+            },
+            {
+              "label": "Efesios 2:8-10",
+              "book_usfm": "EPH",
+              "chapter": 2
+            },
+            {
+              "label": "Colosenses 1:13",
+              "book_usfm": "COL",
+              "chapter": 1
+            },
+            {
+              "label": "Filipenses 1:29",
+              "book_usfm": "PHP",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 38,
+          "question": "Undécimo artículo: La obra interior del Espíritu",
+          "answer": "Además, cuando Dios cumple en los elegidos este su beneplácito, y obra en ellos la verdadera conversión, no solo hace que se les predique exteriormente el evangelio, y alumbra poderosamente su entendimiento con el Espíritu Santo, para que entiendan y disciernan rectamente las cosas del Espíritu de Dios; sino que, por la eficacia del mismo Espíritu regenerador, penetra hasta lo más íntimo del hombre, abre el corazón cerrado, ablanda el duro, circuncida el incircunciso, e infunde nuevas cualidades en la voluntad, haciéndola, de muerta, viva; de mala, buena; de renuente, dispuesta; de rebelde, obediente.",
+          "refs": [
+            {
+              "label": "Ezequiel 36:26-27",
+              "book_usfm": "EZK",
+              "chapter": 36
+            },
+            {
+              "label": "Filipenses 2:13",
+              "book_usfm": "PHP",
+              "chapter": 2
+            },
+            {
+              "label": "Hechos 16:14",
+              "book_usfm": "ACT",
+              "chapter": 16
+            },
+            {
+              "label": "Jeremías 31:33",
+              "book_usfm": "JER",
+              "chapter": 31
+            }
+          ]
+        },
+        {
+          "number": 39,
+          "question": "Duodécimo artículo: La regeneración, obra sobrenatural",
+          "answer": "Y esta es aquella regeneración, nueva creación, resurrección de los muertos y vivificación tan predicada en las Escrituras, que Dios obra en nosotros sin nuestra intervención. Mas esta no se hace de ningún modo solo por la predicación externa, ni por la moral persuasión, ni de tal manera que, después de haber hecho Dios su parte, quede en poder del hombre el regenerarse o no, el convertirse o no. Al contrario, es una obra manifiestamente sobrenatural, poderosísima y a la vez dulcísima, admirable, oculta e inefable.",
+          "refs": [
+            {
+              "label": "Juan 3:3-8",
+              "book_usfm": "JHN",
+              "chapter": 3
+            },
+            {
+              "label": "Efesios 1:19-20",
+              "book_usfm": "EPH",
+              "chapter": 1
+            },
+            {
+              "label": "2 Corintios 5:17",
+              "book_usfm": "2CO",
+              "chapter": 5
+            },
+            {
+              "label": "Juan 1:13",
+              "book_usfm": "JHN",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 40,
+          "question": "Decimotercer artículo: El modo inefable de esta obra",
+          "answer": "El modo de esta operación no pueden los creyentes comprenderlo plenamente en esta vida; entretanto, descansan en que por esta gracia de Dios creen de corazón y aman a su Salvador. Así que es deber de todos ejercitarse continuamente en despertar esta gracia, en dar gracias y en ser humildes, dejando lo demás a la voluntad de aquel que, sobrepasando toda la capacidad de nuestro entendimiento, nos ha amado.",
+          "refs": [
+            {
+              "label": "Juan 3:8",
+              "book_usfm": "JHN",
+              "chapter": 3
+            },
+            {
+              "label": "1 Juan 4:19",
+              "book_usfm": "1JN",
+              "chapter": 4
+            },
+            {
+              "label": "Filipenses 2:12-13",
+              "book_usfm": "PHP",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 41,
+          "question": "Decimocuarto artículo: La fe como don de Dios",
+          "answer": "De esta manera, pues, la fe es don de Dios; no porque Dios la ofrezca al libre albedrío del hombre, sino porque real y eficazmente la confiere, la inspira y la infunde en el hombre. Ni tampoco porque Dios confiera solamente la facultad de creer, y espere después el consentimiento o el acto de creer del libre albedrío del hombre; sino porque aquel que obra el querer y el hacer, y en verdad todo en todos, produce en el hombre tanto la voluntad de creer como el creer mismo.",
+          "refs": [
+            {
+              "label": "Efesios 2:8",
+              "book_usfm": "EPH",
+              "chapter": 2
+            },
+            {
+              "label": "Filipenses 1:29",
+              "book_usfm": "PHP",
+              "chapter": 1
+            },
+            {
+              "label": "Filipenses 2:13",
+              "book_usfm": "PHP",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 42,
+          "question": "Decimoquinto artículo: La gratitud ante la gracia",
+          "answer": "Esta gracia Dios no está obligado a concederla a nadie; pues ¿qué puede él deber a quien nada tiene que darle primero? Más aún, ¿qué puede deber Dios a quien de suyo no tiene sino pecado y mentira? Por tanto, quien recibe esta gracia debe a Dios eterna gratitud, y se la rinde; y quien no la recibe, o bien no se cuida en absoluto de estas cosas espirituales y se contenta consigo mismo, o bien, sin temor alguno, se jacta vanamente de tener lo que no tiene.",
+          "refs": [
+            {
+              "label": "Romanos 11:35-36",
+              "book_usfm": "ROM",
+              "chapter": 11
+            },
+            {
+              "label": "1 Corintios 4:7",
+              "book_usfm": "1CO",
+              "chapter": 4
+            },
+            {
+              "label": "Romanos 9:16",
+              "book_usfm": "ROM",
+              "chapter": 9
+            }
+          ]
+        },
+        {
+          "number": 43,
+          "question": "Decimosexto artículo: La gracia respeta la naturaleza del hombre",
+          "answer": "Mas así como por la caída el hombre no dejó de ser hombre, dotado de entendimiento y voluntad, ni el pecado, que ha invadido todo el género humano, quitó la naturaleza humana, sino que la depravó y mató espiritualmente; así también esta gracia divina de la regeneración no obra en los hombres como en troncos y piedras, ni destruye la voluntad y sus propiedades, ni la fuerza contra su naturaleza, sino que la vivifica espiritualmente, la sana, la corrige, y a la vez suave y poderosamente la doblega.",
+          "refs": [
+            {
+              "label": "Ezequiel 36:26-27",
+              "book_usfm": "EZK",
+              "chapter": 36
+            },
+            {
+              "label": "Salmo 110:3",
+              "book_usfm": "PSA",
+              "chapter": 110
+            },
+            {
+              "label": "Filipenses 2:13",
+              "book_usfm": "PHP",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 44,
+          "question": "Decimoséptimo artículo: El uso de los medios",
+          "answer": "Así como aquella omnipotente operación de Dios, por la cual produce y sostiene nuestra vida natural, no excluye, sino que requiere el uso de los medios por los cuales Dios, según su infinita sabiduría y bondad, quiso ejercer su poder; así también aquella sobrenatural operación de Dios, por la cual nos regenera, de ningún modo excluye ni anula el uso del evangelio, que Dios sapientísimo ordenó como semilla de la regeneración y alimento del alma. Por tanto, los creyentes deben usar diligentemente los medios; y tanto menos han de presumir de negligencia, cuanto más sienten en sí la eficacia de la gracia obrando.",
+          "refs": [
+            {
+              "label": "1 Pedro 1:23",
+              "book_usfm": "1PE",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 10:17",
+              "book_usfm": "ROM",
+              "chapter": 10
+            },
+            {
+              "label": "Filipenses 2:12-13",
+              "book_usfm": "PHP",
+              "chapter": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 4,
+      "title": "Quinta cabeza: La perseverancia de los santos",
+      "questions": [
+        {
+          "number": 45,
+          "question": "Primer artículo: La liberación del dominio del pecado",
+          "answer": "A los que Dios, según su propósito, llama a la comunión de su Hijo, nuestro Señor Jesucristo, y regenera por el Espíritu Santo, ciertamente los libra del dominio y de la esclavitud del pecado, aunque en esta vida no los libra del todo de la carne y del cuerpo de pecado.",
+          "refs": [
+            {
+              "label": "Romanos 6:14",
+              "book_usfm": "ROM",
+              "chapter": 6
+            },
+            {
+              "label": "Romanos 7:18",
+              "book_usfm": "ROM",
+              "chapter": 7
+            },
+            {
+              "label": "Gálatas 5:17",
+              "book_usfm": "GAL",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 46,
+          "question": "Segundo artículo: La lucha contra el pecado que queda",
+          "answer": "De aquí nacen los pecados diarios de flaqueza, y aun a las mejores obras de los santos se les pegan manchas; lo cual les da continuo motivo para humillarse delante de Dios, para acogerse a Cristo crucificado, para mortificar cada vez más la carne por el espíritu de oración y por los santos ejercicios de piedad, y para suspirar por la meta de la perfección, hasta que, libres al fin de este cuerpo de muerte, reinen con el Cordero de Dios en los cielos.",
+          "refs": [
+            {
+              "label": "Romanos 7:24-25",
+              "book_usfm": "ROM",
+              "chapter": 7
+            },
+            {
+              "label": "1 Juan 1:8-9",
+              "book_usfm": "1JN",
+              "chapter": 1
+            },
+            {
+              "label": "Gálatas 5:24",
+              "book_usfm": "GAL",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 47,
+          "question": "Tercer artículo: Dios conserva la obra comenzada",
+          "answer": "Por causa de estos restos del pecado que habitan en ellos, y también por las tentaciones del mundo y de Satanás, los convertidos no podrían perseverar en aquella gracia si fuesen dejados a sus propias fuerzas. Mas Dios es fiel, quien, habiéndoles conferido misericordiosamente la gracia, los confirma y conserva poderosamente en ella hasta el fin.",
+          "refs": [
+            {
+              "label": "1 Pedro 1:5",
+              "book_usfm": "1PE",
+              "chapter": 1
+            },
+            {
+              "label": "Filipenses 1:6",
+              "book_usfm": "PHP",
+              "chapter": 1
+            },
+            {
+              "label": "1 Corintios 10:13",
+              "book_usfm": "1CO",
+              "chapter": 10
+            },
+            {
+              "label": "Juan 10:28-29",
+              "book_usfm": "JHN",
+              "chapter": 10
+            }
+          ]
+        },
+        {
+          "number": 48,
+          "question": "Cuarto artículo: La realidad de las caídas graves",
+          "answer": "Aunque aquel poder de Dios, por el cual confirma y conserva en la gracia a los verdaderos creyentes, es mayor que para poder ser vencido por la carne; sin embargo, no siempre los convertidos son de tal modo guiados y movidos por Dios, que en algunos actos particulares no puedan, por su propia culpa, apartarse de la dirección de la gracia, ser seducidos por las concupiscencias de la carne y consentir en ellas. Por lo cual deben velar y orar continuamente, para no ser inducidos a tentaciones. Y no haciéndolo así, no solo pueden ser arrastrados por la carne, el mundo y Satanás a pecados graves y atroces, sino que a veces, por justa permisión de Dios, en verdad son arrastrados; como lo muestran las lamentables caídas de David, de Pedro y de otros santos, descritas en la Escritura.",
+          "refs": [
+            {
+              "label": "Salmo 51:1-4",
+              "book_usfm": "PSA",
+              "chapter": 51
+            },
+            {
+              "label": "Mateo 26:70-72",
+              "book_usfm": "MAT",
+              "chapter": 26
+            },
+            {
+              "label": "1 Corintios 10:12",
+              "book_usfm": "1CO",
+              "chapter": 10
+            },
+            {
+              "label": "Mateo 26:41",
+              "book_usfm": "MAT",
+              "chapter": 26
+            }
+          ]
+        },
+        {
+          "number": 49,
+          "question": "Quinto artículo: Las consecuencias de tales caídas",
+          "answer": "Con tan enormes pecados, sin embargo, ofenden gravemente a Dios, incurren en reato de muerte, contristan al Espíritu Santo, interrumpen el ejercicio de la fe, hieren gravemente la conciencia, y a veces por algún tiempo pierden el sentido de la gracia; hasta que, volviendo al buen camino por el arrepentimiento serio, la luz del rostro paternal de Dios vuelve a resplandecer sobre ellos.",
+          "refs": [
+            {
+              "label": "Salmo 51:8",
+              "book_usfm": "PSA",
+              "chapter": 51
+            },
+            {
+              "label": "Salmo 51:11-12",
+              "book_usfm": "PSA",
+              "chapter": 51
+            },
+            {
+              "label": "Efesios 4:30",
+              "book_usfm": "EPH",
+              "chapter": 4
+            },
+            {
+              "label": "Isaías 59:2",
+              "book_usfm": "ISA",
+              "chapter": 59
+            }
+          ]
+        },
+        {
+          "number": 50,
+          "question": "Sexto artículo: Dios no retira del todo su Espíritu",
+          "answer": "Porque Dios, rico en misericordia, según el inmutable propósito de la elección, no retira totalmente su Espíritu Santo de los suyos, ni aun en las caídas lamentables; ni permite que caigan de tal modo que decaigan de la gracia de la adopción y del estado de justificación, o que cometan pecado de muerte o contra el Espíritu Santo, y, del todo abandonados por él, se precipiten en la perdición eterna.",
+          "refs": [
+            {
+              "label": "Juan 10:28",
+              "book_usfm": "JHN",
+              "chapter": 10
+            },
+            {
+              "label": "Romanos 8:38-39",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "1 Juan 3:9",
+              "book_usfm": "1JN",
+              "chapter": 3
+            },
+            {
+              "label": "Salmo 89:31-34",
+              "book_usfm": "PSA",
+              "chapter": 89
+            }
+          ]
+        },
+        {
+          "number": 51,
+          "question": "Séptimo artículo: La semilla incorruptible permanece",
+          "answer": "Porque, primeramente, en tales caídas Dios conserva en ellos aquella su incorruptible semilla, de la cual son regenerados, para que no perezca ni sea desechada. Y además, por su Palabra y Espíritu, cierta y eficazmente los renueva al arrepentimiento, para que de corazón se duelan según Dios de los pecados cometidos, deseen y obtengan el perdón por la fe y con corazón contrito, sientan de nuevo la gracia de Dios reconciliado, adoren sus misericordias y en adelante obren con mayor cuidado su salvación con temor y temblor.",
+          "refs": [
+            {
+              "label": "1 Pedro 1:23",
+              "book_usfm": "1PE",
+              "chapter": 1
+            },
+            {
+              "label": "1 Juan 3:9",
+              "book_usfm": "1JN",
+              "chapter": 3
+            },
+            {
+              "label": "2 Corintios 7:10",
+              "book_usfm": "2CO",
+              "chapter": 7
+            },
+            {
+              "label": "Filipenses 2:12-13",
+              "book_usfm": "PHP",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 52,
+          "question": "Octavo artículo: La perseverancia es obra de la gracia",
+          "answer": "Así que, no por sus propios méritos o fuerzas, sino por la gratuita misericordia de Dios, alcanzan que ni caigan total y finalmente de la fe y de la gracia, ni permanezcan hasta el fin en sus caídas o perezcan. Lo cual, en cuanto a ellos, no solo podría fácilmente suceder, sino que sin duda sucedería; mas en cuanto a Dios, de ningún modo puede acontecer, pues ni su consejo puede mudarse, ni su promesa faltar, ni la vocación según su propósito revocarse, ni el mérito, la intercesión y la custodia de Cristo enervarse, ni el sello del Espíritu Santo frustrarse ni destruirse.",
+          "refs": [
+            {
+              "label": "Juan 10:28-29",
+              "book_usfm": "JHN",
+              "chapter": 10
+            },
+            {
+              "label": "Romanos 8:30",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "Romanos 11:29",
+              "book_usfm": "ROM",
+              "chapter": 11
+            },
+            {
+              "label": "Efesios 1:13-14",
+              "book_usfm": "EPH",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 53,
+          "question": "Noveno artículo: La certeza de la perseverancia",
+          "answer": "De esta conservación de los elegidos para la salvación, y de la perseverancia de los verdaderos creyentes en la fe, pueden los creyentes mismos estar ciertos, y lo están según la medida de su fe, por la cual creen con certeza que son y permanecerán siempre verdaderos y vivos miembros de la Iglesia, que tienen el perdón de los pecados y la vida eterna.",
+          "refs": [
+            {
+              "label": "Romanos 8:38-39",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "1 Juan 3:14",
+              "book_usfm": "1JN",
+              "chapter": 3
+            },
+            {
+              "label": "2 Timoteo 1:12",
+              "book_usfm": "2TI",
+              "chapter": 1
+            },
+            {
+              "label": "1 Juan 5:13",
+              "book_usfm": "1JN",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 54,
+          "question": "Décimo artículo: El fundamento de esta certeza",
+          "answer": "Y esta certeza no nace de alguna revelación privada hecha fuera o contra la Palabra, sino de la fe en las promesas de Dios, que él abundantísimamente reveló en su Palabra para nuestro consuelo; del testimonio del Espíritu Santo, que da testimonio a nuestro espíritu de que somos hijos y herederos de Dios; y finalmente, del serio y santo cuidado de conservar la buena conciencia y de hacer buenas obras.",
+          "refs": [
+            {
+              "label": "Romanos 8:16",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "2 Pedro 1:10",
+              "book_usfm": "2PE",
+              "chapter": 1
+            },
+            {
+              "label": "2 Corintios 1:12",
+              "book_usfm": "2CO",
+              "chapter": 1
+            },
+            {
+              "label": "1 Juan 3:18-19",
+              "book_usfm": "1JN",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 55,
+          "question": "Undécimo artículo: El consuelo en las dudas",
+          "answer": "Entretanto, la Escritura testifica que los creyentes en esta vida luchan contra diversas dudas de la carne, y que, puestos en graves tentaciones, no siempre sienten esta plena certeza de la fe y esta seguridad de la perseverancia. Mas Dios, Padre de toda consolación, no permite que sean tentados más de lo que pueden resistir, sino que juntamente con la tentación da la salida, y por el Espíritu Santo despierta de nuevo en ellos la certeza de la perseverancia.",
+          "refs": [
+            {
+              "label": "1 Corintios 10:13",
+              "book_usfm": "1CO",
+              "chapter": 10
+            },
+            {
+              "label": "2 Corintios 1:3-4",
+              "book_usfm": "2CO",
+              "chapter": 1
+            },
+            {
+              "label": "Salmo 42:5",
+              "book_usfm": "PSA",
+              "chapter": 42
+            },
+            {
+              "label": "Salmo 42:11",
+              "book_usfm": "PSA",
+              "chapter": 42
+            }
+          ]
+        },
+        {
+          "number": 56,
+          "question": "Duodécimo artículo: La perseverancia y la santidad",
+          "answer": "Mas esta certeza de la perseverancia tan lejos está de hacer a los verdaderos creyentes soberbios y carnalmente seguros, que antes bien es la verdadera raíz de la humildad, del temor filial, de la verdadera piedad, de la paciencia en toda lucha, de las ardientes oraciones, de la constancia en la cruz y en la confesión de la verdad, y del sólido gozo en Dios; de suerte que la consideración de este beneficio les es estímulo para ejercitarse seria y continuamente en la gratitud y en las buenas obras.",
+          "refs": [
+            {
+              "label": "1 Juan 3:3",
+              "book_usfm": "1JN",
+              "chapter": 3
+            },
+            {
+              "label": "Romanos 8:15",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "2 Corintios 7:1",
+              "book_usfm": "2CO",
+              "chapter": 7
+            },
+            {
+              "label": "1 Juan 4:19",
+              "book_usfm": "1JN",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 57,
+          "question": "Decimotercer artículo: La perseverancia no engendra libertinaje",
+          "answer": "Ni tampoco de la renovada confianza de la perseverancia nace en los librados de la caída el libertinaje o el descuido de la piedad; antes bien, un cuidado mucho mayor de guardar diligentemente los caminos del Señor, dispuestos de antemano para que, andando en ellos, conserven la certeza de su perseverancia; no sea que, por el abuso de la paternal benignidad de Dios, se les aparte de nuevo el rostro de su gracia (cuya contemplación es a los piadosos más dulce que la vida, y cuya privación más amarga que la muerte), y así caigan en más graves tormentos de conciencia.",
+          "refs": [
+            {
+              "label": "Salmo 130:4",
+              "book_usfm": "PSA",
+              "chapter": 130
+            },
+            {
+              "label": "Romanos 6:1-2",
+              "book_usfm": "ROM",
+              "chapter": 6
+            },
+            {
+              "label": "2 Corintios 5:14-15",
+              "book_usfm": "2CO",
+              "chapter": 5
+            },
+            {
+              "label": "Tito 2:11-12",
+              "book_usfm": "TIT",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 58,
+          "question": "Decimocuarto artículo: Los medios de la perseverancia",
+          "answer": "Y así como plugo a Dios comenzar en nosotros esta obra de su gracia por la predicación del evangelio, así la conserva, continúa y perfecciona por el oír, leer y meditar la Palabra, por las exhortaciones, amenazas y promesas, y también por el uso de los sacramentos.",
+          "refs": [
+            {
+              "label": "1 Pedro 1:5",
+              "book_usfm": "1PE",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 10:17",
+              "book_usfm": "ROM",
+              "chapter": 10
+            },
+            {
+              "label": "2 Pedro 3:18",
+              "book_usfm": "2PE",
+              "chapter": 3
+            },
+            {
+              "label": "Hechos 2:42",
+              "book_usfm": "ACT",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 59,
+          "question": "Decimoquinto artículo: La reverencia ante esta doctrina",
+          "answer": "Esta doctrina de la perseverancia de los verdaderos creyentes y santos, y de su certeza —que Dios, para gloria de su nombre y para consuelo de las almas piadosas, abundantísimamente reveló en su Palabra e imprime en los corazones de los fieles— la carne no la entiende, Satanás la aborrece, el mundo la escarnece, los ignorantes y los hipócritas de ella abusan, y los espíritus errados la impugnan; pero la Esposa de Cristo la ha amado siempre tiernísimamente y la ha defendido constantemente como un tesoro de inestimable precio. Y para que así lo haga siempre, proveerá aquel Dios contra quien ningún consejo prevalece ni fuerza alguna puede. Al cual solo Dios, Padre, Hijo y Espíritu Santo, sea honra y gloria por los siglos. Amén.",
+          "refs": [
+            {
+              "label": "Juan 10:28-30",
+              "book_usfm": "JHN",
+              "chapter": 10
+            },
+            {
+              "label": "Romanos 11:36",
+              "book_usfm": "ROM",
+              "chapter": 11
+            },
+            {
+              "label": "Judas 1:24-25",
+              "book_usfm": "JUD",
+              "chapter": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

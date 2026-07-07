@@ -2,6 +2,16 @@
 
 Registro de mejoras en lenguaje de usuario, para compartir.
 
+## Actualización — 6 de julio de 2026 · web y descubribilidad
+<!-- ref: 4efcf39 -->
+
+### ✨ Novedades
+- Nueva **Guía de la app**: una página que recorre todo lo que hace Lee Tu Biblia, función por función. Ideal para conocerla o para compartírsela a quien recién empieza.
+
+### 💫 Mejoras
+- Ahora es más fácil encontrar Lee Tu Biblia en Google y en asistentes como ChatGPT, y el enlace se ve más lindo al compartirlo por WhatsApp o redes.
+- En pantallas grandes, el botón de acción de los materiales de lectura queda mejor alineado.
+
 ## Actualización — 6 de julio de 2026
 <!-- ref: c5dd5b6 -->
 

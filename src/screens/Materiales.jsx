@@ -79,7 +79,7 @@ export default function Materiales() {
             <>
               <p className="text-[16px] font-medium text-ink">{m.name}</p>
               {on ? (
-                <p className="mt-1 text-[13px] font-medium" style={{ color: 'var(--accent)' }}>
+                <p className="mt-1 text-[13px] font-medium" style={{ color: 'var(--accent-ink)' }}>
                   {done ? '✓ Completado · repasar' : `Vas en la pregunta ${position}`} ›
                 </p>
               ) : (

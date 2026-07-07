@@ -110,7 +110,7 @@ export default function Diario() {
                   {editable && (
                     <span
                       className="flex shrink-0 items-center gap-1 text-[12px] font-medium"
-                      style={{ color: 'var(--accent)' }}
+                      style={{ color: 'var(--accent-ink)' }}
                     >
                       <PencilIcon size={13} />
                       Editar
@@ -128,7 +128,7 @@ export default function Diario() {
           type="button"
           onClick={loadMore}
           className="mt-3 w-full py-2 text-center text-[14px] font-semibold"
-          style={{ color: 'var(--accent)' }}
+          style={{ color: 'var(--accent-ink)' }}
         >
           Cargar más
         </button>

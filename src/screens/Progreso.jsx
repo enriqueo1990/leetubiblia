@@ -52,7 +52,7 @@ export default function Progreso() {
 
   return (
     <div className="pt-2">
-      <Link to="/" className="text-[15px] font-medium" style={{ color: 'var(--accent)' }}>
+      <Link to="/" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
         ‹ Hoy
       </Link>
       <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">Progreso</h1>
@@ -69,7 +69,7 @@ export default function Progreso() {
       ) : !r.hasPlan ? (
         <p className="mt-8 text-[15px] text-ink-soft">
           Elegí un plan en{' '}
-          <Link to="/planes" className="font-medium" style={{ color: 'var(--accent)' }}>
+          <Link to="/planes" className="font-medium" style={{ color: 'var(--accent-ink)' }}>
             Planes
           </Link>{' '}
           para ver tu progreso.
@@ -85,7 +85,7 @@ export default function Progreso() {
           {/* Stat cards */}
           <div className="mt-5 flex gap-3">
             <div className="card flex-1 p-4">
-              <p className="text-[30px] font-bold text-accent" style={{ letterSpacing: '-1px' }}>
+              <p className="text-[30px] font-bold text-accent-ink" style={{ letterSpacing: '-1px' }}>
                 {r.streak}
               </p>
               <p className="text-[13px] text-ink-soft">
@@ -147,7 +147,7 @@ export default function Progreso() {
               <span className="block text-[15px] font-semibold text-ink">Tu recorrido</span>
               <span className="block text-[13px] text-ink-soft">Tus logros y números en la Palabra</span>
             </span>
-            <span aria-hidden="true" className="text-[18px]" style={{ color: 'var(--accent)' }}>
+            <span aria-hidden="true" className="text-[18px]" style={{ color: 'var(--accent-ink)' }}>
               ›
             </span>
           </Link>
@@ -162,7 +162,7 @@ export default function Progreso() {
                   onClick={r.reprogramar}
                   disabled={r.reprogramando}
                   className="font-medium"
-                  style={{ color: 'var(--accent)', opacity: r.reprogramando ? 0.5 : 1 }}
+                  style={{ color: 'var(--accent-ink)', opacity: r.reprogramando ? 0.5 : 1 }}
                 >
                   {r.reprogramando ? 'reprogramando…' : 'podés reprogramar'}
                 </button>{' '}

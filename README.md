@@ -35,6 +35,8 @@ Es el **único color** fuera de la escala de grises en toda la app. El usuario e
 
 Tintes de acento (fondos suaves de badges/pills): claro `rgba(168,139,106,0.13)`, oscuro `rgba(194,165,126,0.16)`. Para sidebar activo: claro `rgba(168,139,106,0.12)`, oscuro `rgba(194,165,126,0.16)`.
 
+> **Actualización (2026-07):** los acentos puros no alcanzan contraste WCAG AA como texto (blanco sobre `pastel_sky` ≈ 2.6:1; el propio acento sobre blanco ≈ 2.6–3.2:1). Se agregó `--accent-ink` = `color-mix(in srgb, var(--accent) 60%, var(--text-primary))`: es el acento **como texto** sobre superficies (links, citas, ✓, nav activa) y pasa AA en ambos modos conservando el matiz. `--accent` queda solo para rellenos, barras y tintes. `--on-accent` (texto sobre relleno de acento) sigue siendo blanco en modo claro — decisión estética consciente aunque no llegue a AA sobre los acentos claros; en oscuro sigue siendo tinta `#1C1C1E`.
+
 ### Neutros
 
 **Modo claro**

@@ -13,7 +13,7 @@ export default function RetryError({ message = 'No se pudo cargar.', onRetry }) 
         type="button"
         onClick={onRetry}
         className="mt-1 font-semibold"
-        style={{ color: 'var(--accent)' }}
+        style={{ color: 'var(--accent-ink)' }}
       >
         Reintentar
       </button>

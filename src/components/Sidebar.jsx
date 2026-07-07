@@ -24,7 +24,7 @@ export default function Sidebar() {
                 end={end}
                 className="flex items-center gap-3 rounded-[12px] px-3 py-2.5 transition-colors duration-300 ease-soft"
                 style={({ isActive }) => ({
-                  color: isActive ? 'var(--accent)' : 'var(--text-soft)',
+                  color: isActive ? 'var(--accent-ink)' : 'var(--text-soft)',
                   backgroundColor: isActive ? 'var(--accent-tint-nav)' : 'transparent',
                 })}
               >

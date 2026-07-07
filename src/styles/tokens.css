@@ -29,10 +29,20 @@
   --tabbar-bg: rgba(244, 242, 238, 0.82);
   --danger: #D1453B;
 
-  /* on-accent: texto sobre el relleno de acento. Claro = blanco. */
+  /* on-accent: texto sobre el relleno de acento. Claro = blanco — decisión
+     estética consciente (Enrique, 2026-07-06): blanco sobre los acentos claros
+     no llega a AA (≈2.6:1 en pasteles), pero se prefiere la estética suave del
+     botón pastel. El resto del texto en acento sí pasa AA vía --accent-ink. */
   --on-accent-light: #FFFFFF;
   --on-accent-dark: #1C1C1E;
   --on-accent: var(--on-accent-light);
+
+  /* accent-ink: el acento como TEXTO sobre superficies (links, citas, ✓).
+     El acento puro no alcanza 4.5:1; mezclarlo con la tinta del modo lo lleva
+     a AA conservando el matiz. En claro oscurece; en oscuro aclara (la tinta
+     es clara), así que una sola regla sirve para ambos modos. Para rellenos,
+     barras y tintes se sigue usando --accent. */
+  --accent-ink: color-mix(in srgb, var(--accent) 60%, var(--text-primary));
 
   /* Tintes de acento (badges/pills y nav activo) */
   --accent-tint-light: rgba(168, 139, 106, 0.13);

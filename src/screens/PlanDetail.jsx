@@ -84,7 +84,7 @@ export default function PlanDetail() {
 
   return (
     <div className="pt-2">
-      <Link to="/planes" className="text-[15px] font-medium" style={{ color: 'var(--accent)' }}>
+      <Link to="/planes" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
         ‹ Planes
       </Link>
 
@@ -119,7 +119,7 @@ export default function PlanDetail() {
         {isActive ? 'Ir a Hoy' : saving ? 'Activando…' : 'Usar este plan'}
       </button>
       {isActive && (
-        <p className="mt-2 text-center text-[13px]" style={{ color: 'var(--accent)' }}>
+        <p className="mt-2 text-center text-[13px]" style={{ color: 'var(--accent-ink)' }}>
           Es tu plan activo
         </p>
       )}
@@ -142,7 +142,7 @@ export default function PlanDetail() {
             >
               <span
                 className="w-12 shrink-0 pt-0.5 text-[12px] font-semibold uppercase tracking-wide"
-                style={{ color: isCurrent || read ? 'var(--accent)' : 'var(--text-soft)' }}
+                style={{ color: isCurrent || read ? 'var(--accent-ink)' : 'var(--text-soft)' }}
               >
                 Día {d.day_number}
               </span>
@@ -157,7 +157,7 @@ export default function PlanDetail() {
               {read && (
                 <span
                   className="shrink-0 pt-0.5 text-[15px] font-bold"
-                  style={{ color: 'var(--accent)' }}
+                  style={{ color: 'var(--accent-ink)' }}
                   aria-label="Leído"
                 >
                   ✓

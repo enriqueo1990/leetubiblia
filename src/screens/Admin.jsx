@@ -31,7 +31,7 @@ function StatCard({ value, label, hint, accent }) {
   return (
     <div className="card p-4">
       <p
-        className={`text-[28px] font-bold leading-none ${accent ? 'text-accent' : 'text-ink'}`}
+        className={`text-[28px] font-bold leading-none ${accent ? 'text-accent-ink' : 'text-ink'}`}
         style={{ letterSpacing: '-1px' }}
       >
         {value}
@@ -139,7 +139,7 @@ function PlansHealth({ rows }) {
           <li key={p.slug} className="card p-4">
             <div className="flex items-baseline justify-between gap-3">
               <p className="min-w-0 flex-1 truncate text-[16px] font-semibold text-ink">{p.name}</p>
-              <span className="shrink-0 text-[14px] font-semibold" style={{ color: 'var(--accent)' }}>
+              <span className="shrink-0 text-[14px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
                 {rate}%
               </span>
             </div>
@@ -181,7 +181,7 @@ export default function Admin() {
   }, [isAdmin, load])
 
   const back = (
-    <Link to="/" className="text-[15px] font-medium" style={{ color: 'var(--accent)' }}>
+    <Link to="/" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
       ‹ Volver
     </Link>
   )

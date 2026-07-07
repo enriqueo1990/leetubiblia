@@ -25,7 +25,7 @@ function TabItem({ to, label, Icon, end }) {
         onTouchStart={triggerAnim}
         onClick={triggerAnim}
         style={({ isActive }) => ({
-          color: isActive ? 'var(--accent)' : 'var(--text-soft)',
+          color: isActive ? 'var(--accent-ink)' : 'var(--text-soft)',
           minHeight: 56,
         })}
       >

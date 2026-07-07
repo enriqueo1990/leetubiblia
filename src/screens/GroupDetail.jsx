@@ -39,7 +39,7 @@ import PrayerSheet from './PrayerSheet.jsx'
 function Stat({ n, label }) {
   return (
     <div className="flex-1">
-      <div className="text-[30px] font-bold text-accent" style={{ letterSpacing: '-1px' }}>
+      <div className="text-[30px] font-bold text-accent-ink" style={{ letterSpacing: '-1px' }}>
         {n}
       </div>
       <div className="mt-0.5 text-[12px] leading-tight text-ink-soft">{label}</div>
@@ -111,7 +111,7 @@ export default function GroupDetail() {
   if (error) {
     return (
       <div className="pt-2">
-        <Link to="/grupos" className="text-[15px] font-medium" style={{ color: 'var(--accent)' }}>
+        <Link to="/grupos" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
           ‹ Grupos
         </Link>
         <RetryError message={error} onRetry={load} />
@@ -239,7 +239,7 @@ export default function GroupDetail() {
 
   return (
     <div className="pt-2">
-      <Link to="/grupos" className="text-[15px] font-medium" style={{ color: 'var(--accent)' }}>
+      <Link to="/grupos" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
         ‹ Grupos
       </Link>
 
@@ -325,13 +325,13 @@ export default function GroupDetail() {
       >
         <p
           className="text-[12px] font-semibold uppercase tracking-wide"
-          style={{ color: 'var(--accent)' }}
+          style={{ color: 'var(--accent-ink)' }}
         >
           Hoy
         </p>
         {iShare ? (
           <div className="mt-2.5 flex items-center gap-2.5 text-ink">
-            <span style={{ color: 'var(--accent)' }}>
+            <span style={{ color: 'var(--accent-ink)' }}>
               <BookIcon size={18} />
             </span>
             <span className="text-[15px]">
@@ -348,7 +348,7 @@ export default function GroupDetail() {
           <Link
             to="/ajustes"
             className="mt-2.5 flex items-center gap-2.5"
-            style={{ color: 'var(--accent)' }}
+            style={{ color: 'var(--accent-ink)' }}
           >
             <BookIcon size={18} />
             <span className="text-[14px] font-medium">
@@ -357,7 +357,7 @@ export default function GroupDetail() {
           </Link>
         )}
         <div className="mt-2 flex items-center gap-2.5 text-ink">
-          <span style={{ color: 'var(--accent)' }}>
+          <span style={{ color: 'var(--accent-ink)' }}>
             <HeartIcon size={18} />
           </span>
           <span className="text-[15px]">
@@ -393,7 +393,7 @@ export default function GroupDetail() {
           className="card mt-3 flex w-full items-center gap-3 p-4 text-left"
         >
           <span
-            className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-accent"
+            className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-accent-ink"
             style={{ backgroundColor: 'var(--accent-tint)' }}
             aria-hidden="true"
           >
@@ -401,7 +401,7 @@ export default function GroupDetail() {
           </span>
           <span className="min-w-0">
             <span className="block text-[15px] text-ink">Todavía no hay pedidos compartidos</span>
-            <span className="mt-0.5 block text-[13px] font-semibold" style={{ color: 'var(--accent)' }}>
+            <span className="mt-0.5 block text-[13px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
               Compartí el primero →
             </span>
           </span>
@@ -429,7 +429,7 @@ export default function GroupDetail() {
                   ) : interceding(p) ? (
                     <span
                       className="flex shrink-0 items-center gap-1 text-[13px] font-semibold"
-                      style={{ color: 'var(--accent)' }}
+                      style={{ color: 'var(--accent-ink)' }}
                     >
                       <CheckIcon size={15} strokeWidth={2.2} /> Orando
                     </span>
@@ -438,7 +438,7 @@ export default function GroupDetail() {
                       type="button"
                       onClick={() => orar(p)}
                       className="shrink-0 rounded-pill px-4 py-1.5 text-[13px] font-semibold"
-                      style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent)' }}
+                      style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
                     >
                       Orar
                     </button>
@@ -450,7 +450,7 @@ export default function GroupDetail() {
           <Link
             to="/oracion?tab=grupos"
             className="mt-3 inline-block text-[14px] font-semibold"
-            style={{ color: 'var(--accent)' }}
+            style={{ color: 'var(--accent-ink)' }}
           >
             Ver todos →
           </Link>
@@ -467,7 +467,7 @@ export default function GroupDetail() {
           <Link to={`/grupos/${id}/testimonios`} className="card mt-3 block p-4">
             <div className="flex items-start gap-3">
               <div
-                className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-accent"
+                className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-accent-ink"
                 style={{ backgroundColor: 'var(--accent-tint)' }}
               >
                 <CheckIcon size={20} strokeWidth={2.2} />
@@ -476,7 +476,7 @@ export default function GroupDetail() {
                 <p className="line-clamp-2 text-[15px] leading-relaxed text-ink">
                   "{testimony.testimony || testimony.title}"
                 </p>
-                <p className="mt-1 text-[13px]" style={{ color: 'var(--accent)' }}>
+                <p className="mt-1 text-[13px]" style={{ color: 'var(--accent-ink)' }}>
                   {testimony.author_name} · Ver todos →
                 </p>
               </div>
@@ -499,7 +499,7 @@ export default function GroupDetail() {
             <li key={m.user_id} className="flex items-center gap-3 px-4 py-3">
               <div
                 className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-[15px] font-semibold"
-                style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent)' }}
+                style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
               >
                 {initials(m.display_name)}
               </div>
@@ -517,7 +517,7 @@ export default function GroupDetail() {
                 {iShare && shares && readToday && (
                   <span
                     className="flex items-center gap-1 rounded-pill px-2.5 py-1 text-[12px] font-medium"
-                    style={{ color: 'var(--accent)', backgroundColor: 'var(--accent-tint)' }}
+                    style={{ color: 'var(--accent-ink)', backgroundColor: 'var(--accent-tint)' }}
                   >
                     <CheckIcon size={13} strokeWidth={2.2} /> Leyó hoy
                   </span>
@@ -596,7 +596,7 @@ export default function GroupDetail() {
                   <span
                     key={i}
                     className="flex h-[18px] w-[18px] items-center justify-center text-[10px] font-semibold"
-                    style={{ color: i === 6 ? 'var(--accent)' : 'var(--text-soft)' }}
+                    style={{ color: i === 6 ? 'var(--accent-ink)' : 'var(--text-soft)' }}
                   >
                     {DAY_LETTERS[d.getDay()]}
                   </span>

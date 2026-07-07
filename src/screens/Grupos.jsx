@@ -206,7 +206,7 @@ export default function Grupos() {
             <Link to={`/grupos/${g.id}`} className="card flex items-center gap-3 p-4">
               <div
                 className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-[15px] font-semibold"
-                style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent)' }}
+                style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
                 aria-hidden="true"
               >
                 {initials(g.name)}

@@ -293,7 +293,7 @@ export default function Ajustes() {
               </p>
             )}
             {savedDay && !dayInput && (
-              <p className="mt-2 text-[13px]" style={{ color: 'var(--accent)' }}>
+              <p className="mt-2 text-[13px]" style={{ color: 'var(--accent-ink)' }}>
                 ✓ Listo, hoy es el día {currentDay}
               </p>
             )}
@@ -431,7 +431,7 @@ export default function Ajustes() {
           className="flex w-full items-center justify-between px-4 py-3"
         >
           <span className="text-[16px] text-ink">Compartir la app</span>
-          <span className="flex items-center gap-1.5 text-[15px] font-medium" style={{ color: 'var(--accent)' }}>
+          <span className="flex items-center gap-1.5 text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
             {shared ? '¡Copiado!' : <ShareIcon size={18} />}
           </span>
         </button>
@@ -446,7 +446,7 @@ export default function Ajustes() {
         style={{ backgroundColor: 'var(--accent-tint)', border: '1px solid var(--accent)' }}
       >
         <div className="flex items-start gap-2.5">
-          <span className="shrink-0 pt-0.5" style={{ color: 'var(--accent)' }}>
+          <span className="shrink-0 pt-0.5" style={{ color: 'var(--accent-ink)' }}>
             <HeartIcon size={20} />
           </span>
           <div>
@@ -459,7 +459,7 @@ export default function Ajustes() {
               target="_blank"
               rel="noopener noreferrer"
               className="mt-2 inline-flex items-center gap-1 text-[13px] font-medium"
-              style={{ color: 'var(--accent)' }}
+              style={{ color: 'var(--accent-ink)' }}
             >
               Conocé más sobre nuestra misión ↗
             </a>
@@ -483,7 +483,7 @@ export default function Ajustes() {
               style={{ backgroundColor: 'var(--surface)' }}
             >
               <span className="text-[15px] font-medium text-ink">{d.label}</span>
-              <span className="text-[15px]" style={{ color: 'var(--accent)' }} aria-hidden="true">
+              <span className="text-[15px]" style={{ color: 'var(--accent-ink)' }} aria-hidden="true">
                 ↗
               </span>
             </a>

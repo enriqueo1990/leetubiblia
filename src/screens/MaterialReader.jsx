@@ -8,7 +8,7 @@ import {
   withMaterialPosition,
 } from '../lib/materials.js'
 import { youVersionUrl } from '../lib/bible.js'
-import { ChevronRight } from '../components/icons.jsx'
+import { ChevronRight, ListIcon } from '../components/icons.jsx'
 import MaterialIndexSheet from '../components/MaterialIndexSheet.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 
@@ -19,9 +19,11 @@ import ConfirmDialog from '../components/ConfirmDialog.jsx'
 // reading_progress: es tu marcador personal del material, nada más.
 //
 // Diseño (mismo principio que Hoy): metadata callada, contenido protagonista, UNA
-// acción. En la pregunta del frente solo existe "Marcar como leído" (avanzar ya lo
-// hace él); la navegación aparece únicamente al repasar preguntas leídas. Nada de
-// botones deshabilitados ocupando lugar.
+// acción primaria por estado. La fila de navegación (‹ Anterior / Siguiente ›) es
+// constante: mismo lugar, color y vocabulario en frontera y repaso — el control de
+// "volver" no se teletransporta al cambiar de estado. En la frontera "Marcar como
+// leído" ocupa el lugar de avanzar (no hay Siguiente); nada de botones
+// deshabilitados ocupando lugar.
 export default function MaterialReader() {
   const { slug } = useParams()
   const navigate = useNavigate()
@@ -143,8 +145,9 @@ export default function MaterialReader() {
         <button
           type="button"
           onClick={() => setIndexOpen(true)}
-          className="-mr-1 flex h-9 items-center px-1 text-[13px] font-medium text-ink-soft transition-colors hover:text-accent"
+          className="-mr-1 flex h-9 items-center gap-1.5 px-1 text-[13px] font-medium text-ink-soft transition-colors hover:text-accent-ink"
         >
+          <ListIcon size={16} />
           Índice
         </button>
       </div>
@@ -173,8 +176,8 @@ export default function MaterialReader() {
       ) : (
       <div key={n} className="screen-enter card mt-6 p-5">
         {/* Una sola línea de metadata: posición y bloque. El estado leída/actual NO
-            va acá: ya lo comunica la zona de abajo (botón teal = actual; navegación
-            = repaso). Cada estado se dice una sola vez. */}
+            va acá: ya lo comunica la zona de abajo (botón primario = actual;
+            solo navegación = repaso). Cada estado se dice una sola vez. */}
         <p className="text-[13px] font-medium text-ink-soft">
           {[`Pregunta ${entry.number} de ${total}`, entry.blockTitle].filter(Boolean).join(' · ')}
         </p>
@@ -204,7 +207,7 @@ export default function MaterialReader() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-block py-1 text-[15px] font-medium transition-opacity active:opacity-50"
-                        style={{ color: 'var(--accent)' }}
+                        style={{ color: 'var(--accent-ink)' }}
                       >
                         {ref.label}
                       </a>
@@ -228,7 +231,7 @@ export default function MaterialReader() {
 
       {completed && !isIntro && (
         <p className="mt-6 text-[14px] text-ink-soft">
-          <span aria-hidden="true" style={{ color: 'var(--accent)' }}>✓ </span>
+          <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✓ </span>
           Completaste el catecismo. Podés repasarlo o volver a empezar.
         </p>
       )}
@@ -237,10 +240,14 @@ export default function MaterialReader() {
           así la acción queda pegada a la ficha en vez de vararse abajo del viewport. */}
       <div className="flex-1 lg:hidden" />
 
-      {/* Zona de acción (sticky, como en Hoy). Una acción por estado:
-          — frontera: marcar como leído (+ repaso discreto de la anterior)
+      {/* Zona de acción (sticky, como en Hoy). Una acción primaria por estado:
+          — frontera: marcar como leído
           — repaso: solo navegación
           — completado: navegación + volver a empezar
+          Debajo del botón (si lo hay) va SIEMPRE la misma fila de navegación:
+          "‹ Anterior" a la izquierda, "Siguiente ›" a la derecha. En la frontera
+          no existe Siguiente (avanzar es marcar); la fila conserva posición,
+          color y vocabulario para que el gesto de volver no cambie de lugar.
           En desktop se alinea al ancho de la ficha (sin cap de 440px): acá el
           contenido vive en un .card con bordes visibles, así que el botón debe
           quedar a ras de esos bordes, no varado más angosto. */}
@@ -258,47 +265,40 @@ export default function MaterialReader() {
           <button type="button" onClick={() => setN(1)} className="btn btn-primary">
             Comenzar
           </button>
-        ) : atFrontier ? (
-          <>
-            <button type="button" onClick={markRead} className="btn btn-primary">
-              Marcar como leído
-            </button>
-            {canPrev && (
-              <button
-                type="button"
-                onClick={() => setN(n - 1)}
-                className="block w-full py-2 text-center text-[14px] font-medium text-ink-soft"
-              >
-                {n === 1 && hasIntro ? '‹ Ver la introducción' : '‹ Ver la pregunta anterior'}
-              </button>
-            )}
-          </>
         ) : (
           <>
-            <div className="flex items-center justify-between">
-              {canPrev ? (
-                <button
-                  type="button"
-                  onClick={() => setN(n - 1)}
-                  className="py-2.5 pr-4 text-[15px] font-medium"
-                  style={{ color: 'var(--accent)' }}
-                >
-                  ‹ Anterior
-                </button>
-              ) : (
-                <span />
-              )}
-              {canNext && (
-                <button
-                  type="button"
-                  onClick={() => setN(n + 1)}
-                  className="py-2.5 pl-4 text-[15px] font-medium"
-                  style={{ color: 'var(--accent)' }}
-                >
-                  Siguiente ›
-                </button>
-              )}
-            </div>
+            {atFrontier && (
+              <button type="button" onClick={markRead} className="btn btn-primary">
+                Marcar como leído
+              </button>
+            )}
+            {(canPrev || canNext) && (
+              <div className="flex items-center justify-between">
+                {canPrev ? (
+                  <button
+                    type="button"
+                    onClick={() => setN(n - 1)}
+                    className="py-2.5 pr-4 text-[15px] font-medium"
+                    style={{ color: 'var(--accent-ink)' }}
+                  >
+                    {/* Desde la pregunta 1 lo anterior es la portada: decirlo. */}
+                    {n === 1 && hasIntro ? '‹ Introducción' : '‹ Anterior'}
+                  </button>
+                ) : (
+                  <span />
+                )}
+                {canNext && (
+                  <button
+                    type="button"
+                    onClick={() => setN(n + 1)}
+                    className="py-2.5 pl-4 text-[15px] font-medium"
+                    style={{ color: 'var(--accent-ink)' }}
+                  >
+                    Siguiente ›
+                  </button>
+                )}
+              </div>
+            )}
             {completed && (
               <button
                 type="button"

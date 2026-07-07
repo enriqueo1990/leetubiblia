@@ -205,7 +205,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
       )}
 
       <FieldLabel>
-        Título <span style={{ color: 'var(--accent)' }}>•</span>
+        Título <span style={{ color: 'var(--accent-ink)' }}>•</span>
       </FieldLabel>
       <input
         ref={titleRef}
@@ -245,7 +245,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
               >
                 <span className="text-[16px] text-ink">{g.name}</span>
                 {g.id === groupId && (
-                  <span style={{ color: 'var(--accent)' }}>✓</span>
+                  <span style={{ color: 'var(--accent-ink)' }}>✓</span>
                 )}
               </button>
             ))
@@ -262,7 +262,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
           <FieldLabel>Estado</FieldLabel>
           <Segmented options={STATUS} value={status} onChange={setStatus} />
           {answeredDate && (
-            <p className="mt-2 text-[13px]" style={{ color: 'var(--accent)' }}>
+            <p className="mt-2 text-[13px]" style={{ color: 'var(--accent-ink)' }}>
               ✓ Respondido el {answeredDate}
             </p>
           )}

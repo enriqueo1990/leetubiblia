@@ -27,7 +27,7 @@ Lee Tu Biblia es una PWA (aplicación web instalable) que funciona con o sin con
 
 ## Materiales de lectura opcionales
 
-Catecismos y confesiones históricas para acompañar el tiempo de lectura, cada uno con su introducción: Catecismo Menor de Westminster, Catecismo de Heidelberg, Catecismo de Spurgeon, Catecismo de Keach, Catecismo para Niños de Spurgeon y Cánones de Dort.
+Catecismos y confesiones históricas para acompañar el tiempo de lectura, cada uno con su introducción: Catecismo de Heidelberg, Cánones de Dort, Catecismo Menor de Westminster, Catecismo de Keach, Catecismo de Spurgeon y Catecismo para Niños de Spurgeon.
 
 ## Para quién es
 

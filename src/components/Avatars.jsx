@@ -25,7 +25,7 @@ export default function Avatars({ people = [], count, size = 30, surface = 'var(
         height: size,
         fontSize: Math.round(size * 0.37),
         backgroundColor: 'var(--accent-tint)',
-        color: 'var(--accent)',
+        color: 'var(--accent-ink)',
         border: `2px solid ${surface}`,
         marginLeft: first ? 0 : -9,
       }}

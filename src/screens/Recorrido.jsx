@@ -24,7 +24,7 @@ function Stat({ value, label, accent }) {
   return (
     <div className="card flex-1 p-4 text-center">
       <p
-        className={`text-[30px] font-bold ${accent ? 'text-accent' : 'text-ink'}`}
+        className={`text-[30px] font-bold ${accent ? 'text-accent-ink' : 'text-ink'}`}
         style={{ letterSpacing: '-1px' }}
       >
         {value}
@@ -57,7 +57,7 @@ export default function Recorrido() {
   }, [load])
 
   const back = (
-    <Link to="/progreso" className="text-[15px] font-medium" style={{ color: 'var(--accent)' }}>
+    <Link to="/progreso" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
       ‹ Progreso
     </Link>
   )
@@ -87,7 +87,7 @@ export default function Recorrido() {
         <div className="mt-16 flex flex-col items-center text-center">
           <div
             className="flex h-[72px] w-[72px] items-center justify-center rounded-full text-[30px]"
-            style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--accent)' }}
+            style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--accent-ink)' }}
             aria-hidden="true"
           >
             ✦
@@ -136,7 +136,7 @@ export default function Recorrido() {
                       </p>
                       <span
                         className="shrink-0 text-[12px] font-medium"
-                        style={{ color: 'var(--accent)' }}
+                        style={{ color: 'var(--accent-ink)' }}
                       >
                         ✓ {fmtDate(c.completed_on)}
                       </span>

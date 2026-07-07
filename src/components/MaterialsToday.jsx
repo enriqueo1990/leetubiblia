@@ -57,7 +57,7 @@ export default function MaterialsToday() {
                 <span className="mt-0.5 block text-[13px] text-ink-soft">
                   {done ? (
                     <>
-                      <span aria-hidden="true" style={{ color: 'var(--accent)' }}>✓ </span>
+                      <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✓ </span>
                       Completado
                     </>
                   ) : (

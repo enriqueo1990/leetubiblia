@@ -118,7 +118,7 @@ export default function GruposDiscipulado() {
         </Link>
         <Link
           to="/"
-          className="rounded-pill px-3 py-2 text-[15px] font-semibold text-ink-soft transition-colors hover:text-accent"
+          className="rounded-pill px-3 py-2 text-[15px] font-semibold text-ink-soft transition-colors hover:text-accent-ink"
         >
           Entrar
         </Link>
@@ -137,7 +137,7 @@ export default function GruposDiscipulado() {
         <div className="screen-enter relative mx-auto w-full max-w-[680px] px-6 pb-16 pt-10 text-center sm:pt-16">
           <Eyebrow>Para líderes de grupos de discipulado</Eyebrow>
           <h1 className="mx-auto mt-5 max-w-[580px] text-[36px] font-bold leading-[1.13] tracking-[-0.03em] text-ink [text-wrap:balance] sm:text-[46px]">
-            Guiá a tu grupo en la Palabra, <span className="text-accent">sin chats desbordados</span>.
+            Guiá a tu grupo en la Palabra, <span className="text-accent-ink">sin chats desbordados</span>.
           </h1>
           <p className="mx-auto mt-6 max-w-[500px] text-[18px] leading-relaxed text-ink-soft">
             Un lugar tranquilo para que tu grupo de discipulado lea la Biblia al
@@ -164,9 +164,9 @@ export default function GruposDiscipulado() {
           <Eyebrow>Por qué</Eyebrow>
           <p className="mt-5 max-w-[580px] text-[22px] font-medium leading-[1.5] tracking-[-0.02em] text-ink sm:text-[25px]">
             Liderar un grupo no debería ser perseguir gente por WhatsApp. La app
-            se ocupa del <span className="text-accent">ritmo</span> —quién leyó,
+            se ocupa del <span className="text-accent-ink">ritmo</span> —quién leyó,
             por quién orar— para que vos te ocupes de lo que importa:{' '}
-            <span className="text-accent">la gente</span>.
+            <span className="text-accent-ink">la gente</span>.
           </p>
           <p className="mt-6 max-w-[540px] text-[16px] leading-relaxed text-ink-soft">
             No es otro lector de Biblia para la pantalla. El texto vive en la
@@ -218,7 +218,7 @@ export default function GruposDiscipulado() {
                 {i + 1}
               </span>
               <span
-                className="pt-1 text-[16px] leading-snug text-ink [&_b]:font-semibold [&_b]:text-accent"
+                className="pt-1 text-[16px] leading-snug text-ink [&_b]:font-semibold [&_b]:text-accent-ink"
                 dangerouslySetInnerHTML={{ __html: s }}
               />
             </li>
@@ -260,9 +260,9 @@ export default function GruposDiscipulado() {
           </p>
           <p className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-[17px] font-semibold text-ink">
             <span>Creá el grupo</span>
-            <span aria-hidden="true" className="text-accent">→</span>
+            <span aria-hidden="true" className="text-accent-ink">→</span>
             <span>Compartí el código</span>
-            <span aria-hidden="true" className="text-accent">→</span>
+            <span aria-hidden="true" className="text-accent-ink">→</span>
             <span>Caminen juntos</span>
           </p>
           <div className="mx-auto mt-9 max-w-[320px]">
@@ -272,7 +272,7 @@ export default function GruposDiscipulado() {
           </div>
           <p className="mt-4 text-[14px] text-ink-soft">
             ¿Querés ver todo lo que incluye la app?{' '}
-            <Link to="/info" className="font-semibold text-accent hover:underline">
+            <Link to="/info" className="font-semibold text-accent-ink hover:underline">
               Conocé Lee Tu Biblia
             </Link>
           </p>

@@ -37,7 +37,7 @@ export default function MaterialIndexSheet({ content, frontier, current, onPick,
               <span className="w-7 shrink-0" aria-hidden="true" />
               <span
                 className="min-w-0 flex-1 truncate text-[15px] text-ink"
-                style={current === 0 ? { color: 'var(--accent)' } : undefined}
+                style={current === 0 ? { color: 'var(--accent-ink)' } : undefined}
               >
                 Introducción
               </span>
@@ -71,7 +71,7 @@ export default function MaterialIndexSheet({ content, frontier, current, onPick,
                   </span>
                   <span
                     className="min-w-0 flex-1 truncate text-[15px] text-ink"
-                    style={isCurrent ? { color: 'var(--accent)' } : undefined}
+                    style={isCurrent ? { color: 'var(--accent-ink)' } : undefined}
                   >
                     {e.question}
                   </span>

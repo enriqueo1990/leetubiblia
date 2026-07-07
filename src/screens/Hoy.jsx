@@ -245,7 +245,7 @@ export default function Hoy() {
               type="button"
               onClick={backToToday}
               className="mb-[6px] block text-[13px] font-medium"
-              style={{ color: 'var(--accent)' }}
+              style={{ color: 'var(--accent-ink)' }}
             >
               ‹ Volver a hoy
             </button>
@@ -266,7 +266,7 @@ export default function Hoy() {
             gris del breadcrumb. Fijo a la derecha; el nombre del plan trunca. */}
         <Link
           to="/progreso"
-          className="-mr-1 -mt-2 flex h-11 shrink-0 items-center gap-1.5 px-1 text-[13px] font-medium text-ink-soft transition-colors hover:text-accent"
+          className="-mr-1 -mt-2 flex h-11 shrink-0 items-center gap-1.5 px-1 text-[13px] font-medium text-ink-soft transition-colors hover:text-accent-ink"
         >
           <ChartIcon size={16} />
           Progreso
@@ -294,7 +294,7 @@ export default function Hoy() {
               onClick={r.reprogramar}
               disabled={r.reprogramando}
               className="ml-3 py-2 text-[14px] font-semibold"
-              style={{ color: 'var(--accent)', opacity: r.reprogramando ? 0.5 : 1 }}
+              style={{ color: 'var(--accent-ink)', opacity: r.reprogramando ? 0.5 : 1 }}
             >
               {r.reprogramando ? 'Reprogramando…' : 'Reprogramar'}
             </button>
@@ -326,13 +326,13 @@ export default function Hoy() {
             >
               <div
                 className="mx-auto flex h-16 w-16 items-center justify-center rounded-full"
-                style={{ backgroundColor: 'var(--surface)', color: 'var(--accent)' }}
+                style={{ backgroundColor: 'var(--surface)', color: 'var(--accent-ink)' }}
               >
                 <CheckIcon size={32} strokeWidth={2.4} />
               </div>
               <p
                 className="mt-4 text-[12px] font-semibold uppercase tracking-wide"
-                style={{ color: 'var(--accent)' }}
+                style={{ color: 'var(--accent-ink)' }}
               >
                 Plan completado
               </p>
@@ -379,7 +379,7 @@ export default function Hoy() {
               type="button"
               onClick={() => navigate('/planes')}
               className="w-full py-2 text-center text-[15px] font-medium"
-              style={{ color: 'var(--accent)' }}
+              style={{ color: 'var(--accent-ink)' }}
             >
               Elegir otro plan
             </button>
@@ -491,7 +491,7 @@ export default function Hoy() {
               to="/progreso"
               className="block py-1 text-center text-[13px] font-medium text-ink-soft lg:max-w-[440px]"
             >
-              <span aria-hidden="true" style={{ color: 'var(--accent)' }}>✦</span> {r.streak} días
+              <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✦</span> {r.streak} días
               seguidos
             </Link>
           )}
@@ -503,7 +503,7 @@ export default function Hoy() {
               type="button"
               onClick={() => readNext(nextDay)}
               className="block w-full py-1 text-center text-[15px] font-semibold lg:max-w-[440px]"
-              style={{ color: 'var(--accent)' }}
+              style={{ color: 'var(--accent-ink)' }}
             >
               Leer el día siguiente →
             </button>

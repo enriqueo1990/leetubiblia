@@ -33,7 +33,7 @@ function PrayerItem({ p, subtitle, onClick, dimmed }) {
           <p className="truncate text-[16px] font-semibold text-ink">{p.title}</p>
           <p className="text-[13px] text-ink-soft">{subtitle}</p>
           {p.visibility === 'shared' && count > 0 && (
-            <p className="mt-0.5 text-[12px] font-medium" style={{ color: 'var(--accent)' }}>
+            <p className="mt-0.5 text-[12px] font-medium" style={{ color: 'var(--accent-ink)' }}>
               {count} {count === 1 ? 'persona orando' : 'personas orando'}
             </p>
           )}
@@ -44,7 +44,7 @@ function PrayerItem({ p, subtitle, onClick, dimmed }) {
           {p.status === 'answered' && (
             <span
               className="rounded-pill px-2 py-0.5 text-[12px] font-medium"
-              style={{ color: 'var(--accent)', backgroundColor: 'var(--accent-tint)' }}
+              style={{ color: 'var(--accent-ink)', backgroundColor: 'var(--accent-tint)' }}
             >
               Respondido
             </span>
