@@ -9,6 +9,7 @@ import {
   localDateISO,
   todayLocalISO,
 } from '../lib/db.js'
+import { planName } from '../lib/planLabels.js'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 import RetryError from '../components/RetryError.jsx'
 import EmptyState from '../components/EmptyState.jsx'
@@ -131,7 +132,7 @@ export default function Diario() {
 
       {sheet && (
         <ReflectionSheet
-          planName={sheet.plan_name}
+          planName={planName(t, { slug: sheet.plan_slug, name: sheet.plan_name })}
           dayNumber={sheet.day_number}
           dateLabel={fmtDay(sheet.created_at)}
           initialBody={sheet.body}

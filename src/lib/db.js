@@ -241,11 +241,11 @@ export async function clearPlanProgress(userId, planId) {
 export async function getCompletedPlans(userId) {
   const { data, error } = await supabase
     .from('plan_completions')
-    .select('id, plan_id, days_read, total_days, longest_streak, started_on, completed_on, plan:reading_plans(name)')
+    .select('id, plan_id, days_read, total_days, longest_streak, started_on, completed_on, plan:reading_plans(name, slug)')
     .eq('user_id', userId)
     .order('completed_on', { ascending: false })
   if (error) throw error
-  return (data ?? []).map((c) => ({ ...c, plan_name: c.plan?.name ?? 'Plan' }))
+  return (data ?? []).map((c) => ({ ...c, plan_name: c.plan?.name ?? null, plan_slug: c.plan?.slug ?? null }))
 }
 
 // Números acumulados para "Tu recorrido". Días en la Palabra = fechas distintas con
@@ -347,7 +347,10 @@ export async function createGroup(name) {
 export async function joinGroupByCode(code) {
   const { data, error } = await supabase.rpc('join_group_by_code', { p_code: code })
   if (error) throw error
-  return data // null si el código no existe
+  // Código inexistente: el RPC puede devolver null o una fila con id null
+  // (RETURNS TABLE sin matches). Normalizamos a null para que ningún caller
+  // navegue a /grupos/null creyendo que se unió.
+  return data && data.id != null ? data : null
 }
 
 export async function regenerateInviteCode(groupId) {
@@ -749,7 +752,7 @@ export async function deleteReflection(userId, planId, dayNumber) {
 export async function getReflectionJournal(userId, { limit = 30, before = null } = {}) {
   let q = supabase
     .from('reading_reflections')
-    .select('id, plan_id, day_number, body, created_at, plan:reading_plans(name)')
+    .select('id, plan_id, day_number, body, created_at, plan:reading_plans(name, slug)')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
     .limit(limit)
@@ -759,7 +762,8 @@ export async function getReflectionJournal(userId, { limit = 30, before = null }
   return data.map((r) => ({
     id: r.id,
     plan_id: r.plan_id,
-    plan_name: r.plan?.name ?? 'Plan',
+    plan_name: r.plan?.name ?? null,
+    plan_slug: r.plan?.slug ?? null,
     day_number: r.day_number,
     body: r.body,
     created_at: r.created_at,

@@ -1,6 +1,7 @@
 // Genera una imagen-tarjeta del logro de plan terminado y la comparte.
 // Tema fijo cálido (independiente de claro/oscuro): la imagen sale igual de
 // linda en cualquier dispositivo. Sin librerías ni fuentes externas.
+import { fmtISODate } from '../i18n/dates.js'
 
 const W = 1080
 const H = 1350
@@ -45,15 +46,17 @@ function fitLines(ctx, text, maxWidth, startSize, font) {
   return { lines: [text], size }
 }
 
-function fmt(dateISO) {
-  if (!dateISO) return null
-  const [y, m, d] = dateISO.split('-').map(Number)
-  const date = new Date(Date.UTC(y, m - 1, d))
-  return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' })
-}
-
-// Dibuja la tarjeta y devuelve un Blob PNG.
-export async function buildCompletionImage({ planName, daysRead, longestStreak, startedOn, completedOn }) {
+// Dibuja la tarjeta y devuelve un Blob PNG. `t`/`locale` vienen de usePreferences
+// (este módulo no es un componente, no puede llamar al hook él mismo).
+export async function buildCompletionImage({
+  planName,
+  daysRead,
+  longestStreak,
+  startedOn,
+  completedOn,
+  t,
+  locale,
+}) {
   const canvas = document.createElement('canvas')
   canvas.width = W
   canvas.height = H
@@ -105,7 +108,7 @@ export async function buildCompletionImage({ planName, daysRead, longestStreak, 
   // "Terminé de leer"
   ctx.fillStyle = SOFT
   ctx.font = `400 40px ${SANS}`
-  ctx.fillText('Terminé de leer', W / 2, 560)
+  ctx.fillText(t('shareImage.finishedReading'), W / 2, 560)
 
   // Nombre del plan (serif, grande, hasta 2 líneas).
   const { lines, size } = fitLines(ctx, planName, W - 220, 96, SERIF)
@@ -121,8 +124,8 @@ export async function buildCompletionImage({ planName, daysRead, longestStreak, 
   // Bloque de stats.
   const statsY = Math.max(ty + 90, 900)
   const stats = [
-    [String(daysRead), daysRead === 1 ? 'día en la Palabra' : 'días en la Palabra'],
-    [String(longestStreak), longestStreak === 1 ? 'día de racha máxima' : 'días de racha máxima'],
+    [String(daysRead), t('shareImage.dayInWord', { count: daysRead })],
+    [String(longestStreak), t('shareImage.dayMaxStreak', { count: longestStreak })],
   ]
   const colW = (W - 240) / 2
   stats.forEach(([big, label], i) => {
@@ -146,8 +149,9 @@ export async function buildCompletionImage({ planName, daysRead, longestStreak, 
   ctx.globalAlpha = 1
 
   // Fechas.
-  const desde = fmt(startedOn)
-  const hasta = fmt(completedOn)
+  const dateOpts = { day: 'numeric', month: 'short', year: 'numeric' }
+  const desde = fmtISODate(startedOn, locale, dateOpts)
+  const hasta = fmtISODate(completedOn, locale, dateOpts)
   if (hasta) {
     ctx.fillStyle = SOFT
     ctx.font = `400 32px ${SANS}`
@@ -158,7 +162,7 @@ export async function buildCompletionImage({ planName, daysRead, longestStreak, 
   // Pie.
   ctx.fillStyle = SEPIA
   ctx.font = `400 italic 34px ${SERIF}`
-  ctx.fillText('Un día a la vez, en su Palabra', W / 2, H - 130)
+  ctx.fillText(t('shareImage.footer'), W / 2, H - 130)
 
   return await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'))
 }
@@ -173,7 +177,7 @@ export async function shareCompletion(data) {
     try {
       await navigator.share({
         files: [file],
-        text: `¡Terminé de leer ${data.planName} en Lee Tu Biblia! 🙏`,
+        text: data.t('shareImage.shareText', { plan: data.planName }),
       })
       return 'shared'
     } catch (e) {

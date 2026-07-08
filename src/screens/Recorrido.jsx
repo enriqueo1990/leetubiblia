@@ -4,6 +4,7 @@ import { usePreferences } from '../lib/preferences.jsx'
 import { fmtISODate } from '../i18n/dates.js'
 import BackLink from '../components/BackLink.jsx'
 import { getCompletedPlans, getYearStats } from '../lib/db.js'
+import { planName } from '../lib/planLabels.js'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 import RetryError from '../components/RetryError.jsx'
 
@@ -122,7 +123,7 @@ export default function Recorrido() {
                   <li key={c.id} className="card p-4">
                     <div className="flex items-baseline justify-between gap-3">
                       <p className="min-w-0 flex-1 truncate text-[16px] font-semibold text-ink">
-                        {c.plan_name}
+                        {planName(t, { slug: c.plan_slug, name: c.plan_name })}
                       </p>
                       <span
                         className="shrink-0 text-[12px] font-medium"

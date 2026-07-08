@@ -468,5 +468,34 @@
   "materialReader.next": "Next",
   "materialReader.restart": "Start over",
   "materialReader.restartTitle": "Start the catechism over?",
-  "materialReader.restartMsg": "The marker goes back to question 1 and the rest become unread."
+  "materialReader.restartMsg": "The marker goes back to question 1 and the rest become unread.",
+
+  "plans.mcheyne.name": "M'Cheyne",
+  "plans.mcheyne.description": "The whole Bible in a year, four passages a day.",
+  "plans.cronologico.name": "Chronological",
+  "plans.cronologico.description": "The Bible in the order events happened, in a year.",
+  "plans.at-nt.name": "Old and New Testament",
+  "plans.at-nt.description": "One Old Testament and one New Testament passage each day, the whole Bible in a year.",
+  "plans.beginning.name": "From Genesis to Revelation",
+  "plans.beginning.description": "The whole Bible in order, start to finish, in a year.",
+  "plans.nt-24-week.name": "New Testament in 24 Weeks",
+  "plans.nt-24-week.description": "The complete New Testament in six months, at a steady pace.",
+  "plans.40-dias-con-dios.name": "40 Days with God",
+  "plans.40-dias-con-dios.description": "Forty days of short readings to grow in faith.",
+  "plans.bcp-daily-office.name": "Daily Office (Book of Common Prayer)",
+  "plans.bcp-daily-office.description": "A two-year liturgical lectionary: psalms and readings for each day.",
+  "plans.proverbios.name": "Proverbs in 31 Days",
+  "plans.proverbios.description": "One chapter of Proverbs per day of the month.",
+
+  "shareImage.finishedReading": "I finished reading",
+  "shareImage.dayInWord": {
+    "one": "day in the Word",
+    "other": "days in the Word"
+  },
+  "shareImage.dayMaxStreak": {
+    "one": "day longest streak",
+    "other": "days longest streak"
+  },
+  "shareImage.footer": "One day at a time, in His Word",
+  "shareImage.shareText": "I finished reading {plan} on Lee Tu Biblia! 🙏"
 }

@@ -6,6 +6,7 @@ import { usePreferences } from '../lib/preferences.jsx'
 import { bookLabel } from '../i18n/books.js'
 import BackLink from '../components/BackLink.jsx'
 import { getPlan, getPlanDays, startDateForDay, todayLocalISO, markDaysRead } from '../lib/db.js'
+import { planName, planDescription } from '../lib/planLabels.js'
 import { useReading } from '../hooks/useReading.js'
 import ResumeFromDay from '../components/ResumeFromDay.jsx'
 import { SkeletonRows } from '../components/Skeleton.jsx'
@@ -89,13 +90,13 @@ export default function PlanDetail() {
       <BackLink to="/planes" label={t('nav.planes')} />
 
       <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">
-        {plan?.name || t('common.plan')}
+        {plan ? planName(t, plan) : t('common.plan')}
       </h1>
       {plan && (
         <p className="mt-1 text-[13px] text-ink-soft">{durationLabel(plan.duration_days)}</p>
       )}
       {plan?.description && (
-        <p className="mt-3 text-[16px] text-ink-soft">{plan.description}</p>
+        <p className="mt-3 text-[16px] text-ink-soft">{planDescription(t, plan)}</p>
       )}
 
       {/* Engancharse a un plan ya empezado (solo si aún no es el activo) */}
@@ -170,7 +171,7 @@ export default function PlanDetail() {
 
       {confirm && (
         <ConfirmDialog
-          title={t('planes.changeTitle', { name: plan?.name })}
+          title={t('planes.changeTitle', { name: plan ? planName(t, plan) : '' })}
           message={
             resumeDay
               ? t('planes.changeMsgResume', { day: resumeDay })

@@ -19,6 +19,7 @@ import { firstYouVersionUrl, youVersionUrl } from '../lib/bible.js'
 import { usePreferences } from '../lib/preferences.jsx'
 import { bookLabel } from '../i18n/books.js'
 import { fmtISODate } from '../i18n/dates.js'
+import { planName } from '../lib/planLabels.js'
 import { shareCompletion } from '../lib/shareImage.js'
 import { SkeletonHoy } from '../components/Skeleton.jsx'
 import { CheckIcon, ShareIcon, SlidersIcon } from '../components/icons.jsx'
@@ -179,11 +180,13 @@ export default function Hoy() {
     setShareNote(null)
     try {
       const res = await shareCompletion({
-        planName: r.plan.name,
+        planName: planName(t, r.plan),
         daysRead: r.completedCount,
         longestStreak: maxStreak,
         startedOn,
         completedOn,
+        t,
+        locale,
       })
       if (res === 'downloaded') setShareNote('downloaded')
     } catch {
@@ -254,7 +257,7 @@ export default function Hoy() {
               state={{ from: { to: '/', label: t('nav.hoy') } }}
               className="flex max-w-full items-center gap-1 py-1 text-[13px] font-medium text-ink-soft"
             >
-              <span className="truncate">{r.plan.name}</span>
+              <span className="truncate">{planName(t, r.plan)}</span>
               <span aria-hidden="true" className="shrink-0" style={{ opacity: 0.5 }}>›</span>
             </Link>
           )}
@@ -333,7 +336,7 @@ export default function Hoy() {
                 {t('hoy.planCompleted')}
               </p>
               <p className="mt-1.5 text-[15px] text-ink-soft">{t('hoy.finishedReading')}</p>
-              <h2 className="mt-1 text-[26px] font-bold leading-tight text-ink">{r.plan.name}</h2>
+              <h2 className="mt-1 text-[26px] font-bold leading-tight text-ink">{planName(t, r.plan)}</h2>
             </div>
             {/* Stats ajustados al plan real */}
             <div className="grid grid-cols-2 divide-x divide-hairline border-t border-hairline">
@@ -508,7 +511,7 @@ export default function Hoy() {
 
       {reflectOpen && shownDay != null && (
         <ReflectionSheet
-          planName={r.plan?.name ?? t('common.plan')}
+          planName={r.plan ? planName(t, r.plan) : t('common.plan')}
           dayNumber={shownDay}
           initialBody={note?.body ?? ''}
           editable={noteEditable}
@@ -536,7 +539,7 @@ export default function Hoy() {
 
       {confirmRenew && (
         <ConfirmDialog
-          title={t('hoy.renewTitle', { name: r.plan?.name ?? t('common.plan') })}
+          title={t('hoy.renewTitle', { name: r.plan ? planName(t, r.plan) : t('common.plan') })}
           message={t('hoy.renewMessage')}
           confirmLabel={t('hoy.renewConfirm')}
           busy={renewing}

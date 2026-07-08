@@ -4,6 +4,7 @@ import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import BackLink from '../components/BackLink.jsx'
 import { getPlans } from '../lib/db.js'
+import { planName, planDescription } from '../lib/planLabels.js'
 import { ChevronRight } from '../components/icons.jsx'
 import RetryError from '../components/RetryError.jsx'
 import { SkeletonCards } from '../components/Skeleton.jsx'
@@ -53,7 +54,7 @@ export default function Planes() {
             >
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-[18px] font-semibold text-ink">{p.name}</span>
+                  <span className="text-[18px] font-semibold text-ink">{planName(t, p)}</span>
                   {active && (
                     <span
                       className="rounded-pill px-2 py-0.5 text-[12px] font-medium"
@@ -63,7 +64,7 @@ export default function Planes() {
                     </span>
                   )}
                 </div>
-                {p.description && <p className="mt-1 text-[15px] text-ink-soft">{p.description}</p>}
+                {p.description && <p className="mt-1 text-[15px] text-ink-soft">{planDescription(t, p)}</p>}
                 <p className="mt-1 text-[13px] text-ink-soft">{durationLabel(p.duration_days)}</p>
               </div>
               <span className="text-ink-soft" style={{ opacity: 0.5 }}>

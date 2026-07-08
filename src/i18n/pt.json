@@ -468,5 +468,34 @@
   "materialReader.next": "Próximo",
   "materialReader.restart": "Recomeçar",
   "materialReader.restartTitle": "Recomeçar o catecismo?",
-  "materialReader.restartMsg": "O marcador volta para a pergunta 1 e as demais ficam como não lidas."
+  "materialReader.restartMsg": "O marcador volta para a pergunta 1 e as demais ficam como não lidas.",
+
+  "plans.mcheyne.name": "M'Cheyne",
+  "plans.mcheyne.description": "Toda a Bíblia em um ano, quatro passagens por dia.",
+  "plans.cronologico.name": "Cronológico",
+  "plans.cronologico.description": "A Bíblia na ordem em que os fatos aconteceram, em um ano.",
+  "plans.at-nt.name": "Antigo e Novo Testamento",
+  "plans.at-nt.description": "Uma passagem do Antigo e uma do Novo Testamento a cada dia, toda a Bíblia em um ano.",
+  "plans.beginning.name": "De Gênesis a Apocalipse",
+  "plans.beginning.description": "Toda a Bíblia em ordem, do início ao fim, em um ano.",
+  "plans.nt-24-week.name": "Novo Testamento em 24 semanas",
+  "plans.nt-24-week.description": "O Novo Testamento completo em seis meses, em ritmo constante.",
+  "plans.40-dias-con-dios.name": "40 dias com Deus",
+  "plans.40-dias-con-dios.description": "Quarenta dias de leituras breves para crescer na fé.",
+  "plans.bcp-daily-office.name": "Ofício Diário (Livro de Oração Comum)",
+  "plans.bcp-daily-office.description": "Lecionário litúrgico de dois anos: salmos e leituras para cada dia.",
+  "plans.proverbios.name": "Provérbios em 31 dias",
+  "plans.proverbios.description": "Um capítulo de Provérbios por dia do mês.",
+
+  "shareImage.finishedReading": "Terminei de ler",
+  "shareImage.dayInWord": {
+    "one": "dia na Palavra",
+    "other": "dias na Palavra"
+  },
+  "shareImage.dayMaxStreak": {
+    "one": "dia de sequência máxima",
+    "other": "dias de sequência máxima"
+  },
+  "shareImage.footer": "Um dia de cada vez, em Sua Palavra",
+  "shareImage.shareText": "Terminei de ler {plan} no Lee Tu Biblia! 🙏"
 }
