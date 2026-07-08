@@ -47,6 +47,15 @@
   :focus:not(:focus-visible) {
     outline: none;
   }
+
+  /* Varios inputs llevan `outline-none` utilitario (estética de campo plano);
+     este anillo por box-shadow —que outline-none no apaga— garantiza foco
+     visible al navegar con teclado, empezando por el registro. */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    box-shadow: 0 0 0 2px var(--accent-ink);
+  }
 }
 
 /* ── Tab bar icon animations ─────────────────────────────────────── */
@@ -147,6 +156,37 @@
   animation: screen-in 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
+/* ── Marcar leído: el pico del día ───────────────────────────────────
+   Liturgia, no fiesta: el check se dibuja, el botón respira una vez y
+   una línea cálida entra después. Solo en el momento de marcar (clase
+   btn-just-marked); al volver a la pantalla el estado leído es quieto. */
+@keyframes check-draw {
+  from { stroke-dashoffset: 1; }
+  to   { stroke-dashoffset: 0; }
+}
+@keyframes btn-settle {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+@keyframes moment-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.check-drawn {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+.btn-just-marked {
+  animation: btn-settle 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.btn-just-marked .check-drawn {
+  animation: check-draw 0.45s 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
+}
+.moment-in {
+  animation: moment-in 0.5s 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
+}
+
 @layer components {
   /* Tipografía protagonista: referencia del día */
   .text-display {
@@ -154,6 +194,16 @@
     font-weight: 500;
     letter-spacing: -0.6px;
     line-height: 1.24;
+  }
+  /* Variante para días de muchos pasajes (≥4): sigue siendo lo más grande de
+     la pantalla, pero cinco líneas ya no comen un tercio del viewport — clave
+     para que Hoy entre en una pantalla (como el título grande de iOS, que se
+     achica cuando es largo). */
+  .text-display-sm {
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+    line-height: 1.22;
   }
 
   /* Botones base — el sistema visual (§4.4 / Design Tokens) */
@@ -197,7 +247,7 @@
     bottom: calc(57px + env(safe-area-inset-bottom));
     z-index: 10;
     margin-inline: -26px;
-    padding: 12px 26px 22px;
+    padding: 12px 26px 16px;
     background-color: var(--tabbar-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -217,9 +267,16 @@
   .card {
     @apply rounded-card;
     background-color: var(--surface);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07), 0 0 1px rgba(0, 0, 0, 0.04);
+    box-shadow: var(--shadow-card);
   }
   .card-active {
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07), 0 0 1px rgba(0, 0, 0, 0.04), 0 0 0 1.5px var(--accent);
+    box-shadow: var(--shadow-card), 0 0 0 1.5px var(--accent);
+  }
+
+  /* Números que cambian (racha, %, stats): dígitos tabulares para que el layout
+     no baile al pasar de 9 a 10, con un único tracking de display. */
+  .stat-num {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -1px;
   }
 }

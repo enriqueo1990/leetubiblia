@@ -15,7 +15,7 @@ import {
   recordPlanCompletion,
   clearPlanProgress,
 } from '../lib/db.js'
-import { firstYouVersionUrl, youVersionUrl } from '../lib/bible.js'
+import { youVersionUrl } from '../lib/bible.js'
 import { usePreferences } from '../lib/preferences.jsx'
 import { bookLabel } from '../i18n/books.js'
 import { fmtISODate } from '../i18n/dates.js'
@@ -54,6 +54,14 @@ export default function Hoy() {
   const [aheadRefs, setAheadRefs] = useState(null)
   const [aheadLoading, setAheadLoading] = useState(false)
 
+  // Momento de marcar: true solo en la sesión justo después de marcar el día
+  // mostrado (dispara el check dibujado, el respiro del botón y la línea cálida).
+  // breathDone: tras ~2s de respiro, la zona de acción cede el paso a la
+  // siguiente oferta (nota / seguir). chipMenuOpen: menú del chip "✓ Leído".
+  const [justMarked, setJustMarked] = useState(false)
+  const [breathDone, setBreathDone] = useState(false)
+  const [chipMenuOpen, setChipMenuOpen] = useState(false)
+
   // Reflexión del día ("Mi camino"): hoja abierta + nota cargada del día mostrado.
   // note: undefined = aún no sabemos · null = no hay nota · objeto = hay nota.
   const [reflectOpen, setReflectOpen] = useState(false)
@@ -83,6 +91,24 @@ export default function Hoy() {
     setAheadDay(null)
     setAheadRefs(null)
   }, [planId, r.displayDay])
+
+  // El momento de marcar pertenece a un día: al cambiar de día o de plan se apaga.
+  const shownDayForMoment = aheadDay != null ? aheadDay : r.displayDay
+  useEffect(() => {
+    setJustMarked(false)
+    setChipMenuOpen(false)
+  }, [planId, shownDayForMoment])
+
+  // Respiro tras marcar: el botón confirma en su lugar (~2.4s) y recién después
+  // la zona de acción ofrece lo siguiente.
+  useEffect(() => {
+    if (!justMarked) {
+      setBreathDone(false)
+      return
+    }
+    const id = setTimeout(() => setBreathDone(true), 2400)
+    return () => clearTimeout(id)
+  }, [justMarked])
 
   // Día mostrado (ancla o adelantado) y si está leído — base de la reflexión.
   const shownDay = aheadDay != null ? aheadDay : r.displayDay
@@ -122,10 +148,6 @@ export default function Hoy() {
 
   function readNext(target) {
     if (target != null) setAheadDay(target)
-  }
-  function backToToday() {
-    setAheadDay(null)
-    setAheadRefs(null)
   }
 
   // Datos del logro (ajustados al plan real, no a 365 fijo).
@@ -222,7 +244,6 @@ export default function Hoy() {
   const doneShown = dayShown != null && r.completed.has(dayShown)
   // ¿El día mostrado va por delante de la fecha de hoy? (ancla adelantada o sesión)
   const aheadOfToday = dayShown != null && r.todayDay != null && dayShown > r.todayDay
-  const bibleUrl = firstYouVersionUrl(refsShown, locale)
 
   // Próximo día sin leer hacia adelante: "seguir leyendo" salta lo ya marcado.
   let nextDay = null
@@ -239,38 +260,98 @@ export default function Hoy() {
     <div className="flex min-h-[calc(100vh-120px)] flex-col pt-2">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
-          {viewingAhead && (
-            <button
-              type="button"
-              onClick={backToToday}
-              className="mb-[6px] block text-[15px] font-medium"
-              style={{ color: 'var(--accent-ink)' }}
-            >
-              ‹ {t('hoy.backToToday')}
-            </button>
-          )}
-          {/* El plan es metadata, no contenido: miga de pan en tono suave; el
-              protagonismo tipográfico queda para la lectura. */}
-          {r.plan && (
-            <Link
-              to={`/planes/${r.plan.id}`}
-              state={{ from: { to: '/', label: t('nav.hoy') } }}
-              className="flex max-w-full items-center gap-1 py-1 text-[13px] font-medium text-ink-soft"
-            >
-              <span className="truncate">{planName(t, r.plan)}</span>
-              <span aria-hidden="true" className="shrink-0" style={{ opacity: 0.5 }}>›</span>
-            </Link>
-          )}
+          {/* Sin "volver": el modelo es el señalador — leer adelantado mueve tu
+              "hoy", y el ancla (useReading) te espera donde dejaste el marcador. */}
+          {/* Header de UNA línea: el día (tuyo, en tinta suave) + el plan
+              (metadata, más apagado), todo tocable hacia el plan. El estado
+              "✓ Leído" vive acá como chip, con menú (ver nota / desmarcar). */}
+          <div className="flex min-w-0 items-center gap-2">
+            {r.plan && (
+              <Link
+                to={`/planes/${r.plan.id}`}
+                state={{ from: { to: '/', label: t('nav.hoy') } }}
+                className="flex min-w-0 items-center gap-1.5 py-1 text-[13px] font-medium text-ink-soft"
+              >
+                {!r.planFinished && dayShown != null && (
+                  <>
+                    <span className="shrink-0">{t('hoy.dayN', { day: dayShown })}</span>
+                    <span aria-hidden="true" className="shrink-0" style={{ opacity: 0.45 }}>·</span>
+                  </>
+                )}
+                <span className="truncate" style={{ color: 'var(--placeholder)' }}>
+                  {planName(t, r.plan)}
+                </span>
+                <span aria-hidden="true" className="shrink-0" style={{ opacity: 0.5 }}>›</span>
+              </Link>
+            )}
+            {!r.planFinished && doneShown && (breathDone || !justMarked) && (
+              <div className="relative shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setChipMenuOpen((v) => !v)}
+                  aria-expanded={chipMenuOpen}
+                  aria-haspopup="menu"
+                  className="moment-in flex items-center gap-1 rounded-pill px-2.5 py-1 text-[12px] font-semibold"
+                  style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
+                >
+                  ✓ {t('hoy.read')}
+                  <span aria-hidden="true" style={{ fontSize: 9, opacity: 0.65 }}>▾</span>
+                </button>
+                {chipMenuOpen && (
+                  <>
+                    {/* Cerrar al tocar afuera */}
+                    <button
+                      type="button"
+                      aria-hidden="true"
+                      tabIndex={-1}
+                      className="fixed inset-0 z-20 cursor-default"
+                      onClick={() => setChipMenuOpen(false)}
+                    />
+                    <div
+                      role="menu"
+                      className="absolute right-0 top-full z-30 mt-2 w-max divide-y divide-hairline overflow-hidden rounded-input"
+                      style={{ backgroundColor: 'var(--surface)', boxShadow: 'var(--shadow-overlay)' }}
+                    >
+                      {reflectionsEnabled && note && (
+                        <button
+                          type="button"
+                          role="menuitem"
+                          onClick={() => {
+                            setChipMenuOpen(false)
+                            setReflectOpen(true)
+                          }}
+                          className="block w-full px-4 py-3 text-left text-[15px] text-ink"
+                        >
+                          {noteEditable ? t('hoy.editNote') : t('hoy.viewNote')}
+                        </button>
+                      )}
+                      <button
+                        type="button"
+                        role="menuitem"
+                        onClick={() => {
+                          setChipMenuOpen(false)
+                          setJustMarked(false)
+                          if (dayShown != null) r.toggleDay(dayShown)
+                        }}
+                        className="block w-full px-4 py-3 text-left text-[15px]"
+                        style={{ color: 'var(--danger)' }}
+                      >
+                        {t('hoy.unmark')}
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-        {/* Puerta a Ajustes (Progreso ya vive en la nav primaria): ícono +
-            etiqueta, en el mismo gris del breadcrumb. Fijo a la derecha; el
-            nombre del plan trunca. */}
+        {/* Puerta a Ajustes: solo el ícono — la convención alcanza. */}
         <Link
           to="/ajustes"
-          className="-mr-1 -mt-2 flex h-11 shrink-0 items-center gap-1.5 px-1 text-[13px] font-medium text-ink-soft transition-colors hover:text-accent-ink"
+          aria-label={t('nav.ajustes')}
+          className="-mr-2 -mt-1 flex h-11 w-11 shrink-0 items-center justify-center text-ink-soft transition-colors hover:text-accent-ink"
         >
-          <SlidersIcon size={16} />
-          {t('nav.ajustes')}
+          <SlidersIcon size={18} />
         </Link>
       </div>
 
@@ -341,13 +422,13 @@ export default function Hoy() {
             {/* Stats ajustados al plan real */}
             <div className="grid grid-cols-2 divide-x divide-hairline border-t border-hairline">
               <div className="py-5 text-center">
-                <p className="text-[30px] font-bold text-ink">{r.completedCount}</p>
+                <p className="stat-num text-[30px] font-bold text-ink">{r.completedCount}</p>
                 <p className="text-[13px] text-ink-soft">
                   {t('hoy.daysRead', { count: r.completedCount })}
                 </p>
               </div>
               <div className="py-5 text-center">
-                <p className="text-[30px] font-bold text-ink">{maxStreak}</p>
+                <p className="stat-num text-[30px] font-bold text-ink">{maxStreak}</p>
                 <p className="text-[13px] text-ink-soft">
                   {t('hoy.maxStreak', { count: maxStreak })}
                 </p>
@@ -395,44 +476,40 @@ export default function Hoy() {
           )}
         </div>
       ) : (
-        <>
-          <p className="mt-[42px] text-[13px] font-medium text-ink-soft">
-            {aheadOfToday
-              ? t('hoy.readingDay', { day: dayShown })
-              : dayShown != null
-                ? t('hoy.readingTodayWithDay', { day: dayShown })
-                : t('hoy.readingToday')}
-          </p>
-          <div className="mt-[18px] space-y-1">
-            {viewingAhead && aheadLoading ? (
-              <div className="animate-pulse space-y-2" aria-hidden="true">
-                <div className="rounded-pill" style={{ width: '60%', height: 32, backgroundColor: 'var(--surface-alt)' }} />
-                <div className="rounded-pill" style={{ width: '44%', height: 32, backgroundColor: 'var(--surface-alt)' }} />
-              </div>
-            ) : (
-              // Cada referencia abre su propio pasaje (no solo la primera): el
-              // texto que ya es la pantalla se vuelve funcional, sin cromo nuevo.
-              refsShown?.map((ref, i) => {
-                const url = youVersionUrl(ref, locale)
-                return url ? (
-                  <a
-                    key={i}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-fit text-display text-ink transition-opacity active:opacity-50"
-                  >
-                    {bookLabel(ref, locale)}
-                  </a>
-                ) : (
-                  <p key={i} className="text-display text-ink">
-                    {bookLabel(ref, locale)}
-                  </p>
-                )
-              })
-            )}
-          </div>
-        </>
+        // El día ya vive en el header ("Día N · plan"): la lectura arranca sin
+        // preámbulo. La Palabra es la página.
+        <div className="mt-9 space-y-1">
+          {viewingAhead && aheadLoading ? (
+            <div className="animate-pulse space-y-2" aria-hidden="true">
+              <div className="rounded-pill" style={{ width: '60%', height: 32, backgroundColor: 'var(--surface-alt)' }} />
+              <div className="rounded-pill" style={{ width: '44%', height: 32, backgroundColor: 'var(--surface-alt)' }} />
+            </div>
+          ) : (
+            // El pasaje mismo es la puerta a la Biblia: cada referencia abre su
+            // capítulo (tinta plena, sin color — el toque lo confirma la opacidad
+            // al presionar). Con ≥4 pasajes la display baja un talle (.text-display-sm).
+            refsShown?.map((ref, i) => {
+              const url = youVersionUrl(ref, locale)
+              const displayClass = refsShown.length >= 4 ? 'text-display-sm' : 'text-display'
+              const label = bookLabel(ref, locale)
+              return url ? (
+                <a
+                  key={i}
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`block w-fit ${displayClass} text-ink transition-opacity active:opacity-50`}
+                >
+                  {label}
+                </a>
+              ) : (
+                <p key={i} className={`${displayClass} text-ink`}>
+                  {label}
+                </p>
+              )
+            })
+          )}
+        </div>
       )}
 
       {/* Materiales opcionales (catecismo, etc.) bajo la lectura. Vacío si el
@@ -441,73 +518,119 @@ export default function Hoy() {
 
       <div className="flex-1" />
 
-      {!r.planFinished && (
-        <div className="action-bar space-y-3">
-          <div className="space-y-3 lg:flex lg:max-w-[440px] lg:space-x-3 lg:space-y-0">
-            <button
-              type="button"
-              onClick={() => dayShown != null && r.toggleDay(dayShown)}
-              className={`btn lg:flex-1 ${doneShown ? 'btn-done' : 'btn-primary'}`}
-            >
-              {doneShown ? (aheadOfToday ? `✓ ${t('hoy.read')}` : `✓ ${t('hoy.readToday')}`) : t('hoy.markRead')}
-            </button>
-            {reflectionsEnabled && doneShown ? (
-              // Ya leyó: abrir la Biblia ya no hace falta → ese botón invita a anotar.
-              // Sin nota todavía → destacado (accent) para que la acción se note; una vez
-              // escrita pasa a secundario (ya está, acceso tranquilo, sin insistir).
-              <button
-                type="button"
-                onClick={() => setReflectOpen(true)}
-                className={`btn block lg:flex-1 ${note ? 'btn-secondary' : 'btn-primary'}`}
-              >
-                {note
-                  ? noteEditable
-                    ? t('hoy.editNote')
-                    : t('hoy.viewNote')
-                  : t('hoy.writeNote')}
-              </button>
-            ) : (
-              <a
-                href={bibleUrl || '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-disabled={bibleUrl ? undefined : 'true'}
-                tabIndex={bibleUrl ? undefined : -1}
-                className="btn btn-secondary block lg:flex-1"
-                style={{ pointerEvents: bibleUrl ? 'auto' : 'none', opacity: bibleUrl ? 1 : 0.5 }}
-              >
-                {t('hoy.openBible')} ↗
-              </a>
-            )}
+      {/* Zona de acción única: siempre en el mismo lugar, bajando de intensidad
+          a medida que el día se completa. (1) Marcar → (2) el momento: ✓ dibujado
+          con la línea cálida ARRIBA (el botón nunca se mueve) → (3) la nota, si
+          el Diario está activado y aún no hay → (4) un link quieto para seguir.
+          El estado "leído" vive en el chip del header, no acá. */}
+      {!r.planFinished && (() => {
+        const breathing = doneShown && justMarked && !breathDone
+        // Estado "cerrado" (marcado, pasado el respiro). La NOTA nunca se esconde:
+        // si el diario está activo, siempre hay una vía en la barra —"Anotá…"
+        // cuando no hay, "Editar/Ver tu nota" cuando ya existe—. "Leer el día
+        // siguiente" acompaña como secundaria. Antes, al existir una nota la barra
+        // saltaba solo a "leer siguiente" y anotar parecía imposible.
+        const settled = doneShown && !breathing
+        const invite = reflectionsEnabled && !note && noteEditable // sin nota: invitar
+        const noteAccess = reflectionsEnabled && !!note // hay nota: editar/ver
+        const settledHasAction = invite || noteAccess || nextDay != null
+        if (!(!doneShown || breathing || (settled && settledHasAction))) return null
+
+        const nextLink = (
+          <button
+            type="button"
+            onClick={() => readNext(nextDay)}
+            className="block w-full py-2 text-center text-[15px] font-semibold"
+            style={{ color: 'var(--accent-ink)' }}
+          >
+            {t('hoy.readNextDay')} →
+          </button>
+        )
+        const noteLink = (
+          <button
+            type="button"
+            onClick={() => setReflectOpen(true)}
+            className="block w-full py-2 text-center text-[15px] font-medium text-ink-soft"
+          >
+            {noteEditable ? t('hoy.editNote') : t('hoy.viewNote')}
+          </button>
+        )
+
+        return (
+          <div className="action-bar">
+            <div className="lg:max-w-[440px]">
+              {!doneShown ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (dayShown == null) return
+                    setJustMarked(true)
+                    navigator.vibrate?.(12)
+                    r.toggleDay(dayShown)
+                  }}
+                  className="btn btn-primary"
+                >
+                  {t('hoy.markRead')}
+                </button>
+              ) : breathing ? (
+                <>
+                  <p className="moment-in pb-2.5 text-center text-[13px] font-medium text-ink-soft">
+                    <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✦</span>{' '}
+                    {!viewingAhead && r.streak >= 2
+                      ? t('hoy.streakDays', { count: r.streak })
+                      : t('hoy.markedNote')}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setJustMarked(false)
+                      if (dayShown != null) r.toggleDay(dayShown)
+                    }}
+                    className="btn btn-done btn-just-marked"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      <svg
+                        width="17"
+                        height="17"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M5 12l5 5L20 7" pathLength="1" className="check-drawn" />
+                      </svg>
+                      {aheadOfToday ? t('hoy.read') : t('hoy.readToday')}
+                    </span>
+                  </button>
+                </>
+              ) : invite ? (
+                // Sin nota: la invitación a anotar es la acción primaria; seguir
+                // leyendo queda como enlace secundario.
+                <div className={justMarked ? 'moment-in' : undefined}>
+                  <button
+                    type="button"
+                    onClick={() => setReflectOpen(true)}
+                    className="btn btn-primary"
+                  >
+                    {t('hoy.writeNote')}
+                  </button>
+                  {nextDay != null && <div className="mt-1">{nextLink}</div>}
+                </div>
+              ) : (
+                // Ya hay nota (o diario apagado): seguir es lo primario, con la
+                // nota siempre a un toque de distancia como secundaria.
+                <div className={justMarked ? 'moment-in' : undefined}>
+                  {nextDay != null ? nextLink : noteAccess ? noteLink : null}
+                  {nextDay != null && noteAccess && noteLink}
+                </div>
+              )}
+            </div>
           </div>
-
-          {/* Cierre del ciclo: la racha aparece solo al marcar el día de hoy (y
-              recién desde 2 — "1 día seguido" no dice nada). El resto del tiempo
-              vive en Progreso, sin insistir. */}
-          {doneShown && !viewingAhead && r.streak >= 2 && (
-            <Link
-              to="/progreso"
-              className="block py-1 text-center text-[13px] font-medium text-ink-soft lg:max-w-[440px]"
-            >
-              <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✦</span>{' '}
-              {t('hoy.streakDays', { count: r.streak })}
-            </Link>
-          )}
-
-          {/* Seguir leyendo: tras marcar el día mostrado, o ya en modo adelantado.
-              Salta al próximo día sin leer, sin re-pisar lo ya marcado. */}
-          {nextDay != null && (viewingAhead || doneShown) && (
-            <button
-              type="button"
-              onClick={() => readNext(nextDay)}
-              className="block w-full py-1 text-center text-[15px] font-semibold lg:max-w-[440px]"
-              style={{ color: 'var(--accent-ink)' }}
-            >
-              {t('hoy.readNextDay')} →
-            </button>
-          )}
-        </div>
-      )}
+        )
+      })()}
 
       {reflectOpen && shownDay != null && (
         <ReflectionSheet

@@ -94,3 +94,18 @@ export function bookLabel(ref, locale) {
   }
   return numeric ? `${targetName} ${numeric}` : targetName
 }
+
+// Partes del label — { name, numeric } — para tipografía diferenciada: en Hoy
+// los capítulos van en acento para señalar que el pasaje es tocable.
+export function bookLabelParts(ref, locale) {
+  const full = bookLabel(ref, locale)
+  if (!full) return { name: '', numeric: '' }
+  const entry = ref ? BOOKS[ref.book_usfm] : null
+  const candidates = entry ? [entry[locale] || entry.es, entry.es] : []
+  for (const n of candidates) {
+    if (n && full.startsWith(n)) {
+      return { name: n, numeric: full.slice(n.length).trim() }
+    }
+  }
+  return { name: full, numeric: '' }
+}

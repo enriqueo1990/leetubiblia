@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../../lib/auth.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
 import { subscribeToPush } from '../../lib/push.js'
+import Switch from '../../components/Switch.jsx'
 
 // Último paso del onboarding (documento maestro §5.8): ofrecer recordatorio y, en
 // iOS, guiar a "Agregar a pantalla de inicio". La programación real de la
@@ -46,8 +47,10 @@ export default function OnboardingExtras({ onDone }) {
     <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col px-7 py-10">
       <div className="flex-1">
         <h1 className="text-[24px] font-bold tracking-tight text-ink">{t('onboarding.extras.title')}</h1>
+        {/* Fuera de iOS solo se ofrece el recordatorio: el subtítulo cuenta una
+            cosa o dos según lo que de verdad se muestra. */}
         <p className="mt-2 text-[16px] text-ink-soft">
-          {t('onboarding.extras.subtitle')}
+          {showAddToHome ? t('onboarding.extras.subtitle') : t('onboarding.extras.subtitleOne')}
         </p>
 
         {/* Recordatorio */}
@@ -58,19 +61,11 @@ export default function OnboardingExtras({ onDone }) {
               {t('onboarding.extras.reminderDesc')}
             </p>
           </div>
-          <button
-            type="button"
-            role="switch"
-            aria-checked={reminder}
-            onClick={() => setReminder((v) => !v)}
-            className="relative h-[29px] w-[48px] rounded-[15px] transition-colors duration-300"
-            style={{ backgroundColor: reminder ? 'var(--accent)' : 'var(--surface-alt)' }}
-          >
-            <span
-              className="absolute top-[2.5px] h-[24px] w-[24px] rounded-full bg-white transition-all duration-300"
-              style={{ left: reminder ? 21 : 3 }}
-            />
-          </button>
+          <Switch
+            on={reminder}
+            onChange={() => setReminder((v) => !v)}
+            label={t('ajustes.section.recordatorio')}
+          />
         </div>
 
         {/* Agregar a inicio (solo iOS no instalado) */}

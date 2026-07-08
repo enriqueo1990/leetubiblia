@@ -8,6 +8,26 @@ import { joinGroupByCode } from '../lib/db.js'
 // Si el usuario ya está logueado, lo une al grupo y lo manda al detalle. Si llega
 // sin sesión, el Gate lo lleva por onboarding primero (la URL /join?code se
 // conserva) y al terminar cae acá y se une. Idempotente desde la UI.
+//
+// Es la primera pantalla que ve un invitado frío (llega del WhatsApp de su
+// líder): lleva la identidad de la app —logo + nombre— y, si el código venció,
+// una salida concreta en vez de un error seco.
+
+function Wordmark() {
+  return (
+    <>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true">
+        <rect width="64" height="64" rx="14" fill="#A88B6A" />
+        <g fill="none" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z" />
+          <path d="M32 20v28" />
+        </g>
+      </svg>
+      <p className="mt-4 text-[17px] font-semibold tracking-tight text-ink">Lee Tu Biblia</p>
+    </>
+  )
+}
+
 export default function Join() {
   const [params] = useSearchParams()
   const code = (params.get('code') || '').trim()
@@ -41,16 +61,20 @@ export default function Join() {
   }
 
   return (
-    <div className="flex min-h-[70vh] flex-col items-center justify-center px-8 text-center">
-      {status === 'joining' && <p className="text-[15px] text-ink-soft">{t('join.joining')}</p>}
+    <div className="mx-auto flex min-h-[70vh] max-w-content flex-col items-center justify-center px-8 text-center">
+      <Wordmark />
+
+      {status === 'joining' && (
+        <p className="mt-8 text-[15px] text-ink-soft">{t('join.joining')}</p>
+      )}
 
       {status === 'notfound' && (
         <>
-          <p className="text-[16px] text-ink">{t('grupos.notFound')}</p>
-          <p className="mt-1 text-[15px] text-ink-soft">
-            {t('join.linkExpired')}
+          <p className="mt-8 text-[17px] font-semibold text-ink">{t('grupos.notFound')}</p>
+          <p className="mt-2 max-w-[300px] text-[15px] leading-relaxed text-ink-soft">
+            {t('join.linkExpired')} {t('join.askLeader')}
           </p>
-          <Link to="/grupos" className="btn btn-primary mt-6 inline-block px-8">
+          <Link to="/grupos" className="btn btn-primary mt-7 inline-block px-8">
             {t('oracion.goToGroups')}
           </Link>
         </>
@@ -58,8 +82,11 @@ export default function Join() {
 
       {status === 'error' && (
         <>
-          <p className="text-[16px] text-ink">{t('grupos.joinError')}</p>
-          <div className="mt-4 flex gap-3">
+          <p className="mt-8 text-[17px] font-semibold text-ink">{t('grupos.joinError')}</p>
+          <p className="mt-2 max-w-[300px] text-[15px] leading-relaxed text-ink-soft">
+            {t('join.errorHint')}
+          </p>
+          <div className="mt-7 flex gap-3">
             <button type="button" onClick={retry} className="btn btn-primary px-6">
               {t('common.retry')}
             </button>

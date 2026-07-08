@@ -228,7 +228,7 @@ export default function GruposDiscipulado() {
 
       {/* ── PRIVACIDAD ───────────────────────────────────────── */}
       <section className="mx-auto w-full max-w-[720px] px-6 pb-8">
-        <div className="rounded-[18px] border border-hairline bg-surface-alt/60 px-7 py-8">
+        <div className="rounded-card border border-hairline bg-surface-alt/60 px-7 py-8">
           <div className="flex items-start gap-4">
             <IconBadge>
               <LockIcon size={22} />

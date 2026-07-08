@@ -73,7 +73,7 @@ export default function ConfirmDialog({
       <div
         ref={panelRef}
         className="w-full max-w-[320px] rounded-container p-5 text-center"
-        style={{ backgroundColor: 'var(--surface)', boxShadow: '0 10px 40px rgba(0,0,0,0.25)' }}
+        style={{ backgroundColor: 'var(--surface)', boxShadow: 'var(--shadow-overlay)' }}
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-[18px] font-bold text-ink">{title}</h2>

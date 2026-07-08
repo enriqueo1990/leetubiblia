@@ -89,7 +89,7 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
           aria-modal="true"
           aria-label={title}
           className="pointer-events-auto relative flex max-h-[92dvh] w-full max-w-content flex-col rounded-container"
-          style={{ backgroundColor: 'var(--bg-app)', boxShadow: '0 8px 40px rgba(0,0,0,0.25)' }}
+          style={{ backgroundColor: 'var(--bg-app)', boxShadow: 'var(--shadow-overlay)' }}
         >
           {/* Nav — o solo la ✕ en la variante plain */}
           {plain ? (

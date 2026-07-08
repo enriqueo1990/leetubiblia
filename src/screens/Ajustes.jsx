@@ -31,6 +31,21 @@ function SectionLabel({ children }) {
   )
 }
 
+// Fila de lista agrupada (estilo iOS Settings): título + subtítulo explicativo
+// dentro de la fila, control a la derecha. Reemplaza al patrón "una card por
+// switch + ayuda suelta debajo" que apilaba cajas monótonas.
+function Row({ title, subtitle, control }) {
+  return (
+    <div className="flex items-center justify-between gap-4 px-4 py-3">
+      <div className="min-w-0 flex-1">
+        <p className="text-[16px] text-ink">{title}</p>
+        {subtitle && <p className="mt-0.5 text-[13px] leading-snug text-ink-soft">{subtitle}</p>}
+      </div>
+      {control}
+    </div>
+  )
+}
+
 function isIOS() {
   return /iphone|ipad|ipod/i.test(navigator.userAgent)
 }
@@ -246,9 +261,9 @@ export default function Ajustes() {
           state={{ from: { to: '/ajustes', label: t('nav.ajustes') } }}
           className="flex items-center justify-between px-4 py-3"
         >
-          <span className="text-[16px] text-ink">{t('ajustes.planDeLectura')}</span>
-          <span className="flex items-center gap-1.5">
-            <span className="text-[15px] text-ink-soft">{plan?.name || t('ajustes.elegir')}</span>
+          <span className="shrink-0 text-[16px] text-ink">{t('ajustes.planDeLectura')}</span>
+          <span className="flex min-w-0 items-center gap-1.5">
+            <span className="truncate text-[15px] text-ink-soft">{plan?.name || t('ajustes.elegir')}</span>
             <span className="text-ink-soft" style={{ opacity: 0.5 }}>
               <ChevronRight size={18} />
             </span>
@@ -269,6 +284,28 @@ export default function Ajustes() {
             </span>
           </span>
         </Link>
+        <Row
+          title={t('ajustes.section.diario')}
+          subtitle={t('ajustes.diarioHelp')}
+          control={
+            <Switch
+              on={reflectionsOn}
+              onChange={() => updateProfile({ reflections_enabled: !reflectionsOn })}
+              label={t('ajustes.section.diario')}
+            />
+          }
+        />
+        <Row
+          title={t('ajustes.compartirLectura')}
+          subtitle={t('ajustes.compartirLecturaHelp')}
+          control={
+            <Switch
+              on={shareReadingOn}
+              onChange={toggleShareReading}
+              label={t('ajustes.compartirLecturaLabel')}
+            />
+          }
+        />
       </div>
 
       {/* Fijar en qué día del plan vas (catch-up para quien ya venía leyendo). */}
@@ -317,38 +354,10 @@ export default function Ajustes() {
         </>
       )}
 
-      <SectionLabel>{t('ajustes.section.diario')}</SectionLabel>
-      <div className="card">
-        <div className="flex items-center justify-between px-4 py-3">
-          <span className="text-[16px] text-ink">{t('ajustes.activar')}</span>
-          <Switch
-            on={reflectionsOn}
-            onChange={() => updateProfile({ reflections_enabled: !reflectionsOn })}
-            label={t('ajustes.section.diario')}
-          />
-        </div>
-      </div>
-      <p className="mt-2 px-1 text-[12px] text-ink-soft">
-        {t('ajustes.diarioHelp')}
-      </p>
-
-      <SectionLabel>{t('ajustes.section.lecturaGrupos')}</SectionLabel>
-      <div className="card">
-        <div className="flex items-center justify-between px-4 py-3">
-          <span className="text-[16px] text-ink">{t('ajustes.compartirLectura')}</span>
-          <Switch
-            on={shareReadingOn}
-            onChange={toggleShareReading}
-            label={t('ajustes.compartirLecturaLabel')}
-          />
-        </div>
-      </div>
-      <p className="mt-2 px-1 text-[12px] text-ink-soft">
-        {t('ajustes.compartirLecturaHelp')}
-      </p>
-
       <SectionLabel>{t('ajustes.section.acento')}</SectionLabel>
-      <div className="card grid grid-cols-6 gap-3 p-4">
+      {/* Swatch chico (28px) centrado en un área táctil de 44px: neto como en
+          iOS, no círculos enormes que llenan la celda. */}
+      <div className="card grid grid-cols-6 gap-1 p-3">
         {accents.map((a) => {
           const selected = a.key === accent
           const swatch = resolvedMode === 'dark' ? a.dark : a.light
@@ -359,14 +368,18 @@ export default function Ajustes() {
               aria-label={a.name}
               title={a.name}
               onClick={() => pickAccent(a.key)}
-              className="aspect-square w-full rounded-full transition-transform duration-200"
-              style={{
-                backgroundColor: swatch,
-                boxShadow: selected
-                  ? '0 0 0 2px var(--bg-app), 0 0 0 4px var(--accent)'
-                  : 'none',
-              }}
-            />
+              className="flex h-11 items-center justify-center"
+            >
+              <span
+                className="block h-7 w-7 rounded-full transition-transform duration-200"
+                style={{
+                  backgroundColor: swatch,
+                  boxShadow: selected
+                    ? '0 0 0 2px var(--surface), 0 0 0 4px var(--accent)'
+                    : 'none',
+                }}
+              />
+            </button>
           )
         })}
       </div>
@@ -377,12 +390,15 @@ export default function Ajustes() {
       <SectionLabel>{t('ajustes.idioma')}</SectionLabel>
       <Segmented options={locales} value={locale} onChange={pickLocale} />
 
-      <SectionLabel>{t('ajustes.section.recordatorio')}</SectionLabel>
+      <SectionLabel>{t('ajustes.section.avisos')}</SectionLabel>
       <div className="card divide-y divide-hairline">
-        <div className="flex items-center justify-between px-4 py-3">
-          <span className="text-[16px] text-ink">{t('ajustes.activar')}</span>
-          <Switch on={reminderOn} onChange={toggleReminder} label={t('ajustes.section.recordatorio')} />
-        </div>
+        <Row
+          title={t('ajustes.section.recordatorio')}
+          subtitle={showReminderIOSNote ? t('ajustes.reminderIOSNote') : t('ajustes.reminderHelp')}
+          control={
+            <Switch on={reminderOn} onChange={toggleReminder} label={t('ajustes.section.recordatorio')} />
+          }
+        />
         {reminderOn && (
           <div className="flex items-center justify-between px-4 py-3">
             <span className="text-[16px] text-ink">{t('ajustes.hora')}</span>
@@ -395,80 +411,64 @@ export default function Ajustes() {
             />
           </div>
         )}
+        <Row
+          title={t('ajustes.pedidosNuevos')}
+          subtitle={t('ajustes.avisosGrupoHelp')}
+          control={
+            <Switch
+              on={groupNotifOn}
+              onChange={toggleGroupNotif}
+              label={t('ajustes.avisosGrupoLabel')}
+            />
+          }
+        />
+        <Row
+          title={t('ajustes.recordarRevisar')}
+          subtitle={t('ajustes.seguimientoHelp')}
+          control={
+            <Switch
+              on={prayerFollowupOn}
+              onChange={() => updateProfile({ prayer_followup_enabled: !prayerFollowupOn })}
+              label={t('ajustes.recordarRevisarLabel')}
+            />
+          }
+        />
       </div>
-      {reminderOn && (
-        <p className="mt-2 px-1 text-[12px] text-ink-soft">
-          {showReminderIOSNote ? t('ajustes.reminderIOSNote') : t('ajustes.reminderHelp')}
-        </p>
-      )}
-      {pushNote?.target === 'reminder' && (
+      {pushNote && (
         <p className="mt-2 px-1 text-[12px] text-ink-soft">{pushNote.msg}</p>
       )}
 
-      <SectionLabel>{t('ajustes.section.avisosGrupo')}</SectionLabel>
-      <div className="card">
-        <div className="flex items-center justify-between px-4 py-3">
-          <span className="text-[16px] text-ink">{t('ajustes.pedidosNuevos')}</span>
-          <Switch
-            on={groupNotifOn}
-            onChange={toggleGroupNotif}
-            label={t('ajustes.avisosGrupoLabel')}
-          />
-        </div>
-      </div>
-      <p className="mt-2 px-1 text-[12px] text-ink-soft">
-        {t('ajustes.avisosGrupoHelp')}
-      </p>
-      {pushNote?.target === 'group' && (
-        <p className="mt-2 px-1 text-[12px] text-ink-soft">{pushNote.msg}</p>
-      )}
-
-      <SectionLabel>{t('ajustes.section.seguimiento')}</SectionLabel>
-      <div className="card">
-        <div className="flex items-center justify-between px-4 py-3">
-          <span className="text-[16px] text-ink">{t('ajustes.recordarRevisar')}</span>
-          <Switch
-            on={prayerFollowupOn}
-            onChange={() => updateProfile({ prayer_followup_enabled: !prayerFollowupOn })}
-            label={t('ajustes.recordarRevisarLabel')}
-          />
-        </div>
-      </div>
-      <p className="mt-2 px-1 text-[12px] text-ink-soft">
-        {t('ajustes.seguimientoHelp')}
-      </p>
-
-      <SectionLabel>{t('ajustes.section.compartir')}</SectionLabel>
-      <div className="card">
+      <SectionLabel>{t('ajustes.section.laApp')}</SectionLabel>
+      <div className="card divide-y divide-hairline">
         <button
           type="button"
           onClick={shareApp}
-          className="flex w-full items-center justify-between px-4 py-3"
+          className="flex w-full items-center justify-between gap-4 px-4 py-3 text-left"
         >
-          <span className="text-[16px] text-ink">{t('ajustes.compartirApp')}</span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[16px] text-ink">{t('ajustes.compartirApp')}</span>
+            <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">
+              {t('ajustes.compartirHelp')}
+            </span>
+          </span>
           <span className="flex items-center gap-1.5 text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
             {shared ? t('ajustes.copiado') : <ShareIcon size={18} />}
           </span>
         </button>
-      </div>
-      <p className="mt-2 px-1 text-[12px] text-ink-soft">
-        {t('ajustes.compartirHelp')}
-      </p>
-
-      <SectionLabel>{t('ajustes.section.ayuda')}</SectionLabel>
-      <div className="card">
         {/* /guia es pública (vive fuera del Gate) pero antes no tenía ninguna
             puerta desde adentro de la app. */}
-        <Link to="/guia" className="flex items-center justify-between px-4 py-3">
-          <span className="text-[16px] text-ink">{t('ajustes.guiaApp')}</span>
+        <Link to="/guia" className="flex items-center justify-between gap-4 px-4 py-3">
+          <span className="min-w-0 flex-1">
+            <span className="block text-[16px] text-ink">{t('ajustes.guiaApp')}</span>
+            <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">
+              {t('ajustes.ayudaHelp')}
+            </span>
+          </span>
           <span className="text-ink-soft" style={{ opacity: 0.5 }}>
             <ChevronRight size={18} />
           </span>
         </Link>
       </div>
-      <p className="mt-2 px-1 text-[12px] text-ink-soft">
-        {t('ajustes.ayudaHelp')}
-      </p>
 
       <SectionLabel>{t('ajustes.section.mision')}</SectionLabel>
       <div

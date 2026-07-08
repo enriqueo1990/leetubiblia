@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
-import { activeMaterials, loadMaterialContent } from '../lib/materials.js'
+import { activeMaterials, getMaterial, loadMaterialContent } from '../lib/materials.js'
 import { ChevronRight } from './icons.jsx'
 
 // Sección "Mis otras lecturas" de la pantalla Hoy. Aparece SOLO si el usuario activó
@@ -38,10 +38,13 @@ export default function MaterialsToday() {
   if (list.length === 0) return null
 
   return (
-    <div className="mt-10">
-      <p className="mb-3 text-[13px] font-medium text-ink-soft">{t('materialsToday.otherReadings')}</p>
+    <div className="mt-8">
+      <p className="mb-2 text-[13px] font-medium text-ink-soft">{t('materialsToday.otherReadings')}</p>
 
-      <div className="space-y-3">
+      {/* Una sola card agrupada (filas + hairline), no una card por material:
+          menos alto total — clave para que Hoy entre en una pantalla — y menos
+          cajas apiladas. */}
+      <div className="card divide-y divide-hairline">
         {list.map((m) => {
           const content = contents[m.slug]
           if (!content) return null // aún cargando: no ocupa lugar
@@ -52,11 +55,15 @@ export default function MaterialsToday() {
             <Link
               key={m.slug}
               to={`/materiales/${m.slug}`}
-              className="card flex w-full items-center justify-between px-4 py-3 text-left"
+              className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
             >
-              <span className="min-w-0">
-                <span className="block truncate text-[16px] text-ink">{content.name}</span>
-                <span className="mt-0.5 block text-[13px] text-ink-soft">
+              {/* Nombre corto del catálogo: la fila entra en una línea en 375px
+                  (el nombre completo vive en el lector). */}
+              <span className="block min-w-0 flex-1 truncate text-[16px] text-ink">
+                {getMaterial(m.slug)?.shortName ?? content.name}
+              </span>
+              <span className="flex shrink-0 items-center gap-1.5">
+                <span className="text-[13px] tabular-nums text-ink-soft">
                   {done ? (
                     <>
                       <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✓ </span>
@@ -66,9 +73,9 @@ export default function MaterialsToday() {
                     t('materialsToday.questionOf', { n: entry?.number ?? m.position, total: content.total })
                   )}
                 </span>
-              </span>
-              <span className="shrink-0 text-ink-soft" style={{ opacity: 0.5 }}>
-                <ChevronRight size={18} />
+                <span className="text-ink-soft" style={{ opacity: 0.5 }}>
+                  <ChevronRight size={18} />
+                </span>
               </span>
             </Link>
           )

@@ -29,7 +29,7 @@ export default function Sidebar() {
                 <NavLink
                   to={to}
                   end={end}
-                  className="flex items-center gap-3 rounded-[12px] px-3 py-2.5 transition-colors duration-300 ease-soft"
+                  className="flex items-center gap-3 rounded-[10px] px-3 py-2.5 transition-colors duration-300 ease-soft"
                   style={({ isActive }) => ({
                     color: isActive || extra ? 'var(--accent-ink)' : 'var(--text-soft)',
                     backgroundColor: isActive || extra ? 'var(--accent-tint-nav)' : 'transparent',

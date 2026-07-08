@@ -20,18 +20,40 @@ import {
   setDismissedBehind,
 } from '../lib/offline.js'
 
-// Día al que se ancla la pantalla Hoy:
+// Día al que se ancla la pantalla Hoy — el modelo es el SEÑALADOR, no el
+// calendario (decidido con Enrique, 2026-07-08):
 //  - Si vas ATRASADO → el día del calendario (regla canónica: mostrás la lectura
 //    de la fecha, con su banner de reprogramar y la posibilidad de dejar huecos).
-//  - Si vas AL DÍA o ADELANTADO → el PRÓXIMO día sin leer. Así Hoy refleja dónde
-//    vas de verdad y no un día de calendario ya leído (clave para el lector que se
-//    mantiene adelantado todo el año).
+//  - Si marcaste lecturas HOY → el día MÁS ALTO marcado hoy. Ahí dejaste el
+//    señalador: leer adelantado mueve tu "hoy", y volver a la pantalla te espera
+//    en ese día cerrado (chip ✓, nota, "leer el siguiente") hasta mañana.
+//  - Si no marcaste nada hoy (al día o adelantado de días previos) → el PRÓXIMO
+//    día sin leer: cada mañana te espera tu próxima lectura.
 //  - null → plan terminado (todo leído).
-function computeAnchorDay(completedSet, calendarDay, duration) {
-  const nextUnread = firstUnreadDay(completedSet, duration)
+function computeAnchorDay(completedMap, calendarDay, duration) {
+  const nextUnread = firstUnreadDay(completedMap, duration)
   if (nextUnread > duration) return null
+
+  // El señalador manda, ANTES que el atraso: si marcaste algún día HOY, Hoy se
+  // queda en el más avanzado que leíste —aunque te hayas adelantado al calendario
+  // o dejado un hueco atrás—. Leer adelantado mueve tu "hoy"; volver a la pantalla
+  // te espera ahí, no te devuelve al día del calendario ni te empuja al siguiente.
+  if (typeof completedMap.get === 'function') {
+    const today = todayLocalISO()
+    let lastToday = null
+    for (const [day, date] of completedMap) {
+      if (date === today && day <= duration && (lastToday == null || day > lastToday)) {
+        lastToday = day
+      }
+    }
+    if (lastToday != null) return lastToday
+  }
+
+  // No leíste hoy: si venís atrasado respecto del calendario, mostrás la lectura
+  // de la fecha (con banner de reprogramar y la opción de dejar huecos). Si no,
+  // tu próxima lectura sin leer.
   const cap = Math.min(calendarDay, duration)
-  const behind = Math.max(0, cap - firstUnreadDay(completedSet, cap))
+  const behind = Math.max(0, cap - firstUnreadDay(completedMap, cap))
   if (behind > 0 && calendarDay <= duration) return calendarDay
   return nextUnread
 }
@@ -259,8 +281,13 @@ export function useReading() {
     }
   }, [user, behind, dismissedBehind])
 
-  // El banner se muestra solo si el atraso supera el nivel ya descartado.
-  const showBehind = behind > 0 && behind > dismissedBehind
+  // El banner se muestra solo si el atraso supera el nivel ya descartado — y
+  // nunca cuando tu señalador ya pasó el día del calendario: si estás leyendo
+  // adelantado, "te atrasaste" es una contradicción (y Reprogramar correría el
+  // plan pisando tu avance). El hueco atrás sigue visible en el calendario de
+  // Progreso; acá no.
+  const anchoredAhead = displayDay != null && todayDay != null && displayDay > todayDay
+  const showBehind = behind > 0 && behind > dismissedBehind && !anchoredAhead
 
   // Descartar el banner al nivel de atraso actual ("seguir igual" por ahora).
   const dismissBehind = useCallback(() => {

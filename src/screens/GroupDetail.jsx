@@ -41,7 +41,7 @@ import { usePreferences } from '../lib/preferences.jsx'
 function Stat({ n, label }) {
   return (
     <div className="flex-1">
-      <div className="text-[30px] font-bold text-accent-ink" style={{ letterSpacing: '-1px' }}>
+      <div className="stat-num text-[30px] font-bold text-accent-ink">
         {n}
       </div>
       <div className="mt-0.5 text-[12px] leading-tight text-ink-soft">{label}</div>
@@ -407,9 +407,11 @@ export default function GroupDetail() {
         </button>
       ) : (
         <>
-          <ul className="mt-3 space-y-3">
+          {/* Una sola card agrupada (filas + hairlines) en vez de una card por
+              pedido: misma info, menos cajas apiladas. */}
+          <ul className="card mt-3 divide-y divide-hairline">
             {prayers.slice(0, 4).map((p) => (
-              <li key={p.id} className="card p-4">
+              <li key={p.id} className="p-4">
                 <p className="text-[16px] font-semibold leading-snug text-ink">{p.title}</p>
                 <div className="mt-2 flex items-center justify-between gap-3">
                   <div className="flex min-w-0 items-center gap-2">
@@ -546,47 +548,49 @@ export default function GroupDetail() {
       {/* Lo privado del líder va debajo de todo: primero la sala compartida
           (pulso, oración, testimonios, miembros), después lo que solo él ve. */}
 
-      {/* Resumen pastoral — solo el owner */}
-      {isOwner && stats && (
-        <div className="card mt-7 p-5">
-          <div className="flex items-center gap-1.5 text-ink-soft">
-            <LockIcon size={13} />
-            <span className="text-[12px] font-semibold uppercase tracking-wide">
-              {t('groupDetail.summaryPrivate')}
-            </span>
-          </div>
-          <div className="mt-4 flex">
-            <Stat n={stats.active} label={t('groupDetail.statActive')} />
-            <Stat n={stats.answered} label={t('groupDetail.statAnswered')} />
-            <Stat n={stats.praying_week} label={t('groupDetail.statPrayingWeek')} />
-          </div>
-          <div
-            className="mt-4 h-2 overflow-hidden rounded-full"
-            style={{ backgroundColor: 'var(--surface-alt)' }}
-          >
-            <div
-              className="h-full"
-              style={{ width: `${answeredPct}%`, backgroundColor: 'var(--accent)' }}
-            />
-          </div>
-          <p className="mt-2 text-[12px] text-ink-soft">
-            {t('groupDetail.answeredPct', { pct: answeredPct })}
-          </p>
-        </div>
-      )}
+      {/* Lo privado del líder en UNA sola card con separador interno (resumen +
+          semana): dos cajas gemelas apiladas eran ritmo monótono. */}
+      {isOwner && (stats || weekRows.length > 0) && (
+        <div className="card mt-7 divide-y divide-hairline">
+          {stats && (
+            <div className="p-5">
+              <div className="flex items-center gap-1.5 text-ink-soft">
+                <LockIcon size={13} />
+                <span className="text-[12px] font-semibold uppercase tracking-wide">
+                  {t('groupDetail.summaryPrivate')}
+                </span>
+              </div>
+              <div className="mt-4 flex">
+                <Stat n={stats.active} label={t('groupDetail.statActive')} />
+                <Stat n={stats.answered} label={t('groupDetail.statAnswered')} />
+                <Stat n={stats.praying_week} label={t('groupDetail.statPrayingWeek')} />
+              </div>
+              <div
+                className="mt-4 h-2 overflow-hidden rounded-full"
+                style={{ backgroundColor: 'var(--surface-alt)' }}
+              >
+                <div
+                  className="h-full"
+                  style={{ width: `${answeredPct}%`, backgroundColor: 'var(--accent)' }}
+                />
+              </div>
+              <p className="mt-2 text-[12px] text-ink-soft">
+                {t('groupDetail.answeredPct', { pct: answeredPct })}
+              </p>
+            </div>
+          )}
 
-      {/* La semana del grupo — solo el owner (y recíproco: el RPC devuelve []
-          si él no comparte). Info para acompañar aunque un día no entre; los
-          miembros nunca ven esta tarjeta. */}
-      {isOwner && weekRows.length > 0 && (
-        <div className="card mt-7 p-5">
-          <div className="flex items-center gap-1.5 text-ink-soft">
-            <LockIcon size={13} />
-            <span className="text-[12px] font-semibold uppercase tracking-wide">
-              {t('groupDetail.weekPrivate')}
-            </span>
-          </div>
-          <div className="mt-4 space-y-2.5">
+          {/* La semana del grupo (recíproco: el RPC devuelve [] si él no
+              comparte). Los miembros nunca ven esta sección. */}
+          {weekRows.length > 0 && (
+            <div className="p-5">
+              <div className="flex items-center gap-1.5 text-ink-soft">
+                <LockIcon size={13} />
+                <span className="text-[12px] font-semibold uppercase tracking-wide">
+                  {t('groupDetail.weekPrivate')}
+                </span>
+              </div>
+              <div className="mt-4 space-y-2.5">
             {/* Header con la letra del día real de cada columna; "hoy" en acento. */}
             <div className="flex items-center gap-3" aria-hidden="true">
               <span className="min-w-0 flex-1" />
@@ -634,10 +638,12 @@ export default function GroupDetail() {
                 </div>
               )
             })}
-          </div>
-          <p className="mt-3 text-[12px] text-ink-soft">
-            {t('groupDetail.weekHint')}
-          </p>
+              </div>
+              <p className="mt-3 text-[12px] text-ink-soft">
+                {t('groupDetail.weekHint')}
+              </p>
+            </div>
+          )}
         </div>
       )}
 

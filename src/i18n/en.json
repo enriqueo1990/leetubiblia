@@ -34,6 +34,8 @@
   "ajustes.compartirLecturaHelp": "Your groups see that you read today (not what you read), and you see theirs. Turn it off whenever you want.",
   "ajustes.section.acento": "Accent color",
   "ajustes.section.tema": "Theme",
+  "ajustes.section.avisos": "Notifications",
+  "ajustes.section.laApp": "The app",
   "ajustes.section.recordatorio": "Daily reminder",
   "ajustes.hora": "Time",
   "ajustes.reminderIOSNote": "On iPhone, add the app to your home screen to receive notifications.",
@@ -130,6 +132,7 @@
   "onboarding.choosePlan.start": "Start",
   "onboarding.extras.title": "Almost there",
   "onboarding.extras.subtitle": "Two optional things so your reading doesn't slip away.",
+  "onboarding.extras.subtitleOne": "One optional thing so your reading doesn't slip away.",
   "onboarding.extras.reminderDesc": "A gentle nudge in the morning (07:00).",
   "onboarding.extras.addToHomeTitle": "Add to your home screen",
   "onboarding.extras.addToHomeDesc": "That way you get the reminder and can read offline.",
@@ -169,7 +172,6 @@
   "hoy.empty.title": "Choose a plan to begin",
   "hoy.empty.text": "Your daily reading shows up here.",
   "hoy.empty.cta": "Browse plans",
-  "hoy.backToToday": "Back to today",
   "hoy.offline.stale": "Offline · this reading is from the last time you opened the app. Connect to see today's.",
   "hoy.offline.fresh": "Offline · your check-off is saved and syncs when you're back.",
   "hoy.behind": {
@@ -202,6 +204,9 @@
   "hoy.markRead": "Mark as read",
   "hoy.read": "Read",
   "hoy.readToday": "Read today",
+  "hoy.markedNote": "Done for today. See you tomorrow.",
+  "hoy.dayN": "Day {day}",
+  "hoy.unmark": "Unmark this day",
   "hoy.editNote": "Edit your note",
   "hoy.viewNote": "View your note",
   "hoy.writeNote": "Write what God spoke to you today",
@@ -454,6 +459,8 @@
 
   "join.joining": "Joining the group…",
   "join.linkExpired": "The link may have expired or the code was regenerated.",
+  "join.askLeader": "Ask the person who invited you for a new code — it only takes a moment to create.",
+  "join.errorHint": "It might be your connection. Try again in a moment.",
 
   "nav.materiales": "Materials",
   "materiales.subtitle": "Optional readings that go alongside your Bible. When you turn one on, it appears in Today below the day's reading. You go at your own pace.",

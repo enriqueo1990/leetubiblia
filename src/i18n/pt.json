@@ -34,6 +34,8 @@
   "ajustes.compartirLecturaHelp": "Seus grupos veem que você leu hoje (não o que você leu), e você vê a deles. Desligue quando quiser.",
   "ajustes.section.acento": "Cor de destaque",
   "ajustes.section.tema": "Tema",
+  "ajustes.section.avisos": "Avisos",
+  "ajustes.section.laApp": "O app",
   "ajustes.section.recordatorio": "Lembrete diário",
   "ajustes.hora": "Hora",
   "ajustes.reminderIOSNote": "No iPhone, adicione o app à tela de início para receber as notificações.",
@@ -130,6 +132,7 @@
   "onboarding.choosePlan.start": "Começar",
   "onboarding.extras.title": "Quase lá",
   "onboarding.extras.subtitle": "Duas coisas opcionais para sua leitura não escapar.",
+  "onboarding.extras.subtitleOne": "Uma coisa opcional para sua leitura não escapar.",
   "onboarding.extras.reminderDesc": "Um aviso suave de manhã (07:00).",
   "onboarding.extras.addToHomeTitle": "Adicione à tela de início",
   "onboarding.extras.addToHomeDesc": "Assim você recebe o lembrete e pode ler sem conexão.",
@@ -169,7 +172,6 @@
   "hoy.empty.title": "Escolha um plano para começar",
   "hoy.empty.text": "Sua leitura diária aparece aqui.",
   "hoy.empty.cta": "Ver planos",
-  "hoy.backToToday": "Voltar para hoje",
   "hoy.offline.stale": "Sem conexão · esta leitura é da última vez que você entrou. Conecte-se para ver a de hoje.",
   "hoy.offline.fresh": "Sem conexão · sua marcação é salva e sincroniza quando você voltar.",
   "hoy.behind": {
@@ -202,6 +204,9 @@
   "hoy.markRead": "Marcar como lido",
   "hoy.read": "Lido",
   "hoy.readToday": "Lido hoje",
+  "hoy.markedNote": "Por hoje é isso. Até amanhã.",
+  "hoy.dayN": "Dia {day}",
+  "hoy.unmark": "Desmarcar este dia",
   "hoy.editNote": "Editar sua nota",
   "hoy.viewNote": "Ver sua nota",
   "hoy.writeNote": "Anote o que Deus falou com você hoje",
@@ -454,6 +459,8 @@
 
   "join.joining": "Entrando no grupo…",
   "join.linkExpired": "Talvez o link tenha expirado ou o código foi regenerado.",
+  "join.askLeader": "Peça um código novo para quem convidou você — leva só um instante para criar.",
+  "join.errorHint": "Pode ser a conexão. Tente de novo em um instante.",
 
   "nav.materiales": "Materiais",
   "materiales.subtitle": "Leituras opcionais que acompanham sua Bíblia. Ao ativar uma, ela aparece em Hoje abaixo da leitura do dia. Você avança no seu ritmo.",

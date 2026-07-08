@@ -15,12 +15,13 @@ export default function Segmented({ options, value, onChange, className = '' }) 
             role="radio"
             aria-checked={active}
             onClick={() => onChange(o.key)}
-            className="flex-1 rounded-[11px] py-1.5 text-[15px] transition-colors duration-300"
+            /* radio concéntrico: track rounded-input (14) − padding (4) = 10 */
+            className="flex-1 rounded-[10px] py-1.5 text-[15px] transition-colors duration-300"
             style={{
               backgroundColor: active ? 'var(--segment-active)' : 'transparent',
               color: active ? 'var(--text-primary)' : 'var(--text-soft)',
               fontWeight: active ? 600 : 500,
-              boxShadow: active ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+              boxShadow: active ? 'var(--shadow-card)' : 'none',
             }}
           >
             {o.label}

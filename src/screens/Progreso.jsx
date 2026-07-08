@@ -83,7 +83,7 @@ export default function Progreso() {
           {/* Stat cards */}
           <div className="mt-5 flex gap-3">
             <div className="card flex-1 p-4">
-              <p className="text-[30px] font-bold text-accent-ink" style={{ letterSpacing: '-1px' }}>
+              <p className="stat-num text-[30px] font-bold text-accent-ink">
                 {r.streak}
               </p>
               <p className="text-[13px] text-ink-soft">
@@ -91,7 +91,7 @@ export default function Progreso() {
               </p>
             </div>
             <div className="card flex-1 p-4">
-              <p className="text-[30px] font-bold text-ink" style={{ letterSpacing: '-1px' }}>
+              <p className="stat-num text-[30px] font-bold text-ink">
                 {r.percent}%
               </p>
               <p className="text-[13px] text-ink-soft">

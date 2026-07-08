@@ -26,8 +26,17 @@
   --faint: #B8B6B0;
   --faint-2: #D8D5CF;
   --scrim: rgba(28, 28, 30, 0.32);
-  --tabbar-bg: rgba(244, 242, 238, 0.82);
+  /* Mismo tono que --bg-app (#F8F7F4): en reposo el cristal es invisible de
+     verdad; solo se nota cuando hay contenido deslizándose debajo (blur).
+     En oscuro ya coincide (negro sobre negro). */
+  --tabbar-bg: rgba(248, 247, 244, 0.82);
   --danger: #D1453B;
+
+  /* Elevación — única escala de sombras de la app (card y overlays: sheet/dialog).
+     En oscuro la sombra negra desaparece sobre #000: la separación la da un
+     filete claro sutil (ver bloques de modo oscuro). */
+  --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.07), 0 0 1px rgba(0, 0, 0, 0.04);
+  --shadow-overlay: 0 10px 40px rgba(0, 0, 0, 0.25);
 
   /* on-accent: texto sobre el relleno de acento. Claro = blanco — decisión
      estética consciente (Enrique, 2026-07-06): blanco sobre los acentos claros
@@ -74,6 +83,9 @@
     --tabbar-bg: rgba(0, 0, 0, 0.62);
     --danger: #FF6B5E;
 
+    --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.06);
+    --shadow-overlay: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 10px 40px rgba(0, 0, 0, 0.8);
+
     --on-accent: var(--on-accent-dark);
     --accent-tint: var(--accent-tint-dark);
     --accent-tint-nav: var(--accent-tint-nav-dark);
@@ -97,6 +109,9 @@
   --scrim: rgba(0, 0, 0, 0.6);
   --tabbar-bg: rgba(0, 0, 0, 0.62);
   --danger: #FF6B5E;
+
+  --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-overlay: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 10px 40px rgba(0, 0, 0, 0.8);
 
   --on-accent: var(--on-accent-dark);
   --accent-tint: var(--accent-tint-dark);

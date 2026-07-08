@@ -4,6 +4,7 @@
 // Al guardar, el padre calcula plan_start_date = hoy − (día − 1) y da por leídos
 // los días anteriores (ver startDateForDay / markDaysRead en lib/db.js).
 import { usePreferences } from '../lib/preferences.jsx'
+import Switch from './Switch.jsx'
 
 const inputStyle = {
   backgroundColor: 'var(--surface)',
@@ -32,24 +33,12 @@ export default function ResumeFromDay({ durationDays, day, onChange }) {
 
   return (
     <div className="card p-4">
-      <button
-        type="button"
-        onClick={toggle}
-        className="flex w-full items-center justify-between text-left"
-      >
+      <div className="flex w-full items-center justify-between">
         <span className="text-[15px] font-medium text-ink">
           {t('resume.alreadyReading')}
         </span>
-        <span
-          className="relative h-[26px] w-[44px] shrink-0 rounded-full transition-colors duration-200"
-          style={{ backgroundColor: on ? 'var(--accent)' : 'var(--hairline)' }}
-        >
-          <span
-            className="absolute top-[3px] h-[20px] w-[20px] rounded-full bg-white transition-all duration-200"
-            style={{ left: on ? '21px' : '3px' }}
-          />
-        </span>
-      </button>
+        <Switch on={on} onChange={toggle} label={t('resume.alreadyReading')} />
+      </div>
 
       {on && (
         <div className="mt-4">
