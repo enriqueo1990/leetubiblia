@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Rediseño Hoy v2 — línea de tiempo + prueba de estrés</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#E9E7E2; display:flex; gap:40px; padding:56px;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased; color:#1C1C1E; width:2380px;
+}
+.col { width:420px; flex:none; }
+.caption { text-align:center; font-size:18px; font-weight:600; color:#56565C; margin-bottom:18px; }
+.caption small { display:block; font-weight:400; font-size:13.5px; color:#8B8983; margin-top:5px; line-height:1.45; }
+.phone {
+  width:390px; height:800px; margin:0 auto; background:#F8F7F4;
+  border-radius:44px; box-shadow:0 18px 50px rgba(0,0,0,0.16), 0 0 0 10px #1C1C1E;
+  overflow:hidden; position:relative; display:flex; flex-direction:column;
+}
+.content { flex:1; padding:54px 26px 0; display:flex; flex-direction:column; overflow:hidden; }
+
+.crumbrow { display:flex; justify-content:space-between; align-items:center; }
+.crumb { font-size:13px; font-weight:500; color:#56565C; }
+.crumb .chev { opacity:.5; }
+.behind { display:flex; align-items:center; margin-top:16px; font-size:14px; color:#56565C; }
+.behind b { color:#705F4C; font-weight:600; margin-left:10px; }
+.behind .x { margin-left:auto; opacity:.4; }
+
+.daylabel { margin-top:26px; font-size:13px; font-weight:500; color:#56565C; display:flex; align-items:center; gap:8px; }
+.donechip {
+  display:inline-flex; align-items:center; gap:4px;
+  background:rgba(168,139,106,0.13); color:#705F4C;
+  font-size:12px; font-weight:600; padding:3px 10px; border-radius:100px;
+}
+.donechip .dd { font-size:10px; opacity:.65; margin-left:1px; }
+
+.refs { margin-top:12px; }
+.refs p { font-size:30px; font-weight:500; letter-spacing:-0.5px; line-height:1.32; color:#1C1C1E; }
+.refs p b { font-weight:500; color:#705F4C; }
+
+/* Fila quieta de 44px: target completo, tono discreto */
+.openrow {
+  margin-top:14px; min-height:44px; display:flex; align-items:center;
+  justify-content:space-between; border-top:1px solid #E4E2DC;
+  font-size:15px; font-weight:500; color:#56565C;
+}
+.openrow .arrow { color:#705F4C; }
+
+.matlabel { margin-top:24px; font-size:13px; font-weight:500; color:#56565C; margin-bottom:8px; }
+.matcard { background:#fff; border-radius:16px; box-shadow:0 1px 4px rgba(0,0,0,0.07); }
+.matrow { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; font-size:16px; }
+.matrow + .matrow { border-top:1px solid #EDEBE6; }
+.matrow .meta { font-size:13px; color:#8B8983; font-variant-numeric:tabular-nums; }
+.matrow .meta .c { color:#B8B6B0; margin-left:5px; }
+
+.noterow {
+  margin-top:24px; background:#fff; border-radius:16px; box-shadow:0 1px 4px rgba(0,0,0,0.07);
+  padding:13px 16px; display:flex; align-items:center; justify-content:space-between;
+}
+.noterow .t { font-size:13px; font-weight:600; color:#8B8983; letter-spacing:.3px; }
+.noterow .q { font-size:15px; color:#1C1C1E; margin-top:3px; }
+.noterow .c { color:#B8B6B0; font-size:18px; }
+
+.spacer { flex:1; }
+
+.bar { padding:12px 26px 14px; background:rgba(244,242,238,0.9); }
+.btn {
+  width:100%; border-radius:16px; padding:17px; text-align:center;
+  font-size:17px; font-weight:600; background:#A88B6A; color:#fff;
+}
+.btn.done { background:#F9F8F6; border:1px solid #D5D3CD; color:#56565C; }
+.momentline { text-align:center; font-size:13px; font-weight:500; color:#56565C; margin-top:10px; }
+.momentline .star { color:#705F4C; }
+.nextlink { text-align:center; font-size:14px; font-weight:600; color:#705F4C; padding:10px 0 4px; }
+
+.tabbar {
+  display:flex; border-top:1px solid #E4E2DC; background:rgba(244,242,238,0.92);
+  padding:10px 10px 24px;
+}
+.tab { flex:1; text-align:center; font-size:11px; color:#8B8983; }
+.tab.on { color:#705F4C; font-weight:600; }
+.tab svg { display:block; margin:0 auto 3px; }
+
+/* ——— modo oscuro (teléfono 5) ——— */
+.phone.dark { background:#000; color:#F2F2F7; }
+.phone.dark .crumb, .phone.dark .behind, .phone.dark .daylabel, .phone.dark .matlabel { color:#8E8E93; }
+.phone.dark .behind b { color:#D6BE98; }
+.phone.dark .refs p { color:#F2F2F7; }
+.phone.dark .refs p b { color:#D6BE98; }
+.phone.dark .openrow { border-color:#2C2C2E; color:#8E8E93; }
+.phone.dark .openrow .arrow { color:#D6BE98; }
+.phone.dark .matcard { background:#1C1C1E; box-shadow:0 0 0 1px rgba(255,255,255,0.06); }
+.phone.dark .matrow { color:#F2F2F7; }
+.phone.dark .matrow + .matrow { border-color:#2C2C2E; }
+.phone.dark .matrow .meta { color:#8E8E93; }
+.phone.dark .bar { background:rgba(0,0,0,0.7); }
+.phone.dark .btn { background:#C2A57E; color:#1C1C1E; }
+.phone.dark .tabbar { background:rgba(0,0,0,0.75); border-color:#2C2C2E; }
+.phone.dark .tab { color:#8E8E93; }
+.phone.dark .tab.on { color:#D6BE98; }
+</style>
+</head>
+<body>
+
+<!-- 1 · ANTES DE LEER -->
+<div class="col">
+  <p class="caption">1 · Antes de leer<small>Banner incluido (nada escondido). "Abrir en mi app" es fila de 44px bajo los pasajes. Los capítulos en acento insinúan que cada línea es tocable.</small></p>
+  <div class="phone">
+    <div class="content">
+      <div class="crumbrow"><span class="crumb">Oficio Diario (Libro de Ora… <span class="chev">›</span></span><span class="crumb">Ajustes</span></div>
+      <div class="behind"><span>Te atrasaste 1 día</span><b>Reprogramar</b><span class="x">✕</span></div>
+      <p class="daylabel">Lectura de hoy · Día 12</p>
+      <div class="refs">
+        <p>Salmos <b>1-4</b></p><p>Salmos <b>7</b></p><p>Génesis <b>2:4-25</b></p><p>Hebreos <b>1</b></p><p>Juan <b>1:1-18</b></p>
+      </div>
+      <div class="openrow"><span>Abrir en mi app de Biblia</span><span class="arrow">↗</span></div>
+      <p class="matlabel">Mis otras lecturas</p>
+      <div class="matcard">
+        <div class="matrow"><span>Catecismo Menor</span><span class="meta">Pregunta 10 de 107<span class="c">›</span></span></div>
+        <div class="matrow"><span>Heidelberg</span><span class="meta">Pregunta 7 de 129<span class="c">›</span></span></div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div class="bar"><div class="btn">Marcar como leído</div></div>
+    <div class="tabbar">
+      <span class="tab on"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#705F4C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7C10.5 5.8 8.4 5.5 4.5 5.5v11c3.9 0 6 .3 7.5 1.5 1.5-1.2 3.6-1.5 7.5-1.5v-11c-3.9 0-6 .3-7.5 1.5Z"/><path d="M12 7v11"/></svg>Hoy</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-9.5A4 4 0 0 1 12 8a4 4 0 0 1 7 2.5C19 15.5 12 20 12 20Z"/></svg>Oración</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M4 19c0-2.8 2.2-5 5-5s5 2.2 5 5"/><path d="M16 5.5a3 3 0 0 1 0 5"/><path d="M17.5 14.5c1.8.8 2.5 2.3 2.5 4.5"/></svg>Grupos</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round"><path d="M5 19v-4"/><path d="M12 19V9"/><path d="M19 19V5"/></svg>Progreso</span>
+    </div>
+  </div>
+</div>
+
+<!-- 2 · AL MARCAR -->
+<div class="col">
+  <p class="caption">2 · Al marcar — el momento<small>La confirmación ocurre DONDE tocaste: el botón se asienta en "✓ Leído hoy" con el check dibujándose y la línea cálida. Respira ~2 segundos antes de ceder el paso. El banner se fue porque ya no hay atraso (comportamiento real).</small></p>
+  <div class="phone">
+    <div class="content">
+      <div class="crumbrow"><span class="crumb">Oficio Diario (Libro de Ora… <span class="chev">›</span></span><span class="crumb">Ajustes</span></div>
+      <p class="daylabel" style="margin-top:30px;">Lectura de hoy · Día 12</p>
+      <div class="refs">
+        <p>Salmos <b>1-4</b></p><p>Salmos <b>7</b></p><p>Génesis <b>2:4-25</b></p><p>Hebreos <b>1</b></p><p>Juan <b>1:1-18</b></p>
+      </div>
+      <div class="openrow"><span>Abrir en mi app de Biblia</span><span class="arrow">↗</span></div>
+      <p class="matlabel">Mis otras lecturas</p>
+      <div class="matcard">
+        <div class="matrow"><span>Catecismo Menor</span><span class="meta">Pregunta 10 de 107<span class="c">›</span></span></div>
+        <div class="matrow"><span>Heidelberg</span><span class="meta">Pregunta 7 de 129<span class="c">›</span></span></div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div class="bar">
+      <div class="btn done">✓&nbsp; Leído hoy</div>
+      <p class="momentline"><span class="star">✦</span> 3 días seguidos</p>
+    </div>
+    <div class="tabbar">
+      <span class="tab on"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#705F4C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7C10.5 5.8 8.4 5.5 4.5 5.5v11c3.9 0 6 .3 7.5 1.5 1.5-1.2 3.6-1.5 7.5-1.5v-11c-3.9 0-6 .3-7.5 1.5Z"/><path d="M12 7v11"/></svg>Hoy</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-9.5A4 4 0 0 1 12 8a4 4 0 0 1 7 2.5C19 15.5 12 20 12 20Z"/></svg>Oración</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M4 19c0-2.8 2.2-5 5-5s5 2.2 5 5"/><path d="M16 5.5a3 3 0 0 1 0 5"/><path d="M17.5 14.5c1.8.8 2.5 2.3 2.5 4.5"/></svg>Grupos</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round"><path d="M5 19v-4"/><path d="M12 19V9"/><path d="M19 19V5"/></svg>Progreso</span>
+    </div>
+  </div>
+</div>
+
+<!-- 3 · DESPUÉS DEL RESPIRO -->
+<div class="col">
+  <p class="caption">3 · Después del respiro<small>Recién ahora la barra ofrece la nota (si el Diario está activado; si no, pasa directo al estado 4). El ✓ sube como chip con flechita: tocarlo abre "ver nota / desmarcar".</small></p>
+  <div class="phone">
+    <div class="content">
+      <div class="crumbrow"><span class="crumb">Oficio Diario (Libro de Ora… <span class="chev">›</span></span><span class="crumb">Ajustes</span></div>
+      <p class="daylabel" style="margin-top:30px;">Lectura de hoy · Día 12 <span class="donechip">✓ Leído <span class="dd">⌄</span></span></p>
+      <div class="refs">
+        <p>Salmos <b>1-4</b></p><p>Salmos <b>7</b></p><p>Génesis <b>2:4-25</b></p><p>Hebreos <b>1</b></p><p>Juan <b>1:1-18</b></p>
+      </div>
+      <div class="openrow"><span>Abrir en mi app de Biblia</span><span class="arrow">↗</span></div>
+      <p class="matlabel">Mis otras lecturas</p>
+      <div class="matcard">
+        <div class="matrow"><span>Catecismo Menor</span><span class="meta">Pregunta 10 de 107<span class="c">›</span></span></div>
+        <div class="matrow"><span>Heidelberg</span><span class="meta">Pregunta 7 de 129<span class="c">›</span></span></div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div class="bar">
+      <div class="btn">Anotá lo que te habló Dios hoy</div>
+    </div>
+    <div class="tabbar">
+      <span class="tab on"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#705F4C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7C10.5 5.8 8.4 5.5 4.5 5.5v11c3.9 0 6 .3 7.5 1.5 1.5-1.2 3.6-1.5 7.5-1.5v-11c-3.9 0-6 .3-7.5 1.5Z"/><path d="M12 7v11"/></svg>Hoy</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-9.5A4 4 0 0 1 12 8a4 4 0 0 1 7 2.5C19 15.5 12 20 12 20Z"/></svg>Oración</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M4 19c0-2.8 2.2-5 5-5s5 2.2 5 5"/><path d="M16 5.5a3 3 0 0 1 0 5"/><path d="M17.5 14.5c1.8.8 2.5 2.3 2.5 4.5"/></svg>Grupos</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round"><path d="M5 19v-4"/><path d="M12 19V9"/><path d="M19 19V5"/></svg>Progreso</span>
+    </div>
+  </div>
+</div>
+
+<!-- 4 · DÍA CERRADO -->
+<div class="col">
+  <p class="caption">4 · Día cerrado<small>Sin barra: la interfaz se retira de verdad. El cierre es tu nota (no una orden de seguir). "Leer el día siguiente" queda como link terciario en el flujo.</small></p>
+  <div class="phone">
+    <div class="content">
+      <div class="crumbrow"><span class="crumb">Oficio Diario (Libro de Ora… <span class="chev">›</span></span><span class="crumb">Ajustes</span></div>
+      <p class="daylabel" style="margin-top:30px;">Lectura de hoy · Día 12 <span class="donechip">✓ Leído <span class="dd">⌄</span></span></p>
+      <div class="refs">
+        <p>Salmos <b>1-4</b></p><p>Salmos <b>7</b></p><p>Génesis <b>2:4-25</b></p><p>Hebreos <b>1</b></p><p>Juan <b>1:1-18</b></p>
+      </div>
+      <div class="openrow"><span>Abrir en mi app de Biblia</span><span class="arrow">↗</span></div>
+      <div class="noterow">
+        <div>
+          <p class="t">TU NOTA DE HOY</p>
+          <p class="q">"El Salmo 7 me recordó que Él defiende…"</p>
+        </div>
+        <span class="c">›</span>
+      </div>
+      <p class="matlabel">Mis otras lecturas</p>
+      <div class="matcard">
+        <div class="matrow"><span>Catecismo Menor</span><span class="meta">Pregunta 10 de 107<span class="c">›</span></span></div>
+        <div class="matrow"><span>Heidelberg</span><span class="meta">Pregunta 7 de 129<span class="c">›</span></span></div>
+      </div>
+      <p class="nextlink">Leer el día siguiente →</p>
+      <div class="spacer"></div>
+    </div>
+    <div class="tabbar">
+      <span class="tab on"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#705F4C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7C10.5 5.8 8.4 5.5 4.5 5.5v11c3.9 0 6 .3 7.5 1.5 1.5-1.2 3.6-1.5 7.5-1.5v-11c-3.9 0-6 .3-7.5 1.5Z"/><path d="M12 7v11"/></svg>Hoy</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-9.5A4 4 0 0 1 12 8a4 4 0 0 1 7 2.5C19 15.5 12 20 12 20Z"/></svg>Oración</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M4 19c0-2.8 2.2-5 5-5s5 2.2 5 5"/><path d="M16 5.5a3 3 0 0 1 0 5"/><path d="M17.5 14.5c1.8.8 2.5 2.3 2.5 4.5"/></svg>Grupos</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round"><path d="M5 19v-4"/><path d="M12 19V9"/><path d="M19 19V5"/></svg>Progreso</span>
+    </div>
+  </div>
+</div>
+
+<!-- 5 · PRUEBA DE ESTRÉS -->
+<div class="col">
+  <p class="caption">5 · Prueba de estrés<small>Oscuro + portugués + 4 materiales + atraso. La cuarta fila asoma bajo el vidrio: invita al scroll en vez de parecer rota.</small></p>
+  <div class="phone dark">
+    <div class="content">
+      <div class="crumbrow"><span class="crumb">Ofício Diário (Livro de Ora… <span class="chev">›</span></span><span class="crumb">Ajustes</span></div>
+      <div class="behind"><span>Você se atrasou 1 dia</span><b>Reprogramar</b><span class="x">✕</span></div>
+      <p class="daylabel">Leitura de hoje · Dia 12</p>
+      <div class="refs">
+        <p>Salmos <b>1-4</b></p><p>Salmos <b>7</b></p><p>Gênesis <b>2:4-25</b></p><p>Hebreus <b>1</b></p><p>João <b>1:1-18</b></p>
+      </div>
+      <div class="openrow"><span>Abrir no meu app da Bíblia</span><span class="arrow">↗</span></div>
+      <p class="matlabel">Minhas outras leituras</p>
+      <div class="matcard">
+        <div class="matrow"><span>Catecismo Menor</span><span class="meta">Pergunta 10 de 107<span class="c">›</span></span></div>
+        <div class="matrow"><span>Heidelberg</span><span class="meta">Pergunta 7 de 129<span class="c">›</span></span></div>
+        <div class="matrow"><span>Dort</span><span class="meta">Artigo 1 de 59<span class="c">›</span></span></div>
+        <div class="matrow"><span>Keach</span><span class="meta">Pergunta 1 de 114<span class="c">›</span></span></div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div class="bar" style="margin-top:-46px; position:relative; z-index:2;"><div class="btn">Marcar como lido</div></div>
+    <div class="tabbar">
+      <span class="tab on"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D6BE98" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7C10.5 5.8 8.4 5.5 4.5 5.5v11c3.9 0 6 .3 7.5 1.5 1.5-1.2 3.6-1.5 7.5-1.5v-11c-3.9 0-6 .3-7.5 1.5Z"/><path d="M12 7v11"/></svg>Hoje</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-9.5A4 4 0 0 1 12 8a4 4 0 0 1 7 2.5C19 15.5 12 20 12 20Z"/></svg>Oração</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M4 19c0-2.8 2.2-5 5-5s5 2.2 5 5"/><path d="M16 5.5a3 3 0 0 1 0 5"/><path d="M17.5 14.5c1.8.8 2.5 2.3 2.5 4.5"/></svg>Grupos</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="1.7" stroke-linecap="round"><path d="M5 19v-4"/><path d="M12 19V9"/><path d="M19 19V5"/></svg>Progresso</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

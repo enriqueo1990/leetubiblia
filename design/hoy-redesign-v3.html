@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Rediseño Hoy v3 — versión depurada</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#E9E7E2; display:flex; gap:44px; padding:56px;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased; color:#1C1C1E; width:1940px;
+}
+.col { width:420px; flex:none; }
+.caption { text-align:center; font-size:18px; font-weight:600; color:#56565C; margin-bottom:18px; }
+.caption small { display:block; font-weight:400; font-size:13.5px; color:#8B8983; margin-top:5px; line-height:1.45; }
+.phone {
+  width:390px; height:800px; margin:0 auto; background:#F8F7F4;
+  border-radius:44px; box-shadow:0 18px 50px rgba(0,0,0,0.16), 0 0 0 10px #1C1C1E;
+  overflow:hidden; position:relative; display:flex; flex-direction:column;
+}
+.content { flex:1; padding:54px 26px 0; display:flex; flex-direction:column; overflow:hidden; }
+
+/* Header de UNA línea: día + plan (tocable, va al plan) + solo el ícono de ajustes */
+.hdr { display:flex; align-items:center; justify-content:space-between; }
+.hdr .where { font-size:13px; font-weight:500; color:#56565C; }
+.hdr .where .plan { color:#8B8983; }
+.hdr .gear { color:#8B8983; }
+
+.behind { display:flex; align-items:center; margin-top:16px; font-size:14px; color:#56565C; }
+.behind b { color:#705F4C; font-weight:600; margin-left:10px; }
+.behind .x { margin-left:auto; opacity:.4; }
+
+.donechip {
+  display:inline-flex; align-items:center; gap:4px;
+  background:rgba(168,139,106,0.13); color:#705F4C;
+  font-size:12px; font-weight:600; padding:3px 10px; border-radius:100px;
+  margin-left:8px;
+}
+.donechip .dd { font-size:10px; opacity:.65; margin-left:1px; }
+
+.refs { margin-top:34px; }
+.refs p { font-size:30px; font-weight:500; letter-spacing:-0.5px; line-height:1.36; color:#1C1C1E; }
+.refs p b { font-weight:500; color:#705F4C; }
+
+.matlabel { margin-top:34px; font-size:13px; font-weight:500; color:#56565C; margin-bottom:8px; }
+.matcard { background:#fff; border-radius:16px; box-shadow:0 1px 4px rgba(0,0,0,0.07); }
+.matrow { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; font-size:16px; }
+.matrow + .matrow { border-top:1px solid #EDEBE6; }
+.matrow .meta { font-size:13px; color:#8B8983; font-variant-numeric:tabular-nums; }
+.matrow .meta .c { color:#B8B6B0; margin-left:5px; }
+
+.spacer { flex:1; }
+
+.bar { padding:12px 26px 14px; background:rgba(244,242,238,0.9); }
+.btn {
+  width:100%; border-radius:16px; padding:17px; text-align:center;
+  font-size:17px; font-weight:600; background:#A88B6A; color:#fff;
+}
+.btn.done { background:#F9F8F6; border:1px solid #D5D3CD; color:#56565C; }
+.momentline { text-align:center; font-size:13px; font-weight:500; color:#56565C; margin-bottom:10px; }
+.momentline .star { color:#705F4C; }
+.nextlink { text-align:center; font-size:14px; font-weight:600; color:#705F4C; padding:16px 0 4px; }
+
+.tabbar {
+  display:flex; border-top:1px solid #E4E2DC; background:rgba(244,242,238,0.92);
+  padding:10px 10px 24px;
+}
+.tab { flex:1; text-align:center; font-size:11px; color:#8B8983; }
+.tab.on { color:#705F4C; font-weight:600; }
+.tab svg { display:block; margin:0 auto 3px; }
+</style>
+</head>
+<body>
+
+<!-- 1 · ANTES DE LEER -->
+<div class="col">
+  <p class="caption">1 · Antes de leer — 6 elementos<small>Header de una línea: "Día 12 · Oficio Diario" (tocable → plan) + engranaje solo. Sin fila "Abrir en mi app": el pasaje mismo es la puerta (capítulos en acento). La Palabra ocupa la página.</small></p>
+  <div class="phone">
+    <div class="content">
+      <div class="hdr">
+        <span class="where">Día 12 <span class="plan">· Oficio Diario ›</span></span>
+        <span class="gear"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 8h10M18 8h2M4 16h2M10 16h10"/><circle cx="15.5" cy="8" r="2.2"/><circle cx="7.5" cy="16" r="2.2"/></svg></span>
+      </div>
+      <div class="behind"><span>Te atrasaste 1 día</span><b>Reprogramar</b><span class="x">✕</span></div>
+      <div class="refs">
+        <p>Salmos <b>1-4</b></p><p>Salmos <b>7</b></p><p>Génesis <b>2:4-25</b></p><p>Hebreos <b>1</b></p><p>Juan <b>1:1-18</b></p>
+      </div>
+      <p class="matlabel">Mis otras lecturas</p>
+      <div class="matcard">
+        <div class="matrow"><span>Catecismo Menor</span><span class="meta">Pregunta 10 de 107<span class="c">›</span></span></div>
+        <div class="matrow"><span>Heidelberg</span><span class="meta">Pregunta 7 de 129<span class="c">›</span></span></div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div class="bar"><div class="btn">Marcar como leído</div></div>
+    <div class="tabbar">
+      <span class="tab on"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#705F4C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7C10.5 5.8 8.4 5.5 4.5 5.5v11c3.9 0 6 .3 7.5 1.5 1.5-1.2 3.6-1.5 7.5-1.5v-11c-3.9 0-6 .3-7.5 1.5Z"/><path d="M12 7v11"/></svg>Hoy</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-9.5A4 4 0 0 1 12 8a4 4 0 0 1 7 2.5C19 15.5 12 20 12 20Z"/></svg>Oración</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M4 19c0-2.8 2.2-5 5-5s5 2.2 5 5"/><path d="M16 5.5a3 3 0 0 1 0 5"/><path d="M17.5 14.5c1.8.8 2.5 2.3 2.5 4.5"/></svg>Grupos</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round"><path d="M5 19v-4"/><path d="M12 19V9"/><path d="M19 19V5"/></svg>Progreso</span>
+    </div>
+  </div>
+</div>
+
+<!-- 2 · AL MARCAR -->
+<div class="col">
+  <p class="caption">2 · Al marcar — el momento<small>La confirmación donde tocaste: check dibujado + línea cálida ARRIBA del botón — el botón nunca se mueve de su lugar en todo el día. Respira ~2s. (El banner se fue: ya no hay atraso.)</small></p>
+  <div class="phone">
+    <div class="content">
+      <div class="hdr">
+        <span class="where">Día 12 <span class="plan">· Oficio Diario ›</span></span>
+        <span class="gear"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 8h10M18 8h2M4 16h2M10 16h10"/><circle cx="15.5" cy="8" r="2.2"/><circle cx="7.5" cy="16" r="2.2"/></svg></span>
+      </div>
+      <div class="refs">
+        <p>Salmos <b>1-4</b></p><p>Salmos <b>7</b></p><p>Génesis <b>2:4-25</b></p><p>Hebreos <b>1</b></p><p>Juan <b>1:1-18</b></p>
+      </div>
+      <p class="matlabel">Mis otras lecturas</p>
+      <div class="matcard">
+        <div class="matrow"><span>Catecismo Menor</span><span class="meta">Pregunta 10 de 107<span class="c">›</span></span></div>
+        <div class="matrow"><span>Heidelberg</span><span class="meta">Pregunta 7 de 129<span class="c">›</span></span></div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div class="bar">
+      <p class="momentline"><span class="star">✦</span> 3 días seguidos</p>
+      <div class="btn done">✓&nbsp; Leído hoy</div>
+    </div>
+    <div class="tabbar">
+      <span class="tab on"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#705F4C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7C10.5 5.8 8.4 5.5 4.5 5.5v11c3.9 0 6 .3 7.5 1.5 1.5-1.2 3.6-1.5 7.5-1.5v-11c-3.9 0-6 .3-7.5 1.5Z"/><path d="M12 7v11"/></svg>Hoy</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-9.5A4 4 0 0 1 12 8a4 4 0 0 1 7 2.5C19 15.5 12 20 12 20Z"/></svg>Oración</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M4 19c0-2.8 2.2-5 5-5s5 2.2 5 5"/><path d="M16 5.5a3 3 0 0 1 0 5"/><path d="M17.5 14.5c1.8.8 2.5 2.3 2.5 4.5"/></svg>Grupos</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round"><path d="M5 19v-4"/><path d="M12 19V9"/><path d="M19 19V5"/></svg>Progreso</span>
+    </div>
+  </div>
+</div>
+
+<!-- 3 · DESPUÉS DEL RESPIRO -->
+<div class="col">
+  <p class="caption">3 · Después del respiro<small>El ✓ sube al header como chip (⌄ = ver nota / desmarcar). La barra ofrece la nota solo si el Diario está activado; si no, salta al estado 4.</small></p>
+  <div class="phone">
+    <div class="content">
+      <div class="hdr">
+        <span class="where">Día 12 <span class="plan">· Oficio Diario</span><span class="donechip">✓ Leído <span class="dd">⌄</span></span></span>
+        <span class="gear"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 8h10M18 8h2M4 16h2M10 16h10"/><circle cx="15.5" cy="8" r="2.2"/><circle cx="7.5" cy="16" r="2.2"/></svg></span>
+      </div>
+      <div class="refs">
+        <p>Salmos <b>1-4</b></p><p>Salmos <b>7</b></p><p>Génesis <b>2:4-25</b></p><p>Hebreos <b>1</b></p><p>Juan <b>1:1-18</b></p>
+      </div>
+      <p class="matlabel">Mis otras lecturas</p>
+      <div class="matcard">
+        <div class="matrow"><span>Catecismo Menor</span><span class="meta">Pregunta 10 de 107<span class="c">›</span></span></div>
+        <div class="matrow"><span>Heidelberg</span><span class="meta">Pregunta 7 de 129<span class="c">›</span></span></div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div class="bar">
+      <div class="btn">Anotá lo que te habló Dios hoy</div>
+    </div>
+    <div class="tabbar">
+      <span class="tab on"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#705F4C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7C10.5 5.8 8.4 5.5 4.5 5.5v11c3.9 0 6 .3 7.5 1.5 1.5-1.2 3.6-1.5 7.5-1.5v-11c-3.9 0-6 .3-7.5 1.5Z"/><path d="M12 7v11"/></svg>Hoy</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-9.5A4 4 0 0 1 12 8a4 4 0 0 1 7 2.5C19 15.5 12 20 12 20Z"/></svg>Oración</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M4 19c0-2.8 2.2-5 5-5s5 2.2 5 5"/><path d="M16 5.5a3 3 0 0 1 0 5"/><path d="M17.5 14.5c1.8.8 2.5 2.3 2.5 4.5"/></svg>Grupos</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round"><path d="M5 19v-4"/><path d="M12 19V9"/><path d="M19 19V5"/></svg>Progreso</span>
+    </div>
+  </div>
+</div>
+
+<!-- 4 · DÍA CERRADO -->
+<div class="col">
+  <p class="caption">4 · Día cerrado — silencio<small>Sin card de nota (vive en Mi camino). La zona de acción es siempre la misma, bajando de intensidad: ahora solo queda un link quieto, abajo, donde siempre estuvo la acción.</small></p>
+  <div class="phone">
+    <div class="content">
+      <div class="hdr">
+        <span class="where">Día 12 <span class="plan">· Oficio Diario</span><span class="donechip">✓ Leído <span class="dd">⌄</span></span></span>
+        <span class="gear"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 8h10M18 8h2M4 16h2M10 16h10"/><circle cx="15.5" cy="8" r="2.2"/><circle cx="7.5" cy="16" r="2.2"/></svg></span>
+      </div>
+      <div class="refs">
+        <p>Salmos <b>1-4</b></p><p>Salmos <b>7</b></p><p>Génesis <b>2:4-25</b></p><p>Hebreos <b>1</b></p><p>Juan <b>1:1-18</b></p>
+      </div>
+      <p class="matlabel">Mis otras lecturas</p>
+      <div class="matcard">
+        <div class="matrow"><span>Catecismo Menor</span><span class="meta">Pregunta 10 de 107<span class="c">›</span></span></div>
+        <div class="matrow"><span>Heidelberg</span><span class="meta">Pregunta 7 de 129<span class="c">›</span></span></div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div class="bar" style="background:transparent;"><p class="nextlink" style="padding:8px 0;">Leer el día siguiente →</p></div>
+    <div class="tabbar">
+      <span class="tab on"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#705F4C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7C10.5 5.8 8.4 5.5 4.5 5.5v11c3.9 0 6 .3 7.5 1.5 1.5-1.2 3.6-1.5 7.5-1.5v-11c-3.9 0-6 .3-7.5 1.5Z"/><path d="M12 7v11"/></svg>Hoy</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-9.5A4 4 0 0 1 12 8a4 4 0 0 1 7 2.5C19 15.5 12 20 12 20Z"/></svg>Oración</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M4 19c0-2.8 2.2-5 5-5s5 2.2 5 5"/><path d="M16 5.5a3 3 0 0 1 0 5"/><path d="M17.5 14.5c1.8.8 2.5 2.3 2.5 4.5"/></svg>Grupos</span>
+      <span class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B8983" stroke-width="1.7" stroke-linecap="round"><path d="M5 19v-4"/><path d="M12 19V9"/><path d="M19 19V5"/></svg>Progreso</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

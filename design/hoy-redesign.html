@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Rediseño Hoy — 3 estados</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#E9E7E2; display:flex; gap:48px; padding:56px;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased; color:#1C1C1E; width:1560px;
+}
+.col { width:420px; }
+.caption { text-align:center; font-size:19px; font-weight:600; color:#56565C; margin-bottom:20px; }
+.caption small { display:block; font-weight:400; font-size:14px; color:#8B8983; margin-top:4px; }
+.phone {
+  width:390px; height:780px; margin:0 auto; background:#F8F7F4;
+  border-radius:44px; box-shadow:0 18px 50px rgba(0,0,0,0.16), 0 0 0 10px #1C1C1E;
+  overflow:hidden; position:relative; display:flex; flex-direction:column;
+}
+.content { flex:1; padding:54px 26px 0; display:flex; flex-direction:column; }
+
+.crumbrow { display:flex; justify-content:space-between; align-items:center; }
+.crumb { font-size:13px; font-weight:500; color:#56565C; }
+.crumb .chev { opacity:.5; }
+.behind { display:flex; align-items:center; margin-top:18px; font-size:14px; color:#56565C; }
+.behind b { color:#705F4C; font-weight:600; margin-left:10px; }
+.behind .x { margin-left:auto; opacity:.4; }
+
+.daylabel { margin-top:30px; font-size:13px; font-weight:500; color:#56565C; display:flex; align-items:center; gap:8px; }
+.donechip {
+  display:inline-flex; align-items:center; gap:4px;
+  background:rgba(168,139,106,0.13); color:#705F4C;
+  font-size:12px; font-weight:600; padding:2px 9px; border-radius:100px;
+}
+.refs { margin-top:14px; }
+.refs p { font-size:30px; font-weight:500; letter-spacing:-0.5px; line-height:1.34; }
+.openlink { margin-top:14px; font-size:15px; font-weight:600; color:#705F4C; }
+
+.matlabel { margin-top:30px; font-size:13px; font-weight:500; color:#56565C; margin-bottom:8px; }
+.matcard { background:#fff; border-radius:16px; box-shadow:0 1px 4px rgba(0,0,0,0.07); }
+.matrow { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; font-size:16px; }
+.matrow + .matrow { border-top:1px solid #EDEBE6; }
+.matrow .meta { font-size:13px; color:#8B8983; font-variant-numeric:tabular-nums; }
+.matrow .meta .c { color:#B8B6B0; margin-left:5px; }
+
+.spacer { flex:1; }
+
+.bar { padding:12px 26px 14px; background:rgba(244,242,238,0.9); }
+.btn {
+  width:100%; border-radius:16px; padding:17px; text-align:center;
+  font-size:17px; font-weight:600; background:#A88B6A; color:#fff;
+}
+.btn.ghosty { background:transparent; border:1px solid #D5D3CD; color:#56565C; }
+.momentline { text-align:center; font-size:13px; font-weight:500; color:#56565C; margin-top:10px; }
+.momentline .star { color:#705F4C; }
+.nextlink { text-align:center; font-size:15px; font-weight:600; color:#705F4C; padding:14px 0 2px; }
+
+.tabbar {
+  display:flex; border-top:1px solid #E4E2DC; background:rgba(244,242,238,0.92);
+  padding:10px 10px 26px;
+}
+.tab { flex:1; text-align:center; font-size:11px; color:#56565C; }
+.tab.on { color:#705F4C; font-weight:600; }
+.tab .ic { font-size:20px; display:block; margin-bottom:2px; }
+</style>
+</head>
+<body>
+
+<!-- ESTADO 1: antes de leer -->
+<div class="col">
+  <p class="caption">1 · Antes de leer<small>Una sola acción sticky. "Abrir en mi app" baja al flujo, junto a los pasajes.</small></p>
+  <div class="phone">
+    <div class="content">
+      <div class="crumbrow"><span class="crumb">Oficio Diario (Libro de Ora… <span class="chev">›</span></span><span class="crumb">⚙ Ajustes</span></div>
+      <div class="behind"><span>Te atrasaste 1 día</span><b>Reprogramar</b><span class="x">✕</span></div>
+      <p class="daylabel">Lectura de hoy · Día 12</p>
+      <div class="refs">
+        <p>Salmos 1-4</p><p>Salmos 7</p><p>Génesis 2:4-25</p><p>Hebreos 1</p><p>Juan 1:1-18</p>
+      </div>
+      <p class="openlink">Abrir en mi app de Biblia ↗</p>
+      <p class="matlabel">Mis otras lecturas</p>
+      <div class="matcard">
+        <div class="matrow"><span>Catecismo Menor</span><span class="meta">Pregunta 10 de 107<span class="c">›</span></span></div>
+        <div class="matrow"><span>Heidelberg</span><span class="meta">Pregunta 7 de 129<span class="c">›</span></span></div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div class="bar"><div class="btn">Marcar como leído</div></div>
+    <div class="tabbar">
+      <span class="tab on"><span class="ic">📖</span>Hoy</span><span class="tab"><span class="ic">♡</span>Oración</span><span class="tab"><span class="ic">👥</span>Grupos</span><span class="tab"><span class="ic">📊</span>Progreso</span>
+    </div>
+  </div>
+</div>
+
+<!-- ESTADO 2: recién marcada -->
+<div class="col">
+  <p class="caption">2 · Recién marcada<small>El ✓ sube al label como estado. La barra ofrece la próxima acción: la nota.</small></p>
+  <div class="phone">
+    <div class="content">
+      <div class="crumbrow"><span class="crumb">Oficio Diario (Libro de Ora… <span class="chev">›</span></span><span class="crumb">⚙ Ajustes</span></div>
+      <p class="daylabel" style="margin-top:34px;">Lectura de hoy · Día 12 <span class="donechip">✓ Leído</span></p>
+      <div class="refs">
+        <p>Salmos 1-4</p><p>Salmos 7</p><p>Génesis 2:4-25</p><p>Hebreos 1</p><p>Juan 1:1-18</p>
+      </div>
+      <p class="matlabel" style="margin-top:34px;">Mis otras lecturas</p>
+      <div class="matcard">
+        <div class="matrow"><span>Catecismo Menor</span><span class="meta">Pregunta 10 de 107<span class="c">›</span></span></div>
+        <div class="matrow"><span>Heidelberg</span><span class="meta">Pregunta 7 de 129<span class="c">›</span></span></div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div class="bar">
+      <div class="btn">Anotá lo que te habló Dios hoy</div>
+      <p class="momentline"><span class="star">✦</span> 3 días seguidos</p>
+    </div>
+    <div class="tabbar">
+      <span class="tab on"><span class="ic">📖</span>Hoy</span><span class="tab"><span class="ic">♡</span>Oración</span><span class="tab"><span class="ic">👥</span>Grupos</span><span class="tab"><span class="ic">📊</span>Progreso</span>
+    </div>
+  </div>
+</div>
+
+<!-- ESTADO 3: día cerrado -->
+<div class="col">
+  <p class="caption">3 · Día cerrado (nota escrita)<small>Sin botones grandes: el día terminó. Solo una invitación quieta a seguir.</small></p>
+  <div class="phone">
+    <div class="content">
+      <div class="crumbrow"><span class="crumb">Oficio Diario (Libro de Ora… <span class="chev">›</span></span><span class="crumb">⚙ Ajustes</span></div>
+      <p class="daylabel" style="margin-top:34px;">Lectura de hoy · Día 12 <span class="donechip">✓ Leído</span></p>
+      <div class="refs">
+        <p>Salmos 1-4</p><p>Salmos 7</p><p>Génesis 2:4-25</p><p>Hebreos 1</p><p>Juan 1:1-18</p>
+      </div>
+      <p class="openlink" style="color:#8B8983; font-weight:500;">Tu nota de hoy guardada · Ver ›</p>
+      <p class="matlabel" style="margin-top:30px;">Mis otras lecturas</p>
+      <div class="matcard">
+        <div class="matrow"><span>Catecismo Menor</span><span class="meta">Pregunta 10 de 107<span class="c">›</span></span></div>
+        <div class="matrow"><span>Heidelberg</span><span class="meta">Pregunta 7 de 129<span class="c">›</span></span></div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div class="bar"><p class="nextlink">Leer el día siguiente →</p></div>
+    <div class="tabbar">
+      <span class="tab on"><span class="ic">📖</span>Hoy</span><span class="tab"><span class="ic">♡</span>Oración</span><span class="tab"><span class="ic">👥</span>Grupos</span><span class="tab"><span class="ic">📊</span>Progreso</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
