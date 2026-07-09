@@ -257,7 +257,7 @@ export default function Hoy() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-120px)] flex-col pt-2 lg:min-h-0">
+    <div className="flex min-h-[calc(100dvh-120px)] flex-col pt-2 lg:min-h-0">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
           {/* Sin "volver": el modelo es el señalador — leer adelantado mueve tu

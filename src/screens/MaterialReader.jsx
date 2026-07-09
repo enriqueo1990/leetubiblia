@@ -130,7 +130,7 @@ export default function MaterialReader() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-120px)] flex-col pt-2">
+    <div className="flex min-h-[calc(100dvh-120px)] flex-col pt-2">
       {/* Header según el canon (como Hoy: navegación a la izquierda, acción a la
           derecha). La miga es BackLink: honesta con el origen (desde el catálogo
           vuelve a Materiales; desde Hoy, a Hoy). "Índice" abre la hoja de bloques
