@@ -411,9 +411,18 @@ export default function GroupDetail() {
               pedido: misma info, menos cajas apiladas. */}
           <ul className="card mt-3 divide-y divide-hairline">
             {prayers.slice(0, 4).map((p) => (
-              <li key={p.id} className="p-4">
-                <p className="text-[16px] font-semibold leading-snug text-ink">{p.title}</p>
-                <div className="mt-2 flex items-center justify-between gap-3">
+              <li key={p.id}>
+                <button
+                  type="button"
+                  onClick={() => navigate(`/oracion/${p.id}`)}
+                  className="block w-full p-4 text-left"
+                >
+                  <p className="text-[16px] font-semibold leading-snug text-ink">{p.title}</p>
+                  {p.description && (
+                    <p className="mt-1 line-clamp-2 text-[13px] leading-snug text-ink-soft">{p.description}</p>
+                  )}
+                </button>
+                <div className="flex items-center justify-between gap-3 px-4 pb-4">
                   <div className="flex min-w-0 items-center gap-2">
                     {p.intercessors.length > 0 && (
                       <Avatars people={p.intercessors} size={22} surface="var(--surface)" />
