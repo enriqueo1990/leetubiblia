@@ -257,7 +257,7 @@ export default function Hoy() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-120px)] flex-col pt-2">
+    <div className="flex min-h-[calc(100vh-120px)] flex-col pt-2 lg:min-h-0">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
           {/* Sin "volver": el modelo es el señalador — leer adelantado mueve tu
@@ -516,7 +516,7 @@ export default function Hoy() {
           usuario no activó ninguno → Hoy queda idéntico. Solo en lectura normal. */}
       {!r.planFinished && <MaterialsToday />}
 
-      <div className="flex-1" />
+      <div className="flex-1 lg:hidden" />
 
       {/* Zona de acción única: siempre en el mismo lugar, bajando de intensidad
           a medida que el día se completa. (1) Marcar → (2) el momento: ✓ dibujado
@@ -558,7 +558,7 @@ export default function Hoy() {
 
         return (
           <div className="action-bar">
-            <div className="lg:max-w-[440px]">
+            <div className="lg:mx-auto lg:max-w-[440px]">
               {!doneShown ? (
                 <button
                   type="button"

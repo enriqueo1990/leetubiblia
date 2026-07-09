@@ -237,10 +237,12 @@
 
   /* Zona de acción sticky (móvil/tablet) — mismo cristal que la tab bar:
      translúcida con blur y pegada justo encima de ella (57px = 56 de ítems +
-     1 de filete). El contenido que sigue abajo (p. ej. las fichas de
-     materiales en Hoy) se desliza por debajo como capa esmerilada, no como
-     un corte seco, y no queda franja transparente entre barra y tab bar.
-     En reposo el cristal es prácticamente invisible sobre el fondo.
+     1 de filete). En reposo el cristal es prácticamente invisible sobre el
+     fondo. Cuando hay contenido de sobra (p. ej. varias fichas de materiales
+     en Hoy), la barra queda fija mientras el resto scrollea por detrás: para
+     que eso no se vea como un solapamiento sucio, un degradado hacia el fondo
+     (::before) disuelve el contenido justo antes de llegar a los botones —el
+     texto se desvanece en vez de cortarse a medias tras el cristal—.
      En desktop la zona es estática y sin cromo: la acción va junto a la ficha. */
   .action-bar {
     position: sticky;
@@ -252,6 +254,19 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
+  /* Franja de disolución sobre la barra: transparente arriba → fondo abajo, de
+     modo que lo que sube por detrás se funde con la página antes de tocar los
+     botones. Invisible en reposo (no hay nada que disolver). */
+  .action-bar::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 28px;
+    background: linear-gradient(to top, var(--bg-app), transparent);
+    pointer-events: none;
+  }
   @media (min-width: 1024px) {
     .action-bar {
       position: static;
@@ -261,6 +276,9 @@
       background-color: transparent;
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
+    }
+    .action-bar::before {
+      display: none;
     }
   }
 
