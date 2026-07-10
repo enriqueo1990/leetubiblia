@@ -17,6 +17,7 @@ import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import { ChevronRight, HeartIcon, ShareIcon } from '../components/icons.jsx'
 import { subscribeToPush, unsubscribeFromPush, getTimezone } from '../lib/push.js'
 import { activeMaterials } from '../lib/materials.js'
+import { exportJournal } from '../lib/exportJournal.js'
 import { version as APP_VERSION } from '../../package.json'
 
 // Ajustes (documento maestro §5.7, README pantalla 7). Acento y tema persisten en
@@ -80,6 +81,9 @@ export default function Ajustes() {
   const [dayInput, setDayInput] = useState('')
   const [savingDay, setSavingDay] = useState(false)
   const [savedDay, setSavedDay] = useState(false)
+  // Exportar el diario: busy + resultado ('empty' | 'error' | 'downloaded').
+  const [exporting, setExporting] = useState(false)
+  const [exportNote, setExportNote] = useState(null)
   // Aviso bajo el toggle que falló al activar el push: { target, msg }.
   const [pushNote, setPushNote] = useState(null)
 
@@ -211,6 +215,24 @@ export default function Ajustes() {
     }
   }
 
+  // Exportar "Mi camino" como archivo de texto: las reflexiones son del
+  // usuario y tienen que poder llevárselas (especialmente antes de borrar
+  // la cuenta, o simplemente para atesorarlas fuera de la app).
+  async function handleExportJournal() {
+    if (exporting || !user) return
+    setExporting(true)
+    setExportNote(null)
+    try {
+      const res = await exportJournal(user.id, { t, locale })
+      if (res === 'empty') setExportNote('empty')
+      else if (res === 'downloaded') setExportNote('downloaded')
+    } catch {
+      setExportNote('error')
+    } finally {
+      setExporting(false)
+    }
+  }
+
   async function shareApp() {
     const url = window.location.origin
     const text = t('ajustes.shareInviteText')
@@ -295,6 +317,25 @@ export default function Ajustes() {
             />
           }
         />
+        <button
+          type="button"
+          onClick={handleExportJournal}
+          disabled={exporting}
+          className="flex w-full items-center justify-between gap-4 px-4 py-3 text-left"
+        >
+          <span className="min-w-0 flex-1">
+            <span className="block text-[16px] text-ink">{t('ajustes.exportDiario')}</span>
+            <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">
+              {t('ajustes.exportDiarioHelp')}
+            </span>
+          </span>
+          <span
+            className="flex shrink-0 items-center text-[15px] font-medium"
+            style={{ color: 'var(--accent-ink)', opacity: exporting ? 0.5 : 1 }}
+          >
+            {exporting ? t('ajustes.exporting') : <ShareIcon size={18} />}
+          </span>
+        </button>
         <Row
           title={t('ajustes.compartirLectura')}
           subtitle={t('ajustes.compartirLecturaHelp')}
@@ -307,6 +348,19 @@ export default function Ajustes() {
           }
         />
       </div>
+      {exportNote && (
+        <p
+          className="mt-2 px-1 text-[13px]"
+          role="status"
+          style={{ color: exportNote === 'error' ? 'var(--danger)' : 'var(--text-soft)' }}
+        >
+          {exportNote === 'empty'
+            ? t('ajustes.exportEmpty')
+            : exportNote === 'error'
+              ? t('ajustes.exportError')
+              : t('ajustes.exportDownloaded')}
+        </p>
+      )}
 
       {/* Fijar en qué día del plan vas (catch-up para quien ya venía leyendo). */}
       {currentDay != null && (

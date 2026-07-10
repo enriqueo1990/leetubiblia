@@ -32,6 +32,12 @@
   "ajustes.compartirLectura": "Compartir mi lectura",
   "ajustes.compartirLecturaLabel": "Compartir mi lectura con mis grupos",
   "ajustes.compartirLecturaHelp": "Tus grupos ven que leíste hoy (no qué leés), y vos ves la de ellos. Lo apagás cuando quieras.",
+  "ajustes.exportDiario": "Descargar mi camino",
+  "ajustes.exportDiarioHelp": "Todas tus reflexiones en un archivo de texto, para guardarlas donde quieras.",
+  "ajustes.exporting": "Preparando…",
+  "ajustes.exportEmpty": "Todavía no tenés reflexiones para exportar.",
+  "ajustes.exportError": "No se pudo exportar. Revisá tu conexión e intentá de nuevo.",
+  "ajustes.exportDownloaded": "Archivo descargado.",
   "ajustes.section.acento": "Color de acento",
   "ajustes.section.tema": "Tema",
   "ajustes.section.avisos": "Avisos",
@@ -255,6 +261,11 @@
   "diario.empty.title": "Tu camino empieza acá",
   "diario.empty.text": "Al terminar tu lectura en Hoy, anotá una línea de lo que te habló y la vas a encontrar acá, día tras día.",
   "diario.entryMeta": "{date} · Día {day}",
+  "exportJournal.entries": {
+    "one": "{count} reflexión",
+    "other": "{count} reflexiones"
+  },
+  "exportJournal.exportedOn": "Exportado el {date}",
 
   "recorrido.loadError": "No se pudo cargar tu recorrido.",
   "recorrido.title": "Tu recorrido",

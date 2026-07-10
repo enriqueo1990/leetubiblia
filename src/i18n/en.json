@@ -32,6 +32,12 @@
   "ajustes.compartirLectura": "Share my reading",
   "ajustes.compartirLecturaLabel": "Share my reading with my groups",
   "ajustes.compartirLecturaHelp": "Your groups see that you read today (not what you read), and you see theirs. Turn it off whenever you want.",
+  "ajustes.exportDiario": "Download my journey",
+  "ajustes.exportDiarioHelp": "All your reflections in a text file, to keep wherever you like.",
+  "ajustes.exporting": "Preparing…",
+  "ajustes.exportEmpty": "You don't have any reflections to export yet.",
+  "ajustes.exportError": "Couldn't export. Check your connection and try again.",
+  "ajustes.exportDownloaded": "File downloaded.",
   "ajustes.section.acento": "Accent color",
   "ajustes.section.tema": "Theme",
   "ajustes.section.avisos": "Notifications",
@@ -255,6 +261,11 @@
   "diario.empty.title": "Your journey starts here",
   "diario.empty.text": "When you finish your reading in Today, jot down a line of what spoke to you and you'll find it here, day after day.",
   "diario.entryMeta": "{date} · Day {day}",
+  "exportJournal.entries": {
+    "one": "{count} reflection",
+    "other": "{count} reflections"
+  },
+  "exportJournal.exportedOn": "Exported on {date}",
 
   "recorrido.loadError": "Couldn't load your journey.",
   "recorrido.title": "Your journey",
