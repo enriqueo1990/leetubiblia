@@ -10,10 +10,16 @@ import {
 import { youVersionUrl } from '../lib/bible.js'
 import { usePreferences } from '../lib/preferences.jsx'
 import { bookLabel } from '../i18n/books.js'
-import { ListIcon } from '../components/icons.jsx'
+import { shareQuestion } from '../lib/shareImage.js'
+import { ListIcon, ShareIcon } from '../components/icons.jsx'
 import BackLink from '../components/BackLink.jsx'
 import MaterialIndexSheet from '../components/MaterialIndexSheet.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
+import Sheet from '../components/Sheet.jsx'
+
+// Último formato de imagen compartida (cuadrada/historia). Es memoria de flujo,
+// no una preferencia del perfil: vive en el dispositivo.
+const SHARE_FORMAT_KEY = 'ltb:shareFormat'
 
 // Vista de lectura de un material (catecismo, etc.) — un lector tipo libro con
 // marcador. Se abre en la pregunta actual (la posición guardada). Navegás libremente
@@ -39,6 +45,9 @@ export default function MaterialReader() {
   const [indexOpen, setIndexOpen] = useState(false) // hoja de índice
   const [confirmRestart, setConfirmRestart] = useState(false)
   const [saveError, setSaveError] = useState(false) // falló guardar el avance
+  const [shareOpen, setShareOpen] = useState(false) // hoja de formato (1:1 / 9:16)
+  const [sharing, setSharing] = useState(false) // generando la imagen para compartir
+  const [shareError, setShareError] = useState(false)
 
   // Cargar el contenido (import dinámico, cacheado).
   useEffect(() => {
@@ -129,6 +138,40 @@ export default function MaterialReader() {
     persist(1, revertPos, revertN)
   }
 
+  // Compartir la pregunta como imagen (ver shareImage.js). El formato (1:1 o
+  // 9:16) se elige en la hoja — es una decisión de destino (chat vs. historia),
+  // no una preferencia global; se recuerda la última elección en el dispositivo.
+  // La i18n se resuelve acá: el módulo de dibujo recibe textos ya armados.
+  async function handleShare(format) {
+    if (sharing || !entry) return
+    setShareOpen(false)
+    setSharing(true)
+    setShareError(false)
+    try {
+      localStorage.setItem(SHARE_FORMAT_KEY, format)
+    } catch {
+      /* almacenamiento bloqueado: se comparte igual, sin recordar */
+    }
+    try {
+      await shareQuestion({
+        format,
+        // "Pregunta N de M" con espacios duros: en la imagen no debe partirse.
+        meta: [
+          content.name,
+          t('materialsToday.questionOf', { n: entry.number, total }).replace(/ /g, ' '),
+        ].join(' · '),
+        question: entry.question,
+        answer: entry.answer,
+        refs: entry.refs.map((ref) => bookLabel(ref, locale)),
+        filename: `${slug}-${entry.number}${format === 'story' ? '-historia' : ''}.png`,
+      })
+    } catch {
+      setShareError(true)
+    } finally {
+      setSharing(false)
+    }
+  }
+
   return (
     <div className="flex min-h-[calc(100dvh-120px)] flex-col pt-2">
       {/* Header según el canon (como Hoy: navegación a la izquierda, acción a la
@@ -137,14 +180,30 @@ export default function MaterialReader() {
           y preguntas. */}
       <div className="flex items-center justify-between">
         <BackLink to="/" label={t('nav.hoy')} />
-        <button
-          type="button"
-          onClick={() => setIndexOpen(true)}
-          className="-mr-1 flex h-9 items-center gap-1.5 px-1 text-[13px] font-medium text-ink-soft transition-colors hover:text-accent-ink"
-        >
-          <ListIcon size={16} />
-          {t('materialReader.index')}
-        </button>
+        <div className="flex items-center gap-2">
+          {/* Compartir la pregunta como imagen — solo en fichas de pregunta
+              (la portada no es contenido compartible). Icono solo: "Índice"
+              conserva su etiqueta porque nombra un lugar, no una acción obvia. */}
+          {!isIntro && (
+            <button
+              type="button"
+              onClick={() => setShareOpen(true)}
+              disabled={sharing}
+              aria-label={t('materialReader.share')}
+              className="flex h-9 w-9 items-center justify-center text-ink-soft transition-colors hover:text-accent-ink disabled:opacity-50"
+            >
+              <ShareIcon size={16} />
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={() => setIndexOpen(true)}
+            className="-mr-1 flex h-9 items-center gap-1.5 px-1 text-[13px] font-medium text-ink-soft transition-colors hover:text-accent-ink"
+          >
+            <ListIcon size={16} />
+            {t('materialReader.index')}
+          </button>
+        </div>
       </div>
 
       {/* La pregunta como ficha: un .card contiene la unidad de lectura completa
@@ -252,6 +311,11 @@ export default function MaterialReader() {
             {t('materialReader.saveError')}
           </p>
         )}
+        {shareError && (
+          <p className="pb-1 text-[12px]" style={{ color: 'var(--danger)' }}>
+            {t('materialReader.shareError')}
+          </p>
+        )}
         {isIntro && pos === 1 ? (
           /* Primera visita (nada leído): la portada invita a arrancar. */
           <button type="button" onClick={() => setN(1)} className="btn btn-primary">
@@ -303,6 +367,49 @@ export default function MaterialReader() {
           </>
         )}
       </div>
+
+      {/* Hoja de formato: el destino decide la proporción (chat → cuadrada,
+          historia → 9:16). El último formato usado se lista primero. */}
+      {shareOpen && (
+        <Sheet title={t('materialReader.shareTitle')} onCancel={() => setShareOpen(false)}>
+          <div className="space-y-2 pb-2">
+            {(() => {
+              let last = null
+              try {
+                last = localStorage.getItem(SHARE_FORMAT_KEY)
+              } catch {
+                /* sin almacenamiento: orden por defecto */
+              }
+              const formats = [
+                { id: 'square', ratio: 'aspect-square w-9', label: t('materialReader.shareSquare'), hint: t('materialReader.shareSquareHint') },
+                { id: 'story', ratio: 'aspect-[9/16] w-6', label: t('materialReader.shareStory'), hint: t('materialReader.shareStoryHint') },
+              ]
+              if (last === 'story') formats.reverse()
+              return formats.map((f) => (
+                <button
+                  key={f.id}
+                  type="button"
+                  onClick={() => handleShare(f.id)}
+                  className="card flex w-full items-center gap-4 p-4 text-left transition-opacity active:opacity-60"
+                >
+                  {/* Glifo de proporción: el rectángulo ES la explicación. */}
+                  <span className="flex h-14 w-10 items-center justify-center">
+                    <span
+                      aria-hidden="true"
+                      className={`${f.ratio} rounded-[4px] border-2`}
+                      style={{ borderColor: 'var(--accent-ink)' }}
+                    />
+                  </span>
+                  <span className="flex flex-col gap-0.5">
+                    <span className="text-[16px] font-medium text-ink">{f.label}</span>
+                    <span className="text-[13px] text-ink-soft">{f.hint}</span>
+                  </span>
+                </button>
+              ))
+            })()}
+          </div>
+        </Sheet>
+      )}
 
       {indexOpen && (
         <MaterialIndexSheet
