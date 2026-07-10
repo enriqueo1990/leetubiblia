@@ -28,7 +28,15 @@ import {
   getGroupReadingWeek,
   getGroupTestimonies,
   addIntercession,
+  getPlan,
+  getPlans,
+  setGroupPlan,
+  dayNumberFor,
+  todayLocalISO,
+  markDaysRead,
+  unmarkDaysFrom,
 } from '../lib/db.js'
+import { planName } from '../lib/planLabels.js'
 import { SkeletonDetail } from '../components/Skeleton.jsx'
 import RetryError from '../components/RetryError.jsx'
 import Sheet from '../components/Sheet.jsx'
@@ -49,10 +57,103 @@ function Stat({ n, label }) {
   )
 }
 
+// Hoja para elegir el plan común del grupo (solo el administrador la abre).
+// El plan elegido arranca ese día como día 1 del grupo; cada miembro decide
+// sumarse desde la tarjeta "Plan del grupo".
+function GroupPlanSheet({ currentPlanId, saving, error, onSet, onClear, onCancel }) {
+  const { t } = usePreferences()
+  const [plans, setPlans] = useState(null) // null = cargando
+  const [loadError, setLoadError] = useState(false)
+  const [sel, setSel] = useState(currentPlanId)
+
+  useEffect(() => {
+    getPlans()
+      .then(setPlans)
+      .catch(() => setLoadError(true))
+  }, [])
+
+  const canSet = sel != null && sel !== currentPlanId && !saving
+
+  return (
+    <Sheet
+      title={t('groupDetail.groupPlan')}
+      onCancel={onCancel}
+      footer={
+        <button
+          type="button"
+          onClick={() => onSet(sel)}
+          disabled={!canSet}
+          className="btn btn-primary"
+          style={{ opacity: canSet ? 1 : 0.5 }}
+        >
+          {saving ? t('common.saving') : t('groupDetail.planPickerSet')}
+        </button>
+      }
+    >
+      <p className="text-[13px] leading-snug text-ink-soft">{t('groupDetail.planPickerHelp')}</p>
+
+      {loadError ? (
+        <p className="mt-4 text-[14px] text-ink-soft">{t('planes.loadError')}</p>
+      ) : plans === null ? (
+        <div className="mt-4 space-y-2 animate-pulse" aria-hidden="true">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="h-[52px] rounded-input" style={{ backgroundColor: 'var(--surface-alt)' }} />
+          ))}
+        </div>
+      ) : (
+        <div className="mt-4 space-y-2">
+          {plans.map((p) => {
+            const active = p.id === sel
+            return (
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => setSel(p.id)}
+                aria-pressed={active}
+                className="flex w-full items-center justify-between gap-3 rounded-input border px-4 py-3 text-left"
+                style={{
+                  borderColor: active ? 'var(--accent)' : 'var(--hairline)',
+                  backgroundColor: active ? 'var(--accent-tint)' : 'transparent',
+                }}
+              >
+                <span className="min-w-0 flex-1 truncate text-[15px] font-medium text-ink">
+                  {planName(t, p)}
+                </span>
+                <span className="shrink-0 text-[13px] text-ink-soft">
+                  {p.duration_days === 365
+                    ? t('planes.durationYear')
+                    : t('planes.durationDays', { days: p.duration_days })}
+                </span>
+              </button>
+            )
+          })}
+        </div>
+      )}
+
+      {error && (
+        <p className="mt-3 text-[13px]" style={{ color: 'var(--danger)' }}>
+          {t('groupDetail.planError')}
+        </p>
+      )}
+
+      {onClear && (
+        <button
+          type="button"
+          onClick={onClear}
+          className="mt-4 w-full py-2 text-center text-[14px]"
+          style={{ color: 'var(--danger)' }}
+        >
+          {t('groupDetail.clearPlan')}
+        </button>
+      )}
+    </Sheet>
+  )
+}
+
 export default function GroupDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { user, profile } = useAuth()
+  const { user, profile, updateProfile } = useAuth()
   const { t } = usePreferences()
   const iShare = !!profile?.share_reading
 
@@ -62,8 +163,15 @@ export default function GroupDetail() {
   const [weekly, setWeekly] = useState([]) // [{ user_id, week: boolean[7] }] — solo owner
   const [prayers, setPrayers] = useState([]) // pedidos activos del grupo
   const [testimony, setTestimony] = useState(null) // último testimonio
+  const [planInfo, setPlanInfo] = useState(null) // metadata del plan común del grupo
   const [sheetOpen, setSheetOpen] = useState(false) // sheet "compartir un pedido"
   const [inviteOpen, setInviteOpen] = useState(false) // sheet "invitar al grupo"
+  const [planPickerOpen, setPlanPickerOpen] = useState(false) // sheet "plan del grupo" (owner)
+  const [savingPlan, setSavingPlan] = useState(false)
+  const [planError, setPlanError] = useState(false)
+  const [confirmAdopt, setConfirmAdopt] = useState(false) // sumarse al plan del grupo
+  const [adopting, setAdopting] = useState(false)
+  const [adoptError, setAdoptError] = useState(false)
   const [error, setError] = useState(null)
   const [copied, setCopied] = useState(false)
   const [inviteShared, setInviteShared] = useState(false)
@@ -80,18 +188,20 @@ export default function GroupDetail() {
       const d = await getGroupDetail(Number(id))
       setData(d)
       const owner = d.members.find((m) => m.user_id === user?.id)?.role === 'owner'
-      const [readRes, prayRes, testRes, statsRes, weekRes] = await Promise.allSettled([
+      const [readRes, prayRes, testRes, statsRes, weekRes, planRes] = await Promise.allSettled([
         getGroupReadingToday(Number(id)),
         getGroupActivePrayers(Number(id)),
         getGroupTestimonies(Number(id)),
         owner ? getGroupStats(Number(id)) : Promise.resolve(null),
         owner ? getGroupReadingWeek(Number(id)) : Promise.resolve([]),
+        d.group.plan_id ? getPlan(d.group.plan_id) : Promise.resolve(null),
       ])
       if (readRes.status === 'fulfilled') setReading(readRes.value)
       if (prayRes.status === 'fulfilled') setPrayers(prayRes.value)
       if (testRes.status === 'fulfilled') setTestimony(testRes.value[0] ?? null)
       if (statsRes.status === 'fulfilled') setStats(statsRes.value)
       if (weekRes.status === 'fulfilled') setWeekly(weekRes.value)
+      setPlanInfo(planRes.status === 'fulfilled' ? planRes.value : null)
     } catch {
       setError(t('groupDetail.loadError'))
     }
@@ -145,7 +255,68 @@ export default function GroupDetail() {
   })
   const prayingCount = new Set(prayers.flatMap((p) => p.intercessors.map((i) => i.user_id))).size
 
+  // Plan común del grupo: día que dicta el calendario (misma regla canónica que
+  // el plan personal), acotado al rango del plan. Sumado = tengo ESE plan activo
+  // Y anclado a la MISMA fecha de inicio (comparación de strings YYYY-MM-DD).
+  const groupPlanTotal = planInfo?.duration_days ?? null
+  const groupPlanDayRaw = group.plan_start_date ? dayNumberFor(group.plan_start_date) : null
+  const groupPlanFinished =
+    groupPlanDayRaw != null && groupPlanTotal != null && groupPlanDayRaw > groupPlanTotal
+  const groupPlanDay =
+    groupPlanDayRaw != null && groupPlanTotal != null
+      ? Math.min(Math.max(groupPlanDayRaw, 1), groupPlanTotal)
+      : null
+  const amOnGroupPlan =
+    !!group.plan_id &&
+    profile?.active_plan_id === group.plan_id &&
+    profile?.plan_start_date === group.plan_start_date
+
   const interceding = (p) => p.intercessors.some((x) => x.user_id === user?.id)
+
+  // El owner elige (o cambia) el plan del grupo; arranca hoy como día 1.
+  async function handleSetPlan(planId) {
+    if (savingPlan) return
+    setSavingPlan(true)
+    setPlanError(false)
+    try {
+      await setGroupPlan(group.id, planId, todayLocalISO())
+      setPlanPickerOpen(false)
+      await load()
+    } catch {
+      setPlanError(true)
+    } finally {
+      setSavingPlan(false)
+    }
+  }
+
+  // Sumarse al plan del grupo: pasa a ser TU plan activo, anclado al día 1 del
+  // grupo — mismo día para todos. Igual que "¿en qué día vas?" de Ajustes, el
+  // progreso se sincroniza en ambos sentidos (días previos leídos, siguientes no).
+  async function adoptGroupPlan() {
+    if (!user || !group.plan_id || adopting) return
+    setAdopting(true)
+    setAdoptError(false)
+    try {
+      const { error: err } = await updateProfile({
+        active_plan_id: group.plan_id,
+        plan_start_date: group.plan_start_date,
+      })
+      if (err) throw err
+      try {
+        if (groupPlanDay != null && groupPlanDay > 1)
+          await markDaysRead(user.id, group.plan_id, groupPlanDay - 1)
+        if (groupPlanDay != null) await unmarkDaysFrom(user.id, group.plan_id, groupPlanDay)
+      } catch {
+        // No es bloqueante: el plan ya quedó activo y anclado.
+      }
+      setConfirmAdopt(false)
+    } catch {
+      setAdoptError(true)
+      setConfirmAdopt(false)
+    } finally {
+      setAdopting(false)
+    }
+  }
 
   async function orar(p) {
     if (!user || interceding(p)) return
@@ -226,7 +397,10 @@ export default function GroupDetail() {
     try {
       if (confirm.type === 'regen') await regenerateInviteCode(group.id)
       else if (confirm.type === 'kick') await removeMember(group.id, confirm.member.user_id)
-      else if (confirm.type === 'leave') {
+      else if (confirm.type === 'clearPlan') {
+        await setGroupPlan(group.id, null)
+        setPlanPickerOpen(false)
+      } else if (confirm.type === 'leave') {
         await leaveGroup(group.id, user.id)
         navigate('/grupos', { replace: true })
         return
@@ -369,6 +543,90 @@ export default function GroupDetail() {
           </span>
         </div>
       </div>
+
+      {/* Plan del grupo — leer lo mismo, juntos. Los miembros lo ven cuando
+          existe; el owner además tiene la puerta para elegirlo/cambiarlo. */}
+      {(planInfo || isOwner) && (
+        <>
+          <div className="mt-7 flex items-center justify-between">
+            <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+              {t('groupDetail.groupPlan')}
+            </p>
+            {isOwner && planInfo && (
+              <button
+                type="button"
+                onClick={() => setPlanPickerOpen(true)}
+                className="text-[13px] font-medium"
+                style={{ color: 'var(--accent-ink)' }}
+              >
+                {t('groupDetail.changePlan')}
+              </button>
+            )}
+          </div>
+          {planInfo ? (
+            <div className="card mt-3 p-4">
+              <p className="text-[16px] font-semibold leading-snug text-ink">
+                {planName(t, planInfo)}
+              </p>
+              <p className="mt-1 text-[13px] text-ink-soft">
+                {groupPlanFinished
+                  ? t('groupDetail.planFinished')
+                  : groupPlanDay != null
+                    ? `${t('planes.dayN', { n: groupPlanDay })} ${t('ajustes.ofTotal', { total: groupPlanTotal })}`
+                    : null}
+              </p>
+              {amOnGroupPlan ? (
+                <p
+                  className="mt-3 flex items-center gap-1.5 text-[13px] font-semibold"
+                  style={{ color: 'var(--accent-ink)' }}
+                >
+                  <CheckIcon size={15} strokeWidth={2.2} /> {t('groupDetail.readingWithGroup')}
+                </p>
+              ) : !groupPlanFinished ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAdoptError(false)
+                    setConfirmAdopt(true)
+                  }}
+                  className="btn btn-secondary mt-3"
+                  style={{ border: '1px solid var(--accent-ink)', color: 'var(--accent-ink)' }}
+                >
+                  {t('groupDetail.joinPlan')}
+                </button>
+              ) : null}
+              {adoptError && (
+                <p className="mt-2 text-[13px]" style={{ color: 'var(--danger)' }}>
+                  {t('groupDetail.adoptError')}
+                </p>
+              )}
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setPlanPickerOpen(true)}
+              className="card mt-3 flex w-full items-center gap-3 p-4 text-left"
+            >
+              <span
+                className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-accent-ink"
+                style={{ backgroundColor: 'var(--accent-tint)' }}
+                aria-hidden="true"
+              >
+                <BookIcon size={20} />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-[15px] text-ink">{t('groupDetail.noPlanYet')}</span>
+                <span
+                  className="mt-0.5 block text-[13px] font-semibold"
+                  style={{ color: 'var(--accent-ink)' }}
+                >
+                  {t('groupDetail.choosePlanCta')} →
+                </span>
+              </span>
+            </button>
+          )}
+        </>
+      )}
 
       {/* Oración — visible para todos, con "Orar" inline */}
       <div className="mt-7 flex items-center justify-between">
@@ -724,6 +982,47 @@ export default function GroupDetail() {
             </span>
           </div>
         </Sheet>
+      )}
+
+      {planPickerOpen && (
+        <GroupPlanSheet
+          currentPlanId={group.plan_id ?? null}
+          saving={savingPlan}
+          error={planError}
+          onSet={handleSetPlan}
+          onClear={group.plan_id ? () => setConfirm({ type: 'clearPlan' }) : null}
+          onCancel={() => {
+            setPlanPickerOpen(false)
+            setPlanError(false)
+          }}
+        />
+      )}
+
+      {confirmAdopt && planInfo && (
+        <ConfirmDialog
+          title={t('groupDetail.adoptTitle', { name: planName(t, planInfo) })}
+          message={
+            groupPlanDay != null && groupPlanDay > 1
+              ? t('groupDetail.adoptMsg', { day: groupPlanDay })
+              : t('groupDetail.adoptMsgDay1')
+          }
+          confirmLabel={t('groupDetail.adopt')}
+          busy={adopting}
+          onConfirm={adoptGroupPlan}
+          onCancel={() => setConfirmAdopt(false)}
+        />
+      )}
+
+      {confirm?.type === 'clearPlan' && (
+        <ConfirmDialog
+          title={t('groupDetail.clearPlanTitle')}
+          message={t('groupDetail.clearPlanMsg')}
+          confirmLabel={t('groupDetail.clearPlanConfirm')}
+          danger
+          busy={busy}
+          onConfirm={runConfirm}
+          onCancel={() => setConfirm(null)}
+        />
       )}
 
       {confirm?.type === 'leave' && (

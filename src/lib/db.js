@@ -663,6 +663,18 @@ export async function renameGroup(groupId, name) {
   if (error) throw error
 }
 
+// Fija (o quita, con planId null) el plan común del grupo. Solo el administrador
+// (el RPC valida adentro). startDate = el "hoy" local del que lo elige, que pasa
+// a ser el día 1 del grupo. Requiere la migración 0027.
+export async function setGroupPlan(groupId, planId, startDate = null) {
+  const { error } = await supabase.rpc('set_group_plan', {
+    p_group_id: groupId,
+    p_plan_id: planId,
+    p_start_date: startDate,
+  })
+  if (error) throw error
+}
+
 // Pedidos compartidos del grupo con sus intercesores (para la vista pastoral del owner).
 // Hace 3 queries en lugar de N+1.
 export async function getGroupPrayersWithIntercessors(groupId) {
