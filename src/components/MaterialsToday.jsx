@@ -5,15 +5,35 @@ import { usePreferences } from '../lib/preferences.jsx'
 import { activeMaterials, getMaterial, loadMaterialContent } from '../lib/materials.js'
 import { ChevronRight } from './icons.jsx'
 
+// Descarte del aviso de descubrimiento: por dispositivo, una sola vez.
+const HINT_KEY = 'ltb.materialsHint.dismissed'
+
 // Sección "Mis otras lecturas" de la pantalla Hoy. Aparece SOLO si el usuario activó
-// algún material (si no, no renderiza nada → Hoy queda igual que siempre). Cada
-// material es una tarjeta compacta que lleva a su vista de lectura (/materiales/:slug),
-// también al estar completado (repasar / volver a empezar viven en el lector, con
-// confirmación — acá no hay acciones destructivas).
+// algún material (si no, en su lugar va UNA línea descartable que cuenta que los
+// materiales existen — sin ella la feature solo vive en Ajustes y nadie la encuentra).
+// Cada material es una tarjeta compacta que lleva a su vista de lectura
+// (/materiales/:slug), también al estar completado (repasar / volver a empezar viven
+// en el lector, con confirmación — acá no hay acciones destructivas).
 export default function MaterialsToday() {
   const { profile } = useAuth()
   const { t } = usePreferences()
   const list = activeMaterials(profile)
+  const [hintDismissed, setHintDismissed] = useState(() => {
+    try {
+      return localStorage.getItem(HINT_KEY) === '1'
+    } catch {
+      return true // sin storage no hay forma de recordar el descarte: mejor no insistir
+    }
+  })
+
+  function dismissHint() {
+    setHintDismissed(true)
+    try {
+      localStorage.setItem(HINT_KEY, '1')
+    } catch {
+      /* queda descartado en esta sesión */
+    }
+  }
 
   // Contenido cargado por slug (import dinámico, cacheado en materials.js).
   const [contents, setContents] = useState({})
@@ -35,7 +55,34 @@ export default function MaterialsToday() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeKey])
 
-  if (list.length === 0) return null
+  if (list.length === 0) {
+    // Descubrimiento discreto (misma voz que el aviso de atraso de Hoy: una
+    // línea en tinta suave, acción implícita, descarte apenas presente).
+    if (!profile || hintDismissed) return null
+    return (
+      <div className="mt-8 flex items-center">
+        <Link
+          to="/materiales"
+          state={{ from: { to: '/', label: t('nav.hoy') } }}
+          className="min-w-0 py-2 text-[13px] text-ink-soft"
+        >
+          {t('materialsToday.hint')}{' '}
+          <span className="font-semibold" style={{ color: 'var(--accent-ink)' }}>
+            {t('materialsToday.hintCta')} ›
+          </span>
+        </Link>
+        <button
+          type="button"
+          onClick={dismissHint}
+          aria-label={t('materialsToday.hintDismiss')}
+          className="ml-auto flex h-9 w-9 shrink-0 items-center justify-center text-[15px] leading-none text-ink-soft"
+          style={{ opacity: 0.5 }}
+        >
+          ✕
+        </button>
+      </div>
+    )
+  }
 
   return (
     <div className="mt-8">

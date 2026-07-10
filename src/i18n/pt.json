@@ -387,6 +387,9 @@
   "materialsToday.otherReadings": "Minhas outras leituras",
   "materialsToday.completed": "Concluído",
   "materialsToday.questionOf": "Pergunta {n} de {total}",
+  "materialsToday.hint": "Você pode somar um catecismo à sua leitura.",
+  "materialsToday.hintCta": "Ver materiais",
+  "materialsToday.hintDismiss": "Dispensar sugestão",
 
   "groupDetail.loadError": "Não foi possível carregar o grupo.",
   "groupDetail.nameError": "Não foi possível salvar o nome.",

@@ -387,6 +387,9 @@
   "materialsToday.otherReadings": "My other readings",
   "materialsToday.completed": "Completed",
   "materialsToday.questionOf": "Question {n} of {total}",
+  "materialsToday.hint": "You can add a catechism to your reading.",
+  "materialsToday.hintCta": "See materials",
+  "materialsToday.hintDismiss": "Dismiss suggestion",
 
   "groupDetail.loadError": "Couldn't load the group.",
   "groupDetail.nameError": "Couldn't save the name.",
