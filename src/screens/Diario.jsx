@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
-import { fmtWeekdayDayMonth, capitalize } from '../i18n/dates.js'
+import { fmtWeekdayDayMonth, fmtISODate, capitalize } from '../i18n/dates.js'
 import {
   getReflectionJournal,
   upsertReflection,
@@ -137,6 +137,17 @@ export default function Diario() {
           dateLabel={fmtDay(sheet.created_at)}
           initialBody={sheet.body}
           editable={isEditable(sheet)}
+          shareData={{
+            meta: `${t('progreso.view.camino')} · ${fmtISODate(
+              localDateISO(sheet.created_at),
+              locale,
+              { day: 'numeric', month: 'long', year: 'numeric' }
+            ).replace(/ /g, '\u00A0')}`,
+            question: sheet.body,
+            answer: null,
+            refs: [],
+            filename: `mi-camino-${localDateISO(sheet.created_at)}.png`,
+          }}
           onClose={() => setSheet(null)}
           onSave={async (body) => {
             try {

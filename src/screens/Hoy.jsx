@@ -638,6 +638,21 @@ export default function Hoy() {
           dayNumber={shownDay}
           initialBody={note?.body ?? ''}
           editable={noteEditable}
+          shareData={
+            note
+              ? {
+                  meta: `${t('progreso.view.camino')} · ${fmtISODate(
+                    localDateISO(note.created_at),
+                    locale,
+                    { day: 'numeric', month: 'long', year: 'numeric' }
+                  ).replace(/ /g, '\u00A0')}`,
+                  question: note.body,
+                  answer: null,
+                  refs: [],
+                  filename: `mi-camino-${localDateISO(note.created_at)}.png`,
+                }
+              : null
+          }
           onClose={() => setReflectOpen(false)}
           onSave={async (body) => {
             try {

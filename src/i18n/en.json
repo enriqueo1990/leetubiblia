@@ -383,6 +383,7 @@
   "reflectionSheet.titleView": "Your reflection",
   "reflectionSheet.placeholder": "An idea, a phrase… whatever stayed with you",
   "reflectionSheet.editHint": "You can edit it today. Tomorrow it's saved as is.",
+  "reflectionSheet.shareImage": "Share as an image",
 
   "materialsToday.otherReadings": "My other readings",
   "materialsToday.completed": "Completed",
