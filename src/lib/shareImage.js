@@ -326,6 +326,10 @@ function styleSpec(style) {
         // Degradé diagonal con los pasteles de la app (lavanda → cielo).
         gradient: ['#C3B2EA', '#9BC5EC'],
         gradientDiagonal: true,
+        // La firma va al pie SOBRE el degradé pastel; el logo calado en blanco
+        // se integra mejor ahí que el ícono sepia (consistente con la estética
+        // de la app: blanco sobre los acentos claros, ver tokens.css).
+        firmaWhite: true,
         pal: {
           bg: '#C3B2EA',
           surface: '#FFFFFF',
@@ -689,7 +693,9 @@ export async function buildQuestionImage({ meta, question, answer, refs = [], fo
   // la invitación es la tarjeta. En estilos firmaWhite el logo va calado en
   // blanco (generado localmente: nunca depende de la red).
   ctx.font = `500 32px ${SANS}`
-  ctx.fillStyle = pal.soft
+  // Con logo blanco, el texto de la firma también va blanco (en Moderno pal.soft
+  // es violeta y desentonaría junto al logo calado).
+  ctx.fillStyle = spec.firmaWhite ? 'rgba(255, 255, 255, 0.92)' : pal.soft
   const brand = 'leetubiblia.com'
   const midY = firmaMidY // pegada al fondo (base a BOTTOM_MARGIN del borde)
   const firmaIcon = spec.firmaWhite ? makeWhiteIcon(ICON * SCALE) : iconOk ? icon : null
