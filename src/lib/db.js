@@ -525,7 +525,8 @@ export async function getIntercessors(prayerId) {
 }
 
 // Detalle de un pedido compartido (vista "estoy orando"): el pedido + grupo +
-// autor + lista de intercesores + si el usuario actual ya intercede.
+// autor + lista de intercesores + historia (actualizaciones del autor) + si el
+// usuario actual ya intercede.
 export async function getPrayerDetail(prayerId, userId) {
   const { data: p, error } = await supabase
     .from('prayer_requests')
@@ -534,9 +535,12 @@ export async function getPrayerDetail(prayerId, userId) {
     .single()
   if (error) throw error
 
-  const [names, intercessors] = await Promise.all([
+  const [names, intercessors, updates] = await Promise.all([
     namesFor([p.user_id]),
     getIntercessors(prayerId),
+    // Sin la migración 0026 la tabla no existe: el detalle degrada sin historia
+    // en vez de romperse entero.
+    getPrayerUpdates(prayerId).catch(() => []),
   ])
   return {
     ...p,
@@ -544,7 +548,37 @@ export async function getPrayerDetail(prayerId, userId) {
     intercessors,
     intercessor_count: intercessors.length,
     i_intercede: intercessors.some((x) => x.user_id === userId),
+    updates,
   }
+}
+
+// Historia del pedido: actualizaciones del autor, más antiguas primero
+// (se lee como una cronología). Requiere la migración 0026.
+export async function getPrayerUpdates(prayerId) {
+  const { data, error } = await supabase
+    .from('prayer_updates')
+    .select('id, body, created_at')
+    .eq('prayer_id', prayerId)
+    .order('created_at', { ascending: true })
+  if (error) throw error
+  return data ?? []
+}
+
+// Agrega una actualización al pedido (solo el autor; la RLS lo garantiza).
+export async function addPrayerUpdate(prayerId, userId, body) {
+  const { data, error } = await supabase
+    .from('prayer_updates')
+    .insert({ prayer_id: prayerId, user_id: userId, body: body.trim() })
+    .select()
+    .single()
+  if (error) throw error
+  return data
+}
+
+// Borra una actualización propia.
+export async function deletePrayerUpdate(id) {
+  const { error } = await supabase.from('prayer_updates').delete().eq('id', id)
+  if (error) throw error
 }
 
 // Marca "estoy orando por esto". Idempotente (UNIQUE prayer+user).

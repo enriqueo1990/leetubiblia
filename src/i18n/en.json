@@ -347,6 +347,10 @@
   "prayerDetail.youArePraying": "You're praying for this",
   "prayerDetail.authorWillKnow": "{author} will know you're praying for their request.",
   "prayerDetail.iAmPraying": "I'm praying for this",
+  "prayerDetail.updates": "How it's going",
+  "prayerDetail.addUpdate": "Share how it's going",
+  "prayerDetail.updatePlaceholder": "How is this request going? Tell the group…",
+  "prayerDetail.deleteUpdateTitle": "Delete this update?",
 
   "common.optional": "optional",
   "prayerSheet.vis.private": "Private",

@@ -347,6 +347,10 @@
   "prayerDetail.youArePraying": "Estás orando por esto",
   "prayerDetail.authorWillKnow": "{author} va a saber que estás orando por su pedido.",
   "prayerDetail.iAmPraying": "Estoy orando por esto",
+  "prayerDetail.updates": "Cómo sigue",
+  "prayerDetail.addUpdate": "Contar cómo sigue",
+  "prayerDetail.updatePlaceholder": "¿Cómo sigue este pedido? Contale al grupo…",
+  "prayerDetail.deleteUpdateTitle": "¿Eliminar esta actualización?",
 
   "common.optional": "opcional",
   "prayerSheet.vis.private": "Privado",
