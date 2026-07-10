@@ -10,16 +10,18 @@ import {
 import { youVersionUrl } from '../lib/bible.js'
 import { usePreferences } from '../lib/preferences.jsx'
 import { bookLabel } from '../i18n/books.js'
-import { shareQuestion } from '../lib/shareImage.js'
+import { shareQuestion, buildQuestionImage, QUOTE_STYLES } from '../lib/shareImage.js'
 import { ListIcon, ShareIcon } from '../components/icons.jsx'
 import BackLink from '../components/BackLink.jsx'
 import MaterialIndexSheet from '../components/MaterialIndexSheet.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import Sheet from '../components/Sheet.jsx'
+import Segmented from '../components/Segmented.jsx'
 
-// Último formato de imagen compartida (cuadrada/historia). Es memoria de flujo,
-// no una preferencia del perfil: vive en el dispositivo.
+// Último estilo y formato de imagen compartida. Es memoria de flujo, no una
+// preferencia del perfil: vive en el dispositivo.
 const SHARE_FORMAT_KEY = 'ltb:shareFormat'
+const SHARE_STYLE_KEY = 'ltb:shareStyle'
 
 // Vista de lectura de un material (catecismo, etc.) — un lector tipo libro con
 // marcador. Se abre en la pregunta actual (la posición guardada). Navegás libremente
@@ -138,31 +140,38 @@ export default function MaterialReader() {
     persist(1, revertPos, revertN)
   }
 
-  // Compartir la pregunta como imagen (ver shareImage.js). El formato (1:1 o
-  // 9:16) se elige en la hoja — es una decisión de destino (chat vs. historia),
-  // no una preferencia global; se recuerda la última elección en el dispositivo.
-  // La i18n se resuelve acá: el módulo de dibujo recibe textos ya armados.
-  async function handleShare(format) {
-    if (sharing || !entry) return
+  // Datos de la tarjeta (la i18n se resuelve acá: el módulo de dibujo recibe
+  // textos ya armados). "Pregunta N de M" con espacios duros: no debe partirse.
+  const shareData = entry
+    ? {
+        meta: [
+          content.name,
+          t('materialsToday.questionOf', { n: entry.number, total }).replace(/ /g, '\u00A0'),
+        ].join(' · '),
+        question: entry.question,
+        answer: entry.answer,
+        refs: entry.refs.map((ref) => bookLabel(ref, locale)),
+      }
+    : null
+
+  // Compartir con el estilo y formato elegidos en la hoja (decisiones del
+  // momento, no preferencias globales); ambos se recuerdan en el dispositivo.
+  async function handleShare(style, format) {
+    if (sharing || !shareData) return
     setShareOpen(false)
     setSharing(true)
     setShareError(false)
     try {
       localStorage.setItem(SHARE_FORMAT_KEY, format)
+      localStorage.setItem(SHARE_STYLE_KEY, style)
     } catch {
       /* almacenamiento bloqueado: se comparte igual, sin recordar */
     }
     try {
       await shareQuestion({
+        ...shareData,
+        style,
         format,
-        // "Pregunta N de M" con espacios duros: en la imagen no debe partirse.
-        meta: [
-          content.name,
-          t('materialsToday.questionOf', { n: entry.number, total }).replace(/ /g, ' '),
-        ].join(' · '),
-        question: entry.question,
-        answer: entry.answer,
-        refs: entry.refs.map((ref) => bookLabel(ref, locale)),
         filename: `${slug}-${entry.number}${format === 'story' ? '-historia' : ''}.png`,
       })
     } catch {
@@ -368,47 +377,10 @@ export default function MaterialReader() {
         )}
       </div>
 
-      {/* Hoja de formato: el destino decide la proporción (chat → cuadrada,
-          historia → 9:16). El último formato usado se lista primero. */}
-      {shareOpen && (
-        <Sheet title={t('materialReader.shareTitle')} onCancel={() => setShareOpen(false)}>
-          <div className="space-y-2 pb-2">
-            {(() => {
-              let last = null
-              try {
-                last = localStorage.getItem(SHARE_FORMAT_KEY)
-              } catch {
-                /* sin almacenamiento: orden por defecto */
-              }
-              const formats = [
-                { id: 'square', ratio: 'aspect-square w-9', label: t('materialReader.shareSquare'), hint: t('materialReader.shareSquareHint') },
-                { id: 'story', ratio: 'aspect-[9/16] w-6', label: t('materialReader.shareStory'), hint: t('materialReader.shareStoryHint') },
-              ]
-              if (last === 'story') formats.reverse()
-              return formats.map((f) => (
-                <button
-                  key={f.id}
-                  type="button"
-                  onClick={() => handleShare(f.id)}
-                  className="card flex w-full items-center gap-4 p-4 text-left transition-opacity active:opacity-60"
-                >
-                  {/* Glifo de proporción: el rectángulo ES la explicación. */}
-                  <span className="flex h-14 w-10 items-center justify-center">
-                    <span
-                      aria-hidden="true"
-                      className={`${f.ratio} rounded-[4px] border-2`}
-                      style={{ borderColor: 'var(--accent-ink)' }}
-                    />
-                  </span>
-                  <span className="flex flex-col gap-0.5">
-                    <span className="text-[16px] font-medium text-ink">{f.label}</span>
-                    <span className="text-[13px] text-ink-soft">{f.hint}</span>
-                  </span>
-                </button>
-              ))
-            })()}
-          </div>
-        </Sheet>
+      {/* Hoja de compartir: mini-compositor de dos decisiones (estilo y
+          formato) con vista previa real — la imagen que ves es la que sale. */}
+      {shareOpen && shareData && (
+        <ShareSheet data={shareData} onShare={handleShare} onCancel={() => setShareOpen(false)} t={t} />
       )}
 
       {indexOpen && (
@@ -439,5 +411,143 @@ export default function MaterialReader() {
         />
       )}
     </div>
+  )
+}
+
+// Hoja de compartir: vista previa REAL (generar la imagen tarda ~50ms, así que
+// lo que ves es exactamente lo que sale), estilo en chips con el fondo de cada
+// dirección visual, y formato en segmentado. El último estilo/formato usados
+// son el punto de partida — memoria de flujo, no preferencia del perfil.
+function ShareSheet({ data, onShare, onCancel, t }) {
+  const [style, setStyle] = useState(() => {
+    try {
+      const s = localStorage.getItem(SHARE_STYLE_KEY)
+      return QUOTE_STYLES.includes(s) ? s : QUOTE_STYLES[0]
+    } catch {
+      return QUOTE_STYLES[0]
+    }
+  })
+  const [format, setFormat] = useState(() => {
+    try {
+      return localStorage.getItem(SHARE_FORMAT_KEY) === 'story' ? 'story' : 'square'
+    } catch {
+      return 'square'
+    }
+  })
+  const [preview, setPreview] = useState(null)
+
+  // Regenerar la vista previa al cambiar estilo/formato; la URL anterior se
+  // revoca al reemplazarla y la última al desmontar (efecto de abajo).
+  useEffect(() => {
+    let on = true
+    buildQuestionImage({ ...data, style, format })
+      .then((blob) => {
+        if (!on) return
+        const url = URL.createObjectURL(blob)
+        setPreview((prev) => {
+          if (prev) URL.revokeObjectURL(prev)
+          return url
+        })
+      })
+      .catch(() => {
+        /* la vista previa es adorno: si falla, el botón Compartir sigue vivo */
+      })
+    return () => {
+      on = false
+    }
+  }, [data, style, format])
+  useEffect(
+    () => () =>
+      setPreview((prev) => {
+        if (prev) URL.revokeObjectURL(prev)
+        return null
+      }),
+    []
+  )
+
+  // Swatch = el fondo real de cada estilo; el de "ficha" es vivo (tema actual)
+  // y el de "moderno" lleva su degradé pastel.
+  const styles = [
+    { id: 'ficha', label: t('materialReader.styleFicha'), swatch: 'var(--surface)', ring: 'var(--hairline)' },
+    { id: 'clasico', label: t('materialReader.styleClasico'), swatch: '#F5F0E6', ring: '#A88B6A' },
+    { id: 'noche', label: t('materialReader.styleNoche'), swatch: '#12100D', ring: '#C2A57E' },
+    {
+      id: 'moderno',
+      label: t('materialReader.styleModerno'),
+      swatch: 'linear-gradient(135deg, #C3B2EA, #9BC5EC)',
+      ring: '#7C6BB8',
+      gradient: true,
+    },
+    {
+      id: 'vibrante',
+      label: t('materialReader.styleVibrante'),
+      swatch: 'linear-gradient(135deg, #D97E63, #BE6C9C)',
+      ring: '#BE6C9C',
+      gradient: true,
+    },
+  ]
+
+  return (
+    <Sheet
+      title={t('materialReader.shareTitle')}
+      onCancel={onCancel}
+      footer={
+        <button type="button" onClick={() => onShare(style, format)} className="btn btn-primary">
+          {t('materialReader.shareAction')}
+        </button>
+      }
+    >
+      <div className="space-y-4 pb-1">
+        {/* Vista previa con altura fija: la hoja no salta al pasar de 1:1 a 9:16. */}
+        <div className="flex h-[38dvh] items-center justify-center">
+          {preview && (
+            <img
+              src={preview}
+              alt=""
+              className="max-h-full max-w-full rounded-[10px]"
+              style={{ boxShadow: 'var(--shadow-overlay)' }}
+            />
+          )}
+        </div>
+
+        <div className="grid grid-cols-2 gap-2">
+          {styles.map((s) => {
+            const active = s.id === style
+            return (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => setStyle(s.id)}
+                aria-pressed={active}
+                className="flex items-center justify-center gap-2 rounded-input border py-2.5 text-[14px] font-medium text-ink transition-colors"
+                style={{
+                  borderColor: active ? 'var(--accent)' : 'var(--hairline)',
+                  backgroundColor: active ? 'var(--accent-tint)' : 'transparent',
+                }}
+              >
+                <span
+                  aria-hidden="true"
+                  className="h-4 w-4 rounded-full border"
+                  style={{
+                    [s.gradient ? 'backgroundImage' : 'backgroundColor']: s.swatch,
+                    borderColor: s.ring,
+                  }}
+                />
+                {s.label}
+              </button>
+            )
+          })}
+        </div>
+
+        <Segmented
+          value={format}
+          onChange={setFormat}
+          options={[
+            { key: 'square', label: t('materialReader.shareSquare') },
+            { key: 'story', label: t('materialReader.shareStory') },
+          ]}
+        />
+      </div>
+    </Sheet>
   )
 }
