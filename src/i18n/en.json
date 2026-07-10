@@ -175,6 +175,23 @@
   "oracion.goToGroups": "Go to Groups",
   "oracion.empty.noShared": "No shared requests in your groups yet.",
 
+  "orar.cta": "Pray now",
+  "orar.ctaCount": {
+    "one": "{count} request is waiting",
+    "other": "{count} requests are waiting"
+  },
+  "orar.progress": "{n} of {total}",
+  "orar.next": "Next",
+  "orar.done.title": {
+    "one": "You prayed for {count} request",
+    "other": "You prayed for {count} requests"
+  },
+  "orar.done.shared": "Your groups will know you were praying.",
+  "orar.done.quiet": "May God hear each one.",
+  "orar.back": "Back to Prayer",
+  "orar.empty.title": "Nothing to pray for now",
+  "orar.empty.text": "When you have active requests —yours or your groups'— you'll be able to go through them here, one by one.",
+
   "hoy.empty.title": "Choose a plan to begin",
   "hoy.empty.text": "Your daily reading shows up here.",
   "hoy.empty.cta": "Browse plans",

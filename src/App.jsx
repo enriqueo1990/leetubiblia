@@ -12,6 +12,7 @@ import Recorrido from './screens/Recorrido.jsx'
 import Planes from './screens/Planes.jsx'
 import PlanDetail from './screens/PlanDetail.jsx'
 import Oracion from './screens/Oracion.jsx'
+import OrarAhora from './screens/OrarAhora.jsx'
 import PrayerDetail from './screens/PrayerDetail.jsx'
 import Grupos from './screens/Grupos.jsx'
 import GroupDetail from './screens/GroupDetail.jsx'
@@ -79,6 +80,7 @@ export default function App() {
             <Route path="planes" element={<Planes />} />
             <Route path="planes/:id" element={<PlanDetail />} />
             <Route path="oracion" element={<Oracion />} />
+            <Route path="orar" element={<OrarAhora />} />
             <Route path="oracion/:id" element={<PrayerDetail />} />
             <Route path="grupos" element={<Grupos />} />
             <Route path="grupos/:id" element={<GroupDetail />} />

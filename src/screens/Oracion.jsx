@@ -121,6 +121,9 @@ export default function Oracion() {
     ;(byGroup[name] ??= []).push(p)
   }
 
+  // Pedidos activos para recorrer en "Orar ahora" (míos + de mis grupos).
+  const activeToPray = myActive.length + (groupPrayers?.length ?? 0)
+
   return (
     <div className="pt-2">
       <div className="flex items-center justify-between">
@@ -136,6 +139,30 @@ export default function Oracion() {
           <span className="hidden text-[15px] font-semibold lg:inline">{t('oracion.new')}</span>
         </button>
       </div>
+
+      {/* Orar ahora: recorrer los pedidos activos uno a uno. Solo si hay alguno.
+          Mismo lenguaje que el pulso del grupo (tinte de acento, corazón). */}
+      {activeToPray > 0 && (
+        <Link
+          to="/orar"
+          className="mt-5 flex items-center gap-3 rounded-card p-3.5"
+          style={{ backgroundColor: 'var(--accent-tint)', border: '1px solid var(--accent)' }}
+        >
+          <span
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-accent-ink"
+            style={{ backgroundColor: 'var(--surface)' }}
+            aria-hidden="true"
+          >
+            <HeartIcon size={18} />
+          </span>
+          <span className="min-w-0">
+            <span className="block text-[15px] font-semibold text-ink">{t('orar.cta')}</span>
+            <span className="block text-[12.5px] font-medium" style={{ color: 'var(--accent-ink)' }}>
+              {t('orar.ctaCount', { count: activeToPray })} →
+            </span>
+          </span>
+        </Link>
+      )}
 
       <Segmented className="mt-5" options={SEGMENTS} value={seg} onChange={setSeg} />
 

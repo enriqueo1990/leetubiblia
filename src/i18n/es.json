@@ -175,6 +175,23 @@
   "oracion.goToGroups": "Ir a Grupos",
   "oracion.empty.noShared": "No hay pedidos compartidos en tus grupos todavía.",
 
+  "orar.cta": "Orar ahora",
+  "orar.ctaCount": {
+    "one": "{count} pedido te espera",
+    "other": "{count} pedidos te esperan"
+  },
+  "orar.progress": "{n} de {total}",
+  "orar.next": "Siguiente",
+  "orar.done.title": {
+    "one": "Oraste por {count} pedido",
+    "other": "Oraste por {count} pedidos"
+  },
+  "orar.done.shared": "Tus grupos van a saber que estuviste orando.",
+  "orar.done.quiet": "Que Dios escuche cada uno.",
+  "orar.back": "Volver a Oración",
+  "orar.empty.title": "Nada para orar ahora",
+  "orar.empty.text": "Cuando tengas pedidos activos —tuyos o de tus grupos— los vas a poder recorrer acá, uno por uno.",
+
   "hoy.empty.title": "Elegí un plan para empezar",
   "hoy.empty.text": "Tu lectura diaria aparece acá.",
   "hoy.empty.cta": "Ver planes",

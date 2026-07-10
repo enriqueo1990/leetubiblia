@@ -622,6 +622,48 @@ export async function getPrayersToReview(userId, days = 30) {
   })
 }
 
+// Mazo de "Orar ahora": pedidos activos para recorrer uno a uno. Primero los de
+// OTROS (compartidos a mis grupos — ahí mi oración se registra como intercesión),
+// ordenados por los que menos gente sostiene (más necesitan compañía) y, a
+// igualdad, los más antiguos; después los MÍOS. Los respondidos no entran. Cada
+// item lleva su última actualización ("cómo sigue") si existe. No agrega tablas:
+// reutiliza getGroupPrayers / getMyPrayers.
+export async function getPrayerDeck(userId) {
+  const [others, mineAll] = await Promise.all([
+    getGroupPrayers(userId),
+    getMyPrayers(userId),
+  ])
+  const mine = mineAll.filter((p) => p.status === 'active')
+
+  const othersSorted = [...others].sort((a, b) => {
+    const ca = a.intercessor_count ?? 0
+    const cb = b.intercessor_count ?? 0
+    if (ca !== cb) return ca - cb
+    return new Date(a.created_at) - new Date(b.created_at)
+  })
+
+  const deck = [
+    ...othersSorted.map((p) => ({ ...p, mine: false })),
+    ...mine.map((p) => ({ ...p, mine: true })),
+  ]
+
+  // Última actualización por pedido (batch). Sin la migración 0026 la tabla no
+  // existe y la query devuelve error → sin historia, sin romper el mazo.
+  const ids = deck.map((p) => p.id)
+  const latest = {}
+  if (ids.length) {
+    const { data } = await supabase
+      .from('prayer_updates')
+      .select('prayer_id, body, created_at')
+      .in('prayer_id', ids)
+      .order('created_at', { ascending: false })
+    for (const u of data ?? []) {
+      if (!latest[u.prayer_id]) latest[u.prayer_id] = u // el primero = el más reciente
+    }
+  }
+  return deck.map((p) => ({ ...p, latest_update: latest[p.id] ?? null }))
+}
+
 // "Sigue igual": reinicia el reloj de revisión sin cambiar el estado.
 export async function markPrayerReviewed(id) {
   const { error } = await supabase
