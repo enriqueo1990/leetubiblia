@@ -47,6 +47,15 @@ const LANDING_PAGES = [
     image: 'https://leetubiblia.com/og-guia.png',
     alt: 'Lee Tu Biblia — guía completa de la app',
   },
+  {
+    file: 'guia-lideres/index.html',
+    title: 'Lee Tu Biblia — Guía para líderes de grupo',
+    description:
+      'Qué podés hacer con tu grupo de discipulado y cómo te ayuda a acompañar a tu gente, con capturas reales: un plan común, la lectura en el Hoy de cada uno, el pulso del grupo y la oración compartida.',
+    url: 'https://leetubiblia.com/guia-lideres',
+    image: 'https://leetubiblia.com/og-lideres.png',
+    alt: 'Lee Tu Biblia — guía para líderes de grupo',
+  },
 ]
 
 // Genera el bloque SEO/social por página (mismo orden de tags que index.html).
