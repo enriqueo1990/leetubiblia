@@ -4,6 +4,7 @@ import Gate from './components/Gate.jsx'
 import Info from './screens/Info.jsx'
 import Guia from './screens/Guia.jsx'
 import GruposDiscipulado from './screens/GruposDiscipulado.jsx'
+import GuiaLideres from './screens/GuiaLideres.jsx'
 import ProfilePrefSync from './components/ProfilePrefSync.jsx'
 import Layout from './components/Layout.jsx'
 import Hoy from './screens/Hoy.jsx'
@@ -65,6 +66,8 @@ export default function App() {
   if (pathname === '/guia') return <Guia />
   // Landing hermana enfocada al líder de grupo de discipulado (misma condición pública).
   if (pathname === '/grupos-de-discipulado') return <GruposDiscipulado />
+  // Instructivo paso a paso para el líder de grupo (público, hermano del anterior).
+  if (pathname === '/guia-lideres') return <GuiaLideres />
 
   return (
     <>
