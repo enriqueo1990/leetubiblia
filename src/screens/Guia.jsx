@@ -8,6 +8,7 @@ import {
   PencilIcon,
   LockIcon,
   CheckIcon,
+  RefreshIcon,
 } from '../components/icons.jsx'
 import {
   LandingStyle,
@@ -21,6 +22,7 @@ import {
   PaletteIcon,
   WifiOffIcon,
   AwardIcon,
+  HandsIcon,
 } from './landingKit.jsx'
 
 // Landing pública /guia — el MANUAL completo de la app (ver App.jsx, fuera del Gate).
@@ -64,13 +66,16 @@ const MATERIALES = [
 const ORACION = [
   { icon: <HeartIcon size={22} />, name: 'Pedidos de oración', desc: 'Anotá por quién y por qué estás orando, y volvé a verlo cuando quieras.' },
   { icon: <PeopleIcon size={22} />, name: 'Privado o compartido', desc: 'Guardalo solo para vos, o compartilo con tu grupo para orar juntos.' },
+  { icon: <HandsIcon size={22} />, name: 'Orar ahora', desc: 'Un modo para recorrer los pedidos —los tuyos y los del grupo— uno por uno, orando por cada uno con calma.' },
+  { icon: <RefreshIcon size={22} />, name: 'Cómo sigue cada pedido', desc: 'El autor cuenta las novedades —«entró a cirugía», «salió bien»— y el grupo acompaña los pedidos largos sin que se apaguen.' },
   { icon: <BellIcon size={22} />, name: 'Cuánto vive el pedido', desc: 'Vos elegís por cuánto tiempo permanece: un día, una semana, un mes o siempre.' },
 ]
 
 const GRUPOS = [
   { icon: <LockIcon size={22} />, name: 'Uníte con un código', desc: 'Los grupos son privados. Se entra con un código corto; solo los miembros ven lo de adentro.' },
+  { icon: <BookIcon size={22} />, name: 'Un plan en común', desc: 'El líder elige un plan para todo el grupo. Cada uno decide cómo sumarse: hacerlo su plan principal, o seguirlo en Hoy como lectura adicional sin soltar el propio. Así leen lo mismo, el mismo día.' },
   { icon: <HeartIcon size={22} />, name: 'Pedidos del grupo', desc: 'Vean y oren juntos por los pedidos que cada uno decide compartir, con testimonios cuando llega la respuesta.' },
-  { icon: <BookIcon size={22} />, name: 'Pulso de lectura', desc: 'Si lideras, ves quién viene leyendo, con el historial de los últimos siete días de cada miembro. Para acompañar, no vigilar.' },
+  { icon: <ChartIcon size={22} />, name: 'Pulso de lectura', desc: 'Si lideras, ves quién viene leyendo, con el historial de los últimos siete días de cada miembro. Para acompañar, no vigilar.' },
   { icon: <CheckIcon size={22} strokeWidth={2} />, name: 'Resumen para el líder', desc: 'Un panorama del grupo para saber por quién preguntar y a quién animar esta semana.' },
 ]
 
@@ -258,7 +263,7 @@ export default function Guia() {
             <TabHead
               eyebrow="Pestaña · Oración"
               title="Lo que estás pidiendo, en un solo lugar"
-              intro="Anotá tus pedidos y volvé a ellos. Guardalos para vos o compartilos con tu gente."
+              intro="Anotá tus pedidos y volvé a ellos. Guardalos para vos o compartilos con tu gente, acompañá cómo sigue cada uno y celebren juntos la respuesta."
             />
             <div className="mt-10">
               <FeatureGrid items={ORACION} />
@@ -277,7 +282,7 @@ export default function Guia() {
             <TabHead
               eyebrow="Pestaña · Grupos"
               title="Nadie camina solo"
-              intro="Grupos cerrados de discipulado. Se entra por código y nada es público: un lugar seguro para acompañarse."
+              intro="Grupos cerrados de discipulado. Se entra por código y nada es público: leen un mismo plan, oran juntos y se acompañan en el camino."
             />
             <div className="mt-10">
               <FeatureGrid items={GRUPOS} />
