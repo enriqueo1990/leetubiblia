@@ -86,7 +86,9 @@ export default function MaterialsToday() {
 
   return (
     <div className="mt-8">
-      <p className="mb-2 text-[13px] font-medium text-ink-soft">{t('materialsToday.otherReadings')}</p>
+      <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+        {t('materialsToday.otherReadings')}
+      </p>
 
       {/* Una sola card agrupada (filas + hairline), no una card por material:
           menos alto total — clave para que Hoy entre en una pantalla — y menos

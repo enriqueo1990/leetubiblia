@@ -40,7 +40,9 @@ export default function GroupReadingsToday() {
 
   return (
     <div className="mt-8">
-      <p className="mb-2 text-[13px] font-medium text-ink-soft">{t('hoy.withGroups')}</p>
+      <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+        {t('hoy.withGroups')}
+      </p>
 
       {/* Una sola card agrupada (filas + hairline), como "Mis otras lecturas". */}
       <div className="card divide-y divide-hairline">

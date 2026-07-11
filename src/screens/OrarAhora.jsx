@@ -128,8 +128,12 @@ export default function OrarAhora() {
         </span>
       </div>
 
-      {/* La ficha: el pedido, centrado en el espacio sobre la acción. */}
-      <div key={p.id} className="screen-enter flex flex-1 flex-col justify-center gap-3.5 px-0.5 py-8">
+      {/* La ficha: el pedido, centrado en el espacio sobre la acción. Mismo ancho
+          que la action-bar de abajo para que el bloque quede centrado en desktop. */}
+      <div
+        key={p.id}
+        className="screen-enter flex flex-1 flex-col justify-center gap-3.5 px-0.5 py-8 lg:mx-auto lg:w-full lg:max-w-[440px]"
+      >
         {eyebrow && (
           <p className="text-[12px] font-semibold uppercase tracking-wide text-accent-ink">
             {eyebrow}
@@ -156,20 +160,22 @@ export default function OrarAhora() {
       </div>
 
       {/* Zona de acción (sticky, como en Hoy). Otros: orar es lo primario, seguir
-          el enlace quieto. Míos: seguir es lo primario, "sigue igual" secundario. */}
+          el enlace quieto. Míos: "sigue igual" es lo primario (es la acción que
+          realmente registra algo — marca el pedido revisado); saltar sin
+          registrar queda como link secundario. */}
       <div className="action-bar">
         <div className="lg:mx-auto lg:max-w-[440px]">
           {p.mine ? (
             <>
-              <button type="button" onClick={advance} className="btn btn-primary">
-                {t('orar.next')} →
+              <button type="button" onClick={stillSame} className="btn btn-primary">
+                {t('oracion.stillSame')}
               </button>
               <button
                 type="button"
-                onClick={stillSame}
+                onClick={advance}
                 className="mt-1 block w-full py-2 text-center text-[15px] font-medium text-ink-soft"
               >
-                {t('oracion.stillSame')}
+                {t('orar.next')} →
               </button>
             </>
           ) : (

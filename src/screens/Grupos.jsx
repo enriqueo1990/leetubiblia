@@ -9,13 +9,9 @@ import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { getMyGroups, createGroup, joinGroupByCode } from '../lib/db.js'
 import { SkeletonCards } from '../components/Skeleton.jsx'
+import { inputStyle } from '../components/formStyles.js'
 
 // Grupos (documento maestro §5.6, README pantalla 6).
-const inputStyle = {
-  backgroundColor: 'var(--surface)',
-  border: '1px solid var(--hairline)',
-  color: 'var(--text-primary)',
-}
 
 function CreateGroupSheet({ onClose, onCreated }) {
   const { t } = usePreferences()

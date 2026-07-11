@@ -109,7 +109,7 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
                   type="button"
                   onClick={requestClose}
                   aria-label={t('common.close')}
-                  className="flex h-9 w-9 items-center justify-center rounded-full text-ink-soft"
+                  className="flex h-11 w-11 items-center justify-center rounded-full text-ink-soft"
                   style={{ opacity: 0.6 }}
                 >
                   <XIcon size={22} />

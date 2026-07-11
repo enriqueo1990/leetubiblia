@@ -246,7 +246,7 @@ function isDarkColor(rgb) {
 }
 
 // Corte de línea por palabras (una medida de fuente ya seteada en ctx).
-// El espacio duro ( ) no corta: sirve para frases indivisibles como
+// El espacio duro (U+00A0) no corta: sirve para frases indivisibles como
 // "Pregunta 1 de 129" en la metadata.
 function wrapWords(ctx, text, maxWidth) {
   const lines = []

@@ -525,12 +525,12 @@ export default function Ajustes() {
       </div>
 
       <SectionLabel>{t('ajustes.section.mision')}</SectionLabel>
-      <div
-        className="card p-4"
-        style={{ backgroundColor: 'var(--accent-tint)', border: '1px solid var(--accent)' }}
-      >
+      {/* Card neutra (no tinte+borde de acento): ese tratamiento queda reservado
+          para estado en vivo o CTA de acción (pulso del grupo, "Orar ahora"),
+          no para un bloque estático de donación. */}
+      <div className="card p-4">
         <div className="flex items-start gap-2.5">
-          <span className="shrink-0 pt-0.5" style={{ color: 'var(--accent-ink)' }}>
+          <span className="shrink-0 pt-0.5 text-ink-soft">
             <HeartIcon size={20} />
           </span>
           <div>
@@ -563,7 +563,7 @@ export default function Ajustes() {
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-between rounded-card px-4 py-3"
-              style={{ backgroundColor: 'var(--surface)' }}
+              style={{ backgroundColor: 'var(--surface-alt)' }}
             >
               <span className="text-[15px] font-medium text-ink">{d.label}</span>
               <span className="text-[15px]" style={{ color: 'var(--accent-ink)' }} aria-hidden="true">

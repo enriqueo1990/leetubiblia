@@ -5,6 +5,7 @@ import { HeartIcon, CheckIcon, PlusIcon } from '../components/icons.jsx'
 import BackLink from '../components/BackLink.jsx'
 import Avatars from '../components/Avatars.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
+import RetryError from '../components/RetryError.jsx'
 import PrayerSheet from './PrayerSheet.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
@@ -88,15 +89,7 @@ export default function PrayerDetail() {
     return (
       <div className="pt-2">
         <BackLink to="/oracion" label={t('nav.oracion')} />
-        <p className="mt-8 text-[15px] text-ink-soft">{error}</p>
-        <button
-          type="button"
-          onClick={load}
-          className="mt-2 text-[15px] font-semibold"
-          style={{ color: 'var(--accent-ink)' }}
-        >
-          {t('common.retry')}
-        </button>
+        <RetryError message={error} onRetry={load} />
       </div>
     )
   }

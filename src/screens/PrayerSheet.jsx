@@ -8,15 +8,10 @@ import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { fmtDate } from '../i18n/dates.js'
 import { createPrayer, updatePrayer, deletePrayer, getIntercessors } from '../lib/db.js'
+import { inputStyle } from '../components/formStyles.js'
 
 // Crear / editar pedido de oración (documento maestro §5.5, README pantalla 5).
 // Solo el autor edita/borra (garantizado además por RLS).
-
-const inputStyle = {
-  backgroundColor: 'var(--surface)',
-  border: '1px solid var(--hairline)',
-  color: 'var(--text-primary)',
-}
 
 function FieldLabel({ children, optional }) {
   const { t } = usePreferences()
@@ -155,7 +150,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
         await createPrayer({ userId: user.id, title, description, visibility, groupId, durationType: duration })
       }
       onSaved()
-    } catch (e) {
+    } catch {
       setError(t('prayerSheet.saveError'))
       setBusy(false)
     }

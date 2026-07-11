@@ -21,7 +21,11 @@ function readQueue(userId) {
   }
 }
 function writeQueue(userId, ops) {
-  localStorage.setItem(queueKey(userId), JSON.stringify(ops))
+  try {
+    localStorage.setItem(queueKey(userId), JSON.stringify(ops))
+  } catch {
+    /* cuota llena o storage inaccesible: la cola en memoria sigue viva para este ciclo */
+  }
 }
 
 // Encola una operación. Si ya hay una opuesta para el mismo día, se cancelan
@@ -83,11 +87,19 @@ export function getCachedReading(userId) {
 // vuelve a aparecer solo si el atraso supera ese valor ("hasta atrasarse más").
 // Se resetea a 0 cuando el usuario se pone al día.
 export function getDismissedBehind(userId) {
-  const v = Number(localStorage.getItem(behindKey(userId)))
-  return Number.isFinite(v) && v > 0 ? v : 0
+  try {
+    const v = Number(localStorage.getItem(behindKey(userId)))
+    return Number.isFinite(v) && v > 0 ? v : 0
+  } catch {
+    return 0
+  }
 }
 
 export function setDismissedBehind(userId, value) {
-  if (value > 0) localStorage.setItem(behindKey(userId), String(value))
-  else localStorage.removeItem(behindKey(userId))
+  try {
+    if (value > 0) localStorage.setItem(behindKey(userId), String(value))
+    else localStorage.removeItem(behindKey(userId))
+  } catch {
+    /* no crítico: el banner podría reaparecer, pero no rompe el flujo */
+  }
 }

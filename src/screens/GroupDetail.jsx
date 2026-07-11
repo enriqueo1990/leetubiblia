@@ -1,20 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import {
-  CopyIcon,
-  RefreshIcon,
-  CheckIcon,
-  LockIcon,
-  PencilIcon,
-  ShareIcon,
-  PlusIcon,
-  MinusIcon,
-  BookIcon,
-  HeartIcon,
-} from '../components/icons.jsx'
+import { useNavigate, useParams } from 'react-router-dom'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import BackLink from '../components/BackLink.jsx'
-import Avatars, { initials } from '../components/Avatars.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import {
   getGroupDetail,
@@ -29,7 +16,6 @@ import {
   getGroupTestimonies,
   addIntercession,
   getPlan,
-  getPlans,
   setGroupPlan,
   followGroupPlan,
   dayNumberFor,
@@ -40,117 +26,21 @@ import {
 import { planName } from '../lib/planLabels.js'
 import { SkeletonDetail } from '../components/Skeleton.jsx'
 import RetryError from '../components/RetryError.jsx'
-import Sheet from '../components/Sheet.jsx'
 import PrayerSheet from './PrayerSheet.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
+import GroupHeader from './groupDetail/GroupHeader.jsx'
+import GroupPulse from './groupDetail/GroupPulse.jsx'
+import GroupPlanCard from './groupDetail/GroupPlanCard.jsx'
+import GroupPlanSheet from './groupDetail/GroupPlanSheet.jsx'
+import GroupPrayers from './groupDetail/GroupPrayers.jsx'
+import GroupTestimony from './groupDetail/GroupTestimony.jsx'
+import GroupMembers from './groupDetail/GroupMembers.jsx'
+import GroupPrivateStats from './groupDetail/GroupPrivateStats.jsx'
+import GroupInviteSheet from './groupDetail/GroupInviteSheet.jsx'
 
 // Detalle de grupo — "de panel a sala" (Fase 3): la gente y el pulso del día
 // primero; oración y lectura del grupo en la misma vista; la administración
 // (código, regenerar, renombrar) abajo.
-function Stat({ n, label }) {
-  return (
-    <div className="flex-1">
-      <div className="stat-num text-[30px] font-bold text-accent-ink">
-        {n}
-      </div>
-      <div className="mt-0.5 text-[12px] leading-tight text-ink-soft">{label}</div>
-    </div>
-  )
-}
-
-// Hoja para elegir el plan común del grupo (solo el administrador la abre).
-// El plan elegido arranca ese día como día 1 del grupo; cada miembro decide
-// sumarse desde la tarjeta "Plan del grupo".
-function GroupPlanSheet({ currentPlanId, saving, error, onSet, onClear, onCancel }) {
-  const { t } = usePreferences()
-  const [plans, setPlans] = useState(null) // null = cargando
-  const [loadError, setLoadError] = useState(false)
-  const [sel, setSel] = useState(currentPlanId)
-
-  useEffect(() => {
-    getPlans()
-      .then(setPlans)
-      .catch(() => setLoadError(true))
-  }, [])
-
-  const canSet = sel != null && sel !== currentPlanId && !saving
-
-  return (
-    <Sheet
-      title={t('groupDetail.groupPlan')}
-      onCancel={onCancel}
-      footer={
-        <button
-          type="button"
-          onClick={() => onSet(sel)}
-          disabled={!canSet}
-          className="btn btn-primary"
-          style={{ opacity: canSet ? 1 : 0.5 }}
-        >
-          {saving ? t('common.saving') : t('groupDetail.planPickerSet')}
-        </button>
-      }
-    >
-      <p className="text-[13px] leading-snug text-ink-soft">{t('groupDetail.planPickerHelp')}</p>
-
-      {loadError ? (
-        <p className="mt-4 text-[14px] text-ink-soft">{t('planes.loadError')}</p>
-      ) : plans === null ? (
-        <div className="mt-4 space-y-2 animate-pulse" aria-hidden="true">
-          {[0, 1, 2].map((i) => (
-            <div key={i} className="h-[52px] rounded-input" style={{ backgroundColor: 'var(--surface-alt)' }} />
-          ))}
-        </div>
-      ) : (
-        <div className="mt-4 space-y-2">
-          {plans.map((p) => {
-            const active = p.id === sel
-            return (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => setSel(p.id)}
-                aria-pressed={active}
-                className="flex w-full items-center justify-between gap-3 rounded-input border px-4 py-3 text-left"
-                style={{
-                  borderColor: active ? 'var(--accent)' : 'var(--hairline)',
-                  backgroundColor: active ? 'var(--accent-tint)' : 'transparent',
-                }}
-              >
-                <span className="min-w-0 flex-1 truncate text-[15px] font-medium text-ink">
-                  {planName(t, p)}
-                </span>
-                <span className="shrink-0 text-[13px] text-ink-soft">
-                  {p.duration_days === 365
-                    ? t('planes.durationYear')
-                    : t('planes.durationDays', { days: p.duration_days })}
-                </span>
-              </button>
-            )
-          })}
-        </div>
-      )}
-
-      {error && (
-        <p className="mt-3 text-[13px]" style={{ color: 'var(--danger)' }}>
-          {t('groupDetail.planError')}
-        </p>
-      )}
-
-      {onClear && (
-        <button
-          type="button"
-          onClick={onClear}
-          className="mt-4 w-full py-2 text-center text-[14px]"
-          style={{ color: 'var(--danger)' }}
-        >
-          {t('groupDetail.clearPlan')}
-        </button>
-      )}
-    </Sheet>
-  )
-}
-
 export default function GroupDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -247,17 +137,11 @@ export default function GroupDetail() {
   const readCount = reading.filter((r) => r.has_read).length
 
   // Semana del grupo (solo owner): filas en el orden de la lista de miembros,
-  // con nombre resuelto. Letras de los días reales que terminan hoy.
+  // con nombre resuelto.
   const weekMap = new Map(weekly.map((r) => [r.user_id, r.week ?? []]))
   const weekRows = members
     .filter((m) => weekMap.has(m.user_id))
     .map((m) => ({ ...m, week: weekMap.get(m.user_id) }))
-  const DAY_LETTERS = t('groupDetail.weekDayLetters').split(',')
-  const weekDates = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date()
-    d.setDate(d.getDate() - (6 - i))
-    return d
-  })
   const prayingCount = new Set(prayers.flatMap((p) => p.intercessors.map((i) => i.user_id))).size
 
   // Plan común del grupo: día que dicta el calendario (misma regla canónica que
@@ -275,8 +159,6 @@ export default function GroupDetail() {
     !!group.plan_id &&
     profile?.active_plan_id === group.plan_id &&
     profile?.plan_start_date === group.plan_start_date
-
-  const interceding = (p) => p.intercessors.some((x) => x.user_id === user?.id)
 
   // El owner elige (o cambia) el plan del grupo; arranca hoy como día 1.
   async function handleSetPlan(planId) {
@@ -344,7 +226,7 @@ export default function GroupDetail() {
   }
 
   async function orar(p) {
-    if (!user || interceding(p)) return
+    if (!user || p.intercessors.some((x) => x.user_id === user.id)) return
     // Optimista: sumo mi intercesión al pedido → conteo + avatar + botón al
     // instante (el pulso "Hoy" también, porque deriva de `prayers`).
     setPrayers((list) =>
@@ -441,530 +323,66 @@ export default function GroupDetail() {
     <div className="pt-2">
       <BackLink to="/grupos" label={t('nav.grupos')} />
 
-      {/* Nombre (+ editar, owner) */}
-      {editingName ? (
-        <div className="mt-3">
-          <input
-            autoFocus
-            value={nameInput}
-            onChange={(e) => setNameInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') saveName()
-              if (e.key === 'Escape') setEditingName(false)
-            }}
-            className="w-full rounded-input px-4 py-3 text-[18px] font-bold outline-none"
-            style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--text-primary)' }}
-            maxLength={60}
-          />
-          {nameError && (
-            <p className="mt-1 text-[13px]" style={{ color: 'var(--danger)' }}>
-              {nameError}
-            </p>
-          )}
-          <div className="mt-2 flex gap-2">
-            <button
-              type="button"
-              onClick={saveName}
-              disabled={savingName || !nameInput.trim()}
-              className="btn btn-primary"
-              style={{ opacity: savingName || !nameInput.trim() ? 0.5 : 1 }}
-            >
-              {savingName ? '…' : t('common.save')}
-            </button>
-            <button type="button" onClick={() => setEditingName(false)} className="btn btn-secondary">
-              {t('common.cancel')}
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="mt-3 flex items-center justify-between gap-2">
-          <div className="flex min-w-0 items-center gap-2">
-            <h1 className="truncate text-[26px] font-bold tracking-tight text-ink">{group.name}</h1>
-            {isOwner && (
-              <button
-                type="button"
-                aria-label={t('groupDetail.editNameAria')}
-                onClick={() => {
-                  setNameInput(group.name)
-                  setNameError(null)
-                  setEditingName(true)
-                }}
-                className="mt-1 shrink-0 text-ink-soft"
-                style={{ opacity: 0.5 }}
-              >
-                <PencilIcon size={16} />
-              </button>
-            )}
-          </div>
-          {/* Acción primaria en el header, como en Grupos/Oración: invitar. */}
-          <button
-            type="button"
-            aria-label={t('groupDetail.inviteAria')}
-            onClick={() => setInviteOpen(true)}
-            className="flex h-[44px] shrink-0 items-center justify-center gap-1.5 rounded-full px-3 text-on-accent lg:px-4"
-            style={{ backgroundColor: 'var(--accent)', minWidth: 44 }}
-          >
-            <ShareIcon size={18} />
-            <span className="hidden text-[15px] font-semibold lg:inline">{t('groupDetail.invite')}</span>
-          </button>
-        </div>
-      )}
+      <GroupHeader
+        group={group}
+        isOwner={isOwner}
+        membersCount={members.length}
+        editingName={editingName}
+        nameInput={nameInput}
+        setNameInput={setNameInput}
+        nameError={nameError}
+        savingName={savingName}
+        onStartEdit={() => {
+          setNameInput(group.name)
+          setNameError(null)
+          setEditingName(true)
+        }}
+        onSaveName={saveName}
+        onCancelEdit={() => setEditingName(false)}
+        onInvite={() => setInviteOpen(true)}
+      />
 
-      <p className="mt-2 text-[14px] text-ink-soft">
-        {members.length === 1
-          ? t('groupDetail.onlyYou')
-          : `${t('groupDetail.walkingTogether', { count: members.length })}${isOwner ? t('groupDetail.adminSuffix') : ''}`}
-      </p>
+      <GroupPulse
+        iShare={iShare}
+        readCount={readCount}
+        prayingCount={prayingCount}
+        prayersCount={prayers.length}
+      />
 
-      {/* HOY — el pulso del grupo */}
-      <div
-        className="mt-5 rounded-card p-4"
-        style={{ backgroundColor: 'var(--accent-tint)', border: '1px solid var(--accent)' }}
-      >
-        <p
-          className="text-[12px] font-semibold uppercase tracking-wide"
-          style={{ color: 'var(--accent-ink)' }}
-        >
-          {t('groupDetail.today')}
-        </p>
-        {iShare ? (
-          <div className="mt-2.5 flex items-center gap-2.5 text-ink">
-            <span style={{ color: 'var(--accent-ink)' }}>
-              <BookIcon size={18} />
-            </span>
-            <span className="text-[15px]">
-              {readCount === 0 ? (
-                t('groupDetail.noneReadToday')
-              ) : (
-                <>
-                  <b>{readCount}</b> {t('groupDetail.readTodaySuffix', { count: readCount })}
-                </>
-              )}
-            </span>
-          </div>
-        ) : (
-          <Link
-            to="/ajustes"
-            className="mt-2.5 flex items-center gap-2.5"
-            style={{ color: 'var(--accent-ink)' }}
-          >
-            <BookIcon size={18} />
-            <span className="text-[14px] font-medium">
-              {t('groupDetail.shareToSee')} →
-            </span>
-          </Link>
-        )}
-        <div className="mt-2 flex items-center gap-2.5 text-ink">
-          <span style={{ color: 'var(--accent-ink)' }}>
-            <HeartIcon size={18} />
-          </span>
-          <span className="text-[15px]">
-            {prayingCount > 0 && (
-              <>
-                <b>{prayingCount}</b> {t('groupDetail.praying')} ·{' '}
-              </>
-            )}
-            <b>{prayers.length}</b> {t('groupDetail.activePrayers', { count: prayers.length })}
-          </span>
-        </div>
-      </div>
+      <GroupPlanCard
+        isOwner={isOwner}
+        planInfo={planInfo}
+        groupPlanFinished={groupPlanFinished}
+        groupPlanDay={groupPlanDay}
+        groupPlanTotal={groupPlanTotal}
+        amOnGroupPlan={amOnGroupPlan}
+        following={following}
+        adoptError={adoptError}
+        followError={followError}
+        onChangePlan={() => setPlanPickerOpen(true)}
+        onOpenPicker={() => setPlanPickerOpen(true)}
+        onJoinPlan={() => {
+          setAdoptError(false)
+          setConfirmAdopt(true)
+        }}
+        onToggleFollow={toggleFollow}
+      />
 
-      {/* Plan del grupo — leer lo mismo, juntos. Los miembros lo ven cuando
-          existe; el owner además tiene la puerta para elegirlo/cambiarlo. */}
-      {(planInfo || isOwner) && (
-        <>
-          <div className="mt-7 flex items-center justify-between">
-            <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-              {t('groupDetail.groupPlan')}
-            </p>
-            {isOwner && planInfo && (
-              <button
-                type="button"
-                onClick={() => setPlanPickerOpen(true)}
-                className="text-[13px] font-medium"
-                style={{ color: 'var(--accent-ink)' }}
-              >
-                {t('groupDetail.changePlan')}
-              </button>
-            )}
-          </div>
-          {planInfo ? (
-            <div className="card mt-3 p-4">
-              <p className="text-[16px] font-semibold leading-snug text-ink">
-                {planName(t, planInfo)}
-              </p>
-              <p className="mt-1 text-[13px] text-ink-soft">
-                {groupPlanFinished
-                  ? t('groupDetail.planFinished')
-                  : groupPlanDay != null
-                    ? `${t('planes.dayN', { n: groupPlanDay })} ${t('ajustes.ofTotal', { total: groupPlanTotal })}`
-                    : null}
-              </p>
-              {amOnGroupPlan ? (
-                <p
-                  className="mt-3 flex items-center gap-1.5 text-[13px] font-semibold"
-                  style={{ color: 'var(--accent-ink)' }}
-                >
-                  <CheckIcon size={15} strokeWidth={2.2} /> {t('groupDetail.readingWithGroup')}
-                </p>
-              ) : !groupPlanFinished ? (
-                <>
-                  {/* Dos maneras de leerlo: como TU plan (lo de siempre) o como
-                      lectura adicional en Hoy — tu plan queda intacto. */}
-                  {following && (
-                    <p
-                      className="mt-3 flex items-center gap-1.5 text-[13px] font-semibold"
-                      style={{ color: 'var(--accent-ink)' }}
-                    >
-                      <CheckIcon size={15} strokeWidth={2.2} /> {t('groupDetail.followingPlan')}
-                    </p>
-                  )}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setAdoptError(false)
-                      setConfirmAdopt(true)
-                    }}
-                    className="btn btn-secondary mt-3"
-                    style={{ border: '1px solid var(--accent-ink)', color: 'var(--accent-ink)' }}
-                  >
-                    {t('groupDetail.joinPlan')}
-                  </button>
-                  {/* Dejar de seguir no es destructivo (apaga una preferencia):
-                      tinta suave, no rojo — el rojo queda para lo que duele deshacer. */}
-                  <button
-                    type="button"
-                    onClick={() => toggleFollow(!following)}
-                    className={`mt-1 w-full py-2 text-center text-[14px] font-medium${following ? ' text-ink-soft' : ''}`}
-                    style={following ? undefined : { color: 'var(--accent-ink)' }}
-                  >
-                    {following ? t('groupDetail.unfollowPlan') : t('groupDetail.followPlan')}
-                  </button>
-                </>
-              ) : null}
-              {adoptError && (
-                <p className="mt-2 text-[13px]" style={{ color: 'var(--danger)' }}>
-                  {t('groupDetail.adoptError')}
-                </p>
-              )}
-              {followError && (
-                <p className="mt-2 text-[13px]" style={{ color: 'var(--danger)' }}>
-                  {t('groupDetail.followError')}
-                </p>
-              )}
-            </div>
-          ) : (
-            <button
-              type="button"
-              onClick={() => setPlanPickerOpen(true)}
-              className="card mt-3 flex w-full items-center gap-3 p-4 text-left"
-            >
-              <span
-                className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-accent-ink"
-                style={{ backgroundColor: 'var(--accent-tint)' }}
-                aria-hidden="true"
-              >
-                <BookIcon size={20} />
-              </span>
-              <span className="min-w-0">
-                <span className="block text-[15px] text-ink">{t('groupDetail.noPlanYet')}</span>
-                <span
-                  className="mt-0.5 block text-[13px] font-semibold"
-                  style={{ color: 'var(--accent-ink)' }}
-                >
-                  {t('groupDetail.choosePlanCta')} →
-                </span>
-              </span>
-            </button>
-          )}
-        </>
-      )}
+      <GroupPrayers prayers={prayers} onAddPrayer={() => setSheetOpen(true)} onPray={orar} />
 
-      {/* Oración — visible para todos, con "Orar" inline */}
-      <div className="mt-7 flex items-center justify-between">
-        <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-          {t('nav.oracion')}
-        </p>
-        <button
-          type="button"
-          onClick={() => setSheetOpen(true)}
-          aria-label={t('groupDetail.sharePrayerAria')}
-          className="flex h-8 w-8 items-center justify-center rounded-full text-on-accent"
-          style={{ backgroundColor: 'var(--accent)' }}
-        >
-          <PlusIcon size={18} />
-        </button>
-      </div>
-      {prayers.length === 0 ? (
-        <button
-          type="button"
-          onClick={() => setSheetOpen(true)}
-          className="card mt-3 flex w-full items-center gap-3 p-4 text-left"
-        >
-          <span
-            className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-accent-ink"
-            style={{ backgroundColor: 'var(--accent-tint)' }}
-            aria-hidden="true"
-          >
-            <HeartIcon size={20} />
-          </span>
-          <span className="min-w-0">
-            <span className="block text-[15px] text-ink">{t('groupDetail.noPrayers')}</span>
-            <span className="mt-0.5 block text-[13px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
-              {t('groupDetail.shareFirst')} →
-            </span>
-          </span>
-        </button>
-      ) : (
-        <>
-          {/* Una sola card agrupada (filas + hairlines) en vez de una card por
-              pedido: misma info, menos cajas apiladas. */}
-          <ul className="card mt-3 divide-y divide-hairline">
-            {prayers.slice(0, 4).map((p) => (
-              <li key={p.id}>
-                <button
-                  type="button"
-                  onClick={() => navigate(`/oracion/${p.id}`)}
-                  className="block w-full p-4 text-left"
-                >
-                  <p className="text-[16px] font-semibold leading-snug text-ink">{p.title}</p>
-                  {p.description && (
-                    <p className="mt-1 line-clamp-2 text-[13px] leading-snug text-ink-soft">{p.description}</p>
-                  )}
-                </button>
-                <div className="flex items-center justify-between gap-3 px-4 pb-4">
-                  <div className="flex min-w-0 items-center gap-2">
-                    {p.intercessors.length > 0 && (
-                      <Avatars people={p.intercessors} size={22} surface="var(--surface)" />
-                    )}
-                    <span className="truncate text-[12px] text-ink-soft">
-                      {p.author_name} ·{' '}
-                      {p.intercessors.length > 0
-                        ? t('groupDetail.nPraying', { count: p.intercessors.length })
-                        : t('groupDetail.nobodyYet')}
-                    </span>
-                  </div>
-                  {p.user_id === user?.id ? (
-                    <span className="shrink-0 text-[12px] text-ink-soft">{t('groupDetail.yourPrayer')}</span>
-                  ) : interceding(p) ? (
-                    <span
-                      className="flex shrink-0 items-center gap-1 text-[13px] font-semibold"
-                      style={{ color: 'var(--accent-ink)' }}
-                    >
-                      <CheckIcon size={15} strokeWidth={2.2} /> {t('groupDetail.prayingStatus')}
-                    </span>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => orar(p)}
-                      className="shrink-0 rounded-pill px-4 py-1.5 text-[13px] font-semibold"
-                      style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
-                    >
-                      {t('groupDetail.pray')}
-                    </button>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
-          <Link
-            to="/oracion?tab=grupos"
-            className="mt-3 inline-block text-[14px] font-semibold"
-            style={{ color: 'var(--accent-ink)' }}
-          >
-            {t('groupDetail.seeAll')} →
-          </Link>
-        </>
-      )}
+      <GroupTestimony testimony={testimony} groupId={id} />
 
-      {/* Testimonios — solo cuando existe el primero; una sección vacía que dice
-          "no hay nada" es ruido (el flujo para crearlos nace en la oración). */}
-      {testimony && (
-        <>
-          <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-            {t('groupDetail.testimonies')}
-          </p>
-          <Link to={`/grupos/${id}/testimonios`} className="card mt-3 block p-4">
-            <div className="flex items-start gap-3">
-              <div
-                className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-accent-ink"
-                style={{ backgroundColor: 'var(--accent-tint)' }}
-              >
-                <CheckIcon size={20} strokeWidth={2.2} />
-              </div>
-              <div className="min-w-0">
-                <p className="line-clamp-2 text-[15px] leading-relaxed text-ink">
-                  "{testimony.testimony || testimony.title}"
-                </p>
-                <p className="mt-1 text-[13px]" style={{ color: 'var(--accent-ink)' }}>
-                  {testimony.author_name} · {t('groupDetail.seeAll')} →
-                </p>
-              </div>
-            </div>
-          </Link>
-        </>
-      )}
-
-      {/* Miembros — la gente, con su lectura (cuando compartís) */}
-      <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-        {t('groupDetail.members')} · {members.length}
-      </p>
-      <ul className="mt-3 card divide-y divide-hairline">
-        {members.map((m) => {
-          const isMe = m.user_id === user?.id
-          const isMemberOwner = m.role === 'owner'
-          const shares = readMap.has(m.user_id)
-          const readToday = readMap.get(m.user_id)
-          return (
-            <li key={m.user_id} className="flex items-center gap-3 px-4 py-3">
-              <div
-                className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-[15px] font-semibold"
-                style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
-              >
-                {initials(m.display_name)}
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-[16px] text-ink">
-                  {m.display_name}
-                  {isMe && <span className="text-ink-soft"> {t('groupDetail.youParen')}</span>}
-                  {isMemberOwner && <span className="text-[13px] text-ink-soft"> · {t('groupDetail.adminShort')}</span>}
-                </p>
-              </div>
-              {/* Solo señalamos lo positivo: quien leyó hoy. El resto no muestra
-                  nada — nada de "no leyó" que suene a reproche. Recíproco: el chip
-                  solo aparece si vos también compartís tu lectura. */}
-              <div className="flex shrink-0 items-center gap-2">
-                {iShare && shares && readToday && (
-                  <span
-                    className="flex items-center gap-1 rounded-pill px-2.5 py-1 text-[12px] font-medium"
-                    style={{ color: 'var(--accent-ink)', backgroundColor: 'var(--accent-tint)' }}
-                  >
-                    <CheckIcon size={13} strokeWidth={2.2} /> {t('groupDetail.readTodayChip')}
-                  </span>
-                )}
-                {isOwner && !isMemberOwner && (
-                  <button
-                    type="button"
-                    onClick={() => setConfirm({ type: 'kick', member: m })}
-                    aria-label={t('groupDetail.removeAria', { name: m.display_name })}
-                    className="flex h-11 w-11 items-center justify-center rounded-full text-ink-soft"
-                  >
-                    <span
-                      className="flex h-7 w-7 items-center justify-center rounded-full"
-                      style={{ border: '1px solid var(--hairline)' }}
-                      aria-hidden="true"
-                    >
-                      <MinusIcon size={16} />
-                    </span>
-                  </button>
-                )}
-              </div>
-            </li>
-          )
-        })}
-      </ul>
+      <GroupMembers
+        members={members}
+        isOwner={isOwner}
+        iShare={iShare}
+        readMap={readMap}
+        onKick={(m) => setConfirm({ type: 'kick', member: m })}
+      />
 
       {/* Lo privado del líder va debajo de todo: primero la sala compartida
           (pulso, oración, testimonios, miembros), después lo que solo él ve. */}
-
-      {/* Lo privado del líder en UNA sola card con separador interno (resumen +
-          semana): dos cajas gemelas apiladas eran ritmo monótono. */}
-      {isOwner && (stats || weekRows.length > 0) && (
-        <div className="card mt-7 divide-y divide-hairline">
-          {stats && (
-            <div className="p-5">
-              <div className="flex items-center gap-1.5 text-ink-soft">
-                <LockIcon size={13} />
-                <span className="text-[12px] font-semibold uppercase tracking-wide">
-                  {t('groupDetail.summaryPrivate')}
-                </span>
-              </div>
-              <div className="mt-4 flex">
-                <Stat n={stats.active} label={t('groupDetail.statActive')} />
-                <Stat n={stats.answered} label={t('groupDetail.statAnswered')} />
-                <Stat n={stats.praying_week} label={t('groupDetail.statPrayingWeek')} />
-              </div>
-              <div
-                className="mt-4 h-2 overflow-hidden rounded-full"
-                style={{ backgroundColor: 'var(--surface-alt)' }}
-              >
-                <div
-                  className="h-full"
-                  style={{ width: `${answeredPct}%`, backgroundColor: 'var(--accent)' }}
-                />
-              </div>
-              <p className="mt-2 text-[12px] text-ink-soft">
-                {t('groupDetail.answeredPct', { pct: answeredPct })}
-              </p>
-            </div>
-          )}
-
-          {/* La semana del grupo (recíproco: el RPC devuelve [] si él no
-              comparte). Los miembros nunca ven esta sección. */}
-          {weekRows.length > 0 && (
-            <div className="p-5">
-              <div className="flex items-center gap-1.5 text-ink-soft">
-                <LockIcon size={13} />
-                <span className="text-[12px] font-semibold uppercase tracking-wide">
-                  {t('groupDetail.weekPrivate')}
-                </span>
-              </div>
-              <div className="mt-4 space-y-2.5">
-            {/* Header con la letra del día real de cada columna; "hoy" en acento. */}
-            <div className="flex items-center gap-3" aria-hidden="true">
-              <span className="min-w-0 flex-1" />
-              <div className="flex gap-1.5">
-                {weekDates.map((d, i) => (
-                  <span
-                    key={i}
-                    className="flex h-[18px] w-[18px] items-center justify-center text-[10px] font-semibold"
-                    style={{ color: i === 6 ? 'var(--accent-ink)' : 'var(--text-soft)' }}
-                  >
-                    {DAY_LETTERS[d.getDay()]}
-                  </span>
-                ))}
-              </div>
-            </div>
-            {weekRows.map((m) => {
-              const readDays = m.week.filter(Boolean).length
-              return (
-                <div
-                  key={m.user_id}
-                  className="flex items-center gap-3"
-                  aria-label={t('groupDetail.weekAria', { name: m.display_name, days: readDays })}
-                >
-                  <span className="min-w-0 flex-1 truncate text-[14px] text-ink">
-                    {m.display_name}
-                    {m.user_id === user?.id && <span className="text-ink-soft"> (vos)</span>}
-                  </span>
-                  <div className="flex gap-1.5" aria-hidden="true">
-                    {m.week.map((read, i) => (
-                      <span key={i} className="flex h-[18px] w-[18px] items-center justify-center">
-                        <span
-                          className="h-[10px] w-[10px] rounded-full"
-                          style={
-                            read
-                              ? { backgroundColor: 'var(--accent)' }
-                              : {
-                                  backgroundColor: 'var(--surface-alt)',
-                                  border: '1px solid var(--hairline)',
-                                }
-                          }
-                        />
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )
-            })}
-              </div>
-              <p className="mt-3 text-[12px] text-ink-soft">
-                {t('groupDetail.weekHint')}
-              </p>
-            </div>
-          )}
-        </div>
-      )}
+      {isOwner && <GroupPrivateStats stats={stats} weekRows={weekRows} answeredPct={answeredPct} />}
 
       {!isOwner && (
         <button
@@ -991,49 +409,16 @@ export default function GroupDetail() {
       )}
 
       {inviteOpen && (
-        <Sheet title={t('groupDetail.inviteAria')} onCancel={() => setInviteOpen(false)}>
-          <div className="pb-1 text-center">
-            <p className="text-[15px] text-ink-soft">
-              {t('groupDetail.inviteDesc')}
-            </p>
-            {/* El código en tinta neutra: el acento queda para la acción real (compartir). */}
-            <p
-              className="mt-6 text-[40px] font-bold text-ink"
-              style={{ letterSpacing: '6px', paddingLeft: '6px' }}
-            >
-              {group.invite_code}
-            </p>
-            <div className="mt-7 space-y-3">
-              <button
-                type="button"
-                onClick={shareInvite}
-                className="btn btn-primary flex items-center justify-center gap-2"
-              >
-                <ShareIcon size={18} /> {inviteShared ? t('groupDetail.copied') : t('groupDetail.shareInvite')}
-              </button>
-              <button
-                type="button"
-                onClick={copyCode}
-                className="btn btn-secondary flex items-center justify-center gap-2"
-              >
-                <CopyIcon size={18} /> {copied ? t('groupDetail.copied') : t('groupDetail.copyCode')}
-              </button>
-              {isOwner && (
-                <button
-                  type="button"
-                  onClick={() => setConfirm({ type: 'regen' })}
-                  className="flex w-full items-center justify-center gap-1.5 py-2 text-[14px] font-medium text-ink-soft"
-                >
-                  <RefreshIcon size={15} /> {t('groupDetail.regenCode')}
-                </button>
-              )}
-            </div>
-            {/* El cambio de texto a "Copiado" es solo visual; lo anunciamos para lectores. */}
-            <span className="sr-only" role="status" aria-live="polite">
-              {copied ? t('groupDetail.srCodeCopied') : inviteShared ? t('groupDetail.srInviteCopied') : ''}
-            </span>
-          </div>
-        </Sheet>
+        <GroupInviteSheet
+          group={group}
+          isOwner={isOwner}
+          copied={copied}
+          inviteShared={inviteShared}
+          onClose={() => setInviteOpen(false)}
+          onShare={shareInvite}
+          onCopyCode={copyCode}
+          onRegen={() => setConfirm({ type: 'regen' })}
+        />
       )}
 
       {planPickerOpen && (

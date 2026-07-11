@@ -7,10 +7,12 @@ const url = import.meta.env.VITE_SUPABASE_URL
 const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 if (!url || !anonKey) {
-  // Aviso temprano en dev si falta configurar el .env (ver .env.example).
-  console.warn(
-    '[supabase] Falta VITE_SUPABASE_URL o VITE_SUPABASE_ANON_KEY. Copiá .env.example a .env y completá.'
-  )
+  if (import.meta.env.DEV) {
+    // Aviso temprano en dev si falta configurar el .env (ver .env.example).
+    console.warn(
+      '[supabase] Falta VITE_SUPABASE_URL o VITE_SUPABASE_ANON_KEY. Copiá .env.example a .env y completá.'
+    )
+  }
 }
 
 // Lock en memoria que serializa el acceso al token dentro de esta única ventana.

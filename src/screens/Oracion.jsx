@@ -18,14 +18,11 @@ function PrayerItem({ p, subtitle, onClick, dimmed }) {
   const count = p.intercessor_count ?? 0
   return (
     <li>
-      <button
-        type="button"
-        onClick={onClick}
-        className="card flex w-full items-center justify-between p-4 text-left"
-        style={{ opacity: dimmed ? 0.55 : 1 }}
-      >
+      <button type="button" onClick={onClick} className="card flex w-full items-center justify-between p-4 text-left">
         <div className="min-w-0 pr-3">
-          <p className="truncate text-[16px] font-semibold text-ink">{p.title}</p>
+          <p className={`truncate text-[16px] font-semibold ${dimmed ? 'text-ink-soft' : 'text-ink'}`}>
+            {p.title}
+          </p>
           <p className="text-[13px] text-ink-soft">{subtitle}</p>
           {p.visibility === 'shared' && count > 0 && (
             <p className="mt-0.5 text-[12px] font-medium" style={{ color: 'var(--accent-ink)' }}>
@@ -34,7 +31,11 @@ function PrayerItem({ p, subtitle, onClick, dimmed }) {
           )}
         </div>
         <div className="flex shrink-0 items-center gap-2 text-ink-soft">
-          {p.visibility === 'private' ? <LockIcon size={15} /> : <PeopleIcon size={16} />}
+          {p.visibility === 'private' ? (
+            <LockIcon size={15} aria-hidden="false" aria-label={t('oracion.visibilityPrivate')} />
+          ) : (
+            <PeopleIcon size={16} aria-hidden="false" aria-label={t('oracion.visibilityShared')} />
+          )}
           {/* "Activo" es el estado por defecto: solo se señala la excepción. */}
           {p.status === 'answered' && (
             <span

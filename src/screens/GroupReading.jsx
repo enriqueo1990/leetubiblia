@@ -3,11 +3,10 @@ import { Link, Navigate, useParams } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { getGroupReadingDay, markRead, unmarkRead } from '../lib/db.js'
-import { youVersionUrl } from '../lib/bible.js'
-import { bookLabel } from '../i18n/books.js'
 import { planName } from '../lib/planLabels.js'
 import BackLink from '../components/BackLink.jsx'
 import RetryError from '../components/RetryError.jsx'
+import PassageList from '../components/PassageList.jsx'
 
 // La lectura del día con un grupo (plan seguido como lectura adicional) — misma
 // anatomía que Hoy: metadata callada arriba, los pasajes como protagonistas
@@ -108,26 +107,7 @@ export default function GroupReading() {
       ) : (
         // Los pasajes son la página, como en Hoy: cada referencia abre su capítulo.
         <div className="mt-9 space-y-1">
-          {data.refs.map((ref, i) => {
-            const url = youVersionUrl(ref, locale)
-            const displayClass = data.refs.length >= 4 ? 'text-display-sm' : 'text-display'
-            const label = bookLabel(ref, locale)
-            return url ? (
-              <a
-                key={i}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`block w-fit ${displayClass} text-ink transition-opacity active:opacity-50`}
-              >
-                {label}
-              </a>
-            ) : (
-              <p key={i} className={`${displayClass} text-ink`}>
-                {label}
-              </p>
-            )
-          })}
+          <PassageList refs={data.refs} locale={locale} />
         </div>
       )}
 

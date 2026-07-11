@@ -15,13 +15,12 @@ import {
   recordPlanCompletion,
   clearPlanProgress,
 } from '../lib/db.js'
-import { youVersionUrl } from '../lib/bible.js'
 import { usePreferences } from '../lib/preferences.jsx'
-import { bookLabel } from '../i18n/books.js'
 import { fmtISODate } from '../i18n/dates.js'
 import { planName } from '../lib/planLabels.js'
 import { shareCompletion } from '../lib/shareImage.js'
 import { SkeletonHoy } from '../components/Skeleton.jsx'
+import PassageList from '../components/PassageList.jsx'
 import { CheckIcon, ShareIcon, SlidersIcon } from '../components/icons.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import EmptyState from '../components/EmptyState.jsx'
@@ -488,27 +487,8 @@ export default function Hoy() {
           ) : (
             // El pasaje mismo es la puerta a la Biblia: cada referencia abre su
             // capítulo (tinta plena, sin color — el toque lo confirma la opacidad
-            // al presionar). Con ≥4 pasajes la display baja un talle (.text-display-sm).
-            refsShown?.map((ref, i) => {
-              const url = youVersionUrl(ref, locale)
-              const displayClass = refsShown.length >= 4 ? 'text-display-sm' : 'text-display'
-              const label = bookLabel(ref, locale)
-              return url ? (
-                <a
-                  key={i}
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`block w-fit ${displayClass} text-ink transition-opacity active:opacity-50`}
-                >
-                  {label}
-                </a>
-              ) : (
-                <p key={i} className={`${displayClass} text-ink`}>
-                  {label}
-                </p>
-              )
-            })
+            // al presionar).
+            refsShown && <PassageList refs={refsShown} locale={locale} />
           )}
         </div>
       )}

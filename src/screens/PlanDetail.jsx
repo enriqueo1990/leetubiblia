@@ -11,6 +11,7 @@ import { useReading } from '../hooks/useReading.js'
 import ResumeFromDay from '../components/ResumeFromDay.jsx'
 import { SkeletonRows } from '../components/Skeleton.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
+import { inputStyle } from '../components/formStyles.js'
 
 // Detalle de un plan: descripción, duración, listado completo día-por-día con sus
 // pasajes, y acción de activar. Mismo estilo que el resto (drill-in iOS).
@@ -30,6 +31,7 @@ export default function PlanDetail() {
   const [resumeDay, setResumeDay] = useState(null)
   const [confirm, setConfirm] = useState(false)
   const [saving, setSaving] = useState(false)
+  const [jumpInput, setJumpInput] = useState('')
   const todayRef = useRef(null)
   const scrolled = useRef(false)
 
@@ -76,6 +78,16 @@ export default function PlanDetail() {
     setSaving(false)
     setConfirm(false)
     navigate('/')
+  }
+
+  // Ir a un día puntual de la lista sin scrollear a mano (planes largos como
+  // M'Cheyne tienen 365 filas). Funciona también explorando un plan que todavía
+  // no es el activo, a diferencia del auto-scroll de arriba (solo currentDay).
+  function jumpToDay(e) {
+    e.preventDefault()
+    const n = Number(jumpInput)
+    if (!n || !days?.some((d) => d.day_number === n)) return
+    document.getElementById(`plan-day-${n}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' })
   }
 
   function onActivateClick() {
@@ -126,9 +138,30 @@ export default function PlanDetail() {
       )}
 
       {/* Listado día-por-día */}
-      <p className="mb-2 mt-8 px-1 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-        {t('planes.readingsPerDay')}
-      </p>
+      <div className="mb-2 mt-8 flex items-center justify-between px-1">
+        <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+          {t('planes.readingsPerDay')}
+        </p>
+        {/* Planes largos (M'Cheyne, Cronológico, Oficio Diario...) no se recorren
+            a mano: un salto directo al día evita scrollear cientos de filas. */}
+        {plan && plan.duration_days > 30 && (
+          <form onSubmit={jumpToDay} className="flex items-center gap-1.5">
+            <input
+              type="text"
+              inputMode="numeric"
+              value={jumpInput}
+              onChange={(e) => setJumpInput(e.target.value.replace(/[^\d]/g, ''))}
+              placeholder={t('planes.jumpPlaceholder')}
+              aria-label={t('planes.jumpToDay')}
+              className="w-16 rounded-input px-2 py-1 text-[13px] outline-none"
+              style={inputStyle}
+            />
+            <button type="submit" className="text-[13px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
+              {t('planes.jumpGo')}
+            </button>
+          </form>
+        )}
+      </div>
       {days === null && <SkeletonRows count={6} />}
       <ol className="card divide-y divide-hairline">
         {days?.map((d) => {
@@ -137,6 +170,7 @@ export default function PlanDetail() {
           return (
             <li
               key={d.day_number}
+              id={`plan-day-${d.day_number}`}
               ref={isCurrent ? todayRef : undefined}
               className="flex gap-3 px-4 py-3"
               style={isCurrent ? { backgroundColor: 'var(--accent-tint)' } : undefined}

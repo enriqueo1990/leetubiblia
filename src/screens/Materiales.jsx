@@ -11,7 +11,6 @@ import {
 } from '../lib/materials.js'
 import Switch from '../components/Switch.jsx'
 import BackLink from '../components/BackLink.jsx'
-import { ChevronRight } from '../components/icons.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 
 // Materiales de lectura opcionales — catálogo con toggles (Ajustes › Materiales).

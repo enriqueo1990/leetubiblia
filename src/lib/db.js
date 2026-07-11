@@ -1,5 +1,18 @@
 import { supabase } from './supabase.js'
 
+// Marca un PostgrestError con `isNetworkError` antes de relanzarlo, para que un
+// catch que le importe pueda distinguir "sin red" de un error real de
+// servidor/RLS sin tener que repetir la heurística en cada pantalla. La app
+// hoy solo usa esa distinción en useReading (vía isOnline() de offline.js);
+// esto la deja disponible en cualquier otro punto sin cambiar qué se lanza.
+function dbError(error) {
+  error.isNetworkError =
+    (typeof navigator !== 'undefined' && !navigator.onLine) ||
+    !error.code ||
+    /fetch|network/i.test(error.message || '')
+  return error
+}
+
 // Helpers de datos de solo lectura del catálogo. Las mutaciones de perfil viven
 // en el contexto de auth (updateProfile). Las de progreso/oración/grupos llegan
 // en sus tareas respectivas (4, 5, 6).
@@ -29,7 +42,7 @@ export async function getPlans() {
     .from('reading_plans')
     .select('id, slug, name, description, duration_days')
     .eq('is_active', true)
-  if (error) throw error
+  if (error) throw dbError(error)
   const rank = (slug) => {
     const i = PLAN_ORDER.indexOf(slug)
     return i === -1 ? PLAN_ORDER.length : i
@@ -93,7 +106,7 @@ export async function getPlan(planId) {
     .select('id, slug, name, description, duration_days')
     .eq('id', planId)
     .single()
-  if (error) throw error
+  if (error) throw dbError(error)
   return data
 }
 
@@ -105,7 +118,7 @@ export async function getPlanDay(planId, dayNumber) {
     .eq('plan_id', planId)
     .eq('day_number', dayNumber)
     .maybeSingle()
-  if (error) throw error
+  if (error) throw dbError(error)
   return data // null si el day_number queda fuera del rango del plan
 }
 
@@ -118,7 +131,7 @@ export async function getCompletionMap(userId, planId) {
     .select('day_number, completed_at')
     .eq('user_id', userId)
     .eq('plan_id', planId)
-  if (error) throw error
+  if (error) throw dbError(error)
   return new Map(data.map((r) => [r.day_number, localDateISO(r.completed_at)]))
 }
 
@@ -130,7 +143,7 @@ export async function markRead(userId, planId, dayNumber) {
       { user_id: userId, plan_id: planId, day_number: dayNumber },
       { onConflict: 'user_id,plan_id,day_number', ignoreDuplicates: true }
     )
-  if (error) throw error
+  if (error) throw dbError(error)
 }
 
 // Marca de una sola vez los días 1..hasta (inclusive) como leídos. Sirve para
@@ -145,7 +158,7 @@ export async function markDaysRead(userId, planId, hasta) {
   const { error } = await supabase
     .from('reading_progress')
     .upsert(rows, { onConflict: 'user_id,plan_id,day_number', ignoreDuplicates: true })
-  if (error) throw error
+  if (error) throw dbError(error)
 }
 
 // Desmarca un día (para el heatmap interactivo de Progreso).
@@ -156,7 +169,7 @@ export async function unmarkRead(userId, planId, dayNumber) {
     .eq('user_id', userId)
     .eq('plan_id', planId)
     .eq('day_number', dayNumber)
-  if (error) throw error
+  if (error) throw dbError(error)
 }
 
 // Desmarca de una sola vez los días `desde` (inclusive) en adelante. Es la mitad
@@ -171,7 +184,7 @@ export async function unmarkDaysFrom(userId, planId, desde) {
     .eq('user_id', userId)
     .eq('plan_id', planId)
     .gte('day_number', desde)
-  if (error) throw error
+  if (error) throw dbError(error)
 }
 
 // Primer día NO leído dentro de [1..hastaDía]. Si todo está leído, devuelve
@@ -228,7 +241,7 @@ export async function recordPlanCompletion({ userId, planId, daysRead, totalDays
     },
     { onConflict: 'user_id,plan_id,completed_on', ignoreDuplicates: true }
   )
-  if (error) throw error
+  if (error) throw dbError(error)
 }
 
 // Borra el progreso de un plan (para "renovar": releerlo desde el día 1).
@@ -238,7 +251,7 @@ export async function clearPlanProgress(userId, planId) {
     .delete()
     .eq('user_id', userId)
     .eq('plan_id', planId)
-  if (error) throw error
+  if (error) throw dbError(error)
 }
 
 // Planes terminados (logros), más recientes primero. Cada registro es una vez que
@@ -249,7 +262,7 @@ export async function getCompletedPlans(userId) {
     .select('id, plan_id, days_read, total_days, longest_streak, started_on, completed_on, plan:reading_plans(name, slug)')
     .eq('user_id', userId)
     .order('completed_on', { ascending: false })
-  if (error) throw error
+  if (error) throw dbError(error)
   return (data ?? []).map((c) => ({ ...c, plan_name: c.plan?.name ?? null, plan_slug: c.plan?.slug ?? null }))
 }
 
@@ -292,7 +305,7 @@ export async function getMyGroups(userId) {
     .from('group_members')
     .select('role, group:groups(id, name)')
     .eq('user_id', userId)
-  if (error) throw error
+  if (error) throw dbError(error)
   const groups = data.filter((r) => r.group).map((r) => ({ ...r.group, role: r.role }))
 
   if (groups.length) {
@@ -347,13 +360,13 @@ export async function getGroupDetail(groupId) {
 // --- RPCs (security definer, ver migración 0005) ---
 export async function createGroup(name) {
   const { data, error } = await supabase.rpc('create_group', { p_name: name })
-  if (error) throw error
+  if (error) throw dbError(error)
   return data
 }
 
 export async function joinGroupByCode(code) {
   const { data, error } = await supabase.rpc('join_group_by_code', { p_code: code })
-  if (error) throw error
+  if (error) throw dbError(error)
   // Código inexistente: el RPC puede devolver null o una fila con id null
   // (RETURNS TABLE sin matches). Normalizamos a null para que ningún caller
   // navegue a /grupos/null creyendo que se unió.
@@ -362,13 +375,13 @@ export async function joinGroupByCode(code) {
 
 export async function regenerateInviteCode(groupId) {
   const { data, error } = await supabase.rpc('regenerate_invite_code', { p_group_id: groupId })
-  if (error) throw error
+  if (error) throw dbError(error)
   return data
 }
 
 export async function removeMember(groupId, userId) {
   const { error } = await supabase.rpc('remove_member', { p_group_id: groupId, p_user_id: userId })
-  if (error) throw error
+  if (error) throw dbError(error)
 }
 
 // Salir de un grupo (no-owner): borra la propia membresía. La RLS lo permite
@@ -380,7 +393,7 @@ export async function leaveGroup(groupId, userId) {
     .delete()
     .eq('group_id', groupId)
     .eq('user_id', userId)
-  if (error) throw error
+  if (error) throw dbError(error)
 }
 
 // "Míos": todos los pedidos del usuario (privados y compartidos).
@@ -391,7 +404,7 @@ export async function getMyPrayers(userId) {
     .select('*, group:groups(name)')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
-  if (error) throw error
+  if (error) throw dbError(error)
 
   const sharedIds = data.filter((p) => p.visibility === 'shared').map((p) => p.id)
   let countMap = {}
@@ -415,7 +428,7 @@ export async function getGroupPrayers(userId) {
     .eq('status', 'active')
     .neq('user_id', userId)
     .order('created_at', { ascending: false })
-  if (error) throw error
+  if (error) throw dbError(error)
   // RLS ya limita a pedidos de grupos donde soy miembro. Solo activos: los
   // respondidos viven en Testimonios, no se acumulan en "De mis grupos".
   const authorIds = [...new Set(data.map((p) => p.user_id))]
@@ -463,7 +476,7 @@ export async function createPrayer({ userId, title, description, visibility, gro
     expires_at: computeExpiresAt(durationType),
   }
   const { data, error } = await supabase.from('prayer_requests').insert(row).select().single()
-  if (error) throw error
+  if (error) throw dbError(error)
   return data
 }
 
@@ -474,20 +487,20 @@ export async function updatePrayer(id, patch) {
     .eq('id', id)
     .select()
     .single()
-  if (error) throw error
+  if (error) throw dbError(error)
   return data
 }
 
 export async function deletePrayer(id) {
   const { error } = await supabase.from('prayer_requests').delete().eq('id', id)
-  if (error) throw error
+  if (error) throw dbError(error)
 }
 
 // Eliminar cuenta (Tarea 7 — RPC security definer, ver migración 0006).
 // Reasigna/borra grupos propios y borra al usuario (cascade hace el resto).
 export async function deleteAccount() {
   const { error } = await supabase.rpc('delete_account')
-  if (error) throw error
+  if (error) throw dbError(error)
 }
 
 // Todos los días de un plan (para el detalle del plan: listado día-por-día).
@@ -497,7 +510,7 @@ export async function getPlanDays(planId) {
     .select('day_number, refs')
     .eq('plan_id', planId)
     .order('day_number', { ascending: true })
-  if (error) throw error
+  if (error) throw dbError(error)
   return data
 }
 
@@ -515,7 +528,7 @@ async function namesFor(userIds) {
     .from('profiles')
     .select('id, display_name')
     .in('id', ids)
-  if (error) throw error
+  if (error) throw dbError(error)
   return Object.fromEntries(data.map((p) => [p.id, p.display_name]))
 }
 
@@ -526,7 +539,7 @@ export async function getIntercessors(prayerId) {
     .select('user_id, created_at')
     .eq('prayer_id', prayerId)
     .order('created_at', { ascending: true })
-  if (error) throw error
+  if (error) throw dbError(error)
   const names = await namesFor(data.map((r) => r.user_id))
   return data.map((r) => ({ user_id: r.user_id, display_name: names[r.user_id] || 'Miembro' }))
 }
@@ -540,7 +553,7 @@ export async function getPrayerDetail(prayerId, userId) {
     .select('*, group:groups(id, name)')
     .eq('id', prayerId)
     .single()
-  if (error) throw error
+  if (error) throw dbError(error)
 
   const [names, intercessors, updates] = await Promise.all([
     namesFor([p.user_id]),
@@ -567,7 +580,7 @@ export async function getPrayerUpdates(prayerId) {
     .select('id, body, created_at')
     .eq('prayer_id', prayerId)
     .order('created_at', { ascending: true })
-  if (error) throw error
+  if (error) throw dbError(error)
   return data ?? []
 }
 
@@ -578,14 +591,14 @@ export async function addPrayerUpdate(prayerId, userId, body) {
     .insert({ prayer_id: prayerId, user_id: userId, body: body.trim() })
     .select()
     .single()
-  if (error) throw error
+  if (error) throw dbError(error)
   return data
 }
 
 // Borra una actualización propia.
 export async function deletePrayerUpdate(id) {
   const { error } = await supabase.from('prayer_updates').delete().eq('id', id)
-  if (error) throw error
+  if (error) throw dbError(error)
 }
 
 // Marca "estoy orando por esto". Idempotente (UNIQUE prayer+user).
@@ -596,7 +609,7 @@ export async function addIntercession(prayerId, userId) {
       { prayer_id: prayerId, user_id: userId },
       { onConflict: 'prayer_id,user_id', ignoreDuplicates: true }
     )
-  if (error) throw error
+  if (error) throw dbError(error)
 }
 
 // Retira la propia intercesión.
@@ -606,7 +619,7 @@ export async function removeIntercession(prayerId, userId) {
     .delete()
     .eq('prayer_id', prayerId)
     .eq('user_id', userId)
-  if (error) throw error
+  if (error) throw dbError(error)
 }
 
 // Pedidos activos propios con más de `days` días sin revisarse (contados desde
@@ -618,7 +631,7 @@ export async function getPrayersToReview(userId, days = 30) {
     .eq('user_id', userId)
     .eq('status', 'active')
     .order('created_at', { ascending: true })
-  if (error) throw error
+  if (error) throw dbError(error)
   const cutoff = Date.now() - days * 24 * 60 * 60 * 1000
   return data.filter((p) => {
     // Pasó su fecha de vencimiento → entra a revisión sin importar antigüedad.
@@ -677,7 +690,7 @@ export async function markPrayerReviewed(id) {
     .from('prayer_requests')
     .update({ last_reviewed_at: new Date().toISOString() })
     .eq('id', id)
-  if (error) throw error
+  if (error) throw dbError(error)
 }
 
 // Testimonios de un grupo: pedidos compartidos, respondidos y marcados para
@@ -691,7 +704,7 @@ export async function getGroupTestimonies(groupId) {
     .eq('status', 'answered')
     .eq('testimony_shared', true)
     .order('answered_at', { ascending: false })
-  if (error) throw error
+  if (error) throw dbError(error)
   const names = await namesFor(data.map((p) => p.user_id))
   return data.map((p) => ({ ...p, author_name: names[p.user_id] || 'Alguien' }))
 }
@@ -703,13 +716,13 @@ export async function getGroup(groupId) {
     .select('id, name')
     .eq('id', groupId)
     .single()
-  if (error) throw error
+  if (error) throw dbError(error)
   return data
 }
 
 export async function renameGroup(groupId, name) {
   const { error } = await supabase.rpc('rename_group', { p_group_id: groupId, p_name: name })
-  if (error) throw error
+  if (error) throw dbError(error)
 }
 
 // Fija (o quita, con planId null) el plan común del grupo. Solo el administrador
@@ -721,7 +734,7 @@ export async function setGroupPlan(groupId, planId, startDate = null) {
     p_plan_id: planId,
     p_start_date: startDate,
   })
-  if (error) throw error
+  if (error) throw dbError(error)
 }
 
 // Prende/apaga MI seguimiento del plan del grupo como lectura adicional (el modo
@@ -732,7 +745,7 @@ export async function followGroupPlan(groupId, follow) {
     p_group_id: groupId,
     p_follow: follow,
   })
-  if (error) throw error
+  if (error) throw dbError(error)
 }
 
 // ¿Ya marqué ese día de ese plan? (en reading_progress, con el plan_id del
@@ -758,7 +771,7 @@ export async function getFollowedGroupReadings(userId) {
     .select('group:groups(id, name, plan_id, plan_start_date)')
     .eq('user_id', userId)
     .eq('follow_plan', true)
-  if (error) throw error
+  if (error) throw dbError(error)
 
   const groups = (data ?? [])
     .map((r) => r.group)
@@ -796,7 +809,7 @@ export async function getGroupReadingDay(groupId, userId) {
     .select('id, name, plan_id, plan_start_date')
     .eq('id', groupId)
     .single()
-  if (error) throw error
+  if (error) throw dbError(error)
   if (!g.plan_id || !g.plan_start_date) return null
 
   const day = dayNumberFor(g.plan_start_date)
@@ -829,7 +842,7 @@ export async function getGroupPrayersWithIntercessors(groupId) {
     .eq('shared_group_id', groupId)
     .eq('visibility', 'shared')
     .order('created_at', { ascending: false })
-  if (error) throw error
+  if (error) throw dbError(error)
   if (!prayers.length) return []
 
   const prayerIds = prayers.map((p) => p.id)
@@ -864,7 +877,7 @@ export async function getGroupPrayersWithIntercessors(groupId) {
 // Resumen pastoral del grupo (solo owner; el RPC valida la propiedad adentro).
 export async function getGroupStats(groupId) {
   const { data, error } = await supabase.rpc('group_prayer_stats', { p_group_id: groupId })
-  if (error) throw error
+  if (error) throw dbError(error)
   const row = Array.isArray(data) ? data[0] : data
   return {
     active: row?.active ?? 0,
@@ -900,7 +913,7 @@ export async function getReflection(userId, planId, dayNumber) {
     .eq('plan_id', planId)
     .eq('day_number', dayNumber)
     .maybeSingle()
-  if (error) throw error
+  if (error) throw dbError(error)
   reflectionCache.set(reflectionKey(userId, planId, dayNumber), data ?? null)
   return data
 }
@@ -921,7 +934,7 @@ export async function upsertReflection(userId, planId, dayNumber, body) {
     )
     .select()
     .single()
-  if (error) throw error
+  if (error) throw dbError(error)
   reflectionCache.set(reflectionKey(userId, planId, dayNumber), data)
   return data
 }
@@ -934,7 +947,7 @@ export async function deleteReflection(userId, planId, dayNumber) {
     .eq('user_id', userId)
     .eq('plan_id', planId)
     .eq('day_number', dayNumber)
-  if (error) throw error
+  if (error) throw dbError(error)
   reflectionCache.set(reflectionKey(userId, planId, dayNumber), null)
 }
 
@@ -949,7 +962,7 @@ export async function getReflectionJournal(userId, { limit = 30, before = null }
     .limit(limit)
   if (before) q = q.lt('created_at', before)
   const { data, error } = await q
-  if (error) throw error
+  if (error) throw dbError(error)
   return data.map((r) => ({
     id: r.id,
     plan_id: r.plan_id,
@@ -970,7 +983,7 @@ export async function getReflectionJournal(userId, { limit = 30, before = null }
 // con la lista de miembros que ya tiene.
 export async function getGroupReadingToday(groupId) {
   const { data, error } = await supabase.rpc('group_reading_today', { p_group_id: groupId })
-  if (error) throw error
+  if (error) throw dbError(error)
   return data ?? []
 }
 
@@ -979,7 +992,7 @@ export async function getGroupReadingToday(groupId) {
 // cada día en la zona horaria del miembro.
 export async function getGroupReadingWeek(groupId) {
   const { data, error } = await supabase.rpc('group_reading_week', { p_group_id: groupId })
-  if (error) throw error
+  if (error) throw dbError(error)
   return data ?? []
 }
 
@@ -994,7 +1007,7 @@ export async function getGroupActivePrayers(groupId) {
     .eq('visibility', 'shared')
     .eq('status', 'active')
     .order('created_at', { ascending: false })
-  if (error) throw error
+  if (error) throw dbError(error)
 
   const authorIds = [...new Set(data.map((p) => p.user_id))]
   let names = {}
@@ -1037,13 +1050,13 @@ export async function getGroupActivePrayers(groupId) {
 // Resumen general: usuarios, instalaciones, activos, planes y países.
 export async function getAdminOverview() {
   const { data, error } = await supabase.rpc('admin_overview')
-  if (error) throw error
+  if (error) throw dbError(error)
   return data
 }
 
 // Serie de altas por día para los últimos `days` días.
 export async function getAdminSignupsSeries(days = 30) {
   const { data, error } = await supabase.rpc('admin_signups_series', { days })
-  if (error) throw error
+  if (error) throw dbError(error)
   return data || []
 }
