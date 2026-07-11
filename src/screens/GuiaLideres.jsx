@@ -2,51 +2,57 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { BookIcon, HeartIcon, LockIcon } from '../components/icons.jsx'
 import { LandingStyle, Wordmark, Eyebrow, IconBadge } from './landingKit.jsx'
+import shotPlan from '../assets/guia-lideres/plan-del-grupo.png'
+import shotHoy from '../assets/guia-lideres/hoy-con-grupos.png'
+import shotSala from '../assets/guia-lideres/sala-grupo.png'
+import shotOrar from '../assets/guia-lideres/orar-ahora.png'
+import shotLider from '../assets/guia-lideres/pulso-lider.png'
 
-// Landing pública /guia-lideres — el INSTRUCTIVO paso a paso para el líder de
-// grupo de discipulado (ver App.jsx, fuera del Gate). Hermana de
-// /grupos-de-discipulado: aquella es el "por qué/qué" (venta); esta es el "cómo"
-// (manual operativo), con los pasos reales y los labels que el líder ve en la
-// app. Mismo lenguaje de diseño que las demás landings vía landingKit; el
-// principio sigue en pie: la app acompaña la Biblia FÍSICA
-// (product-principle-physical-bible). Todo es opt-in; solo se señala lo positivo.
+// Landing pública /guia-lideres — RECURSO PASTORAL para el líder de grupo de
+// discipulado (ver App.jsx, fuera del Gate). No es una pieza de venta: es el
+// link que un líder abre para ver, con capturas REALES de la app, qué puede
+// hacer con su grupo y para qué le sirve. Hermana de /grupos-de-discipulado
+// (que sí es la presentación). Mismo lenguaje de diseño vía landingKit; el
+// principio sigue: la app acompaña la Biblia FÍSICA (product-principle-physical-bible).
+// Todo es opt-in y solo se señala lo positivo: nadie queda expuesto.
 
-// Fases del recorrido del líder. Cada paso nombra el gesto concreto y, entre
-// <b>…</b>, el texto EXACTO del botón/sección que aparece en la app (español).
-function Phase({ eyebrow, title, intro, children }) {
+// Una captura real, enmarcada como pantalla de teléfono (borde + sombra suave).
+function Shot({ src, alt }) {
   return (
-    <div className="border-t border-hairline pt-12">
-      <Eyebrow>{eyebrow}</Eyebrow>
-      <h2 className="mt-4 max-w-[560px] text-[26px] font-bold leading-[1.16] tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[30px]">
-        {title}
-      </h2>
-      {intro && (
-        <p className="mt-4 max-w-[560px] text-[16px] leading-relaxed text-ink-soft">{intro}</p>
-      )}
-      <ol className="mt-9 flex flex-col gap-8">{children}</ol>
+    <div className="mx-auto w-[248px] shrink-0 sm:w-[268px]">
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        className="w-full rounded-[26px] border border-hairline"
+        style={{ boxShadow: '0 24px 60px -24px rgba(60,44,28,0.35)' }}
+      />
     </div>
   )
 }
 
-function Step({ n, title, children }) {
+// Sección del recorrido: texto + captura, alternando el lado en desktop.
+function Walk({ eyebrow, title, children, shot, alt, side = 'right' }) {
+  const left = side === 'left'
   return (
-    <li className="flex items-start gap-4">
-      <span className="info-num mt-[2px] inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[16px] font-bold text-white">
-        {n}
-      </span>
-      <div className="min-w-0">
-        <h3 className="text-[18px] font-semibold text-ink">{title}</h3>
-        <div className="mt-1.5 max-w-[560px] text-[16px] leading-relaxed text-ink-soft [&_b]:font-semibold [&_b]:text-accent-ink">
-          {children}
-        </div>
+    <div className="border-t border-hairline pt-14 lg:flex lg:items-center lg:gap-16">
+      <div className={`lg:flex-1 ${left ? 'lg:order-2' : ''}`}>
+        <Eyebrow>{eyebrow}</Eyebrow>
+        <h2 className="mt-4 max-w-[520px] text-[25px] font-bold leading-[1.16] tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[29px]">
+          {title}
+        </h2>
+        <p className="mt-5 max-w-[520px] text-[17px] leading-relaxed text-ink-soft">{children}</p>
       </div>
-    </li>
+      <div className={`mt-11 shrink-0 lg:mt-0 ${left ? 'lg:order-1' : ''}`}>
+        <Shot src={shot} alt={alt} />
+      </div>
+    </div>
   )
 }
 
 export default function GuiaLideres() {
   useEffect(() => {
-    document.title = 'Lee Tu Biblia — Guía paso a paso para líderes de grupo'
+    document.title = 'Lee Tu Biblia — Guía para líderes de grupo'
     window.scrollTo(0, 0)
   }, [])
 
@@ -63,7 +69,7 @@ export default function GuiaLideres() {
           to="/"
           className="rounded-pill px-3 py-2 text-[15px] font-semibold text-ink-soft transition-colors hover:text-accent-ink"
         >
-          Entrar
+          Abrir la app
         </Link>
       </header>
 
@@ -71,132 +77,137 @@ export default function GuiaLideres() {
       <section className="relative overflow-hidden">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-[520px]"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[500px]"
           style={{
             background:
               'radial-gradient(ellipse 620px 420px at 50% -8%, var(--accent-tint), transparent 70%)',
           }}
         />
         <div className="screen-enter relative mx-auto w-full max-w-[680px] px-6 pb-14 pt-10 text-center sm:pt-16">
-          <Eyebrow>Guía para líderes · paso a paso</Eyebrow>
-          <h1 className="mx-auto mt-5 max-w-[560px] text-[36px] font-bold leading-[1.13] tracking-[-0.03em] text-ink [text-wrap:balance] sm:text-[44px]">
-            Cómo usar la app <span className="whitespace-nowrap text-accent-ink">con tu grupo</span>
+          <Eyebrow>Para líderes de grupo</Eyebrow>
+          <h1 className="mx-auto mt-5 max-w-[560px] text-[35px] font-bold leading-[1.13] tracking-[-0.03em] text-ink [text-wrap:balance] sm:text-[44px]">
+            Acompañá a tu grupo <span className="whitespace-nowrap text-accent-ink">en la Palabra</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-[500px] text-[18px] leading-relaxed text-ink-soft">
-            Un recorrido corto, del primer día en adelante: armás el grupo,
-            elegís un plan, y guiás la lectura y la oración semana a semana.
-            Diez minutos para dejarlo andando.
+          <p className="mx-auto mt-6 max-w-[520px] text-[18px] leading-relaxed text-ink-soft">
+            Un recorrido breve —con capturas reales de la app— para que veas qué
+            podés hacer con tu grupo de discipulado y cómo te ayuda a acompañar a
+            tu gente. La Palabra la lee cada uno en su Biblia; la app sostiene el
+            hábito que caminan juntos.
           </p>
         </div>
       </section>
 
-      {/* ── PASOS ────────────────────────────────────────────── */}
-      <section className="mx-auto w-full max-w-[720px] px-6 pb-4">
-        {/* FASE 1 — armar el grupo */}
-        <Phase
-          eyebrow="Primero · una sola vez"
-          title="Armá el grupo en un minuto"
-          intro="Todo esto lo hacés una vez, al principio. Después el grupo camina casi solo."
+      {/* ── EMPEZAR ES SIMPLE ────────────────────────────────── */}
+      <section className="mx-auto w-full max-w-[720px] px-6 py-8">
+        <div className="border-t border-hairline pt-12">
+          <Eyebrow>Empezar es simple</Eyebrow>
+          <h2 className="mt-4 text-[24px] font-bold tracking-[-0.02em] text-ink sm:text-[27px]">
+            Tres pasos y el grupo ya camina
+          </h2>
+          <ol className="mt-8 flex flex-col gap-4">
+            {[
+              'Creás el grupo en la pestaña Grupos —tocá <b>Agregar grupo</b>— y le ponés nombre.',
+              'Compartís el <b>código</b> por WhatsApp; cada uno entra con un toque.',
+              'Elegís un <b>plan para leer juntos</b>: arranca hoy como día 1 para todos.',
+            ].map((s, i) => (
+              <li key={i} className="flex items-start gap-4">
+                <span className="info-num mt-[1px] inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[15px] font-bold text-white">
+                  {i + 1}
+                </span>
+                <span
+                  className="pt-1 text-[16.5px] leading-snug text-ink [&_b]:font-semibold [&_b]:text-accent-ink"
+                  dangerouslySetInnerHTML={{ __html: s }}
+                />
+              </li>
+            ))}
+          </ol>
+          <p className="mt-7 max-w-[520px] text-[16px] leading-relaxed text-ink-soft">
+            De ahí en más, esto es lo que van a poder vivir juntos.
+          </p>
+        </div>
+      </section>
+
+      {/* ── RECORRIDO CON CAPTURAS ───────────────────────────── */}
+      <section className="mx-auto w-full max-w-[900px] px-6 pb-4">
+        <Walk
+          eyebrow="El plan, a la medida de cada uno"
+          title="Un mismo plan, sin obligar a nadie"
+          shot={shotPlan}
+          alt="Tarjeta del plan del grupo con las dos opciones: leerlo como plan principal o sumarlo a Hoy como lectura adicional."
+          side="right"
         >
-          <Step n={1} title="Creá el grupo">
-            En la pestaña <b>Grupos</b>, tocá <b>Agregar grupo</b> y ponele un
-            nombre. Quedás como administrador y la app te da un código para
-            invitar.
-          </Step>
-          <Step n={2} title="Invitá a tu gente">
-            Abrí el grupo y tocá <b>Invitar</b>. Compartí el código por WhatsApp
-            o donde quieras; cada uno entra con un toque, sin instalar nada raro.
-          </Step>
-          <Step n={3} title="Elegí un plan para leer juntos">
-            En la tarjeta <b>Plan del grupo</b>, tocá{' '}
-            <b>Elegí un plan para leer juntos</b> y elegí uno. Arranca hoy como
-            día 1 para todos, así leen lo mismo el mismo día. Solo vos, como
-            líder, elegís o cambiás el plan del grupo.
-          </Step>
-        </Phase>
+          Vos elegís el plan del grupo. Después, cada miembro decide cómo
+          sumarse: hacerlo su plan principal —con su racha y su progreso—, o
+          seguirlo en Hoy como <b className="font-semibold text-accent-ink">lectura adicional</b>, sin
+          soltar el que ya venía leyendo. Así el que recién empieza y el que
+          tiene años en la Palabra caminan juntos, cada uno desde donde está.
+        </Walk>
 
-        {/* FASE 2 — que cada uno se sume */}
         <div className="mt-16">
-          <Phase
-            eyebrow="Después · cada miembro decide"
-            title="Que cada uno se sume a su manera"
-            intro="Elegir el plan del grupo no obliga a nadie: cada miembro decide cómo sumarse, y si quiere que veas su lectura."
+          <Walk
+            eyebrow="En el Hoy de cada uno"
+            title="La lectura del grupo, donde ya miran cada día"
+            shot={shotHoy}
+            alt="Pantalla Hoy con la sección «Con tus grupos» mostrando la lectura del grupo junto a la lectura personal."
+            side="left"
           >
-            <Step n={4} title="Cada uno elige cómo leer el plan">
-              En su grupo, cada miembro ve la tarjeta del plan con dos caminos:
-              <span className="mt-3 block space-y-2.5">
-                <span className="block">
-                  <b>· Leer este plan con el grupo</b> — pasa a ser su plan
-                  principal en Hoy, con racha y progreso. Para quien quiere que
-                  el plan del grupo sea su lectura.
-                </span>
-                <span className="block">
-                  <b>· Sumarlo a Hoy como lectura adicional</b> — lo lee además
-                  de su propio plan, sin tocar su racha. Ideal para quien ya
-                  viene con un plan, o para vos si acompañás varios grupos a la
-                  vez.
-                </span>
-              </span>
-            </Step>
-            <Step n={5} title="Pediles que compartan su lectura">
-              Para que veas el pulso del grupo, cada uno activa{' '}
-              <b>Compartir mi lectura con mis grupos</b> en Ajustes. Es recíproco
-              y opcional: ves que leyó hoy —no qué leyó—, y solo entre quienes
-              comparten. Nadie queda expuesto por atrasarse.
-            </Step>
-          </Phase>
+            Quien sigue el plan del grupo lo ve en su pantalla Hoy, bajo{' '}
+            <b className="font-semibold text-accent-ink">Con tus grupos</b>, al lado de su propia
+            lectura. No es una app más para abrir: es la misma rutina de
+            siempre, con la lectura compartida a un toque.
+          </Walk>
         </div>
 
-        {/* FASE 3 — la semana */}
         <div className="mt-16">
-          <Phase
-            eyebrow="Semana a semana"
-            title="Leer y orar juntos"
-            intro="El ritmo de todos los días: leen en su Biblia, marcan, y sostienen los pedidos de cada uno."
+          <Walk
+            eyebrow="El pulso del día"
+            title="Quién viene caminando, sin perseguir a nadie"
+            shot={shotSala}
+            alt="Detalle del grupo con el pulso del día: cuántos leyeron hoy y los pedidos activos."
+            side="right"
           >
-            <Step n={6} title="Lean y compartan pedidos">
-              Durante la semana cada uno lee en su Biblia y marca su lectura.
-              Para sumar un pedido, en el grupo tocá <b>Compartir un pedido</b>{' '}
-              (o el <b>+</b> en la pestaña Oración): los demás lo ven y oran.
-            </Step>
-            <Step n={7} title="Oren unos por otros">
-              Con <b>Orar</b> cada uno marca que está orando por un pedido; con{' '}
-              <b>Orar ahora</b> recorren todos los pedidos, uno a uno, con calma.
-              El autor va contando cómo sigue —«entró a cirugía», «salió bien»—
-              y el grupo acompaña los pedidos largos sin que se apaguen.
-            </Step>
-            <Step n={8} title="Celebren los testimonios">
-              Cuando Dios responde, el pedido se marca como respondido y se
-              vuelve <b>testimonio</b>: queda a la vista del grupo para
-              celebrarlo juntos cuando se junten.
-            </Step>
-          </Phase>
+            En la sala del grupo ves el pulso del día: cuántos leyeron hoy y los
+            pedidos que están sosteniendo. Es una señal de vida compartida —solo
+            se muestra lo positivo, nunca un «no leyó»— para que sepas por quién
+            alegrarte y a quién acercarte con una palabra.
+          </Walk>
         </div>
 
-        {/* FASE 4 — solo el líder */}
         <div className="mt-16">
-          <Phase
+          <Walk
+            eyebrow="Orar juntos"
+            title="Cada pedido, sostenido por todos"
+            shot={shotOrar}
+            alt="Modo «Orar ahora» recorriendo los pedidos del grupo uno por uno."
+            side="left"
+          >
+            Cada uno comparte sus pedidos y los demás oran por ellos. Con{' '}
+            <b className="font-semibold text-accent-ink">Orar ahora</b> los recorrés uno por uno,
+            con calma. El autor va contando cómo sigue —«entró a cirugía»,
+            «salió bien»— y, cuando Dios responde, el pedido se vuelve testimonio
+            para celebrar juntos.
+          </Walk>
+        </div>
+
+        <div className="mt-16">
+          <Walk
             eyebrow="Solo para vos"
-            title="El pulso del líder"
-            intro="Dos vistas que solo ve el administrador, pensadas para acompañar —nunca para vigilar."
+            title="Para acompañar, no para vigilar"
+            shot={shotLider}
+            alt="Vistas exclusivas del líder: el resumen de oración y la lectura de la semana de cada miembro."
+            side="right"
           >
-            <Step n={9} title="Mirá quién viene leyendo">
-              En el grupo ves quién leyó hoy y el historial de los últimos 7 días
-              de cada miembro que comparte —bajo <b>Lectura de la semana · solo
-              vos lo ves</b>—. Un vistazo te dice a quién escribirle esta semana
-              para darle un empujón con cariño.
-            </Step>
-            <Step n={10} title="Usá el resumen para pastorear">
-              El <b>Resumen · solo vos lo ves</b> te da el panorama de la oración
-              del grupo: pedidos activos, respondidos y cuántos oraron esta
-              semana. Para saber por quién preguntar y a quién animar.
-            </Step>
-          </Phase>
+            Hay dos vistas que solo ve el líder: la semana de cada quien —los
+            últimos siete días— y un resumen de la oración del grupo. No están
+            para controlar, sino para que sepas a quién escribirle esta semana
+            con un mensaje de ánimo. Y solo aparece quien elige compartir su
+            lectura.
+          </Walk>
         </div>
       </section>
 
       {/* ── TRES RECORDATORIOS ───────────────────────────────── */}
-      <section className="mx-auto w-full max-w-[720px] px-6 py-12">
+      <section className="mx-auto w-full max-w-[720px] px-6 py-14">
         <div className="rounded-card border border-hairline bg-surface-alt/60 px-7 py-8">
           <Eyebrow>Para tener presente</Eyebrow>
           <div className="mt-6 grid gap-7 sm:grid-cols-3">
@@ -240,29 +251,21 @@ export default function GuiaLideres() {
         </div>
       </section>
 
-      {/* ── CTA FINAL ────────────────────────────────────────── */}
+      {/* ── CIERRE (suave, sin venta) ────────────────────────── */}
       <section className="border-t border-hairline">
         <div className="mx-auto w-full max-w-[680px] px-6 py-20 text-center">
-          <h2 className="text-[32px] font-bold tracking-[-0.025em] text-ink sm:text-[38px]">
-            Listo para empezar
+          <h2 className="text-[30px] font-bold tracking-[-0.025em] text-ink sm:text-[36px]">
+            Todo esto ya está en la app
           </h2>
-          <p className="mx-auto mt-4 max-w-[420px] text-[18px] leading-relaxed text-ink-soft">
-            Creá el grupo, compartí el código y caminen juntos en la Palabra.
+          <p className="mx-auto mt-4 max-w-[440px] text-[18px] leading-relaxed text-ink-soft">
+            Abrila cuando quieras, creá tu grupo y compartí el código. La app se
+            ocupa del ritmo; vos, de tu gente.
           </p>
-          <div className="mx-auto mt-8 max-w-[320px]">
+          <div className="mx-auto mt-8 max-w-[300px]">
             <Link to="/" className="btn btn-primary info-cta block">
-              Creá tu grupo gratis
+              Abrir la app
             </Link>
           </div>
-          <p className="mt-4 text-[14px] text-ink-soft">
-            ¿Querés ver por qué sirve para un grupo de discipulado?{' '}
-            <Link
-              to="/grupos-de-discipulado"
-              className="font-semibold text-accent-ink hover:underline"
-            >
-              Leé la presentación
-            </Link>
-          </p>
 
           <p className="mx-auto mt-16 max-w-[460px] text-[17px] italic leading-relaxed text-ink-soft">
             «Y considerémonos unos a otros para estimularnos al amor y a las

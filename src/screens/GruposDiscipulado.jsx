@@ -225,9 +225,9 @@ export default function GruposDiscipulado() {
           ))}
         </ol>
         <p className="mt-8 text-[16px] text-ink-soft">
-          ¿Querés el detalle, con cada botón?{' '}
+          ¿Querés verlo por dentro?{' '}
           <Link to="/guia-lideres" className="font-semibold text-accent-ink hover:underline">
-            Mirá la guía paso a paso
+            Mirá la guía, con capturas reales
           </Link>
         </p>
       </section>
