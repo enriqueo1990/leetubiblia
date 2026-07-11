@@ -17,6 +17,7 @@ import PrayerDetail from './screens/PrayerDetail.jsx'
 import Grupos from './screens/Grupos.jsx'
 import GroupDetail from './screens/GroupDetail.jsx'
 import GroupTestimonies from './screens/GroupTestimonies.jsx'
+import GroupReading from './screens/GroupReading.jsx'
 import Join from './screens/Join.jsx'
 import Ajustes from './screens/Ajustes.jsx'
 import Materiales from './screens/Materiales.jsx'
@@ -85,6 +86,7 @@ export default function App() {
             <Route path="grupos" element={<Grupos />} />
             <Route path="grupos/:id" element={<GroupDetail />} />
             <Route path="grupos/:id/testimonios" element={<GroupTestimonies />} />
+            <Route path="grupos/:id/lectura" element={<GroupReading />} />
             <Route path="join" element={<Join />} />
             <Route path="ajustes" element={<Ajustes />} />
             <Route path="materiales" element={<Materiales />} />

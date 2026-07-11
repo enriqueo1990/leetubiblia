@@ -730,11 +730,23 @@ export async function followGroupPlan(groupId, follow) {
   if (error) throw error
 }
 
-// Lecturas de grupo que sigo como adicionales, listas para Hoy: por cada grupo
-// seguido con plan vigente, el día que dicta SU calendario, las refs de ese día
-// y si ya lo marqué (en reading_progress, con el plan_id del grupo — así el
-// pulso "quién leyó hoy" del grupo la cuenta). Los planes terminados no vienen:
-// en Hoy serían ruido (el cierre se ve en el detalle del grupo).
+// ¿Ya marqué ese día de ese plan? (en reading_progress, con el plan_id del
+// grupo — así el pulso "quién leyó hoy" del grupo cuenta la lectura secundaria).
+async function hasReadDay(userId, planId, dayNumber) {
+  const { data, error } = await supabase
+    .from('reading_progress')
+    .select('day_number')
+    .eq('user_id', userId)
+    .eq('plan_id', planId)
+    .eq('day_number', dayNumber)
+    .maybeSingle()
+  return !error && !!data
+}
+
+// Lecturas de grupo que sigo como adicionales, listas para las filas de Hoy:
+// por cada grupo seguido con plan vigente, el día que dicta SU calendario y si
+// ya lo marqué. Los planes terminados no vienen: en Hoy serían ruido (el cierre
+// se ve en el detalle del grupo). Las refs viven en la vista de lectura.
 export async function getFollowedGroupReadings(userId) {
   const { data, error } = await supabase
     .from('group_members')
@@ -751,18 +763,11 @@ export async function getFollowedGroupReadings(userId) {
     groups.map(async (g) => {
       const day = dayNumberFor(g.plan_start_date)
       if (day < 1) return null
-      const [plan, planDay, prog] = await Promise.all([
+      const [plan, read] = await Promise.all([
         getPlan(g.plan_id),
-        getPlanDay(g.plan_id, day),
-        supabase
-          .from('reading_progress')
-          .select('day_number')
-          .eq('user_id', userId)
-          .eq('plan_id', g.plan_id)
-          .eq('day_number', day)
-          .maybeSingle(),
+        hasReadDay(userId, g.plan_id, day),
       ])
-      if (day > plan.duration_days || !planDay) return null
+      if (day > plan.duration_days) return null
       return {
         groupId: g.id,
         groupName: g.name,
@@ -770,12 +775,44 @@ export async function getFollowedGroupReadings(userId) {
         planStartDate: g.plan_start_date,
         day,
         totalDays: plan.duration_days,
-        refs: planDay.refs ?? [],
-        read: !prog.error && !!prog.data,
+        read,
       }
     })
   )
   return readings.filter(Boolean)
+}
+
+// La lectura del día de UN grupo, para su vista de lectura (/grupos/:id/lectura):
+// grupo + plan + día del calendario del grupo + refs + si ya lo marqué. Devuelve
+// null si el grupo no tiene plan (la vista vuelve al detalle del grupo).
+export async function getGroupReadingDay(groupId, userId) {
+  const { data: g, error } = await supabase
+    .from('groups')
+    .select('id, name, plan_id, plan_start_date')
+    .eq('id', groupId)
+    .single()
+  if (error) throw error
+  if (!g.plan_id || !g.plan_start_date) return null
+
+  const day = dayNumberFor(g.plan_start_date)
+  if (day < 1) return null
+  const plan = await getPlan(g.plan_id)
+  const finished = day > plan.duration_days
+  const [planDay, read] = finished
+    ? [null, false]
+    : await Promise.all([getPlanDay(g.plan_id, day), hasReadDay(userId, g.plan_id, day)])
+  return {
+    groupId: g.id,
+    groupName: g.name,
+    planId: g.plan_id,
+    planName: plan.name,
+    planSlug: plan.slug,
+    day: Math.min(day, plan.duration_days),
+    totalDays: plan.duration_days,
+    finished,
+    refs: planDay?.refs ?? [],
+    read,
+  }
 }
 
 // Pedidos compartidos del grupo con sus intercesores (para la vista pastoral del owner).

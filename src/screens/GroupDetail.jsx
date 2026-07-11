@@ -630,11 +630,13 @@ export default function GroupDetail() {
                   >
                     {t('groupDetail.joinPlan')}
                   </button>
+                  {/* Dejar de seguir no es destructivo (apaga una preferencia):
+                      tinta suave, no rojo — el rojo queda para lo que duele deshacer. */}
                   <button
                     type="button"
                     onClick={() => toggleFollow(!following)}
-                    className="mt-1 w-full py-2 text-center text-[14px] font-medium"
-                    style={{ color: following ? 'var(--danger)' : 'var(--accent-ink)' }}
+                    className={`mt-1 w-full py-2 text-center text-[14px] font-medium${following ? ' text-ink-soft' : ''}`}
+                    style={following ? undefined : { color: 'var(--accent-ink)' }}
                   >
                     {following ? t('groupDetail.unfollowPlan') : t('groupDetail.followPlan')}
                   </button>
