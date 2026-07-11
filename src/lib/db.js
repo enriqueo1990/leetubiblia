@@ -10,7 +10,12 @@ import { supabase } from './supabase.js'
 const PLAN_ORDER = [
   'mcheyne',
   'cronologico',
+  'marcos',
+  'primeros-pasos',
+  'evangelios',
   'proverbios',
+  'semana-santa',
+  'adviento',
   'beginning',
   'at-nt',
   'nt-24-week',

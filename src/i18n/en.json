@@ -567,6 +567,16 @@
   "plans.bcp-daily-office.description": "A two-year liturgical lectionary: psalms and readings for each day.",
   "plans.proverbios.name": "Proverbs in 31 Days",
   "plans.proverbios.description": "One chapter of Proverbs per day of the month.",
+  "plans.marcos.name": "Mark in 16 Days",
+  "plans.marcos.description": "The Gospel of Mark, one chapter a day, to start reading.",
+  "plans.primeros-pasos.name": "First Steps with Jesus",
+  "plans.primeros-pasos.description": "Twenty-one days through the essentials of the faith, for those just starting.",
+  "plans.evangelios.name": "Getting to Know Jesus",
+  "plans.evangelios.description": "The four Gospels in order, two chapters a day, in 45 days.",
+  "plans.semana-santa.name": "Holy Week",
+  "plans.semana-santa.description": "Eight days reliving Jesus' last week, from Palm Sunday to the Resurrection.",
+  "plans.adviento.name": "Advent",
+  "plans.adviento.description": "Twenty-five days from the promise to the manger, on the way to Christmas.",
 
   "shareImage.finishedReading": "I finished reading",
   "shareImage.dayInWord": {

@@ -2674,3 +2674,188 @@ cross join (values
   (31, '[{"label":"Proverbios 31","book_usfm":"PRO","chapter":31}]'::jsonb)
 ) as d(day_number, refs)
 where p.slug = 'proverbios';
+
+-- ---- Plan: Marcos en 16 días (16 días) ----
+insert into public.reading_plans (slug, name, description, duration_days, is_active) values
+  ('marcos', 'Marcos en 16 días', 'El Evangelio de Marcos, un capítulo por día, para empezar a leer.', 16, true)
+on conflict (slug) do update set
+  name = excluded.name, description = excluded.description,
+  duration_days = excluded.duration_days, is_active = excluded.is_active;
+
+delete from public.plan_days where plan_id = (select id from public.reading_plans where slug = 'marcos');
+insert into public.plan_days (plan_id, day_number, refs)
+select p.id, d.day_number, d.refs from public.reading_plans p
+cross join (values
+  (1, '[{"label":"Marcos 1","book_usfm":"MRK","chapter":1}]'::jsonb),
+  (2, '[{"label":"Marcos 2","book_usfm":"MRK","chapter":2}]'::jsonb),
+  (3, '[{"label":"Marcos 3","book_usfm":"MRK","chapter":3}]'::jsonb),
+  (4, '[{"label":"Marcos 4","book_usfm":"MRK","chapter":4}]'::jsonb),
+  (5, '[{"label":"Marcos 5","book_usfm":"MRK","chapter":5}]'::jsonb),
+  (6, '[{"label":"Marcos 6","book_usfm":"MRK","chapter":6}]'::jsonb),
+  (7, '[{"label":"Marcos 7","book_usfm":"MRK","chapter":7}]'::jsonb),
+  (8, '[{"label":"Marcos 8","book_usfm":"MRK","chapter":8}]'::jsonb),
+  (9, '[{"label":"Marcos 9","book_usfm":"MRK","chapter":9}]'::jsonb),
+  (10, '[{"label":"Marcos 10","book_usfm":"MRK","chapter":10}]'::jsonb),
+  (11, '[{"label":"Marcos 11","book_usfm":"MRK","chapter":11}]'::jsonb),
+  (12, '[{"label":"Marcos 12","book_usfm":"MRK","chapter":12}]'::jsonb),
+  (13, '[{"label":"Marcos 13","book_usfm":"MRK","chapter":13}]'::jsonb),
+  (14, '[{"label":"Marcos 14","book_usfm":"MRK","chapter":14}]'::jsonb),
+  (15, '[{"label":"Marcos 15","book_usfm":"MRK","chapter":15}]'::jsonb),
+  (16, '[{"label":"Marcos 16","book_usfm":"MRK","chapter":16}]'::jsonb)
+) as d(day_number, refs)
+where p.slug = 'marcos';
+
+-- ---- Plan: Primeros pasos con Jesús (21 días) ----
+insert into public.reading_plans (slug, name, description, duration_days, is_active) values
+  ('primeros-pasos', 'Primeros pasos con Jesús', 'Veintiún días por lo esencial de la fe, para quien recién empieza.', 21, true)
+on conflict (slug) do update set
+  name = excluded.name, description = excluded.description,
+  duration_days = excluded.duration_days, is_active = excluded.is_active;
+
+delete from public.plan_days where plan_id = (select id from public.reading_plans where slug = 'primeros-pasos');
+insert into public.plan_days (plan_id, day_number, refs)
+select p.id, d.day_number, d.refs from public.reading_plans p
+cross join (values
+  (1, '[{"label":"Salmo 139:1-18","book_usfm":"PSA","chapter":139}]'::jsonb),
+  (2, '[{"label":"Génesis 3:1-13","book_usfm":"GEN","chapter":3}]'::jsonb),
+  (3, '[{"label":"Isaías 53","book_usfm":"ISA","chapter":53}]'::jsonb),
+  (4, '[{"label":"Juan 1:1-18","book_usfm":"JHN","chapter":1}]'::jsonb),
+  (5, '[{"label":"Marcos 1:14-45","book_usfm":"MRK","chapter":1}]'::jsonb),
+  (6, '[{"label":"Juan 19:16-37","book_usfm":"JHN","chapter":19}]'::jsonb),
+  (7, '[{"label":"Lucas 24:1-12","book_usfm":"LUK","chapter":24}]'::jsonb),
+  (8, '[{"label":"Efesios 2:1-10","book_usfm":"EPH","chapter":2}]'::jsonb),
+  (9, '[{"label":"Juan 3:1-21","book_usfm":"JHN","chapter":3}]'::jsonb),
+  (10, '[{"label":"Juan 14:15-27","book_usfm":"JHN","chapter":14}]'::jsonb),
+  (11, '[{"label":"Mateo 6:5-15","book_usfm":"MAT","chapter":6}]'::jsonb),
+  (12, '[{"label":"2 Timoteo 3:14-17","book_usfm":"2TI","chapter":3}]'::jsonb),
+  (13, '[{"label":"Hechos 2:42-47","book_usfm":"ACT","chapter":2}]'::jsonb),
+  (14, '[{"label":"Romanos 6:1-4","book_usfm":"ROM","chapter":6}]'::jsonb),
+  (15, '[{"label":"Lucas 9:23-25","book_usfm":"LUK","chapter":9}]'::jsonb),
+  (16, '[{"label":"1 Juan 1:5-9","book_usfm":"1JN","chapter":1}]'::jsonb),
+  (17, '[{"label":"Romanos 8:14-17","book_usfm":"ROM","chapter":8}]'::jsonb),
+  (18, '[{"label":"Romanos 8:28-39","book_usfm":"ROM","chapter":8}]'::jsonb),
+  (19, '[{"label":"1 Corintios 13","book_usfm":"1CO","chapter":13}]'::jsonb),
+  (20, '[{"label":"Mateo 28:16-20","book_usfm":"MAT","chapter":28}]'::jsonb),
+  (21, '[{"label":"Apocalipsis 21:1-7","book_usfm":"REV","chapter":21}]'::jsonb)
+) as d(day_number, refs)
+where p.slug = 'primeros-pasos';
+
+-- ---- Plan: Conocer a Jesús (45 días) ----
+insert into public.reading_plans (slug, name, description, duration_days, is_active) values
+  ('evangelios', 'Conocer a Jesús', 'Los cuatro Evangelios en orden, dos capítulos por día, en 45 días.', 45, true)
+on conflict (slug) do update set
+  name = excluded.name, description = excluded.description,
+  duration_days = excluded.duration_days, is_active = excluded.is_active;
+
+delete from public.plan_days where plan_id = (select id from public.reading_plans where slug = 'evangelios');
+insert into public.plan_days (plan_id, day_number, refs)
+select p.id, d.day_number, d.refs from public.reading_plans p
+cross join (values
+  (1, '[{"label":"Mateo 1-2","book_usfm":"MAT","chapter":1,"chapter_end":2}]'::jsonb),
+  (2, '[{"label":"Mateo 3-4","book_usfm":"MAT","chapter":3,"chapter_end":4}]'::jsonb),
+  (3, '[{"label":"Mateo 5-6","book_usfm":"MAT","chapter":5,"chapter_end":6}]'::jsonb),
+  (4, '[{"label":"Mateo 7-8","book_usfm":"MAT","chapter":7,"chapter_end":8}]'::jsonb),
+  (5, '[{"label":"Mateo 9-10","book_usfm":"MAT","chapter":9,"chapter_end":10}]'::jsonb),
+  (6, '[{"label":"Mateo 11-12","book_usfm":"MAT","chapter":11,"chapter_end":12}]'::jsonb),
+  (7, '[{"label":"Mateo 13-14","book_usfm":"MAT","chapter":13,"chapter_end":14}]'::jsonb),
+  (8, '[{"label":"Mateo 15-16","book_usfm":"MAT","chapter":15,"chapter_end":16}]'::jsonb),
+  (9, '[{"label":"Mateo 17-18","book_usfm":"MAT","chapter":17,"chapter_end":18}]'::jsonb),
+  (10, '[{"label":"Mateo 19-20","book_usfm":"MAT","chapter":19,"chapter_end":20}]'::jsonb),
+  (11, '[{"label":"Mateo 21-22","book_usfm":"MAT","chapter":21,"chapter_end":22}]'::jsonb),
+  (12, '[{"label":"Mateo 23-24","book_usfm":"MAT","chapter":23,"chapter_end":24}]'::jsonb),
+  (13, '[{"label":"Mateo 25-26","book_usfm":"MAT","chapter":25,"chapter_end":26}]'::jsonb),
+  (14, '[{"label":"Mateo 27-28","book_usfm":"MAT","chapter":27,"chapter_end":28}]'::jsonb),
+  (15, '[{"label":"Marcos 1-2","book_usfm":"MRK","chapter":1,"chapter_end":2}]'::jsonb),
+  (16, '[{"label":"Marcos 3-4","book_usfm":"MRK","chapter":3,"chapter_end":4}]'::jsonb),
+  (17, '[{"label":"Marcos 5-6","book_usfm":"MRK","chapter":5,"chapter_end":6}]'::jsonb),
+  (18, '[{"label":"Marcos 7-8","book_usfm":"MRK","chapter":7,"chapter_end":8}]'::jsonb),
+  (19, '[{"label":"Marcos 9-10","book_usfm":"MRK","chapter":9,"chapter_end":10}]'::jsonb),
+  (20, '[{"label":"Marcos 11-12","book_usfm":"MRK","chapter":11,"chapter_end":12}]'::jsonb),
+  (21, '[{"label":"Marcos 13-14","book_usfm":"MRK","chapter":13,"chapter_end":14}]'::jsonb),
+  (22, '[{"label":"Marcos 15-16","book_usfm":"MRK","chapter":15,"chapter_end":16}]'::jsonb),
+  (23, '[{"label":"Lucas 1-2","book_usfm":"LUK","chapter":1,"chapter_end":2}]'::jsonb),
+  (24, '[{"label":"Lucas 3-4","book_usfm":"LUK","chapter":3,"chapter_end":4}]'::jsonb),
+  (25, '[{"label":"Lucas 5-6","book_usfm":"LUK","chapter":5,"chapter_end":6}]'::jsonb),
+  (26, '[{"label":"Lucas 7-8","book_usfm":"LUK","chapter":7,"chapter_end":8}]'::jsonb),
+  (27, '[{"label":"Lucas 9-10","book_usfm":"LUK","chapter":9,"chapter_end":10}]'::jsonb),
+  (28, '[{"label":"Lucas 11-12","book_usfm":"LUK","chapter":11,"chapter_end":12}]'::jsonb),
+  (29, '[{"label":"Lucas 13-14","book_usfm":"LUK","chapter":13,"chapter_end":14}]'::jsonb),
+  (30, '[{"label":"Lucas 15-16","book_usfm":"LUK","chapter":15,"chapter_end":16}]'::jsonb),
+  (31, '[{"label":"Lucas 17-18","book_usfm":"LUK","chapter":17,"chapter_end":18}]'::jsonb),
+  (32, '[{"label":"Lucas 19-20","book_usfm":"LUK","chapter":19,"chapter_end":20}]'::jsonb),
+  (33, '[{"label":"Lucas 21-22","book_usfm":"LUK","chapter":21,"chapter_end":22}]'::jsonb),
+  (34, '[{"label":"Lucas 23-24","book_usfm":"LUK","chapter":23,"chapter_end":24}]'::jsonb),
+  (35, '[{"label":"Juan 1-2","book_usfm":"JHN","chapter":1,"chapter_end":2}]'::jsonb),
+  (36, '[{"label":"Juan 3-4","book_usfm":"JHN","chapter":3,"chapter_end":4}]'::jsonb),
+  (37, '[{"label":"Juan 5-6","book_usfm":"JHN","chapter":5,"chapter_end":6}]'::jsonb),
+  (38, '[{"label":"Juan 7-8","book_usfm":"JHN","chapter":7,"chapter_end":8}]'::jsonb),
+  (39, '[{"label":"Juan 9-10","book_usfm":"JHN","chapter":9,"chapter_end":10}]'::jsonb),
+  (40, '[{"label":"Juan 11-12","book_usfm":"JHN","chapter":11,"chapter_end":12}]'::jsonb),
+  (41, '[{"label":"Juan 13-14","book_usfm":"JHN","chapter":13,"chapter_end":14}]'::jsonb),
+  (42, '[{"label":"Juan 15-16","book_usfm":"JHN","chapter":15,"chapter_end":16}]'::jsonb),
+  (43, '[{"label":"Juan 17-18","book_usfm":"JHN","chapter":17,"chapter_end":18}]'::jsonb),
+  (44, '[{"label":"Juan 19-20","book_usfm":"JHN","chapter":19,"chapter_end":20}]'::jsonb),
+  (45, '[{"label":"Juan 21","book_usfm":"JHN","chapter":21}]'::jsonb)
+) as d(day_number, refs)
+where p.slug = 'evangelios';
+
+-- ---- Plan: Semana Santa (8 días) ----
+insert into public.reading_plans (slug, name, description, duration_days, is_active) values
+  ('semana-santa', 'Semana Santa', 'Ocho días reviviendo la última semana de Jesús, de Ramos a la Resurrección.', 8, true)
+on conflict (slug) do update set
+  name = excluded.name, description = excluded.description,
+  duration_days = excluded.duration_days, is_active = excluded.is_active;
+
+delete from public.plan_days where plan_id = (select id from public.reading_plans where slug = 'semana-santa');
+insert into public.plan_days (plan_id, day_number, refs)
+select p.id, d.day_number, d.refs from public.reading_plans p
+cross join (values
+  (1, '[{"label":"Mateo 21:1-11","book_usfm":"MAT","chapter":21}]'::jsonb),
+  (2, '[{"label":"Marcos 11:12-19","book_usfm":"MRK","chapter":11}]'::jsonb),
+  (3, '[{"label":"Juan 12:20-36","book_usfm":"JHN","chapter":12}]'::jsonb),
+  (4, '[{"label":"Mateo 26:1-16","book_usfm":"MAT","chapter":26}]'::jsonb),
+  (5, '[{"label":"Lucas 22:14-46","book_usfm":"LUK","chapter":22}]'::jsonb),
+  (6, '[{"label":"Juan 19:16-37","book_usfm":"JHN","chapter":19}]'::jsonb),
+  (7, '[{"label":"Mateo 27:57-66","book_usfm":"MAT","chapter":27}]'::jsonb),
+  (8, '[{"label":"Juan 20:1-18","book_usfm":"JHN","chapter":20}]'::jsonb)
+) as d(day_number, refs)
+where p.slug = 'semana-santa';
+
+-- ---- Plan: Adviento (25 días) ----
+insert into public.reading_plans (slug, name, description, duration_days, is_active) values
+  ('adviento', 'Adviento', 'Veinticinco días de la promesa al pesebre, camino a Navidad.', 25, true)
+on conflict (slug) do update set
+  name = excluded.name, description = excluded.description,
+  duration_days = excluded.duration_days, is_active = excluded.is_active;
+
+delete from public.plan_days where plan_id = (select id from public.reading_plans where slug = 'adviento');
+insert into public.plan_days (plan_id, day_number, refs)
+select p.id, d.day_number, d.refs from public.reading_plans p
+cross join (values
+  (1, '[{"label":"Génesis 3:8-15","book_usfm":"GEN","chapter":3}]'::jsonb),
+  (2, '[{"label":"Isaías 7:10-16","book_usfm":"ISA","chapter":7}]'::jsonb),
+  (3, '[{"label":"Isaías 9:1-7","book_usfm":"ISA","chapter":9}]'::jsonb),
+  (4, '[{"label":"Isaías 11:1-10","book_usfm":"ISA","chapter":11}]'::jsonb),
+  (5, '[{"label":"Miqueas 5:1-5","book_usfm":"MIC","chapter":5}]'::jsonb),
+  (6, '[{"label":"Jeremías 33:14-16","book_usfm":"JER","chapter":33}]'::jsonb),
+  (7, '[{"label":"Isaías 40:1-11","book_usfm":"ISA","chapter":40}]'::jsonb),
+  (8, '[{"label":"Isaías 35","book_usfm":"ISA","chapter":35}]'::jsonb),
+  (9, '[{"label":"Malaquías 3:1-4","book_usfm":"MAL","chapter":3}]'::jsonb),
+  (10, '[{"label":"Isaías 61:1-3","book_usfm":"ISA","chapter":61}]'::jsonb),
+  (11, '[{"label":"Zacarías 9:9-10","book_usfm":"ZEC","chapter":9}]'::jsonb),
+  (12, '[{"label":"Sofonías 3:14-20","book_usfm":"ZEP","chapter":3}]'::jsonb),
+  (13, '[{"label":"Isaías 42:1-9","book_usfm":"ISA","chapter":42}]'::jsonb),
+  (14, '[{"label":"Salmo 89:1-4","book_usfm":"PSA","chapter":89}]'::jsonb),
+  (15, '[{"label":"Lucas 1:5-25","book_usfm":"LUK","chapter":1}]'::jsonb),
+  (16, '[{"label":"Lucas 1:26-38","book_usfm":"LUK","chapter":1}]'::jsonb),
+  (17, '[{"label":"Lucas 1:39-56","book_usfm":"LUK","chapter":1}]'::jsonb),
+  (18, '[{"label":"Lucas 1:57-80","book_usfm":"LUK","chapter":1}]'::jsonb),
+  (19, '[{"label":"Mateo 1:18-25","book_usfm":"MAT","chapter":1}]'::jsonb),
+  (20, '[{"label":"Juan 1:1-14","book_usfm":"JHN","chapter":1}]'::jsonb),
+  (21, '[{"label":"Gálatas 4:4-7","book_usfm":"GAL","chapter":4}]'::jsonb),
+  (22, '[{"label":"Lucas 2:1-7","book_usfm":"LUK","chapter":2}]'::jsonb),
+  (23, '[{"label":"Lucas 2:8-20","book_usfm":"LUK","chapter":2}]'::jsonb),
+  (24, '[{"label":"Mateo 2:1-12","book_usfm":"MAT","chapter":2}]'::jsonb),
+  (25, '[{"label":"Filipenses 2:5-11","book_usfm":"PHP","chapter":2}]'::jsonb)
+) as d(day_number, refs)
+where p.slug = 'adviento';

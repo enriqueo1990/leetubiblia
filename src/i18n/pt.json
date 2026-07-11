@@ -567,6 +567,16 @@
   "plans.bcp-daily-office.description": "Lecionário litúrgico de dois anos: salmos e leituras para cada dia.",
   "plans.proverbios.name": "Provérbios em 31 dias",
   "plans.proverbios.description": "Um capítulo de Provérbios por dia do mês.",
+  "plans.marcos.name": "Marcos em 16 dias",
+  "plans.marcos.description": "O Evangelho de Marcos, um capítulo por dia, para começar a ler.",
+  "plans.primeros-pasos.name": "Primeiros passos com Jesus",
+  "plans.primeros-pasos.description": "Vinte e um dias pelo essencial da fé, para quem está começando.",
+  "plans.evangelios.name": "Conhecer Jesus",
+  "plans.evangelios.description": "Os quatro Evangelhos em ordem, dois capítulos por dia, em 45 dias.",
+  "plans.semana-santa.name": "Semana Santa",
+  "plans.semana-santa.description": "Oito dias revivendo a última semana de Jesus, de Ramos à Ressurreição.",
+  "plans.adviento.name": "Advento",
+  "plans.adviento.description": "Vinte e cinco dias da promessa ao presépio, a caminho do Natal.",
 
   "shareImage.finishedReading": "Terminei de ler",
   "shareImage.dayInWord": {

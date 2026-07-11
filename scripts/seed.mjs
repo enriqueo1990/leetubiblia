@@ -87,6 +87,41 @@ const PLANS = [
     duration_days: 31,
     source: 'proverbios', // generado por fórmula
   },
+  {
+    slug: 'marcos',
+    name: 'Marcos en 16 días',
+    description: 'El Evangelio de Marcos, un capítulo por día, para empezar a leer.',
+    duration_days: 16,
+    source: 'file', // requiere scripts/data/marcos.txt
+  },
+  {
+    slug: 'primeros-pasos',
+    name: 'Primeros pasos con Jesús',
+    description: 'Veintiún días por lo esencial de la fe, para quien recién empieza.',
+    duration_days: 21,
+    source: 'file', // requiere scripts/data/primeros-pasos.txt
+  },
+  {
+    slug: 'evangelios',
+    name: 'Conocer a Jesús',
+    description: 'Los cuatro Evangelios en orden, dos capítulos por día, en 45 días.',
+    duration_days: 45,
+    source: 'file', // requiere scripts/data/evangelios.txt
+  },
+  {
+    slug: 'semana-santa',
+    name: 'Semana Santa',
+    description: 'Ocho días reviviendo la última semana de Jesús, de Ramos a la Resurrección.',
+    duration_days: 8,
+    source: 'file', // requiere scripts/data/semana-santa.txt
+  },
+  {
+    slug: 'adviento',
+    name: 'Adviento',
+    description: 'Veinticinco días de la promesa al pesebre, camino a Navidad.',
+    duration_days: 25,
+    source: 'file', // requiere scripts/data/adviento.txt
+  },
 ]
 
 // Genera los días de un plan. Devuelve [{ day_number, refs }] o null si falta fuente.
