@@ -314,9 +314,11 @@ export async function getGroupDetail(groupId) {
     .single()
   if (ge) throw ge
 
+  // '*' a propósito: incluye follow_plan cuando la migración 0028 está aplicada
+  // y no rompe el detalle si todavía no lo está (mismo criterio que el grupo).
   const { data: members, error: me } = await supabase
     .from('group_members')
-    .select('user_id, role, joined_at')
+    .select('*')
     .eq('group_id', groupId)
     .order('joined_at', { ascending: true })
   if (me) throw me
@@ -715,6 +717,65 @@ export async function setGroupPlan(groupId, planId, startDate = null) {
     p_start_date: startDate,
   })
   if (error) throw error
+}
+
+// Prende/apaga MI seguimiento del plan del grupo como lectura adicional (el modo
+// liviano: aparece en Hoy con el día que dicta el calendario del grupo, sin racha
+// ni progreso propio). Solo toca la propia membresía. Requiere la migración 0028.
+export async function followGroupPlan(groupId, follow) {
+  const { error } = await supabase.rpc('follow_group_plan', {
+    p_group_id: groupId,
+    p_follow: follow,
+  })
+  if (error) throw error
+}
+
+// Lecturas de grupo que sigo como adicionales, listas para Hoy: por cada grupo
+// seguido con plan vigente, el día que dicta SU calendario, las refs de ese día
+// y si ya lo marqué (en reading_progress, con el plan_id del grupo — así el
+// pulso "quién leyó hoy" del grupo la cuenta). Los planes terminados no vienen:
+// en Hoy serían ruido (el cierre se ve en el detalle del grupo).
+export async function getFollowedGroupReadings(userId) {
+  const { data, error } = await supabase
+    .from('group_members')
+    .select('group:groups(id, name, plan_id, plan_start_date)')
+    .eq('user_id', userId)
+    .eq('follow_plan', true)
+  if (error) throw error
+
+  const groups = (data ?? [])
+    .map((r) => r.group)
+    .filter((g) => g && g.plan_id && g.plan_start_date)
+
+  const readings = await Promise.all(
+    groups.map(async (g) => {
+      const day = dayNumberFor(g.plan_start_date)
+      if (day < 1) return null
+      const [plan, planDay, prog] = await Promise.all([
+        getPlan(g.plan_id),
+        getPlanDay(g.plan_id, day),
+        supabase
+          .from('reading_progress')
+          .select('day_number')
+          .eq('user_id', userId)
+          .eq('plan_id', g.plan_id)
+          .eq('day_number', day)
+          .maybeSingle(),
+      ])
+      if (day > plan.duration_days || !planDay) return null
+      return {
+        groupId: g.id,
+        groupName: g.name,
+        planId: g.plan_id,
+        planStartDate: g.plan_start_date,
+        day,
+        totalDays: plan.duration_days,
+        refs: planDay.refs ?? [],
+        read: !prog.error && !!prog.data,
+      }
+    })
+  )
+  return readings.filter(Boolean)
 }
 
 // Pedidos compartidos del grupo con sus intercesores (para la vista pastoral del owner).

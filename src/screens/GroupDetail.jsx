@@ -31,6 +31,7 @@ import {
   getPlan,
   getPlans,
   setGroupPlan,
+  followGroupPlan,
   dayNumberFor,
   todayLocalISO,
   markDaysRead,
@@ -172,6 +173,8 @@ export default function GroupDetail() {
   const [confirmAdopt, setConfirmAdopt] = useState(false) // sumarse al plan del grupo
   const [adopting, setAdopting] = useState(false)
   const [adoptError, setAdoptError] = useState(false)
+  const [following, setFollowing] = useState(false) // sigo el plan como lectura adicional
+  const [followError, setFollowError] = useState(false)
   const [error, setError] = useState(null)
   const [copied, setCopied] = useState(false)
   const [inviteShared, setInviteShared] = useState(false)
@@ -187,7 +190,9 @@ export default function GroupDetail() {
     try {
       const d = await getGroupDetail(Number(id))
       setData(d)
-      const owner = d.members.find((m) => m.user_id === user?.id)?.role === 'owner'
+      const me = d.members.find((m) => m.user_id === user?.id)
+      setFollowing(!!me?.follow_plan)
+      const owner = me?.role === 'owner'
       const [readRes, prayRes, testRes, statsRes, weekRes, planRes] = await Promise.allSettled([
         getGroupReadingToday(Number(id)),
         getGroupActivePrayers(Number(id)),
@@ -309,12 +314,32 @@ export default function GroupDetail() {
       } catch {
         // No es bloqueante: el plan ya quedó activo y anclado.
       }
+      // Ya es tu plan principal: seguirlo además como adicional lo duplicaría.
+      if (following) {
+        setFollowing(false)
+        followGroupPlan(group.id, false).catch(() => {})
+      }
       setConfirmAdopt(false)
     } catch {
       setAdoptError(true)
       setConfirmAdopt(false)
     } finally {
       setAdopting(false)
+    }
+  }
+
+  // El modo liviano: seguir el plan del grupo como lectura adicional en Hoy,
+  // sin tocar tu plan activo (ni racha ni progreso propio). Reversible y de un
+  // toque — no pide confirmación. Optimista: si el servidor falla, se revierte.
+  async function toggleFollow(next) {
+    if (!user || !group.plan_id) return
+    setFollowing(next)
+    setFollowError(false)
+    try {
+      await followGroupPlan(group.id, next)
+    } catch {
+      setFollowing(!next)
+      setFollowError(true)
     }
   }
 
@@ -583,21 +608,46 @@ export default function GroupDetail() {
                   <CheckIcon size={15} strokeWidth={2.2} /> {t('groupDetail.readingWithGroup')}
                 </p>
               ) : !groupPlanFinished ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setAdoptError(false)
-                    setConfirmAdopt(true)
-                  }}
-                  className="btn btn-secondary mt-3"
-                  style={{ border: '1px solid var(--accent-ink)', color: 'var(--accent-ink)' }}
-                >
-                  {t('groupDetail.joinPlan')}
-                </button>
+                <>
+                  {/* Dos maneras de leerlo: como TU plan (lo de siempre) o como
+                      lectura adicional en Hoy — tu plan queda intacto. */}
+                  {following && (
+                    <p
+                      className="mt-3 flex items-center gap-1.5 text-[13px] font-semibold"
+                      style={{ color: 'var(--accent-ink)' }}
+                    >
+                      <CheckIcon size={15} strokeWidth={2.2} /> {t('groupDetail.followingPlan')}
+                    </p>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAdoptError(false)
+                      setConfirmAdopt(true)
+                    }}
+                    className="btn btn-secondary mt-3"
+                    style={{ border: '1px solid var(--accent-ink)', color: 'var(--accent-ink)' }}
+                  >
+                    {t('groupDetail.joinPlan')}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => toggleFollow(!following)}
+                    className="mt-1 w-full py-2 text-center text-[14px] font-medium"
+                    style={{ color: following ? 'var(--danger)' : 'var(--accent-ink)' }}
+                  >
+                    {following ? t('groupDetail.unfollowPlan') : t('groupDetail.followPlan')}
+                  </button>
+                </>
               ) : null}
               {adoptError && (
                 <p className="mt-2 text-[13px]" style={{ color: 'var(--danger)' }}>
                   {t('groupDetail.adoptError')}
+                </p>
+              )}
+              {followError && (
+                <p className="mt-2 text-[13px]" style={{ color: 'var(--danger)' }}>
+                  {t('groupDetail.followError')}
                 </p>
               )}
             </div>

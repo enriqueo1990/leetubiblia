@@ -417,6 +417,10 @@
   "reflectionSheet.editHint": "You can edit it today. Tomorrow it's saved as is.",
   "reflectionSheet.shareImage": "Share as an image",
 
+  "hoy.withGroups": "With your groups",
+  "hoy.markGroupReadAria": "Mark the reading with {name} as read",
+  "hoy.unmarkGroupReadAria": "Unmark the reading with {name}",
+
   "materialsToday.otherReadings": "My other readings",
   "materialsToday.completed": "Completed",
   "materialsToday.questionOf": "Question {n} of {total}",
@@ -454,6 +458,10 @@
   "groupDetail.adoptMsg": "It becomes your active plan on day {day}, right where the group is. Earlier days are marked as read and your previous progress is saved separately.",
   "groupDetail.adopt": "Join in",
   "groupDetail.adoptError": "Couldn't activate the plan. Try again.",
+  "groupDetail.followPlan": "Add it to Today as an extra reading",
+  "groupDetail.followingPlan": "You're following it in Today, alongside your plan",
+  "groupDetail.unfollowPlan": "Stop following it",
+  "groupDetail.followError": "Couldn't save. Try again.",
   "groupDetail.planPickerHelp": "The plan starts today as day 1. Each member chooses to join — those who do read the same thing, the same day.",
   "groupDetail.planPickerSet": "Choose this plan",
   "groupDetail.planError": "Couldn't save the group plan. Try again.",

@@ -27,6 +27,7 @@ import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import ReflectionSheet from '../components/ReflectionSheet.jsx'
 import MaterialsToday from '../components/MaterialsToday.jsx'
+import GroupReadingsToday from '../components/GroupReadingsToday.jsx'
 
 // Pantalla Hoy — la cara de la app (documento maestro §5.1, README pantalla 1).
 // Se ancla en el día que dicta useReading (displayDay): si vas atrasado, el día
@@ -512,8 +513,10 @@ export default function Hoy() {
         </div>
       )}
 
-      {/* Materiales opcionales (catecismo, etc.) bajo la lectura. Vacío si el
-          usuario no activó ninguno → Hoy queda idéntico. Solo en lectura normal. */}
+      {/* Lecturas de grupos seguidas como adicionales, y materiales opcionales
+          (catecismo, etc.), bajo la lectura. Vacíos si no hay nada → Hoy queda
+          idéntico. Solo en lectura normal. */}
+      {!r.planFinished && <GroupReadingsToday />}
       {!r.planFinished && <MaterialsToday />}
 
       <div className="flex-1 lg:hidden" />
