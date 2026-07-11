@@ -1,5 +1,5 @@
 // Genera public/og-lideres.png: la imagen Open Graph propia de la landing
-// /guia-lideres (el recurso pastoral con capturas reales, cómo usar la app con
+// /lideres (el recurso pastoral con capturas reales, cómo usar la app con
 // un grupo de discipulado). Hermana de og-grupos.png, pero esa es la PRESENTACIÓN
 // ("Guiá a tu grupo… sin chats desbordados") y esta es el RECURSO ("Acompañá a
 // tu grupo en la Palabra"). Misma estética 1:1 con las landings: papel, marca del
@@ -61,7 +61,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" 
   <text x="82" y="512" font-family="${font}" font-size="24" font-weight="400" fill="${soft}">acompañar a tu gente —con capturas reales de la app.</text>
 
   <!-- URL -->
-  <text x="82" y="572" font-family="${font}" font-size="21" font-weight="600" letter-spacing="0.3" fill="${accent}">leetubiblia.com/guia-lideres</text>
+  <text x="82" y="572" font-family="${font}" font-size="21" font-weight="600" letter-spacing="0.3" fill="${accent}">leetubiblia.com/lideres</text>
 </svg>`
 
 const out = fileURLToPath(new URL('../public/og-lideres.png', import.meta.url))

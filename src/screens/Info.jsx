@@ -11,9 +11,10 @@ import {
 } from '../components/icons.jsx'
 import {
   LandingStyle,
+  LandingGlow,
+  LandingHeader,
   LandingFooter,
   IconBadge,
-  Wordmark,
   Eyebrow,
   PhoneMock,
   GroupMock,
@@ -32,6 +33,8 @@ import {
 
 // Funcionalidades agrupadas: tres clusters con jerarquía en vez de una grilla
 // plana de nueve ítems idénticos (chunking ≤4 por grupo).
+// El matiz de cada ítem es SEMÁNTICO (ver paleta en landingKit): lectura = sepia,
+// oración = coral, grupos = menta, ajustes/extras = cielo. Nada alterna porque sí.
 const CLUSTERS = [
   {
     label: 'Tu lectura',
@@ -45,16 +48,16 @@ const CLUSTERS = [
   {
     label: 'Oración y grupo',
     items: [
-      { icon: <HeartIcon size={22} />, name: 'Oración', desc: 'Pedidos propios o compartidos, con testimonios cuando Dios responde.' },
-      { icon: <PeopleIcon size={22} />, name: 'Grupos', desc: 'Vean quién leyó hoy, oren juntos y celebren lo que Dios hace.' },
+      { icon: <HeartIcon size={22} />, name: 'Oración', desc: 'Pedidos propios o compartidos, con testimonios cuando Dios responde.', tone: 'oracion' },
+      { icon: <PeopleIcon size={22} />, name: 'Grupos', desc: 'Vean quién leyó hoy, oren juntos y celebren lo que Dios hace.', tone: 'grupos' },
     ],
   },
   {
     label: 'Además',
     items: [
-      { icon: <AwardIcon size={22} />, name: 'Tu recorrido', desc: 'Un resumen de tus logros y una imagen para compartir al terminar un plan.' },
-      { icon: <PaletteIcon size={22} />, name: 'A tu gusto', desc: '12 acentos de color y modo claro u oscuro automático.' },
-      { icon: <WifiOffIcon size={22} />, name: 'Funciona sin conexión', desc: 'Se instala como app y muestra tu lectura de hoy aún sin internet.' },
+      { icon: <AwardIcon size={22} />, name: 'Tu recorrido', desc: 'Un resumen de tus logros y una imagen para compartir al terminar un plan.', tone: 'ajustes' },
+      { icon: <PaletteIcon size={22} />, name: 'A tu gusto', desc: '12 acentos de color y modo claro u oscuro automático.', tone: 'ajustes' },
+      { icon: <WifiOffIcon size={22} />, name: 'Funciona sin conexión', desc: 'Se instala como app y muestra tu lectura de hoy aún sin internet.', tone: 'ajustes' },
     ],
   },
 ]
@@ -64,21 +67,25 @@ const DISCIPULADO = [
     icon: <LockIcon size={22} />,
     title: 'Grupos cerrados por código',
     desc: 'Creás un grupo privado y compartís un código corto. Nadie entra sin él.',
+    tone: 'grupos',
   },
   {
     icon: <BookIcon size={22} />,
     title: 'El pulso del grupo',
     desc: 'Quién marcó su lectura hoy y, solo para el líder, la semana de cada uno —con respeto por quien prefiere no compartir.',
+    tone: 'grupos',
   },
   {
     icon: <HeartIcon size={22} />,
     title: 'Oración que se acompaña',
     desc: 'Pedidos compartidos, gente orando por cada uno, y testimonios cuando llega la respuesta.',
+    tone: 'oracion',
   },
   {
     icon: <CheckIcon size={22} strokeWidth={2} />,
     title: 'Resumen para el líder',
     desc: 'Un panorama del grupo para saber por quién preguntar y a quién animar esta semana.',
+    tone: 'grupos',
   },
 ]
 
@@ -112,32 +119,17 @@ export default function Info() {
   }, [])
 
   return (
-    <div className="min-h-[100dvh] bg-app text-ink">
+    <div className="relative min-h-[100dvh] bg-app text-ink">
       <LandingStyle />
+      {/* Lámina cálida de página: nace en el borde superior, detrás del header,
+          y baña también el hero — header y hero son UNA pieza. */}
+      <LandingGlow />
 
-      {/* Barra superior — mínima, no fija. */}
-      <header className="mx-auto flex w-full max-w-[760px] items-center justify-between px-6 py-6">
-        <Wordmark />
-        <Link
-          to="/"
-          className="rounded-pill px-3 py-2 text-[15px] font-semibold text-ink-soft transition-colors hover:text-accent-ink"
-        >
-          Entrar
-        </Link>
-      </header>
+      <LandingHeader current="/info" />
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden">
-        {/* Viñeta de papel: acento apenas insinuado, no un gradiente de fondo. */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-[560px]"
-          style={{
-            background:
-              'radial-gradient(ellipse 620px 420px at 50% -8%, var(--accent-tint), transparent 70%)',
-          }}
-        />
-        <div className="screen-enter relative mx-auto w-full max-w-[680px] px-6 pb-16 pt-10 text-center sm:pt-16">
+      <section>
+        <div className="screen-enter relative mx-auto w-full max-w-[680px] px-6 pb-16 pt-10 text-center sm:pt-14">
           <Eyebrow>Compañero de lectura bíblica</Eyebrow>
           <h1 className="mx-auto mt-5 max-w-[560px] text-[38px] font-bold leading-[1.12] tracking-[-0.03em] text-ink [text-wrap:balance] sm:text-[48px]">
             El hábito de abrir <span className="whitespace-nowrap text-accent-ink">tu Biblia</span>, sostenido día a día.
@@ -200,7 +192,7 @@ export default function Info() {
               <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
                 {c.items.map((f) => (
                   <div key={f.name} className="flex items-start gap-4">
-                    <IconBadge>{f.icon}</IconBadge>
+                    <IconBadge tone={f.tone}>{f.icon}</IconBadge>
                     <div>
                       <p className="text-[17px] font-semibold text-ink">{f.name}</p>
                       <p className="mt-1 text-[15px] leading-snug text-ink-soft">{f.desc}</p>
@@ -214,9 +206,9 @@ export default function Info() {
       </section>
 
       {/* ── DISCIPULADO (sección propia, destacada) ──────────── */}
-      <section className="mt-16 border-y border-hairline bg-surface-alt/60 py-20">
+      <section className="band-grupos mt-16 py-20">
         <div className="mx-auto w-full max-w-[880px] px-6">
-          <Eyebrow>Para líderes y pastores</Eyebrow>
+          <Eyebrow tone="grupos">Para líderes y pastores</Eyebrow>
           <h2 className="mt-4 max-w-[560px] text-[28px] font-bold leading-[1.14] tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[34px]">
             Una herramienta para discipular, no solo una app personal
           </h2>
@@ -234,7 +226,7 @@ export default function Info() {
               <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-1">
                 {DISCIPULADO.map((d) => (
                   <div key={d.title} className="flex items-start gap-4">
-                    <IconBadge>{d.icon}</IconBadge>
+                    <IconBadge tone={d.tone}>{d.icon}</IconBadge>
                     <div>
                       <h3 className="text-[17px] font-semibold text-ink">{d.title}</h3>
                       <p className="mt-1 text-[15px] leading-snug text-ink-soft">{d.desc}</p>

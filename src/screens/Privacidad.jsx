@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { BookIcon, HeartIcon, PeopleIcon, LockIcon, PencilIcon } from '../components/icons.jsx'
-import { LandingStyle, LandingFooter, Wordmark, Eyebrow, IconBadge, BellIcon } from './landingKit.jsx'
+import { LandingStyle, LandingGlow, LandingHeader, LandingFooter, Eyebrow, IconBadge, BellIcon } from './landingKit.jsx'
 
 // Página pública /privacidad — la capa de confianza del sitio (ver App.jsx, fuera
 // del Gate). Enlazada desde el footer global de todas las páginas. Está redactada
@@ -18,6 +17,7 @@ const DATOS = [
   {
     icon: <PeopleIcon size={22} />,
     title: 'Tu cuenta',
+    tone: 'ajustes',
     desc: 'Tu correo y un nombre para mostrar. El correo es solo para entrar y para avisos del servicio; nunca para publicidad.',
   },
   {
@@ -33,16 +33,19 @@ const DATOS = [
   {
     icon: <HeartIcon size={22} />,
     title: 'Tu oración',
+    tone: 'oracion',
     desc: 'Tus pedidos, sus novedades y quién está orando. Cada pedido es privado salvo que vos elijas compartirlo con un grupo.',
   },
   {
     icon: <PeopleIcon size={22} />,
     title: 'Tus grupos',
+    tone: 'grupos',
     desc: 'Los grupos de los que sos parte y tu preferencia de qué compartís en ellos. Los grupos son cerrados: se entra por código.',
   },
   {
     icon: <BellIcon size={22} />,
     title: 'El recordatorio diario',
+    tone: 'ajustes',
     desc: 'Si lo activás, guardamos lo justo para enviarte la notificación a tu hora. Lo apagás cuando quieras desde Ajustes.',
   },
 ]
@@ -54,38 +57,24 @@ export default function Privacidad() {
   }, [])
 
   return (
-    <div className="min-h-[100dvh] bg-app text-ink">
+    <div className="relative min-h-[100dvh] bg-app text-ink">
       <LandingStyle />
+      {/* Resplandor suave: presencia cálida detrás del header, sin marketing. */}
+      <LandingGlow soft />
 
-      {/* Barra superior — mínima, no fija. */}
-      <header className="mx-auto flex w-full max-w-[760px] items-center justify-between px-6 py-6">
-        <Link to="/info" aria-label="Lee Tu Biblia">
-          <Wordmark />
-        </Link>
-        <Link
-          to="/"
-          className="rounded-pill px-3 py-2 text-[15px] font-semibold text-ink-soft transition-colors hover:text-accent-ink"
-        >
-          Abrir la app
-        </Link>
-      </header>
+      <LandingHeader current="/privacidad" />
 
-      {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-[420px]"
-          style={{
-            background:
-              'radial-gradient(ellipse 620px 420px at 50% -8%, var(--accent-tint), transparent 70%)',
-          }}
-        />
-        <div className="screen-enter relative mx-auto w-full max-w-[680px] px-6 pb-12 pt-10 text-center sm:pt-16">
+      {/* ── ENCABEZADO DE DOCUMENTO ──────────────────────────── */}
+      {/* Sobrio: alineado a la izquierda y con la fecha arriba, para que se lea
+          como un documento de confianza —no como otro landing—. */}
+      <section className="screen-enter relative mx-auto w-full max-w-[880px] px-6 pt-10">
+        <div className="border-b border-hairline pb-9">
           <Eyebrow>Privacidad</Eyebrow>
-          <h1 className="mx-auto mt-5 max-w-[520px] text-[34px] font-bold leading-[1.14] tracking-[-0.03em] text-ink [text-wrap:balance] sm:text-[42px]">
+          <h1 className="mt-3 max-w-[560px] text-[28px] font-bold leading-[1.15] tracking-[-0.025em] text-ink sm:text-[34px]">
             Tu vida con Dios es <span className="text-accent-ink">tuya</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-[500px] text-[18px] leading-relaxed text-ink-soft">
+          <p className="mt-2 text-[13px] text-ink-soft">Última actualización: {ACTUALIZADO}</p>
+          <p className="mt-5 max-w-[600px] text-[16.5px] leading-relaxed text-ink-soft">
             Lo que leés, lo que anotás y por lo que orás te pertenece. Acá te
             contamos —en simple— qué guardamos, qué es privado y cómo tenés el
             control. Sin letra chica.
@@ -94,7 +83,7 @@ export default function Privacidad() {
       </section>
 
       {/* ── LO ESENCIAL ──────────────────────────────────────── */}
-      <section className="mx-auto w-full max-w-[720px] px-6 py-8">
+      <section className="mx-auto w-full max-w-[880px] px-6 py-8">
         <div className="rounded-card border border-hairline bg-surface-alt/60 px-7 py-8">
           <Eyebrow>Lo esencial</Eyebrow>
           <ul className="mt-5 flex flex-col gap-3 text-[16.5px] leading-snug text-ink">
@@ -132,7 +121,7 @@ export default function Privacidad() {
           <div className="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-2">
             {DATOS.map((d) => (
               <div key={d.title} className="flex items-start gap-4">
-                <IconBadge>{d.icon}</IconBadge>
+                <IconBadge tone={d.tone}>{d.icon}</IconBadge>
                 <div>
                   <h3 className="text-[17px] font-semibold text-ink">{d.title}</h3>
                   <p className="mt-1 text-[15px] leading-snug text-ink-soft">{d.desc}</p>
@@ -144,10 +133,10 @@ export default function Privacidad() {
       </section>
 
       {/* ── PRIVADO Y COMPARTIDO ─────────────────────────────── */}
-      <section className="border-y border-hairline bg-surface-alt/60 py-20">
-        <div className="mx-auto w-full max-w-[720px] px-6">
+      <section className="landing-band py-20">
+        <div className="mx-auto w-full max-w-[880px] px-6">
           <div className="flex items-start gap-4">
-            <IconBadge>
+            <IconBadge tone="grupos">
               <LockIcon size={22} />
             </IconBadge>
             <div>
@@ -179,7 +168,7 @@ export default function Privacidad() {
       </section>
 
       {/* ── CÓMO ENTRÁS · DÓNDE VIVE ─────────────────────────── */}
-      <section className="mx-auto w-full max-w-[720px] px-6 py-16">
+      <section className="mx-auto w-full max-w-[880px] px-6 py-16">
         <div className="grid gap-10 sm:grid-cols-2">
           <div>
             <Eyebrow>Cómo entrás</Eyebrow>
@@ -207,7 +196,7 @@ export default function Privacidad() {
 
       {/* ── TU CONTROL ───────────────────────────────────────── */}
       <section className="border-t border-hairline">
-        <div className="mx-auto w-full max-w-[720px] px-6 py-16">
+        <div className="mx-auto w-full max-w-[880px] px-6 py-16">
           <Eyebrow>Tu control</Eyebrow>
           <h2 className="mt-4 text-[26px] font-bold tracking-[-0.025em] text-ink sm:text-[30px]">
             Podés irte con todo lo tuyo
@@ -238,9 +227,6 @@ export default function Privacidad() {
           >
             {CONTACTO}
           </a>
-          <p className="mt-10 text-[13px] text-ink-soft">
-            Última actualización: {ACTUALIZADO}
-          </p>
         </div>
       </section>
 

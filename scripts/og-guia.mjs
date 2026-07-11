@@ -1,7 +1,7 @@
-// Genera public/og-guia.png: la imagen Open Graph propia de la landing /guia
+// Genera public/og-guia.png: la imagen Open Graph propia de la página /ayuda
 // (el manual completo de la app). Hermana de og-info.png; misma estética 1:1 con
 // las landings: papel, marca del libro en sepia, la MISMA sans del sistema, un
-// solo acento (design-canon). /guia es la referencia exhaustiva; su preview lo dice.
+// solo acento (design-canon). /ayuda es la referencia exhaustiva; su preview lo dice.
 //
 // Regenerar tras tocar el diseño:  node scripts/og-guia.mjs
 //
@@ -59,7 +59,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" 
   <text x="82" y="516" font-family="${font}" font-size="25" font-weight="400" fill="${soft}">los grupos de discipulado y los materiales.</text>
 
   <!-- URL -->
-  <text x="82" y="576" font-family="${font}" font-size="21" font-weight="600" letter-spacing="0.3" fill="${accent}">leetubiblia.com/guia</text>
+  <text x="82" y="576" font-family="${font}" font-size="21" font-weight="600" letter-spacing="0.3" fill="${accent}">leetubiblia.com/ayuda</text>
 </svg>`
 
 const out = fileURLToPath(new URL('../public/og-guia.png', import.meta.url))

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { BookIcon, HeartIcon, LockIcon } from '../components/icons.jsx'
-import { LandingStyle, LandingFooter, Wordmark, Eyebrow, IconBadge } from './landingKit.jsx'
+import { LandingStyle, LandingGlow, LandingHeader, LandingFooter, Eyebrow, IconBadge } from './landingKit.jsx'
 import shotPlan from '../assets/guia-lideres/plan-del-grupo.png'
 import shotHoy from '../assets/guia-lideres/hoy-con-grupos.png'
 import shotSala from '../assets/guia-lideres/sala-grupo.png'
@@ -59,33 +59,19 @@ export default function Lideres() {
   }, [])
 
   return (
-    <div className="min-h-[100dvh] bg-app text-ink">
+    <div className="relative min-h-[100dvh] bg-app text-ink">
       <LandingStyle />
+      {/* Lámina cálida de página: detrás del header y del hero (una sola pieza). */}
+      <LandingGlow />
 
-      {/* Barra superior — mínima, no fija. */}
-      <header className="mx-auto flex w-full max-w-[760px] items-center justify-between px-6 py-6">
-        <Link to="/info" aria-label="Lee Tu Biblia">
-          <Wordmark />
-        </Link>
-        <Link
-          to="/"
-          className="rounded-pill px-3 py-2 text-[15px] font-semibold text-ink-soft transition-colors hover:text-accent-ink"
-        >
-          Abrir la app
-        </Link>
-      </header>
+      <LandingHeader current="/lideres" />
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-[500px]"
-          style={{
-            background:
-              'radial-gradient(ellipse 620px 420px at 50% -8%, var(--accent-tint), transparent 70%)',
-          }}
-        />
-        <div className="screen-enter relative mx-auto w-full max-w-[680px] px-6 pb-14 pt-10 text-center sm:pt-16">
+      {/* Firma propia de esta página: la franja de capturas REALES en el hero la
+          distingue de un vistazo de /info (que es todo texto). Decorativa
+          (aria-hidden): las mismas capturas van con su alt más abajo. */}
+      <section>
+        <div className="screen-enter relative mx-auto w-full max-w-[680px] px-6 pb-14 pt-10 text-center sm:pt-14">
           <Eyebrow>Para líderes de grupo</Eyebrow>
           <h1 className="mx-auto mt-5 max-w-[560px] text-[35px] font-bold leading-[1.13] tracking-[-0.03em] text-ink [text-wrap:balance] sm:text-[44px]">
             Acompañá a tu grupo <span className="whitespace-nowrap text-accent-ink">en la Palabra</span>
@@ -96,6 +82,26 @@ export default function Lideres() {
             tu gente. La Palabra la lee cada uno en su Biblia; la app sostiene el
             hábito que caminan juntos.
           </p>
+          <div aria-hidden="true" className="mt-12 flex items-end justify-center">
+            <img
+              src={shotHoy}
+              alt=""
+              className="w-[96px] -rotate-[7deg] rounded-[18px] border border-hairline sm:w-[112px]"
+              style={{ boxShadow: '0 22px 50px -22px rgba(60,44,28,0.35)' }}
+            />
+            <img
+              src={shotSala}
+              alt=""
+              className="relative z-10 -mx-4 w-[112px] rounded-[20px] border border-hairline sm:w-[132px]"
+              style={{ boxShadow: '0 26px 60px -22px rgba(60,44,28,0.42)' }}
+            />
+            <img
+              src={shotOrar}
+              alt=""
+              className="w-[96px] rotate-[7deg] rounded-[18px] border border-hairline sm:w-[112px]"
+              style={{ boxShadow: '0 22px 50px -22px rgba(60,44,28,0.35)' }}
+            />
+          </div>
         </div>
       </section>
 
@@ -147,7 +153,7 @@ export default function Lideres() {
       </section>
 
       {/* ── RECORRIDO CON CAPTURAS ───────────────────────────── */}
-      <section className="mx-auto w-full max-w-[900px] px-6 pb-4">
+      <section className="mx-auto w-full max-w-[880px] px-6 pb-4">
         <Walk
           eyebrow="El plan, a la medida de cada uno"
           title="Un mismo plan, sin obligar a nadie"
@@ -227,7 +233,7 @@ export default function Lideres() {
 
       {/* ── TRES RECORDATORIOS ───────────────────────────────── */}
       <section className="mx-auto w-full max-w-[720px] px-6 py-14">
-        <div className="rounded-card border border-hairline bg-surface-alt/60 px-7 py-8">
+        <div className="band-grupos rounded-card px-7 py-8">
           <Eyebrow>Para tener presente</Eyebrow>
           <div className="mt-6 grid gap-7 sm:grid-cols-3">
             <div className="flex flex-col gap-3">
@@ -243,7 +249,7 @@ export default function Lideres() {
               </div>
             </div>
             <div className="flex flex-col gap-3">
-              <IconBadge>
+              <IconBadge tone="oracion">
                 <HeartIcon size={22} />
               </IconBadge>
               <div>
@@ -255,7 +261,7 @@ export default function Lideres() {
               </div>
             </div>
             <div className="flex flex-col gap-3">
-              <IconBadge>
+              <IconBadge tone="grupos">
                 <LockIcon size={22} />
               </IconBadge>
               <div>

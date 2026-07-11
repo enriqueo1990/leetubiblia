@@ -12,9 +12,10 @@ import {
 } from '../components/icons.jsx'
 import {
   LandingStyle,
+  LandingGlow,
+  LandingHeader,
   LandingFooter,
   IconBadge,
-  Wordmark,
   Eyebrow,
   PhoneMock,
   GroupMock,
@@ -98,12 +99,12 @@ function SunIcon({ size = 22 }) {
 }
 
 // Rejilla de funciones: badge + nombre + descripción. Aire, sin tarjetas flotantes.
-function FeatureGrid({ items }) {
+function FeatureGrid({ items, tone }) {
   return (
     <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
       {items.map((f) => (
         <div key={f.name} className="flex items-start gap-4">
-          <IconBadge>{f.icon}</IconBadge>
+          <IconBadge tone={tone}>{f.icon}</IconBadge>
           <div>
             <p className="text-[17px] font-semibold text-ink">{f.name}</p>
             <p className="mt-1 text-[15px] leading-snug text-ink-soft">{f.desc}</p>
@@ -114,11 +115,11 @@ function FeatureGrid({ items }) {
   )
 }
 
-// Encabezado de sección de pestaña: eyebrow + título grande.
-function TabHead({ eyebrow, title, intro }) {
+// Encabezado de sección de pestaña: eyebrow + título grande, en el matiz de la pestaña.
+function TabHead({ eyebrow, title, intro, tone }) {
   return (
     <>
-      <Eyebrow>{eyebrow}</Eyebrow>
+      <Eyebrow tone={tone}>{eyebrow}</Eyebrow>
       <h2 className="mt-4 max-w-[560px] text-[28px] font-bold leading-[1.14] tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[32px]">
         {title}
       </h2>
@@ -136,63 +137,55 @@ export default function Ayuda() {
   }, [])
 
   return (
-    <div className="min-h-[100dvh] bg-app text-ink">
+    <div className="relative min-h-[100dvh] bg-app text-ink">
       <LandingStyle />
+      {/* Resplandor suave: presencia cálida detrás del header, sin marketing. */}
+      <LandingGlow soft />
 
-      {/* Barra superior — mínima, no fija. */}
-      <header className="mx-auto flex w-full max-w-[760px] items-center justify-between px-6 py-6">
-        <Wordmark />
-        <Link
-          to="/"
-          className="rounded-pill px-3 py-2 text-[15px] font-semibold text-ink-soft transition-colors hover:text-accent-ink"
-        >
-          Entrar
-        </Link>
-      </header>
+      <LandingHeader current="/ayuda" />
 
-      {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-[520px]"
-          style={{
-            background:
-              'radial-gradient(ellipse 620px 420px at 50% -8%, var(--accent-tint), transparent 70%)',
-          }}
-        />
-        <div className="screen-enter relative mx-auto w-full max-w-[680px] px-6 pb-14 pt-10 text-center sm:pt-16">
-          <Eyebrow>Guía completa</Eyebrow>
-          <h1 className="mx-auto mt-5 max-w-[560px] text-[38px] font-bold leading-[1.12] tracking-[-0.03em] text-ink [text-wrap:balance] sm:text-[46px]">
-            Todo lo que hace <span className="whitespace-nowrap text-accent-ink">Lee Tu Biblia</span>
+      {/* ── ENCABEZADO DE MANUAL ─────────────────────────────── */}
+      {/* Deliberadamente NO es un hero de landing (sin resplandor sepia, sin
+          título gigante centrado): esta página es referencia, no captación, y
+          debe leerse como documentación —compacta, alineada a la izquierda, con
+          su índice— para no confundirse con /info. */}
+      <section className="screen-enter relative mx-auto w-full max-w-[880px] px-6 pt-10">
+        <div className="border-b border-hairline pb-9">
+          <Eyebrow>Manual · referencia</Eyebrow>
+          <h1 className="mt-3 max-w-[620px] text-[28px] font-bold leading-[1.15] tracking-[-0.025em] text-ink sm:text-[34px]">
+            Guía completa de la app
           </h1>
-          <p className="mx-auto mt-6 max-w-[500px] text-[18px] leading-relaxed text-ink-soft">
-            Un recorrido por cada función, pestaña por pestaña: tu lectura, la
-            oración, los grupos de discipulado y los detalles a tu gusto. La
-            Palabra la leés en tu Biblia de papel; la app acompaña el hábito.
+          <p className="mt-3 max-w-[600px] text-[16.5px] leading-relaxed text-ink-soft">
+            Cada función, pestaña por pestaña: tu lectura y los 8 planes, la
+            oración, los grupos de discipulado y los ajustes. La Palabra la leés
+            en tu Biblia de papel; la app acompaña el hábito.
           </p>
-          {/* Índice de las cuatro pestañas. */}
-          <div className="mx-auto mt-9 flex max-w-[440px] flex-wrap justify-center gap-2">
+          {/* Índice de las cuatro pestañas — cada chip viste el matiz de su
+              pestaña: el índice adelanta el sistema de color de la página. */}
+          <nav className="mt-7 flex flex-wrap gap-2">
             {[
-              ['Hoy', '#hoy'],
-              ['Oración', '#oracion'],
-              ['Grupos', '#grupos'],
-              ['Ajustes', '#ajustes'],
-            ].map(([label, href]) => (
+              ['Hoy', '#hoy', 'bg-accent-tint text-accent-ink'],
+              ['Oración', '#oracion', 'hb-oracion'],
+              ['Grupos', '#grupos', 'hb-grupos'],
+              ['Ajustes', '#ajustes', 'hb-ajustes'],
+            ].map(([label, href, hue]) => (
               <a
                 key={href}
                 href={href}
-                className="info-cta rounded-pill bg-surface-alt px-4 py-2 text-[14px] font-semibold text-ink-soft transition-colors hover:text-accent-ink"
+                className={`info-cta rounded-pill px-4 py-2 text-[14px] font-semibold ${hue}`}
               >
                 {label}
               </a>
             ))}
-          </div>
+          </nav>
         </div>
       </section>
 
       {/* ── HOY / LECTURA ────────────────────────────────────── */}
-      <section id="hoy" className="mx-auto w-full max-w-[880px] scroll-mt-6 px-6 py-16">
-        <div className="border-t border-hairline pt-12 lg:flex lg:items-start lg:gap-16">
+      {/* Sin border-t: el border-b del encabezado de manual ya es el divisor
+          (evita la doble línea al inicio). */}
+      <section id="hoy" className="mx-auto w-full max-w-[880px] scroll-mt-6 px-6 pb-16 pt-14">
+        <div className="lg:flex lg:items-start lg:gap-16">
           <div className="lg:flex-1">
             <TabHead
               eyebrow="Pestaña · Hoy"
@@ -258,16 +251,17 @@ export default function Ayuda() {
       </section>
 
       {/* ── ORACIÓN ──────────────────────────────────────────── */}
-      <section id="oracion" className="scroll-mt-6 border-y border-hairline bg-surface-alt/60 py-20">
+      <section id="oracion" className="band-oracion scroll-mt-6 py-20">
         <div className="mx-auto w-full max-w-[880px] px-6 lg:flex lg:items-start lg:gap-16">
           <div className="lg:order-2 lg:flex-1">
             <TabHead
               eyebrow="Pestaña · Oración"
+              tone="oracion"
               title="Lo que estás pidiendo, en un solo lugar"
               intro="Anotá tus pedidos y volvé a ellos. Guardalos para vos o compartilos con tu gente, acompañá cómo sigue cada uno y celebren juntos la respuesta."
             />
             <div className="mt-10">
-              <FeatureGrid items={ORACION} />
+              <FeatureGrid items={ORACION} tone="oracion" />
             </div>
           </div>
           <div className="mt-12 shrink-0 lg:order-1 lg:mt-0">
@@ -282,11 +276,12 @@ export default function Ayuda() {
           <div className="lg:flex-1">
             <TabHead
               eyebrow="Pestaña · Grupos"
+              tone="grupos"
               title="Nadie camina solo"
               intro="Grupos cerrados de discipulado. Se entra por código y nada es público: leen un mismo plan, oran juntos y se acompañan en el camino."
             />
             <div className="mt-10">
-              <FeatureGrid items={GRUPOS} />
+              <FeatureGrid items={GRUPOS} tone="grupos" />
             </div>
           </div>
           <div className="mt-12 shrink-0 lg:mt-0">
@@ -300,11 +295,12 @@ export default function Ayuda() {
         <div className="mx-auto w-full max-w-[720px] px-6 py-20">
           <TabHead
             eyebrow="Pestaña · Ajustes"
+            tone="ajustes"
             title="Tuya, a tu manera"
             intro="Pequeños detalles para que la app se sienta propia y descanse la vista."
           />
           <div className="mt-10">
-            <FeatureGrid items={AJUSTES} />
+            <FeatureGrid items={AJUSTES} tone="ajustes" />
           </div>
         </div>
       </section>
