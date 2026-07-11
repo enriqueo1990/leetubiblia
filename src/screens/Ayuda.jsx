@@ -12,6 +12,7 @@ import {
 } from '../components/icons.jsx'
 import {
   LandingStyle,
+  LandingFooter,
   IconBadge,
   Wordmark,
   Eyebrow,
@@ -25,13 +26,13 @@ import {
   HandsIcon,
 } from './landingKit.jsx'
 
-// Landing pública /guia — el MANUAL completo de la app (ver App.jsx, fuera del Gate).
-// Hermana de /info: /info engancha en frío y es corta; /guia es la referencia
-// exhaustiva, pestaña por pestaña, con los 8 planes y los materiales. Mismo canon
-// que toda landing: un solo acento sepia, la MISMA sans del sistema, ancho de
-// lectura acotado, aire en vez de tarjetas flotantes (design-canon). El texto
-// bíblico NUNCA se muestra: la app acompaña la Biblia física, no la reemplaza
-// (product-principle-physical-bible).
+// Página pública /ayuda — la REFERENCIA de la app (ver App.jsx, fuera del Gate).
+// No es captación: es el manual al que se entra desde Ajustes → Guía de la app,
+// pestaña por pestaña, con los 8 planes y los materiales. /info engancha en frío
+// y es corta; /ayuda es exhaustiva. Mismo canon que toda página pública: un solo
+// acento sepia, la MISMA sans del sistema, ancho de lectura acotado, aire en vez
+// de tarjetas flotantes (design-canon). El texto bíblico NUNCA se muestra: la app
+// acompaña la Biblia física, no la reemplaza (product-principle-physical-bible).
 
 const HOY = [
   { icon: <BookIcon size={22} />, name: 'La lectura de hoy', desc: 'Cada mañana ves solo las referencias del día, grandes y claras. Una pantalla, una tarea.' },
@@ -128,7 +129,7 @@ function TabHead({ eyebrow, title, intro }) {
   )
 }
 
-export default function Guia() {
+export default function Ayuda() {
   useEffect(() => {
     document.title = 'Lee Tu Biblia — Guía completa de la app'
     window.scrollTo(0, 0)
@@ -336,15 +337,8 @@ export default function Guia() {
         </div>
       </section>
 
-      {/* ── FOOTER ───────────────────────────────────────────── */}
-      <footer className="border-t border-hairline">
-        <div className="mx-auto flex w-full max-w-[760px] flex-col items-center gap-3 px-6 py-10 text-center">
-          <Wordmark />
-          <p className="text-[13.5px] text-ink-soft">
-            Hecho para acompañar tu lectura en la Palabra.
-          </p>
-        </div>
-      </footer>
+      {/* ── FOOTER GLOBAL ────────────────────────────────────── */}
+      <LandingFooter current="/ayuda" />
     </div>
   )
 }

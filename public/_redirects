@@ -1,5 +1,14 @@
-# Las landings públicas (/info, /grupos-de-discipulado) NO necesitan regla: se
-# emiten como índice de carpeta (info/index.html…) y Netlify las sirve directo,
-# sin .html que las "Pretty URLs" recorten (eso causaba un bucle 308). Ver
-# vite.config.js. Solo queda el fallback SPA para el resto de rutas de React.
+# Las páginas públicas (/info, /lideres, /ayuda, /privacidad) NO necesitan regla:
+# se emiten como índice de carpeta (info/index.html…) y Netlify las sirve
+# directo, sin .html que las "Pretty URLs" recorten (eso causaba un bucle 308).
+# Ver vite.config.js.
+
+# Rutas antiguas → nuevas (reorganización a hub-y-radios). 301 para conservar los
+# links ya compartidos por WhatsApp/redes. Van ANTES del fallback SPA (la primera
+# coincidencia gana).
+/grupos-de-discipulado   /lideres   301!
+/guia-lideres            /lideres   301!
+/guia                    /ayuda     301!
+
+# Fallback SPA para el resto de rutas de React.
 /*    /index.html   200

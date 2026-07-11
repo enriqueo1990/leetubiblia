@@ -509,9 +509,9 @@ export default function Ajustes() {
             {shared ? t('ajustes.copiado') : <ShareIcon size={18} />}
           </span>
         </button>
-        {/* /guia es pública (vive fuera del Gate) pero antes no tenía ninguna
+        {/* /ayuda es pública (vive fuera del Gate) pero antes no tenía ninguna
             puerta desde adentro de la app. */}
-        <Link to="/guia" className="flex items-center justify-between gap-4 px-4 py-3">
+        <Link to="/ayuda" className="flex items-center justify-between gap-4 px-4 py-3">
           <span className="min-w-0 flex-1">
             <span className="block text-[16px] text-ink">{t('ajustes.guiaApp')}</span>
             <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">

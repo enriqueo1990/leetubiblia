@@ -19,6 +19,11 @@ import { VitePWA } from 'vite-plugin-pwa'
 // /info → /info.html). Por eso NO hay regla de reescritura en _redirects: basta
 // el índice de carpeta + el fallback SPA. Para sumar una landing: entrada acá +
 // su og-*.png (scripts/og-*.mjs). No toca _redirects.
+// Arquitectura hub-y-radios: /info es la puerta; /lideres, /ayuda y /privacidad
+// son hermanas planas conectadas por el footer global. Las rutas antiguas
+// (/grupos-de-discipulado, /guia-lideres, /guia) ya NO se emiten: se redirigen
+// con 301 en public/_redirects. /lideres reusa la OG del recorrido de líderes;
+// /ayuda reusa la OG del manual; /privacidad cae en la OG por defecto.
 const LANDING_PAGES = [
   {
     file: 'info/index.html',
@@ -30,31 +35,31 @@ const LANDING_PAGES = [
     alt: 'Lee Tu Biblia — compañero de lectura bíblica',
   },
   {
-    file: 'grupos-de-discipulado/index.html',
+    file: 'lideres/index.html',
     title: 'Lee Tu Biblia — Para líderes de grupos de discipulado',
     description:
-      'Guiá a tu grupo en la Palabra sin chats desbordados: lean al mismo ritmo, anímense a leer y oren juntos por sus pedidos y testimonios.',
-    url: 'https://leetubiblia.com/grupos-de-discipulado',
-    image: 'https://leetubiblia.com/og-grupos.png',
+      'Guiá a tu grupo en la Palabra sin chats desbordados, con capturas reales: lean al mismo ritmo, anímense a leer y oren juntos por sus pedidos y testimonios.',
+    url: 'https://leetubiblia.com/lideres',
+    image: 'https://leetubiblia.com/og-lideres.png',
     alt: 'Lee Tu Biblia — para líderes de grupos de discipulado',
   },
   {
-    file: 'guia/index.html',
+    file: 'ayuda/index.html',
     title: 'Lee Tu Biblia — Guía completa de la app',
     description:
       'El manual completo, pestaña por pestaña: tu lectura y los 8 planes, la oración, los grupos de discipulado y los materiales. Acompaña tu Biblia de papel, no la reemplaza.',
-    url: 'https://leetubiblia.com/guia',
+    url: 'https://leetubiblia.com/ayuda',
     image: 'https://leetubiblia.com/og-guia.png',
     alt: 'Lee Tu Biblia — guía completa de la app',
   },
   {
-    file: 'guia-lideres/index.html',
-    title: 'Lee Tu Biblia — Guía para líderes de grupo',
+    file: 'privacidad/index.html',
+    title: 'Lee Tu Biblia — Privacidad',
     description:
-      'Qué podés hacer con tu grupo de discipulado y cómo te ayuda a acompañar a tu gente, con capturas reales: un plan común, la lectura en el Hoy de cada uno, el pulso del grupo y la oración compartida.',
-    url: 'https://leetubiblia.com/guia-lideres',
-    image: 'https://leetubiblia.com/og-lideres.png',
-    alt: 'Lee Tu Biblia — guía para líderes de grupo',
+      'Qué guardamos y qué no, en simple: privado por defecto, sin publicidad, no vendemos tus datos, y podés borrar tu cuenta y todo lo tuyo cuando quieras.',
+    url: 'https://leetubiblia.com/privacidad',
+    image: 'https://leetubiblia.com/og-image.png',
+    alt: 'Lee Tu Biblia',
   },
 ]
 

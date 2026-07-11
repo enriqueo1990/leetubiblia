@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import Gate from './components/Gate.jsx'
 import Info from './screens/Info.jsx'
-import Guia from './screens/Guia.jsx'
-import GruposDiscipulado from './screens/GruposDiscipulado.jsx'
-import GuiaLideres from './screens/GuiaLideres.jsx'
+import Ayuda from './screens/Ayuda.jsx'
+import Lideres from './screens/Lideres.jsx'
+import Privacidad from './screens/Privacidad.jsx'
 import ProfilePrefSync from './components/ProfilePrefSync.jsx'
 import Layout from './components/Layout.jsx'
 import Hoy from './screens/Hoy.jsx'
@@ -58,16 +58,19 @@ function LaunchOverlay() {
 export default function App() {
   const { pathname } = useLocation()
 
-  // /info es la única página PÚBLICA: vive fuera del Gate y del splash, para que
-  // quien llega en frío (redes, un pastor pasando el link) vea de qué se trata
-  // sin caer en el login. Sus CTA llevan a "/" y ahí sí entra el Gate → AuthFlow.
-  if (pathname === '/info') return <Info />
-  // Manual completo de la app, hermano de /info (también público, fuera del Gate).
-  if (pathname === '/guia') return <Guia />
-  // Landing hermana enfocada al líder de grupo de discipulado (misma condición pública).
-  if (pathname === '/grupos-de-discipulado') return <GruposDiscipulado />
-  // Instructivo paso a paso para el líder de grupo (público, hermano del anterior).
-  if (pathname === '/guia-lideres') return <GuiaLideres />
+  // Páginas PÚBLICAS: viven fuera del Gate y del splash, para que quien llega en
+  // frío (redes, un pastor pasando el link) vea de qué se trata sin caer en el
+  // login. Todas comparten el footer global (landingKit → LandingFooter) que las
+  // conecta entre sí; sus CTA llevan a "/" y ahí sí entra el Gate → AuthFlow.
+  // Arquitectura hub-y-radios: /info es la puerta; las demás, hermanas planas.
+  if (pathname === '/info') return <Info /> // la puerta
+  if (pathname === '/lideres') return <Lideres /> // página del líder de grupo
+  if (pathname === '/ayuda') return <Ayuda /> // manual/referencia (entra desde Ajustes)
+  if (pathname === '/privacidad') return <Privacidad /> // capa de confianza
+  // Rutas antiguas → nuevas. El 301 real lo hace Netlify (public/_redirects) para
+  // los links que se comparten; esto cubre la navegación client-side ya cacheada.
+  if (pathname === '/guia') return <Ayuda />
+  if (pathname === '/grupos-de-discipulado' || pathname === '/guia-lideres') return <Lideres />
 
   return (
     <>

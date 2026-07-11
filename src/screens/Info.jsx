@@ -11,6 +11,7 @@ import {
 } from '../components/icons.jsx'
 import {
   LandingStyle,
+  LandingFooter,
   IconBadge,
   Wordmark,
   Eyebrow,
@@ -26,7 +27,7 @@ import {
 // llega en frío (redes, un pastor pasando el link) antes de decidir crear cuenta.
 // Concepto: la app acompaña la Biblia FÍSICA, no la reemplaza
 // (product-principle-physical-bible). Los primitivos de marca y los mocks viven
-// en landingKit.jsx, compartidos con /grupos-de-discipulado. Un solo acento sepia, la
+// en landingKit.jsx, compartidos con /lideres. Un solo acento sepia, la
 // MISMA sans del sistema, ancho de lectura acotado, aire en vez de tarjetas.
 
 // Funcionalidades agrupadas: tres clusters con jerarquía en vez de una grilla
@@ -265,6 +266,13 @@ export default function Info() {
             Todo es opt-in: cada persona elige qué comparte con el grupo. Nadie
             queda expuesto.
           </p>
+
+          <p className="mt-8 text-[16px] text-ink-soft">
+            ¿Guiás un grupo?{' '}
+            <Link to="/lideres" className="font-semibold text-accent-ink hover:underline">
+              Mirá la guía para líderes, con capturas reales →
+            </Link>
+          </p>
         </div>
       </section>
 
@@ -325,15 +333,8 @@ export default function Info() {
         </div>
       </section>
 
-      {/* ── FOOTER ───────────────────────────────────────────── */}
-      <footer className="border-t border-hairline">
-        <div className="mx-auto flex w-full max-w-[760px] flex-col items-center gap-3 px-6 py-10 text-center">
-          <Wordmark />
-          <p className="text-[13.5px] text-ink-soft">
-            Hecho para acompañar tu lectura en la Palabra.
-          </p>
-        </div>
-      </footer>
+      {/* ── FOOTER GLOBAL ────────────────────────────────────── */}
+      <LandingFooter current="/info" />
     </div>
   )
 }

@@ -1,7 +1,9 @@
+import { Link } from 'react-router-dom'
 import { BookIcon, HeartIcon, PeopleIcon, SlidersIcon, LockIcon } from '../components/icons.jsx'
 
-// Kit compartido por las landings públicas (/info y /grupos-de-discipulado): primitivos
-// de marca, íconos y mocks de producto. Vive fuera del Gate. Concepto transversal:
+// Kit compartido por las páginas públicas (/info, /lideres, /ayuda, /privacidad):
+// primitivos de marca, íconos, mocks de producto y el footer global. Vive fuera
+// del Gate. Concepto transversal:
 // la app acompaña la Biblia FÍSICA, no la reemplaza (product-principle-physical-bible).
 // Un solo acento sepia, la MISMA sans del sistema, aire en vez de tarjetas flotantes
 // (design-canon). Toda landing debe montar <LandingStyle/> para las clases info-*.
@@ -131,6 +133,56 @@ export function Eyebrow({ children }) {
     <p className="info-eyebrow text-[13px] font-semibold uppercase tracking-[0.16em]">
       {children}
     </p>
+  )
+}
+
+// Footer GLOBAL de las páginas públicas: el tejido conectivo del sitio. Idéntico
+// en /info, /lideres, /ayuda y /privacidad, para que desde cualquier página se
+// alcance cualquier otra en un clic (arquitectura hub-y-radios, plano). Es el
+// único lugar donde viven los enlaces entre hermanas: cada página se enfoca en
+// lo suyo y delega la navegación del sitio acá.
+const FOOTER_LINKS = [
+  ['Inicio', '/info'],
+  ['Para líderes', '/lideres'],
+  ['Ayuda', '/ayuda'],
+  ['Privacidad', '/privacidad'],
+]
+
+export function LandingFooter({ current }) {
+  return (
+    <footer className="border-t border-hairline">
+      <div className="mx-auto flex w-full max-w-[760px] flex-col items-center gap-6 px-6 py-12 text-center">
+        <Link to="/info" aria-label="Lee Tu Biblia">
+          <Wordmark />
+        </Link>
+        <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2.5">
+          {FOOTER_LINKS.map(([label, to]) =>
+            to === current ? (
+              <span key={to} className="text-[14px] font-semibold text-ink" aria-current="page">
+                {label}
+              </span>
+            ) : (
+              <Link
+                key={to}
+                to={to}
+                className="text-[14px] font-medium text-ink-soft transition-colors hover:text-accent-ink"
+              >
+                {label}
+              </Link>
+            )
+          )}
+          <Link
+            to="/"
+            className="text-[14px] font-semibold text-accent-ink transition-colors hover:underline"
+          >
+            Abrir la app →
+          </Link>
+        </nav>
+        <p className="text-[13px] leading-relaxed text-ink-soft">
+          Gratis · sin publicidad · hecho para acompañar tu lectura en la Palabra.
+        </p>
+      </div>
+    </footer>
   )
 }
 

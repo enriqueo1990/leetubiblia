@@ -1,20 +1,22 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { BookIcon, HeartIcon, LockIcon } from '../components/icons.jsx'
-import { LandingStyle, Wordmark, Eyebrow, IconBadge } from './landingKit.jsx'
+import { LandingStyle, LandingFooter, Wordmark, Eyebrow, IconBadge } from './landingKit.jsx'
 import shotPlan from '../assets/guia-lideres/plan-del-grupo.png'
 import shotHoy from '../assets/guia-lideres/hoy-con-grupos.png'
 import shotSala from '../assets/guia-lideres/sala-grupo.png'
 import shotOrar from '../assets/guia-lideres/orar-ahora.png'
 import shotLider from '../assets/guia-lideres/pulso-lider.png'
 
-// Landing pública /guia-lideres — RECURSO PASTORAL para el líder de grupo de
-// discipulado (ver App.jsx, fuera del Gate). No es una pieza de venta: es el
-// link que un líder abre para ver, con capturas REALES de la app, qué puede
-// hacer con su grupo y para qué le sirve. Hermana de /grupos-de-discipulado
-// (que sí es la presentación). Mismo lenguaje de diseño vía landingKit; el
-// principio sigue: la app acompaña la Biblia FÍSICA (product-principle-physical-bible).
-// Todo es opt-in y solo se señala lo positivo: nadie queda expuesto.
+// Landing pública /lideres — LA página del líder de grupo de discipulado (ver
+// App.jsx, fuera del Gate). Fusiona las dos páginas antiguas —la "presentación"
+// (/grupos-de-discipulado) y el recorrido con capturas (/guia-lideres)— en una
+// sola: primero el porqué, después el paso a paso con capturas REALES de la app.
+// No es una pieza de venta: es el link que un líder abre para ver qué puede
+// hacer con su grupo y para qué le sirve. Mismo lenguaje de diseño vía
+// landingKit; el principio sigue: la app acompaña la Biblia FÍSICA
+// (product-principle-physical-bible). Todo es opt-in y solo se señala lo
+// positivo: nadie queda expuesto.
 
 // Una captura real, enmarcada como pantalla de teléfono (borde + sombra suave).
 function Shot({ src, alt }) {
@@ -50,9 +52,9 @@ function Walk({ eyebrow, title, children, shot, alt, side = 'right' }) {
   )
 }
 
-export default function GuiaLideres() {
+export default function Lideres() {
   useEffect(() => {
-    document.title = 'Lee Tu Biblia — Guía para líderes de grupo'
+    document.title = 'Lee Tu Biblia — Para líderes de grupos de discipulado'
     window.scrollTo(0, 0)
   }, [])
 
@@ -93,6 +95,23 @@ export default function GuiaLideres() {
             podés hacer con tu grupo de discipulado y cómo te ayuda a acompañar a
             tu gente. La Palabra la lee cada uno en su Biblia; la app sostiene el
             hábito que caminan juntos.
+          </p>
+        </div>
+      </section>
+
+      {/* ── EL PORQUÉ ────────────────────────────────────────── */}
+      <section className="mx-auto w-full max-w-[720px] px-6 py-8">
+        <div className="border-t border-hairline pt-12">
+          <Eyebrow>Por qué</Eyebrow>
+          <p className="mt-5 max-w-[580px] text-[22px] font-medium leading-[1.5] tracking-[-0.02em] text-ink sm:text-[25px]">
+            Liderar un grupo no debería ser perseguir gente por WhatsApp. La app
+            se ocupa del <span className="text-accent-ink">ritmo</span> —quién leyó,
+            por quién orar— para que vos te ocupes de lo que importa:{' '}
+            <span className="text-accent-ink">la gente</span>.
+          </p>
+          <p className="mt-6 max-w-[540px] text-[16px] leading-relaxed text-ink-soft">
+            No es otro lector de Biblia para la pantalla. El texto vive en la
+            Biblia de cada uno; acá vive el hábito que sostienen juntos.
           </p>
         </div>
       </section>
@@ -266,6 +285,12 @@ export default function GuiaLideres() {
               Abrir la app
             </Link>
           </div>
+          <p className="mt-4 text-[14px] text-ink-soft">
+            ¿Querés ver todo lo que incluye la app?{' '}
+            <Link to="/info" className="font-semibold text-accent-ink hover:underline">
+              Conocé Lee Tu Biblia
+            </Link>
+          </p>
 
           <p className="mx-auto mt-16 max-w-[460px] text-[17px] italic leading-relaxed text-ink-soft">
             «Y considerémonos unos a otros para estimularnos al amor y a las
@@ -275,17 +300,8 @@ export default function GuiaLideres() {
         </div>
       </section>
 
-      {/* ── FOOTER ───────────────────────────────────────────── */}
-      <footer className="border-t border-hairline">
-        <div className="mx-auto flex w-full max-w-[760px] flex-col items-center gap-3 px-6 py-10 text-center">
-          <Link to="/info" aria-label="Lee Tu Biblia">
-            <Wordmark />
-          </Link>
-          <p className="text-[13.5px] text-ink-soft">
-            Hecho para acompañar a tu grupo en la Palabra.
-          </p>
-        </div>
-      </footer>
+      {/* ── FOOTER GLOBAL ────────────────────────────────────── */}
+      <LandingFooter current="/lideres" />
     </div>
   )
 }
