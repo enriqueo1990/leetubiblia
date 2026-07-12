@@ -38,7 +38,7 @@
         {
           "number": 2,
           "question": "¿Deben todos los hombres creer que hay un Dios?",
-          "answer": "Sí; todos deben creer que hay un Dios, y es su deber y obligación conocerlo.",
+          "answer": "Todos deben creer que hay un Dios, y es gran pecado e insensatez de los que no lo creen.",
           "refs": [
             {
               "label": "Hebreos 11:6",
@@ -1517,7 +1517,7 @@
         {
           "number": 64,
           "question": "¿Cuál de los siete días ha señalado Dios para ser el reposo semanal?",
-          "answer": "Desde el comienzo del mundo y hasta la resurrección de Cristo, Dios estableció como reposo semanal el séptimo día de la semana; y desde entonces, y hasta que el mundo acabe, el primer día de la semana, que es el día del Señor.",
+          "answer": "Antes de la resurrección de Cristo, Dios estableció el séptimo día de la semana como reposo semanal; y desde entonces, el primer día de la semana, para continuar hasta el fin del mundo, el cual es el reposo cristiano.",
           "refs": [
             {
               "label": "Génesis 2:3",
@@ -2296,13 +2296,8 @@
         {
           "number": 97,
           "question": "¿Qué es el bautismo?",
-          "answer": "El bautismo es una ordenanza del Nuevo Testamento instituida por Jesucristo, que consiste en la inmersión del creyente en agua, en el nombre del Padre, del Hijo y del Espíritu Santo, como señal de su comunión con Cristo en su muerte, sepultura y resurrección; de estar injertado en él; del perdón de los pecados; y de su entrega a Dios por medio de Jesucristo, para vivir y andar en novedad de vida.",
+          "answer": "El bautismo es una ordenanza del Nuevo Testamento instituida por Jesucristo, para ser, al que es bautizado, señal de su comunión con él en su muerte, sepultura y resurrección; de estar injertado en él; del perdón de los pecados; y de su entrega a Dios por medio de Jesucristo, para vivir y andar en novedad de vida.",
           "refs": [
-            {
-              "label": "Mateo 28:19",
-              "book_usfm": "MAT",
-              "chapter": 28
-            },
             {
               "label": "Romanos 6:3-5",
               "book_usfm": "ROM",
@@ -2355,7 +2350,7 @@
         {
           "number": 99,
           "question": "¿Han de bautizarse los niños pequeños?",
-          "answer": "Los niños pequeños no han de bautizarse, porque no hay ni mandato ni ejemplo en las Santas Escrituras para su bautismo, ni prueba segura de ello que pueda deducirse de las Escrituras.",
+          "answer": "Los niños pequeños de los que son creyentes profesantes no han de bautizarse, porque no hay ni mandato ni ejemplo en las Santas Escrituras, ni consecuencia cierta de ellas, para bautizarlos.",
           "refs": [
             {
               "label": "Marcos 16:16",
@@ -2382,7 +2377,7 @@
         {
           "number": 100,
           "question": "¿De qué manera se ha de administrar el bautismo?",
-          "answer": "El bautismo se ha de administrar mediante la inmersión, o el sumergir de todo el cuerpo de la persona en agua, en el nombre del Padre, del Hijo y del Espíritu Santo.",
+          "answer": "El bautismo se ha de administrar mediante la inmersión, o el sumergir de todo el cuerpo de la persona en agua, en el nombre del Padre, del Hijo y del Espíritu Santo, conforme a la institución de Cristo y a la práctica de los apóstoles; y no por el rociamiento o el derramamiento de agua, ni por sumergir alguna parte del cuerpo, según la tradición de los hombres.",
           "refs": [
             {
               "label": "Mateo 3:16",
@@ -2414,7 +2409,7 @@
         {
           "number": 101,
           "question": "¿Cuál es el deber de los que son rectamente bautizados?",
-          "answer": "El deber de los que son rectamente bautizados es entregarse a alguna iglesia particular de Cristo, para andar en todos sus mandamientos y ordenanzas irreprensiblemente, en santa conversación y piedad.",
+          "answer": "El deber de los que son rectamente bautizados es entregarse a alguna iglesia particular y ordenada de Jesucristo, para andar irreprensiblemente en todos los mandamientos y ordenanzas del Señor.",
           "refs": [
             {
               "label": "Hechos 2:46-47",
