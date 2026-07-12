@@ -1,10 +1,10 @@
 {
   "slug": "spurgeon",
   "name": "Catecismo de Spurgeon",
-  "description": "Catecismo bautista de 1855, adaptado por C. H. Spurgeon a partir del Catecismo Menor de Westminster y del de Keach, en 84 preguntas y respuestas para la instrucción de la congregación.",
+  "description": "Catecismo bautista de 1855, adaptado por C. H. Spurgeon a partir del Catecismo Menor de Westminster y del de Keach, en 82 preguntas y respuestas para la instrucción de la congregación.",
   "intro": [
     "El Catecismo de Spurgeon nació en 1855, cuando Charles Haddon Spurgeon —el célebre predicador bautista de Londres— adaptó el Catecismo Menor de Westminster y el de Benjamin Keach para instruir a su congregación. Buscaba un texto breve y firme que las familias pudieran memorizar y enseñar a sus hijos.",
-    "Sus 84 preguntas y respuestas conservan la solidez doctrinal de la tradición reformada, pero con un acento bautista: el bautismo se entiende como la inmersión del creyente que profesa su fe, no de los niños. Del fin del hombre a la oración, es un recorrido claro y conciso por lo esencial de la fe cristiana."
+    "Sus 82 preguntas y respuestas conservan la solidez doctrinal de la tradición reformada, pero con un acento bautista: el bautismo se entiende como la inmersión del creyente que profesa su fe, no de los niños. Del fin del hombre a la cena del Señor, es un recorrido claro y conciso por lo esencial de la fe cristiana."
   ],
   "cadence": "sequence",
   "source": "Traducción original al español realizada a partir de la edición inglesa de dominio público (Spurgeon, 1855). Citas bíblicas de los mandamientos y el Padrenuestro según Reina-Valera 1909 (dominio público). Referencias: proof texts del catecismo.",
@@ -19,14 +19,14 @@
           "answer": "El fin principal del hombre es glorificar a Dios y gozarse en él para siempre.",
           "refs": [
             {
-              "label": "1 Corintios 10:31",
-              "book_usfm": "1CO",
-              "chapter": 10
-            },
-            {
               "label": "Romanos 11:36",
               "book_usfm": "ROM",
               "chapter": 11
+            },
+            {
+              "label": "1 Corintios 10:31",
+              "book_usfm": "1CO",
+              "chapter": 10
             },
             {
               "label": "Salmo 73:25-26",
@@ -41,7 +41,7 @@
           "answer": "La Palabra de Dios, que se halla contenida en las Escrituras del Antiguo y el Nuevo Testamento, es la única regla dada para dirigirnos en cómo podemos glorificarlo y gozarnos en él.",
           "refs": [
             {
-              "label": "2 Timoteo 3:16",
+              "label": "2 Timoteo 3:16-17",
               "book_usfm": "2TI",
               "chapter": 3
             },
@@ -49,11 +49,6 @@
               "label": "Efesios 2:20",
               "book_usfm": "EPH",
               "chapter": 2
-            },
-            {
-              "label": "1 Juan 1:3-4",
-              "book_usfm": "1JN",
-              "chapter": 1
             }
           ]
         },
@@ -68,9 +63,9 @@
               "chapter": 1
             },
             {
-              "label": "Eclesiastés 12:13",
-              "book_usfm": "ECC",
-              "chapter": 12
+              "label": "2 Timoteo 3:16",
+              "book_usfm": "2TI",
+              "chapter": 3
             }
           ]
         }
@@ -91,9 +86,14 @@
               "chapter": 4
             },
             {
-              "label": "Salmo 89:14",
+              "label": "Job 11:7-9",
+              "book_usfm": "JOB",
+              "chapter": 11
+            },
+            {
+              "label": "Salmo 90:2",
               "book_usfm": "PSA",
-              "chapter": 89
+              "chapter": 90
             },
             {
               "label": "Santiago 1:17",
@@ -106,14 +106,19 @@
               "chapter": 3
             },
             {
-              "label": "Salmo 90:2",
+              "label": "Salmo 147:5",
               "book_usfm": "PSA",
-              "chapter": 90
+              "chapter": 147
             },
             {
               "label": "Apocalipsis 4:8",
               "book_usfm": "REV",
               "chapter": 4
+            },
+            {
+              "label": "Éxodo 34:6-7",
+              "book_usfm": "EXO",
+              "chapter": 34
             }
           ]
         },
@@ -140,19 +145,14 @@
           "answer": "Hay tres personas en la Divinidad: el Padre, el Hijo y el Espíritu Santo; y las tres son un solo Dios, una misma en sustancia, e iguales en poder y en gloria.",
           "refs": [
             {
-              "label": "Mateo 28:19",
-              "book_usfm": "MAT",
-              "chapter": 28
-            },
-            {
               "label": "1 Juan 5:7",
               "book_usfm": "1JN",
               "chapter": 5
             },
             {
-              "label": "Mateo 3:16-17",
+              "label": "Mateo 28:19",
               "book_usfm": "MAT",
-              "chapter": 3
+              "chapter": 28
             }
           ]
         },
@@ -162,7 +162,12 @@
           "answer": "Los decretos de Dios son el propósito eterno que él tiene conforme al consejo de su voluntad, por el cual, para su propia gloria, ha ordenado de antemano todo cuanto acontece.",
           "refs": [
             {
-              "label": "Efesios 1:11-12",
+              "label": "Efesios 1:4",
+              "book_usfm": "EPH",
+              "chapter": 1
+            },
+            {
+              "label": "Efesios 1:11",
               "book_usfm": "EPH",
               "chapter": 1
             },
@@ -170,11 +175,6 @@
               "label": "Romanos 9:22-23",
               "book_usfm": "ROM",
               "chapter": 9
-            },
-            {
-              "label": "Isaías 46:10",
-              "book_usfm": "ISA",
-              "chapter": 46
             }
           ]
         },
@@ -186,11 +186,6 @@
             {
               "label": "Apocalipsis 4:11",
               "book_usfm": "REV",
-              "chapter": 4
-            },
-            {
-              "label": "Daniel 4:35",
-              "book_usfm": "DAN",
               "chapter": 4
             }
           ]
@@ -209,11 +204,6 @@
               "label": "Hebreos 11:3",
               "book_usfm": "HEB",
               "chapter": 11
-            },
-            {
-              "label": "Génesis 1:31",
-              "book_usfm": "GEN",
-              "chapter": 1
             }
           ]
         },
@@ -223,7 +213,7 @@
           "answer": "Dios creó al ser humano, varón y mujer, conforme a su propia imagen, en conocimiento, en justicia y en santidad, y con señorío sobre las criaturas.",
           "refs": [
             {
-              "label": "Génesis 1:27",
+              "label": "Génesis 1:26-28",
               "book_usfm": "GEN",
               "chapter": 1
             },
@@ -236,11 +226,6 @@
               "label": "Efesios 4:24",
               "book_usfm": "EPH",
               "chapter": 4
-            },
-            {
-              "label": "Génesis 1:28",
-              "book_usfm": "GEN",
-              "chapter": 1
             }
           ]
         },
@@ -255,19 +240,19 @@
               "chapter": 145
             },
             {
+              "label": "Salmo 104:24",
+              "book_usfm": "PSA",
+              "chapter": 104
+            },
+            {
+              "label": "Isaías 28:29",
+              "book_usfm": "ISA",
+              "chapter": 28
+            },
+            {
               "label": "Hebreos 1:3",
               "book_usfm": "HEB",
               "chapter": 1
-            },
-            {
-              "label": "Salmo 103:19",
-              "book_usfm": "PSA",
-              "chapter": 103
-            },
-            {
-              "label": "Mateo 10:29-31",
-              "book_usfm": "MAT",
-              "chapter": 10
             }
           ]
         },
@@ -296,7 +281,7 @@
       "questions": [
         {
           "number": 13,
-          "question": "¿Permanecieron nuestros primeros padres en el estado en que fueron creados?",
+          "question": "¿Permanecieron nuestros primeros padres en el estado en que se les creó?",
           "answer": "Nuestros primeros padres, dejados a la libertad de su propia voluntad, cayeron del estado en que fueron creados, al pecar contra Dios.",
           "refs": [
             {
@@ -308,11 +293,6 @@
               "label": "Eclesiastés 7:29",
               "book_usfm": "ECC",
               "chapter": 7
-            },
-            {
-              "label": "Romanos 5:12",
-              "book_usfm": "ROM",
-              "chapter": 5
             }
           ]
         },
@@ -325,11 +305,6 @@
               "label": "1 Juan 3:4",
               "book_usfm": "1JN",
               "chapter": 3
-            },
-            {
-              "label": "Santiago 4:17",
-              "book_usfm": "JAS",
-              "chapter": 4
             }
           ]
         },
@@ -339,19 +314,19 @@
           "answer": "Puesto que el pacto fue hecho con Adán no solo para sí mismo sino también para su posteridad, toda la humanidad que desciende de él por generación natural pecó en él, y con él cayó, en aquella primera transgresión.",
           "refs": [
             {
+              "label": "Génesis 2:16-17",
+              "book_usfm": "GEN",
+              "chapter": 2
+            },
+            {
               "label": "Romanos 5:12",
               "book_usfm": "ROM",
               "chapter": 5
             },
             {
-              "label": "1 Corintios 15:22",
+              "label": "1 Corintios 15:21-22",
               "book_usfm": "1CO",
               "chapter": 15
-            },
-            {
-              "label": "Romanos 5:18-19",
-              "book_usfm": "ROM",
-              "chapter": 5
             }
           ]
         },
@@ -361,20 +336,15 @@
           "answer": "La caída llevó al género humano a un estado de pecado y miseria.",
           "refs": [
             {
-              "label": "Romanos 5:18",
+              "label": "Romanos 5:12",
               "book_usfm": "ROM",
               "chapter": 5
-            },
-            {
-              "label": "Romanos 3:23",
-              "book_usfm": "ROM",
-              "chapter": 3
             }
           ]
         },
         {
           "number": 17,
-          "question": "¿En qué consiste la pecaminosidad de aquel estado en que cayó el hombre?",
+          "question": "¿En qué consiste lo pecaminoso del estado en que el hombre cayó?",
           "answer": "Lo pecaminoso del estado en que el hombre cayó consiste en la culpa del primer pecado de Adán, en la carencia de la justicia original y en la corrupción de toda su naturaleza —lo que suele llamarse pecado original—, junto con todas las transgresiones actuales que de él brotan.",
           "refs": [
             {
@@ -393,9 +363,9 @@
               "chapter": 2
             },
             {
-              "label": "Salmo 51:5",
-              "book_usfm": "PSA",
-              "chapter": 51
+              "label": "Santiago 1:14-15",
+              "book_usfm": "JAS",
+              "chapter": 1
             },
             {
               "label": "Mateo 15:19",
@@ -410,6 +380,11 @@
           "answer": "Todo el género humano, por su caída, perdió la comunión con Dios, quedó bajo su ira y maldición, y así se hizo merecedor de todas las miserias de esta vida, de la muerte misma, y de las penas del infierno para siempre.",
           "refs": [
             {
+              "label": "Génesis 3:8",
+              "book_usfm": "GEN",
+              "chapter": 3
+            },
+            {
               "label": "Génesis 3:24",
               "book_usfm": "GEN",
               "chapter": 3
@@ -420,6 +395,11 @@
               "chapter": 2
             },
             {
+              "label": "Gálatas 3:10",
+              "book_usfm": "GAL",
+              "chapter": 3
+            },
+            {
               "label": "Romanos 6:23",
               "book_usfm": "ROM",
               "chapter": 6
@@ -428,20 +408,9 @@
               "label": "Mateo 25:41",
               "book_usfm": "MAT",
               "chapter": 25
-            },
-            {
-              "label": "Gálatas 3:10",
-              "book_usfm": "GAL",
-              "chapter": 3
             }
           ]
-        }
-      ]
-    },
-    {
-      "block": 4,
-      "title": "El pacto de gracia y Cristo el Redentor",
-      "questions": [
+        },
         {
           "number": 19,
           "question": "¿Dejó Dios que todo el género humano pereciera en el estado de pecado y miseria?",
@@ -453,17 +422,23 @@
               "chapter": 1
             },
             {
-              "label": "2 Tesalonicenses 2:13-14",
-              "book_usfm": "2TH",
-              "chapter": 2
-            },
-            {
               "label": "Romanos 3:20-22",
               "book_usfm": "ROM",
               "chapter": 3
+            },
+            {
+              "label": "Gálatas 3:21-22",
+              "book_usfm": "GAL",
+              "chapter": 3
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "block": 4,
+      "title": "El pacto de gracia y Cristo el Redentor",
+      "questions": [
         {
           "number": 20,
           "question": "¿Quién es el Redentor de los elegidos de Dios?",
@@ -483,11 +458,6 @@
               "label": "Gálatas 4:4",
               "book_usfm": "GAL",
               "chapter": 4
-            },
-            {
-              "label": "Romanos 9:5",
-              "book_usfm": "ROM",
-              "chapter": 9
             }
           ]
         },
@@ -500,6 +470,16 @@
               "label": "Hebreos 2:14",
               "book_usfm": "HEB",
               "chapter": 2
+            },
+            {
+              "label": "Hebreos 2:16-17",
+              "book_usfm": "HEB",
+              "chapter": 2
+            },
+            {
+              "label": "Lucas 1:27",
+              "book_usfm": "LUK",
+              "chapter": 1
             },
             {
               "label": "Lucas 1:31",
@@ -515,11 +495,6 @@
               "label": "Hebreos 4:15",
               "book_usfm": "HEB",
               "chapter": 4
-            },
-            {
-              "label": "Hebreos 7:26",
-              "book_usfm": "HEB",
-              "chapter": 7
             }
           ]
         },
@@ -542,11 +517,6 @@
               "label": "Salmo 2:6",
               "book_usfm": "PSA",
               "chapter": 2
-            },
-            {
-              "label": "Isaías 9:6-7",
-              "book_usfm": "ISA",
-              "chapter": 9
             }
           ]
         },
@@ -561,9 +531,9 @@
               "chapter": 1
             },
             {
-              "label": "Juan 14:26",
-              "book_usfm": "JHN",
-              "chapter": 14
+              "label": "1 Pedro 1:10-12",
+              "book_usfm": "1PE",
+              "chapter": 1
             },
             {
               "label": "Juan 15:15",
@@ -577,6 +547,11 @@
           "question": "¿Cómo ejerce Cristo el oficio de sacerdote?",
           "answer": "Cristo desempeña el oficio de sacerdote en cuanto se ofreció a sí mismo, una sola vez, como sacrificio que satisface la justicia divina y nos reconcilia con Dios, y en cuanto intercede sin cesar por nosotros.",
           "refs": [
+            {
+              "label": "Hebreos 9:14",
+              "book_usfm": "HEB",
+              "chapter": 9
+            },
             {
               "label": "Hebreos 9:28",
               "book_usfm": "HEB",
@@ -600,24 +575,19 @@
           "answer": "Cristo ejerce el oficio de rey al someternos a sí mismo, al gobernarnos y defendernos, y al refrenar y vencer a todos sus enemigos y los nuestros.",
           "refs": [
             {
-              "label": "Salmo 110:3",
-              "book_usfm": "PSA",
-              "chapter": 110
+              "label": "Hechos 15:14-16",
+              "book_usfm": "ACT",
+              "chapter": 15
             },
             {
-              "label": "Mateo 2:6",
-              "book_usfm": "MAT",
-              "chapter": 2
+              "label": "Isaías 33:22",
+              "book_usfm": "ISA",
+              "chapter": 33
             },
             {
               "label": "1 Corintios 15:25",
               "book_usfm": "1CO",
               "chapter": 15
-            },
-            {
-              "label": "Colosenses 1:13",
-              "book_usfm": "COL",
-              "chapter": 1
             }
           ]
         },
@@ -645,11 +615,6 @@
               "label": "Filipenses 2:8",
               "book_usfm": "PHP",
               "chapter": 2
-            },
-            {
-              "label": "1 Corintios 15:3-4",
-              "book_usfm": "1CO",
-              "chapter": 15
             }
           ]
         },
@@ -692,18 +657,13 @@
           "answer": "Somos hechos partícipes de la redención que Cristo compró porque su Santo Espíritu la aplica eficazmente a nosotros.",
           "refs": [
             {
-              "label": "Juan 1:12",
+              "label": "Juan 1:11-12",
               "book_usfm": "JHN",
               "chapter": 1
             },
             {
               "label": "Tito 3:5-6",
               "book_usfm": "TIT",
-              "chapter": 3
-            },
-            {
-              "label": "Juan 3:5-6",
-              "book_usfm": "JHN",
               "chapter": 3
             }
           ]
@@ -741,6 +701,11 @@
               "chapter": 1
             },
             {
+              "label": "2 Tesalonicenses 2:13-14",
+              "book_usfm": "2TH",
+              "chapter": 2
+            },
+            {
               "label": "Hechos 26:18",
               "book_usfm": "ACT",
               "chapter": 26
@@ -754,12 +719,17 @@
               "label": "Juan 6:44-45",
               "book_usfm": "JHN",
               "chapter": 6
+            },
+            {
+              "label": "Filipenses 2:13",
+              "book_usfm": "PHP",
+              "chapter": 2
             }
           ]
         },
         {
           "number": 31,
-          "question": "¿De qué beneficios participan en esta vida los que son eficazmente llamados?",
+          "question": "¿Qué beneficios reciben en esta vida quienes son llamados con eficacia?",
           "answer": "Quienes son llamados con eficacia reciben en esta vida la justificación, la adopción y la santificación, junto con los diversos beneficios que las acompañan en esta vida o fluyen de ellas.",
           "refs": [
             {
@@ -776,11 +746,6 @@
               "label": "1 Corintios 1:30",
               "book_usfm": "1CO",
               "chapter": 1
-            },
-            {
-              "label": "Romanos 8:32",
-              "book_usfm": "ROM",
-              "chapter": 8
             }
           ]
         },
@@ -790,7 +755,7 @@
           "answer": "La justificación es un acto de la gracia gratuita de Dios, en el cual él perdona todos nuestros pecados y nos tiene por justos delante de él, únicamente a causa de la justicia de Cristo, la cual nos es imputada y se recibe solo mediante la fe.",
           "refs": [
             {
-              "label": "Romanos 3:24",
+              "label": "Romanos 3:24-25",
               "book_usfm": "ROM",
               "chapter": 3
             },
@@ -800,8 +765,18 @@
               "chapter": 4
             },
             {
+              "label": "2 Corintios 5:19",
+              "book_usfm": "2CO",
+              "chapter": 5
+            },
+            {
               "label": "2 Corintios 5:21",
               "book_usfm": "2CO",
+              "chapter": 5
+            },
+            {
+              "label": "Romanos 5:17-19",
+              "book_usfm": "ROM",
               "chapter": 5
             },
             {
@@ -849,9 +824,14 @@
               "chapter": 2
             },
             {
-              "label": "Efesios 4:24",
+              "label": "Efesios 4:23-24",
               "book_usfm": "EPH",
               "chapter": 4
+            },
+            {
+              "label": "Romanos 6:4",
+              "book_usfm": "ROM",
+              "chapter": 6
             },
             {
               "label": "Romanos 6:6",
@@ -868,7 +848,7 @@
         {
           "number": 35,
           "question": "¿Cuáles son los beneficios que en esta vida acompañan o se derivan de la justificación, la adopción y la santificación?",
-          "answer": "Los beneficios que en esta vida acompañan a la justificación, la adopción y la santificación, o que fluyen de ellas, son: la certeza del amor de Dios, la paz de la conciencia, el gozo en el Espíritu Santo, el aumento de la gracia, y la perseverancia en ella hasta el final.",
+          "answer": "Los beneficios que en esta vida acompañan a la justificación, o que fluyen de ella, son: la certeza del amor de Dios, la paz de la conciencia, el gozo en el Espíritu Santo, el aumento de la gracia, y la perseverancia en ella hasta el fin.",
           "refs": [
             {
               "label": "Romanos 5:1-2",
@@ -940,9 +920,14 @@
               "chapter": 15
             },
             {
-              "label": "Mateo 25:34",
+              "label": "Mateo 25:33-34",
               "book_usfm": "MAT",
               "chapter": 25
+            },
+            {
+              "label": "Mateo 10:32",
+              "book_usfm": "MAT",
+              "chapter": 10
             },
             {
               "label": "1 Juan 3:2",
@@ -953,11 +938,60 @@
               "label": "1 Tesalonicenses 4:17",
               "book_usfm": "1TH",
               "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 38,
+          "question": "¿Qué será de los impíos en la muerte?",
+          "answer": "Al morir, las almas de los impíos son arrojadas a los tormentos del infierno, y sus cuerpos quedan en el sepulcro hasta la resurrección y el juicio del gran día.",
+          "refs": [
+            {
+              "label": "Lucas 16:23-24",
+              "book_usfm": "LUK",
+              "chapter": 16
             },
             {
-              "label": "Salmo 16:11",
+              "label": "Salmo 49:14",
               "book_usfm": "PSA",
-              "chapter": 16
+              "chapter": 49
+            },
+            {
+              "label": "Judas 1:7",
+              "book_usfm": "JUD",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 39,
+          "question": "¿Qué será de los impíos en el día del juicio?",
+          "answer": "En el día del juicio, los cuerpos de los impíos, resucitados de sus sepulcros, serán sentenciados, junto con sus almas, a tormentos indecibles con el diablo y sus ángeles para siempre.",
+          "refs": [
+            {
+              "label": "Juan 5:28-29",
+              "book_usfm": "JHN",
+              "chapter": 5
+            },
+            {
+              "label": "Mateo 25:41",
+              "book_usfm": "MAT",
+              "chapter": 25
+            },
+            {
+              "label": "Mateo 25:46",
+              "book_usfm": "MAT",
+              "chapter": 25
+            },
+            {
+              "label": "2 Tesalonicenses 1:8-9",
+              "book_usfm": "2TH",
+              "chapter": 1
+            },
+            {
+              "label": "Daniel 12:2",
+              "book_usfm": "DAN",
+              "chapter": 12
             }
           ]
         }
@@ -968,36 +1002,26 @@
       "title": "La ley de Dios y los diez mandamientos",
       "questions": [
         {
-          "number": 38,
-          "question": "¿Qué exige de nosotros la ley de Dios?",
-          "answer": "La ley de Dios exige la obediencia perfecta, personal y perpetua a toda ella.",
+          "number": 40,
+          "question": "¿Qué reveló Dios al hombre como regla de su obediencia?",
+          "answer": "La regla que Dios reveló primeramente al hombre para su obediencia es la ley moral, que se resume en los diez mandamientos.",
           "refs": [
             {
-              "label": "Deuteronomio 11:1",
+              "label": "Deuteronomio 10:4",
               "book_usfm": "DEU",
-              "chapter": 11
+              "chapter": 10
             },
             {
-              "label": "Mateo 5:48",
+              "label": "Mateo 19:17",
               "book_usfm": "MAT",
-              "chapter": 5
-            },
-            {
-              "label": "Santiago 2:10",
-              "book_usfm": "JAS",
-              "chapter": 2
-            },
-            {
-              "label": "Gálatas 3:10",
-              "book_usfm": "GAL",
-              "chapter": 3
+              "chapter": 19
             }
           ]
         },
         {
-          "number": 39,
+          "number": 41,
           "question": "¿Cuál es el resumen de los diez mandamientos?",
-          "answer": "El resumen de los diez mandamientos es: amar al Señor nuestro Dios con todo nuestro corazón, con toda nuestra alma, con todas nuestras fuerzas y con toda nuestra mente; y a nuestro prójimo como a nosotros mismos.",
+          "answer": "Los diez mandamientos se resumen en amar al Señor nuestro Dios de todo corazón, de toda alma, con todas las fuerzas y con toda la mente, y en amar al prójimo como a uno mismo.",
           "refs": [
             {
               "label": "Mateo 22:37-40",
@@ -1007,19 +1031,7 @@
           ]
         },
         {
-          "number": 40,
-          "question": "¿Cuál es el prefacio de los diez mandamientos?",
-          "answer": "El prefacio de los diez mandamientos está en estas palabras: «Yo soy Jehová tu Dios, que te saqué de la tierra de Egipto, de casa de servidumbre».",
-          "refs": [
-            {
-              "label": "Éxodo 20:2",
-              "book_usfm": "EXO",
-              "chapter": 20
-            }
-          ]
-        },
-        {
-          "number": 41,
+          "number": 42,
           "question": "¿Cuál es el primer mandamiento?",
           "answer": "El primer mandamiento es: «No tendrás dioses ajenos delante de mí».",
           "refs": [
@@ -1031,29 +1043,34 @@
           ]
         },
         {
-          "number": 42,
-          "question": "¿Qué se nos enseña en el primer mandamiento?",
-          "answer": "El primer mandamiento nos enseña a adorar y glorificar solo al único Dios verdadero, como Dios nuestro.",
+          "number": 43,
+          "question": "¿Qué exige el primer mandamiento?",
+          "answer": "El primer mandamiento exige que conozcamos y reconozcamos a Dios como el único Dios verdadero, y como Dios nuestro; y que lo adoremos y glorifiquemos en consecuencia.",
           "refs": [
+            {
+              "label": "1 Crónicas 28:9",
+              "book_usfm": "1CH",
+              "chapter": 28
+            },
+            {
+              "label": "Deuteronomio 26:17",
+              "book_usfm": "DEU",
+              "chapter": 26
+            },
             {
               "label": "Mateo 4:10",
               "book_usfm": "MAT",
               "chapter": 4
             },
             {
-              "label": "Josué 24:14",
-              "book_usfm": "JOS",
-              "chapter": 24
-            },
-            {
-              "label": "Deuteronomio 26:17",
-              "book_usfm": "DEU",
-              "chapter": 26
+              "label": "Salmo 29:2",
+              "book_usfm": "PSA",
+              "chapter": 29
             }
           ]
         },
         {
-          "number": 43,
+          "number": 44,
           "question": "¿Cuál es el segundo mandamiento?",
           "answer": "El segundo mandamiento es: «No te harás imagen, ni ninguna semejanza de cosa que esté arriba en el cielo, ni abajo en la tierra, ni en las aguas debajo de la tierra. No te inclinarás á ellas, ni las honrarás; porque yo soy Jehová tu Dios, fuerte, celoso, que visito la maldad de los padres sobre los hijos, sobre los terceros y sobre los cuartos, á los que me aborrecen, y que hago misericordia en millares á los que me aman, y guardan mis mandamientos».",
           "refs": [
@@ -1065,29 +1082,56 @@
           ]
         },
         {
-          "number": 44,
-          "question": "¿Qué se nos enseña en el segundo mandamiento?",
-          "answer": "El segundo mandamiento nos enseña a adorar a Dios solo de la manera que él ha establecido en su Palabra, y nos prohíbe adorarlo por medio de imágenes o de cualquier otro modo que él no haya ordenado.",
+          "number": 45,
+          "question": "¿Qué exige el segundo mandamiento?",
+          "answer": "El segundo mandamiento exige recibir, observar y guardar puros y enteros todo el culto y las ordenanzas religiosas que Dios ha establecido en su Palabra.",
           "refs": [
             {
-              "label": "Deuteronomio 12:32",
+              "label": "Deuteronomio 32:46",
               "book_usfm": "DEU",
-              "chapter": 12
+              "chapter": 32
             },
             {
-              "label": "Juan 4:24",
-              "book_usfm": "JHN",
-              "chapter": 4
+              "label": "Mateo 28:20",
+              "book_usfm": "MAT",
+              "chapter": 28
             },
             {
-              "label": "Deuteronomio 4:15-19",
-              "book_usfm": "DEU",
-              "chapter": 4
+              "label": "Hechos 2:42",
+              "book_usfm": "ACT",
+              "chapter": 2
             }
           ]
         },
         {
-          "number": 45,
+          "number": 46,
+          "question": "¿Qué prohíbe el segundo mandamiento?",
+          "answer": "El segundo mandamiento prohíbe adorar a Dios por medio de imágenes, o de cualquier otra manera no prescrita en su Palabra.",
+          "refs": [
+            {
+              "label": "Deuteronomio 4:15-19",
+              "book_usfm": "DEU",
+              "chapter": 4
+            },
+            {
+              "label": "Éxodo 32:5",
+              "book_usfm": "EXO",
+              "chapter": 32
+            },
+            {
+              "label": "Éxodo 32:8",
+              "book_usfm": "EXO",
+              "chapter": 32
+            },
+            {
+              "label": "Colosenses 2:18",
+              "book_usfm": "COL",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 47,
           "question": "¿Cuál es el tercer mandamiento?",
           "answer": "El tercer mandamiento es: «No tomarás el nombre de Jehová tu Dios en vano; porque no dará por inocente Jehová al que tomare su nombre en vano».",
           "refs": [
@@ -1099,9 +1143,9 @@
           ]
         },
         {
-          "number": 46,
-          "question": "¿Qué se nos enseña en el tercer mandamiento?",
-          "answer": "El tercer mandamiento nos enseña a usar el nombre de Dios, sus títulos, atributos, ordenanzas y obras de manera santa y reverente.",
+          "number": 48,
+          "question": "¿Qué exige el tercer mandamiento?",
+          "answer": "El tercer mandamiento exige que usemos de manera santa y reverente los nombres de Dios, sus títulos, sus atributos, sus ordenanzas, su Palabra y sus obras.",
           "refs": [
             {
               "label": "Mateo 6:9",
@@ -1114,19 +1158,19 @@
               "chapter": 28
             },
             {
-              "label": "Eclesiastés 5:1",
-              "book_usfm": "ECC",
-              "chapter": 5
+              "label": "Salmo 68:4",
+              "book_usfm": "PSA",
+              "chapter": 68
             },
             {
-              "label": "Salmo 111:9",
-              "book_usfm": "PSA",
-              "chapter": 111
+              "label": "Apocalipsis 15:3-4",
+              "book_usfm": "REV",
+              "chapter": 15
             }
           ]
         },
         {
-          "number": 47,
+          "number": 49,
           "question": "¿Cuál es el cuarto mandamiento?",
           "answer": "El cuarto mandamiento es: «Acordarte has del día del reposo, para santificarlo. Seis días trabajarás, y harás toda tu obra; mas el séptimo día será reposo para Jehová tu Dios: no hagas en él obra alguna, tú, ni tu hijo, ni tu hija, ni tu siervo, ni tu criada, ni tu bestia, ni tu extranjero que está dentro de tus puertas. Porque en seis días hizo Jehová los cielos y la tierra, la mar y todas las cosas que en ellos hay, y reposó en el séptimo día: por tanto Jehová bendijo el día del reposo y lo santificó».",
           "refs": [
@@ -1138,9 +1182,26 @@
           ]
         },
         {
-          "number": 48,
-          "question": "¿Qué se nos enseña en el cuarto mandamiento?",
-          "answer": "El cuarto mandamiento pide guardar como santos para Dios los tiempos señalados que él ha establecido en su Palabra; expresamente, un día completo de cada siete como reposo consagrado a él. Bajo el evangelio, ese día es el primero de la semana, el día del Señor.",
+          "number": 50,
+          "question": "¿Qué exige el cuarto mandamiento?",
+          "answer": "El cuarto mandamiento exige guardar como santos para Dios los tiempos señalados que él ha establecido en su Palabra; expresamente, un día completo de cada siete como reposo consagrado a él.",
+          "refs": [
+            {
+              "label": "Levítico 19:30",
+              "book_usfm": "LEV",
+              "chapter": 19
+            },
+            {
+              "label": "Deuteronomio 5:12-14",
+              "book_usfm": "DEU",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 51,
+          "question": "¿Cómo ha de santificarse el día de reposo?",
+          "answer": "El día de reposo ha de santificarse con un santo descanso durante todo el día, aun de aquellas ocupaciones y recreaciones que son lícitas en los demás días, y empleando todo el tiempo en los ejercicios públicos y privados de la adoración de Dios, salvo lo que se dedique a obras de necesidad y misericordia.",
           "refs": [
             {
               "label": "Éxodo 20:8",
@@ -1148,24 +1209,29 @@
               "chapter": 20
             },
             {
-              "label": "Hechos 20:7",
-              "book_usfm": "ACT",
-              "chapter": 20
-            },
-            {
-              "label": "1 Corintios 16:2",
-              "book_usfm": "1CO",
+              "label": "Éxodo 16:25-28",
+              "book_usfm": "EXO",
               "chapter": 16
             },
             {
-              "label": "Apocalipsis 1:10",
-              "book_usfm": "REV",
-              "chapter": 1
+              "label": "Nehemías 13:15-22",
+              "book_usfm": "NEH",
+              "chapter": 13
+            },
+            {
+              "label": "Isaías 58:13-14",
+              "book_usfm": "ISA",
+              "chapter": 58
+            },
+            {
+              "label": "Mateo 12:11-12",
+              "book_usfm": "MAT",
+              "chapter": 12
             }
           ]
         },
         {
-          "number": 49,
+          "number": 52,
           "question": "¿Cuál es el quinto mandamiento?",
           "answer": "El quinto mandamiento es: «Honra á tu padre y á tu madre, porque tus días se alarguen en la tierra que Jehová tu Dios te da».",
           "refs": [
@@ -1177,22 +1243,37 @@
           ]
         },
         {
-          "number": 50,
-          "question": "¿Qué se nos enseña en el quinto mandamiento?",
-          "answer": "El quinto mandamiento nos enseña a conservar el honor y a cumplir los deberes que corresponden a cada uno en sus diferentes posiciones y relaciones, ya sean superiores, inferiores o iguales.",
+          "number": 53,
+          "question": "¿Qué exige el quinto mandamiento?",
+          "answer": "El quinto mandamiento exige que conservemos el honor y cumplamos los deberes que corresponden a cada uno en sus diferentes posiciones y relaciones, ya sean superiores, inferiores o iguales.",
           "refs": [
             {
-              "label": "Efesios 6:1-2",
-              "book_usfm": "EPH",
-              "chapter": 6
-            },
-            {
-              "label": "Efesios 5:21",
+              "label": "Efesios 5:21-22",
               "book_usfm": "EPH",
               "chapter": 5
             },
             {
+              "label": "Efesios 6:1",
+              "book_usfm": "EPH",
+              "chapter": 6
+            },
+            {
+              "label": "Efesios 6:5",
+              "book_usfm": "EPH",
+              "chapter": 6
+            },
+            {
+              "label": "Efesios 6:9",
+              "book_usfm": "EPH",
+              "chapter": 6
+            },
+            {
               "label": "Romanos 13:1",
+              "book_usfm": "ROM",
+              "chapter": 13
+            },
+            {
+              "label": "Romanos 13:7",
               "book_usfm": "ROM",
               "chapter": 13
             },
@@ -1204,7 +1285,24 @@
           ]
         },
         {
-          "number": 51,
+          "number": 54,
+          "question": "¿Cuál es la razón anexa al quinto mandamiento?",
+          "answer": "La razón añadida al quinto mandamiento es la promesa de una vida larga y próspera —en la medida en que sirva a la gloria de Dios y al bien de cada uno— para todos los que guardan este mandamiento.",
+          "refs": [
+            {
+              "label": "Deuteronomio 5:16",
+              "book_usfm": "DEU",
+              "chapter": 5
+            },
+            {
+              "label": "Efesios 6:2-3",
+              "book_usfm": "EPH",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 55,
           "question": "¿Cuál es el sexto mandamiento?",
           "answer": "El sexto mandamiento es: «No matarás».",
           "refs": [
@@ -1216,19 +1314,14 @@
           ]
         },
         {
-          "number": 52,
-          "question": "¿Qué se nos enseña en el sexto mandamiento?",
-          "answer": "El sexto mandamiento nos enseña a hacer todos los esfuerzos lícitos por preservar nuestra propia vida y la de los demás, y nos prohíbe quitar cualquier vida injustamente, o todo lo que a ello tienda.",
+          "number": 56,
+          "question": "¿Qué prohíbe el sexto mandamiento?",
+          "answer": "El sexto mandamiento prohíbe quitar nuestra propia vida, o la de nuestro prójimo injustamente, y todo lo que a ello tienda.",
           "refs": [
             {
-              "label": "Mateo 5:21-22",
-              "book_usfm": "MAT",
-              "chapter": 5
-            },
-            {
-              "label": "Efesios 5:29",
-              "book_usfm": "EPH",
-              "chapter": 5
+              "label": "Hechos 16:28",
+              "book_usfm": "ACT",
+              "chapter": 16
             },
             {
               "label": "Génesis 9:6",
@@ -1238,7 +1331,7 @@
           ]
         },
         {
-          "number": 53,
+          "number": 57,
           "question": "¿Cuál es el séptimo mandamiento?",
           "answer": "El séptimo mandamiento es: «No cometerás adulterio».",
           "refs": [
@@ -1250,34 +1343,29 @@
           ]
         },
         {
-          "number": 54,
-          "question": "¿Qué se nos enseña en el séptimo mandamiento?",
-          "answer": "El séptimo mandamiento nos enseña a conservar la castidad de corazón, palabra y conducta, en nosotros mismos y en los demás.",
+          "number": 58,
+          "question": "¿Qué prohíbe el séptimo mandamiento?",
+          "answer": "El séptimo mandamiento prohíbe todo pensamiento, palabra y acción impuros.",
           "refs": [
             {
-              "label": "Mateo 5:27-28",
+              "label": "Mateo 15:19",
+              "book_usfm": "MAT",
+              "chapter": 15
+            },
+            {
+              "label": "Mateo 5:28",
               "book_usfm": "MAT",
               "chapter": 5
             },
             {
-              "label": "1 Corintios 6:18",
-              "book_usfm": "1CO",
-              "chapter": 6
-            },
-            {
-              "label": "1 Tesalonicenses 4:3-4",
-              "book_usfm": "1TH",
-              "chapter": 4
-            },
-            {
-              "label": "Colosenses 4:6",
-              "book_usfm": "COL",
-              "chapter": 4
+              "label": "Efesios 5:3-4",
+              "book_usfm": "EPH",
+              "chapter": 5
             }
           ]
         },
         {
-          "number": 55,
+          "number": 59,
           "question": "¿Cuál es el octavo mandamiento?",
           "answer": "El octavo mandamiento es: «No hurtarás».",
           "refs": [
@@ -1289,34 +1377,34 @@
           ]
         },
         {
-          "number": 56,
-          "question": "¿Qué se nos enseña en el octavo mandamiento?",
-          "answer": "El octavo mandamiento nos enseña a procurar lícitamente y a promover la riqueza y el bienestar exterior, propio y ajeno, y nos prohíbe todo lo que injustamente los estorbe.",
+          "number": 60,
+          "question": "¿Qué prohíbe el octavo mandamiento?",
+          "answer": "El octavo mandamiento prohíbe todo lo que impide o pueda impedir injustamente la riqueza o el bienestar exterior, propio o de nuestro prójimo.",
           "refs": [
             {
-              "label": "Efesios 4:28",
-              "book_usfm": "EPH",
-              "chapter": 4
-            },
-            {
-              "label": "Proverbios 21:6",
+              "label": "Proverbios 21:17",
               "book_usfm": "PRO",
               "chapter": 21
             },
             {
-              "label": "Romanos 12:17",
-              "book_usfm": "ROM",
-              "chapter": 12
+              "label": "Proverbios 23:20-21",
+              "book_usfm": "PRO",
+              "chapter": 23
             },
             {
               "label": "Proverbios 28:19",
               "book_usfm": "PRO",
               "chapter": 28
+            },
+            {
+              "label": "Efesios 4:28",
+              "book_usfm": "EPH",
+              "chapter": 4
             }
           ]
         },
         {
-          "number": 57,
+          "number": 61,
           "question": "¿Cuál es el noveno mandamiento?",
           "answer": "El noveno mandamiento es: «No hablarás contra tu prójimo falso testimonio».",
           "refs": [
@@ -1328,9 +1416,9 @@
           ]
         },
         {
-          "number": 58,
-          "question": "¿Qué se nos enseña en el noveno mandamiento?",
-          "answer": "El noveno mandamiento nos enseña a mantener y promover la verdad entre los hombres, y el buen nombre nuestro y del prójimo, especialmente al dar testimonio.",
+          "number": 62,
+          "question": "¿Qué exige el noveno mandamiento?",
+          "answer": "El noveno mandamiento exige el mantenimiento y la promoción de la verdad entre los hombres, y de nuestro propio buen nombre y el de nuestro prójimo, especialmente al dar testimonio.",
           "refs": [
             {
               "label": "Zacarías 8:16",
@@ -1338,9 +1426,9 @@
               "chapter": 8
             },
             {
-              "label": "Efesios 4:25",
-              "book_usfm": "EPH",
-              "chapter": 4
+              "label": "3 Juan 1:12",
+              "book_usfm": "3JN",
+              "chapter": 1
             },
             {
               "label": "Proverbios 14:5",
@@ -1348,14 +1436,14 @@
               "chapter": 14
             },
             {
-              "label": "1 Pedro 3:16",
-              "book_usfm": "1PE",
-              "chapter": 3
+              "label": "Proverbios 14:25",
+              "book_usfm": "PRO",
+              "chapter": 14
             }
           ]
         },
         {
-          "number": 59,
+          "number": 63,
           "question": "¿Cuál es el décimo mandamiento?",
           "answer": "El décimo mandamiento es: «No codiciarás la casa de tu prójimo, no codiciarás la mujer de tu prójimo, ni su siervo, ni su criada, ni su buey, ni su asno, ni cosa alguna de tu prójimo».",
           "refs": [
@@ -1367,29 +1455,44 @@
           ]
         },
         {
-          "number": 60,
-          "question": "¿Qué se nos enseña en el décimo mandamiento?",
-          "answer": "El décimo mandamiento nos enseña a estar plenamente contentos con nuestra propia condición, con una disposición justa y caritativa hacia el prójimo y hacia todo lo que es suyo.",
+          "number": 64,
+          "question": "¿Qué prohíbe el décimo mandamiento?",
+          "answer": "El décimo mandamiento prohíbe toda inconformidad con nuestra propia condición, el envidiar el bien del prójimo o entristecernos por él, y todo afecto o deseo desordenado hacia cualquier cosa que le pertenezca.",
           "refs": [
             {
-              "label": "Hebreos 13:5",
-              "book_usfm": "HEB",
-              "chapter": 13
+              "label": "1 Reyes 21:4",
+              "book_usfm": "1KI",
+              "chapter": 21
             },
             {
-              "label": "1 Timoteo 6:6",
-              "book_usfm": "1TI",
-              "chapter": 6
+              "label": "Ester 5:13",
+              "book_usfm": "EST",
+              "chapter": 5
             },
             {
-              "label": "Romanos 12:15",
+              "label": "1 Corintios 10:10",
+              "book_usfm": "1CO",
+              "chapter": 10
+            },
+            {
+              "label": "Gálatas 5:26",
+              "book_usfm": "GAL",
+              "chapter": 5
+            },
+            {
+              "label": "Santiago 3:14-16",
+              "book_usfm": "JAS",
+              "chapter": 3
+            },
+            {
+              "label": "Romanos 7:7-8",
               "book_usfm": "ROM",
-              "chapter": 12
+              "chapter": 7
             },
             {
-              "label": "Filipenses 4:11",
-              "book_usfm": "PHP",
-              "chapter": 4
+              "label": "Colosenses 3:5",
+              "book_usfm": "COL",
+              "chapter": 3
             }
           ]
         }
@@ -1400,7 +1503,7 @@
       "title": "El pecado y su castigo",
       "questions": [
         {
-          "number": 61,
+          "number": 65,
           "question": "¿Puede algún hombre guardar perfectamente los mandamientos de Dios?",
           "answer": "Ningún mero hombre, desde la caída, es capaz en esta vida de guardar perfectamente los mandamientos de Dios, sino que los quebranta a diario en pensamiento, palabra y obra.",
           "refs": [
@@ -1415,26 +1518,41 @@
               "chapter": 1
             },
             {
-              "label": "Santiago 3:2",
-              "book_usfm": "JAS",
-              "chapter": 3
+              "label": "1 Juan 1:10",
+              "book_usfm": "1JN",
+              "chapter": 1
             },
             {
-              "label": "Romanos 3:23",
-              "book_usfm": "ROM",
-              "chapter": 3
+              "label": "Gálatas 5:17",
+              "book_usfm": "GAL",
+              "chapter": 5
+            },
+            {
+              "label": "Génesis 8:21",
+              "book_usfm": "GEN",
+              "chapter": 8
             }
           ]
         },
         {
-          "number": 62,
+          "number": 66,
           "question": "¿Son todas las transgresiones de la ley igualmente detestables?",
           "answer": "Algunos pecados en sí mismos, y por razón de varios agravantes, son más detestables a la vista de Dios que otros.",
           "refs": [
             {
-              "label": "Juan 19:11",
-              "book_usfm": "JHN",
-              "chapter": 19
+              "label": "Ezequiel 8:6",
+              "book_usfm": "EZK",
+              "chapter": 8
+            },
+            {
+              "label": "Ezequiel 8:13",
+              "book_usfm": "EZK",
+              "chapter": 8
+            },
+            {
+              "label": "Ezequiel 8:15",
+              "book_usfm": "EZK",
+              "chapter": 8
             },
             {
               "label": "1 Juan 5:16",
@@ -1445,11 +1563,21 @@
               "label": "Salmo 78:17",
               "book_usfm": "PSA",
               "chapter": 78
+            },
+            {
+              "label": "Salmo 78:32",
+              "book_usfm": "PSA",
+              "chapter": 78
+            },
+            {
+              "label": "Salmo 78:56",
+              "book_usfm": "PSA",
+              "chapter": 78
             }
           ]
         },
         {
-          "number": 63,
+          "number": 67,
           "question": "¿Qué merece todo pecado?",
           "answer": "Cada pecado merece la ira y la maldición de Dios, así en esta vida como en la vida por venir.",
           "refs": [
@@ -1482,32 +1610,32 @@
       "title": "La fe, el arrepentimiento y los medios de gracia",
       "questions": [
         {
-          "number": 64,
-          "question": "¿Qué exige Dios de nosotros para que escapemos de su ira y maldición merecidas por el pecado?",
-          "answer": "Para escapar de la ira y de la maldición de Dios que el pecado nos ha merecido, Dios nos pide fe en Jesucristo y arrepentimiento para vida, junto con el empleo diligente de todos los medios externos por los que Cristo nos hace llegar los beneficios de la redención.",
+          "number": 68,
+          "question": "¿Cómo podemos escapar de su ira y maldición que merecemos por el pecado?",
+          "answer": "Para escapar de la ira y maldición de Dios que merecemos por el pecado, debemos creer en el Señor Jesucristo, confiando únicamente en su sangre y su justicia. Esta fe va acompañada del arrepentimiento por lo pasado, y conduce a la santidad en lo por venir.",
           "refs": [
+            {
+              "label": "Juan 3:16",
+              "book_usfm": "JHN",
+              "chapter": 3
+            },
             {
               "label": "Hechos 20:21",
               "book_usfm": "ACT",
               "chapter": 20
-            },
-            {
-              "label": "Hechos 16:30-31",
-              "book_usfm": "ACT",
-              "chapter": 16
-            },
-            {
-              "label": "Proverbios 2:1-5",
-              "book_usfm": "PRO",
-              "chapter": 2
             }
           ]
         },
         {
-          "number": 65,
+          "number": 69,
           "question": "¿Qué es la fe en Jesucristo?",
           "answer": "La fe en Jesucristo es una gracia que salva, por la cual lo recibimos y reposamos solo en él para ser salvos, según él se nos ofrece en el evangelio.",
           "refs": [
+            {
+              "label": "Hebreos 10:39",
+              "book_usfm": "HEB",
+              "chapter": 10
+            },
             {
               "label": "Juan 1:12",
               "book_usfm": "JHN",
@@ -1519,19 +1647,14 @@
               "chapter": 3
             },
             {
-              "label": "Gálatas 2:16",
+              "label": "Gálatas 2:15-16",
               "book_usfm": "GAL",
               "chapter": 2
-            },
-            {
-              "label": "Isaías 26:3-4",
-              "book_usfm": "ISA",
-              "chapter": 26
             }
           ]
         },
         {
-          "number": 66,
+          "number": 70,
           "question": "¿Qué es el arrepentimiento para vida?",
           "answer": "El arrepentimiento para vida es una gracia salvadora por la cual el pecador, con verdadera conciencia de su pecado y comprensión de la misericordia de Dios en Cristo, con dolor y odio de su pecado, se vuelve de él a Dios, con plena determinación y esfuerzo por una nueva obediencia.",
           "refs": [
@@ -1541,12 +1664,12 @@
               "chapter": 11
             },
             {
-              "label": "2 Corintios 7:10-11",
-              "book_usfm": "2CO",
-              "chapter": 7
+              "label": "Hechos 2:37-38",
+              "book_usfm": "ACT",
+              "chapter": 2
             },
             {
-              "label": "Joel 2:12-13",
+              "label": "Joel 2:12",
               "book_usfm": "JOL",
               "chapter": 2
             },
@@ -1554,28 +1677,38 @@
               "label": "Jeremías 31:18-19",
               "book_usfm": "JER",
               "chapter": 31
+            },
+            {
+              "label": "2 Corintios 7:11",
+              "book_usfm": "2CO",
+              "chapter": 7
+            },
+            {
+              "label": "Salmo 119:59",
+              "book_usfm": "PSA",
+              "chapter": 119
             }
           ]
         },
         {
-          "number": 67,
-          "question": "¿Cuáles son los medios externos por los cuales Cristo nos comunica los beneficios de la redención?",
-          "answer": "Los medios externos y ordinarios por los que Cristo nos hace llegar los beneficios de la redención son sus ordenanzas —en especial la Palabra, el bautismo, la cena del Señor y la oración—, todas las cuales resultan eficaces para la salvación de sus elegidos.",
+          "number": 71,
+          "question": "¿Cuáles son los medios externos por los cuales el Espíritu Santo nos comunica los beneficios de la redención?",
+          "answer": "Los medios externos y ordinarios por los cuales el Espíritu Santo nos comunica los beneficios de la redención de Cristo son la Palabra —por la cual las almas son engendradas a la vida espiritual—, el bautismo, la cena del Señor, la oración y la meditación, por todos los cuales los creyentes son edificados en su santísima fe.",
           "refs": [
-            {
-              "label": "Mateo 28:19-20",
-              "book_usfm": "MAT",
-              "chapter": 28
-            },
             {
               "label": "Hechos 2:41-42",
               "book_usfm": "ACT",
               "chapter": 2
+            },
+            {
+              "label": "Santiago 1:18",
+              "book_usfm": "JAS",
+              "chapter": 1
             }
           ]
         },
         {
-          "number": 68,
+          "number": 72,
           "question": "¿Cómo se hace la Palabra eficaz para la salvación?",
           "answer": "El Espíritu de Dios hace de la lectura, y especialmente de la predicación de la Palabra, un medio eficaz para convencer y convertir a los pecadores, y para edificarlos en santidad y consuelo, por la fe, para salvación.",
           "refs": [
@@ -1590,24 +1723,34 @@
               "chapter": 14
             },
             {
-              "label": "Romanos 1:16",
-              "book_usfm": "ROM",
-              "chapter": 1
+              "label": "Hechos 26:18",
+              "book_usfm": "ACT",
+              "chapter": 26
             },
             {
-              "label": "Romanos 10:17",
-              "book_usfm": "ROM",
-              "chapter": 10
-            },
-            {
-              "label": "Salmo 19:7",
+              "label": "Salmo 19:8",
               "book_usfm": "PSA",
               "chapter": 19
+            },
+            {
+              "label": "Hechos 20:32",
+              "book_usfm": "ACT",
+              "chapter": 20
+            },
+            {
+              "label": "Romanos 15:4",
+              "book_usfm": "ROM",
+              "chapter": 15
+            },
+            {
+              "label": "2 Timoteo 3:15-17",
+              "book_usfm": "2TI",
+              "chapter": 3
             }
           ]
         },
         {
-          "number": 69,
+          "number": 73,
           "question": "¿Cómo ha de leerse y oírse la Palabra para que sea eficaz para la salvación?",
           "answer": "Para que la Palabra resulte eficaz para salvación, debemos acercarnos a ella con diligencia, con preparación y con oración; recibirla con fe y con amor, atesorarla en el corazón y ponerla por obra en nuestra vida.",
           "refs": [
@@ -1622,41 +1765,34 @@
               "chapter": 2
             },
             {
-              "label": "Salmo 119:11",
+              "label": "Salmo 119:18",
               "book_usfm": "PSA",
               "chapter": 119
-            },
-            {
-              "label": "Santiago 1:22",
-              "book_usfm": "JAS",
-              "chapter": 1
             },
             {
               "label": "Hebreos 4:2",
               "book_usfm": "HEB",
               "chapter": 4
-            }
-          ]
-        },
-        {
-          "number": 70,
-          "question": "¿Cómo llegan a ser el bautismo y la cena del Señor medios eficaces de salvación?",
-          "answer": "El bautismo y la cena del Señor llegan a ser medios eficaces de salvación no por alguna virtud que haya en ellos, ni en quien los administra, sino únicamente por la bendición de Cristo y por la obra de su Espíritu en quienes los reciben con fe.",
-          "refs": [
-            {
-              "label": "1 Pedro 3:21",
-              "book_usfm": "1PE",
-              "chapter": 3
             },
             {
-              "label": "1 Corintios 3:6-7",
-              "book_usfm": "1CO",
-              "chapter": 3
+              "label": "2 Tesalonicenses 2:10",
+              "book_usfm": "2TH",
+              "chapter": 2
             },
             {
-              "label": "1 Corintios 12:13",
-              "book_usfm": "1CO",
-              "chapter": 12
+              "label": "Salmo 119:11",
+              "book_usfm": "PSA",
+              "chapter": 119
+            },
+            {
+              "label": "Santiago 1:25",
+              "book_usfm": "JAS",
+              "chapter": 1
+            },
+            {
+              "label": "Lucas 8:15",
+              "book_usfm": "LUK",
+              "chapter": 8
             }
           ]
         }
@@ -1667,15 +1803,32 @@
       "title": "El bautismo y la cena del Señor",
       "questions": [
         {
-          "number": 71,
-          "question": "¿Qué es el bautismo?",
-          "answer": "El bautismo es una ordenanza del Nuevo Testamento instituida por Jesucristo, que consiste en la inmersión del creyente en agua, en el nombre del Padre, del Hijo y del Espíritu Santo, como señal de su comunión con Cristo en su muerte y resurrección, de estar injertado en él, del perdón de los pecados, y de su entrega a Dios por medio de Jesucristo para vivir y andar en novedad de vida.",
+          "number": 74,
+          "question": "¿Cómo llegan a ser espiritualmente provechosos el bautismo y la cena del Señor?",
+          "answer": "El bautismo y la cena del Señor llegan a ser espiritualmente provechosos, no por virtud alguna en ellos ni en quien los administra, sino solo por la bendición de Cristo y la obra del Espíritu en quienes por la fe los reciben.",
           "refs": [
             {
-              "label": "Mateo 28:19",
-              "book_usfm": "MAT",
-              "chapter": 28
+              "label": "1 Corintios 3:6-7",
+              "book_usfm": "1CO",
+              "chapter": 3
             },
+            {
+              "label": "1 Pedro 3:21",
+              "book_usfm": "1PE",
+              "chapter": 3
+            },
+            {
+              "label": "1 Corintios 12:13",
+              "book_usfm": "1CO",
+              "chapter": 12
+            }
+          ]
+        },
+        {
+          "number": 75,
+          "question": "¿Qué es el bautismo?",
+          "answer": "El bautismo es una ordenanza del Nuevo Testamento instituida por Jesucristo, para ser, al que es bautizado, señal de su comunión con él en su muerte, sepultura y resurrección; de estar injertado en él; del perdón de los pecados; y de su entrega a Dios por medio de Jesucristo, para vivir y andar en novedad de vida.",
+          "refs": [
             {
               "label": "Romanos 6:3-5",
               "book_usfm": "ROM",
@@ -1690,16 +1843,11 @@
               "label": "Gálatas 3:27",
               "book_usfm": "GAL",
               "chapter": 3
-            },
-            {
-              "label": "Hechos 8:36-38",
-              "book_usfm": "ACT",
-              "chapter": 8
             }
           ]
         },
         {
-          "number": 72,
+          "number": 76,
           "question": "¿A quiénes ha de administrarse el bautismo?",
           "answer": "El bautismo ha de administrarse a todos aquellos que verdaderamente profesan arrepentimiento hacia Dios y fe en nuestro Señor Jesucristo, y a nadie más.",
           "refs": [
@@ -1731,7 +1879,98 @@
           ]
         },
         {
-          "number": 73,
+          "number": 77,
+          "question": "¿Han de bautizarse los niños pequeños?",
+          "answer": "Los niños pequeños de los que son creyentes profesantes no han de bautizarse, porque no hay ni mandato ni ejemplo en las Santas Escrituras, ni consecuencia cierta de ellas, para bautizarlos.",
+          "refs": [
+            {
+              "label": "Marcos 16:16",
+              "book_usfm": "MRK",
+              "chapter": 16
+            },
+            {
+              "label": "Hechos 2:38-39",
+              "book_usfm": "ACT",
+              "chapter": 2
+            },
+            {
+              "label": "Mateo 28:19",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "Hechos 8:12",
+              "book_usfm": "ACT",
+              "chapter": 8
+            }
+          ]
+        },
+        {
+          "number": 78,
+          "question": "¿De qué manera se ha de administrar el bautismo?",
+          "answer": "El bautismo se ha de administrar mediante la inmersión, o el sumergir de todo el cuerpo de la persona en agua, en el nombre del Padre, del Hijo y del Espíritu Santo, conforme a la institución de Cristo y a la práctica de los apóstoles; y no por el rociamiento o el derramamiento de agua, ni por sumergir alguna parte del cuerpo, según la tradición de los hombres.",
+          "refs": [
+            {
+              "label": "Mateo 3:16",
+              "book_usfm": "MAT",
+              "chapter": 3
+            },
+            {
+              "label": "Juan 3:23",
+              "book_usfm": "JHN",
+              "chapter": 3
+            },
+            {
+              "label": "Hechos 8:38-39",
+              "book_usfm": "ACT",
+              "chapter": 8
+            },
+            {
+              "label": "Romanos 6:4",
+              "book_usfm": "ROM",
+              "chapter": 6
+            },
+            {
+              "label": "Colosenses 2:12",
+              "book_usfm": "COL",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 79,
+          "question": "¿Cuál es el deber de los que son rectamente bautizados?",
+          "answer": "El deber de los que son rectamente bautizados es entregarse a alguna iglesia particular y ordenada de Jesucristo, para andar irreprensiblemente en todos los mandamientos y ordenanzas del Señor.",
+          "refs": [
+            {
+              "label": "Hechos 2:46-47",
+              "book_usfm": "ACT",
+              "chapter": 2
+            },
+            {
+              "label": "Hechos 9:26",
+              "book_usfm": "ACT",
+              "chapter": 9
+            },
+            {
+              "label": "1 Pedro 2:5",
+              "book_usfm": "1PE",
+              "chapter": 2
+            },
+            {
+              "label": "Hebreos 10:25",
+              "book_usfm": "HEB",
+              "chapter": 10
+            },
+            {
+              "label": "Romanos 16:5",
+              "book_usfm": "ROM",
+              "chapter": 16
+            }
+          ]
+        },
+        {
+          "number": 80,
           "question": "¿Qué es la cena del Señor?",
           "answer": "La cena del Señor es una ordenanza del Nuevo Testamento instituida por Jesucristo, en la cual, al dar y recibir pan y vino según lo que él dispuso, se anuncia su muerte; y los que dignamente participan son hechos partícipes de su cuerpo y sangre, con todos sus beneficios, no de manera corporal y carnal, sino por la fe, para su alimento espiritual y crecimiento en gracia.",
           "refs": [
@@ -1753,7 +1992,7 @@
           ]
         },
         {
-          "number": 74,
+          "number": 81,
           "question": "¿Qué se requiere para recibir dignamente la cena del Señor?",
           "answer": "A quienes desean participar dignamente de la Cena del Señor se les pide que se examinen a sí mismos: si tienen el conocimiento para discernir el cuerpo del Señor, la fe para alimentarse de él, y arrepentimiento, amor y una obediencia nueva; no sea que, al acercarse indignamente, coman y beban juicio contra sí mismos.",
           "refs": [
@@ -1771,267 +2010,28 @@
               "label": "1 Corintios 11:31",
               "book_usfm": "1CO",
               "chapter": 11
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "block": 10,
-      "title": "La oración y el Padrenuestro",
-      "questions": [
-        {
-          "number": 75,
-          "question": "¿Qué es la oración?",
-          "answer": "La oración es un ofrecimiento de nuestros deseos a Dios, por cosas conformes a su voluntad, en el nombre de Cristo, con confesión de nuestros pecados y reconocimiento agradecido de sus misericordias.",
-          "refs": [
-            {
-              "label": "Salmo 62:8",
-              "book_usfm": "PSA",
-              "chapter": 62
             },
             {
-              "label": "1 Juan 5:14",
-              "book_usfm": "1JN",
+              "label": "1 Corintios 5:7-8",
+              "book_usfm": "1CO",
               "chapter": 5
-            },
-            {
-              "label": "Juan 16:23",
-              "book_usfm": "JHN",
-              "chapter": 16
-            },
-            {
-              "label": "Filipenses 4:6",
-              "book_usfm": "PHP",
-              "chapter": 4
-            },
-            {
-              "label": "Salmo 32:5-6",
-              "book_usfm": "PSA",
-              "chapter": 32
-            }
-          ]
-        },
-        {
-          "number": 76,
-          "question": "¿Qué regla ha dado Dios para dirigirnos en la oración?",
-          "answer": "Toda la Escritura sirve para orientarnos en la oración; pero la guía particular es el modelo que Cristo dio a sus discípulos, el que solemos llamar el Padrenuestro.",
-          "refs": [
-            {
-              "label": "2 Timoteo 3:16-17",
-              "book_usfm": "2TI",
-              "chapter": 3
-            },
-            {
-              "label": "Mateo 6:9-13",
-              "book_usfm": "MAT",
-              "chapter": 6
-            },
-            {
-              "label": "Lucas 11:2-4",
-              "book_usfm": "LUK",
-              "chapter": 11
-            }
-          ]
-        },
-        {
-          "number": 77,
-          "question": "¿Qué nos enseña el prefacio del Padrenuestro?",
-          "answer": "El prefacio del Padrenuestro, que dice: «Padre nuestro que estás en los cielos», nos enseña a acercarnos a Dios con toda santa reverencia y confianza, como hijos a un padre que puede y quiere ayudarnos; y que debemos orar con otros y por otros.",
-          "refs": [
-            {
-              "label": "Mateo 6:9",
-              "book_usfm": "MAT",
-              "chapter": 6
-            },
-            {
-              "label": "Romanos 8:15",
-              "book_usfm": "ROM",
-              "chapter": 8
-            },
-            {
-              "label": "Lucas 11:13",
-              "book_usfm": "LUK",
-              "chapter": 11
-            },
-            {
-              "label": "Isaías 64:8",
-              "book_usfm": "ISA",
-              "chapter": 64
-            }
-          ]
-        },
-        {
-          "number": 78,
-          "question": "¿Qué pedimos en la primera petición?",
-          "answer": "En la primera petición, que dice: «Santificado sea tu nombre», pedimos que Dios nos capacite a nosotros y a los demás para glorificarlo en todo aquello por lo cual se da a conocer, y que él disponga todas las cosas para su propia gloria.",
-          "refs": [
-            {
-              "label": "Salmo 67:1-3",
-              "book_usfm": "PSA",
-              "chapter": 67
-            },
-            {
-              "label": "Romanos 11:36",
-              "book_usfm": "ROM",
-              "chapter": 11
-            },
-            {
-              "label": "Apocalipsis 4:11",
-              "book_usfm": "REV",
-              "chapter": 4
-            }
-          ]
-        },
-        {
-          "number": 79,
-          "question": "¿Qué pedimos en la segunda petición?",
-          "answer": "En la segunda petición, que dice: «Venga tu reino», pedimos que el reino de Satanás sea destruido, que el reino de la gracia sea extendido, que nosotros y los demás seamos llevados a él y guardados en él, y que el reino de la gloria se apresure.",
-          "refs": [
-            {
-              "label": "Salmo 68:1",
-              "book_usfm": "PSA",
-              "chapter": 68
-            },
-            {
-              "label": "Apocalipsis 12:10-11",
-              "book_usfm": "REV",
-              "chapter": 12
-            },
-            {
-              "label": "Romanos 10:1",
-              "book_usfm": "ROM",
-              "chapter": 10
-            },
-            {
-              "label": "Apocalipsis 22:20",
-              "book_usfm": "REV",
-              "chapter": 22
-            }
-          ]
-        },
-        {
-          "number": 80,
-          "question": "¿Qué pedimos en la tercera petición?",
-          "answer": "En la tercera petición, que dice: «Sea hecha tu voluntad, como en el cielo, así también en la tierra», pedimos que Dios, por su gracia, nos haga capaces y dispuestos a conocer, obedecer y someternos a su voluntad en todo, como lo hacen los ángeles en el cielo.",
-          "refs": [
-            {
-              "label": "Mateo 26:39",
-              "book_usfm": "MAT",
-              "chapter": 26
-            },
-            {
-              "label": "Salmo 103:20-21",
-              "book_usfm": "PSA",
-              "chapter": 103
-            },
-            {
-              "label": "Salmo 25:4-5",
-              "book_usfm": "PSA",
-              "chapter": 25
-            }
-          ]
-        },
-        {
-          "number": 81,
-          "question": "¿Qué pedimos en la cuarta petición?",
-          "answer": "En la cuarta petición, que dice: «Danos hoy nuestro pan cotidiano», pedimos que, de la libre dádiva de Dios, recibamos una porción suficiente de las cosas buenas de esta vida, y gocemos de su bendición con ellas.",
-          "refs": [
-            {
-              "label": "Proverbios 30:8-9",
-              "book_usfm": "PRO",
-              "chapter": 30
-            },
-            {
-              "label": "1 Timoteo 4:4-5",
-              "book_usfm": "1TI",
-              "chapter": 4
-            },
-            {
-              "label": "Mateo 6:31-33",
-              "book_usfm": "MAT",
-              "chapter": 6
             }
           ]
         },
         {
           "number": 82,
-          "question": "¿Qué pedimos en la quinta petición?",
-          "answer": "En la quinta petición, que dice: «Y perdónanos nuestras deudas, como también nosotros perdonamos á nuestros deudores», pedimos que Dios, por causa de Cristo, nos perdone gratuitamente todos nuestros pecados; lo cual somos más animados a pedir porque, por su gracia, somos capacitados para perdonar a otros de corazón.",
+          "question": "¿Qué significan las palabras «hasta que él venga» que usa el apóstol Pablo respecto de la cena del Señor?",
+          "answer": "Nos enseñan claramente que nuestro Señor Jesucristo vendrá por segunda vez, lo cual es el gozo y la esperanza de todos los creyentes.",
           "refs": [
             {
-              "label": "Salmo 51:1-2",
-              "book_usfm": "PSA",
-              "chapter": 51
-            },
-            {
-              "label": "Mateo 6:14-15",
-              "book_usfm": "MAT",
-              "chapter": 6
-            },
-            {
-              "label": "Mateo 18:35",
-              "book_usfm": "MAT",
-              "chapter": 18
-            },
-            {
-              "label": "1 Juan 1:9",
-              "book_usfm": "1JN",
+              "label": "Hechos 1:11",
+              "book_usfm": "ACT",
               "chapter": 1
-            }
-          ]
-        },
-        {
-          "number": 83,
-          "question": "¿Qué pedimos en la sexta petición?",
-          "answer": "En la sexta petición, que dice: «Y no nos metas en tentación, mas líbranos del mal», pedimos que Dios o bien nos guarde de ser tentados a pecar, o bien nos sostenga y libre cuando seamos tentados.",
-          "refs": [
-            {
-              "label": "Mateo 26:41",
-              "book_usfm": "MAT",
-              "chapter": 26
             },
             {
-              "label": "2 Corintios 12:7-9",
-              "book_usfm": "2CO",
-              "chapter": 12
-            },
-            {
-              "label": "1 Corintios 10:13",
-              "book_usfm": "1CO",
-              "chapter": 10
-            },
-            {
-              "label": "Juan 17:15",
-              "book_usfm": "JHN",
-              "chapter": 17
-            }
-          ]
-        },
-        {
-          "number": 84,
-          "question": "¿Qué nos enseña la conclusión del Padrenuestro?",
-          "answer": "La conclusión del Padrenuestro, que dice: «Porque tuyo es el reino, y el poder, y la gloria, por todos los siglos. Amén», nos enseña a tomar de solo Dios nuestro ánimo en la oración, y en nuestras oraciones a alabarlo, atribuyéndole el reino, el poder y la gloria. Y en testimonio de nuestro deseo y seguridad de ser oídos, decimos: Amén.",
-          "refs": [
-            {
-              "label": "Daniel 9:18-19",
-              "book_usfm": "DAN",
-              "chapter": 9
-            },
-            {
-              "label": "1 Crónicas 29:11-13",
-              "book_usfm": "1CH",
-              "chapter": 29
-            },
-            {
-              "label": "1 Corintios 14:16",
-              "book_usfm": "1CO",
-              "chapter": 14
-            },
-            {
-              "label": "Apocalipsis 22:20-21",
-              "book_usfm": "REV",
-              "chapter": 22
+              "label": "1 Tesalonicenses 4:16",
+              "book_usfm": "1TH",
+              "chapter": 4
             }
           ]
         }

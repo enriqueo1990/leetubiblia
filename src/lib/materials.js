@@ -45,7 +45,7 @@ export const MATERIALS = [
     slug: 'spurgeon',
     name: 'Catecismo de Spurgeon',
     shortName: 'Spurgeon',
-    description: '84 preguntas de la tradición reformada bautista (1855), claras y concisas, con pasajes para tu Biblia.',
+    description: '82 preguntas de la tradición reformada bautista (1855), claras y concisas, con pasajes para tu Biblia.',
     load: () => import('../data/materials/spurgeon.json'),
   },
   {
