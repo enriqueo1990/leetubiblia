@@ -113,28 +113,28 @@
         },
         {
           "number": 5,
-          "question": "¿Puede la sola luz de la naturaleza, y las obras de la creación y providencia, dar a conocer claramente a Dios y su voluntad para salvación?",
-          "answer": "No; son suficientes para dejar a los hombres sin excusa, pero no para dar el conocimiento de Dios y de su voluntad que es necesario para la salvación.",
+          "question": "¿Pueden todos los hombres hacer uso de las Santas Escrituras?",
+          "answer": "A todos los hombres no solo se les permite, sino que se les manda y exhorta a leer, oír y entender las Santas Escrituras.",
           "refs": [
             {
-              "label": "Romanos 1:20",
-              "book_usfm": "ROM",
+              "label": "Juan 5:39",
+              "book_usfm": "JHN",
+              "chapter": 5
+            },
+            {
+              "label": "Deuteronomio 17:18-19",
+              "book_usfm": "DEU",
+              "chapter": 17
+            },
+            {
+              "label": "Hechos 8:30",
+              "book_usfm": "ACT",
+              "chapter": 8
+            },
+            {
+              "label": "Apocalipsis 1:3",
+              "book_usfm": "REV",
               "chapter": 1
-            },
-            {
-              "label": "Romanos 2:14-15",
-              "book_usfm": "ROM",
-              "chapter": 2
-            },
-            {
-              "label": "1 Corintios 1:21",
-              "book_usfm": "1CO",
-              "chapter": 1
-            },
-            {
-              "label": "Romanos 10:14",
-              "book_usfm": "ROM",
-              "chapter": 10
             }
           ]
         },
@@ -1068,6 +1068,60 @@
               "chapter": 16
             }
           ]
+        },
+        {
+          "number": 42,
+          "question": "¿Qué será de los impíos en la muerte?",
+          "answer": "Al morir, las almas de los impíos son arrojadas a los tormentos del infierno, y sus cuerpos quedan en el sepulcro hasta la resurrección y el juicio del gran día.",
+          "refs": [
+            {
+              "label": "Lucas 16:23-24",
+              "book_usfm": "LUK",
+              "chapter": 16
+            },
+            {
+              "label": "Salmo 49:14",
+              "book_usfm": "PSA",
+              "chapter": 49
+            },
+            {
+              "label": "Judas 1:7",
+              "book_usfm": "JUD",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 43,
+          "question": "¿Qué será de los impíos en el día del juicio?",
+          "answer": "En el día del juicio, los cuerpos de los impíos, resucitados de sus sepulcros, serán sentenciados, junto con sus almas, a tormentos indecibles con el diablo y sus ángeles para siempre.",
+          "refs": [
+            {
+              "label": "Juan 5:28-29",
+              "book_usfm": "JHN",
+              "chapter": 5
+            },
+            {
+              "label": "Mateo 25:41",
+              "book_usfm": "MAT",
+              "chapter": 25
+            },
+            {
+              "label": "Mateo 25:46",
+              "book_usfm": "MAT",
+              "chapter": 25
+            },
+            {
+              "label": "2 Tesalonicenses 1:8-9",
+              "book_usfm": "2TH",
+              "chapter": 1
+            },
+            {
+              "label": "Daniel 12:2",
+              "book_usfm": "DAN",
+              "chapter": 12
+            }
+          ]
         }
       ]
     },
@@ -1076,7 +1130,7 @@
       "title": "La ley de Dios y los diez mandamientos",
       "questions": [
         {
-          "number": 42,
+          "number": 44,
           "question": "¿Qué es el deber que Dios exige del hombre?",
           "answer": "El deber que Dios exige del hombre es la obediencia a su voluntad revelada.",
           "refs": [
@@ -1098,7 +1152,7 @@
           ]
         },
         {
-          "number": 43,
+          "number": 45,
           "question": "¿Qué reveló Dios primeramente al hombre como regla de su obediencia?",
           "answer": "La regla que Dios reveló primeramente al hombre para su obediencia fue la ley moral.",
           "refs": [
@@ -1120,7 +1174,7 @@
           ]
         },
         {
-          "number": 44,
+          "number": 46,
           "question": "¿Dónde está resumida la ley moral?",
           "answer": "La ley moral está resumida en los diez mandamientos.",
           "refs": [
@@ -1137,7 +1191,7 @@
           ]
         },
         {
-          "number": 45,
+          "number": 47,
           "question": "¿Cuál es el resumen de los diez mandamientos?",
           "answer": "Los diez mandamientos se resumen en amar al Señor nuestro Dios de todo corazón, de toda alma, con todas las fuerzas y con toda la mente, y en amar al prójimo como a uno mismo.",
           "refs": [
@@ -1149,7 +1203,7 @@
           ]
         },
         {
-          "number": 46,
+          "number": 48,
           "question": "¿Cuál es el prefacio de los diez mandamientos?",
           "answer": "El prefacio de los diez mandamientos está en estas palabras: «Yo soy Jehová tu Dios, que te saqué de la tierra de Egipto, de casa de servidumbre».",
           "refs": [
@@ -1161,7 +1215,7 @@
           ]
         },
         {
-          "number": 47,
+          "number": 49,
           "question": "¿Qué nos enseña el prefacio de los diez mandamientos?",
           "answer": "El prefacio de los diez mandamientos nos enseña que, por cuanto Dios es el Señor, y nuestro Dios y Redentor, estamos obligados a guardar todos sus mandamientos.",
           "refs": [
@@ -1183,7 +1237,7 @@
           ]
         },
         {
-          "number": 48,
+          "number": 50,
           "question": "¿Cuál es el primer mandamiento?",
           "answer": "El primer mandamiento es: «No tendrás dioses ajenos delante de mí».",
           "refs": [
@@ -1195,7 +1249,7 @@
           ]
         },
         {
-          "number": 49,
+          "number": 51,
           "question": "¿Qué exige el primer mandamiento?",
           "answer": "El primer mandamiento exige que conozcamos y reconozcamos a Dios como el único Dios verdadero, y como Dios nuestro; y que lo adoremos y glorifiquemos en consecuencia.",
           "refs": [
@@ -1222,7 +1276,7 @@
           ]
         },
         {
-          "number": 50,
+          "number": 52,
           "question": "¿Qué prohíbe el primer mandamiento?",
           "answer": "El primer mandamiento prohíbe negar al Dios verdadero, o no adorarlo y glorificarlo como Dios y Dios nuestro; y dar a cualquier otro la adoración y gloria que solo a él le corresponden.",
           "refs": [
@@ -1244,7 +1298,7 @@
           ]
         },
         {
-          "number": 51,
+          "number": 53,
           "question": "¿Qué se nos enseña de manera especial con las palabras «delante de mí» en el primer mandamiento?",
           "answer": "Las palabras «delante de mí» en el primer mandamiento nos enseñan que Dios, que todo lo ve, observa y se ofende del pecado de tener cualquier otro dios.",
           "refs": [
@@ -1266,7 +1320,7 @@
           ]
         },
         {
-          "number": 52,
+          "number": 54,
           "question": "¿Cuál es el segundo mandamiento?",
           "answer": "El segundo mandamiento es: «No te harás imagen, ni ninguna semejanza de cosa que esté arriba en el cielo, ni abajo en la tierra, ni en las aguas debajo de la tierra. No te inclinarás á ellas, ni las honrarás; porque yo soy Jehová tu Dios, fuerte, celoso, que visito la maldad de los padres sobre los hijos, sobre los terceros y sobre los cuartos, á los que me aborrecen, y que hago misericordia en millares á los que me aman, y guardan mis mandamientos».",
           "refs": [
@@ -1278,7 +1332,7 @@
           ]
         },
         {
-          "number": 53,
+          "number": 55,
           "question": "¿Qué exige el segundo mandamiento?",
           "answer": "El segundo mandamiento exige recibir, observar y guardar puros y enteros todo el culto y las ordenanzas religiosas que Dios ha establecido en su Palabra.",
           "refs": [
@@ -1300,7 +1354,7 @@
           ]
         },
         {
-          "number": 54,
+          "number": 56,
           "question": "¿Qué prohíbe el segundo mandamiento?",
           "answer": "El segundo mandamiento prohíbe adorar a Dios por medio de imágenes, o de cualquier otra manera no prescrita en su Palabra.",
           "refs": [
@@ -1327,7 +1381,7 @@
           ]
         },
         {
-          "number": 55,
+          "number": 57,
           "question": "¿Cuáles son las razones anexas al segundo mandamiento?",
           "answer": "Las razones anexas al segundo mandamiento son la soberanía de Dios sobre nosotros, su derecho de propiedad sobre nosotros, y el celo que tiene por su propio culto.",
           "refs": [
@@ -1349,7 +1403,7 @@
           ]
         },
         {
-          "number": 56,
+          "number": 58,
           "question": "¿Cuál es el tercer mandamiento?",
           "answer": "El tercer mandamiento es: «No tomarás el nombre de Jehová tu Dios en vano; porque no dará por inocente Jehová al que tomare su nombre en vano».",
           "refs": [
@@ -1361,7 +1415,7 @@
           ]
         },
         {
-          "number": 57,
+          "number": 59,
           "question": "¿Qué exige el tercer mandamiento?",
           "answer": "El tercer mandamiento exige que usemos de manera santa y reverente los nombres de Dios, sus títulos, sus atributos, sus ordenanzas, su Palabra y sus obras.",
           "refs": [
@@ -1388,7 +1442,7 @@
           ]
         },
         {
-          "number": 58,
+          "number": 60,
           "question": "¿Qué prohíbe el tercer mandamiento?",
           "answer": "El tercer mandamiento prohíbe toda profanación o abuso de aquello por lo cual Dios se da a conocer.",
           "refs": [
@@ -1410,7 +1464,7 @@
           ]
         },
         {
-          "number": 59,
+          "number": 61,
           "question": "¿Cuál es la razón anexa al tercer mandamiento?",
           "answer": "La razón anexa al tercer mandamiento es que, por mucho que los que quebrantan este mandamiento escapen del castigo de los hombres, el Señor nuestro Dios no permitirá que escapen de su justo juicio.",
           "refs": [
@@ -1432,7 +1486,7 @@
           ]
         },
         {
-          "number": 60,
+          "number": 62,
           "question": "¿Cuál es el cuarto mandamiento?",
           "answer": "El cuarto mandamiento es: «Acordarte has del día del reposo, para santificarlo. Seis días trabajarás, y harás toda tu obra; mas el séptimo día será reposo para Jehová tu Dios: no hagas en él obra alguna, tú, ni tu hijo, ni tu hija, ni tu siervo, ni tu criada, ni tu bestia, ni tu extranjero que está dentro de tus puertas. Porque en seis días hizo Jehová los cielos y la tierra, la mar y todas las cosas que en ellos hay, y reposó en el séptimo día: por tanto Jehová bendijo el día del reposo y lo santificó».",
           "refs": [
@@ -1444,7 +1498,7 @@
           ]
         },
         {
-          "number": 61,
+          "number": 63,
           "question": "¿Qué exige el cuarto mandamiento?",
           "answer": "El cuarto mandamiento exige guardar como santos para Dios los tiempos señalados que él ha establecido en su Palabra; expresamente, un día completo de cada siete como reposo consagrado a él.",
           "refs": [
@@ -1461,7 +1515,7 @@
           ]
         },
         {
-          "number": 62,
+          "number": 64,
           "question": "¿Cuál de los siete días ha señalado Dios para ser el reposo semanal?",
           "answer": "Desde el comienzo del mundo y hasta la resurrección de Cristo, Dios estableció como reposo semanal el séptimo día de la semana; y desde entonces, y hasta que el mundo acabe, el primer día de la semana, que es el día del Señor.",
           "refs": [
@@ -1488,7 +1542,7 @@
           ]
         },
         {
-          "number": 63,
+          "number": 65,
           "question": "¿Cómo ha de santificarse el día de reposo?",
           "answer": "El día de reposo ha de santificarse con un santo descanso durante todo el día, aun de aquellas ocupaciones y recreaciones que son lícitas en los demás días, y empleando todo el tiempo en los ejercicios públicos y privados de la adoración de Dios, salvo lo que se dedique a obras de necesidad y misericordia.",
           "refs": [
@@ -1510,7 +1564,7 @@
           ]
         },
         {
-          "number": 64,
+          "number": 66,
           "question": "¿Qué prohíbe el cuarto mandamiento?",
           "answer": "El cuarto mandamiento prohíbe la omisión o el cumplimiento negligente de los deberes exigidos, y la profanación del día por la ociosidad, o por hacer aquello que en sí mismo es pecaminoso, o por pensamientos, palabras u obras innecesarias acerca de nuestras ocupaciones o recreaciones.",
           "refs": [
@@ -1532,7 +1586,34 @@
           ]
         },
         {
-          "number": 65,
+          "number": 67,
+          "question": "¿Cuáles son las razones anexas al cuarto mandamiento?",
+          "answer": "Las razones anexas al cuarto mandamiento son: que Dios nos concede seis días de la semana para nuestras propias ocupaciones lícitas, que se reserva para sí una propiedad especial sobre el séptimo, su propio ejemplo, y el que bendijo el día de reposo.",
+          "refs": [
+            {
+              "label": "Éxodo 20:9",
+              "book_usfm": "EXO",
+              "chapter": 20
+            },
+            {
+              "label": "Éxodo 31:16-17",
+              "book_usfm": "EXO",
+              "chapter": 31
+            },
+            {
+              "label": "Génesis 2:2-3",
+              "book_usfm": "GEN",
+              "chapter": 2
+            },
+            {
+              "label": "Éxodo 20:11",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 68,
           "question": "¿Cuál es el quinto mandamiento?",
           "answer": "El quinto mandamiento es: «Honra á tu padre y á tu madre, porque tus días se alarguen en la tierra que Jehová tu Dios te da».",
           "refs": [
@@ -1544,7 +1625,7 @@
           ]
         },
         {
-          "number": 66,
+          "number": 69,
           "question": "¿Qué exige el quinto mandamiento?",
           "answer": "El quinto mandamiento exige que conservemos el honor y cumplamos los deberes que corresponden a cada uno en sus diferentes posiciones y relaciones, ya sean superiores, inferiores o iguales.",
           "refs": [
@@ -1576,7 +1657,7 @@
           ]
         },
         {
-          "number": 67,
+          "number": 70,
           "question": "¿Qué prohíbe el quinto mandamiento?",
           "answer": "El quinto mandamiento prohíbe descuidar, o hacer algo en contra, del honor y los deberes que corresponden a cada uno en sus diferentes posiciones y relaciones.",
           "refs": [
@@ -1598,7 +1679,7 @@
           ]
         },
         {
-          "number": 68,
+          "number": 71,
           "question": "¿Cuál es la razón anexa al quinto mandamiento?",
           "answer": "La razón añadida al quinto mandamiento es la promesa de una vida larga y próspera —en la medida en que sirva a la gloria de Dios y al bien de cada uno— para todos los que guardan este mandamiento.",
           "refs": [
@@ -1615,7 +1696,7 @@
           ]
         },
         {
-          "number": 69,
+          "number": 72,
           "question": "¿Cuál es el sexto mandamiento?",
           "answer": "El sexto mandamiento es: «No matarás».",
           "refs": [
@@ -1627,7 +1708,7 @@
           ]
         },
         {
-          "number": 70,
+          "number": 73,
           "question": "¿Qué exige el sexto mandamiento?",
           "answer": "El sexto mandamiento exige todos los esfuerzos lícitos por preservar nuestra propia vida y la de los demás.",
           "refs": [
@@ -1649,7 +1730,7 @@
           ]
         },
         {
-          "number": 71,
+          "number": 74,
           "question": "¿Qué prohíbe el sexto mandamiento?",
           "answer": "El sexto mandamiento prohíbe quitar nuestra propia vida, o la de nuestro prójimo injustamente, y todo lo que a ello tienda.",
           "refs": [
@@ -1671,7 +1752,7 @@
           ]
         },
         {
-          "number": 72,
+          "number": 75,
           "question": "¿Cuál es el séptimo mandamiento?",
           "answer": "El séptimo mandamiento es: «No cometerás adulterio».",
           "refs": [
@@ -1683,7 +1764,7 @@
           ]
         },
         {
-          "number": 73,
+          "number": 76,
           "question": "¿Qué exige el séptimo mandamiento?",
           "answer": "El séptimo mandamiento exige la conservación de nuestra propia castidad y la de nuestro prójimo, en corazón, palabra y conducta.",
           "refs": [
@@ -1710,7 +1791,7 @@
           ]
         },
         {
-          "number": 74,
+          "number": 77,
           "question": "¿Qué prohíbe el séptimo mandamiento?",
           "answer": "El séptimo mandamiento prohíbe todo pensamiento, palabra y acción impuros.",
           "refs": [
@@ -1737,7 +1818,7 @@
           ]
         },
         {
-          "number": 75,
+          "number": 78,
           "question": "¿Cuál es el octavo mandamiento?",
           "answer": "El octavo mandamiento es: «No hurtarás».",
           "refs": [
@@ -1749,7 +1830,7 @@
           ]
         },
         {
-          "number": 76,
+          "number": 79,
           "question": "¿Qué exige el octavo mandamiento?",
           "answer": "El octavo mandamiento exige procurar y promover lícitamente la riqueza y el bienestar exterior, tanto propio como ajeno.",
           "refs": [
@@ -1776,7 +1857,7 @@
           ]
         },
         {
-          "number": 77,
+          "number": 80,
           "question": "¿Qué prohíbe el octavo mandamiento?",
           "answer": "El octavo mandamiento prohíbe todo lo que impide o pueda impedir injustamente la riqueza o el bienestar exterior, propio o de nuestro prójimo.",
           "refs": [
@@ -1798,7 +1879,7 @@
           ]
         },
         {
-          "number": 78,
+          "number": 81,
           "question": "¿Cuál es el noveno mandamiento?",
           "answer": "El noveno mandamiento es: «No hablarás contra tu prójimo falso testimonio».",
           "refs": [
@@ -1810,7 +1891,7 @@
           ]
         },
         {
-          "number": 79,
+          "number": 82,
           "question": "¿Qué exige el noveno mandamiento?",
           "answer": "El noveno mandamiento exige el mantenimiento y la promoción de la verdad entre los hombres, y de nuestro propio buen nombre y el de nuestro prójimo, especialmente al dar testimonio.",
           "refs": [
@@ -1837,7 +1918,7 @@
           ]
         },
         {
-          "number": 80,
+          "number": 83,
           "question": "¿Qué prohíbe el noveno mandamiento?",
           "answer": "El noveno mandamiento prohíbe todo lo que sea perjudicial a la verdad, o injurioso a nuestro propio buen nombre o al de nuestro prójimo.",
           "refs": [
@@ -1859,7 +1940,7 @@
           ]
         },
         {
-          "number": 81,
+          "number": 84,
           "question": "¿Cuál es el décimo mandamiento?",
           "answer": "El décimo mandamiento es: «No codiciarás la casa de tu prójimo, no codiciarás la mujer de tu prójimo, ni su siervo, ni su criada, ni su buey, ni su asno, ni cosa alguna de tu prójimo».",
           "refs": [
@@ -1871,7 +1952,7 @@
           ]
         },
         {
-          "number": 82,
+          "number": 85,
           "question": "¿Qué exige el décimo mandamiento?",
           "answer": "El décimo mandamiento exige plena satisfacción y contentamiento con nuestra propia condición, y una disposición justa y caritativa hacia nuestro prójimo y hacia todo lo que es suyo.",
           "refs": [
@@ -1898,7 +1979,7 @@
           ]
         },
         {
-          "number": 83,
+          "number": 86,
           "question": "¿Qué prohíbe el décimo mandamiento?",
           "answer": "El décimo mandamiento prohíbe toda inconformidad con nuestra propia condición, el envidiar el bien del prójimo o entristecernos por él, y todo afecto o deseo desordenado hacia cualquier cosa que le pertenezca.",
           "refs": [
@@ -1936,7 +2017,7 @@
       "title": "El pecado y su castigo",
       "questions": [
         {
-          "number": 84,
+          "number": 87,
           "question": "¿Puede algún hombre guardar perfectamente los mandamientos de Dios?",
           "answer": "Ningún mero hombre, desde la caída, es capaz en esta vida de guardar perfectamente los mandamientos de Dios, sino que los quebranta a diario en pensamiento, palabra y obra.",
           "refs": [
@@ -1963,7 +2044,7 @@
           ]
         },
         {
-          "number": 85,
+          "number": 88,
           "question": "¿Son todas las transgresiones de la ley igualmente detestables?",
           "answer": "Algunos pecados en sí mismos, y por razón de varios agravantes, son más detestables a la vista de Dios que otros.",
           "refs": [
@@ -1990,7 +2071,7 @@
           ]
         },
         {
-          "number": 86,
+          "number": 89,
           "question": "¿Qué merece todo pecado?",
           "answer": "Cada pecado merece la ira y la maldición de Dios, así en esta vida como en la vida por venir.",
           "refs": [
@@ -2023,7 +2104,7 @@
       "title": "La fe, el arrepentimiento y la Palabra",
       "questions": [
         {
-          "number": 87,
+          "number": 90,
           "question": "¿Qué exige Dios de nosotros para que escapemos de su ira y maldición merecidas por el pecado?",
           "answer": "Para escapar de la ira y de la maldición de Dios que el pecado nos ha merecido, Dios nos pide fe en Jesucristo y arrepentimiento para vida, junto con el empleo diligente de todos los medios externos por los que Cristo nos hace llegar los beneficios de la redención.",
           "refs": [
@@ -2045,7 +2126,7 @@
           ]
         },
         {
-          "number": 88,
+          "number": 91,
           "question": "¿Qué es la fe en Jesucristo?",
           "answer": "La fe en Jesucristo es una gracia que salva, por la cual lo recibimos y reposamos solo en él para ser salvos, según él se nos ofrece en el evangelio.",
           "refs": [
@@ -2072,7 +2153,7 @@
           ]
         },
         {
-          "number": 89,
+          "number": 92,
           "question": "¿Qué es el arrepentimiento para vida?",
           "answer": "El arrepentimiento para vida es una gracia salvadora por la cual el pecador, con verdadera conciencia de su pecado y comprensión de la misericordia de Dios en Cristo, con dolor y odio de su pecado, se vuelve de él a Dios, con plena determinación y esfuerzo por una nueva obediencia.",
           "refs": [
@@ -2099,7 +2180,7 @@
           ]
         },
         {
-          "number": 90,
+          "number": 93,
           "question": "¿Cuáles son los medios externos por los cuales Cristo nos comunica los beneficios de la redención?",
           "answer": "Los medios externos y ordinarios por los que Cristo nos hace llegar los beneficios de la redención son sus ordenanzas —en especial la Palabra, el bautismo, la cena del Señor y la oración—, todas las cuales resultan eficaces para la salvación de sus elegidos.",
           "refs": [
@@ -2121,7 +2202,7 @@
           ]
         },
         {
-          "number": 91,
+          "number": 94,
           "question": "¿Cómo se hace la Palabra eficaz para la salvación?",
           "answer": "El Espíritu de Dios hace de la lectura, y especialmente de la predicación de la Palabra, un medio eficaz para convencer y convertir a los pecadores, y para edificarlos en santidad y consuelo, por la fe, para salvación.",
           "refs": [
@@ -2153,7 +2234,7 @@
           ]
         },
         {
-          "number": 92,
+          "number": 95,
           "question": "¿Cómo ha de leerse y oírse la Palabra para que sea eficaz para la salvación?",
           "answer": "Para que la Palabra resulte eficaz para salvación, debemos acercarnos a ella con diligencia, con preparación y con oración; recibirla con fe y con amor, atesorarla en el corazón y ponerla por obra en nuestra vida.",
           "refs": [
@@ -2191,7 +2272,7 @@
       "title": "El bautismo y la cena del Señor",
       "questions": [
         {
-          "number": 93,
+          "number": 96,
           "question": "¿Cómo llegan a ser el bautismo y la cena del Señor medios eficaces de salvación?",
           "answer": "El bautismo y la cena del Señor llegan a ser medios eficaces de salvación no por alguna virtud que haya en ellos, ni en quien los administra, sino únicamente por la bendición de Cristo y por la obra de su Espíritu en quienes los reciben con fe.",
           "refs": [
@@ -2213,7 +2294,7 @@
           ]
         },
         {
-          "number": 94,
+          "number": 97,
           "question": "¿Qué es el bautismo?",
           "answer": "El bautismo es una ordenanza del Nuevo Testamento instituida por Jesucristo, que consiste en la inmersión del creyente en agua, en el nombre del Padre, del Hijo y del Espíritu Santo, como señal de su comunión con Cristo en su muerte, sepultura y resurrección; de estar injertado en él; del perdón de los pecados; y de su entrega a Dios por medio de Jesucristo, para vivir y andar en novedad de vida.",
           "refs": [
@@ -2240,7 +2321,7 @@
           ]
         },
         {
-          "number": 95,
+          "number": 98,
           "question": "¿A quiénes ha de administrarse el bautismo?",
           "answer": "El bautismo ha de administrarse a todos aquellos que verdaderamente profesan arrepentimiento hacia Dios y fe en nuestro Señor Jesucristo, y a nadie más.",
           "refs": [
@@ -2272,7 +2353,7 @@
           ]
         },
         {
-          "number": 96,
+          "number": 99,
           "question": "¿Han de bautizarse los niños pequeños?",
           "answer": "Los niños pequeños no han de bautizarse, porque no hay ni mandato ni ejemplo en las Santas Escrituras para su bautismo, ni prueba segura de ello que pueda deducirse de las Escrituras.",
           "refs": [
@@ -2299,7 +2380,7 @@
           ]
         },
         {
-          "number": 97,
+          "number": 100,
           "question": "¿De qué manera se ha de administrar el bautismo?",
           "answer": "El bautismo se ha de administrar mediante la inmersión, o el sumergir de todo el cuerpo de la persona en agua, en el nombre del Padre, del Hijo y del Espíritu Santo.",
           "refs": [
@@ -2331,7 +2412,7 @@
           ]
         },
         {
-          "number": 98,
+          "number": 101,
           "question": "¿Cuál es el deber de los que son rectamente bautizados?",
           "answer": "El deber de los que son rectamente bautizados es entregarse a alguna iglesia particular de Cristo, para andar en todos sus mandamientos y ordenanzas irreprensiblemente, en santa conversación y piedad.",
           "refs": [
@@ -2363,7 +2444,7 @@
           ]
         },
         {
-          "number": 99,
+          "number": 102,
           "question": "¿Qué es la cena del Señor?",
           "answer": "La cena del Señor es una ordenanza del Nuevo Testamento instituida por Jesucristo, en la cual, al dar y recibir pan y vino según lo que él dispuso, se anuncia su muerte; y los que dignamente participan son hechos partícipes de su cuerpo y sangre, con todos sus beneficios, no de manera corporal y carnal, sino por la fe, para su alimento espiritual y crecimiento en gracia.",
           "refs": [
@@ -2385,7 +2466,19 @@
           ]
         },
         {
-          "number": 100,
+          "number": 103,
+          "question": "¿Quiénes son los sujetos propios de esta ordenanza?",
+          "answer": "Aquellos que han sido bautizados tras una profesión personal de su fe en Jesucristo y de su arrepentimiento de las obras muertas.",
+          "refs": [
+            {
+              "label": "Hechos 2:41-42",
+              "book_usfm": "ACT",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 104,
           "question": "¿Qué se requiere para recibir dignamente la cena del Señor?",
           "answer": "A quienes desean participar dignamente de la Cena del Señor se les pide que se examinen a sí mismos: si tienen el conocimiento para discernir el cuerpo del Señor, la fe para alimentarse de él, y arrepentimiento, amor y una obediencia nueva; no sea que, al acercarse indignamente, coman y beban juicio contra sí mismos.",
           "refs": [
@@ -2418,7 +2511,7 @@
       "title": "La oración y el Padrenuestro",
       "questions": [
         {
-          "number": 101,
+          "number": 105,
           "question": "¿Qué es la oración?",
           "answer": "La oración es un ofrecimiento de nuestros deseos a Dios, por cosas conformes a su voluntad, en el nombre de Cristo, con confesión de nuestros pecados y reconocimiento agradecido de sus misericordias.",
           "refs": [
@@ -2450,7 +2543,7 @@
           ]
         },
         {
-          "number": 102,
+          "number": 106,
           "question": "¿Qué regla ha dado Dios para dirigirnos en la oración?",
           "answer": "Toda la Escritura sirve para orientarnos en la oración; pero la guía particular es el modelo que Cristo dio a sus discípulos, el que solemos llamar el Padrenuestro.",
           "refs": [
@@ -2472,7 +2565,7 @@
           ]
         },
         {
-          "number": 103,
+          "number": 107,
           "question": "¿Qué nos enseña el prefacio del Padrenuestro?",
           "answer": "El prefacio del Padrenuestro —«Padre nuestro que estás en los cielos»— nos enseña a llegarnos a Dios con reverencia santa y plena confianza, como hijos ante un padre capaz de socorrernos y deseoso de hacerlo; y a orar junto con otros y en favor de otros.",
           "refs": [
@@ -2499,7 +2592,7 @@
           ]
         },
         {
-          "number": 104,
+          "number": 108,
           "question": "¿Qué pedimos en la primera petición?",
           "answer": "En la primera petición —«Santificado sea tu nombre»— pedimos que Dios nos haga capaces, a nosotros y a todos, de honrarlo en todo aquello por lo que se da a conocer, y que él ordene cada cosa para su propia gloria.",
           "refs": [
@@ -2521,7 +2614,7 @@
           ]
         },
         {
-          "number": 105,
+          "number": 109,
           "question": "¿Qué pedimos en la segunda petición?",
           "answer": "En la segunda petición, que dice: «Venga tu reino», pedimos que el reino de Satanás sea destruido, que el reino de la gracia sea extendido, que nosotros y los demás seamos llevados a él y guardados en él, y que el reino de la gloria se apresure.",
           "refs": [
@@ -2548,7 +2641,7 @@
           ]
         },
         {
-          "number": 106,
+          "number": 110,
           "question": "¿Qué pedimos en la tercera petición?",
           "answer": "En la tercera petición, que dice: «Sea hecha tu voluntad, como en el cielo, así también en la tierra», pedimos que Dios, por su gracia, nos haga capaces y dispuestos a conocer, obedecer y someternos a su voluntad en todo, como lo hacen los ángeles en el cielo.",
           "refs": [
@@ -2570,7 +2663,7 @@
           ]
         },
         {
-          "number": 107,
+          "number": 111,
           "question": "¿Qué pedimos en la cuarta petición?",
           "answer": "En la cuarta petición —«Danos hoy nuestro pan cotidiano»— pedimos que, por el don gratuito de Dios, tengamos una parte suficiente de los bienes de esta vida y disfrutemos de su bendición en ellos.",
           "refs": [
@@ -2592,7 +2685,7 @@
           ]
         },
         {
-          "number": 108,
+          "number": 112,
           "question": "¿Qué pedimos en la quinta petición?",
           "answer": "En la quinta petición, que dice: «Y perdónanos nuestras deudas, como también nosotros perdonamos á nuestros deudores», pedimos que Dios, por causa de Cristo, nos perdone gratuitamente todos nuestros pecados; lo cual somos más animados a pedir porque, por su gracia, somos capacitados para perdonar a otros de corazón.",
           "refs": [
@@ -2619,7 +2712,7 @@
           ]
         },
         {
-          "number": 109,
+          "number": 113,
           "question": "¿Qué pedimos en la sexta petición?",
           "answer": "En la sexta petición, que dice: «Y no nos metas en tentación, mas líbranos del mal», pedimos que Dios o bien nos guarde de ser tentados a pecar, o bien nos sostenga y libre cuando seamos tentados.",
           "refs": [
@@ -2646,7 +2739,7 @@
           ]
         },
         {
-          "number": 110,
+          "number": 114,
           "question": "¿Qué nos enseña la conclusión del Padrenuestro?",
           "answer": "La conclusión del Padrenuestro, que dice: «Porque tuyo es el reino, y el poder, y la gloria, por todos los siglos. Amén», nos enseña a tomar de solo Dios nuestro ánimo en la oración, y en nuestras oraciones a alabarlo, atribuyéndole el reino, el poder y la gloria. Y en testimonio de nuestro deseo y seguridad de ser oídos, decimos: Amén.",
           "refs": [
@@ -2667,140 +2760,6 @@
             },
             {
               "label": "Apocalipsis 22:20-21",
-              "book_usfm": "REV",
-              "chapter": 22
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "block": 11,
-      "title": "La resurrección y el juicio final",
-      "questions": [
-        {
-          "number": 111,
-          "question": "¿Qué nos enseña Cristo acerca de la resurrección de los muertos?",
-          "answer": "Cristo nos enseña que los cuerpos de todos los hombres, tanto de justos como de injustos, serán resucitados; los justos para vida eterna, y los injustos para condenación eterna.",
-          "refs": [
-            {
-              "label": "Juan 5:28-29",
-              "book_usfm": "JHN",
-              "chapter": 5
-            },
-            {
-              "label": "Hechos 24:15",
-              "book_usfm": "ACT",
-              "chapter": 24
-            },
-            {
-              "label": "1 Corintios 15:51-53",
-              "book_usfm": "1CO",
-              "chapter": 15
-            },
-            {
-              "label": "Daniel 12:2",
-              "book_usfm": "DAN",
-              "chapter": 12
-            }
-          ]
-        },
-        {
-          "number": 112,
-          "question": "¿Qué será de los impíos en el día del juicio?",
-          "answer": "En el día del juicio los impíos serán puestos a la izquierda de Cristo, y, tras el testimonio y la convicción abierta de su propia conciencia, recibirán la terrible pero justa sentencia de condenación pronunciada contra ellos, y serán echados fuera de la presencia favorable de Dios al tormento eterno.",
-          "refs": [
-            {
-              "label": "Mateo 25:33",
-              "book_usfm": "MAT",
-              "chapter": 25
-            },
-            {
-              "label": "Romanos 2:15-16",
-              "book_usfm": "ROM",
-              "chapter": 2
-            },
-            {
-              "label": "Mateo 25:41-43",
-              "book_usfm": "MAT",
-              "chapter": 25
-            },
-            {
-              "label": "Lucas 16:22-24",
-              "book_usfm": "LUK",
-              "chapter": 16
-            },
-            {
-              "label": "2 Tesalonicenses 1:8-9",
-              "book_usfm": "2TH",
-              "chapter": 1
-            }
-          ]
-        },
-        {
-          "number": 113,
-          "question": "¿Qué será de los justos en el día del juicio?",
-          "answer": "En el día del juicio los justos, siendo levantados en gloria, serán puestos a la diestra de Cristo, y allí reconocidos y absueltos abiertamente, se unirán con él en el juicio de los reprobados, y serán recibidos en el cielo, donde serán plenamente libres de todo pecado y miseria para siempre, colmados de gozos inefables, y hechos perfectamente bienaventurados en cuerpo y alma, en el pleno gozo de Dios por toda la eternidad.",
-          "refs": [
-            {
-              "label": "Mateo 25:33",
-              "book_usfm": "MAT",
-              "chapter": 25
-            },
-            {
-              "label": "1 Corintios 6:2-3",
-              "book_usfm": "1CO",
-              "chapter": 6
-            },
-            {
-              "label": "Mateo 25:34",
-              "book_usfm": "MAT",
-              "chapter": 25
-            },
-            {
-              "label": "1 Juan 3:2",
-              "book_usfm": "1JN",
-              "chapter": 3
-            },
-            {
-              "label": "1 Tesalonicenses 4:17",
-              "book_usfm": "1TH",
-              "chapter": 4
-            },
-            {
-              "label": "Salmo 16:11",
-              "book_usfm": "PSA",
-              "chapter": 16
-            }
-          ]
-        },
-        {
-          "number": 114,
-          "question": "¿Qué debemos hacer para que Cristo, en aquel día, nos reciba con gozo?",
-          "answer": "Para que Cristo nos reciba con gozo en aquel día, debemos ahora recibirlo a él por verdadera fe, andar en sus caminos con nueva obediencia, y perseverar en ella hasta el fin; velando y orando siempre, y esperando su venida.",
-          "refs": [
-            {
-              "label": "Juan 1:12",
-              "book_usfm": "JHN",
-              "chapter": 1
-            },
-            {
-              "label": "2 Pedro 3:11-14",
-              "book_usfm": "2PE",
-              "chapter": 3
-            },
-            {
-              "label": "Mateo 24:42-44",
-              "book_usfm": "MAT",
-              "chapter": 24
-            },
-            {
-              "label": "Hebreos 3:14",
-              "book_usfm": "HEB",
-              "chapter": 3
-            },
-            {
-              "label": "Apocalipsis 22:20",
               "book_usfm": "REV",
               "chapter": 22
             }
