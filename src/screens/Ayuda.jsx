@@ -40,7 +40,7 @@ const HOY = [
   { icon: <CheckIcon size={22} strokeWidth={2} />, name: 'Marcar como leído', desc: 'Un toque y queda registrado. Si te atrasás, la app te lo dice sin culpa y podés reprogramar.' },
   { icon: <BookIcon size={22} />, name: 'Abrir en tu app de Biblia', desc: 'Un botón te lleva al capítulo exacto del día en tu app de Biblia (NBLA). Igual, la lectura la hacés en tu Biblia.' },
   { icon: <ChartIcon size={22} />, name: 'Progreso sin culpa', desc: 'Tu racha, el porcentaje completado y un mapa de las últimas cinco semanas. Tocá un día pasado para marcar lo que ya leíste.' },
-  { icon: <AwardIcon size={22} />, name: 'Tu recorrido', desc: 'Un resumen de tus logros en la Palabra. Al terminar un plan, festejo y un logro para compartir.' },
+  { icon: <AwardIcon size={22} />, name: 'Tu recorrido', desc: 'Tus días, planes terminados y oraciones respondidas en un solo lugar.' },
   { icon: <PencilIcon size={22} />, name: 'Mi camino', desc: 'Un diario para anotar lo que Dios te va hablando en la lectura. Privado, solo tuyo.' },
 ]
 

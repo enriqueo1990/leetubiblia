@@ -9,6 +9,7 @@ const Ayuda = lazy(() => import('./screens/Ayuda.jsx'))
 const Lideres = lazy(() => import('./screens/Lideres.jsx'))
 const Privacidad = lazy(() => import('./screens/Privacidad.jsx'))
 const Hoy = lazy(() => import('./screens/Hoy.jsx'))
+const TodayExtrasView = lazy(() => import('./screens/TodayExtrasView.jsx'))
 const Progreso = lazy(() => import('./screens/Progreso.jsx'))
 const Recorrido = lazy(() => import('./screens/Recorrido.jsx'))
 const Planes = lazy(() => import('./screens/Planes.jsx'))
@@ -116,6 +117,7 @@ export default function App() {
             <Route path="admin" element={<Admin />} />
             <Route element={<Layout />}>
               <Route index element={<Hoy />} />
+              <Route path="hoy/lecturas" element={<TodayExtrasView />} />
               <Route path="progreso" element={<Progreso />} />
               <Route path="recorrido" element={<Recorrido />} />
               <Route path="planes" element={<Planes />} />

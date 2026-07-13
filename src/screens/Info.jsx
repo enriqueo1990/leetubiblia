@@ -55,7 +55,7 @@ const CLUSTERS = [
   {
     label: 'Además',
     items: [
-      { icon: <AwardIcon size={22} />, name: 'Tu recorrido', desc: 'Un resumen de tus logros y una imagen para compartir al terminar un plan.', tone: 'ajustes' },
+      { icon: <AwardIcon size={22} />, name: 'Tu recorrido', desc: 'Tus días, planes terminados y una imagen sencilla para compartir al cerrar un plan.', tone: 'ajustes' },
       { icon: <PaletteIcon size={22} />, name: 'A tu gusto', desc: '12 acentos de color y modo claro u oscuro automático.', tone: 'ajustes' },
       { icon: <WifiOffIcon size={22} />, name: 'Funciona sin conexión', desc: 'Se instala como app y muestra tu lectura de hoy aún sin internet.', tone: 'ajustes' },
     ],

@@ -137,8 +137,8 @@
   "onboarding.choosePlan.activateError": "No se pudo activar el plan. Probá de nuevo.",
   "onboarding.choosePlan.start": "Empezar",
   "onboarding.extras.title": "Casi listo",
-  "onboarding.extras.subtitle": "Dos cosas opcionales para que la lectura no se te escape.",
-  "onboarding.extras.subtitleOne": "Una cosa opcional para que la lectura no se te escape.",
+  "onboarding.extras.subtitle": "Dos cosas opcionales para acompañarte desde mañana.",
+  "onboarding.extras.subtitleOne": "Una cosa opcional para acompañarte desde mañana.",
   "onboarding.extras.reminderDesc": "Un aviso suave por la mañana (07:00).",
   "onboarding.extras.addToHomeTitle": "Agregá a la pantalla de inicio",
   "onboarding.extras.addToHomeDesc": "Así recibís el recordatorio y podés leer sin conexión.",
@@ -165,8 +165,8 @@
   "oracion.loadError": "No se pudieron cargar los pedidos.",
   "oracion.toReview": "Para revisar",
   "oracion.activeFor": {
-    "one": "Activo hace {count} día",
-    "other": "Activo hace {count} días"
+    "one": "Hace {count} día",
+    "other": "Hace {count} días"
   },
   "oracion.stillSame": "Sigue igual",
   "oracion.review": "Revisar",
@@ -179,8 +179,8 @@
 
   "orar.cta": "Orar ahora",
   "orar.ctaCount": {
-    "one": "{count} pedido te espera",
-    "other": "{count} pedidos te esperan"
+    "one": "{count} pedido",
+    "other": "{count} pedidos"
   },
   "orar.progress": "{n} de {total}",
   "orar.next": "Siguiente",
@@ -192,7 +192,7 @@
   "orar.done.quiet": "Que Dios escuche cada uno.",
   "orar.back": "Volver a Oración",
   "orar.empty.title": "Nada para orar ahora",
-  "orar.empty.text": "Cuando tengas pedidos activos —tuyos o de tus grupos— los vas a poder recorrer acá, uno por uno.",
+  "orar.empty.text": "Cuando haya pedidos —tuyos o de tus grupos— los vas a poder recorrer acá, uno por uno.",
 
   "hoy.empty.title": "Elegí un plan para empezar",
   "hoy.empty.text": "Tu lectura diaria aparece acá.",
@@ -219,7 +219,7 @@
     "other": "días de racha máx."
   },
   "hoy.generatingImage": "Generando imagen…",
-  "hoy.shareAchievement": "Compartir mi logro",
+  "hoy.shareAchievement": "Compartir",
   "hoy.readPlanAgain": "Volver a leer este plan",
   "hoy.chooseAnotherPlan": "Elegir otro plan",
   "hoy.imageDownloaded": "Imagen descargada. ¡Compartila donde quieras!",
@@ -243,7 +243,7 @@
   },
   "hoy.readNextDay": "Leer el día siguiente",
   "hoy.renewTitle": "¿Volver a leer {name}?",
-  "hoy.renewMessage": "Empezás de nuevo desde el día 1, con fecha de hoy. Tu logro queda guardado.",
+  "hoy.renewMessage": "Empezás de nuevo desde el día 1, con fecha de hoy. Este plan terminado queda guardado.",
   "hoy.renewConfirm": "Empezar de nuevo",
 
   "nav.planes": "Planes",
@@ -268,7 +268,7 @@
   "progreso.last5weeks": "Últimas 5 semanas",
   "progreso.heatmapHint": "Cada cuadrado pintado es un día que marcaste tu lectura.",
   "progreso.recorrido.title": "Tu recorrido",
-  "progreso.recorrido.subtitle": "Tus logros y números en la Palabra",
+  "progreso.recorrido.subtitle": "Tus días, planes y respuestas en la Palabra",
   "progreso.behindPre": {
     "one": "Te atrasaste {count} día. Sin apuro — ",
     "other": "Te atrasaste {count} días. Sin apuro — "
@@ -291,7 +291,7 @@
   "recorrido.title": "Tu recorrido",
   "recorrido.subtitle": "Lo que fuiste caminando en la Palabra.",
   "recorrido.empty.title": "Tu recorrido empieza hoy",
-  "recorrido.empty.text": "Cada día que marcás tu lectura suma. Acá vas a ver crecer tus números y los planes que vayas terminando.",
+  "recorrido.empty.text": "Cada día que marcás tu lectura queda guardado acá, junto con los planes que vayas terminando.",
   "recorrido.plansCompleted": {
     "one": "plan terminado",
     "other": "planes terminados"
@@ -306,7 +306,7 @@
   },
   "recorrido.plansYouFinished": "Planes que terminaste",
   "recorrido.planStats": "{read} de {total} días · racha máx. {streak}",
-  "recorrido.noPlansYet": "Todavía no terminaste un plan, pero vas en camino. Cuando completes uno, tu logro va a quedar acá.",
+  "recorrido.noPlansYet": "Todavía no terminaste un plan, pero vas en camino. Cuando completes uno, va a quedar acá.",
 
   "planes.subtitle": "Un plan activo a la vez.",
   "planes.loadError": "No se pudieron cargar los planes.",
@@ -425,11 +425,17 @@
 
   "hoy.withGroups": "Con tus grupos",
   "hoy.alsoToday": "También hoy",
+  "hoy.extrasTotalCount": {
+    "one": "{count} lectura para hoy",
+    "other": "{count} lecturas para hoy"
+  },
+  "hoy.extrasOpen": "Ver lecturas",
+  "hoy.extrasEmpty": "No hay otras lecturas para hoy.",
 
   "materialsToday.otherReadings": "Mis otras lecturas",
   "materialsToday.completed": "Completado",
   "materialsToday.questionOf": "Pregunta {n} de {total}",
-  "materialsToday.hint": "Podés sumar un catecismo a tu lectura.",
+  "materialsToday.hint": "Podés sumar una lectura breve a tu día.",
   "materialsToday.hintCta": "Ver materiales",
   "materialsToday.hintDismiss": "Descartar sugerencia",
 
@@ -531,12 +537,12 @@
   "join.errorHint": "Puede ser la conexión. Probá de nuevo en un momento.",
 
   "nav.materiales": "Materiales",
-  "materiales.subtitle": "Lecturas opcionales que acompañan tu Biblia. Al activar una, aparece en Hoy debajo de la lectura del día. Avanzás a tu ritmo.",
+  "materiales.subtitle": "Lecturas opcionales que acompañan tu Biblia. Al activar una, aparece en Hoy. Avanzás a tu ritmo.",
   "materiales.completedReview": "Completado · repasar",
   "materiales.onQuestion": "Vas en la pregunta {n}",
   "materialReader.index": "Índice",
   "materialReader.intro": "Introducción",
-  "materialReader.completed": "Completaste el catecismo. Podés repasarlo o volver a empezar.",
+  "materialReader.completed": "Completaste este material. Podés repasarlo o volver a empezar.",
   "materialReader.saveError": "No se pudo guardar tu avance. Revisá tu conexión e intentá de nuevo.",
   "materialReader.share": "Compartir la pregunta como imagen",
   "materialReader.shareError": "No se pudo generar la imagen. Intentá de nuevo.",
@@ -555,8 +561,8 @@
   "materialReader.previous": "Anterior",
   "materialReader.next": "Siguiente",
   "materialReader.restart": "Volver a empezar",
-  "materialReader.restartTitle": "¿Volver a empezar el catecismo?",
-  "materialReader.restartMsg": "El marcador vuelve a la pregunta 1 y las demás quedan como no leídas.",
+  "materialReader.restartTitle": "¿Volver a empezar este material?",
+  "materialReader.restartMsg": "El marcador vuelve al inicio y las demás entradas quedan como no leídas.",
 
   "plans.mcheyne.name": "M'Cheyne",
   "plans.mcheyne.description": "Toda la Biblia en un año, cuatro pasajes por día.",
