@@ -25,8 +25,7 @@ import { CheckIcon, ShareIcon, SlidersIcon } from '../components/icons.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import ReflectionSheet from '../components/ReflectionSheet.jsx'
-import MaterialsToday from '../components/MaterialsToday.jsx'
-import GroupReadingsToday from '../components/GroupReadingsToday.jsx'
+import TodayExtras from '../components/TodayExtras.jsx'
 
 // Pantalla Hoy — la cara de la app (documento maestro §5.1, README pantalla 1).
 // Se ancla en el día que dicta useReading (displayDay): si vas atrasado, el día
@@ -498,11 +497,9 @@ export default function Hoy() {
         </div>
       )}
 
-      {/* Lecturas de grupos seguidas como adicionales, y materiales opcionales
-          (catecismo, etc.), bajo la lectura. Vacíos si no hay nada → Hoy queda
-          idéntico. Solo en lectura normal. */}
-      {!r.planFinished && <GroupReadingsToday />}
-      {!r.planFinished && <MaterialsToday />}
+      {/* Lecturas secundarias del día. Una sola sección para no competir con la
+          lectura principal: si no hay grupos/materiales, no ocupa lugar. */}
+      {!r.planFinished && <TodayExtras />}
 
       <div className="flex-1 lg:hidden" />
 
