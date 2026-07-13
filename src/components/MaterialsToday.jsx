@@ -86,17 +86,9 @@ export default function MaterialsToday() {
 
   return (
     <div className="mt-8">
-      <div className="mb-2 flex items-center justify-between gap-3">
-        <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-          {t('materialsToday.otherReadings')}
-        </p>
-        <span
-          className="rounded-pill px-2 py-0.5 text-[11px] font-semibold"
-          style={{ color: 'var(--accent-ink)', backgroundColor: 'var(--accent-tint)' }}
-        >
-          {t('materialsToday.materialLabel')}
-        </span>
-      </div>
+      <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+        {t('materialsToday.otherReadings')}
+      </p>
 
       {/* Una sola card agrupada (filas + hairline), no una card por material:
           menos alto total — clave para que Hoy entre en una pantalla — y menos
@@ -116,13 +108,8 @@ export default function MaterialsToday() {
             >
               {/* Nombre corto del catálogo: la fila entra en una línea en 375px
                   (el nombre completo vive en el lector). */}
-              <span className="block min-w-0 flex-1">
-                <span className="block truncate text-[16px] font-medium text-ink">
-                  {getMaterial(m.slug)?.shortName ?? content.name}
-                </span>
-                <span className="mt-0.5 block truncate text-[12px] text-ink-soft">
-                  {t('materialsToday.materialMeta')}
-                </span>
+              <span className="block min-w-0 flex-1 truncate text-[16px] text-ink">
+                {getMaterial(m.slug)?.shortName ?? content.name}
               </span>
               <span className="flex shrink-0 items-center gap-1.5">
                 <span className="text-[13px] tabular-nums text-ink-soft">
