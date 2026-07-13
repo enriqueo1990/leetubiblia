@@ -424,8 +424,12 @@
   "reflectionSheet.shareImage": "Share as an image",
 
   "hoy.withGroups": "With your groups",
+  "hoy.groupReadingLabel": "Group",
+  "hoy.groupReadingMeta": "Shared reading",
 
   "materialsToday.otherReadings": "My other readings",
+  "materialsToday.materialLabel": "Material",
+  "materialsToday.materialMeta": "Reading material",
   "materialsToday.completed": "Completed",
   "materialsToday.questionOf": "Question {n} of {total}",
   "materialsToday.hint": "You can add a catechism to your reading.",

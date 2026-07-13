@@ -29,11 +29,25 @@ const Admin = lazy(() => import('./screens/Admin.jsx'))
 function RouteFallback({ full = false }) {
   return (
     <div
-      className={`flex flex-col items-center justify-center bg-app px-8 text-center ${
+      className={`mx-auto flex w-full max-w-[620px] flex-col bg-app px-7 pt-6 ${
         full ? 'min-h-[100dvh]' : 'min-h-[60vh]'
       }`}
+      aria-hidden="true"
     >
-      <p className="text-[15px] text-ink-soft">Cargando...</p>
+      <div className="animate-pulse">
+        <div className="flex items-center justify-between">
+          <div className="rounded-pill" style={{ width: 136, height: 14, backgroundColor: 'var(--surface-alt)' }} />
+          <div className="rounded-full" style={{ width: 36, height: 36, backgroundColor: 'var(--surface-alt)' }} />
+        </div>
+        <div className="mt-8 space-y-2">
+          <div className="rounded-pill" style={{ width: '68%', height: 28, backgroundColor: 'var(--surface-alt)' }} />
+          <div className="rounded-pill" style={{ width: '44%', height: 28, backgroundColor: 'var(--surface-alt)' }} />
+        </div>
+        <div className="card mt-8 space-y-3 p-4">
+          <div className="rounded-pill" style={{ width: '42%', height: 12, backgroundColor: 'var(--surface-alt)' }} />
+          <div className="rounded-pill" style={{ width: '74%', height: 14, backgroundColor: 'var(--surface-alt)' }} />
+        </div>
+      </div>
     </div>
   )
 }

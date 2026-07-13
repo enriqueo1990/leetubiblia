@@ -40,9 +40,17 @@ export default function GroupReadingsToday() {
 
   return (
     <div className="mt-8">
-      <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-        {t('hoy.withGroups')}
-      </p>
+      <div className="mb-2 flex items-center justify-between gap-3">
+        <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+          {t('hoy.withGroups')}
+        </p>
+        <span
+          className="rounded-pill px-2 py-0.5 text-[11px] font-semibold"
+          style={{ color: 'var(--accent-ink)', backgroundColor: 'var(--accent-tint)' }}
+        >
+          {t('hoy.groupReadingLabel')}
+        </span>
+      </div>
 
       {/* Una sola card agrupada (filas + hairline), como "Mis otras lecturas". */}
       <div className="card divide-y divide-hairline">
@@ -52,8 +60,13 @@ export default function GroupReadingsToday() {
             to={`/grupos/${r.groupId}/lectura`}
             className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
           >
-            <span className="block min-w-0 flex-1 truncate text-[16px] text-ink">
-              {r.groupName}
+            <span className="block min-w-0 flex-1">
+              <span className="block truncate text-[16px] font-medium text-ink">
+                {r.groupName}
+              </span>
+              <span className="mt-0.5 block truncate text-[12px] text-ink-soft">
+                {t('hoy.groupReadingMeta')}
+              </span>
             </span>
             <span className="flex shrink-0 items-center gap-1.5">
               <span className="text-[13px] tabular-nums text-ink-soft">
