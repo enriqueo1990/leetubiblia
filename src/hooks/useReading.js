@@ -9,6 +9,8 @@ import {
   computeDateStreak,
   addDaysISO,
   todayLocalISO,
+  markRead,
+  unmarkRead,
 } from '../lib/db.js'
 import {
   enqueue,
@@ -99,6 +101,9 @@ export function useReading() {
   // Fecha local en que se cacheó el snapshot. Si offline cambió el día, la lectura
   // mostrada es de la última sync (no se pueden traer las refs del día nuevo).
   const [snapshotDate, setSnapshotDate] = useState(null)
+  // Último fallo real al guardar lectura. Los fallos de red se encolan; los de
+  // Supabase/RLS se revierten para no mostrar un "leído" que nunca persistirá.
+  const [readWriteError, setReadWriteError] = useState(false)
 
   const todayDay = planStart ? dayNumberFor(planStart) : null
 
@@ -203,6 +208,7 @@ export function useReading() {
     async (dayNumber, value) => {
       if (!user || !planId) return
       const shouldComplete = value ?? !completedMap.has(dayNumber)
+      setReadWriteError(false)
 
       // Optimista: la fecha de marcado es hoy (local) → cuenta para la racha real.
       const next = new Map(completedMap)
@@ -212,17 +218,23 @@ export function useReading() {
       persistSnapshot(plan, todayRefs, next, anchorDay)
 
       try {
-        const { markRead, unmarkRead } = await import('../lib/db.js')
         if (shouldComplete) await markRead(user.id, planId, dayNumber)
         else await unmarkRead(user.id, planId, dayNumber)
-      } catch {
-        // Offline / fallo: encolar y mantener el estado optimista.
-        enqueue(user.id, {
-          type: shouldComplete ? 'mark' : 'unmark',
-          planId,
-          dayNumber,
-        })
-        setOffline(true)
+      } catch (error) {
+        if (error?.isNetworkError) {
+          enqueue(user.id, {
+            type: shouldComplete ? 'mark' : 'unmark',
+            planId,
+            dayNumber,
+          })
+          setOffline(true)
+          return
+        }
+
+        // Error real del servidor/permisos: revertir el optimismo y avisar.
+        setCompletedMap(completedMap)
+        persistSnapshot(plan, todayRefs, completedMap, anchorDay)
+        setReadWriteError(true)
       }
     },
     [user, planId, completedMap, plan, todayRefs, anchorDay, persistSnapshot]
@@ -319,6 +331,7 @@ export function useReading() {
     reprogramar,
     reprogramando,
     reprogramarError,
+    readWriteError,
     reload: load,
   }
 }

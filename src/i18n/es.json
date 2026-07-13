@@ -199,6 +199,7 @@
   "hoy.empty.cta": "Ver planes",
   "hoy.offline.stale": "Sin conexión · esta lectura es de la última vez que entraste. Conectate para ver la de hoy.",
   "hoy.offline.fresh": "Sin conexión · tu marca se guarda y se sincroniza al volver.",
+  "hoy.readWriteError": "No se pudo guardar la marca. Intentá de nuevo en un momento.",
   "hoy.behind": {
     "one": "Te atrasaste {count} día",
     "other": "Te atrasaste {count} días"

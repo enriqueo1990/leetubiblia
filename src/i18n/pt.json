@@ -199,6 +199,7 @@
   "hoy.empty.cta": "Ver planos",
   "hoy.offline.stale": "Sem conexão · esta leitura é da última vez que você entrou. Conecte-se para ver a de hoje.",
   "hoy.offline.fresh": "Sem conexão · sua marcação é salva e sincroniza quando você voltar.",
+  "hoy.readWriteError": "Não foi possível salvar a marcação. Tente de novo em um momento.",
   "hoy.behind": {
     "one": "Você está {count} dia atrás no plano",
     "other": "Você está {count} dias atrás no plano"

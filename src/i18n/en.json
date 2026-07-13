@@ -199,6 +199,7 @@
   "hoy.empty.cta": "Browse plans",
   "hoy.offline.stale": "Offline · this reading is from the last time you opened the app. Connect to see today's.",
   "hoy.offline.fresh": "Offline · your check-off is saved and syncs when you're back.",
+  "hoy.readWriteError": "Couldn't save the reading mark. Try again in a moment.",
   "hoy.behind": {
     "one": "You're {count} day behind",
     "other": "You're {count} days behind"

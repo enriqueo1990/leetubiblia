@@ -360,6 +360,11 @@ export default function Hoy() {
           {r.staleReadings ? t('hoy.offline.stale') : t('hoy.offline.fresh')}
         </p>
       )}
+      {r.readWriteError && (
+        <p className="mt-2 text-[12px]" style={{ color: 'var(--danger)' }}>
+          {t('hoy.readWriteError')}
+        </p>
+      )}
 
       {/* Aviso de atraso — sin culpa y sin caja: una línea en el tono del resto
           del texto, con la acción en acento y el descarte apenas presente. */}

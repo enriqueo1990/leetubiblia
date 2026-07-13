@@ -127,6 +127,18 @@ function landingHtmlPlugin() {
 // Manifest de la PWA. theme_color usa el fondo claro por defecto; el color real
 // se sincroniza en runtime con el modo activo (ver src/hooks/useTheme.js).
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return
+          if (id.includes('@supabase')) return 'vendor-supabase'
+          if (id.includes('react')) return 'vendor-react'
+          return 'vendor'
+        },
+      },
+    },
+  },
   // El dev server honra el PORT asignado por el entorno (p. ej. el harness de
   // preview, que puede reasignar el puerto si 5173 está ocupado). En prod no
   // aplica: el build no usa esta sección.
