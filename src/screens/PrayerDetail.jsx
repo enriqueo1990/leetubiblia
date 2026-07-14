@@ -321,6 +321,7 @@ export default function PrayerDetail() {
           groups={groups}
           onClose={() => setEditing(false)}
           onSaved={handleSheetSaved}
+          onDeleted={() => navigate('/oracion')}
         />
       )}
 

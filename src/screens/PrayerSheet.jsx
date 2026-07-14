@@ -23,7 +23,7 @@ function FieldLabel({ children, optional }) {
   )
 }
 
-export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClose, onSaved }) {
+export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClose, onSaved, onDeleted }) {
   const { user } = useAuth()
   const { t, locale } = usePreferences()
   const editing = mode === 'edit'
@@ -160,7 +160,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
     setBusy(true)
     try {
       await deletePrayer(prayer.id)
-      onSaved()
+      onDeleted?.() ?? onSaved()
     } catch {
       setConfirmDelete(false)
       setError(t('prayerSheet.deleteError'))

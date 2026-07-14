@@ -7,7 +7,6 @@ import { fmtISODate } from '../i18n/dates.js'
 import { todayLocalISO, addDaysISO } from '../lib/db.js'
 import Segmented from '../components/Segmented.jsx'
 import Diario from './Diario.jsx'
-import { CheckIcon } from '../components/icons.jsx'
 
 // Progreso — sub-vista de Hoy (documento maestro §5.2, README pantalla 2).
 // Racha, % y CALENDARIO DE CONSTANCIA de las últimas 5 semanas: cada cuadrado se
@@ -137,11 +136,7 @@ export default function Progreso() {
                     border: read ? 'none' : `1px ${isFuture ? 'dashed' : 'solid'} var(--hairline)`,
                     opacity: isFuture ? 0.5 : 1,
                   }}
-                >
-                  {/* El color solo no alcanza (daltonismo): un check marca "leído"
-                      sin depender de distinguir el acento del gris. */}
-                  {read && <CheckIcon size={11} strokeWidth={3} className="text-on-accent" aria-hidden="true" />}
-                </div>
+                />
               )
             })}
           </div>
