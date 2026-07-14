@@ -622,8 +622,8 @@ export async function removeIntercession(prayerId, userId) {
   if (error) throw dbError(error)
 }
 
-// Pedidos activos propios con más de `days` días sin revisarse (contados desde
-// last_reviewed_at si existe, o desde created_at). Fuente de "Para revisar".
+// Pedidos activos propios con más de `days` días sin acompañarse (contados desde
+// last_reviewed_at si existe, o desde created_at).
 export async function getPrayersToReview(userId, days = 30) {
   const { data, error } = await supabase
     .from('prayer_requests')

@@ -118,7 +118,7 @@ export default function PrayerDetail() {
   }
 
   // Agregar una actualización (solo el autor). Al contar cómo sigue, el pedido
-  // queda "revisado": se le reinicia el reloj de "Para revisar".
+  // queda acompañado: se reinicia el reloj para volver a sostenerlo más adelante.
   async function saveUpdate() {
     const body = updateBody.trim()
     if (!body || savingUpdate) return

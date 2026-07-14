@@ -68,7 +68,7 @@ const MATERIALES = [
 const ORACION = [
   { icon: <HeartIcon size={22} />, name: 'Pedidos de oración', desc: 'Anotá por quién y por qué estás orando, y volvé a verlo cuando quieras.' },
   { icon: <PeopleIcon size={22} />, name: 'Privado o compartido', desc: 'Guardalo solo para vos, o compartilo con tu grupo para orar juntos.' },
-  { icon: <HandsIcon size={22} />, name: 'Orar ahora', desc: 'Un modo para recorrer los pedidos —los tuyos y los del grupo— uno por uno, orando por cada uno con calma.' },
+  { icon: <HandsIcon size={22} />, name: 'Orar ahora', desc: 'Un modo para orar primero por tus pedidos y, después, decidir si querés acompañar los de tus grupos.' },
   { icon: <RefreshIcon size={22} />, name: 'Cómo sigue cada pedido', desc: 'El autor cuenta las novedades —«entró a cirugía», «salió bien»— y el grupo acompaña los pedidos largos sin que se apaguen.' },
   { icon: <BellIcon size={22} />, name: 'Cuánto vive el pedido', desc: 'Vos elegís por cuánto tiempo permanece: un día, una semana, un mes o siempre.' },
 ]

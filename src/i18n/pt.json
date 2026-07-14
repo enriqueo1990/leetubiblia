@@ -163,14 +163,14 @@
   "oracion.visibilityPrivate": "Privado",
   "oracion.visibilityShared": "Compartilhado com seu grupo",
   "oracion.loadError": "Não foi possível carregar os pedidos.",
-  "oracion.toReview": "Para revisar",
+  "oracion.toReview": "Para orar de novo",
   "oracion.activeFor": {
     "one": "Há {count} dia",
     "other": "Há {count} dias"
   },
-  "oracion.stillSame": "Continua igual",
-  "oracion.review": "Revisar",
-  "oracion.empty.mine": "Você ainda não tem pedidos. Toque em + para criar o primeiro: privado, ou compartilhado com um grupo para que outros orem com você.",
+  "oracion.stillSame": "Continuar orando",
+  "oracion.review": "Atualizar",
+  "oracion.empty.mine": "Você ainda não tem pedidos. Toque em + para criar o primeiro: ele pode ficar privado ou ser compartilhado com um grupo.",
   "oracion.answeredSection": "Respondidos",
   "oracion.answeredOn": "Respondido · {date}",
   "oracion.empty.groups": "Ore junto com outros: entre em um grupo para ver e sustentar os pedidos que compartilham.",
@@ -184,6 +184,18 @@
   },
   "orar.progress": "{n} de {total}",
   "orar.next": "Próximo",
+  "orar.nextPrayer": "Próximo pedido",
+  "orar.keepPraying": "Continuemos orando",
+  "orar.myRequestMeta": "Meu pedido de {date}",
+  "orar.groupRequestMeta": "Pedido de {name} de {date}",
+  "orar.groupsPrompt.eyebrow": "Seus grupos",
+  "orar.groupsPrompt.title": "Você quer orar hoje pelos pedidos dos seus grupos?",
+  "orar.groupsPrompt.text": {
+    "one": "Há {count} pedido compartilhado para acompanhar.",
+    "other": "Há {count} pedidos compartilhados para acompanhar."
+  },
+  "orar.groupsPrompt.primary": "Orar pelos meus grupos",
+  "orar.groupsPrompt.secondary": "Hoje não",
   "orar.done.title": {
     "one": "Você orou por {count} pedido",
     "other": "Você orou por {count} pedidos"
@@ -192,7 +204,7 @@
   "orar.done.quiet": "Que Deus escute cada um.",
   "orar.back": "Voltar para Oração",
   "orar.empty.title": "Nada para orar agora",
-  "orar.empty.text": "Quando houver pedidos —seus ou dos seus grupos— você vai poder orar por eles aqui, um por um.",
+  "orar.empty.text": "Quando você tiver pedidos, poderá orar por eles aqui, um por um. Depois, se houver pedidos nos seus grupos, também poderá acompanhá-los.",
 
   "hoy.empty.title": "Escolha um plano para começar",
   "hoy.empty.text": "Sua leitura diária aparece aqui.",

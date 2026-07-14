@@ -101,7 +101,7 @@ export default function Oracion() {
     return Math.floor((Date.now() - new Date(iso).getTime()) / (1000 * 60 * 60 * 24))
   }
 
-  async function sigeIgual(p) {
+  async function sigueIgual(p) {
     // Optimista: saco el pedido de la lista de revisión al instante.
     setToReview((prev) => prev.filter((x) => x.id !== p.id))
     try {
@@ -163,7 +163,7 @@ export default function Oracion() {
       {/* Míos */}
       {seg === 'mine' && (
         <div className="mt-4">
-          {/* Para revisar */}
+          {/* Pedidos propios que conviene volver a sostener o actualizar. */}
           {toReview.length > 0 && (
             <div className="mb-6">
               <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
@@ -181,7 +181,7 @@ export default function Oracion() {
                       <div className="mt-3 flex gap-2">
                         <button
                           type="button"
-                          onClick={() => sigeIgual(p)}
+                          onClick={() => sigueIgual(p)}
                           className="btn btn-secondary flex-1 py-2 text-[14px]"
                         >
                           {t('oracion.stillSame')}

@@ -156,6 +156,32 @@
   animation: screen-in 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
+@keyframes prayer-card-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.prayer-card-enter {
+  animation: prayer-card-in 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes prayer-button-breathe {
+  0% {
+    background-color: var(--accent);
+    box-shadow: none;
+  }
+  48% {
+    background-color: color-mix(in srgb, var(--accent) 86%, var(--accent-ink));
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 13%, transparent);
+  }
+  100% {
+    background-color: var(--accent);
+    box-shadow: none;
+  }
+}
+.prayer-action-breathe {
+  animation: prayer-button-breathe 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
 /* ── Marcar leído: el pico del día ───────────────────────────────────
    Liturgia, no fiesta: el check se dibuja, el botón respira una vez y
    una línea cálida entra después. Solo en el momento de marcar (clase

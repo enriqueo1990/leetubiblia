@@ -163,14 +163,14 @@
   "oracion.visibilityPrivate": "Private",
   "oracion.visibilityShared": "Shared with your group",
   "oracion.loadError": "Couldn't load the requests.",
-  "oracion.toReview": "To review",
+  "oracion.toReview": "To pray again",
   "oracion.activeFor": {
     "one": "{count} day ago",
     "other": "{count} days ago"
   },
-  "oracion.stillSame": "Still the same",
-  "oracion.review": "Review",
-  "oracion.empty.mine": "You don't have any requests yet. Tap + to create your first: private, or shared with a group so others can pray with you.",
+  "oracion.stillSame": "Keep praying",
+  "oracion.review": "Update",
+  "oracion.empty.mine": "You don't have any requests yet. Tap + to create your first: it can stay private or be shared with a group.",
   "oracion.answeredSection": "Answered",
   "oracion.answeredOn": "Answered · {date}",
   "oracion.empty.groups": "Pray alongside others: join a group to see and hold up the requests they share.",
@@ -184,6 +184,18 @@
   },
   "orar.progress": "{n} of {total}",
   "orar.next": "Next",
+  "orar.nextPrayer": "Next request",
+  "orar.keepPraying": "Keep praying",
+  "orar.myRequestMeta": "My request from {date}",
+  "orar.groupRequestMeta": "{name}'s request from {date}",
+  "orar.groupsPrompt.eyebrow": "Your groups",
+  "orar.groupsPrompt.title": "Do you want to pray for your groups' requests today?",
+  "orar.groupsPrompt.text": {
+    "one": "There is {count} shared request to carry.",
+    "other": "There are {count} shared requests to carry."
+  },
+  "orar.groupsPrompt.primary": "Pray for my groups",
+  "orar.groupsPrompt.secondary": "Not today",
   "orar.done.title": {
     "one": "You prayed for {count} request",
     "other": "You prayed for {count} requests"
@@ -192,7 +204,7 @@
   "orar.done.quiet": "May God hear each one.",
   "orar.back": "Back to Prayer",
   "orar.empty.title": "Nothing to pray for now",
-  "orar.empty.text": "When there are requests —yours or your groups'— you'll be able to pray through them here, one by one.",
+  "orar.empty.text": "When you have requests, you'll be able to pray through them here one by one. After that, if your groups have requests, you can carry those too.",
 
   "hoy.empty.title": "Choose a plan to begin",
   "hoy.empty.text": "Your daily reading shows up here.",

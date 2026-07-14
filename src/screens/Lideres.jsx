@@ -203,12 +203,12 @@ export default function Lideres() {
             eyebrow="Orar juntos"
             title="Cada pedido, sostenido por todos"
             shot={shotOrar}
-            alt="Modo «Orar ahora» recorriendo los pedidos del grupo uno por uno."
+            alt="Modo «Orar ahora» acompañando pedidos de oración uno por uno."
             side="left"
           >
             Cada uno comparte sus pedidos y los demás oran por ellos. Con{' '}
-            <b className="font-semibold text-accent-ink">Orar ahora</b> los recorrés uno por uno,
-            con calma. El autor va contando cómo sigue —«entró a cirugía»,
+            <b className="font-semibold text-accent-ink">Orar ahora</b> empezás por tus pedidos y,
+            si querés, seguís acompañando los del grupo. El autor va contando cómo sigue —«entró a cirugía»,
             «salió bien»— y, cuando Dios responde, el pedido se vuelve testimonio
             para celebrar juntos.
           </Walk>
