@@ -10,7 +10,11 @@
     <meta name="apple-mobile-web-app-title" content="Lee Tu Biblia" />
     <!-- theme_color inicial; useTheme lo actualiza en vivo según el modo -->
     <meta name="theme-color" content="#F8F7F4" />
-    <!-- Splash pre-React: visible mientras baja el bundle JS, reemplazado al montar -->
+    <!-- Splash pre-React "frontispicio": mientras baja el bundle se ve solo el
+         libro trazándose en sepia + el pie de imprenta. El versículo está en el
+         DOM pero oculto (reserva su espacio para que nada salte): lo hace
+         aparecer LaunchOverlay (App.jsx) cuando React monta — la palabra llega
+         cuando la app está lista. Ambos splash comparten layout pixel a pixel. -->
     <style>
       /* Fondo en html/body para que no haya flash blanco mientras React monta */
       html, body {
@@ -21,38 +25,73 @@
         html, body { background: #000000; }
       }
       #ltb-splash {
+        position: relative;
         display: flex;
         min-height: 100dvh;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 28px;
         background: #F8F7F4;
+        font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
       }
-      #ltb-splash-verse {
+      #ltb-splash-core {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 6px;
-        text-align: center;
+        transform: translateY(-12px);
         padding: 0 40px;
-        font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+        text-align: center;
       }
-      #ltb-splash-verse p {
-        margin: 0;
-        font-size: 17px;
+      #ltb-splash svg g { stroke: #A88B6A; }
+      .ltb-book-cover { animation: ltb-draw 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both; }
+      .ltb-book-spine { animation: ltb-draw 0.35s cubic-bezier(0.4, 0, 0.2, 1) 0.85s both; }
+      @keyframes ltb-draw {
+        from { stroke-dashoffset: 1; }
+        to   { stroke-dashoffset: 0; }
+      }
+      /* Ocultos aquí; los revela LaunchOverlay con la misma geometría */
+      #ltb-splash-verse, #ltb-splash-rule, #ltb-splash-ref { opacity: 0; }
+      #ltb-splash-verse {
+        margin: 40px 0 0;
+        font-size: clamp(19px, 5.5vw, 21px);
         font-style: italic;
-        color: #56565C;
         line-height: 1.5;
+        color: #1C1C1E;
       }
-      #ltb-splash-verse span {
-        font-size: 13px;
+      #ltb-splash-rule { margin-top: 24px; width: 32px; height: 1px; background: #A88B6A; }
+      #ltb-splash-ref {
+        margin-top: 18px;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
         color: #8B8983;
+      }
+      #ltb-splash-brand {
+        position: absolute;
+        bottom: calc(40px + env(safe-area-inset-bottom));
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.28em;
+        padding-left: 0.28em; /* compensa el tracking del último carácter */
+        text-transform: uppercase;
+        color: #705F4C; /* accent-ink claro precalculado */
+        animation: ltb-rise 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.7s both;
+      }
+      @keyframes ltb-rise {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
       }
       @media (prefers-color-scheme: dark) {
         #ltb-splash { background: #000000; }
-        #ltb-splash-verse p { color: #8E8E93; }
-        #ltb-splash-verse span { color: #6A6A6E; }
+        #ltb-splash svg g { stroke: #C2A57E; }
+        #ltb-splash-verse { color: #F2F2F7; }
+        #ltb-splash-rule { background: #C2A57E; }
+        #ltb-splash-ref { color: #6A6A6E; }
+        #ltb-splash-brand { color: #D5C4AE; } /* accent-ink oscuro precalculado */
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .ltb-book-cover, .ltb-book-spine, #ltb-splash-brand { animation: none; }
       }
     </style>
     <!-- SEO:start — bloque SEO/social por página. En el build, vite.config.js lo
@@ -188,17 +227,18 @@
   <body>
     <div id="root">
       <div id="ltb-splash">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="80" height="80">
-          <rect width="64" height="64" rx="14" fill="#A88B6A"/>
-          <g fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z"/>
-            <path d="M32 20v28"/>
-          </g>
-        </svg>
-        <div id="ltb-splash-verse">
-          <p>Santifícalos en la verdad;<br>Tu palabra es verdad.</p>
-          <span>Juan 17:17 · NBLA</span>
+        <div id="ltb-splash-core">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="6 10 52 44" width="96" height="81" aria-hidden="true">
+            <g fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path class="ltb-book-cover" pathLength="1" stroke-dasharray="1" d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z"/>
+              <path class="ltb-book-spine" pathLength="1" stroke-dasharray="1" d="M32 20v28"/>
+            </g>
+          </svg>
+          <p id="ltb-splash-verse">Santifícalos en la verdad;<br>Tu palabra es verdad.</p>
+          <div id="ltb-splash-rule"></div>
+          <span id="ltb-splash-ref">Juan 17:17 · NBLA</span>
         </div>
+        <span id="ltb-splash-brand">Lee Tu Biblia</span>
       </div>
     </div>
     <script type="module" src="/src/main.jsx"></script>

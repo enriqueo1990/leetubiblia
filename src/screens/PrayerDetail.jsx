@@ -184,9 +184,10 @@ export default function PrayerDetail() {
       )}
 
       {/* Historia del pedido: el autor cuenta cómo sigue; el grupo acompaña.
-          Los pedidos largos ("Siempre") dejan de apagarse solos. */}
+          Los pedidos largos ("Siempre") dejan de apagarse solos. Tarjeta con
+          encabezado siempre visible: cada sección se presenta a sí misma. */}
       {(updates.length > 0 || (isAuthor && data.status === 'active')) && (
-        <div className="mt-7">
+        <div className="card mt-7 p-[18px]">
           <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
             {t('prayerDetail.updates')}
           </p>
@@ -270,19 +271,20 @@ export default function PrayerDetail() {
         </div>
       )}
 
-      {/* Intercesión */}
+      {/* Quiénes están orando: tarjeta con encabezado propio. La acción del
+          miembro vive acá adentro, junto a la gente que ya ora — primary con
+          corazón → done con check, misma gramática que "Marcar como leído". */}
       <div className="card mt-7 p-[18px]">
-        {count > 0 && (
-          <div className="mb-3.5">
-            <Avatars people={intercessors} count={count} />
-          </div>
-        )}
-        <p className="mb-3.5 text-[13px] text-ink-soft">{countLabel}</p>
+        <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+          {t('prayerDetail.whoPrays')}
+        </p>
+        <div className="mt-3 flex items-center gap-3">
+          {count > 0 && <Avatars people={intercessors} count={count} />}
+          <p className="text-[14px] leading-snug text-ink-soft">{countLabel}</p>
+        </div>
 
         {!isAuthor && data.status !== 'active' && (
-          <p className="text-center text-[13px] text-ink-soft">
-            {t('prayerDetail.answered')}
-          </p>
+          <p className="mt-3 text-[13px] text-ink-soft">{t('prayerDetail.answered')}</p>
         )}
 
         {!isAuthor &&
@@ -293,11 +295,11 @@ export default function PrayerDetail() {
                 type="button"
                 onClick={toggle}
                 disabled={busy}
-                className="btn btn-primary flex items-center justify-center gap-2"
+                className="btn btn-done mt-4 flex items-center justify-center gap-2"
               >
                 <CheckIcon size={19} strokeWidth={2.2} /> {t('prayerDetail.youArePraying')}
               </button>
-              <p className="mt-2.5 text-center text-[13px] text-ink-soft">
+              <p className="moment-in mt-2.5 text-center text-[13px] text-ink-soft">
                 {t('prayerDetail.authorWillKnow', { author: data.author_name })}
               </p>
             </>
@@ -306,8 +308,7 @@ export default function PrayerDetail() {
               type="button"
               onClick={toggle}
               disabled={busy}
-              className="btn btn-secondary flex items-center justify-center gap-2"
-              style={{ border: '1px solid var(--accent-ink)', color: 'var(--accent-ink)' }}
+              className="btn btn-primary mt-4 flex items-center justify-center gap-2"
             >
               <HeartIcon size={19} /> {t('prayerDetail.iAmPraying')}
             </button>

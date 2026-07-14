@@ -57,31 +57,44 @@ function LazyPage({ children, full = false }) {
   return <Suspense fallback={<RouteFallback full={full} />}>{children}</Suspense>
 }
 
-// Cubre la app con el splash branding durante 1 s sin bloquear que Gate y sus
-// hijos monten y carguen datos por debajo. Cuando desaparece, el contenido ya
-// estuvo cargando y se ve instantáneamente (o con el skeleton de cada pantalla).
+// Splash "frontispicio", segunda escena del estático de index.html (mismo
+// layout pixel a pixel): el libro y el pie de imprenta ya estaban; al montar
+// React, el versículo llega escalonado (.splash-* en index.css) — la palabra
+// aparece cuando la app está lista. Cubre la app sin bloquear que Gate y sus
+// hijos monten y carguen datos por debajo; se despide con un fade suave.
 function LaunchOverlay() {
-  const [visible, setVisible] = useState(true)
+  const [phase, setPhase] = useState('shown') // shown → fading → gone
   useEffect(() => {
-    const t = setTimeout(() => setVisible(false), 1000)
-    return () => clearTimeout(t)
+    const t1 = setTimeout(() => setPhase('fading'), 1400)
+    const t2 = setTimeout(() => setPhase('gone'), 1800)
+    return () => { clearTimeout(t1); clearTimeout(t2) }
   }, [])
-  if (!visible) return null
+  if (phase === 'gone') return null
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-7 bg-app">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="80" height="80">
-        <rect width="64" height="64" rx="14" fill="#A88B6A"/>
-        <g fill="none" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z"/>
-          <path d="M32 20v28"/>
-        </g>
-      </svg>
-      <div className="flex flex-col items-center gap-2 px-10 text-center">
-        <p className="text-[17px] italic leading-relaxed text-ink-soft">
+    <div
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-app transition-opacity duration-[400ms] ease-soft ${
+        phase === 'fading' ? 'pointer-events-none opacity-0' : 'opacity-100'
+      }`}
+      aria-hidden="true"
+    >
+      <div className="flex -translate-y-3 flex-col items-center px-10 text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="6 10 52 44" width="96" height="81">
+          <g fill="none" stroke="var(--accent)" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z"/>
+            <path d="M32 20v28"/>
+          </g>
+        </svg>
+        <p className="splash-verse mt-10 text-[length:clamp(19px,5.5vw,21px)] italic leading-[1.5] text-ink">
           Santifícalos en la verdad;<br />Tu palabra es verdad.
         </p>
-        <span className="text-[13px] text-placeholder">Juan 17:17 · NBLA</span>
+        <div className="splash-rule mt-6 h-px w-8 bg-accent" />
+        <span className="splash-ref mt-[18px] text-[11px] font-medium uppercase tracking-[0.14em] text-placeholder">
+          Juan 17:17 · NBLA
+        </span>
       </div>
+      <span className="absolute bottom-[calc(40px+env(safe-area-inset-bottom))] pl-[0.28em] text-[12px] font-medium uppercase tracking-[0.28em] text-accent-ink">
+        Lee Tu Biblia
+      </span>
     </div>
   )
 }

@@ -382,6 +382,7 @@
   "prayerDetail.youArePraying": "Você está orando por isto",
   "prayerDetail.authorWillKnow": "{author} vai saber que você está orando pelo pedido dele.",
   "prayerDetail.iAmPraying": "Estou orando por isto",
+  "prayerDetail.whoPrays": "Quem está orando",
   "prayerDetail.updates": "Como está indo",
   "prayerDetail.addUpdate": "Contar como está indo",
   "prayerDetail.updatePlaceholder": "Como está este pedido? Conte para o grupo…",
