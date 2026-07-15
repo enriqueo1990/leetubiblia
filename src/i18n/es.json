@@ -383,8 +383,10 @@
   "prayerDetail.authorWillKnow": "{author} va a saber que estás orando por su pedido.",
   "prayerDetail.iAmPraying": "Estoy orando por esto",
   "prayerDetail.whoPrays": "Quiénes están orando",
-  "prayerDetail.updates": "Cómo sigue",
+  "prayerDetail.updates": "Novedades",
   "prayerDetail.addUpdate": "Contar cómo sigue",
+  "prayerDetail.markAnswered": "Marcar como respondido",
+  "prayerDetail.markingAnswered": "Marcando…",
   "prayerDetail.updatePlaceholder": "¿Cómo sigue este pedido? Contale al grupo…",
   "prayerDetail.deleteUpdateTitle": "¿Eliminar esta actualización?",
 

@@ -18,6 +18,7 @@ import {
   addPrayerUpdate,
   deletePrayerUpdate,
   markPrayerReviewed,
+  updatePrayer,
 } from '../lib/db.js'
 import { SkeletonDetail } from '../components/Skeleton.jsx'
 
@@ -31,6 +32,7 @@ export default function PrayerDetail() {
   const { user, profile } = useAuth()
   const { t, locale } = usePreferences()
   const fmtD = (iso) => fmtDate(iso, locale, { day: 'numeric', month: 'short' })
+  const fmtLongD = (iso) => fmtDate(iso, locale, { day: 'numeric', month: 'long' })
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [busy, setBusy] = useState(false)
@@ -42,6 +44,7 @@ export default function PrayerDetail() {
   const [savingUpdate, setSavingUpdate] = useState(false)
   const [updateError, setUpdateError] = useState(false)
   const [confirmDeleteUpdate, setConfirmDeleteUpdate] = useState(null) // update | null
+  const [markingAnswered, setMarkingAnswered] = useState(false)
 
   const load = useCallback(async () => {
     setError(null)
@@ -98,6 +101,7 @@ export default function PrayerDetail() {
   const { intercessors, intercessor_count: count, i_intercede } = data
   const isAuthor = data.user_id === user?.id
   const updates = data.updates ?? []
+  const displayAuthor = isAuthor ? t('common.you') : data.author_name
 
   let countLabel
   if (i_intercede) {
@@ -149,8 +153,22 @@ export default function PrayerDetail() {
     }
   }
 
+  async function markAnswered() {
+    if (!isAuthor || data.status !== 'active' || markingAnswered) return
+    setMarkingAnswered(true)
+    const answeredAt = data.answered_at ?? new Date().toISOString()
+    try {
+      await updatePrayer(data.id, { status: 'answered', answered_at: answeredAt })
+      setData((d) => ({ ...d, status: 'answered', answered_at: answeredAt }))
+    } catch {
+      await load().catch(() => {})
+    } finally {
+      setMarkingAnswered(false)
+    }
+  }
+
   return (
-    <div className="pt-2">
+    <div className="flex min-h-[calc(100svh-116px)] flex-col pt-2">
       <div className="flex items-center justify-between">
         <BackLink to="/oracion" label={t('nav.oracion')} />
         {isAuthor && (
@@ -165,42 +183,107 @@ export default function PrayerDetail() {
         )}
       </div>
 
-      {data.group?.name && (
-        <p className="mt-4 text-[12px] font-semibold uppercase tracking-wide text-accent-ink">
-          {data.group.name}
-        </p>
-      )}
-      <h1 className="mt-2 text-[26px] font-bold leading-tight tracking-tight text-ink">
-        {data.title}
-      </h1>
-      <p className="mt-2 text-[13px] text-ink-soft">
-        {data.author_name} · {fmtD(data.created_at)}
-      </p>
+      <article className="card mt-5 px-5 py-5">
+        <h1 className="text-[21px] font-medium leading-[1.35] text-ink">
+          {data.title}
+        </h1>
 
-      {data.description && (
-        <p className="mt-5 whitespace-pre-line text-[16px] leading-relaxed text-ink">
-          {data.description}
-        </p>
-      )}
-
-      {/* Historia del pedido: el autor cuenta cómo sigue; el grupo acompaña.
-          Los pedidos largos ("Siempre") dejan de apagarse solos. Tarjeta con
-          encabezado siempre visible: cada sección se presenta a sí misma. */}
-      {(updates.length > 0 || (isAuthor && data.status === 'active')) && (
-        <div className="card mt-7 p-[18px]">
-          <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-            {t('prayerDetail.updates')}
+        {data.description && (
+          <p className="mt-2.5 whitespace-pre-line text-[16px] leading-[1.6] text-ink-soft">
+            {data.description}
           </p>
-          {updates.length > 0 && (
-            <ul className="mt-3 space-y-3.5">
+        )}
+
+        <p className="mt-4 text-[13.5px] leading-snug text-ink-soft">
+          {displayAuthor} · {fmtLongD(data.created_at)}
+          {data.group?.name ? ` · ${data.group.name}` : ''}
+        </p>
+
+        {data.status === 'answered' && (
+          <p className="mt-2 text-[13px] font-medium text-accent-ink">
+            {t('oracion.answeredOn', { date: fmtLongD(data.answered_at || data.created_at) })}
+          </p>
+        )}
+      </article>
+
+      {/* Interacción del pedido: quién ora + gesto de oración. */}
+      <div className="px-1 pt-[18px]">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-2.5">
+            {count > 0 ? (
+              <Avatars people={intercessors} count={count} size={26} />
+            ) : (
+              <HeartIcon size={17} className="shrink-0 text-accent-ink" />
+            )}
+            <p className="min-w-0 text-[14.5px] text-ink-soft">{countLabel}</p>
+          </div>
+
+          {!isAuthor && data.status !== 'active' ? (
+            <p className="shrink-0 text-[13px] text-ink-soft">{t('prayerDetail.answered')}</p>
+          ) : !isAuthor && i_intercede ? (
+            <button
+              type="button"
+              onClick={toggle}
+              disabled={busy}
+              aria-pressed="true"
+              className="inline-flex shrink-0 items-center gap-1.5 text-[14px] font-medium text-accent-ink"
+            >
+              <CheckIcon size={16} strokeWidth={2.2} /> {t('prayerDetail.youArePraying')}
+            </button>
+          ) : !isAuthor ? (
+            <button
+              type="button"
+              onClick={toggle}
+              disabled={busy}
+              aria-pressed="false"
+              className="inline-flex min-h-11 shrink-0 items-center rounded-pill border px-[15px] py-[7px] text-[14px] font-medium"
+              style={{
+                backgroundColor: 'var(--accent-tint)',
+                borderColor: 'color-mix(in srgb, var(--accent) 24%, transparent)',
+                color: 'var(--accent-ink)',
+              }}
+            >
+              {t('prayerDetail.iAmPraying')}
+            </button>
+          ) : null}
+        </div>
+
+        {!isAuthor && data.status === 'active' && i_intercede && (
+          <p className="mt-2 text-[13px] text-ink-soft">
+            {t('prayerDetail.authorWillKnow', { author: data.author_name })}
+          </p>
+        )}
+      </div>
+
+      {updates.length > 0 && (
+        <>
+          <div className="mx-0 my-4 h-px bg-hairline" />
+
+          <section className="px-1 pt-[14px]">
+            <h2 className="text-[13px] font-medium text-ink-soft">
+              {t('prayerDetail.updates')}
+            </h2>
+
+            <ul className="mt-4 space-y-[18px]">
               {updates.map((u) => (
-                <li key={u.id} className="pl-3.5" style={{ borderLeft: '2px solid var(--accent)' }}>
-                  <p className="whitespace-pre-line text-[15px] leading-relaxed text-ink">{u.body}</p>
-                  <p className="mt-1 text-[12px] text-ink-soft">
-                    {fmtD(u.created_at)}
+                <li key={u.id} className="flex items-start gap-3">
+                  <span
+                    className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full text-[12px] font-medium"
+                    style={{
+                      backgroundColor: 'var(--accent-tint)',
+                      color: 'var(--accent-ink)',
+                    }}
+                    aria-hidden="true"
+                  >
+                    {displayAuthor?.[0] || '•'}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[12.5px] text-ink-soft">
+                      {displayAuthor} · {fmtD(u.created_at)}
+                    </p>
+                    <p className="mt-[3px] whitespace-pre-line text-[15.5px] leading-[1.55] text-ink">{u.body}</p>
                     {isAuthor && (
-                      <>
-                        {' · '}
+                      <p className="mt-1 text-[12px] text-ink-soft">
                         <button
                           type="button"
                           onClick={() => setConfirmDeleteUpdate(u)}
@@ -209,111 +292,78 @@ export default function PrayerDetail() {
                         >
                           {t('ajustes.eliminar')}
                         </button>
-                      </>
+                      </p>
                     )}
-                  </p>
+                  </div>
                 </li>
               ))}
             </ul>
+          </section>
+        </>
+      )}
+
+      {isAuthor && data.status === 'active' && adding && (
+        <div className="mt-5">
+          <textarea
+            autoFocus
+            value={updateBody}
+            onChange={(e) => setUpdateBody(e.target.value)}
+            maxLength={1000}
+            rows={3}
+            placeholder={t('prayerDetail.updatePlaceholder')}
+            className="w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
+            style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--text-primary)' }}
+          />
+          {updateError && (
+            <p className="mt-1 text-[12px]" style={{ color: 'var(--danger)' }}>
+              {t('common.saveError')}
+            </p>
           )}
-          {isAuthor &&
-            data.status === 'active' &&
-            (adding ? (
-              <div className="mt-3">
-                <textarea
-                  autoFocus
-                  value={updateBody}
-                  onChange={(e) => setUpdateBody(e.target.value)}
-                  maxLength={1000}
-                  rows={3}
-                  placeholder={t('prayerDetail.updatePlaceholder')}
-                  className="w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
-                  style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--text-primary)' }}
-                />
-                {updateError && (
-                  <p className="mt-1 text-[12px]" style={{ color: 'var(--danger)' }}>
-                    {t('common.saveError')}
-                  </p>
-                )}
-                <div className="mt-2 flex gap-2">
-                  <button
-                    type="button"
-                    onClick={saveUpdate}
-                    disabled={!updateBody.trim() || savingUpdate}
-                    className="btn btn-primary"
-                    style={{ opacity: !updateBody.trim() || savingUpdate ? 0.5 : 1 }}
-                  >
-                    {savingUpdate ? t('common.saving') : t('common.save')}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setAdding(false)
-                      setUpdateBody('')
-                      setUpdateError(false)
-                    }}
-                    className="btn btn-secondary"
-                  >
-                    {t('common.cancel')}
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setAdding(true)}
-                className="mt-3 flex items-center gap-1.5 py-1.5 text-[14px] font-semibold"
-                style={{ color: 'var(--accent-ink)' }}
-              >
-                <PlusIcon size={15} /> {t('prayerDetail.addUpdate')}
-              </button>
-            ))}
+          <div className="mt-2 flex gap-2">
+            <button
+              type="button"
+              onClick={saveUpdate}
+              disabled={!updateBody.trim() || savingUpdate}
+              className="btn btn-primary"
+              style={{ opacity: !updateBody.trim() || savingUpdate ? 0.5 : 1 }}
+            >
+              {savingUpdate ? t('common.saving') : t('common.save')}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setAdding(false)
+                setUpdateBody('')
+                setUpdateError(false)
+              }}
+              className="btn btn-secondary"
+            >
+              {t('common.cancel')}
+            </button>
+          </div>
         </div>
       )}
 
-      {/* Quiénes están orando: tarjeta con encabezado propio. La acción del
-          miembro vive acá adentro, junto a la gente que ya ora — primary con
-          corazón → done con check, misma gramática que "Marcar como leído". */}
-      <div className="card mt-7 p-[18px]">
-        <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-          {t('prayerDetail.whoPrays')}
-        </p>
-        <div className="mt-3 flex items-center gap-3">
-          {count > 0 && <Avatars people={intercessors} count={count} />}
-          <p className="text-[14px] leading-snug text-ink-soft">{countLabel}</p>
+      {isAuthor && data.status === 'active' && !adding && (
+        <div className="action-bar mt-auto space-y-2">
+          <button
+            type="button"
+            onClick={() => setAdding(true)}
+            className="btn btn-primary flex items-center justify-center gap-2"
+          >
+            <PlusIcon size={17} /> {t('prayerDetail.addUpdate')}
+          </button>
+          <button
+            type="button"
+            onClick={markAnswered}
+            disabled={markingAnswered}
+            className="min-h-10 w-full text-center text-[14px] font-medium text-ink-soft"
+            style={{ opacity: markingAnswered ? 0.55 : 1 }}
+          >
+            {markingAnswered ? t('prayerDetail.markingAnswered') : t('prayerDetail.markAnswered')}
+          </button>
         </div>
-
-        {!isAuthor && data.status !== 'active' && (
-          <p className="mt-3 text-[13px] text-ink-soft">{t('prayerDetail.answered')}</p>
-        )}
-
-        {!isAuthor &&
-          data.status === 'active' &&
-          (i_intercede ? (
-            <>
-              <button
-                type="button"
-                onClick={toggle}
-                disabled={busy}
-                className="btn btn-done mt-4 flex items-center justify-center gap-2"
-              >
-                <CheckIcon size={19} strokeWidth={2.2} /> {t('prayerDetail.youArePraying')}
-              </button>
-              <p className="moment-in mt-2.5 text-center text-[13px] text-ink-soft">
-                {t('prayerDetail.authorWillKnow', { author: data.author_name })}
-              </p>
-            </>
-          ) : (
-            <button
-              type="button"
-              onClick={toggle}
-              disabled={busy}
-              className="btn btn-primary mt-4 flex items-center justify-center gap-2"
-            >
-              <HeartIcon size={19} /> {t('prayerDetail.iAmPraying')}
-            </button>
-          ))}
-      </div>
+      )}
 
       {editing && (
         <PrayerSheet
