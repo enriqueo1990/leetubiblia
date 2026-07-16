@@ -21,7 +21,7 @@ import { planName } from '../lib/planLabels.js'
 import { shareCompletion } from '../lib/shareImage.js'
 import { SkeletonHoy } from '../components/Skeleton.jsx'
 import PassageList from '../components/PassageList.jsx'
-import { CheckIcon, ShareIcon, SlidersIcon } from '../components/icons.jsx'
+import { CheckIcon, GearIcon, ShareIcon } from '../components/icons.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import ReflectionSheet from '../components/ReflectionSheet.jsx'
@@ -240,6 +240,7 @@ export default function Hoy() {
   const viewingAhead = aheadDay != null
   const dayShown = viewingAhead ? aheadDay : r.displayDay
   const refsShown = viewingAhead ? aheadRefs : r.todayRefs
+  const readingUnavailable = !aheadLoading && (!refsShown || refsShown.length === 0)
   const doneShown = dayShown != null && r.completed.has(dayShown)
   // ¿El día mostrado va por delante de la fecha de hoy? (ancla adelantada o sesión)
   const aheadOfToday = dayShown != null && r.todayDay != null && dayShown > r.todayDay
@@ -350,7 +351,7 @@ export default function Hoy() {
           aria-label={t('nav.ajustes')}
           className="-mr-2 -mt-1 flex h-11 w-11 shrink-0 items-center justify-center text-ink-soft transition-colors hover:text-accent-ink"
         >
-          <SlidersIcon size={18} />
+          <GearIcon size={19} />
         </Link>
       </div>
 
@@ -386,7 +387,7 @@ export default function Hoy() {
               type="button"
               onClick={r.dismissBehind}
               aria-label={t('hoy.dismissBehind')}
-              className="ml-auto flex h-9 w-9 items-center justify-center text-[15px] leading-none text-ink-soft"
+              className="ml-auto flex h-11 w-11 items-center justify-center text-[15px] leading-none text-ink-soft"
               style={{ opacity: 0.5 }}
             >
               ✕
@@ -492,7 +493,17 @@ export default function Hoy() {
             // El pasaje mismo es la puerta a la Biblia: cada referencia abre su
             // capítulo (tinta plena, sin color — el toque lo confirma la opacidad
             // al presionar).
-            refsShown && <PassageList refs={refsShown} locale={locale} />
+            readingUnavailable ? (
+              <div className="card p-4" role="alert">
+                <h2 className="text-[17px] font-semibold text-ink">{t('hoy.unavailable.title')}</h2>
+                <p className="mt-1 text-[14px] text-ink-soft">{t('hoy.unavailable.text')}</p>
+                <button type="button" onClick={r.reload} className="btn btn-secondary mt-4">
+                  {t('common.retry')}
+                </button>
+              </div>
+            ) : (
+              refsShown && <PassageList refs={refsShown} locale={locale} />
+            )
           )}
         </div>
       )}
@@ -544,7 +555,7 @@ export default function Hoy() {
         return (
           <div className="action-bar">
             <div className="lg:mx-auto lg:max-w-[440px]">
-              {!doneShown ? (
+              {!doneShown && !readingUnavailable ? (
                 <button
                   type="button"
                   onClick={() => {
@@ -557,7 +568,7 @@ export default function Hoy() {
                 >
                   {t('hoy.markRead')}
                 </button>
-              ) : breathing ? (
+              ) : !doneShown ? null : breathing ? (
                 <>
                   <p className="moment-in pb-2.5 text-center text-[13px] font-medium text-ink-soft">
                     <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✦</span>{' '}

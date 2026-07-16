@@ -21,14 +21,16 @@ export default function ConfirmDialog({
   const confirm = confirmLabel ?? t('common.confirm')
   const cancel = cancelLabel ?? t('common.cancel')
   const confirmRef = useRef(null)
+  const cancelRef = useRef(null)
   const panelRef = useRef(null)
   const prevFocus = useRef(null)
+  const initialDanger = useRef(danger)
 
   // Foco inicial + devolución al cerrar. Deps vacías: no debe re-ejecutarse al
   // cambiar `busy` (si no, robaría el foco a mitad de la acción async).
   useEffect(() => {
     prevFocus.current = document.activeElement
-    confirmRef.current?.focus()
+    ;(initialDanger.current ? cancelRef.current : confirmRef.current)?.focus()
     return () => prevFocus.current?.focus?.()
   }, [])
 
@@ -80,6 +82,7 @@ export default function ConfirmDialog({
         {message && <p className="mt-2 text-[15px] text-ink-soft">{message}</p>}
         <div className="mt-5 flex gap-3">
           <button
+            ref={cancelRef}
             type="button"
             className="btn btn-secondary flex-1"
             disabled={busy}

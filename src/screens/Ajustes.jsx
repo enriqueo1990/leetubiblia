@@ -26,9 +26,9 @@ import { version as APP_VERSION } from '../../package.json'
 
 function SectionLabel({ children }) {
   return (
-    <p className="mb-2 mt-7 px-1 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+    <h2 className="mb-2 mt-7 px-1 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
       {children}
-    </p>
+    </h2>
   )
 }
 
@@ -276,15 +276,17 @@ export default function Ajustes() {
       <BackLink to="/" label={t('nav.hoy')} />
       <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">{t('nav.ajustes')}</h1>
 
+      <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-6">
+      <div>
       <SectionLabel>{t('ajustes.section.lectura')}</SectionLabel>
       <div className="card divide-y divide-hairline">
         <Link
           to="/planes"
           state={{ from: { to: '/ajustes', label: t('nav.ajustes') } }}
-          className="flex items-center justify-between px-4 py-3"
+          className="flex flex-col items-start gap-1 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
         >
           <span className="shrink-0 text-[16px] text-ink">{t('ajustes.planDeLectura')}</span>
-          <span className="flex min-w-0 items-center gap-1.5">
+          <span className="flex w-full min-w-0 items-center justify-between gap-1.5 sm:w-auto sm:justify-start">
             <span className="truncate text-[15px] text-ink-soft">{plan?.name || t('ajustes.elegir')}</span>
             <span className="text-ink-soft" style={{ opacity: 0.5 }}>
               <ChevronRight size={18} />
@@ -294,10 +296,10 @@ export default function Ajustes() {
         <Link
           to="/materiales"
           state={{ from: { to: '/ajustes', label: t('nav.ajustes') } }}
-          className="flex items-center justify-between px-4 py-3"
+          className="flex flex-col items-start gap-1 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
         >
           <span className="text-[16px] text-ink">{t('ajustes.materialesDeLectura')}</span>
-          <span className="flex items-center gap-1.5">
+          <span className="flex w-full items-center justify-between gap-1.5 sm:w-auto sm:justify-start">
             <span className="text-[15px] text-ink-soft">
               {materialsCount > 0 ? t('ajustes.materialsActive', { count: materialsCount }) : t('ajustes.ninguno')}
             </span>
@@ -371,7 +373,9 @@ export default function Ajustes() {
               {t('ajustes.currentDay')}: <span className="font-semibold text-ink">{currentDay}</span>{' '}
               {t('ajustes.ofTotal', { total: duration })}
             </p>
+            <label htmlFor="plan-day" className="sr-only">{t('ajustes.section.queDia')}</label>
             <input
+              id="plan-day"
               type="text"
               inputMode="numeric"
               value={dayInput}
@@ -381,7 +385,7 @@ export default function Ajustes() {
               }}
               placeholder={t('ajustes.dayPlaceholder', { day: currentDay })}
               className="mt-3 w-full rounded-input px-4 py-3 text-[16px] outline-none"
-              style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--text-primary)' }}
+              style={{ backgroundColor: 'var(--surface-alt)', border: '1px solid var(--control-border)', color: 'var(--text-primary)' }}
             />
             <button
               type="button"
@@ -407,11 +411,14 @@ export default function Ajustes() {
           </div>
         </>
       )}
+      </div>
+
+      <div>
 
       <SectionLabel>{t('ajustes.section.acento')}</SectionLabel>
       {/* Swatch chico (28px) centrado en un área táctil de 44px: neto como en
           iOS, no círculos enormes que llenan la celda. */}
-      <div className="card grid grid-cols-6 gap-1 p-3">
+      <div className="card grid grid-cols-4 gap-1 p-3 sm:grid-cols-8">
         {accents.map((a) => {
           const selected = a.key === accent
           const swatch = resolvedMode === 'dark' ? a.dark : a.light
@@ -420,6 +427,7 @@ export default function Ajustes() {
               key={a.key}
               type="button"
               aria-label={a.name}
+              aria-pressed={selected}
               title={a.name}
               onClick={() => pickAccent(a.key)}
               className="flex h-11 items-center justify-center"
@@ -439,10 +447,10 @@ export default function Ajustes() {
       </div>
 
       <SectionLabel>{t('ajustes.section.tema')}</SectionLabel>
-      <Segmented options={THEMES} value={themePref} onChange={pickTheme} />
+      <Segmented label={t('ajustes.section.tema')} options={THEMES} value={themePref} onChange={pickTheme} />
 
       <SectionLabel>{t('ajustes.idioma')}</SectionLabel>
-      <Segmented options={locales} value={locale} onChange={pickLocale} />
+      <Segmented label={t('ajustes.idioma')} options={locales} value={locale} onChange={pickLocale} />
 
       <SectionLabel>{t('ajustes.section.avisos')}</SectionLabel>
       <div className="card divide-y divide-hairline">
@@ -460,8 +468,9 @@ export default function Ajustes() {
               type="time"
               value={reminderTime}
               onChange={(e) => changeTime(e.target.value)}
-              className="rounded-input px-2 py-1 text-[16px] outline-none"
-              style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--text-primary)' }}
+              aria-label={t('ajustes.hora')}
+              className="min-h-11 rounded-input px-3 text-[16px] outline-none"
+              style={{ backgroundColor: 'var(--surface-alt)', border: '1px solid var(--control-border)', color: 'var(--text-primary)' }}
             />
           </div>
         )}
@@ -489,7 +498,7 @@ export default function Ajustes() {
         />
       </div>
       {pushNote && (
-        <p className="mt-2 px-1 text-[12px] text-ink-soft">{pushNote.msg}</p>
+        <p className="mt-2 px-1 text-[13px] text-ink-soft" role="status">{pushNote.msg}</p>
       )}
 
       <SectionLabel>{t('ajustes.section.laApp')}</SectionLabel>
@@ -524,11 +533,11 @@ export default function Ajustes() {
         </Link>
       </div>
 
-      <SectionLabel>{t('ajustes.section.mision')}</SectionLabel>
-      {/* Card neutra (no tinte+borde de acento): ese tratamiento queda reservado
-          para estado en vivo o CTA de acción (pulso del grupo, "Orar ahora"),
-          no para un bloque estático de donación. */}
-      <div className="card p-4">
+      <details className="card mt-7 overflow-hidden">
+        <summary className="flex min-h-12 cursor-pointer items-center gap-2.5 px-4 py-3 text-[16px] font-medium text-ink">
+          <HeartIcon size={20} /> {t('ajustes.section.mision')}
+        </summary>
+      <div className="border-t border-hairline p-4">
         <div className="flex items-start gap-2.5">
           <span className="shrink-0 pt-0.5 text-ink-soft">
             <HeartIcon size={20} />
@@ -573,6 +582,7 @@ export default function Ajustes() {
           ))}
         </div>
       </div>
+      </details>
 
       <SectionLabel>{t('ajustes.section.cuenta')}</SectionLabel>
       <div className="card divide-y divide-hairline">
@@ -598,10 +608,12 @@ export default function Ajustes() {
         </button>
       </div>
       {deleteError && (
-        <p className="mt-2 px-1 text-[13px]" style={{ color: 'var(--danger)' }}>
+        <p className="mt-2 px-1 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
           {t('ajustes.deleteError')}
         </p>
       )}
+      </div>
+      </div>
 
       <p className="mt-8 text-center text-[13px] text-ink-soft">{t('ajustes.version', { version: APP_VERSION })}</p>
 

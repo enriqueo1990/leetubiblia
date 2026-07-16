@@ -15,13 +15,13 @@ export default function GroupPrayers({ prayers, onAddPrayer, onPray }) {
   return (
     <>
       <div className="mt-7 flex items-center justify-between">
-        <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">{t('nav.oracion')}</p>
+        <h2 className="text-[13px] font-semibold uppercase tracking-wide text-ink-soft">{t('nav.oracion')}</h2>
         <button
           type="button"
           onClick={onAddPrayer}
           aria-label={t('groupDetail.sharePrayerAria')}
           className="flex h-11 w-11 items-center justify-center rounded-full text-on-accent"
-          style={{ backgroundColor: 'var(--accent)' }}
+          style={{ backgroundColor: 'var(--accent-action)' }}
         >
           <PlusIcon size={18} />
         </button>
@@ -78,7 +78,7 @@ export default function GroupPrayers({ prayers, onAddPrayer, onPray }) {
                     <button
                       type="button"
                       onClick={() => onPray(p)}
-                      className="shrink-0 rounded-pill px-4 py-1.5 text-[13px] font-semibold"
+                      className="min-h-11 shrink-0 rounded-pill px-4 text-[13px] font-semibold"
                       style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
                     >
                       {t('groupDetail.pray')}
@@ -88,7 +88,7 @@ export default function GroupPrayers({ prayers, onAddPrayer, onPray }) {
               </li>
             ))}
           </ul>
-          <Link to="/oracion?tab=grupos" className="mt-3 inline-block text-[14px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
+          <Link to="/oracion?tab=grupos" className="mt-2 inline-flex min-h-11 items-center text-[14px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
             {t('groupDetail.seeAll')} →
           </Link>
         </>

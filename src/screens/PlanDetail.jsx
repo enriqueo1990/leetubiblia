@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 import { useAuth } from '../lib/auth.jsx'
@@ -12,9 +12,9 @@ import ResumeFromDay from '../components/ResumeFromDay.jsx'
 import { SkeletonRows } from '../components/Skeleton.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import { inputStyle } from '../components/formStyles.js'
+import RetryError from '../components/RetryError.jsx'
 
-// Detalle de un plan: descripción, duración, listado completo día-por-día con sus
-// pasajes, y acción de activar. Mismo estilo que el resto (drill-in iOS).
+const WINDOW_SIZE = 31
 
 export default function PlanDetail() {
   const { id } = useParams()
@@ -28,6 +28,8 @@ export default function PlanDetail() {
 
   const [plan, setPlan] = useState(null)
   const [days, setDays] = useState(null)
+  const [loadError, setLoadError] = useState(false)
+  const [windowStart, setWindowStart] = useState(1)
   const [resumeDay, setResumeDay] = useState(null)
   const [confirm, setConfirm] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -35,24 +37,44 @@ export default function PlanDetail() {
   const todayRef = useRef(null)
   const scrolled = useRef(false)
 
-  useEffect(() => {
+  const load = useCallback(() => {
     let on = true
+    setLoadError(false)
+    setDays(null)
     Promise.all([getPlan(planId), getPlanDays(planId)])
       .then(([p, d]) => {
         if (!on) return
         setPlan(p)
         setDays(d)
       })
-      .catch(() => on && setDays([]))
-    return () => {
-      on = false
-    }
+      .catch(() => on && setLoadError(true))
+    return () => { on = false }
+  }, [planId])
+
+  useEffect(() => {
+    const cleanup = load()
+    return cleanup
+  }, [load])
+
+  useEffect(() => {
+    setWindowStart(1)
+    scrolled.current = false
   }, [planId])
 
   const isActive = profile?.active_plan_id === planId
   // Día en el que el usuario va leyendo: el mismo ancla que "Hoy" (primer día sin
   // leer, o el de calendario si va atrasado). Solo para su plan activo.
   const currentDay = isActive ? r.displayDay : null
+  const duration = days?.length ?? 0
+  const windowEnd = Math.min(duration, windowStart + WINDOW_SIZE - 1)
+  const visibleDays = days?.filter(
+    (d) => d.day_number >= windowStart && d.day_number <= windowEnd
+  )
+
+  useEffect(() => {
+    if (!days || currentDay == null) return
+    setWindowStart(Math.max(1, Math.min(currentDay - 7, Math.max(1, days.length - WINDOW_SIZE + 1))))
+  }, [days, currentDay])
 
   // Al cargar los días, centrar en pantalla dónde vas leyendo (una sola vez).
   useEffect(() => {
@@ -61,7 +83,7 @@ export default function PlanDetail() {
       todayRef.current.scrollIntoView({ block: 'center' })
       scrolled.current = true
     }
-  }, [days, currentDay])
+  }, [days, currentDay, windowStart])
 
   async function activate() {
     setSaving(true)
@@ -87,7 +109,10 @@ export default function PlanDetail() {
     e.preventDefault()
     const n = Number(jumpInput)
     if (!n || !days?.some((d) => d.day_number === n)) return
-    document.getElementById(`plan-day-${n}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+    setWindowStart(Math.max(1, Math.min(n - 7, Math.max(1, days.length - WINDOW_SIZE + 1))))
+    window.setTimeout(() => {
+      document.getElementById(`plan-day-${n}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+    }, 0)
   }
 
   function onActivateClick() {
@@ -153,18 +178,28 @@ export default function PlanDetail() {
               onChange={(e) => setJumpInput(e.target.value.replace(/[^\d]/g, ''))}
               placeholder={t('planes.jumpPlaceholder')}
               aria-label={t('planes.jumpToDay')}
-              className="w-16 rounded-input px-2 py-1 text-[13px] outline-none"
+              className="h-11 w-20 rounded-input px-3 text-[15px] outline-none"
               style={inputStyle}
             />
-            <button type="submit" className="text-[13px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
+            <button type="submit" className="min-h-11 px-2 text-[15px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
               {t('planes.jumpGo')}
             </button>
           </form>
         )}
       </div>
       {days === null && <SkeletonRows count={6} />}
-      <ol className="card divide-y divide-hairline">
-        {days?.map((d) => {
+      {loadError && <RetryError message={t('planes.detailLoadError')} onRetry={load} />}
+      {days && windowStart > 1 && (
+        <button
+          type="button"
+          className="btn btn-secondary mb-3"
+          onClick={() => setWindowStart(Math.max(1, windowStart - WINDOW_SIZE))}
+        >
+          {t('planes.previousDays')}
+        </button>
+      )}
+      {visibleDays && <ol className="card divide-y divide-hairline">
+        {visibleDays?.map((d) => {
           const isCurrent = d.day_number === currentDay
           const read = isActive && r.completed.has(d.day_number)
           return (
@@ -201,7 +236,16 @@ export default function PlanDetail() {
             </li>
           )
         })}
-      </ol>
+      </ol>}
+      {days && windowEnd < duration && (
+        <button
+          type="button"
+          className="btn btn-secondary mt-3"
+          onClick={() => setWindowStart(Math.min(duration - WINDOW_SIZE + 1, windowStart + WINDOW_SIZE))}
+        >
+          {t('planes.nextDays')}
+        </button>
+      )}
 
       {confirm && (
         <ConfirmDialog

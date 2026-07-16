@@ -64,7 +64,7 @@ export default function GroupHeader({
                 type="button"
                 aria-label={t('groupDetail.editNameAria')}
                 onClick={onStartEdit}
-                className="mt-1 shrink-0 text-ink-soft"
+                className="-m-2 flex h-11 w-11 shrink-0 items-center justify-center text-ink-soft"
                 style={{ opacity: 0.5 }}
               >
                 <PencilIcon size={16} />
@@ -77,7 +77,7 @@ export default function GroupHeader({
             aria-label={t('groupDetail.inviteAria')}
             onClick={onInvite}
             className="flex h-[44px] shrink-0 items-center justify-center gap-1.5 rounded-full px-3 text-on-accent lg:px-4"
-            style={{ backgroundColor: 'var(--accent)', minWidth: 44 }}
+            style={{ backgroundColor: 'var(--accent-action)', minWidth: 44 }}
           >
             <ShareIcon size={18} />
             <span className="hidden text-[15px] font-semibold lg:inline">{t('groupDetail.invite')}</span>

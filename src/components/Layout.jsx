@@ -9,27 +9,33 @@ import Sidebar from './Sidebar.jsx'
 //  - Desktop ≥1024px: sidebar a la izquierda; el contenido se desplaza tras él.
 export default function Layout() {
   const { pathname } = useLocation()
+  const focusMode = pathname === '/orar'
+  const managementWide =
+    pathname === '/ajustes' ||
+    pathname === '/progreso' ||
+    pathname === '/recorrido' ||
+    /^\/grupos\/[^/]+$/.test(pathname)
 
   return (
     <div className="min-h-full bg-app">
-      <Sidebar />
+      {!focusMode && <Sidebar />}
 
       {/* En desktop el contenido arranca después del sidebar (250px) */}
-      <div className="lg:pl-[250px]">
+      <div className={focusMode ? '' : 'lg:pl-[250px]'}>
         <main
           key={pathname}
-          className="screen-enter mx-auto w-full max-w-content px-[26px] lg:max-w-content-wide"
+          className={`screen-enter mx-auto w-full max-w-content px-6 ${managementWide ? 'lg:max-w-[1040px]' : 'lg:max-w-content-wide'}`}
           style={{
             paddingTop: 'max(env(safe-area-inset-top), 16px)',
             // Espacio para no quedar bajo la tab bar en móvil/tablet
-            paddingBottom: 'calc(72px + env(safe-area-inset-bottom))',
+            paddingBottom: focusMode ? '24px' : 'calc(72px + env(safe-area-inset-bottom))',
           }}
         >
           <Outlet />
         </main>
       </div>
 
-      <TabBar />
+      {!focusMode && <TabBar />}
     </div>
   )
 }

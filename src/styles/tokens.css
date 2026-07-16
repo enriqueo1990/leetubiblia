@@ -7,8 +7,8 @@
  *  - ACENTO (12 tonos: 6 sepia + 6 pasteles): atributo data-accent en <html>. Cada
  *    acento define su hex claro y oscuro; el bloque de modo elige cuál aplica a --accent.
  *
- * --accent / --accent-tint / --on-accent se resuelven en dos pasos: cada acento
- * publica *-light y *-dark, y el bloque de modo copia el par correcto a la var final.
+ * --accent conserva el tono joven y suave. --accent-action es su compañero más
+ * profundo para botones con texto blanco y contraste AA.
  */
 
 :root {
@@ -22,6 +22,8 @@
   /* text-soft: ~6:1 sobre --bg-app (WCAG AA amplio en texto chico) */
   --text-soft: #56565C;
   --hairline: #D5D3CD;
+  /* Los divisores pueden ser sutiles; los límites de controles necesitan 3:1. */
+  --control-border: #8B8983;
   --placeholder: #8B8983;
   --faint: #B8B6B0;
   --faint-2: #D8D5CF;
@@ -38,12 +40,8 @@
   --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.07), 0 0 1px rgba(0, 0, 0, 0.04);
   --shadow-overlay: 0 10px 40px rgba(0, 0, 0, 0.25);
 
-  /* on-accent: texto sobre el relleno de acento. Claro = blanco — decisión
-     estética consciente (Enrique, 2026-07-06): blanco sobre los acentos claros
-     no llega a AA (≈2.6:1 en pasteles), pero se prefiere la estética suave del
-     botón pastel. El resto del texto en acento sí pasa AA vía --accent-ink. */
   --on-accent-light: #FFFFFF;
-  --on-accent-dark: #1C1C1E;
+  --on-accent-dark: #FFFFFF;
   --on-accent: var(--on-accent-light);
 
   /* accent-ink: el acento como TEXTO sobre superficies (links, citas, ✓).
@@ -76,6 +74,7 @@
     --text-primary: #F2F2F7;
     --text-soft: #8E8E93;
     --hairline: #2C2C2E;
+    --control-border: #6A6A6E;
     --placeholder: #6A6A6E;
     --faint: #3A3A3C;
     --faint-2: #5A5A5E;
@@ -87,6 +86,7 @@
     --shadow-overlay: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 10px 40px rgba(0, 0, 0, 0.8);
 
     --on-accent: var(--on-accent-dark);
+    --accent-action: var(--accent-action-dark);
     --accent-tint: var(--accent-tint-dark);
     --accent-tint-nav: var(--accent-tint-nav-dark);
     color-scheme: dark;
@@ -103,6 +103,7 @@
   --text-primary: #F2F2F7;
   --text-soft: #8E8E93;
   --hairline: #2C2C2E;
+  --control-border: #6A6A6E;
   --placeholder: #6A6A6E;
   --faint: #3A3A3C;
   --faint-2: #5A5A5E;
@@ -114,6 +115,7 @@
   --shadow-overlay: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 10px 40px rgba(0, 0, 0, 0.8);
 
   --on-accent: var(--on-accent-dark);
+  --accent-action: var(--accent-action-dark);
   --accent-tint: var(--accent-tint-dark);
   --accent-tint-nav: var(--accent-tint-nav-dark);
   color-scheme: dark;
@@ -128,26 +130,24 @@
 :root:not([data-accent]) {
   --accent-light: #A88B6A;
   --accent-dark: #C2A57E;
+  --accent-action-light: #765A3D;
+  --accent-action-dark: #765A3D;
 }
-:root[data-accent='sepia_clay']  { --accent-light: #B08968; --accent-dark: #CBA585; }
-:root[data-accent='sepia_olive'] { --accent-light: #8C8A5E; --accent-dark: #ABA876; }
-:root[data-accent='sepia_stone'] { --accent-light: #9C9080; --accent-dark: #BBB0A0; }
-:root[data-accent='sepia_rose']  { --accent-light: #B08A86; --accent-dark: #CBA7A2; }
-:root[data-accent='sepia_slate'] { --accent-light: #7E8A8C; --accent-dark: #9CAAAC; }
+:root[data-accent='sepia_olive'] { --accent-light: #8C8A5E; --accent-dark: #ABA876; --accent-action-light: #65682F; --accent-action-dark: #65682F; }
 
 /* Pasteles para público joven (mismo esquema claro/oscuro) */
-:root[data-accent='pastel_lavender'] { --accent-light: #9F8BD4; --accent-dark: #BCA9E6; }
-:root[data-accent='pastel_pink']     { --accent-light: #D585A8; --accent-dark: #ECA9C6; }
-:root[data-accent='pastel_mint']     { --accent-light: #57B795; --accent-dark: #82D0B1; }
-:root[data-accent='pastel_sky']      { --accent-light: #6FA4D8; --accent-dark: #9BC5EC; }
-:root[data-accent='pastel_coral']    { --accent-light: #E2906C; --accent-dark: #F1B095; }
-:root[data-accent='pastel_aqua']     { --accent-light: #49B0B8; --accent-dark: #79CFD5; }
+:root[data-accent='pastel_lavender'] { --accent-light: #9F8BD4; --accent-dark: #BCA9E6; --accent-action-light: #6650A4; --accent-action-dark: #6650A4; }
+:root[data-accent='pastel_pink']     { --accent-light: #D585A8; --accent-dark: #ECA9C6; --accent-action-light: #A63D70; --accent-action-dark: #A63D70; }
+:root[data-accent='pastel_mint']     { --accent-light: #57B795; --accent-dark: #82D0B1; --accent-action-light: #227A5B; --accent-action-dark: #227A5B; }
+:root[data-accent='pastel_sky']      { --accent-light: #6FA4D8; --accent-dark: #9BC5EC; --accent-action-light: #2F6EA8; --accent-action-dark: #2F6EA8; }
+:root[data-accent='pastel_coral']    { --accent-light: #E2906C; --accent-dark: #F1B095; --accent-action-light: #A84E32; --accent-action-dark: #A84E32; }
+:root[data-accent='pastel_aqua']     { --accent-light: #49B0B8; --accent-dark: #79CFD5; --accent-action-light: #1F747C; --accent-action-dark: #1F747C; }
 
 /* --accent final: claro por defecto */
-:root { --accent: var(--accent-light); }
+:root { --accent: var(--accent-light); --accent-action: var(--accent-action-light); }
 
 /* En oscuro (auto u override) usar el tono -dark */
 @media (prefers-color-scheme: dark) {
-  :root:not(.light) { --accent: var(--accent-dark); }
+  :root:not(.light) { --accent: var(--accent-dark); --accent-action: var(--accent-action-dark); }
 }
-:root.dark { --accent: var(--accent-dark); }
+:root.dark { --accent: var(--accent-dark); --accent-action: var(--accent-action-dark); }

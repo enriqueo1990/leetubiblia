@@ -13,6 +13,13 @@ function dbError(error) {
   return error
 }
 
+// Compatibilidad durante el despliegue de la migración que reemplaza
+// `completed_at` por `completed_on`. Así una base todavía no migrada sigue
+// funcionando y deja de presentarse erróneamente como si no tuviera conexión.
+function missingCompletedOn(error) {
+  return error?.code === '42703' && /completed_on/i.test(error.message || '')
+}
+
 // Helpers de datos de solo lectura del catálogo. Las mutaciones de perfil viven
 // en el contexto de auth (updateProfile). Las de progreso/oración/grupos llegan
 // en sus tareas respectivas (4, 5, 6).
@@ -126,23 +133,44 @@ export async function getPlanDay(planId, dayNumber) {
 // que se marcó. Las claves sirven de "días leídos" (.has / .size, igual que un
 // Set); los valores alimentan la racha por días reales (ver computeDateStreak).
 export async function getCompletionMap(userId, planId) {
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from('reading_progress')
     .select('day_number, completed_on')
     .eq('user_id', userId)
     .eq('plan_id', planId)
+
+  if (missingCompletedOn(error)) {
+    const legacy = await supabase
+      .from('reading_progress')
+      .select('day_number, completed_at')
+      .eq('user_id', userId)
+      .eq('plan_id', planId)
+    data = legacy.data
+    error = legacy.error
+  }
   if (error) throw dbError(error)
-  return new Map(data.map((r) => [r.day_number, r.completed_on]))
+  return new Map(
+    data.map((r) => [r.day_number, r.completed_on ?? localDateISO(r.completed_at)])
+  )
 }
 
 // Marca un día como leído. Idempotente (UNIQUE user+plan+day; ignora duplicados).
 export async function markRead(userId, planId, dayNumber, completedOn = todayLocalISO()) {
-  const { error } = await supabase
+  let { error } = await supabase
     .from('reading_progress')
     .upsert(
       { user_id: userId, plan_id: planId, day_number: dayNumber, completed_on: completedOn },
       { onConflict: 'user_id,plan_id,day_number', ignoreDuplicates: true }
     )
+  if (missingCompletedOn(error)) {
+    const legacy = await supabase
+      .from('reading_progress')
+      .upsert(
+        { user_id: userId, plan_id: planId, day_number: dayNumber },
+        { onConflict: 'user_id,plan_id,day_number', ignoreDuplicates: true }
+      )
+    error = legacy.error
+  }
   if (error) throw dbError(error)
 }
 
@@ -156,9 +184,20 @@ export async function markDaysRead(userId, planId, hasta) {
   for (let d = 1; d <= hasta; d++) {
     rows.push({ user_id: userId, plan_id: planId, day_number: d, completed_on: completedOn })
   }
-  const { error } = await supabase
+  let { error } = await supabase
     .from('reading_progress')
     .upsert(rows, { onConflict: 'user_id,plan_id,day_number', ignoreDuplicates: true })
+  if (missingCompletedOn(error)) {
+    const legacyRows = rows.map(({ user_id, plan_id, day_number }) => ({
+      user_id,
+      plan_id,
+      day_number,
+    }))
+    const legacy = await supabase
+      .from('reading_progress')
+      .upsert(legacyRows, { onConflict: 'user_id,plan_id,day_number', ignoreDuplicates: true })
+    error = legacy.error
+  }
   if (error) throw dbError(error)
 }
 

@@ -54,7 +54,11 @@ function CreateGroupSheet({ onClose, onCreated }) {
         </button>
       }
     >
+      <label htmlFor="group-name" className="mb-2 block text-[14px] font-medium text-ink">
+        {t('grupos.nameLabel')}
+      </label>
       <input
+        id="group-name"
         ref={nameRef}
         type="text"
         placeholder={t('grupos.namePlaceholder')}
@@ -66,7 +70,7 @@ function CreateGroupSheet({ onClose, onCreated }) {
       <p className="mt-3 text-[13px] text-ink-soft">
         {t('grupos.createHelp')}
       </p>
-      {error && <p className="mt-3 text-[13px]" style={{ color: 'var(--danger)' }}>{error}</p>}
+      {error && <p className="mt-3 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
     </Sheet>
   )
 }
@@ -118,7 +122,11 @@ function JoinGroupSheet({ onClose, onJoined }) {
         </button>
       }
     >
+      <label htmlFor="group-code" className="mb-2 block text-center text-[14px] font-medium text-ink">
+        {t('grupos.codeLabel')}
+      </label>
       <input
+        id="group-code"
         ref={codeRef}
         type="text"
         autoCapitalize="characters"
@@ -133,7 +141,7 @@ function JoinGroupSheet({ onClose, onJoined }) {
       <p className="mt-3 text-center text-[13px] text-ink-soft">
         {t('grupos.joinHelp')}
       </p>
-      {error && <p className="mt-3 text-center text-[13px]" style={{ color: 'var(--danger)' }}>{error}</p>}
+      {error && <p className="mt-3 text-center text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
     </Sheet>
   )
 }
@@ -170,7 +178,7 @@ export default function Grupos() {
           aria-label={t('grupos.addGroup')}
           onClick={() => setSheet('menu')}
           className="flex h-[44px] items-center justify-center gap-1 rounded-full px-3 text-on-accent lg:px-4"
-          style={{ backgroundColor: 'var(--accent)', minWidth: 44 }}
+          style={{ backgroundColor: 'var(--accent-action)', minWidth: 44 }}
         >
           <PlusIcon size={20} />
           <span className="hidden text-[15px] font-semibold lg:inline">{t('grupos.addGroup')}</span>

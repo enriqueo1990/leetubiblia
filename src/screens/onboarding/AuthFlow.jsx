@@ -73,7 +73,7 @@ export default function AuthFlow() {
         <div className="flex flex-1 flex-col items-center justify-center text-center">
           <div
             className="flex h-[88px] w-[88px] items-center justify-center rounded-container text-on-accent"
-            style={{ backgroundColor: 'var(--accent)' }}
+            style={{ backgroundColor: 'var(--accent-action)' }}
           >
             <BookIcon size={44} />
           </div>
@@ -148,7 +148,11 @@ export default function AuthFlow() {
           }}
           className="mt-7"
         >
+          <label htmlFor="auth-code" className="mb-2 block text-[14px] font-medium text-ink">
+            {t('onboarding.auth.codeLabel')}
+          </label>
           <input
+            id="auth-code"
             type="text"
             inputMode="numeric"
             autoComplete="one-time-code"
@@ -160,12 +164,12 @@ export default function AuthFlow() {
             className="w-full rounded-input px-4 py-3.5 text-center text-[26px] font-bold outline-none"
             style={{
               backgroundColor: 'var(--surface)',
-              border: '1px solid var(--hairline)',
+              border: '1px solid var(--control-border)',
               color: 'var(--text-primary)',
               letterSpacing: '6px',
             }}
           />
-          {error && <p className="mt-2 text-[13px]" style={{ color: 'var(--danger)' }}>{error}</p>}
+          {error && <p className="mt-2 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
 
           <button
             type="submit"
@@ -213,7 +217,11 @@ export default function AuthFlow() {
         }}
         className="mt-7"
       >
+        <label htmlFor="auth-email" className="mb-2 block text-[14px] font-medium text-ink">
+          {t('onboarding.auth.emailLabel')}
+        </label>
         <input
+          id="auth-email"
           type="email"
           inputMode="email"
           autoComplete="email"
@@ -224,11 +232,11 @@ export default function AuthFlow() {
           className="w-full rounded-input px-4 py-3.5 text-[16px] outline-none"
           style={{
             backgroundColor: 'var(--surface)',
-            border: '1px solid var(--hairline)',
+            border: '1px solid var(--control-border)',
             color: 'var(--text-primary)',
           }}
         />
-        {error && <p className="mt-2 text-[13px]" style={{ color: 'var(--danger)' }}>{error}</p>}
+        {error && <p className="mt-2 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
 
         <button
           type="submit"

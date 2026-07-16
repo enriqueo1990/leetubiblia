@@ -10,9 +10,9 @@ export default function GroupTestimony({ testimony, groupId }) {
 
   return (
     <>
-      <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+      <h2 className="mt-7 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
         {t('groupDetail.testimonies')}
-      </p>
+      </h2>
       <Link to={`/grupos/${groupId}/testimonios`} className="card mt-3 block p-4">
         <div className="flex items-start gap-3">
           <div

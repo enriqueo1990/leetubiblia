@@ -26,6 +26,7 @@ export default function AskName() {
 
   return (
     <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col justify-center px-7 py-10">
+      <p className="mb-2 text-[13px] font-medium text-accent-ink">{t('onboarding.askName.step')}</p>
       <h1 className="text-[24px] font-bold tracking-tight text-ink">
         {t('onboarding.askName.title')}
       </h1>
@@ -40,7 +41,11 @@ export default function AskName() {
         }}
         className="mt-7"
       >
+        <label htmlFor="display-name" className="mb-2 block text-[14px] font-medium text-ink">
+          {t('onboarding.askName.label')}
+        </label>
         <input
+          id="display-name"
           type="text"
           autoFocus
           autoComplete="name"
@@ -50,7 +55,7 @@ export default function AskName() {
           className="w-full rounded-input px-4 py-3.5 text-[16px] outline-none"
           style={{
             backgroundColor: 'var(--surface)',
-            border: '1px solid var(--hairline)',
+            border: '1px solid var(--control-border)',
             color: 'var(--text-primary)',
           }}
         />
@@ -63,7 +68,7 @@ export default function AskName() {
           {saving ? t('common.saving') : t('common.continue')}
         </button>
         {error && (
-          <p className="mt-3 text-[14px]" style={{ color: 'var(--danger)' }}>
+          <p className="mt-3 text-[14px]" role="alert" style={{ color: 'var(--danger)' }}>
             {t('common.saveError')}
           </p>
         )}

@@ -187,7 +187,7 @@ export default function MaterialReader() {
               onClick={() => setShareOpen(true)}
               disabled={sharing}
               aria-label={t('materialReader.share')}
-              className="flex h-9 w-9 items-center justify-center text-ink-soft transition-colors hover:text-accent-ink disabled:opacity-50"
+              className="flex h-11 w-11 items-center justify-center text-ink-soft transition-colors hover:text-accent-ink disabled:opacity-50"
             >
               <ShareIcon size={16} />
             </button>
@@ -195,7 +195,7 @@ export default function MaterialReader() {
           <button
             type="button"
             onClick={() => setIndexOpen(true)}
-            className="-mr-1 flex h-9 items-center gap-1.5 px-1 text-[13px] font-medium text-ink-soft transition-colors hover:text-accent-ink"
+            className="-mr-2 flex min-h-11 items-center gap-1.5 px-2 text-[13px] font-medium text-ink-soft transition-colors hover:text-accent-ink"
           >
             <ListIcon size={16} />
             {t('materialReader.index')}
@@ -401,4 +401,3 @@ export default function MaterialReader() {
     </div>
   )
 }
-

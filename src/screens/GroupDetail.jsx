@@ -342,47 +342,49 @@ export default function GroupDetail() {
         onInvite={() => setInviteOpen(true)}
       />
 
-      <GroupPulse
-        iShare={iShare}
-        readCount={readCount}
-        prayingCount={prayingCount}
-        prayersCount={prayers.length}
-      />
+      <div className="lg:grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start lg:gap-6">
+        <div>
+          <GroupPulse
+            iShare={iShare}
+            readCount={readCount}
+            prayingCount={prayingCount}
+            prayersCount={prayers.length}
+          />
 
-      <GroupPlanCard
-        isOwner={isOwner}
-        planInfo={planInfo}
-        groupPlanFinished={groupPlanFinished}
-        groupPlanDay={groupPlanDay}
-        groupPlanTotal={groupPlanTotal}
-        amOnGroupPlan={amOnGroupPlan}
-        following={following}
-        adoptError={adoptError}
-        followError={followError}
-        onChangePlan={() => setPlanPickerOpen(true)}
-        onOpenPicker={() => setPlanPickerOpen(true)}
-        onJoinPlan={() => {
-          setAdoptError(false)
-          setConfirmAdopt(true)
-        }}
-        onToggleFollow={toggleFollow}
-      />
+          <GroupPlanCard
+            isOwner={isOwner}
+            planInfo={planInfo}
+            groupPlanFinished={groupPlanFinished}
+            groupPlanDay={groupPlanDay}
+            groupPlanTotal={groupPlanTotal}
+            amOnGroupPlan={amOnGroupPlan}
+            following={following}
+            adoptError={adoptError}
+            followError={followError}
+            onChangePlan={() => setPlanPickerOpen(true)}
+            onOpenPicker={() => setPlanPickerOpen(true)}
+            onJoinPlan={() => {
+              setAdoptError(false)
+              setConfirmAdopt(true)
+            }}
+            onToggleFollow={toggleFollow}
+          />
 
-      <GroupPrayers prayers={prayers} onAddPrayer={() => setSheetOpen(true)} onPray={orar} />
+          <GroupMembers
+            members={members}
+            isOwner={isOwner}
+            iShare={iShare}
+            readMap={readMap}
+            onKick={(m) => setConfirm({ type: 'kick', member: m })}
+          />
+        </div>
 
-      <GroupTestimony testimony={testimony} groupId={id} />
-
-      <GroupMembers
-        members={members}
-        isOwner={isOwner}
-        iShare={iShare}
-        readMap={readMap}
-        onKick={(m) => setConfirm({ type: 'kick', member: m })}
-      />
-
-      {/* Lo privado del líder va debajo de todo: primero la sala compartida
-          (pulso, oración, testimonios, miembros), después lo que solo él ve. */}
-      {isOwner && <GroupPrivateStats stats={stats} weekRows={weekRows} answeredPct={answeredPct} />}
+        <div>
+          <GroupPrayers prayers={prayers} onAddPrayer={() => setSheetOpen(true)} onPray={orar} />
+          <GroupTestimony testimony={testimony} groupId={id} />
+          {isOwner && <GroupPrivateStats stats={stats} weekRows={weekRows} answeredPct={answeredPct} />}
+        </div>
+      </div>
 
       {!isOwner && (
         <button

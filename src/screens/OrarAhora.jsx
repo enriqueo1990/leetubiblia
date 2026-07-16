@@ -92,11 +92,33 @@ export default function OrarAhora() {
   if (error) {
     return (
       <div className="pt-2">
+        <button
+          type="button"
+          onClick={close}
+          aria-label={t('common.close')}
+          className="-ml-2 mb-3 flex h-11 w-11 items-center justify-center text-ink-soft"
+        >
+          <XIcon size={22} />
+        </button>
         <RetryError message={t('oracion.loadError')} onRetry={load} />
       </div>
     )
   }
-  if (deck === null) return <SkeletonDetail />
+  if (deck === null) {
+    return (
+      <div className="pt-2">
+        <button
+          type="button"
+          onClick={close}
+          aria-label={t('common.close')}
+          className="-ml-2 mb-3 flex h-11 w-11 items-center justify-center text-ink-soft"
+        >
+          <XIcon size={22} />
+        </button>
+        <SkeletonDetail />
+      </div>
+    )
+  }
 
   if (deck.length === 0) {
     return (
@@ -149,13 +171,13 @@ export default function OrarAhora() {
 
   if (askGroups) {
     return (
-      <div className="flex min-h-[calc(100dvh-120px)] flex-col pt-2 lg:min-h-0">
+      <div className="flex min-h-[calc(100dvh-56px)] flex-col pt-2 lg:min-h-0">
         <div className="flex items-center justify-between">
           <button
             type="button"
             onClick={close}
             aria-label={t('common.close')}
-            className="-ml-1 flex h-9 w-9 items-center justify-center text-ink-soft"
+            className="-ml-2 flex h-11 w-11 items-center justify-center text-ink-soft"
             style={{ opacity: 0.65 }}
           >
             <XIcon size={22} />
@@ -195,7 +217,7 @@ export default function OrarAhora() {
   // Cierre: una línea quieta, el ✦ de la app. Sin puntajes ni racha.
   if (done) {
     return (
-      <div className="flex min-h-[calc(100dvh-120px)] flex-col pt-2 lg:min-h-0">
+      <div className="flex min-h-[calc(100dvh-56px)] flex-col pt-2 lg:min-h-0">
         <div className="flex flex-1 flex-col items-center justify-center px-4 text-center">
           <span aria-hidden="true" className="text-[28px]" style={{ color: 'var(--accent-ink)' }}>
             ✦
@@ -219,20 +241,22 @@ export default function OrarAhora() {
   }
 
   const p = activeDeck[idx]
+  const isLast = idx === activeDeck.length - 1
+  const actionLabel = isLast ? t('orar.finish') : t('orar.nextPrayer')
   const eyebrow = p.mine ? null : p.group?.name
   const meta = p.mine
     ? t('orar.myRequestMeta', { date: fmtLongD(p.created_at) })
     : t('orar.groupRequestMeta', { name: p.author_name, date: fmtLongD(p.created_at) })
 
   return (
-    <div className="flex min-h-[calc(100dvh-120px)] flex-col pt-2 lg:min-h-0">
+    <div className="flex min-h-[calc(100dvh-56px)] flex-col pt-2 lg:min-h-0">
       {/* Header: cerrar + avance. El mismo lugar en toda la sesión. */}
       <div className="flex items-center justify-between">
         <button
           type="button"
           onClick={close}
           aria-label={t('common.close')}
-          className="-ml-1 flex h-9 w-9 items-center justify-center text-ink-soft"
+          className="-ml-2 flex h-11 w-11 items-center justify-center text-ink-soft"
           style={{ opacity: 0.65 }}
         >
           <XIcon size={22} />
@@ -241,18 +265,11 @@ export default function OrarAhora() {
           {t('orar.progress', { n: idx + 1, total: activeDeck.length })}
         </span>
       </div>
-      <div className="mt-3 flex items-center justify-center gap-1.5" aria-hidden="true">
-        {activeDeck.map((item, i) => (
-          <span
-            key={item.id}
-            className="h-1.5 rounded-full transition-all duration-300"
-            style={{
-              width: i === idx ? 18 : 6,
-              backgroundColor: i <= idx ? 'var(--accent)' : 'var(--surface-alt)',
-              opacity: i === idx ? 1 : 0.75,
-            }}
-          />
-        ))}
+      <div className="mx-auto mt-3 h-1.5 w-28 overflow-hidden rounded-full bg-surface-alt" aria-hidden="true">
+        <span
+          className="block h-full rounded-full bg-accent transition-[width] duration-300"
+          style={{ width: `${((idx + 1) / activeDeck.length) * 100}%` }}
+        />
       </div>
 
       {/* Una nota por pedido: centrada, personal, con el mínimo cromo posible. */}
@@ -315,13 +332,13 @@ export default function OrarAhora() {
               type="button"
               onClick={stillSame}
               disabled={leaving}
-              aria-label={pressedAction === 'primary' ? t('orar.keepPraying') : t('orar.nextPrayer')}
+              aria-label={pressedAction === 'primary' ? t('orar.keepPraying') : actionLabel}
               className={`btn btn-primary flex items-center justify-center ${
                 pressedAction === 'primary' ? 'prayer-action-breathe' : ''
               }`}
             >
               <BreathingLabel done={pressedAction === 'primary'} doneText={t('orar.keepPraying')}>
-                {t('orar.nextPrayer')}
+                {actionLabel}
               </BreathingLabel>
             </button>
           ) : (
@@ -329,13 +346,13 @@ export default function OrarAhora() {
               type="button"
               onClick={pray}
               disabled={leaving}
-              aria-label={pressedAction === 'primary' ? t('orar.keepPraying') : t('orar.nextPrayer')}
+              aria-label={pressedAction === 'primary' ? t('orar.keepPraying') : actionLabel}
               className={`btn btn-primary flex items-center justify-center gap-2 ${
                 pressedAction === 'primary' ? 'prayer-action-breathe' : ''
               }`}
             >
               <BreathingLabel done={pressedAction === 'primary'} doneText={t('orar.keepPraying')}>
-                {t('orar.nextPrayer')}
+                {actionLabel}
               </BreathingLabel>
             </button>
           )}

@@ -26,9 +26,9 @@ export default function GroupPlanCard({
   return (
     <>
       <div className="mt-7 flex items-center justify-between">
-        <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+        <h2 className="text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
           {t('groupDetail.groupPlan')}
-        </p>
+        </h2>
         {isOwner && planInfo && (
           <button
             type="button"

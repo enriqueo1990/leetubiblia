@@ -20,7 +20,7 @@ function PrayerItem({ p, subtitle, onClick, dimmed }) {
     <li>
       <button type="button" onClick={onClick} className="card flex w-full items-center justify-between p-4 text-left">
         <div className="min-w-0 pr-3">
-          <p className={`truncate text-[16px] font-semibold ${dimmed ? 'text-ink-soft' : 'text-ink'}`}>
+          <p className={`line-clamp-2 text-[16px] font-semibold leading-snug ${dimmed ? 'text-ink-soft' : 'text-ink'}`}>
             {p.title}
           </p>
           <p className="text-[13px] text-ink-soft">{subtitle}</p>
@@ -134,7 +134,7 @@ export default function Oracion() {
           aria-label={t('oracion.new')}
           onClick={() => setSheet({ mode: 'create' })}
           className="flex h-[44px] items-center justify-center gap-1 rounded-full px-3 text-on-accent lg:px-4"
-          style={{ backgroundColor: 'var(--accent)', minWidth: 44 }}
+          style={{ backgroundColor: 'var(--accent-action)', minWidth: 44 }}
         >
           <PlusIcon size={20} />
           <span className="hidden text-[15px] font-semibold lg:inline">{t('oracion.new')}</span>
@@ -156,7 +156,7 @@ export default function Oracion() {
         </Link>
       )}
 
-      <Segmented className="mt-5" options={SEGMENTS} value={seg} onChange={setSeg} />
+      <Segmented label={t('oracion.title')} className="mt-5" options={SEGMENTS} value={seg} onChange={setSeg} />
 
       {error && <RetryError message={t('oracion.loadError')} onRetry={load} />}
 
@@ -166,15 +166,15 @@ export default function Oracion() {
           {/* Pedidos propios que conviene volver a sostener o actualizar. */}
           {toReview.length > 0 && (
             <div className="mb-6">
-              <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+              <h2 className="mb-2 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
                 {t('oracion.toReview')}
-              </p>
+              </h2>
               <div className="card divide-y divide-hairline">
                 {toReview.map((p) => {
                   const dias = daysSince(p.last_reviewed_at ?? p.created_at)
                   return (
                     <div key={p.id} className="p-4">
-                      <p className="truncate text-[15px] font-semibold text-ink">{p.title}</p>
+                      <p className="line-clamp-2 text-[15px] font-semibold text-ink">{p.title}</p>
                       <p className="mt-0.5 text-[13px] text-ink-soft">
                         {t('oracion.activeFor', { count: dias })}
                       </p>
@@ -224,9 +224,9 @@ export default function Oracion() {
           </ul>
           {myAnswered.length > 0 && (
             <>
-              <p className="mb-2 mt-6 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+              <h2 className="mb-2 mt-6 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
                 {t('oracion.answeredSection')}
-              </p>
+              </h2>
               <ul className="space-y-3">
                 {myAnswered.map((p) => (
                   <PrayerItem
@@ -269,9 +269,9 @@ export default function Oracion() {
             const answered = items.filter((p) => p.status === 'answered')
             return (
               <div key={name} className="mb-6">
-                <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+                <h2 className="mb-2 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
                   {name}
-                </p>
+                </h2>
                 <ul className="space-y-3">
                   {[...active, ...answered].map((p) => (
                     <PrayerItem

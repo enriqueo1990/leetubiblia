@@ -59,7 +59,7 @@ export default class ErrorBoundary extends Component {
             fontSize: 15,
             fontWeight: 600,
             color: 'var(--on-accent, #FFFFFF)',
-            background: 'var(--accent, #A88B6A)',
+            background: 'var(--accent-action, #765A3D)',
             cursor: 'pointer',
           }}
         >

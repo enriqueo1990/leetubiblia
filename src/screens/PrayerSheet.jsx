@@ -13,13 +13,14 @@ import { inputStyle } from '../components/formStyles.js'
 // Crear / editar pedido de oración (documento maestro §5.5, README pantalla 5).
 // Solo el autor edita/borra (garantizado además por RLS).
 
-function FieldLabel({ children, optional }) {
+function FieldLabel({ children, optional, htmlFor }) {
   const { t } = usePreferences()
+  const Tag = htmlFor ? 'label' : 'p'
   return (
-    <p className="mb-1.5 mt-4 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+    <Tag htmlFor={htmlFor} className="mb-1.5 mt-4 block text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
       {children}
       {optional && <span className="font-normal lowercase"> ({t('common.optional')})</span>}
-    </p>
+    </Tag>
   )
 }
 
@@ -201,10 +202,11 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
         </div>
       )}
 
-      <FieldLabel>
-        {t('prayerSheet.fieldTitle')} <span style={{ color: 'var(--accent-ink)' }}>•</span>
+      <FieldLabel htmlFor="prayer-title">
+        {t('prayerSheet.fieldTitle')} <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>•</span>
       </FieldLabel>
       <input
+        id="prayer-title"
         ref={titleRef}
         type="text"
         placeholder={t('prayerSheet.titlePlaceholder')}
@@ -214,8 +216,9 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
         style={inputStyle}
       />
 
-      <FieldLabel optional>{t('prayerSheet.fieldDescription')}</FieldLabel>
+      <FieldLabel htmlFor="prayer-description" optional>{t('prayerSheet.fieldDescription')}</FieldLabel>
       <textarea
+        id="prayer-description"
         rows={3}
         placeholder={t('prayerSheet.descPlaceholder')}
         value={description}
@@ -225,10 +228,10 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
       />
 
       <FieldLabel>{t('prayerSheet.fieldDuration')}</FieldLabel>
-      <Segmented options={DURATION} value={duration} onChange={setDuration} />
+      <Segmented label={t('prayerSheet.fieldDuration')} options={DURATION} value={duration} onChange={setDuration} />
 
       <FieldLabel>{t('prayerSheet.fieldVisibility')}</FieldLabel>
-      <Segmented options={VIS} value={visibility} onChange={setVisibility} />
+      <Segmented label={t('prayerSheet.fieldVisibility')} options={VIS} value={visibility} onChange={setVisibility} />
 
       {needsGroup && (
         <div className="card mt-3 divide-y divide-hairline">
@@ -257,7 +260,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
       {editing && (
         <>
           <FieldLabel>{t('prayerSheet.fieldStatus')}</FieldLabel>
-          <Segmented options={STATUS} value={status} onChange={setStatus} />
+          <Segmented label={t('prayerSheet.fieldStatus')} options={STATUS} value={status} onChange={setStatus} />
           {answeredDate && (
             <p className="mt-2 text-[13px]" style={{ color: 'var(--accent-ink)' }}>
               ✓ {t('prayerSheet.answeredOn', { date: answeredDate })}
@@ -279,6 +282,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
                   {t('prayerSheet.fewWords')} <span className="font-normal lowercase">({t('common.optional')})</span>
                 </p>
                 <textarea
+                  aria-label={t('prayerSheet.fewWords')}
                   rows={3}
                   value={testimony}
                   onChange={(e) => setTestimony(e.target.value)}
@@ -301,7 +305,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
         </>
       )}
 
-      {error && <p className="mt-3 text-[13px]" style={{ color: 'var(--danger)' }}>{error}</p>}
+      {error && <p className="mt-3 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
 
       {confirmShare && (
         <ConfirmDialog

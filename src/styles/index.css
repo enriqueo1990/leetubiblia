@@ -256,8 +256,11 @@
     @apply w-full rounded-card text-center transition-colors duration-[400ms] ease-soft;
     min-height: 44px;
   }
+  .btn:disabled {
+    cursor: not-allowed;
+  }
   .btn-primary {
-    background-color: var(--accent);
+    background-color: var(--accent-action);
     color: var(--on-accent);
     padding: 17px;
     font-size: 17px;
@@ -279,6 +282,12 @@
     font-size: 17px;
     font-weight: 600;
   }
+  .btn-primary:disabled {
+    background-color: var(--surface-alt);
+    color: var(--text-soft);
+    border: 1px solid var(--control-border);
+    opacity: 1 !important;
+  }
 
   /* Zona de acción sticky (móvil/tablet) — mismo cristal que la tab bar:
      translúcida con blur y pegada justo encima de ella (57px = 56 de ítems +
@@ -293,8 +302,8 @@
     position: sticky;
     bottom: calc(57px + env(safe-area-inset-bottom));
     z-index: 10;
-    margin-inline: -26px;
-    padding: 12px 26px 16px;
+    margin-inline: -24px;
+    padding: 12px 24px 16px;
     background-color: var(--tabbar-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);

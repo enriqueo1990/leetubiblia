@@ -8,7 +8,7 @@ import Switch from './Switch.jsx'
 
 const inputStyle = {
   backgroundColor: 'var(--surface)',
-  border: '1px solid var(--hairline)',
+  border: '1px solid var(--control-border)',
   color: 'var(--text-primary)',
 }
 
@@ -42,8 +42,9 @@ export default function ResumeFromDay({ durationDays, day, onChange }) {
 
       {on && (
         <div className="mt-4">
-          <label className="text-[15px] text-ink-soft">{t('ajustes.section.queDia')}</label>
+          <label htmlFor="resume-day" className="text-[15px] text-ink-soft">{t('ajustes.section.queDia')}</label>
           <input
+            id="resume-day"
             type="text"
             inputMode="numeric"
             autoFocus

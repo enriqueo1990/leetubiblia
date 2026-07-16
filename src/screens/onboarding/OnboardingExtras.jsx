@@ -46,6 +46,7 @@ export default function OnboardingExtras({ onDone }) {
   return (
     <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col px-7 py-10">
       <div className="flex-1">
+        <p className="mb-2 text-[13px] font-medium text-accent-ink">{t('onboarding.extras.step')}</p>
         <h1 className="text-[24px] font-bold tracking-tight text-ink">{t('onboarding.extras.title')}</h1>
         {/* Fuera de iOS solo se ofrece el recordatorio: el subtítulo cuenta una
             cosa o dos según lo que de verdad se muestra. */}
@@ -80,7 +81,7 @@ export default function OnboardingExtras({ onDone }) {
                 <li key={i} className="flex items-center gap-3">
                   <span
                     className="flex h-6 w-6 items-center justify-center rounded-full text-[13px] font-semibold text-on-accent"
-                    style={{ backgroundColor: 'var(--accent)' }}
+                    style={{ backgroundColor: 'var(--accent-action)' }}
                   >
                     {i + 1}
                   </span>

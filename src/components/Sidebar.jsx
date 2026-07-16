@@ -1,6 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import { NAV_ITEMS, matchesExtra } from './nav.js'
 import { usePreferences } from '../lib/preferences.jsx'
+import { GearIcon } from './icons.jsx'
 
 // Sidebar de navegación (desktop ≥1024px) — reemplaza la tab bar inferior.
 // ~250px, superficie con borde derecho hairline, marca + nav vertical.
@@ -29,7 +30,7 @@ export default function Sidebar() {
                 <NavLink
                   to={to}
                   end={end}
-                  className="flex items-center gap-3 rounded-[10px] px-3 py-2.5 transition-colors duration-300 ease-soft"
+                  className="flex min-h-11 items-center gap-3 rounded-[10px] px-3 py-2.5 transition-colors duration-300 ease-soft"
                   style={({ isActive }) => ({
                     color: isActive || extra ? 'var(--accent-ink)' : 'var(--text-soft)',
                     backgroundColor: isActive || extra ? 'var(--accent-tint-nav)' : 'transparent',
@@ -51,6 +52,25 @@ export default function Sidebar() {
             )
           })}
         </ul>
+      </nav>
+      <nav className="mt-auto border-t border-hairline pt-3">
+        <NavLink
+          to="/ajustes"
+          className="flex min-h-11 items-center gap-3 rounded-[10px] px-3 py-2.5 transition-colors duration-300 ease-soft"
+          style={({ isActive }) => ({
+            color: isActive ? 'var(--accent-ink)' : 'var(--text-soft)',
+            backgroundColor: isActive ? 'var(--accent-tint-nav)' : 'transparent',
+          })}
+        >
+          {({ isActive }) => (
+            <>
+              <GearIcon size={22} />
+              <span className="text-[15px]" style={{ fontWeight: isActive ? 600 : 500 }}>
+                {t('nav.ajustes')}
+              </span>
+            </>
+          )}
+        </NavLink>
       </nav>
     </aside>
   )

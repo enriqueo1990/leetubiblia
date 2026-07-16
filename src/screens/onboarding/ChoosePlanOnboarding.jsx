@@ -18,6 +18,7 @@ export default function ChoosePlanOnboarding() {
   const [selected, setSelected] = useState(null)
   const [resumeDay, setResumeDay] = useState(null)
   const [saving, setSaving] = useState(false)
+  const [showAll, setShowAll] = useState(false)
   const [error, setError] = useState(null) // error al activar el plan
   const [loadError, setLoadError] = useState(false) // error al cargar el catálogo
 
@@ -27,7 +28,6 @@ export default function ChoosePlanOnboarding() {
     getPlans()
       .then((p) => {
         setPlans(p)
-        if (p.length) setSelected(p[0].id)
       })
       .catch(() => setLoadError(true))
   }, [])
@@ -38,6 +38,9 @@ export default function ChoosePlanOnboarding() {
 
   // Al cambiar de plan, reiniciar el "día en que voy" (la duración cambia).
   const selectedPlan = plans?.find((p) => p.id === selected) ?? null
+  const recommendedIds = [21, 22, 3]
+  const recommended = recommendedIds.map((id) => plans?.find((p) => p.id === id)).filter(Boolean)
+  const visiblePlans = showAll || recommended.length < 3 ? plans : recommended
 
   function pickPlan(id) {
     setSelected(id)
@@ -70,13 +73,14 @@ export default function ChoosePlanOnboarding() {
 
   return (
     <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col px-7 py-10">
+      <p className="text-[13px] font-medium text-accent-ink">{t('onboarding.choosePlan.step')}</p>
       <h1 className="text-[26px] font-bold tracking-tight text-ink">
         {t('onboarding.choosePlan.title')}
       </h1>
       <p className="mt-2 text-[16px] text-ink-soft">{t('planes.subtitle')}</p>
 
       <div className="mt-6 flex-1 space-y-3">
-        {error && <p className="text-[15px]" style={{ color: 'var(--danger)' }}>{error}</p>}
+        {error && <p className="text-[15px]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
         {loadError && (
           <RetryError message={t('planes.loadError')} onRetry={loadPlans} />
         )}
@@ -84,13 +88,14 @@ export default function ChoosePlanOnboarding() {
           <p className="text-[15px] text-ink-soft">{t('onboarding.choosePlan.loadingPlans')}</p>
         )}
 
-        {plans?.map((p) => {
+        {visiblePlans?.map((p) => {
           const active = p.id === selected
           return (
             <button
               key={p.id}
               type="button"
               onClick={() => pickPlan(p.id)}
+              aria-pressed={active}
               className={`card w-full p-4 text-left transition-colors duration-200${active ? ' card-active' : ''}`}
             >
               <div className="flex items-center justify-between">
@@ -102,9 +107,19 @@ export default function ChoosePlanOnboarding() {
               {p.description && (
                 <p className="mt-1 text-[15px] text-ink-soft">{p.description}</p>
               )}
+              {!showAll && recommendedIds.includes(p.id) && (
+                <p className="mt-2 text-[13px] font-medium text-accent-ink">
+                  {t('onboarding.choosePlan.recommended')}
+                </p>
+              )}
             </button>
           )
         })}
+        {plans && !showAll && recommended.length >= 3 && (
+          <button type="button" onClick={() => setShowAll(true)} className="min-h-11 w-full text-[15px] font-medium text-accent-ink">
+            {t('onboarding.choosePlan.showAll')}
+          </button>
+        )}
       </div>
 
       {selectedPlan && (

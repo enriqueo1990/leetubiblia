@@ -12,9 +12,9 @@ export default function GroupMembers({ members, isOwner, iShare, readMap, onKick
 
   return (
     <>
-      <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+      <h2 className="mt-7 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
         {t('groupDetail.members')} · {members.length}
-      </p>
+      </h2>
       <ul className="mt-3 card divide-y divide-hairline">
         {members.map((m) => {
           const isMe = m.user_id === user?.id

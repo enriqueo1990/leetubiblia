@@ -75,11 +75,13 @@ export default function Progreso() {
       ) : (
         <>
           {r.offline && (
-            <p className="mt-3 text-[12px] text-ink-soft">
+            <p className="mt-3 text-[13px] text-ink-soft">
               {t('progreso.offline')}
             </p>
           )}
 
+          <div className="lg:grid lg:grid-cols-[minmax(280px,0.8fr)_minmax(0,1.2fr)] lg:items-start lg:gap-8">
+          <div>
           {/* Stat cards */}
           <div className="mt-5 flex gap-3">
             <div className="card flex-1 p-4">
@@ -99,10 +101,13 @@ export default function Progreso() {
               </p>
             </div>
           </div>
+          </div>
 
-          <p className="mt-7 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+          <div>
+
+          <h2 className="mt-7 text-[13px] font-semibold uppercase tracking-wide text-ink-soft lg:mt-5">
             {t('progreso.last5weeks')}
-          </p>
+          </h2>
 
           {/* Header de días */}
           <div className="mt-3 grid grid-cols-7 gap-1.5">
@@ -140,9 +145,11 @@ export default function Progreso() {
               )
             })}
           </div>
-          <p className="mt-2.5 text-[12px] text-ink-soft">
-            {t('progreso.heatmapHint')}
-          </p>
+          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-[13px] text-ink-soft" aria-label={t('progreso.heatmapHint')}>
+            <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm bg-accent" />{t('progreso.state.read')}</span>
+            <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-control-border" />{t('progreso.state.unread')}</span>
+            <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-dashed border-control-border opacity-50" />{t('progreso.state.future')}</span>
+          </div>
 
           {/* Acceso al recorrido (logros + números acumulados) */}
           <Link to="/recorrido" className="card mt-6 flex items-center justify-between px-4 py-3.5">
@@ -154,6 +161,8 @@ export default function Progreso() {
               ›
             </span>
           </Link>
+          </div>
+          </div>
 
           {/* Nota neutra de atraso */}
           {r.behind > 0 && (

@@ -48,7 +48,7 @@ export default function TodayExtras() {
           type="button"
           onClick={dismissHint}
           aria-label={t('materialsToday.hintDismiss')}
-          className="ml-auto flex h-9 w-9 shrink-0 items-center justify-center text-[15px] leading-none text-ink-soft"
+          className="ml-auto flex h-11 w-11 shrink-0 items-center justify-center text-[15px] leading-none text-ink-soft"
           style={{ opacity: 0.5 }}
         >
           ✕

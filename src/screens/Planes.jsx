@@ -34,6 +34,39 @@ export default function Planes() {
   }, [])
 
   const activeId = profile?.active_plan_id ?? null
+  const activePlan = plans?.find((p) => p.id === activeId) ?? null
+  const availablePlans = plans?.filter((p) => p.id !== activeId) ?? []
+  const sections = [
+    { key: 'short', label: t('planes.category.short'), plans: availablePlans.filter((p) => p.duration_days <= 31) },
+    { key: 'medium', label: t('planes.category.medium'), plans: availablePlans.filter((p) => p.duration_days > 31 && p.duration_days < 300) },
+    { key: 'long', label: t('planes.category.long'), plans: availablePlans.filter((p) => p.duration_days >= 300) },
+  ]
+
+  function planCard(p, active = false) {
+    return (
+      <Link
+        key={p.id}
+        to={`/planes/${p.id}`}
+        className={`card flex w-full items-center gap-3 p-4 text-left transition-colors duration-200${active ? ' card-active' : ''}`}
+      >
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[18px] font-semibold text-ink">{planName(t, p)}</span>
+            {active && (
+              <span className="rounded-pill px-2 py-0.5 text-[12px] font-medium text-accent-ink bg-accent-tint">
+                {t('planes.active')}
+              </span>
+            )}
+          </div>
+          {p.description && <p className="mt-1 text-[15px] text-ink-soft">{planDescription(t, p)}</p>}
+          <p className="mt-1 text-[13px] text-ink-soft">{durationLabel(p.duration_days)}</p>
+        </div>
+        <span className="text-ink-soft" style={{ opacity: 0.5 }}>
+          <ChevronRight size={20} />
+        </span>
+      </Link>
+    )
+  }
 
   return (
     <div className="pt-2">
@@ -44,35 +77,22 @@ export default function Planes() {
       <div className="mt-5 space-y-3">
         {plans === null && !error && <SkeletonCards count={3} />}
         {error && <RetryError message={t('planes.loadError')} onRetry={load} />}
-        {plans?.map((p) => {
-          const active = p.id === activeId
-          return (
-            <Link
-              key={p.id}
-              to={`/planes/${p.id}`}
-              className={`card flex w-full items-center gap-3 p-4 text-left transition-colors duration-200${active ? ' card-active' : ''}`}
-            >
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-[18px] font-semibold text-ink">{planName(t, p)}</span>
-                  {active && (
-                    <span
-                      className="rounded-pill px-2 py-0.5 text-[12px] font-medium"
-                      style={{ color: 'var(--accent-ink)', backgroundColor: 'var(--accent-tint)' }}
-                    >
-                      {t('planes.active')}
-                    </span>
-                  )}
-                </div>
-                {p.description && <p className="mt-1 text-[15px] text-ink-soft">{planDescription(t, p)}</p>}
-                <p className="mt-1 text-[13px] text-ink-soft">{durationLabel(p.duration_days)}</p>
-              </div>
-              <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-                <ChevronRight size={20} />
-              </span>
-            </Link>
-          )
-        })}
+        {activePlan && (
+          <section>
+            <h2 className="mb-2 px-1 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
+              {t('planes.yourPlan')}
+            </h2>
+            {planCard(activePlan, true)}
+          </section>
+        )}
+        {sections.filter((section) => section.plans.length > 0).map((section) => (
+          <section key={section.key} className="pt-3">
+            <h2 className="mb-2 px-1 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
+              {section.label}
+            </h2>
+            <div className="space-y-3">{section.plans.map((p) => planCard(p))}</div>
+          </section>
+        ))}
       </div>
     </div>
   )

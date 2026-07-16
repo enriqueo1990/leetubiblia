@@ -204,7 +204,7 @@ export function Wordmark({ size = 'sm' }) {
   return (
     <span className="inline-flex items-center gap-3">
       <span
-        className={`inline-flex items-center justify-center rounded-[12px] bg-accent ${
+        className={`inline-flex items-center justify-center rounded-[12px] bg-accent-action ${
           s ? 'h-14 w-14' : 'h-9 w-9'
         }`}
         aria-hidden="true"
