@@ -39,7 +39,7 @@ const CLUSTERS = [
   {
     label: 'Tu lectura',
     items: [
-      { icon: <BookIcon size={22} />, name: '8 planes de lectura', desc: 'M’Cheyne, Cronológico, Proverbios y más. Uno a la vez, a tu ritmo.' },
+      { icon: <BookIcon size={22} />, name: '13 planes de lectura', desc: 'M’Cheyne, Cronológico, Marcos, Adviento y más. Uno a la vez, a tu ritmo.' },
       { icon: <ChartIcon size={22} />, name: 'Racha sin culpa', desc: 'Progreso visual y mapa de tus semanas. Sin presión si te atrasás.' },
       { icon: <PencilIcon size={22} />, name: 'Diario “Mi camino”', desc: 'Una línea de reflexión por día. Privado, solo tuyo.' },
       { icon: <BellIcon size={22} />, name: 'Recordatorio diario', desc: 'Una notificación a tu hora, para no perder el ritmo.' },

@@ -14,6 +14,7 @@
 // ---------------------------------------------------------------------------
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import webpush from 'npm:web-push@3.6.7'
+import { requireServiceRole } from '../_shared/require-service-role.ts'
 
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
 const SERVICE_ROLE = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
@@ -31,6 +32,9 @@ function json(obj: unknown, status = 200) {
 }
 
 Deno.serve(async (req) => {
+  const unauthorized = requireServiceRole(req, SERVICE_ROLE)
+  if (unauthorized) return unauthorized
+
   const supabase = createClient(SUPABASE_URL, SERVICE_ROLE)
 
   let body: { record?: Record<string, unknown> } = {}
@@ -39,7 +43,17 @@ Deno.serve(async (req) => {
   } catch {
     body = {}
   }
-  const rec = body.record ?? (body as Record<string, unknown>)
+  const submitted = body.record ?? (body as Record<string, unknown>)
+  const prayerId = submitted?.id as number | undefined
+  if (!prayerId) return json({ skipped: true })
+
+  // El body solo trae la identidad de la fila. El resto se vuelve a leer de la
+  // base para no confiar en author/group/visibility aportados por HTTP.
+  const { data: rec } = await supabase
+    .from('prayer_requests')
+    .select('id, user_id, shared_group_id, visibility')
+    .eq('id', prayerId)
+    .maybeSingle()
   const authorId = rec?.user_id as string | undefined
   const groupId = rec?.shared_group_id as number | undefined
 
@@ -83,7 +97,7 @@ Deno.serve(async (req) => {
     title: 'Nuevo pedido de oración',
     body: `${authorName} pidió oración en ${groupName}.`,
     url: '/oracion',
-    tag: `prayer-${rec.id}`,
+    tag: `prayer-${prayerId}`,
   })
 
   let sent = 0

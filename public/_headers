@@ -1,0 +1,19 @@
+# El HTML y el registro del service worker siempre deben revalidarse. Si el CDN
+# conserva index.html o sw.js, el navegador puede seguir apuntando a bundles de
+# una versión anterior aunque los assets tengan hash.
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+  Netlify-CDN-Cache-Control: public, max-age=0, must-revalidate
+
+/*/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+  Netlify-CDN-Cache-Control: public, max-age=0, must-revalidate
+
+/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+  Netlify-CDN-Cache-Control: no-cache, no-store, must-revalidate
+  Service-Worker-Allowed: /
+
+/registerSW.js
+  Cache-Control: no-cache, no-store, must-revalidate
+  Netlify-CDN-Cache-Control: no-cache, no-store, must-revalidate

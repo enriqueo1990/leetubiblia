@@ -1,13 +1,31 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import App from './App.jsx'
+import Root from './Root.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
-import { AuthProvider } from './lib/auth.jsx'
 import { PreferencesProvider } from './lib/preferences.jsx'
 import './styles/index.css'
-import { flushDiag, recordAppOpen } from './lib/diag.js'
-import { recordPresence } from './lib/presence.js'
+
+// AutoUpdate descarga la nueva versión, pero una pestaña abierta puede seguir
+// controlada por el worker anterior. Al detectar un cambio de controlador se
+// recarga solo si ya había un worker activo; la primera instalación no entra en
+// un bucle de recargas.
+function keepServiceWorkerFresh() {
+  if (!('serviceWorker' in navigator)) return
+  const hadController = Boolean(navigator.serviceWorker.controller)
+  navigator.serviceWorker.addEventListener(
+    'controllerchange',
+    () => {
+      if (!hadController || window.__ltbSwReloaded) return
+      window.__ltbSwReloaded = true
+      window.location.reload()
+    },
+    { once: true }
+  )
+  navigator.serviceWorker.ready
+    .then((registration) => registration.update())
+    .catch(() => {})
+}
 
 // PreferencesProvider va por fuera de Auth: aplica tema/acento al instante y
 // también sin sesión (onboarding). La sincronización con profiles ocurre dentro
@@ -17,9 +35,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <ErrorBoundary>
         <PreferencesProvider>
-          <AuthProvider>
-            <App />
-          </AuthProvider>
+          <Root />
         </PreferencesProvider>
       </ErrorBoundary>
     </BrowserRouter>
@@ -34,14 +50,8 @@ try {
   /* no-op */
 }
 
-// Telemetría temporal: vuelca a Supabase los breadcrumbs de arranque acumulados
-// (watchdog, reintento de perfil, getSession lento). Diferido para no competir
-// con la carga inicial. Ver src/lib/diag.js — borrar cuando se confirme la causa.
-// Registra la apertura del día antes del flush para que viaje en el mismo lote.
-recordAppOpen()
-
-setTimeout(() => {
-  flushDiag()
-  // Captura país + última actividad para el panel /admin (best-effort, diferido).
-  recordPresence()
-}, 4000)
+if (document.readyState === 'complete') {
+  keepServiceWorkerFresh()
+} else {
+  window.addEventListener('load', keepServiceWorkerFresh, { once: true })
+}

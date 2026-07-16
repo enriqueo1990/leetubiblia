@@ -13,6 +13,7 @@
 // ---------------------------------------------------------------------------
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import webpush from 'npm:web-push@3.6.7'
+import { requireServiceRole } from '../_shared/require-service-role.ts'
 
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
 const SERVICE_ROLE = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
@@ -48,7 +49,10 @@ function toMinutes(t: string) {
   return h * 60 + m
 }
 
-Deno.serve(async () => {
+Deno.serve(async (req) => {
+  const unauthorized = requireServiceRole(req, SERVICE_ROLE)
+  if (unauthorized) return unauthorized
+
   const supabase = createClient(SUPABASE_URL, SERVICE_ROLE)
   const now = new Date()
 

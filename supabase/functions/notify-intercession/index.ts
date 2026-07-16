@@ -16,6 +16,7 @@
 // ---------------------------------------------------------------------------
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import webpush from 'npm:web-push@3.6.7'
+import { requireServiceRole } from '../_shared/require-service-role.ts'
 
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
 const SERVICE_ROLE = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
@@ -33,6 +34,9 @@ function json(obj: unknown, status = 200) {
 }
 
 Deno.serve(async (req) => {
+  const unauthorized = requireServiceRole(req, SERVICE_ROLE)
+  if (unauthorized) return unauthorized
+
   const supabase = createClient(SUPABASE_URL, SERVICE_ROLE)
 
   let body: { record?: Record<string, unknown> } = {}
@@ -45,6 +49,16 @@ Deno.serve(async (req) => {
   const prayerId = rec?.prayer_id as number | undefined
   const intercessorId = rec?.user_id as string | undefined
   if (!prayerId || !intercessorId) return json({ skipped: true })
+
+  // Confirmar que la intercesión recibida existe realmente. El trigger manda la
+  // fila recién creada; una llamada HTTP no puede inventar otra identidad.
+  const { data: intercession } = await supabase
+    .from('prayer_intercessions')
+    .select('id')
+    .eq('prayer_id', prayerId)
+    .eq('user_id', intercessorId)
+    .maybeSingle()
+  if (!intercession) return json({ skipped: true })
 
   // El pedido: autor, grupo, visibilidad y estado.
   const { data: prayer } = await supabase

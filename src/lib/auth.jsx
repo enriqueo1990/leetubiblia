@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react'
 import { supabase } from './supabase.js'
 import { recordDiag } from './diag.js'
+import { unsubscribeFromPush } from './push.js'
+import { clearOfflineData } from './offline.js'
 
 // Contexto de autenticación. Expone la sesión, el perfil del usuario y las
 // acciones de auth (magic link, sign out). El onboarding decide qué pantalla
@@ -195,6 +197,9 @@ export function AuthProvider({ children }) {
 
   const signOut = useCallback(async () => {
     const uid = session?.user?.id
+    // Desvincular el endpoint mientras la sesión todavía autoriza su DELETE.
+    // Así este dispositivo no recibe pedidos privados después de salir.
+    if (uid) await unsubscribeFromPush(uid)
     await supabase.auth.signOut()
     if (uid) {
       try {
@@ -202,6 +207,7 @@ export function AuthProvider({ children }) {
       } catch {
         /* no-op */
       }
+      clearOfflineData(uid)
     }
     setProfile(null)
     setProfileError(false)

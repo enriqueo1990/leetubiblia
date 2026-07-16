@@ -14,12 +14,17 @@ Lee Tu Biblia es una PWA (aplicación web instalable) que funciona con o sin con
 - **Grupos de discipulado**: grupos cerrados y privados; leen al mismo ritmo, comparten pedidos y testimonios, y el líder ve el pulso de lectura de los últimos siete días de cada miembro.
 - **Personalización**: modo claro/oscuro automático y doce colores de acento (seis sepia y seis pastel).
 
-## Planes de lectura (ocho, uno activo a la vez)
+## Planes de lectura (trece, uno activo a la vez)
 
 - **M'Cheyne** — toda la Biblia en un año, cuatro pasajes por día (365 días).
 - **Antiguo y Nuevo Testamento** — un pasaje de cada uno cada día (365 días).
 - **De Génesis a Apocalipsis** — toda la Biblia en orden, de principio a fin (365 días).
 - **Cronológico** — la Biblia en el orden en que ocurrieron los hechos (365 días).
+- **Marcos en 16 días** — un capítulo por día para empezar a leer (16 días).
+- **Primeros pasos con Jesús** — lo esencial de la fe para quien recién empieza (21 días).
+- **Conocer a Jesús** — los cuatro Evangelios en orden (45 días).
+- **Semana Santa** — de Ramos a la Resurrección (8 días).
+- **Adviento** — de la promesa al pesebre, camino a Navidad (25 días).
 - **Nuevo Testamento en 24 semanas** — el Nuevo Testamento completo en seis meses (168 días).
 - **Proverbios en 31 días** — un capítulo por día del mes (31 días).
 - **40 días con Dios** — lecturas breves para crecer en la fe (40 días).
@@ -37,7 +42,7 @@ Personas que quieren leer su Biblia con constancia, y líderes de grupos de disc
 
 - [Qué es la app](https://leetubiblia.com/info): la puerta —presentación corta, funcionalidades y sección de discipulado—.
 - [Para líderes de grupos de discipulado](https://leetubiblia.com/lideres): por qué y para qué usar la app con un grupo, con capturas reales —paso a paso: un plan común (como plan principal o lectura adicional), la lectura en el Hoy de cada uno, el pulso del grupo, la oración compartida y las vistas del líder—.
-- [Guía completa](https://leetubiblia.com/ayuda): manual/referencia detallado, función por función, con los ocho planes y los materiales.
+- [Guía completa](https://leetubiblia.com/ayuda): manual/referencia detallado, función por función, con los trece planes y los materiales.
 - [Privacidad](https://leetubiblia.com/privacidad): qué datos se guardan y para qué, privado por defecto, opt-in en grupos, sin publicidad ni venta de datos, y borrado total de la cuenta desde la app.
 - [Abrir la app](https://leetubiblia.com/): entrar y empezar a leer.
 

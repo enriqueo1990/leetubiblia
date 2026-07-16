@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test": "node --test tests/security-regressions.test.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.108.2",

@@ -92,16 +92,20 @@ export async function ensureSubscribed(userId) {
 export async function unsubscribeFromPush(userId) {
   if (!isPushSupported()) return
   try {
-    const reg = await navigator.serviceWorker.ready
+    const reg = await Promise.race([
+      navigator.serviceWorker.ready,
+      new Promise((_, reject) => setTimeout(() => reject(new Error('service worker timeout')), 2000)),
+    ])
     const sub = await reg.pushManager.getSubscription()
     if (sub) {
       const { endpoint } = sub
-      await sub.unsubscribe()
+      // La fila debe borrarse mientras la sesión/RLS del usuario sigue activa.
       await supabase
         .from('push_subscriptions')
         .delete()
         .eq('user_id', userId)
         .eq('endpoint', endpoint)
+      await sub.unsubscribe()
     }
   } catch {
     /* best-effort */

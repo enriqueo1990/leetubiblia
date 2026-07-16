@@ -208,17 +208,18 @@ export function useReading() {
     async (dayNumber, value) => {
       if (!user || !planId) return
       const shouldComplete = value ?? !completedMap.has(dayNumber)
+      const completedOn = todayLocalISO()
       setReadWriteError(false)
 
       // Optimista: la fecha de marcado es hoy (local) → cuenta para la racha real.
       const next = new Map(completedMap)
-      if (shouldComplete) next.set(dayNumber, todayLocalISO())
+      if (shouldComplete) next.set(dayNumber, completedOn)
       else next.delete(dayNumber)
       setCompletedMap(next)
       persistSnapshot(plan, todayRefs, next, anchorDay)
 
       try {
-        if (shouldComplete) await markRead(user.id, planId, dayNumber)
+        if (shouldComplete) await markRead(user.id, planId, dayNumber, completedOn)
         else await unmarkRead(user.id, planId, dayNumber)
       } catch (error) {
         if (error?.isNetworkError) {
@@ -226,6 +227,7 @@ export function useReading() {
             type: shouldComplete ? 'mark' : 'unmark',
             planId,
             dayNumber,
+            completedOn,
           })
           setOffline(true)
           return

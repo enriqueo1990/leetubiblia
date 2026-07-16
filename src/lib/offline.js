@@ -47,17 +47,21 @@ export function hasPending(userId) {
 }
 
 // Reproduce la cola contra Supabase. Se detiene ante el primer fallo de red para
-// reintentar luego. Devuelve true si quedó vacía.
+// reintentar luego. Los errores permanentes se descartan para que una operación
+// inválida no bloquee para siempre las lecturas posteriores.
 export async function flushQueue(userId) {
   if (!isOnline()) return false
   let ops = readQueue(userId)
   while (ops.length) {
     const op = ops[0]
     try {
-      if (op.type === 'mark') await markRead(userId, op.planId, op.dayNumber)
+      if (op.type === 'mark') await markRead(userId, op.planId, op.dayNumber, op.completedOn)
       else await unmarkRead(userId, op.planId, op.dayNumber)
-    } catch {
-      return false // sin red o error transitorio: reintentar después
+    } catch (error) {
+      if (error?.isNetworkError) return false // reintentar cuando vuelva la red
+      ops = ops.slice(1)
+      writeQueue(userId, ops)
+      continue
     }
     ops = ops.slice(1)
     writeQueue(userId, ops)
@@ -79,6 +83,19 @@ export function getCachedReading(userId) {
     return JSON.parse(localStorage.getItem(snapKey(userId)) || 'null')
   } catch {
     return null
+  }
+}
+
+// Cerrar sesión en un dispositivo compartido no debe dejar perfil, lecturas ni
+// mutaciones pendientes disponibles para la próxima persona.
+export function clearOfflineData(userId) {
+  if (!userId) return
+  try {
+    localStorage.removeItem(queueKey(userId))
+    localStorage.removeItem(snapKey(userId))
+    localStorage.removeItem(behindKey(userId))
+  } catch {
+    /* storage inaccesible: no bloquear el cierre de sesión */
   }
 }
 

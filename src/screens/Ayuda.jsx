@@ -29,7 +29,7 @@ import {
 
 // Página pública /ayuda — la REFERENCIA de la app (ver App.jsx, fuera del Gate).
 // No es captación: es el manual al que se entra desde Ajustes → Guía de la app,
-// pestaña por pestaña, con los 8 planes y los materiales. /info engancha en frío
+// pestaña por pestaña, con los 13 planes y los materiales. /info engancha en frío
 // y es corta; /ayuda es exhaustiva. Mismo canon que toda página pública: un solo
 // acento sepia, la MISMA sans del sistema, ancho de lectura acotado, aire en vez
 // de tarjetas flotantes (design-canon). El texto bíblico NUNCA se muestra: la app
@@ -44,14 +44,19 @@ const HOY = [
   { icon: <PencilIcon size={22} />, name: 'Mi camino', desc: 'Un diario para anotar lo que Dios te va hablando en la lectura. Privado, solo tuyo.' },
 ]
 
-// Los 8 planes sembrados (supabase/migrations, reading_plans). Uno activo a la vez.
+// Los 13 planes sembrados (supabase/migrations, reading_plans). Uno activo a la vez.
 const PLANES = [
   { name: 'M’Cheyne', desc: 'Toda la Biblia en un año, cuatro pasajes por día.', dur: '365 días' },
+  { name: 'Cronológico', desc: 'La Biblia en el orden en que ocurrieron los hechos.', dur: '365 días' },
+  { name: 'Marcos en 16 días', desc: 'El Evangelio de Marcos, un capítulo por día, para empezar a leer.', dur: '16 días' },
+  { name: 'Primeros pasos con Jesús', desc: 'Lo esencial de la fe para quien recién empieza.', dur: '21 días' },
+  { name: 'Conocer a Jesús', desc: 'Los cuatro Evangelios en orden, dos capítulos por día.', dur: '45 días' },
+  { name: 'Proverbios en 31 días', desc: 'Un capítulo de Proverbios por día del mes.', dur: '31 días' },
+  { name: 'Semana Santa', desc: 'De Ramos a la Resurrección, siguiendo la última semana de Jesús.', dur: '8 días' },
+  { name: 'Adviento', desc: 'De la promesa al pesebre, camino a Navidad.', dur: '25 días' },
   { name: 'Antiguo y Nuevo Testamento', desc: 'Un pasaje de cada uno cada día, toda la Biblia en un año.', dur: '365 días' },
   { name: 'De Génesis a Apocalipsis', desc: 'Toda la Biblia en orden, de principio a fin.', dur: '365 días' },
-  { name: 'Cronológico', desc: 'La Biblia en el orden en que ocurrieron los hechos.', dur: '365 días' },
   { name: 'Nuevo Testamento en 24 semanas', desc: 'El Nuevo Testamento completo, a buen ritmo.', dur: '168 días' },
-  { name: 'Proverbios en 31 días', desc: 'Un capítulo de Proverbios por día del mes.', dur: '31 días' },
   { name: '40 días con Dios', desc: 'Lecturas breves para crecer en la fe.', dur: '40 días' },
   { name: 'Oficio Diario (Libro de Oración Común)', desc: 'Leccionario litúrgico de dos años: salmos y lecturas cada día.', dur: '2 años' },
 ]
@@ -156,7 +161,7 @@ export default function Ayuda() {
             Guía completa de la app
           </h1>
           <p className="mt-3 max-w-[600px] text-[16.5px] leading-relaxed text-ink-soft">
-            Cada función, pestaña por pestaña: tu lectura y los 8 planes, la
+            Cada función, pestaña por pestaña: tu lectura y los 13 planes, la
             oración, los grupos de discipulado y los ajustes. La Palabra la leés
             en tu Biblia de papel; la app acompaña el hábito.
           </p>
@@ -201,14 +206,14 @@ export default function Ayuda() {
           </div>
         </div>
 
-        {/* Los 8 planes. */}
+        {/* Los 13 planes. */}
         <div className="mt-16 border-t border-hairline pt-12">
           <Eyebrow>Planes de lectura</Eyebrow>
           <h3 className="mt-4 text-[22px] font-bold tracking-[-0.02em] text-ink sm:text-[25px]">
-            Ocho planes, uno para cada temporada
+            Trece planes, uno para cada temporada
           </h3>
           <p className="mt-4 max-w-[520px] text-[16px] leading-relaxed text-ink-soft">
-            Desde 31 días hasta dos años. Un plan activo a la vez, para no dispersarte.
+            Desde 8 días hasta dos años. Un plan activo a la vez, para no dispersarte.
           </p>
           <ul className="mt-8 flex flex-col">
             {PLANES.map((p) => (

@@ -77,8 +77,8 @@ export function addDaysISO(iso, n) {
   return new Date(t).toISOString().slice(0, 10)
 }
 
-// Fecha LOCAL (YYYY-MM-DD) de un timestamp ISO. El completed_at se guarda en UTC;
-// para la racha por días reales hay que llevarlo a la fecha local del usuario.
+// Compatibilidad para timestamps antiguos. Las lecturas nuevas usan completed_on,
+// que conserva el día local en que el usuario las marcó.
 export function localDateISO(ts) {
   const d = new Date(ts)
   const m = String(d.getMonth() + 1).padStart(2, '0')
@@ -128,19 +128,19 @@ export async function getPlanDay(planId, dayNumber) {
 export async function getCompletionMap(userId, planId) {
   const { data, error } = await supabase
     .from('reading_progress')
-    .select('day_number, completed_at')
+    .select('day_number, completed_on')
     .eq('user_id', userId)
     .eq('plan_id', planId)
   if (error) throw dbError(error)
-  return new Map(data.map((r) => [r.day_number, localDateISO(r.completed_at)]))
+  return new Map(data.map((r) => [r.day_number, r.completed_on]))
 }
 
 // Marca un día como leído. Idempotente (UNIQUE user+plan+day; ignora duplicados).
-export async function markRead(userId, planId, dayNumber) {
+export async function markRead(userId, planId, dayNumber, completedOn = todayLocalISO()) {
   const { error } = await supabase
     .from('reading_progress')
     .upsert(
-      { user_id: userId, plan_id: planId, day_number: dayNumber },
+      { user_id: userId, plan_id: planId, day_number: dayNumber, completed_on: completedOn },
       { onConflict: 'user_id,plan_id,day_number', ignoreDuplicates: true }
     )
   if (error) throw dbError(error)
@@ -152,8 +152,9 @@ export async function markRead(userId, planId, dayNumber) {
 export async function markDaysRead(userId, planId, hasta) {
   if (hasta < 1) return
   const rows = []
+  const completedOn = todayLocalISO()
   for (let d = 1; d <= hasta; d++) {
-    rows.push({ user_id: userId, plan_id: planId, day_number: d })
+    rows.push({ user_id: userId, plan_id: planId, day_number: d, completed_on: completedOn })
   }
   const { error } = await supabase
     .from('reading_progress')
@@ -199,7 +200,8 @@ export function firstUnreadDay(completedSet, todayDay) {
 
 // Racha por días REALES (documento maestro §5.2): cantidad de fechas de calendario
 // consecutivas con al menos una lectura marcada, terminando hoy o ayer (si hoy aún
-// no leíste, la racha sigue viva). Se basa en completed_at, no en day_number, así
+// no leíste, la racha sigue viva). Se basa en la fecha local guardada, no en
+// day_number, así
 // leer varios días de una sentada —o el backfill al engancharse a mitad de plan—
 // cuenta como UN solo día de racha. dateSet = Set de fechas YYYY-MM-DD locales.
 export function computeDateStreak(dateSet, todayISO = todayLocalISO()) {
@@ -271,7 +273,7 @@ export async function getCompletedPlans(userId) {
 // logros (renovar borra el progreso, pero el logro conserva su racha).
 export async function getYearStats(userId) {
   const [prog, comps, answered] = await Promise.all([
-    supabase.from('reading_progress').select('completed_at').eq('user_id', userId),
+    supabase.from('reading_progress').select('completed_on').eq('user_id', userId),
     supabase.from('plan_completions').select('longest_streak').eq('user_id', userId),
     supabase
       .from('prayer_requests')
@@ -283,7 +285,7 @@ export async function getYearStats(userId) {
   if (comps.error) throw comps.error
   if (answered.error) throw answered.error
 
-  const dates = new Set((prog.data ?? []).map((r) => localDateISO(r.completed_at)))
+  const dates = new Set((prog.data ?? []).map((r) => r.completed_on).filter(Boolean))
   const curStreak = longestStreak([...dates])
   const compStreak = Math.max(0, ...(comps.data ?? []).map((c) => c.longest_streak ?? 0))
   return {
@@ -776,28 +778,37 @@ export async function getFollowedGroupReadings(userId) {
   const groups = (data ?? [])
     .map((r) => r.group)
     .filter((g) => g && g.plan_id && g.plan_start_date)
+  if (!groups.length) return []
 
-  const readings = await Promise.all(
-    groups.map(async (g) => {
-      const day = dayNumberFor(g.plan_start_date)
-      if (day < 1) return null
-      const [plan, read] = await Promise.all([
-        getPlan(g.plan_id),
-        hasReadDay(userId, g.plan_id, day),
-      ])
-      if (day > plan.duration_days) return null
-      return {
-        groupId: g.id,
-        groupName: g.name,
-        planId: g.plan_id,
-        planStartDate: g.plan_start_date,
-        day,
-        totalDays: plan.duration_days,
-        read,
-      }
-    })
-  )
-  return readings.filter(Boolean)
+  const days = groups.map((g) => ({ group: g, day: dayNumberFor(g.plan_start_date) }))
+  const planIds = [...new Set(groups.map((g) => g.plan_id))]
+  const [{ data: plans, error: pe }, { data: progress, error: re }] = await Promise.all([
+    supabase
+      .from('reading_plans')
+      .select('id, duration_days')
+      .in('id', planIds),
+    supabase
+      .from('reading_progress')
+      .select('plan_id, day_number')
+      .eq('user_id', userId)
+      .in('plan_id', planIds),
+  ])
+  if (pe) throw dbError(pe)
+  if (re) throw dbError(re)
+  const durations = Object.fromEntries((plans ?? []).map((p) => [p.id, p.duration_days]))
+  const read = new Set((progress ?? []).map((p) => `${p.plan_id}:${p.day_number}`))
+
+  return days
+    .filter(({ group: g, day }) => day >= 1 && day <= (durations[g.plan_id] ?? 0))
+    .map(({ group: g, day }) => ({
+      groupId: g.id,
+      groupName: g.name,
+      planId: g.plan_id,
+      planStartDate: g.plan_start_date,
+      day,
+      totalDays: durations[g.plan_id],
+      read: read.has(`${g.plan_id}:${day}`),
+    }))
 }
 
 // La lectura del día de UN grupo, para su vista de lectura (/grupos/:id/lectura):

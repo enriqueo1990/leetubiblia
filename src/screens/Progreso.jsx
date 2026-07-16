@@ -10,7 +10,7 @@ import Diario from './Diario.jsx'
 
 // Progreso — sub-vista de Hoy (documento maestro §5.2, README pantalla 2).
 // Racha, % y CALENDARIO DE CONSTANCIA de las últimas 5 semanas: cada cuadrado se
-// pinta si ESE día del calendario marcaste alguna lectura (completed_at). Misma
+// pinta si ESE día del calendario marcaste alguna lectura (completed_on). Misma
 // base que la racha, así la grilla y el número coinciden siempre (antes la grilla
 // pintaba "el día del plan agendado para esa fecha", que divergía de la racha).
 // Solo lectura: para corregir el día se usa Ajustes › "¿en qué día vas?" o Hoy.

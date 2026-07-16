@@ -1,14 +1,9 @@
 -- ============================================================
 -- Lee Tu Biblia — MIGRACIONES PENDIENTES (staging incremental).
--- Contiene: 0025_profile_locale.sql (idioma de interfaz — si ya la aplicaste,
---             re-correrla no hace daño: es idempotente),
---           0026_prayer_updates.sql (historia del pedido de oración),
---           0027_group_plan.sql (plan común del grupo),
---           0028_group_plan_follow.sql (seguir el plan del grupo como
---             lectura adicional).
--- Pegá este archivo en el SQL Editor de Supabase y Run. Idempotente.
+-- Contiene las migraciones recientes 0025..0030; son idempotentes.
+-- Pegá este archivo en el SQL Editor de Supabase y Run.
+-- Para un deploy desde cero usá _apply_all.sql.
 -- ============================================================
-
 
 -- ===== 0025_profile_locale.sql =====
 -- Idioma de la interfaz por usuario (Feature: i18n es/en/pt).
@@ -125,7 +120,6 @@ begin
   end if;
 end;
 $$;
-
 -- ===== 0028_group_plan_follow.sql =====
 -- ============================================================================
 -- Lee Tu Biblia — Seguir el plan del grupo como lectura adicional.
@@ -197,4 +191,169 @@ begin
      set follow_plan = false
    where group_id = p_group_id;
 end;
+$$;
+
+-- ===== 0029_security_hardening.sql =====
+-- ============================================================================
+-- Lee Tu Biblia — Endurecimiento de autorización y telemetría.
+-- Migración 0029. Aplicar DESPUÉS de 0028.
+-- ============================================================================
+
+-- Las membresías se crean únicamente dentro de las RPC SECURITY DEFINER
+-- create_group() y join_group_by_code(). La policy anterior permitía insertar
+-- la propia fila con cualquier group_id y hasta role='owner'.
+drop policy if exists "join as self" on public.group_members;
+revoke insert on table public.group_members from anon, authenticated;
+
+-- Los grupos también se crean únicamente mediante create_group(), que genera el
+-- código y la membresía owner en una sola transacción.
+revoke insert on table public.groups from anon, authenticated;
+
+-- Cerrar explícitamente las RPC de alta a usuarios autenticados. SECURITY
+-- DEFINER conserva los permisos del owner de la función sobre las tablas.
+revoke execute on function public.create_group(text) from public, anon;
+revoke execute on function public.join_group_by_code(text) from public, anon;
+grant execute on function public.create_group(text) to authenticated;
+grant execute on function public.join_group_by_code(text) to authenticated;
+
+-- Un pedido compartido solo puede apuntar a un grupo del que el autor forma
+-- parte. Se valida tanto al crearlo como al editarlo/cambiar su visibilidad.
+drop policy if exists "prayers insert own" on public.prayer_requests;
+create policy "prayers insert own" on public.prayer_requests
+  for insert with check (
+    user_id = auth.uid()
+    and (
+      visibility = 'private'
+      or (
+        visibility = 'shared'
+        and shared_group_id is not null
+        and public.is_group_member(shared_group_id)
+      )
+    )
+  );
+
+drop policy if exists "prayers update own" on public.prayer_requests;
+create policy "prayers update own" on public.prayer_requests
+  for update using (user_id = auth.uid())
+  with check (
+    user_id = auth.uid()
+    and (
+      visibility = 'private'
+      or (
+        visibility = 'shared'
+        and shared_group_id is not null
+        and public.is_group_member(shared_group_id)
+      )
+    )
+  );
+
+-- La telemetría sigue aceptando arranques anónimos, pero solo con identidad nula,
+-- eventos conocidos y payloads acotados. Así no sirve para falsificar usuarios ni
+-- para hacer crecer la tabla con cuerpos arbitrarios.
+alter table public.boot_diagnostics
+  drop constraint if exists boot_diagnostics_event_allowed,
+  drop constraint if exists boot_diagnostics_user_agent_size,
+  drop constraint if exists boot_diagnostics_detail_size;
+
+alter table public.boot_diagnostics
+  add constraint boot_diagnostics_event_allowed
+    check (event in ('app_open', 'boot_reload', 'profile_retry', 'getsession_slow')) not valid,
+  add constraint boot_diagnostics_user_agent_size
+    check (user_agent is null or char_length(user_agent) <= 512) not valid,
+  add constraint boot_diagnostics_detail_size
+    check (detail is null or pg_column_size(detail) <= 4096) not valid;
+
+drop policy if exists "anyone can insert boot diagnostics" on public.boot_diagnostics;
+drop policy if exists "anonymous boot diagnostics" on public.boot_diagnostics;
+drop policy if exists "authenticated boot diagnostics" on public.boot_diagnostics;
+
+create policy "anonymous boot diagnostics" on public.boot_diagnostics
+  for insert to anon with check (
+    user_id is null
+    and event in ('app_open', 'boot_reload', 'profile_retry', 'getsession_slow')
+    and (user_agent is null or char_length(user_agent) <= 512)
+    and (detail is null or pg_column_size(detail) <= 4096)
+  );
+
+create policy "authenticated boot diagnostics" on public.boot_diagnostics
+  for insert to authenticated with check (
+    (user_id is null or user_id = auth.uid())
+    and event in ('app_open', 'boot_reload', 'profile_retry', 'getsession_slow')
+    and (user_agent is null or char_length(user_agent) <= 512)
+    and (detail is null or pg_column_size(detail) <= 4096)
+  );
+
+-- ===== 0030_reading_completed_on.sql =====
+-- ============================================================================
+-- Lee Tu Biblia — Fecha local estable para cada lectura.
+-- Migración 0030. Aplicar DESPUÉS de 0029.
+-- ============================================================================
+
+-- completed_at conserva el instante UTC; completed_on conserva el día local que
+-- el usuario marcó. Sin esta segunda columna, cambiar de zona horaria podía mover
+-- lecturas históricas y alterar rachas o el pulso semanal.
+alter table public.reading_progress
+  add column if not exists completed_on date;
+
+update public.reading_progress rp
+set completed_on = (rp.completed_at at time zone coalesce(p.timezone, 'UTC'))::date
+from public.profiles p
+where p.id = rp.user_id
+  and rp.completed_on is null;
+
+-- Fallback defensivo para filas huérfanas/imprevistas; normalmente el update
+-- anterior cubre todo porque user_id referencia auth.users y profiles es 1:1.
+update public.reading_progress
+set completed_on = completed_at::date
+where completed_on is null;
+
+alter table public.reading_progress
+  alter column completed_on set default current_date,
+  alter column completed_on set not null;
+
+create index if not exists reading_progress_user_date_idx
+  on public.reading_progress(user_id, completed_on);
+
+-- Presencia de hoy: usa el día guardado, no vuelve a reinterpretar el timestamp
+-- histórico con la zona horaria actual del miembro.
+create or replace function public.group_reading_today(p_group_id bigint)
+returns table (user_id uuid, has_read boolean)
+language sql security definer stable set search_path = public as $$
+  select p.id,
+    exists (
+      select 1 from public.reading_progress rp
+      where rp.user_id = p.id
+        and rp.completed_on = (now() at time zone coalesce(p.timezone, 'UTC'))::date
+    ) as has_read
+  from public.group_members gm
+  join public.profiles p on p.id = gm.user_id
+  where gm.group_id = p_group_id
+    and p.share_reading = true
+    and public.is_group_member(p_group_id)
+    and (select share_reading from public.profiles where id = auth.uid()) = true;
+$$;
+
+-- Historial semanal: misma regla estable para los siete días.
+create or replace function public.group_reading_week(p_group_id bigint)
+returns table (user_id uuid, week boolean[])
+language sql security definer stable set search_path = public as $$
+  select p.id,
+    (
+      select array_agg(
+        exists (
+          select 1 from public.reading_progress rp
+          where rp.user_id = p.id
+            and rp.completed_on
+              = (now() at time zone coalesce(p.timezone, 'UTC'))::date - (6 - d.i)
+        )
+        order by d.i
+      )
+      from generate_series(0, 6) as d(i)
+    ) as week
+  from public.group_members gm
+  join public.profiles p on p.id = gm.user_id
+  where gm.group_id = p_group_id
+    and p.share_reading = true
+    and public.is_group_owner(p_group_id)
+    and (select share_reading from public.profiles where id = auth.uid()) = true;
 $$;
