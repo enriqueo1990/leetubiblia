@@ -26,6 +26,7 @@ const Admin = lazy(() => import('./screens/Admin.jsx'))
 function RouteFallback() {
   return (
     <div
+      data-launch-pending="true"
       className="mx-auto flex min-h-[60vh] w-full max-w-[620px] flex-col bg-app px-7 pt-6"
       aria-hidden="true"
     >

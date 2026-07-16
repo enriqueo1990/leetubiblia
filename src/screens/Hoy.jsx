@@ -345,11 +345,11 @@ export default function Hoy() {
             )}
           </div>
         </div>
-        {/* Puerta a Ajustes: solo el ícono — la convención alcanza. */}
+        {/* En desktop Ajustes ya está visible en el sidebar; evitar duplicarlo. */}
         <Link
           to="/ajustes"
           aria-label={t('nav.ajustes')}
-          className="-mr-2 -mt-1 flex h-11 w-11 shrink-0 items-center justify-center text-ink-soft transition-colors hover:text-accent-ink"
+          className="-mr-2 -mt-1 flex h-11 w-11 shrink-0 items-center justify-center text-ink-soft transition-colors hover:text-accent-ink lg:hidden"
         >
           <GearIcon size={19} />
         </Link>

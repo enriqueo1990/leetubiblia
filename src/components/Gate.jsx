@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
-import { bibleVersion } from '../lib/bible.js'
+import LaunchReady from './LaunchReady.jsx'
 import AuthFlow from '../screens/onboarding/AuthFlow.jsx'
 import AskName from '../screens/onboarding/AskName.jsx'
 import ChoosePlanOnboarding from '../screens/onboarding/ChoosePlanOnboarding.jsx'
@@ -13,29 +13,6 @@ import OnboardingExtras, { EXTRAS_DONE_KEY } from '../screens/onboarding/Onboard
 //   sin active_plan_id    → elegir plan
 //   sin extras hechos      → recordatorio + agregar a inicio (una vez)
 //   listo                 → la app (children)
-function Splash() {
-  const { t, locale } = usePreferences()
-  return (
-    <div className="flex min-h-[100dvh] flex-col items-center justify-center gap-7 bg-app">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="80" height="80">
-        <rect width="64" height="64" rx="14" fill="#A88B6A"/>
-        <g fill="none" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z"/>
-          <path d="M32 20v28"/>
-        </g>
-      </svg>
-      <div className="flex flex-col items-center gap-2 px-10 text-center">
-        <p className="text-[17px] italic leading-relaxed text-ink-soft">
-          {t('gate.verseText')}
-        </p>
-        <span className="text-[13px] text-placeholder">
-          {t('gate.verseRef')} · {bibleVersion(locale).code}
-        </span>
-      </div>
-    </div>
-  )
-}
-
 // Hay sesión pero no se pudo cargar el perfil y no hay copia en caché (típico:
 // primer arranque sin conexión). Ofrece reintentar en vez de colgarse.
 function LoadError({ onRetry }) {
@@ -72,18 +49,18 @@ export default function Gate({ children }) {
     () => localStorage.getItem(EXTRAS_DONE_KEY) === '1'
   )
 
-  if (loading) return <Splash />
-  if (!session) return <AuthFlow />
+  if (loading) return null
+  if (!session) return <LaunchReady><AuthFlow /></LaunchReady>
 
   // Hay sesión pero el perfil no cargó ni hay caché: reintento, no cuelgue.
-  if (profileError) return <LoadError onRetry={refreshProfile} />
+  if (profileError) return <LaunchReady><LoadError onRetry={refreshProfile} /></LaunchReady>
 
   // Sesión recién creada: el trigger crea el profile; mientras llega, splash.
-  if (!profile) return <Splash />
+  if (!profile) return null
 
-  if (!profile.display_name) return <AskName />
-  if (!profile.active_plan_id) return <ChoosePlanOnboarding />
-  if (!extrasDone) return <OnboardingExtras onDone={() => setExtrasDone(true)} />
+  if (!profile.display_name) return <LaunchReady><AskName /></LaunchReady>
+  if (!profile.active_plan_id) return <LaunchReady><ChoosePlanOnboarding /></LaunchReady>
+  if (!extrasDone) return <LaunchReady><OnboardingExtras onDone={() => setExtrasDone(true)} /></LaunchReady>
 
-  return children
+  return <LaunchReady>{children}</LaunchReady>
 }

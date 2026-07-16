@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { useLocation } from 'react-router-dom'
+import LaunchReady from './components/LaunchReady.jsx'
 
 const PrivateRoot = lazy(() => import('./PrivateRoot.jsx'))
 const Info = lazy(() => import('./screens/Info.jsx'))
@@ -20,7 +21,7 @@ const PUBLIC_ROUTES = {
 
 function PublicFallback() {
   return (
-    <div className="min-h-[100dvh] bg-app px-6 pt-12" aria-hidden="true">
+    <div data-launch-pending="true" className="min-h-[100dvh] bg-app px-6 pt-12" aria-hidden="true">
       <div className="mx-auto max-w-[680px] animate-pulse">
         <div className="h-4 w-32 rounded-pill bg-surface-alt" />
         <div className="mt-14 h-10 w-4/5 rounded-pill bg-surface-alt" />
@@ -41,7 +42,7 @@ export default function Root() {
 
   return (
     <Suspense fallback={<PublicFallback />}>
-      {PublicPage ? <PublicPage /> : <PrivateRoot />}
+      {PublicPage ? <LaunchReady><PublicPage /></LaunchReady> : <PrivateRoot />}
     </Suspense>
   )
 }

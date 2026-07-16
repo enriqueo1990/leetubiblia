@@ -10,11 +10,9 @@
     <meta name="apple-mobile-web-app-title" content="Lee Tu Biblia" />
     <!-- theme_color inicial; useTheme lo actualiza en vivo según el modo -->
     <meta name="theme-color" content="#F8F7F4" />
-    <!-- Splash pre-React "frontispicio": mientras baja el bundle se ve solo el
-         libro trazándose en sepia + el pie de imprenta. El versículo está en el
-         DOM pero oculto (reserva su espacio para que nada salte): lo hace
-         aparecer LaunchOverlay (App.jsx) cuando React monta — la palabra llega
-         cuando la app está lista. Ambos splash comparten layout pixel a pixel. -->
+    <!-- Único splash de arranque: completa libro, versículo y referencia mientras
+         React prepara la pantalla real detrás. Solo se retira cuando ambas cosas
+         terminaron: animación completa + app lista. -->
     <style>
       /* Fondo en html/body para que no haya flash blanco mientras React monta */
       html, body {
@@ -25,7 +23,9 @@
         html, body { background: #000000; }
       }
       #ltb-splash {
-        position: relative;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
         display: flex;
         min-height: 100dvh;
         flex-direction: column;
@@ -33,7 +33,10 @@
         justify-content: center;
         background: #F8F7F4;
         font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+        opacity: 1;
+        transition: opacity 0.35s ease;
       }
+      #ltb-splash.ltb-splash-exit { opacity: 0; pointer-events: none; }
       #ltb-splash-core {
         display: flex;
         flex-direction: column;
@@ -49,7 +52,6 @@
         from { stroke-dashoffset: 1; }
         to   { stroke-dashoffset: 0; }
       }
-      /* Ocultos aquí; los revela LaunchOverlay con la misma geometría */
       #ltb-splash-verse, #ltb-splash-rule, #ltb-splash-ref { opacity: 0; }
       #ltb-splash-verse {
         margin: 40px 0 0;
@@ -66,6 +68,17 @@
         letter-spacing: 0.14em;
         text-transform: uppercase;
         color: #8B8983;
+      }
+      #ltb-splash-verse { animation: ltb-content-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) 1.15s both; }
+      #ltb-splash-rule { animation: ltb-rule-grow 0.5s cubic-bezier(0.22, 1, 0.36, 1) 1.45s both; }
+      #ltb-splash-ref { animation: ltb-content-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) 1.7s both; }
+      @keyframes ltb-content-rise {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes ltb-rule-grow {
+        from { opacity: 0; transform: scaleX(0.4); }
+        to { opacity: 1; transform: scaleX(1); }
       }
       #ltb-splash-brand {
         position: absolute;
@@ -91,7 +104,8 @@
         #ltb-splash-brand { color: #D5C4AE; } /* accent-ink oscuro precalculado */
       }
       @media (prefers-reduced-motion: reduce) {
-        .ltb-book-cover, .ltb-book-spine, #ltb-splash-brand { animation: none; }
+        .ltb-book-cover, .ltb-book-spine, #ltb-splash-brand,
+        #ltb-splash-verse, #ltb-splash-rule, #ltb-splash-ref { animation: none; opacity: 1; }
       }
     </style>
     <!-- SEO:start — bloque SEO/social por página. En el build, vite.config.js lo
@@ -225,8 +239,7 @@
     </script>
   </head>
   <body>
-    <div id="root">
-      <div id="ltb-splash">
+    <div id="ltb-splash">
         <div id="ltb-splash-core">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="6 10 52 44" width="96" height="81" aria-hidden="true">
             <g fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -239,12 +252,42 @@
           <span id="ltb-splash-ref">Juan 17:17 · NBLA</span>
         </div>
         <span id="ltb-splash-brand">Lee Tu Biblia</span>
-      </div>
     </div>
+    <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
     <script>
+      // El splash completa su secuencia y espera a que React tenga una pantalla
+      // real lista. La app se monta detrás, de modo que la transición no revela
+      // estados intermedios ni un segundo splash.
+      (function () {
+        var MIN_SPLASH_MS = 2500
+        var startedAt = performance.now()
+        var closing = false
+
+        function dismissWhenReady() {
+          if (closing || !window.__ltbAppReady) return
+          closing = true
+          var remaining = Math.max(0, MIN_SPLASH_MS - (performance.now() - startedAt))
+          setTimeout(function finishLaunch() {
+            // Una ruta lazy todavía puede estar preparando su pantalla. Mantener
+            // el splash finalizado evita revelar un skeleton entre ambos estados.
+            if (document.querySelector('[data-launch-pending]')) {
+              setTimeout(finishLaunch, 50)
+              return
+            }
+            var splash = document.getElementById('ltb-splash')
+            if (!splash) return
+            splash.classList.add('ltb-splash-exit')
+            setTimeout(function () { splash.remove() }, 380)
+          }, remaining)
+        }
+
+        window.addEventListener('ltb:app-ready', dismissWhenReady, { once: true })
+        if (window.__ltbAppReady) dismissWhenReady()
+      })()
+
       // Red de seguridad contra la "carga infinita en la 1ª apertura" de la PWA:
-      // si React no montó (sigue presente el splash estático) varios segundos
+      // si React no montó varios segundos
       // después de cargar —típicamente porque el bundle o el service worker no
       // resolvieron en el primer arranque standalone—, recargamos UNA sola vez.
       // En la 2ª carga el SW ya sirve todo desde precache y monta bien. El flag en
@@ -253,8 +296,7 @@
         var KEY = 'ltb.bootReload'
         window.addEventListener('load', function () {
           setTimeout(function () {
-            // Si #ltb-splash ya no está, React montó y reemplazó el contenido: OK.
-            if (!document.getElementById('ltb-splash')) return
+            if (window.__ltbReactMounted) return
             try {
               if (sessionStorage.getItem(KEY)) return // ya recargamos una vez
               sessionStorage.setItem(KEY, '1')

@@ -41,6 +41,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </BrowserRouter>
   </React.StrictMode>
 )
+window.__ltbReactMounted = true
 
 // React montó: liberamos el flag del watchdog de arranque (ver index.html) para
 // que un eventual cuelgue posterior en esta misma sesión también pueda recargar.
