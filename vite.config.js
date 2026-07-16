@@ -47,7 +47,7 @@ const LANDING_PAGES = [
     file: 'ayuda/index.html',
     title: 'Lee Tu Biblia — Guía completa de la app',
     description:
-      'El manual completo, pestaña por pestaña: tu lectura y los 8 planes, la oración, los grupos de discipulado y los materiales. Acompaña tu Biblia de papel, no la reemplaza.',
+      'El manual completo, pestaña por pestaña: tu lectura y los 13 planes, la oración, los grupos de discipulado y los materiales. Acompaña tu Biblia de papel, no la reemplaza.',
     url: 'https://leetubiblia.com/ayuda',
     image: 'https://leetubiblia.com/og-guia.png',
     alt: 'Lee Tu Biblia — guía completa de la app',
@@ -169,7 +169,40 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+        // Activar la nueva versión en cuanto se descarga y eliminar precaches
+        // de versiones anteriores. Los headers de public/_headers evitan que
+        // el navegador/CDN sirva un sw.js viejo y bloquee este ciclo.
+        skipWaiting: true,
+        clientsClaim: true,
+        cleanupOutdatedCaches: true,
+        // Precache mínimo: shell, estilos e iconos. Las pantallas, materiales y
+        // capturas se guardan al usarse, en vez de descargar ~2 MB al instalar.
+        globPatterns: [
+          '**/*.{html,css,svg,woff2}',
+          'registerSW.js',
+          'manifest.webmanifest',
+          'icons/*.png',
+          'assets/index-*.js',
+          'assets/vendor-react-*.js',
+        ],
+        runtimeCaching: [
+          {
+            urlPattern: /\/assets\/.*\.js$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'ltb-app-code',
+              expiration: { maxEntries: 80, maxAgeSeconds: 30 * 24 * 60 * 60 },
+            },
+          },
+          {
+            urlPattern: /\/assets\/.*\.(?:png|jpg|jpeg|webp)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'ltb-images',
+              expiration: { maxEntries: 30, maxAgeSeconds: 30 * 24 * 60 * 60 },
+            },
+          },
+        ],
         // Inyecta los handlers de Web Push en el SW generado (ver public/sw-push.js).
         importScripts: ['sw-push.js'],
       },
