@@ -40,5 +40,5 @@ test('las fechas locales de lectura se conservan en la base', async () => {
   assert.match(migration, /alter column completed_on set not null/i)
   assert.match(db, /select\('day_number, completed_on'\)/)
   assert.match(db, /completed_on: completedOn/)
+  assert.match(db, /PGRST204/)
 })
-
