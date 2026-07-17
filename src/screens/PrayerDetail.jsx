@@ -21,6 +21,7 @@ import {
   updatePrayer,
 } from '../lib/db.js'
 import { SkeletonDetail } from '../components/Skeleton.jsx'
+import { useOnlineStatus } from '../hooks/useOnlineStatus.js'
 
 // Detalle de un pedido compartido con "Estoy orando por esto" (Fase 2, F2-A).
 // Lo abren los miembros desde "De mis grupos"; el autor lo ve sin el botón pero
@@ -31,12 +32,14 @@ export default function PrayerDetail() {
   const navigate = useNavigate()
   const { user, profile } = useAuth()
   const { t, locale } = usePreferences()
+  const online = useOnlineStatus()
   const fmtD = (iso) => fmtDate(iso, locale, { day: 'numeric', month: 'short' })
   const fmtLongD = (iso) => fmtDate(iso, locale, { day: 'numeric', month: 'long' })
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [busy, setBusy] = useState(false)
   const [editing, setEditing] = useState(false)
+  const [focusTestimony, setFocusTestimony] = useState(false)
   const [groups, setGroups] = useState([])
   // Historia del pedido: composer del autor + confirmación de borrado.
   const [adding, setAdding] = useState(false)
@@ -45,6 +48,10 @@ export default function PrayerDetail() {
   const [updateError, setUpdateError] = useState(false)
   const [confirmDeleteUpdate, setConfirmDeleteUpdate] = useState(null) // update | null
   const [markingAnswered, setMarkingAnswered] = useState(false)
+  const [markAnsweredError, setMarkAnsweredError] = useState(false)
+  const [intercessionError, setIntercessionError] = useState(false)
+  const [deleteUpdateError, setDeleteUpdateError] = useState(false)
+  const [testimonyPromptDismissed, setTestimonyPromptDismissed] = useState(false)
 
   const load = useCallback(async () => {
     setError(null)
@@ -65,8 +72,9 @@ export default function PrayerDetail() {
   }, [user])
 
   async function toggle() {
-    if (busy || !data || data.status !== 'active') return
+    if (!online || busy || !data || data.status !== 'active') return
     setBusy(true)
+    setIntercessionError(false)
     const next = !data.i_intercede
     const meName = profile?.display_name || t('common.you')
     // Optimista: reflejamos el cambio antes de la red.
@@ -83,6 +91,7 @@ export default function PrayerDetail() {
       else await removeIntercession(data.id, user.id)
     } catch {
       await load() // revertir al estado real del servidor
+      setIntercessionError(true)
     } finally {
       setBusy(false)
     }
@@ -114,6 +123,7 @@ export default function PrayerDetail() {
 
   async function handleSheetSaved() {
     setEditing(false)
+    setFocusTestimony(false)
     try {
       await load()
     } catch {
@@ -143,6 +153,7 @@ export default function PrayerDetail() {
 
   async function removeUpdate(u) {
     setConfirmDeleteUpdate(null)
+    setDeleteUpdateError(false)
     const prev = data.updates
     // Optimista con reversión honesta: desaparece ya; si el borrado falla, vuelve.
     setData((d) => ({ ...d, updates: d.updates.filter((x) => x.id !== u.id) }))
@@ -150,18 +161,20 @@ export default function PrayerDetail() {
       await deletePrayerUpdate(u.id)
     } catch {
       setData((d) => ({ ...d, updates: prev }))
+      setDeleteUpdateError(true)
     }
   }
 
   async function markAnswered() {
     if (!isAuthor || data.status !== 'active' || markingAnswered) return
     setMarkingAnswered(true)
+    setMarkAnsweredError(false)
     const answeredAt = data.answered_at ?? new Date().toISOString()
     try {
       await updatePrayer(data.id, { status: 'answered', answered_at: answeredAt })
       setData((d) => ({ ...d, status: 'answered', answered_at: answeredAt }))
     } catch {
-      await load().catch(() => {})
+      setMarkAnsweredError(true)
     } finally {
       setMarkingAnswered(false)
     }
@@ -175,7 +188,7 @@ export default function PrayerDetail() {
           <button
             type="button"
             onClick={() => setEditing(true)}
-            className="text-[15px] font-medium"
+            className="inline-flex min-h-11 min-w-11 items-center justify-center text-[15px] font-medium"
             style={{ color: 'var(--accent-ink)' }}
           >
             {t('common.edit')}
@@ -224,9 +237,9 @@ export default function PrayerDetail() {
             <button
               type="button"
               onClick={toggle}
-              disabled={busy}
+              disabled={busy || !online}
               aria-pressed="true"
-              className="inline-flex shrink-0 items-center gap-1.5 text-[14px] font-medium text-accent-ink"
+              className="inline-flex min-h-11 shrink-0 items-center gap-1.5 text-[14px] font-medium text-accent-ink"
             >
               <CheckIcon size={16} strokeWidth={2.2} /> {t('prayerDetail.youArePraying')}
             </button>
@@ -234,13 +247,14 @@ export default function PrayerDetail() {
             <button
               type="button"
               onClick={toggle}
-              disabled={busy}
+              disabled={busy || !online}
               aria-pressed="false"
               className="inline-flex min-h-11 shrink-0 items-center rounded-pill border px-[15px] py-[7px] text-[14px] font-medium"
               style={{
                 backgroundColor: 'var(--accent-tint)',
                 borderColor: 'color-mix(in srgb, var(--accent) 24%, transparent)',
                 color: 'var(--accent-ink)',
+                opacity: online ? 1 : 0.45,
               }}
             >
               {t('prayerDetail.iAmPraying')}
@@ -253,7 +267,62 @@ export default function PrayerDetail() {
             {t('prayerDetail.authorWillKnow', { author: data.author_name })}
           </p>
         )}
+        {intercessionError && (
+          <p className="mt-2 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
+            {t('prayerDetail.intercessionError')}{' '}
+            <button
+              type="button"
+              onClick={toggle}
+              className="inline-flex min-h-11 items-center px-1 font-semibold underline underline-offset-2"
+            >
+              {t('common.retry')}
+            </button>
+          </p>
+        )}
       </div>
+
+      {isAuthor &&
+        data.status === 'answered' &&
+        data.visibility === 'shared' &&
+        !data.testimony_shared &&
+        !testimonyPromptDismissed && (
+          <section className="card mt-7 p-4" aria-labelledby="testimony-prompt-title">
+            <div className="flex items-start gap-3">
+              <div
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full"
+                style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
+                aria-hidden="true"
+              >
+                <CheckIcon size={21} strokeWidth={2.2} />
+              </div>
+              <div className="min-w-0 flex-1">
+                <h2 id="testimony-prompt-title" className="text-[17px] font-semibold text-ink">
+                  {t('prayerDetail.testimonyPrompt.title')}
+                </h2>
+                <p className="mt-1 text-[14px] leading-snug text-ink-soft">
+                  {t('prayerDetail.testimonyPrompt.text')}
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              className="btn btn-secondary mt-4"
+              onClick={() => {
+                setFocusTestimony(true)
+                setEditing(true)
+              }}
+            >
+              {t('prayerDetail.testimonyPrompt.action')}
+            </button>
+            <button
+              type="button"
+              className="mt-1 min-h-11 w-full text-center text-[15px] font-medium text-ink-soft"
+              onClick={() => setTestimonyPromptDismissed(true)}
+            >
+              {t('prayerDetail.testimonyPrompt.later')}
+            </button>
+          </section>
+        )}
 
       {updates.length > 0 && (
         <>
@@ -283,22 +352,25 @@ export default function PrayerDetail() {
                     </p>
                     <p className="mt-[3px] whitespace-pre-line text-[15.5px] leading-[1.55] text-ink">{u.body}</p>
                     {isAuthor && (
-                      <p className="mt-1 text-[12px] text-ink-soft">
-                        <button
-                          type="button"
-                          onClick={() => setConfirmDeleteUpdate(u)}
-                          className="font-medium"
-                          style={{ color: 'var(--danger)' }}
-                        >
-                          {t('ajustes.eliminar')}
-                        </button>
-                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setConfirmDeleteUpdate(u)}
+                        className="mt-1 inline-flex min-h-11 items-center px-1 text-[12px] font-medium"
+                        style={{ color: 'var(--danger)' }}
+                      >
+                        {t('ajustes.eliminar')}
+                      </button>
                     )}
                   </div>
                 </li>
               ))}
             </ul>
           </section>
+          {deleteUpdateError && (
+            <p className="mt-3 px-1 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
+              {t('prayerDetail.deleteUpdateError')}
+            </p>
+          )}
         </>
       )}
 
@@ -315,7 +387,7 @@ export default function PrayerDetail() {
             style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--text-primary)' }}
           />
           {updateError && (
-            <p className="mt-1 text-[12px]" style={{ color: 'var(--danger)' }}>
+            <p className="mt-1 text-[12px]" role="alert" style={{ color: 'var(--danger)' }}>
               {t('common.saveError')}
             </p>
           )}
@@ -348,19 +420,29 @@ export default function PrayerDetail() {
         <div className="action-bar mt-auto space-y-2">
           <button
             type="button"
-            onClick={() => setAdding(true)}
-            className="btn btn-primary flex items-center justify-center gap-2"
-          >
-            <PlusIcon size={17} /> {t('prayerDetail.addUpdate')}
-          </button>
-          <button
-            type="button"
             onClick={markAnswered}
-            disabled={markingAnswered}
-            className="min-h-10 w-full text-center text-[14px] font-medium text-ink-soft"
-            style={{ opacity: markingAnswered ? 0.55 : 1 }}
+            disabled={markingAnswered || !online}
+            className="btn btn-primary"
+            style={{ opacity: markingAnswered || !online ? 0.55 : 1 }}
           >
             {markingAnswered ? t('prayerDetail.markingAnswered') : t('prayerDetail.markAnswered')}
+          </button>
+          {markAnsweredError && (
+            <p
+              className="text-center text-[13px]"
+              style={{ color: 'var(--danger)' }}
+              role="status"
+              aria-live="polite"
+            >
+              {t('prayerDetail.markAnsweredError')}
+            </p>
+          )}
+          <button
+            type="button"
+            onClick={() => setAdding(true)}
+            className="btn btn-secondary flex items-center justify-center gap-2"
+          >
+            <PlusIcon size={17} /> {t('prayerDetail.addUpdate')}
           </button>
         </div>
       )}
@@ -370,7 +452,11 @@ export default function PrayerDetail() {
           mode="edit"
           prayer={data}
           groups={groups}
-          onClose={() => setEditing(false)}
+          focusTestimony={focusTestimony}
+          onClose={() => {
+            setEditing(false)
+            setFocusTestimony(false)
+          }}
           onSaved={handleSheetSaved}
           onDeleted={() => navigate('/oracion')}
         />

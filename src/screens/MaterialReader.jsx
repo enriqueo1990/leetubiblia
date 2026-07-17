@@ -304,7 +304,7 @@ export default function MaterialReader() {
           quedar a ras de esos bordes, no varado más angosto. */}
       <div className="action-bar space-y-1">
         {saveError && (
-          <p className="pb-1 text-[12px]" style={{ color: 'var(--danger)' }}>
+          <p className="pb-1 text-[12px]" role="alert" style={{ color: 'var(--danger)' }}>
             {t('materialReader.saveError')}
           </p>
         )}
@@ -331,7 +331,7 @@ export default function MaterialReader() {
                   <button
                     type="button"
                     onClick={() => setN(n - 1)}
-                    className="py-2.5 pr-4 text-[15px] font-medium"
+                    className="inline-flex min-h-11 items-center pr-4 text-[15px] font-medium"
                     style={{ color: 'var(--accent-ink)' }}
                   >
                     {/* Desde la pregunta 1 lo anterior es la portada: decirlo. */}
@@ -344,7 +344,7 @@ export default function MaterialReader() {
                   <button
                     type="button"
                     onClick={() => setN(n + 1)}
-                    className="py-2.5 pl-4 text-[15px] font-medium"
+                    className="inline-flex min-h-11 items-center pl-4 text-[15px] font-medium"
                     style={{ color: 'var(--accent-ink)' }}
                   >
                     {t('materialReader.next')} ›

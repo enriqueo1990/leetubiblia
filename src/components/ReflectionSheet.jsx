@@ -32,8 +32,12 @@ export default function ReflectionSheet({
   const [shareOpen, setShareOpen] = useState(false)
   const [sharing, setSharing] = useState(false)
   const [shareError, setShareError] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [saveError, setSaveError] = useState(false)
+  const [deleting, setDeleting] = useState(false)
+  const [deleteError, setDeleteError] = useState(false)
   const dirty = editable && body.trim() !== initialBody.trim()
-  const canSave = editable && body.trim().length > 0 && dirty
+  const canSave = editable && body.trim().length > 0 && dirty && !saving && !deleting
   // Compartible = hay nota guardada y lo que se ve es exactamente eso.
   const canShare = !!shareData && !!initialBody && !dirty
   const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s)
@@ -49,6 +53,32 @@ export default function ReflectionSheet({
       setShareError(true)
     } finally {
       setSharing(false)
+    }
+  }
+
+  async function handleSave() {
+    if (!canSave || !onSave) return
+    setSaving(true)
+    setSaveError(false)
+    try {
+      await onSave(body.trim())
+    } catch {
+      setSaveError(true)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  async function handleDelete() {
+    if (!onDelete || deleting || saving) return
+    setDeleting(true)
+    setDeleteError(false)
+    try {
+      await onDelete()
+    } catch {
+      setDeleteError(true)
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -69,7 +99,7 @@ export default function ReflectionSheet({
       type="button"
       onClick={() => setShareOpen(true)}
       disabled={sharing}
-      className="flex w-full items-center justify-center gap-2 py-2 text-[14px] font-semibold disabled:opacity-50"
+      className="flex min-h-11 w-full items-center justify-center gap-2 text-[14px] font-semibold disabled:opacity-50"
       style={{ color: 'var(--accent-ink)' }}
     >
       <ShareIcon size={16} /> {t('reflectionSheet.shareImage')}
@@ -88,11 +118,11 @@ export default function ReflectionSheet({
             <button
               type="button"
               disabled={!canSave}
-              onClick={() => onSave?.(body.trim())}
+              onClick={handleSave}
               className="btn btn-primary"
               style={{ opacity: canSave ? 1 : 0.5 }}
             >
-              {t('common.save')}
+              {saving ? t('common.saving') : t('common.save')}
             </button>
             {shareButton && <div className="mt-1">{shareButton}</div>}
           </>
@@ -109,7 +139,11 @@ export default function ReflectionSheet({
           <textarea
             autoFocus
             value={body}
-            onChange={(e) => setBody(e.target.value)}
+            disabled={saving}
+            onChange={(e) => {
+              setBody(e.target.value)
+              setSaveError(false)
+            }}
             maxLength={1000}
             rows={4}
             placeholder={t('reflectionSheet.placeholder')}
@@ -127,16 +161,27 @@ export default function ReflectionSheet({
             {initialBody && onDelete && (
               <button
                 type="button"
-                onClick={onDelete}
-                className="shrink-0 py-1 text-[13px] font-medium"
+                onClick={handleDelete}
+                disabled={deleting || saving}
+                className="inline-flex min-h-11 shrink-0 items-center px-2 text-[13px] font-medium disabled:opacity-50"
                 style={{ color: 'var(--danger)' }}
               >
-                {t('ajustes.eliminar')}
+                {deleting ? t('common.deleting') : t('ajustes.eliminar')}
               </button>
             )}
           </div>
+          {saveError && (
+            <p className="mt-2 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
+              {t('common.saveError')}
+            </p>
+          )}
+          {deleteError && (
+            <p className="mt-2 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
+              {t('common.deleteError')}
+            </p>
+          )}
           {shareError && (
-            <p className="mt-1 text-[12px]" style={{ color: 'var(--danger)' }}>
+            <p className="mt-1 text-[12px]" role="alert" style={{ color: 'var(--danger)' }}>
               {t('hoy.imageError')}
             </p>
           )}

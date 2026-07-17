@@ -8,6 +8,7 @@ import { HeartIcon, XIcon } from '../components/icons.jsx'
 import { SkeletonDetail } from '../components/Skeleton.jsx'
 import RetryError from '../components/RetryError.jsx'
 import EmptyState from '../components/EmptyState.jsx'
+import { useOnlineStatus } from '../hooks/useOnlineStatus.js'
 
 const PRAYER_TRANSITION_MS = 700
 
@@ -44,6 +45,7 @@ export default function OrarAhora() {
   const { user } = useAuth()
   const { t, locale } = usePreferences()
   const navigate = useNavigate()
+  const online = useOnlineStatus()
   const fmtD = (iso) => fmtDate(iso, locale, { day: 'numeric', month: 'short' })
   const fmtLongD = (iso) => fmtDate(iso, locale, { day: 'numeric', month: 'long' })
 
@@ -54,6 +56,8 @@ export default function OrarAhora() {
   const [interceded, setInterceded] = useState(0) // cuántas veces sumé mi oración
   const [leaving, setLeaving] = useState(false)
   const [pressedAction, setPressedAction] = useState(null)
+  const [actionBusy, setActionBusy] = useState(false)
+  const [actionError, setActionError] = useState(false)
   const transitionTimer = useRef(null)
 
   const load = useCallback(async () => {
@@ -64,6 +68,7 @@ export default function OrarAhora() {
       setIdx(0)
       setPhase('mine')
       setInterceded(0)
+      setActionError(false)
     } catch {
       setError(true)
     }
@@ -152,16 +157,32 @@ export default function OrarAhora() {
     }, PRAYER_TRANSITION_MS + 60)
   }
 
-  function pray() {
-    advance(() => {
+  async function pray() {
+    if (!online || actionBusy || leaving) return
+    setActionBusy(true)
+    setActionError(false)
+    try {
+      await addIntercession(activeDeck[idx].id, user.id)
       setInterceded((c) => c + 1)
-      addIntercession(activeDeck[idx].id, user.id).catch(() => {})
-    }, 'primary')
+      advance(null, 'primary')
+    } catch {
+      setActionError(true)
+    } finally {
+      setActionBusy(false)
+    }
   }
-  function stillSame() {
-    advance(() => {
-      markPrayerReviewed(activeDeck[idx].id).catch(() => {})
-    }, 'primary')
+  async function stillSame() {
+    if (!online || actionBusy || leaving) return
+    setActionBusy(true)
+    setActionError(false)
+    try {
+      await markPrayerReviewed(activeDeck[idx].id)
+      advance(null, 'primary')
+    } catch {
+      setActionError(true)
+    } finally {
+      setActionBusy(false)
+    }
   }
 
   function startGroupPrayer() {
@@ -243,6 +264,11 @@ export default function OrarAhora() {
   const p = activeDeck[idx]
   const isLast = idx === activeDeck.length - 1
   const actionLabel = isLast ? t('orar.finish') : t('orar.nextPrayer')
+  const currentActionLabel = actionBusy
+    ? t('common.saving')
+    : actionError
+      ? t('common.retry')
+      : actionLabel
   const eyebrow = p.mine ? null : p.group?.name
   const meta = p.mine
     ? t('orar.myRequestMeta', { date: fmtLongD(p.created_at) })
@@ -331,30 +357,35 @@ export default function OrarAhora() {
             <button
               type="button"
               onClick={stillSame}
-              disabled={leaving}
-              aria-label={pressedAction === 'primary' ? t('orar.keepPraying') : actionLabel}
+              disabled={!online || leaving || actionBusy}
+              aria-label={pressedAction === 'primary' ? t('orar.keepPraying') : currentActionLabel}
               className={`btn btn-primary flex items-center justify-center ${
                 pressedAction === 'primary' ? 'prayer-action-breathe' : ''
               }`}
             >
               <BreathingLabel done={pressedAction === 'primary'} doneText={t('orar.keepPraying')}>
-                {actionLabel}
+                {currentActionLabel}
               </BreathingLabel>
             </button>
           ) : (
             <button
               type="button"
               onClick={pray}
-              disabled={leaving}
-              aria-label={pressedAction === 'primary' ? t('orar.keepPraying') : actionLabel}
+              disabled={!online || leaving || actionBusy}
+              aria-label={pressedAction === 'primary' ? t('orar.keepPraying') : currentActionLabel}
               className={`btn btn-primary flex items-center justify-center gap-2 ${
                 pressedAction === 'primary' ? 'prayer-action-breathe' : ''
               }`}
             >
               <BreathingLabel done={pressedAction === 'primary'} doneText={t('orar.keepPraying')}>
-                {actionLabel}
+                {currentActionLabel}
               </BreathingLabel>
             </button>
+          )}
+          {actionError && (
+            <p className="mt-2 text-center text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
+              {t('orar.actionError')}
+            </p>
           )}
         </div>
       </div>

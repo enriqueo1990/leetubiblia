@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { usePreferences } from '../lib/preferences.jsx'
 import { useAuth } from '../lib/auth.jsx'
+import { useInstallPrompt } from '../hooks/useInstallPrompt.js'
 import {
   getPlan,
   deleteAccount,
@@ -14,7 +15,7 @@ import Segmented from '../components/Segmented.jsx'
 import Switch from '../components/Switch.jsx'
 import BackLink from '../components/BackLink.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
-import { ChevronRight, HeartIcon, ShareIcon } from '../components/icons.jsx'
+import { ChevronRight, HeartIcon, InstallIcon, ShareIcon } from '../components/icons.jsx'
 import { subscribeToPush, unsubscribeFromPush, getTimezone } from '../lib/push.js'
 import { activeMaterials } from '../lib/materials.js'
 import { exportJournal } from '../lib/exportJournal.js'
@@ -72,9 +73,11 @@ function pushReasonMessage(reason, t) {
 export default function Ajustes() {
   const { accent, setAccent, accents, themePref, setTheme, resolvedMode, locale, setLocale, locales, t } = usePreferences()
   const { user, profile, updateProfile, signOut } = useAuth()
+  const { canInstall, promptInstall } = useInstallPrompt()
 
   const [plan, setPlan] = useState(null)
   const [shared, setShared] = useState(false)
+  const [installing, setInstalling] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [deleteError, setDeleteError] = useState(false)
@@ -251,6 +254,13 @@ export default function Ajustes() {
         window.prompt(t('ajustes.copyPrompt'), url)
       }
     }
+  }
+
+  async function handleInstall() {
+    if (installing || !canInstall) return
+    setInstalling(true)
+    await promptInstall()
+    setInstalling(false)
   }
 
   async function handleDelete() {
@@ -521,6 +531,28 @@ export default function Ajustes() {
             {shared ? t('ajustes.copiado') : <ShareIcon size={18} />}
           </span>
         </button>
+        {canInstall && (
+          <button
+            type="button"
+            onClick={handleInstall}
+            disabled={installing}
+            aria-busy={installing}
+            className="flex min-h-11 w-full items-center justify-between gap-4 px-4 py-3 text-left"
+          >
+            <span className="min-w-0 flex-1">
+              <span className="block text-[16px] text-ink">{t('ajustes.installApp')}</span>
+              <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">
+                {t('ajustes.installHelp')}
+              </span>
+            </span>
+            <span
+              className="flex shrink-0 items-center text-[15px] font-medium"
+              style={{ color: 'var(--accent-ink)', opacity: installing ? 0.5 : 1 }}
+            >
+              {installing ? t('ajustes.installing') : <InstallIcon size={18} />}
+            </span>
+          </button>
+        )}
         {/* /ayuda es pública (vive fuera del Gate) pero antes no tenía ninguna
             puerta desde adentro de la app. */}
         <Link to="/ayuda" className="flex items-center justify-between gap-4 px-4 py-3">

@@ -78,7 +78,7 @@ export default function GroupPlanSheet({ currentPlanId, saving, error, onSet, on
       )}
 
       {error && (
-        <p className="mt-3 text-[13px]" style={{ color: 'var(--danger)' }}>
+        <p className="mt-3 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
           {t('groupDetail.planError')}
         </p>
       )}
@@ -87,7 +87,7 @@ export default function GroupPlanSheet({ currentPlanId, saving, error, onSet, on
         <button
           type="button"
           onClick={onClear}
-          className="mt-4 w-full py-2 text-center text-[14px]"
+          className="mt-4 min-h-11 w-full text-center text-[14px]"
           style={{ color: 'var(--danger)' }}
         >
           {t('groupDetail.clearPlan')}

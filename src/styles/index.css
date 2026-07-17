@@ -250,7 +250,7 @@
   .btn-secondary {
     background-color: transparent;
     color: var(--text-primary);
-    border: 1px solid var(--hairline);
+    border: 1px solid var(--control-border);
     padding: 16px;
     font-size: 17px;
     font-weight: 500;

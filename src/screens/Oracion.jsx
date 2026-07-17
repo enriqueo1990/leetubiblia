@@ -9,6 +9,7 @@ import PrayerSheet from './PrayerSheet.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { fmtDate } from '../i18n/dates.js'
+import { useOnlineStatus } from '../hooks/useOnlineStatus.js'
 import { getMyPrayers, getGroupPrayers, getMyGroups, getPrayersToReview, markPrayerReviewed } from '../lib/db.js'
 
 // Oración (documento maestro §5.4, README pantalla 4).
@@ -55,6 +56,7 @@ export default function Oracion() {
   const { user } = useAuth()
   const { t, locale } = usePreferences()
   const navigate = useNavigate()
+  const online = useOnlineStatus()
   const fmtD = (iso) => fmtDate(iso, locale, { day: 'numeric', month: 'short' })
   const SEGMENTS = [
     { key: 'mine', label: t('oracion.tab.mine') },
@@ -68,6 +70,7 @@ export default function Oracion() {
   const [groups, setGroups] = useState([])
   const [sheet, setSheet] = useState(null) // { mode, prayer? } | null
   const [error, setError] = useState(false)
+  const [reviewAction, setReviewAction] = useState({ busyId: null, errorId: null })
 
   const load = useCallback(async () => {
     if (!user) return
@@ -102,12 +105,16 @@ export default function Oracion() {
   }
 
   async function sigueIgual(p) {
+    if (!online || reviewAction.busyId != null) return
+    setReviewAction({ busyId: p.id, errorId: null })
     // Optimista: saco el pedido de la lista de revisión al instante.
     setToReview((prev) => prev.filter((x) => x.id !== p.id))
     try {
       await markPrayerReviewed(p.id)
+      setReviewAction({ busyId: null, errorId: null })
     } catch {
       setToReview((prev) => [...prev, p]) // revertir si falla
+      setReviewAction({ busyId: null, errorId: p.id })
     }
   }
 
@@ -133,8 +140,9 @@ export default function Oracion() {
           type="button"
           aria-label={t('oracion.new')}
           onClick={() => setSheet({ mode: 'create' })}
+          disabled={!online}
           className="flex h-[44px] items-center justify-center gap-1 rounded-full px-3 text-on-accent lg:px-4"
-          style={{ backgroundColor: 'var(--accent-action)', minWidth: 44 }}
+          style={{ backgroundColor: 'var(--accent-action)', minWidth: 44, opacity: online ? 1 : 0.45 }}
         >
           <PlusIcon size={20} />
           <span className="hidden text-[15px] font-semibold lg:inline">{t('oracion.new')}</span>
@@ -182,9 +190,10 @@ export default function Oracion() {
                         <button
                           type="button"
                           onClick={() => sigueIgual(p)}
+                          disabled={!online || reviewAction.busyId === p.id}
                           className="btn btn-secondary flex-1 py-2 text-[14px]"
                         >
-                          {t('oracion.stillSame')}
+                          {reviewAction.busyId === p.id ? '…' : t('oracion.stillSame')}
                         </button>
                         <button
                           type="button"
@@ -194,6 +203,18 @@ export default function Oracion() {
                           {t('oracion.review')}
                         </button>
                       </div>
+                      {reviewAction.errorId === p.id && (
+                        <p className="mt-2 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
+                          {t('oracion.reviewSaveError')}{' '}
+                          <button
+                            type="button"
+                            onClick={() => sigueIgual(p)}
+                            className="inline-flex min-h-11 items-center px-1 font-semibold underline underline-offset-2"
+                          >
+                            {t('common.retry')}
+                          </button>
+                        </p>
+                      )}
                     </div>
                   )
                 })}

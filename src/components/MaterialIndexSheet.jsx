@@ -34,7 +34,7 @@ export default function MaterialIndexSheet({ content, frontier, current, onPick,
               ref={current === 0 ? currentRef : undefined}
               type="button"
               onClick={() => onPick(0)}
-              className="flex w-full items-baseline gap-3 px-4 py-2.5 text-left"
+              className="flex min-h-11 w-full items-baseline gap-3 px-4 py-2.5 text-left"
             >
               <span className="w-7 shrink-0" aria-hidden="true" />
               <span
@@ -65,7 +65,7 @@ export default function MaterialIndexSheet({ content, frontier, current, onPick,
                   type="button"
                   disabled={locked}
                   onClick={() => onPick(e.number)}
-                  className="flex w-full items-baseline gap-3 px-4 py-2.5 text-left"
+                  className="flex min-h-11 w-full items-baseline gap-3 px-4 py-2.5 text-left"
                   style={{ opacity: locked ? 0.4 : 1 }}
                 >
                   <span className="w-7 shrink-0 text-right text-[13px] tabular-nums text-ink-soft">

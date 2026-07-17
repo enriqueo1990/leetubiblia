@@ -282,7 +282,7 @@
 
         window.addEventListener('ltb:app-ready', dismissWhenReady, { once: true })
         if (window.__ltbAppReady) dismissWhenReady()
-      })()
+      })();
 
       // Red de seguridad contra la "carga infinita en la 1ª apertura" de la PWA:
       // si React no montó varios segundos

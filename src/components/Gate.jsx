@@ -10,7 +10,7 @@ import OnboardingExtras, { EXTRAS_DONE_KEY } from '../screens/onboarding/Onboard
 // Decide qué mostrar según el estado de auth + perfil (documento maestro §5.8):
 //   sin sesión            → bienvenida + magic link
 //   sin display_name      → ¿Cómo te llamás?
-//   sin active_plan_id    → elegir plan
+//   onboarding nuevo      → elegir plan personal o continuar hacia un grupo
 //   sin extras hechos      → recordatorio + agregar a inicio (una vez)
 //   listo                 → la app (children)
 // Hay sesión pero no se pudo cargar el perfil y no hay copia en caché (típico:
@@ -48,6 +48,10 @@ export default function Gate({ children }) {
   const [extrasDone, setExtrasDone] = useState(
     () => localStorage.getItem(EXTRAS_DONE_KEY) === '1'
   )
+  // Permite atravesar el paso 2 sin plan personal para adoptar luego el de un
+  // grupo. Al completar extras, EXTRAS_DONE_KEY conserva que el onboarding ya
+  // terminó; antes de eso, una recarga vuelve a ofrecer la elección.
+  const [planStepDone, setPlanStepDone] = useState(false)
 
   if (loading) return null
   if (!session) return <LaunchReady><AuthFlow /></LaunchReady>
@@ -59,7 +63,13 @@ export default function Gate({ children }) {
   if (!profile) return null
 
   if (!profile.display_name) return <LaunchReady><AskName /></LaunchReady>
-  if (!profile.active_plan_id) return <LaunchReady><ChoosePlanOnboarding /></LaunchReady>
+  if (!profile.active_plan_id && !extrasDone && !planStepDone) {
+    return (
+      <LaunchReady>
+        <ChoosePlanOnboarding onSkip={() => setPlanStepDone(true)} />
+      </LaunchReady>
+    )
+  }
   if (!extrasDone) return <LaunchReady><OnboardingExtras onDone={() => setExtrasDone(true)} /></LaunchReady>
 
   return <LaunchReady>{children}</LaunchReady>

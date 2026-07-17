@@ -128,6 +128,14 @@ export const ShareIcon = (p) => (
   </Icon>
 )
 
+export const InstallIcon = (p) => (
+  <Icon {...p}>
+    <path d="M12 3v12" />
+    <path d="m7 10 5 5 5-5" />
+    <path d="M5 20h14" />
+  </Icon>
+)
+
 export const PencilIcon = (p) => (
   <Icon {...p}>
     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />

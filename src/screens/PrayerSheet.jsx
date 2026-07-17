@@ -24,7 +24,16 @@ function FieldLabel({ children, optional, htmlFor }) {
   )
 }
 
-export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClose, onSaved, onDeleted }) {
+export default function PrayerSheet({
+  mode,
+  prayer,
+  groups,
+  presetGroupId,
+  focusTestimony = false,
+  onClose,
+  onSaved,
+  onDeleted,
+}) {
   const { user } = useAuth()
   const { t, locale } = usePreferences()
   const editing = mode === 'edit'
@@ -56,11 +65,14 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
   const [testimony, setTestimony] = useState(prayer?.testimony ?? '')
-  const [testimonyShared, setTestimonyShared] = useState(prayer?.testimony_shared ?? false)
+  const [testimonyShared, setTestimonyShared] = useState(
+    focusTestimony || prayer?.testimony_shared || false
+  )
   const [intercessors, setIntercessors] = useState([])
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [confirmShare, setConfirmShare] = useState(false)
   const titleRef = useRef(null)
+  const testimonyRef = useRef(null)
 
   // En creación, esperar a que la animación del sheet termine antes de enfocar
   // el input — evita que el teclado compita con el slide-up en mobile.
@@ -69,6 +81,15 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
     const id = setTimeout(() => titleRef.current?.focus(), 350)
     return () => clearTimeout(id)
   }, [editing])
+
+  useEffect(() => {
+    if (!editing || !focusTestimony) return
+    const id = setTimeout(() => {
+      testimonyRef.current?.scrollIntoView({ block: 'center' })
+      testimonyRef.current?.focus()
+    }, 350)
+    return () => clearTimeout(id)
+  }, [editing, focusTestimony])
 
   // ¿Hay cambios sin guardar? Para confirmar el descarte al cerrar por scrim/Escape.
   const dirty =
@@ -232,6 +253,13 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
 
       <FieldLabel>{t('prayerSheet.fieldVisibility')}</FieldLabel>
       <Segmented label={t('prayerSheet.fieldVisibility')} options={VIS} value={visibility} onChange={setVisibility} />
+      <p className="mt-2 text-[13px] leading-snug text-ink-soft" role="status" aria-live="polite">
+        {visibility === 'private'
+          ? t('prayerSheet.visibilityPrivateHelp')
+          : groupId
+            ? t('prayerSheet.visibilitySharedHelp', { group: groupName })
+            : t('prayerSheet.visibilitySharedNoGroup')}
+      </p>
 
       {needsGroup && (
         <div className="card mt-3 divide-y divide-hairline">
@@ -282,6 +310,7 @@ export default function PrayerSheet({ mode, prayer, groups, presetGroupId, onClo
                   {t('prayerSheet.fewWords')} <span className="font-normal lowercase">({t('common.optional')})</span>
                 </p>
                 <textarea
+                  ref={testimonyRef}
                   aria-label={t('prayerSheet.fewWords')}
                   rows={3}
                   value={testimony}

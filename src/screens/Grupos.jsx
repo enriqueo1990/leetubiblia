@@ -10,10 +10,11 @@ import { usePreferences } from '../lib/preferences.jsx'
 import { getMyGroups, createGroup, joinGroupByCode } from '../lib/db.js'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 import { inputStyle } from '../components/formStyles.js'
+import { useOnlineStatus } from '../hooks/useOnlineStatus.js'
 
 // Grupos (documento maestro §5.6, README pantalla 6).
 
-function CreateGroupSheet({ onClose, onCreated }) {
+function CreateGroupSheet({ onClose, onCreated, online = true }) {
   const { t } = usePreferences()
   const [name, setName] = useState('')
   const [busy, setBusy] = useState(false)
@@ -26,7 +27,7 @@ function CreateGroupSheet({ onClose, onCreated }) {
   }, [])
 
   async function submit() {
-    if (name.trim().length < 2 || busy) return
+    if (!online || name.trim().length < 2 || busy) return
     setBusy(true)
     setError(null)
     try {
@@ -46,8 +47,8 @@ function CreateGroupSheet({ onClose, onCreated }) {
         <button
           type="button"
           className="btn btn-primary"
-          disabled={name.trim().length < 2 || busy}
-          style={{ opacity: name.trim().length < 2 || busy ? 0.5 : 1 }}
+          disabled={!online || name.trim().length < 2 || busy}
+          style={{ opacity: !online || name.trim().length < 2 || busy ? 0.5 : 1 }}
           onClick={submit}
         >
           {busy ? t('grupos.creating') : t('grupos.createTitle')}
@@ -75,7 +76,7 @@ function CreateGroupSheet({ onClose, onCreated }) {
   )
 }
 
-function JoinGroupSheet({ onClose, onJoined }) {
+function JoinGroupSheet({ onClose, onJoined, online = true }) {
   const { t } = usePreferences()
   const [code, setCode] = useState('')
   const [busy, setBusy] = useState(false)
@@ -89,7 +90,7 @@ function JoinGroupSheet({ onClose, onJoined }) {
 
   async function submit() {
     const c = code.trim()
-    if (c.length < 4 || busy) return
+    if (!online || c.length < 4 || busy) return
     setBusy(true)
     setError(null)
     try {
@@ -114,8 +115,8 @@ function JoinGroupSheet({ onClose, onJoined }) {
         <button
           type="button"
           className="btn btn-primary"
-          disabled={code.trim().length < 4 || busy}
-          style={{ opacity: code.trim().length < 4 || busy ? 0.5 : 1 }}
+          disabled={!online || code.trim().length < 4 || busy}
+          style={{ opacity: !online || code.trim().length < 4 || busy ? 0.5 : 1 }}
           onClick={submit}
         >
           {busy ? t('grupos.joining') : t('grupos.joinButton')}
@@ -150,6 +151,7 @@ export default function Grupos() {
   const { user } = useAuth()
   const { t } = usePreferences()
   const navigate = useNavigate()
+  const online = useOnlineStatus()
   const [groups, setGroups] = useState(null)
   const [error, setError] = useState(false)
   const [sheet, setSheet] = useState(null) // 'menu' | 'create' | 'join' | null
@@ -177,8 +179,9 @@ export default function Grupos() {
           type="button"
           aria-label={t('grupos.addGroup')}
           onClick={() => setSheet('menu')}
+          disabled={!online}
           className="flex h-[44px] items-center justify-center gap-1 rounded-full px-3 text-on-accent lg:px-4"
-          style={{ backgroundColor: 'var(--accent-action)', minWidth: 44 }}
+          style={{ backgroundColor: 'var(--accent-action)', minWidth: 44, opacity: online ? 1 : 0.45 }}
         >
           <PlusIcon size={20} />
           <span className="hidden text-[15px] font-semibold lg:inline">{t('grupos.addGroup')}</span>
@@ -198,11 +201,12 @@ export default function Grupos() {
           <button
             type="button"
             onClick={() => setSheet('create')}
+            disabled={!online}
             className="btn btn-primary flex items-center justify-center gap-1.5"
           >
             <PlusIcon size={18} /> {t('grupos.createTitle')}
           </button>
-          <button type="button" onClick={() => setSheet('join')} className="btn btn-secondary">
+          <button type="button" onClick={() => setSheet('join')} disabled={!online} className="btn btn-secondary">
             {t('grupos.joinTitle')}
           </button>
         </EmptyState>
@@ -245,11 +249,12 @@ export default function Grupos() {
             <button
               type="button"
               onClick={() => setSheet('create')}
+              disabled={!online}
               className="btn btn-primary flex items-center justify-center gap-1.5"
             >
               <PlusIcon size={18} /> {t('grupos.createTitle')}
             </button>
-            <button type="button" onClick={() => setSheet('join')} className="btn btn-secondary">
+            <button type="button" onClick={() => setSheet('join')} disabled={!online} className="btn btn-secondary">
               {t('grupos.joinTitle')}
             </button>
           </div>
@@ -257,6 +262,7 @@ export default function Grupos() {
       )}
       {sheet === 'create' && (
         <CreateGroupSheet
+          online={online}
           onClose={() => setSheet(null)}
           onCreated={(g) => {
             setSheet(null)
@@ -266,6 +272,7 @@ export default function Grupos() {
       )}
       {sheet === 'join' && (
         <JoinGroupSheet
+          online={online}
           onClose={() => setSheet(null)}
           onJoined={(g) => {
             setSheet(null)

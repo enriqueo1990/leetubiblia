@@ -37,6 +37,7 @@ import GroupTestimony from './groupDetail/GroupTestimony.jsx'
 import GroupMembers from './groupDetail/GroupMembers.jsx'
 import GroupPrivateStats from './groupDetail/GroupPrivateStats.jsx'
 import GroupInviteSheet from './groupDetail/GroupInviteSheet.jsx'
+import { useOnlineStatus } from '../hooks/useOnlineStatus.js'
 
 // Detalle de grupo — "de panel a sala" (Fase 3): la gente y el pulso del día
 // primero; oración y lectura del grupo en la misma vista; la administración
@@ -46,6 +47,7 @@ export default function GroupDetail() {
   const navigate = useNavigate()
   const { user, profile, updateProfile } = useAuth()
   const { t } = usePreferences()
+  const online = useOnlineStatus()
   const iShare = !!profile?.share_reading
 
   const [data, setData] = useState(null)
@@ -74,9 +76,12 @@ export default function GroupDetail() {
   const [nameInput, setNameInput] = useState('')
   const [savingName, setSavingName] = useState(false)
   const [nameError, setNameError] = useState(null)
+  const [prayerAction, setPrayerAction] = useState({ busyId: null, errorId: null })
+  const [partialLoadError, setPartialLoadError] = useState(false)
 
   const load = useCallback(async () => {
     setError(null)
+    setPartialLoadError(false)
     try {
       const d = await getGroupDetail(Number(id))
       setData(d)
@@ -91,6 +96,11 @@ export default function GroupDetail() {
         owner ? getGroupReadingWeek(Number(id)) : Promise.resolve([]),
         d.group.plan_id ? getPlan(d.group.plan_id) : Promise.resolve(null),
       ])
+      setPartialLoadError(
+        [readRes, prayRes, testRes, statsRes, weekRes, planRes].some(
+          (result) => result.status === 'rejected'
+        )
+      )
       if (readRes.status === 'fulfilled') setReading(readRes.value)
       if (prayRes.status === 'fulfilled') setPrayers(prayRes.value)
       if (testRes.status === 'fulfilled') setTestimony(testRes.value[0] ?? null)
@@ -108,7 +118,8 @@ export default function GroupDetail() {
     try {
       setPrayers(await getGroupActivePrayers(Number(id)))
     } catch {
-      /* el pulso queda como estaba; se corrige en la próxima carga */
+      // El pulso queda como estaba, pero no mostramos ese estado como completo.
+      setPartialLoadError(true)
     }
   }, [id])
 
@@ -226,7 +237,13 @@ export default function GroupDetail() {
   }
 
   async function orar(p) {
-    if (!user || p.intercessors.some((x) => x.user_id === user.id)) return
+    if (
+      !user ||
+      !online ||
+      prayerAction.busyId != null ||
+      p.intercessors.some((x) => x.user_id === user.id)
+    ) return
+    setPrayerAction({ busyId: p.id, errorId: null })
     // Optimista: sumo mi intercesión al pedido → conteo + avatar + botón al
     // instante (el pulso "Hoy" también, porque deriva de `prayers`).
     setPrayers((list) =>
@@ -247,7 +264,10 @@ export default function GroupDetail() {
             : x
         )
       )
+      setPrayerAction({ busyId: null, errorId: p.id })
+      return
     }
+    setPrayerAction({ busyId: null, errorId: null })
   }
 
   async function copyCode() {
@@ -322,6 +342,22 @@ export default function GroupDetail() {
   return (
     <div className="pt-2">
       <BackLink to="/grupos" label={t('nav.grupos')} />
+      {partialLoadError && (
+        <div
+          className="mt-3 rounded-input border px-4 py-3"
+          style={{ backgroundColor: 'var(--surface-alt)', borderColor: 'var(--control-border)' }}
+          role="status"
+        >
+          <p className="text-[13px] leading-snug text-ink-soft">{t('groupDetail.partialLoadError')}</p>
+          <button
+            type="button"
+            onClick={load}
+            className="mt-1 inline-flex min-h-11 items-center font-semibold text-accent-ink"
+          >
+            {t('common.retry')}
+          </button>
+        </div>
+      )}
 
       <GroupHeader
         group={group}
@@ -380,7 +416,15 @@ export default function GroupDetail() {
         </div>
 
         <div>
-          <GroupPrayers prayers={prayers} onAddPrayer={() => setSheetOpen(true)} onPray={orar} />
+          <GroupPrayers
+            prayers={prayers}
+            groupId={id}
+            groupName={group.name}
+            onAddPrayer={() => setSheetOpen(true)}
+            onPray={orar}
+            prayerAction={prayerAction}
+            online={online}
+          />
           <GroupTestimony testimony={testimony} groupId={id} />
           {isOwner && <GroupPrivateStats stats={stats} weekRows={weekRows} answeredPct={answeredPct} />}
         </div>

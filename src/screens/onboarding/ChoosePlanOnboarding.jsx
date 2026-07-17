@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useAuth } from '../../lib/auth.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
 import { getPlans, startDateForDay, todayLocalISO, markDaysRead } from '../../lib/db.js'
@@ -9,9 +10,12 @@ import RetryError from '../../components/RetryError.jsx'
 // Set active_plan_id + plan_start_date = hoy (local). El cambio de plan ya con
 // progreso existente, con su confirmación, se maneja en Tarea 4.
 
-export default function ChoosePlanOnboarding() {
+export default function ChoosePlanOnboarding({ onSkip }) {
   const { user, updateProfile } = useAuth()
   const { t } = usePreferences()
+  const { pathname, search } = useLocation()
+  const joiningFromInvite =
+    pathname === '/join' && new URLSearchParams(search).has('code')
   const planDurationLabel = (days) =>
     days === 365 ? t('planes.durationYear') : t('planes.durationDays', { days })
   const [plans, setPlans] = useState(null)
@@ -141,6 +145,27 @@ export default function ChoosePlanOnboarding() {
       >
         {saving ? t('planes.activating') : t('onboarding.choosePlan.start')}
       </button>
+
+      <div className="my-4 flex items-center gap-3" aria-hidden="true">
+        <span className="h-px flex-1 bg-hairline" />
+        <span className="text-[13px] text-ink-soft">{t('common.or')}</span>
+        <span className="h-px flex-1 bg-hairline" />
+      </div>
+
+      <button
+        type="button"
+        className="btn btn-secondary"
+        onClick={onSkip}
+      >
+        {joiningFromInvite
+          ? t('onboarding.choosePlan.inviteCta')
+          : t('onboarding.choosePlan.groupCta')}
+      </button>
+      <p className="mt-2 text-center text-[13px] leading-relaxed text-ink-soft">
+        {joiningFromInvite
+          ? t('onboarding.choosePlan.inviteHelp')
+          : t('onboarding.choosePlan.groupHelp')}
+      </p>
     </div>
   )
 }

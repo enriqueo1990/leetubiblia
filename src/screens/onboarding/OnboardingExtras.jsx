@@ -21,21 +21,47 @@ function isStandalone() {
 }
 
 export default function OnboardingExtras({ onDone }) {
-  const { updateProfile, user } = useAuth()
+  const { updateProfile, user, profile } = useAuth()
   const { t } = usePreferences()
   const [reminder, setReminder] = useState(false)
+  const [reminderTime, setReminderTime] = useState('07:00')
   const [busy, setBusy] = useState(false)
+  const [reminderError, setReminderError] = useState(null)
   const showAddToHome = isIOS() && !isStandalone()
+
+  function pushReasonMessage(reason) {
+    if (reason === 'denied') return t('ajustes.push.denied')
+    if (reason === 'unsupported')
+      return showAddToHome
+        ? t('ajustes.push.unsupportedIOS')
+        : t('ajustes.push.unsupported')
+    if (reason === 'no-key') return t('ajustes.push.noKey')
+    return t('ajustes.push.generic')
+  }
 
   async function finish() {
     setBusy(true)
+    setReminderError(null)
     if (reminder && user) {
       // Suscribe al push y solo registra el recordatorio si quedó realmente
       // habilitado. Si falla (permiso denegado o iOS sin instalar) no lo dejamos
       // como "activo" mintiendo: el usuario lo puede activar luego en Ajustes.
       const res = await subscribeToPush(user.id)
-      if (res.ok) {
-        await updateProfile({ reminder_enabled: true, reminder_time: '07:00' })
+      if (!res.ok) {
+        setReminder(false)
+        setReminderError(pushReasonMessage(res.reason))
+        setBusy(false)
+        return
+      }
+      const { error } = await updateProfile({
+        reminder_enabled: true,
+        reminder_time: reminderTime,
+      })
+      if (error) {
+        setReminder(false)
+        setReminderError(t('ajustes.push.generic'))
+        setBusy(false)
+        return
       }
     }
     localStorage.setItem(DONE_KEY, '1')
@@ -55,19 +81,53 @@ export default function OnboardingExtras({ onDone }) {
         </p>
 
         {/* Recordatorio */}
-        <div className="card mt-6 flex items-center justify-between p-4">
-          <div className="pr-4">
-            <p className="text-[16px] font-medium text-ink">{t('ajustes.section.recordatorio')}</p>
-            <p className="text-[13px] text-ink-soft">
-              {t('onboarding.extras.reminderDesc')}
+        <div className="card mt-6 divide-y divide-hairline">
+          <div className="flex items-center justify-between p-4">
+            <div className="pr-4">
+              <p className="text-[16px] font-medium text-ink">{t('ajustes.section.recordatorio')}</p>
+              <p className="text-[13px] text-ink-soft">
+                {t('onboarding.extras.reminderDesc')}
+              </p>
+            </div>
+            <Switch
+              on={reminder}
+              onChange={() => {
+                setReminderError(null)
+                setReminder((v) => !v)
+              }}
+              label={t('ajustes.section.recordatorio')}
+            />
+          </div>
+          {reminder && (
+            <div className="flex items-center justify-between gap-4 px-4 py-3">
+              <label htmlFor="onboarding-reminder-time" className="text-[16px] text-ink">
+                {t('ajustes.hora')}
+              </label>
+              <input
+                id="onboarding-reminder-time"
+                type="time"
+                value={reminderTime}
+                onChange={(e) => setReminderTime(e.target.value)}
+                className="min-h-11 rounded-input px-3 text-[16px] outline-none"
+                style={{
+                  backgroundColor: 'var(--surface-alt)',
+                  border: '1px solid var(--control-border)',
+                  color: 'var(--text-primary)',
+                }}
+              />
+            </div>
+          )}
+        </div>
+        {reminderError && (
+          <div className="mt-3 px-1" role="alert">
+            <p className="text-[13px] leading-snug" style={{ color: 'var(--danger)' }}>
+              {reminderError}
+            </p>
+            <p className="mt-1 text-[13px] text-ink-soft">
+              {t('onboarding.extras.reminderFailureHint')}
             </p>
           </div>
-          <Switch
-            on={reminder}
-            onChange={() => setReminder((v) => !v)}
-            label={t('ajustes.section.recordatorio')}
-          />
-        </div>
+        )}
 
         {/* Agregar a inicio (solo iOS no instalado) */}
         {showAddToHome && (
@@ -99,7 +159,11 @@ export default function OnboardingExtras({ onDone }) {
         disabled={busy}
         onClick={finish}
       >
-        {busy ? t('onboarding.extras.finishing') : t('onboarding.extras.gotIt')}
+        {busy
+          ? t('onboarding.extras.finishing')
+          : profile?.active_plan_id
+            ? t('onboarding.extras.gotIt')
+            : t('onboarding.extras.continue')}
       </button>
     </div>
   )

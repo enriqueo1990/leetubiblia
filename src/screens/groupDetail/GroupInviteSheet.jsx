@@ -33,7 +33,7 @@ export default function GroupInviteSheet({
             <button
               type="button"
               onClick={onRegen}
-              className="flex w-full items-center justify-center gap-1.5 py-2 text-[14px] font-medium text-ink-soft"
+              className="flex min-h-11 w-full items-center justify-center gap-1.5 text-[14px] font-medium text-ink-soft"
             >
               <RefreshIcon size={15} /> {t('groupDetail.regenCode')}
             </button>

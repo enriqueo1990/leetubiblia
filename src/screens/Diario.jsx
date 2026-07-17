@@ -123,7 +123,7 @@ export default function Diario() {
         <button
           type="button"
           onClick={loadMore}
-          className="mt-3 w-full py-2 text-center text-[14px] font-semibold"
+          className="mt-3 min-h-11 w-full text-center text-[14px] font-semibold"
           style={{ color: 'var(--accent-ink)' }}
         >
           {t('common.loadMore')}
@@ -150,22 +150,14 @@ export default function Diario() {
           }}
           onClose={() => setSheet(null)}
           onSave={async (body) => {
-            try {
-              await upsertReflection(user.id, sheet.plan_id, sheet.day_number, body)
-            } catch {
-              /* noop: se puede reintentar */
-            }
+            await upsertReflection(user.id, sheet.plan_id, sheet.day_number, body)
             setSheet(null)
-            load()
+            await load()
           }}
           onDelete={async () => {
-            try {
-              await deleteReflection(user.id, sheet.plan_id, sheet.day_number)
-            } catch {
-              /* noop */
-            }
+            await deleteReflection(user.id, sheet.plan_id, sheet.day_number)
             setSheet(null)
-            load()
+            await load()
           }}
         />
       )}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useReading } from '../hooks/useReading.js'
+import { useInstallPrompt } from '../hooks/useInstallPrompt.js'
 import { useAuth } from '../lib/auth.jsx'
 import {
   getPlanDay,
@@ -21,7 +22,7 @@ import { planName } from '../lib/planLabels.js'
 import { shareCompletion } from '../lib/shareImage.js'
 import { SkeletonHoy } from '../components/Skeleton.jsx'
 import PassageList from '../components/PassageList.jsx'
-import { CheckIcon, GearIcon, ShareIcon } from '../components/icons.jsx'
+import { BookIcon, CheckIcon, GearIcon, InstallIcon, ShareIcon } from '../components/icons.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import ReflectionSheet from '../components/ReflectionSheet.jsx'
@@ -33,11 +34,22 @@ import TodayExtras from '../components/TodayExtras.jsx'
 // próximo sin leer. Marcar leído (idempotente), abrir en YouVersion, "seguir
 // leyendo" para adelantar en sesión, y estados sin-plan / plan terminado.
 
+const INSTALL_CARD_DISMISSED_KEY = 'ltb.installCardDismissed'
+
+function wasInstallCardDismissed() {
+  try {
+    return localStorage.getItem(INSTALL_CARD_DISMISSED_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
 export default function Hoy() {
   const r = useReading()
   const navigate = useNavigate()
   const { user, profile, updateProfile } = useAuth()
   const { t, locale } = usePreferences()
+  const { canInstall, promptInstall } = useInstallPrompt()
   const reflectionsEnabled = !!profile?.reflections_enabled
 
   // Festejo de plan terminado (Feature 5).
@@ -46,6 +58,8 @@ export default function Hoy() {
   const [sharing, setSharing] = useState(false)
   const [shareNote, setShareNote] = useState(null) // 'downloaded' | null
   const [recorded, setRecorded] = useState(false)
+  const [installing, setInstalling] = useState(false)
+  const [installCardDismissed, setInstallCardDismissed] = useState(wasInstallCardDismissed)
 
   // Lectura adelantada ("seguir leyendo"): sin mover el calendario, mostramos el
   // contenido de un día futuro y dejamos marcarlo. aheadDay = null → viendo hoy.
@@ -149,6 +163,22 @@ export default function Hoy() {
     if (target != null) setAheadDay(target)
   }
 
+  async function handleInstall() {
+    if (installing || !canInstall) return
+    setInstalling(true)
+    await promptInstall()
+    setInstalling(false)
+  }
+
+  function dismissInstallCard() {
+    setInstallCardDismissed(true)
+    try {
+      localStorage.setItem(INSTALL_CARD_DISMISSED_KEY, '1')
+    } catch {
+      // El descarte es cosmético; si storage falla podría reaparecer más adelante.
+    }
+  }
+
   // Datos del logro (ajustados al plan real, no a 365 fijo).
   const maxStreak = longestStreak(r.readDates)
   const startedOn = profile?.plan_start_date ?? null
@@ -221,16 +251,20 @@ export default function Hoy() {
     return <SkeletonHoy />
   }
 
-  // Estado vacío: sin plan activo (raro tras el onboarding, pero contemplado).
+  // Estado vacío: quien entró para leer con un grupo puede llegar sin plan
+  // personal. Desde acá tiene las dos puertas honestas: plan propio o grupos.
   if (!r.hasPlan) {
     return (
       <EmptyState
-        icon="✦"
+        icon={<BookIcon size={34} />}
         title={t('hoy.empty.title')}
         text={t('hoy.empty.text')}
       >
         <Link to="/planes" className="btn btn-primary inline-block px-8">
           {t('hoy.empty.cta')}
+        </Link>
+        <Link to="/grupos" className="btn btn-secondary inline-block px-8">
+          {t('hoy.empty.groups')}
         </Link>
       </EmptyState>
     )
@@ -242,6 +276,12 @@ export default function Hoy() {
   const refsShown = viewingAhead ? aheadRefs : r.todayRefs
   const readingUnavailable = !aheadLoading && (!refsShown || refsShown.length === 0)
   const doneShown = dayShown != null && r.completed.has(dayShown)
+  const showInstallCard =
+    canInstall &&
+    r.completedCount > 0 &&
+    !r.planFinished &&
+    !justMarked &&
+    !installCardDismissed
   // ¿El día mostrado va por delante de la fecha de hoy? (ancla adelantada o sesión)
   const aheadOfToday = dayShown != null && r.todayDay != null && dayShown > r.todayDay
 
@@ -519,6 +559,44 @@ export default function Hoy() {
         </div>
       )}
 
+      {showInstallCard && (
+        <section className="card mt-6 p-4" aria-labelledby="install-app-title">
+          <div className="flex items-start gap-3">
+            <div
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full"
+              style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
+              aria-hidden="true"
+            >
+              <InstallIcon size={20} />
+            </div>
+            <div className="min-w-0 flex-1">
+              <h2 id="install-app-title" className="text-[17px] font-semibold text-ink">
+                {t('hoy.install.title')}
+              </h2>
+              <p className="mt-1 text-[14px] leading-snug text-ink-soft">
+                {t('hoy.install.text')}
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            className="btn btn-primary mt-4"
+            onClick={handleInstall}
+            disabled={installing}
+            style={{ opacity: installing ? 0.6 : 1 }}
+          >
+            {installing ? t('hoy.install.opening') : t('hoy.install.cta')}
+          </button>
+          <button
+            type="button"
+            className="mt-1 min-h-11 w-full text-center text-[15px] font-medium text-ink-soft"
+            onClick={dismissInstallCard}
+          >
+            {t('hoy.install.dismiss')}
+          </button>
+        </section>
+      )}
+
       {/* Lecturas secundarias del día. Una sola sección para no competir con la
           lectura principal: si no hay grupos/materiales, no ocupa lugar. */}
       {!r.planFinished && <TodayExtras />}
@@ -662,21 +740,13 @@ export default function Hoy() {
           }
           onClose={() => setReflectOpen(false)}
           onSave={async (body) => {
-            try {
-              const row = await upsertReflection(user.id, planId, shownDay, body)
-              setNote(row)
-            } catch {
-              /* el sheet cierra igual; se puede reintentar */
-            }
+            const row = await upsertReflection(user.id, planId, shownDay, body)
+            setNote(row)
             setReflectOpen(false)
           }}
           onDelete={async () => {
-            try {
-              await deleteReflection(user.id, planId, shownDay)
-              setNote(null)
-            } catch {
-              /* noop */
-            }
+            await deleteReflection(user.id, planId, shownDay)
+            setNote(null)
             setReflectOpen(false)
           }}
         />

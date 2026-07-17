@@ -6,7 +6,15 @@ import { usePreferences } from '../../lib/preferences.jsx'
 
 // Oración — visible para todos, con "Orar" inline. Una sola card agrupada
 // (filas + hairlines) en vez de una card por pedido.
-export default function GroupPrayers({ prayers, onAddPrayer, onPray }) {
+export default function GroupPrayers({
+  prayers,
+  groupId,
+  groupName,
+  onAddPrayer,
+  onPray,
+  prayerAction,
+  online = true,
+}) {
   const { t } = usePreferences()
   const { user } = useAuth()
   const navigate = useNavigate()
@@ -19,15 +27,16 @@ export default function GroupPrayers({ prayers, onAddPrayer, onPray }) {
         <button
           type="button"
           onClick={onAddPrayer}
+          disabled={!online}
           aria-label={t('groupDetail.sharePrayerAria')}
           className="flex h-11 w-11 items-center justify-center rounded-full text-on-accent"
-          style={{ backgroundColor: 'var(--accent-action)' }}
+          style={{ backgroundColor: 'var(--accent-action)', opacity: online ? 1 : 0.45 }}
         >
           <PlusIcon size={18} />
         </button>
       </div>
       {prayers.length === 0 ? (
-        <button type="button" onClick={onAddPrayer} className="card mt-3 flex w-full items-center gap-3 p-4 text-left">
+        <button type="button" onClick={onAddPrayer} disabled={!online} className="card mt-3 flex w-full items-center gap-3 p-4 text-left disabled:opacity-60">
           <span
             className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-accent-ink"
             style={{ backgroundColor: 'var(--accent-tint)' }}
@@ -47,7 +56,20 @@ export default function GroupPrayers({ prayers, onAddPrayer, onPray }) {
           <ul className="card mt-3 divide-y divide-hairline">
             {prayers.slice(0, 4).map((p) => (
               <li key={p.id}>
-                <button type="button" onClick={() => navigate(`/oracion/${p.id}`)} className="block w-full p-4 text-left">
+                <button
+                  type="button"
+                  onClick={() =>
+                    navigate(`/oracion/${p.id}`, {
+                      state: {
+                        from: {
+                          to: `/grupos/${groupId}`,
+                          label: groupName || t('nav.grupos'),
+                        },
+                      },
+                    })
+                  }
+                  className="block w-full p-4 text-left"
+                >
                   <p className="text-[16px] font-semibold leading-snug text-ink">{p.title}</p>
                   {p.description && (
                     <p className="mt-1 line-clamp-2 text-[13px] leading-snug text-ink-soft">{p.description}</p>
@@ -78,13 +100,30 @@ export default function GroupPrayers({ prayers, onAddPrayer, onPray }) {
                     <button
                       type="button"
                       onClick={() => onPray(p)}
+                      disabled={!online || prayerAction?.busyId === p.id}
                       className="min-h-11 shrink-0 rounded-pill px-4 text-[13px] font-semibold"
-                      style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
+                      style={{
+                        backgroundColor: 'var(--accent-tint)',
+                        color: 'var(--accent-ink)',
+                        opacity: !online || prayerAction?.busyId === p.id ? 0.55 : 1,
+                      }}
                     >
-                      {t('groupDetail.pray')}
+                      {prayerAction?.busyId === p.id ? '…' : t('groupDetail.pray')}
                     </button>
                   )}
                 </div>
+                {prayerAction?.errorId === p.id && (
+                  <p className="px-4 pb-3 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
+                    {t('groupDetail.prayError')}{' '}
+                    <button
+                      type="button"
+                      onClick={() => onPray(p)}
+                      className="inline-flex min-h-11 items-center px-1 font-semibold underline underline-offset-2"
+                    >
+                      {t('common.retry')}
+                    </button>
+                  </p>
+                )}
               </li>
             ))}
           </ul>
