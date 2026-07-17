@@ -211,7 +211,11 @@ export default function Grupos() {
       <ul className="mt-5 space-y-3">
         {groups?.map((g) => (
           <li key={g.id}>
-            <Link to={`/grupos/${g.id}`} className="card flex items-center gap-3 p-4">
+            <Link
+              to={`/grupos/${g.id}`}
+              state={{ from: { to: '/grupos', label: t('nav.grupos') } }}
+              className="card flex items-center gap-3 p-4"
+            >
               <div
                 className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-[15px] font-semibold"
                 style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
@@ -256,7 +260,7 @@ export default function Grupos() {
           onClose={() => setSheet(null)}
           onCreated={(g) => {
             setSheet(null)
-            navigate(`/grupos/${g.id}`)
+            navigate(`/grupos/${g.id}`, { state: { from: { to: '/grupos', label: t('nav.grupos') } } })
           }}
         />
       )}
@@ -265,7 +269,7 @@ export default function Grupos() {
           onClose={() => setSheet(null)}
           onJoined={(g) => {
             setSheet(null)
-            navigate(`/grupos/${g.id}`)
+            navigate(`/grupos/${g.id}`, { state: { from: { to: '/grupos', label: t('nav.grupos') } } })
           }}
         />
       )}

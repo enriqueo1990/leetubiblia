@@ -19,7 +19,8 @@
   },
   "ajustes.ninguno": "Nenhum",
   "ajustes.section.queDia": "Em que dia você está?",
-  "ajustes.currentDay": "Dia atual",
+  "ajustes.currentDay": "Dia do calendário",
+  "ajustes.dayPositionHelp": "Hoje pode mostrar um dia adiantado conforme as leituras que você marcou.",
   "ajustes.ofTotal": "de {total}",
   "ajustes.dayPlaceholder": "ex: {day}",
   "ajustes.actualizar": "Atualizar",
@@ -109,6 +110,7 @@
   "onboarding.askName.step": "Passo 1 de 3",
   "onboarding.askName.subtitle": "É assim que seus grupos veem você e como aparece nos pedidos que você compartilha.",
   "onboarding.auth.tagline": "Sua leitura diária e suas orações, em um só lugar tranquilo.",
+  "onboarding.auth.physicalBibleNote": "O app acompanha sua Bíblia de papel: ajuda você a saber o que ler, mas não substitui o texto bíblico.",
   "onboarding.auth.createAccount": "Criar conta",
   "onboarding.auth.haveAccount": "Já tenho conta",
   "onboarding.auth.checkEmail": "Verifique seu e-mail",
@@ -231,6 +233,7 @@
   "hoy.reprogramar": "Reprogramar",
   "hoy.dismissBehind": "Dispensar aviso",
   "hoy.reprogramarError": "Não foi possível reprogramar. Verifique sua conexão e tente de novo.",
+  "hoy.reprogramado": "Pronto, vamos continuar a partir de hoje.",
   "hoy.planCompleted": "Plano concluído",
   "hoy.finishedReading": "Você terminou de ler",
   "hoy.daysRead": {
@@ -260,6 +263,7 @@
   "hoy.viewNote": "Ver sua nota",
   "hoy.writeNote": "Anote o que Deus falou com você hoje",
   "hoy.openBible": "Abrir no meu app de Bíblia",
+  "hoy.externalBibleHint": "Abre esta referência no seu app ou site da Bíblia.",
   "hoy.streakDays": {
     "one": "{count} dia seguido",
     "other": "{count} dias seguidos"
@@ -299,6 +303,9 @@
   "progreso.behindReprogramar": "você pode reprogramar",
   "progreso.behindReprogramando": "reprogramando…",
   "progreso.behindPost": " e seguir.",
+  "progreso.reprogramado": "Pronto, vamos continuar a partir de hoje.",
+  "progreso.position": "Você está no dia {day} do plano.",
+  "progreso.positionAhead": "O calendário está no dia {day}.",
 
   "diario.loadError": "Não foi possível carregar seu caminho.",
   "diario.empty.title": "Seu caminho começa aqui",

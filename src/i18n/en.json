@@ -19,7 +19,8 @@
   },
   "ajustes.ninguno": "None",
   "ajustes.section.queDia": "What day are you on?",
-  "ajustes.currentDay": "Current day",
+  "ajustes.currentDay": "Calendar day",
+  "ajustes.dayPositionHelp": "Today may show an earlier or later plan day based on the readings you marked.",
   "ajustes.ofTotal": "of {total}",
   "ajustes.dayPlaceholder": "e.g. {day}",
   "ajustes.actualizar": "Update",
@@ -109,6 +110,7 @@
   "onboarding.askName.step": "Step 1 of 3",
   "onboarding.askName.subtitle": "This is how your groups see you and how it appears on requests you share.",
   "onboarding.auth.tagline": "Your daily reading and your prayers, in one calm place.",
+  "onboarding.auth.physicalBibleNote": "The app accompanies your paper Bible: it helps you know what to read, but it doesn't replace the biblical text.",
   "onboarding.auth.createAccount": "Create account",
   "onboarding.auth.haveAccount": "I already have an account",
   "onboarding.auth.checkEmail": "Check your email",
@@ -231,6 +233,7 @@
   "hoy.reprogramar": "Reschedule",
   "hoy.dismissBehind": "Dismiss notice",
   "hoy.reprogramarError": "Couldn't reschedule. Check your connection and try again.",
+  "hoy.reprogramado": "Done, we'll keep going from today.",
   "hoy.planCompleted": "Plan completed",
   "hoy.finishedReading": "You finished reading",
   "hoy.daysRead": {
@@ -260,6 +263,7 @@
   "hoy.viewNote": "View your note",
   "hoy.writeNote": "Write what God spoke to you today",
   "hoy.openBible": "Open in my Bible app",
+  "hoy.externalBibleHint": "Opens this reference in your Bible app or website.",
   "hoy.streakDays": {
     "one": "{count} day in a row",
     "other": "{count} days in a row"
@@ -299,6 +303,9 @@
   "progreso.behindReprogramar": "you can reschedule",
   "progreso.behindReprogramando": "rescheduling…",
   "progreso.behindPost": " and keep going.",
+  "progreso.reprogramado": "Done, we'll keep going from today.",
+  "progreso.position": "You're on day {day} of the plan.",
+  "progreso.positionAhead": "The calendar is on day {day}.",
 
   "diario.loadError": "Couldn't load your journey.",
   "diario.empty.title": "Your journey starts here",

@@ -19,7 +19,8 @@
   },
   "ajustes.ninguno": "Ninguno",
   "ajustes.section.queDia": "¿En qué día vas?",
-  "ajustes.currentDay": "Día actual",
+  "ajustes.currentDay": "Día del calendario",
+  "ajustes.dayPositionHelp": "Hoy puede mostrar un día adelantado según las lecturas que marcaste.",
   "ajustes.ofTotal": "de {total}",
   "ajustes.dayPlaceholder": "Ej: {day}",
   "ajustes.actualizar": "Actualizar",
@@ -109,6 +110,7 @@
   "onboarding.askName.step": "Paso 1 de 3",
   "onboarding.askName.subtitle": "Así te ven tus grupos y aparece en los pedidos que compartís.",
   "onboarding.auth.tagline": "Tu lectura diaria y tus oraciones, en un solo lugar tranquilo.",
+  "onboarding.auth.physicalBibleNote": "La app acompaña tu Biblia de papel: te ayuda a saber qué leer, pero no reemplaza el texto bíblico.",
   "onboarding.auth.createAccount": "Crear cuenta",
   "onboarding.auth.haveAccount": "Ya tengo cuenta",
   "onboarding.auth.checkEmail": "Revisá tu correo",
@@ -231,6 +233,7 @@
   "hoy.reprogramar": "Reprogramar",
   "hoy.dismissBehind": "Descartar aviso",
   "hoy.reprogramarError": "No se pudo reprogramar. Revisá tu conexión e intentá de nuevo.",
+  "hoy.reprogramado": "Listo, seguimos desde hoy.",
   "hoy.planCompleted": "Plan completado",
   "hoy.finishedReading": "Terminaste de leer",
   "hoy.daysRead": {
@@ -260,6 +263,7 @@
   "hoy.viewNote": "Ver tu nota",
   "hoy.writeNote": "Anotá lo que te habló Dios hoy",
   "hoy.openBible": "Abrir en mi app de Biblia",
+  "hoy.externalBibleHint": "Abre esta referencia en tu app o sitio de Biblia.",
   "hoy.streakDays": {
     "one": "{count} día seguido",
     "other": "{count} días seguidos"
@@ -299,6 +303,9 @@
   "progreso.behindReprogramar": "podés reprogramar",
   "progreso.behindReprogramando": "reprogramando…",
   "progreso.behindPost": " y seguir.",
+  "progreso.reprogramado": "Listo, seguimos desde hoy.",
+  "progreso.position": "Vas por el día {day} del plan.",
+  "progreso.positionAhead": "El calendario va por el día {day}.",
 
   "diario.loadError": "No se pudo cargar tu camino.",
   "diario.empty.title": "Tu camino empieza acá",

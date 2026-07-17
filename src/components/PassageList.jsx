@@ -5,7 +5,7 @@ import { bookLabel } from '../i18n/books.js'
 // la Biblia (tinta plena, sin color — el toque lo confirma la opacidad al
 // presionar). Compartido entre Hoy y la lectura de grupo, que muestran el
 // mismo tipo de lista. Con ≥4 pasajes la display baja un talle.
-export default function PassageList({ refs, locale }) {
+export default function PassageList({ refs, locale, externalHint }) {
   const displayClass = refs.length >= 4 ? 'text-display-sm' : 'text-display'
   return refs.map((ref, i) => {
     const url = youVersionUrl(ref, locale)
@@ -16,6 +16,7 @@ export default function PassageList({ refs, locale }) {
         href={url}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label={externalHint ? `${label}. ${externalHint}` : label}
         className={`block w-fit ${displayClass} text-ink transition-opacity active:opacity-50`}
       >
         {label}

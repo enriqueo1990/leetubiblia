@@ -83,6 +83,9 @@ export default function AuthFlow() {
           <p className="mt-2 max-w-[280px] text-[17px] text-ink-soft">
             {t('onboarding.auth.tagline')}
           </p>
+          <p className="mt-3 max-w-[300px] text-[13px] leading-relaxed text-ink-soft">
+            {t('onboarding.auth.physicalBibleNote')}
+          </p>
         </div>
         <div className="space-y-3">
           <button

@@ -17,7 +17,11 @@ function dbError(error) {
 // `completed_at` por `completed_on`. Así una base todavía no migrada sigue
 // funcionando y deja de presentarse erróneamente como si no tuviera conexión.
 function missingCompletedOn(error) {
-  return error?.code === '42703' && /completed_on/i.test(error.message || '')
+  if (!/completed_on/i.test(error?.message || '')) return false
+  // SELECT suele devolver el código SQL 42703; los upsert de PostgREST contra
+  // una columna que todavía no existe suelen devolver PGRST204 (schema cache).
+  // Ambos significan lo mismo para este fallback de compatibilidad.
+  return error?.code === '42703' || error?.code === 'PGRST204'
 }
 
 // Helpers de datos de solo lectura del catálogo. Las mutaciones de perfil viven

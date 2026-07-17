@@ -50,6 +50,15 @@ export default function Progreso() {
       {/* Pantalla top-level (4º ítem de la nav primaria desde 2026-07): sin miga. */}
       <h1 className="text-[26px] font-bold tracking-tight text-ink">{t('nav.progreso')}</h1>
 
+      {!r.loading && r.hasPlan && r.displayDay != null && (
+        <p className="mt-1 text-[14px] text-ink-soft">
+          {t('progreso.position', { day: r.displayDay })}
+          {r.todayDay != null && r.displayDay > r.todayDay && (
+            <span className="ml-1">{t('progreso.positionAhead', { day: r.todayDay })}</span>
+          )}
+        </p>
+      )}
+
       {reflectionsEnabled && (
         <Segmented className="mt-4" options={PROG_VIEWS} value={seg} onChange={setSeg} />
       )}
@@ -183,6 +192,11 @@ export default function Progreso() {
               {r.reprogramarError && (
                 <p className="mt-2 text-[12px]" style={{ color: 'var(--danger)' }}>
                   {t('hoy.reprogramarError')}
+                </p>
+              )}
+              {r.reprogramado && (
+                <p className="mt-2 text-[12px]" style={{ color: 'var(--accent-ink)' }} role="status">
+                  ✓ {t('progreso.reprogramado')}
                 </p>
               )}
             </>

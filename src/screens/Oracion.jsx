@@ -216,7 +216,7 @@ export default function Oracion() {
                 subtitle={fmtD(p.created_at)}
                 onClick={
                   p.visibility === 'shared'
-                    ? () => navigate(`/oracion/${p.id}`)
+                    ? () => navigate(`/oracion/${p.id}`, { state: { from: { to: '/oracion', label: t('nav.oracion') } } })
                     : () => setSheet({ mode: 'edit', prayer: p })
                 }
               />
@@ -236,7 +236,7 @@ export default function Oracion() {
                     subtitle={t('oracion.answeredOn', { date: fmtD(p.answered_at || p.created_at) })}
                     onClick={
                       p.visibility === 'shared'
-                        ? () => navigate(`/oracion/${p.id}`)
+                    ? () => navigate(`/oracion/${p.id}`, { state: { from: { to: '/oracion', label: t('nav.oracion') } } })
                         : () => setSheet({ mode: 'edit', prayer: p })
                     }
                   />
@@ -279,7 +279,7 @@ export default function Oracion() {
                       p={p}
                       dimmed={p.status === 'answered'}
                       subtitle={`${p.author_name} · ${fmtD(p.created_at)}`}
-                      onClick={() => navigate(`/oracion/${p.id}`)}
+                      onClick={() => navigate(`/oracion/${p.id}`, { state: { from: { to: '/oracion', label: t('nav.oracion') } } })}
                     />
                   ))}
                 </ul>

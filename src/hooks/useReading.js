@@ -95,6 +95,7 @@ export function useReading() {
   // Feedback de reprogramar (requiere conexión): busy y último fallo.
   const [reprogramando, setReprogramando] = useState(false)
   const [reprogramarError, setReprogramarError] = useState(false)
+  const [reprogramado, setReprogramado] = useState(false)
   // Racha guardada en el snapshot, para no mostrar 0 offline si el snapshot viejo
   // no trae las fechas con que se calcula la racha. null = recalcular en vivo.
   const [offlineStreak, setOfflineStreak] = useState(null)
@@ -249,6 +250,7 @@ export function useReading() {
   const reprogramar = useCallback(async () => {
     if (!planStart || todayDay == null) return
     setReprogramarError(false)
+    setReprogramado(false)
     if (!isOnline()) {
       setReprogramarError(true)
       return
@@ -259,6 +261,7 @@ export function useReading() {
     const { error } = await updateProfile({ plan_start_date: newStart })
     setReprogramando(false)
     if (error) setReprogramarError(true)
+    else setReprogramado(true)
     // En éxito, el cambio de plan_start_date dispara load() y el atraso baja a 0.
   }, [planStart, todayDay, completed, updateProfile])
 
@@ -333,6 +336,7 @@ export function useReading() {
     reprogramar,
     reprogramando,
     reprogramarError,
+    reprogramado,
     readWriteError,
     reload: load,
   }

@@ -11,8 +11,8 @@
     <!-- theme_color inicial; useTheme lo actualiza en vivo según el modo -->
     <meta name="theme-color" content="#F8F7F4" />
     <!-- Único splash de arranque: completa libro, versículo y referencia mientras
-         React prepara la pantalla real detrás. Solo se retira cuando ambas cosas
-         terminaron: animación completa + app lista. -->
+         React prepara la pantalla real detrás. Se retira cuando la pantalla está
+         lista; la transición CSS evita mostrar contenido incompleto. -->
     <style>
       /* Fondo en html/body para que no haya flash blanco mientras React monta */
       html, body {
@@ -256,19 +256,16 @@
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
     <script>
-      // El splash completa su secuencia y espera a que React tenga una pantalla
-      // real lista. La app se monta detrás, de modo que la transición no revela
-      // estados intermedios ni un segundo splash.
+      // El splash espera a que React tenga una pantalla real lista. La app se
+      // monta detrás, de modo que la transición no revela estados intermedios ni
+      // un segundo splash.
       (function () {
-        var MIN_SPLASH_MS = 2500
-        var startedAt = performance.now()
         var closing = false
 
         function dismissWhenReady() {
           if (closing || !window.__ltbAppReady) return
           closing = true
-          var remaining = Math.max(0, MIN_SPLASH_MS - (performance.now() - startedAt))
-          setTimeout(function finishLaunch() {
+          function finishLaunch() {
             // Una ruta lazy todavía puede estar preparando su pantalla. Mantener
             // el splash finalizado evita revelar un skeleton entre ambos estados.
             if (document.querySelector('[data-launch-pending]')) {
@@ -279,7 +276,8 @@
             if (!splash) return
             splash.classList.add('ltb-splash-exit')
             setTimeout(function () { splash.remove() }, 380)
-          }, remaining)
+          }
+          finishLaunch()
         }
 
         window.addEventListener('ltb:app-ready', dismissWhenReady, { once: true })

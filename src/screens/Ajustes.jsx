@@ -373,6 +373,9 @@ export default function Ajustes() {
               {t('ajustes.currentDay')}: <span className="font-semibold text-ink">{currentDay}</span>{' '}
               {t('ajustes.ofTotal', { total: duration })}
             </p>
+            <p className="mt-1 text-[13px] leading-snug text-ink-soft">
+              {t('ajustes.dayPositionHelp')}
+            </p>
             <label htmlFor="plan-day" className="sr-only">{t('ajustes.section.queDia')}</label>
             <input
               id="plan-day"

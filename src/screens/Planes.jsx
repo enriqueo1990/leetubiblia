@@ -47,6 +47,7 @@ export default function Planes() {
       <Link
         key={p.id}
         to={`/planes/${p.id}`}
+        state={{ from: { to: '/planes', label: t('nav.planes') } }}
         className={`card flex w-full items-center gap-3 p-4 text-left transition-colors duration-200${active ? ' card-active' : ''}`}
       >
         <div className="min-w-0 flex-1">

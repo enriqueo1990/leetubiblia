@@ -398,6 +398,11 @@ export default function Hoy() {
               {t('hoy.reprogramarError')}
             </p>
           )}
+          {r.reprogramado && (
+            <p className="mt-1 text-[12px]" style={{ color: 'var(--accent-ink)' }} role="status">
+              ✓ {t('hoy.reprogramado')}
+            </p>
+          )}
         </>
       )}
 
@@ -502,7 +507,13 @@ export default function Hoy() {
                 </button>
               </div>
             ) : (
-              refsShown && <PassageList refs={refsShown} locale={locale} />
+              refsShown && (
+                <PassageList
+                  refs={refsShown}
+                  locale={locale}
+                  externalHint={t('hoy.externalBibleHint')}
+                />
+              )
             )
           )}
         </div>
