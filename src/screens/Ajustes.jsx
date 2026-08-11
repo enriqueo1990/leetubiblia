@@ -71,7 +71,10 @@ function pushReasonMessage(reason, t) {
 }
 
 export default function Ajustes() {
-  const { accent, setAccent, accents, themePref, setTheme, resolvedMode, locale, setLocale, locales, t } = usePreferences()
+  const {
+    accent, setAccent, accents, themePref, setTheme, resolvedMode, locale, setLocale, locales,
+    bibleProvider, setBibleProvider, bibleProviders, t,
+  } = usePreferences()
   const { user, profile, updateProfile, signOut } = useAuth()
   const { canInstall, promptInstall } = useInstallPrompt()
 
@@ -142,6 +145,10 @@ export default function Ajustes() {
   function pickLocale(key) {
     setLocale(key)
     updateProfile({ locale: key })
+  }
+  function pickBibleProvider(key) {
+    setBibleProvider(key)
+    updateProfile({ bible_provider: key })
   }
   const THEMES = [
     { key: 'auto', label: t('ajustes.theme.auto') },
@@ -464,6 +471,17 @@ export default function Ajustes() {
 
       <SectionLabel>{t('ajustes.idioma')}</SectionLabel>
       <Segmented label={t('ajustes.idioma')} options={locales} value={locale} onChange={pickLocale} />
+
+      <SectionLabel>{t('ajustes.proveedorBiblia')}</SectionLabel>
+      <Segmented
+        label={t('ajustes.proveedorBiblia')}
+        options={bibleProviders}
+        value={bibleProvider}
+        onChange={pickBibleProvider}
+      />
+      <p className="mt-2 px-1 text-[13px] leading-snug text-ink-soft">
+        {t('ajustes.proveedorBibliaHelp')}
+      </p>
 
       <SectionLabel>{t('ajustes.section.avisos')}</SectionLabel>
       <div className="card divide-y divide-hairline">

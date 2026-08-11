@@ -1,5 +1,7 @@
 {
   "ajustes.idioma": "Idioma",
+  "ajustes.proveedorBiblia": "Provedor de Bíblia",
+  "ajustes.proveedorBibliaHelp": "Com qual app ou site os textos abrem ao tocar em uma referência.",
   "ajustes.theme.auto": "Auto",
   "ajustes.theme.light": "Claro",
   "ajustes.theme.dark": "Escuro",

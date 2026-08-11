@@ -48,7 +48,7 @@ export default function Hoy() {
   const r = useReading()
   const navigate = useNavigate()
   const { user, profile, updateProfile } = useAuth()
-  const { t, locale } = usePreferences()
+  const { t, locale, bibleProvider } = usePreferences()
   const { canInstall, promptInstall } = useInstallPrompt()
   const reflectionsEnabled = !!profile?.reflections_enabled
 
@@ -551,6 +551,7 @@ export default function Hoy() {
                 <PassageList
                   refs={refsShown}
                   locale={locale}
+                  provider={bibleProvider}
                   externalHint={t('hoy.externalBibleHint')}
                 />
               )

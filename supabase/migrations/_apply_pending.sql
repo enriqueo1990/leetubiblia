@@ -1,6 +1,6 @@
 -- ============================================================
 -- Lee Tu Biblia — MIGRACIONES PENDIENTES (staging incremental).
--- Contiene las migraciones recientes 0025..0030; son idempotentes.
+-- Contiene las migraciones recientes 0025..0031; son idempotentes.
 -- Pegá este archivo en el SQL Editor de Supabase y Run.
 -- Para un deploy desde cero usá _apply_all.sql.
 -- ============================================================
@@ -357,3 +357,19 @@ language sql security definer stable set search_path = public as $$
     and public.is_group_owner(p_group_id)
     and (select share_reading from public.profiles where id = auth.uid()) = true;
 $$;
+
+-- ===== 0031_profile_bible_provider.sql =====
+-- Proveedor externo para abrir pasajes bíblicos (Ajustes → Proveedor de Biblia).
+-- A diferencia de locale, no hace falta detectar nada del dispositivo: YouVersion
+-- es el proveedor con el que la app siempre trabajó, así que el default not null
+-- preserva el comportamiento actual para todos los usuarios existentes.
+
+do $$
+begin
+  if not exists (select 1 from pg_type where typname = 'bible_provider') then
+    create type bible_provider as enum ('youversion', 'biblegateway');
+  end if;
+end $$;
+
+alter table public.profiles
+  add column if not exists bible_provider bible_provider not null default 'youversion';

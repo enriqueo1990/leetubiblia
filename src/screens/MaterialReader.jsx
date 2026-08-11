@@ -7,7 +7,7 @@ import {
   positionOf,
   withMaterialPosition,
 } from '../lib/materials.js'
-import { youVersionUrl } from '../lib/bible.js'
+import { passageUrl } from '../lib/bible.js'
 import { usePreferences } from '../lib/preferences.jsx'
 import { bookLabel } from '../i18n/books.js'
 import { shareQuestion } from '../lib/shareImage.js'
@@ -32,7 +32,7 @@ import ShareImageSheet from '../components/ShareImageSheet.jsx'
 export default function MaterialReader() {
   const { slug } = useParams()
   const { profile, updateProfile } = useAuth()
-  const { t, locale } = usePreferences()
+  const { t, locale, bibleProvider } = usePreferences()
 
   const [content, setContent] = useState(null) // null = cargando
   const [notFound, setNotFound] = useState(false)
@@ -245,7 +245,7 @@ export default function MaterialReader() {
         {entry.refs.length > 0 && (
           <p className="mt-5 border-t border-hairline pt-4 leading-relaxed">
             {entry.refs.map((ref, i) => {
-              const url = youVersionUrl(ref, locale)
+              const url = passageUrl(ref, locale, bibleProvider)
               const last = i === entry.refs.length - 1
               return (
                 // nowrap por pasaje con el "·" pegado al final: el separador cierra

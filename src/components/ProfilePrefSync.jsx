@@ -9,7 +9,9 @@ import { ensureSubscribed } from '../lib/push.js'
 // valor, así que este efecto queda en no-op tras un cambio del usuario.
 export default function ProfilePrefSync() {
   const { profile, user, updateProfile } = useAuth()
-  const { accent, setAccent, themePref, setTheme, locale, setLocale } = usePreferences()
+  const {
+    accent, setAccent, themePref, setTheme, locale, setLocale, bibleProvider, setBibleProvider,
+  } = usePreferences()
 
   useEffect(() => {
     if (!profile) return
@@ -28,8 +30,13 @@ export default function ProfilePrefSync() {
     } else {
       updateProfile({ locale })
     }
+    // Proveedor de Biblia: siempre tiene valor (default 'youversion' en la DB,
+    // sin dance de detección como locale), así que el perfil manda directo.
+    if (profile.bible_provider && profile.bible_provider !== bibleProvider) {
+      setBibleProvider(profile.bible_provider)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profile?.accent_color, profile?.theme_pref, profile?.locale])
+  }, [profile?.accent_color, profile?.theme_pref, profile?.locale, profile?.bible_provider])
 
   // Si el recordatorio está activo y el permiso ya fue concedido, asegura que
   // este dispositivo tenga su subscription Web Push (re-suscribe en silencio).

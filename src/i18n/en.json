@@ -1,5 +1,7 @@
 {
   "ajustes.idioma": "Language",
+  "ajustes.proveedorBiblia": "Bible provider",
+  "ajustes.proveedorBibliaHelp": "Which app or site opens when you tap a passage.",
   "ajustes.theme.auto": "Auto",
   "ajustes.theme.light": "Light",
   "ajustes.theme.dark": "Dark",
