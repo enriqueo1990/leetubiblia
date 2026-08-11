@@ -1,6 +1,6 @@
 -- ============================================================
 -- Lee Tu Biblia — MIGRACIONES PENDIENTES (staging incremental).
--- Contiene las migraciones recientes 0025..0031; son idempotentes.
+-- Contiene las migraciones recientes 0025..0032; son idempotentes.
 -- Pegá este archivo en el SQL Editor de Supabase y Run.
 -- Para un deploy desde cero usá _apply_all.sql.
 -- ============================================================
@@ -373,3 +373,21 @@ end $$;
 
 alter table public.profiles
   add column if not exists bible_provider bible_provider not null default 'youversion';
+
+-- ===== 0032_peek_group_by_code.sql =====
+-- Vista previa de invitación a grupo, sin sesión: deja mostrar
+-- "Te invitaron a {grupo}" antes del registro. Superficie mínima para anon
+-- (solo nombre + cantidad de miembros); unirse sigue requiriendo sesión.
+
+create or replace function public.peek_group_by_code(p_code text)
+returns table (name text, member_count bigint)
+language sql security definer stable set search_path = public as $$
+  select g.name, count(gm.user_id) as member_count
+  from public.groups g
+  left join public.group_members gm on gm.group_id = g.id
+  where g.invite_code = upper(trim(p_code))
+  group by g.name;
+$$;
+
+revoke execute on function public.peek_group_by_code(text) from public;
+grant execute on function public.peek_group_by_code(text) to anon, authenticated;

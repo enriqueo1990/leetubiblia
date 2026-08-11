@@ -418,6 +418,16 @@ export async function joinGroupByCode(code) {
   return data && data.id != null ? data : null
 }
 
+// Vista previa de invitación SIN sesión (migración 0032): solo nombre y cantidad
+// de miembros, para que la bienvenida pueda decir "Te invitaron a {grupo}" antes
+// del registro. Devuelve null si el código no existe.
+export async function peekGroupByCode(code) {
+  const { data, error } = await supabase.rpc('peek_group_by_code', { p_code: code })
+  if (error) throw dbError(error)
+  const row = Array.isArray(data) ? data[0] : data
+  return row && row.name != null ? row : null
+}
+
 export async function regenerateInviteCode(groupId) {
   const { data, error } = await supabase.rpc('regenerate_invite_code', { p_group_id: groupId })
   if (error) throw dbError(error)

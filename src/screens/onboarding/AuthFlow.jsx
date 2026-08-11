@@ -1,10 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useAuth } from '../../lib/auth.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
+import { peekGroupByCode } from '../../lib/db.js'
+import { savePendingPlan } from '../../lib/pendingPlan.js'
+import PlanCatalog from '../../components/PlanCatalog.jsx'
 import { BookIcon } from '../../components/icons.jsx'
 
-// Bienvenida + auth por magic link (documento maestro §5.8, README pantalla 8).
-// Pasos locales: 'welcome' → 'form' (crear/ingresar) → 'sent' (revisá tu correo).
+// Bienvenida + auth por código de email (documento maestro §5.8, README pantalla 8).
+// Pasos locales: 'welcome' → 'explore' (catálogo SIN cuenta) → 'form' → 'code'.
+// La cuenta se pide en el momento del compromiso, no en la puerta: primero se
+// elige el plan (queda pendiente en localStorage y el onboarding lo aplica al
+// terminar), o se ve a qué grupo te invitaron (/join?code → peek sin sesión).
 // Sin contraseña → sin recuperación.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -19,13 +26,36 @@ function Centered({ children }) {
 export default function AuthFlow() {
   const { signInWithEmail, verifyEmailCode } = useAuth()
   const { t } = usePreferences()
+  const { pathname, search } = useLocation()
   const [step, setStep] = useState('welcome')
   const [mode, setMode] = useState('signup') // 'signup' | 'login'
+  const [formOrigin, setFormOrigin] = useState('welcome') // adónde vuelve el ‹ del form
+  const [pendingName, setPendingName] = useState(null) // plan elegido antes de la cuenta
   const [email, setEmail] = useState('')
   const [code, setCode] = useState('')
   const [sending, setSending] = useState(false)
   const [verifying, setVerifying] = useState(false)
   const [error, setError] = useState(null)
+
+  // Invitación a grupo (/join?code=X): vista previa sin sesión — solo nombre y
+  // cantidad de miembros (RPC anónima, migración 0032). Si falla o el código no
+  // existe, la bienvenida queda genérica y Join.jsx da el error real tras entrar.
+  const inviteCode =
+    pathname === '/join' ? (new URLSearchParams(search).get('code') || '').trim() : ''
+  const [invite, setInvite] = useState(null)
+
+  useEffect(() => {
+    if (!inviteCode) return
+    let alive = true
+    peekGroupByCode(inviteCode)
+      .then((g) => {
+        if (alive && g) setInvite(g)
+      })
+      .catch(() => {})
+    return () => {
+      alive = false
+    }
+  }, [inviteCode])
 
   const valid = EMAIL_RE.test(email.trim())
 
@@ -66,6 +96,12 @@ export default function AuthFlow() {
     // onAuthStateChange detecta la sesión y el Gate avanza solo.
   }
 
+  function goToForm(nextMode, origin) {
+    setMode(nextMode)
+    setFormOrigin(origin)
+    setStep('form')
+  }
+
   // ---- Bienvenida ----
   if (step === 'welcome') {
     return (
@@ -80,9 +116,22 @@ export default function AuthFlow() {
           <h1 className="mt-7 text-[24px] font-bold tracking-tight text-ink">
             Lee Tu Biblia
           </h1>
-          <p className="mt-2 max-w-[280px] text-[17px] text-ink-soft">
-            {t('onboarding.auth.tagline')}
-          </p>
+          {invite ? (
+            <>
+              <p className="mt-2 max-w-[280px] text-[17px] text-ink">
+                {t('onboarding.auth.inviteTitle', { group: invite.name })}
+              </p>
+              {invite.member_count >= 2 && (
+                <p className="mt-1.5 text-[13px] text-ink-soft">
+                  {t('onboarding.auth.inviteMembers', { count: invite.member_count })}
+                </p>
+              )}
+            </>
+          ) : (
+            <p className="mt-2 max-w-[280px] text-[17px] text-ink-soft">
+              {t('onboarding.auth.tagline')}
+            </p>
+          )}
           <p className="mt-3 max-w-[300px] text-[13px] leading-relaxed text-ink-soft">
             {t('onboarding.auth.physicalBibleNote')}
           </p>
@@ -92,25 +141,65 @@ export default function AuthFlow() {
             type="button"
             className="btn btn-primary"
             onClick={() => {
-              setMode('signup')
-              setStep('form')
+              // Invitación: derecho al registro (el plan se resuelve con el grupo).
+              // Sin invitación: primero explorar los planes, la cuenta después.
+              if (invite) goToForm('signup', 'welcome')
+              else setStep('explore')
             }}
           >
-            {t('onboarding.auth.createAccount')}
+            {invite ? t('onboarding.auth.inviteCta') : t('onboarding.auth.start')}
           </button>
           <button
             type="button"
             className="btn btn-secondary"
             style={{ color: 'var(--accent-ink)', borderColor: 'var(--accent-ink)' }}
-            onClick={() => {
-              setMode('login')
-              setStep('form')
-            }}
+            onClick={() => goToForm('login', 'welcome')}
           >
             {t('onboarding.auth.haveAccount')}
           </button>
         </div>
       </Centered>
+    )
+  }
+
+  // ---- Explorar planes (sin cuenta todavía) ----
+  if (step === 'explore') {
+    return (
+      <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col px-7 py-10">
+        <button
+          type="button"
+          className="mb-4 self-start text-[15px] font-medium"
+          style={{ color: 'var(--accent-ink)' }}
+          onClick={() => setStep('welcome')}
+        >
+          ‹ {t('common.back')}
+        </button>
+        <h1 className="text-[26px] font-bold tracking-tight text-ink">
+          {t('onboarding.auth.exploreTitle')}
+        </h1>
+        <p className="mt-2 text-[16px] text-ink-soft">{t('planes.subtitle')}</p>
+
+        <PlanCatalog
+          onStart={(plan, resumeDay) => {
+            savePendingPlan({ planId: plan.id, resumeDay, name: plan.name })
+            setPendingName(plan.name)
+            goToForm('signup', 'explore')
+          }}
+          startLabel={t('onboarding.auth.exploreContinue')}
+        />
+
+        <button
+          type="button"
+          className="mt-4 min-h-11 w-full text-center text-[15px] font-medium text-accent-ink"
+          onClick={() => {
+            savePendingPlan({ skipped: true })
+            setPendingName(null)
+            goToForm('signup', 'explore')
+          }}
+        >
+          {t('onboarding.auth.exploreLater')}
+        </button>
+      </div>
     )
   }
 
@@ -199,19 +288,30 @@ export default function AuthFlow() {
 
   // ---- Formulario (crear / ingresar) ----
   const isSignup = mode === 'signup'
+  // El registro llega con contexto: qué se va a guardar con esta cuenta.
+  const signupContext = isSignup
+    ? invite
+      ? t('onboarding.auth.signupForGroup', { group: invite.name })
+      : pendingName
+        ? t('onboarding.auth.signupForPlan', { plan: pendingName })
+        : null
+    : null
   return (
     <Centered>
       <button
         type="button"
         className="mb-6 self-start text-[15px] font-medium"
         style={{ color: 'var(--accent-ink)' }}
-        onClick={() => setStep('welcome')}
+        onClick={() => setStep(formOrigin)}
       >
         ‹ {t('common.back')}
       </button>
       <h1 className="text-[26px] font-bold tracking-tight text-ink">
         {isSignup ? t('onboarding.auth.createTitle') : t('onboarding.auth.login')}
       </h1>
+      {signupContext && (
+        <p className="mt-2 text-[15px] text-ink-soft">{signupContext}</p>
+      )}
 
       <form
         onSubmit={(e) => {

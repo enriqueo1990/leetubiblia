@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
+import { clearPendingPlan } from '../lib/pendingPlan.js'
 import LaunchReady from './LaunchReady.jsx'
 import AuthFlow from '../screens/onboarding/AuthFlow.jsx'
 import AskName from '../screens/onboarding/AskName.jsx'
@@ -52,6 +53,14 @@ export default function Gate({ children }) {
   // grupo. Al completar extras, EXTRAS_DONE_KEY conserva que el onboarding ya
   // terminó; antes de eso, una recarga vuelve a ofrecer la elección.
   const [planStepDone, setPlanStepDone] = useState(false)
+
+  // Si alguien exploró y eligió plan en la bienvenida pero terminó ENTRANDO a una
+  // cuenta que ya tiene plan activo, esa elección pendiente se descarta: nunca
+  // pisamos un plan en curso desde el flujo de exploración (ver lib/pendingPlan.js).
+  const hasActivePlan = Boolean(profile?.active_plan_id)
+  useEffect(() => {
+    if (hasActivePlan) clearPendingPlan()
+  }, [hasActivePlan])
 
   if (loading) return null
   if (!session) return <LaunchReady><AuthFlow /></LaunchReady>
