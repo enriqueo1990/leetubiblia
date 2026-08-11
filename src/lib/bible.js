@@ -17,34 +17,58 @@ export function bibleVersion(locale) {
 }
 
 // El label (siempre en español, ver i18n/books.js) trae el versículo como texto,
-// ej. "1 Corintios 10:1-4". No hay campo estructurado para verso en los datos,
-// así que se extrae del final del label anclado al número de capítulo conocido.
+// ej. "1 Corintios 10:1-4" o, cruzando capítulo, "Hebreos 4:14-5:6" (ref.chapter
+// = capítulo inicial, ref.chapter_end = capítulo final — campo real en los refs
+// de planes de lectura, ver plan_days.refs). Se ancla con esos números en vez de
+// adivinar todo por regex, porque el label es texto libre.
 function parseVerseRange(ref) {
   if (!ref?.label || !ref?.chapter) return null
-  const m = ref.label.match(new RegExp(`${ref.chapter}(?::(\\d+)(?:-(\\d+))?)?$`))
-  if (!m || !m[1]) return null
-  return { start: m[1], end: m[2] || null }
+  const chapterEnd = ref.chapter_end || ref.chapter
+  if (chapterEnd === ref.chapter) {
+    const m = ref.label.match(new RegExp(`${ref.chapter}(?::(\\d+)(?:-(\\d+))?)?$`))
+    if (!m || !m[1]) return null
+    return { chapterStart: ref.chapter, verseStart: m[1], chapterEnd: ref.chapter, verseEnd: m[2] || null }
+  }
+  // Rango que cruza de capítulo: solo tiene versículos si el label los trae en
+  // ambas puntas ("4:14-5:6"); si es un rango de capítulos enteros ("40-41") no
+  // hay verso que extraer y se cae al link de capítulo completo (comportamiento
+  // ya correcto, sin cambios acá).
+  const m = ref.label.match(new RegExp(`${ref.chapter}:(\\d+)-${chapterEnd}:(\\d+)$`))
+  if (!m) return null
+  return { chapterStart: ref.chapter, verseStart: m[1], chapterEnd, verseEnd: m[2] }
 }
 
 export function youVersionUrl(ref, locale = 'es') {
   if (!ref?.book_usfm || !ref?.chapter) return null
   const v = bibleVersion(locale)
   const verses = parseVerseRange(ref)
-  const passage = verses ? `${ref.chapter}.${verses.start}${verses.end ? `-${verses.end}` : ''}` : ref.chapter
+  let passage = ref.chapter
+  if (verses) {
+    // YouVersion no soporta rangos que cruzan de capítulo en la URL (probado:
+    // HEB.4.14-5.6.ESV da 404). Cruzando, se ancla solo al versículo inicial —
+    // mejor que perder la referencia exacta del todo.
+    passage = verses.chapterEnd === verses.chapterStart
+      ? `${verses.chapterStart}.${verses.verseStart}${verses.verseEnd ? `-${verses.verseEnd}` : ''}`
+      : `${verses.chapterStart}.${verses.verseStart}`
+  }
   return `https://www.bible.com/bible/${v.id}/${ref.book_usfm}.${passage}.${v.code}`
 }
 
 // Alternativa: BibleGateway abre directo al versículo exacto (search= acepta
-// referencias como "Juan 3:16-18"). Útil si en el futuro se ofrece elegir
-// proveedor (documento maestro §Fase 2); no está enlazada a la UI todavía.
+// referencias como "Juan 3:16-18", y también rangos que cruzan capítulo como
+// "Hebreos 4:14-5:6" — a diferencia de YouVersion, sí los soporta). Elegible en
+// Ajustes → Proveedor de Biblia (ver passageUrl más abajo).
 export function bibleGatewayUrl(ref, locale = 'es') {
   if (!ref?.book_usfm || !ref?.chapter) return null
   const v = bibleVersion(locale)
   const verses = parseVerseRange(ref)
   const bookName = BOOKS[ref.book_usfm]?.es || ref.book_usfm
-  const reference = verses
-    ? `${bookName} ${ref.chapter}:${verses.start}${verses.end ? `-${verses.end}` : ''}`
-    : `${bookName} ${ref.chapter}`
+  let reference = `${bookName} ${ref.chapter}`
+  if (verses) {
+    reference = verses.chapterEnd === verses.chapterStart
+      ? `${bookName} ${verses.chapterStart}:${verses.verseStart}${verses.verseEnd ? `-${verses.verseEnd}` : ''}`
+      : `${bookName} ${verses.chapterStart}:${verses.verseStart}-${verses.chapterEnd}:${verses.verseEnd}`
+  }
   return `https://www.biblegateway.com/passage/?search=${encodeURIComponent(reference)}&version=${v.code}`
 }
 
