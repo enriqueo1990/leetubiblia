@@ -222,6 +222,10 @@ export async function loadMaterialContent(slug) {
     // del lector: portada al abrir por primera vez, accesible desde el índice.
     intro: Array.isArray(data.intro) && data.intro.length > 0 ? data.intro : null,
     source: data.source ?? null,
+    // Devocionales: firma del autor al pie de cada entrada ("— Charles H.
+    // Spurgeon") y la cita del encabezado junto al versículo, no al pie.
+    author: data.author ?? null,
+    headingRef: data.headingRef === true,
     entries,
     total: entries.length,
   }

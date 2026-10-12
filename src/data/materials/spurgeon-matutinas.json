@@ -3,6 +3,8 @@
   "name": "Lecturas matutinas de Spurgeon",
   "description": "Las lecturas matutinas de C. H. Spurgeon, publicadas en 1865 como «Morning by Morning» y reunidas luego en «Morning and Evening»: una meditación breve sobre un versículo para cada mañana del año.",
   "cadence": "calendar",
+  "author": "Charles H. Spurgeon",
+  "headingRef": true,
   "source": "Traducción original al español realizada a partir del texto inglés de dominio público (Morning and Evening: Daily Readings, edición digital de la Christian Classics Ethereal Library). Las citas bíblicas se traducen de la versión inglesa que usa Spurgeon (King James) y los himnos citados se traducen sin rima. Cada lectura enlaza su versículo para leerlo en tu Biblia.",
   "intro": [
     "Charles Haddon Spurgeon (1834-1892) fue pastor bautista en Londres durante casi cuarenta años. Llamado «el príncipe de los predicadores», reunía a miles de personas cada domingo en el Tabernáculo Metropolitano, y sus sermones se leían en todo el mundo.",

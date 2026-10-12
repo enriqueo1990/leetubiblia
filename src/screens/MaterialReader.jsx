@@ -42,6 +42,24 @@ import ShareImageSheet from '../components/ShareImageSheet.jsx'
 // frontera. Se abre en la lectura de hoy, se navega libremente por todo el año, y
 // "Marcar como leído" existe solo en la de hoy (guarda la fecha, readOn). Desde
 // otro día, la acción es volver a la de hoy.
+// Una cita como enlace a la Biblia (o texto, si no hay enlace posible).
+function RefLink({ refItem, locale, bibleProvider }) {
+  const url = passageUrl(refItem, locale, bibleProvider)
+  const label = bookLabel(refItem, locale)
+  if (!url) return <span className="whitespace-nowrap text-[15px] font-medium text-ink-soft">{label}</span>
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="whitespace-nowrap text-[15px] font-medium transition-opacity active:opacity-50"
+      style={{ color: 'var(--accent-ink)' }}
+    >
+      {label}
+    </a>
+  )
+}
+
 // Agrupa las citas consecutivas del mismo párrafo (`ref.p`); sin `p`, un solo grupo.
 function refGroups(refs) {
   const groups = []
@@ -135,6 +153,10 @@ export default function MaterialReader() {
   const hasIntro = Array.isArray(content.intro) && content.intro.length > 0
   const isIntro = n === 0 // "ficha 0": portada con contexto histórico, sin marcador
   const entry = isIntro ? null : content.entries[n - 1]
+  // Con `headingRef`, la primera cita es la del versículo del encabezado y se
+  // muestra junto a él; el pie queda para las demás (si las hay).
+  const headingRef = content.headingRef && entry?.refs.length ? entry.refs[0] : null
+  const footRefs = entry ? (headingRef ? entry.refs.slice(1) : entry.refs) : []
   const completed = !calendar && pos > total
   const atFrontier = calendar ? n === today && !readToday : !completed && n === pos // lista para marcar
   const maxN = calendar ? total : Math.min(pos, total) // no se avanza más allá de lo leído (+ la del frente)
@@ -289,11 +311,22 @@ export default function MaterialReader() {
 
         <h1 className="mt-2.5 text-[20px] font-semibold leading-snug text-ink">
           {entry.question}
+          {/* Devocional: la cita va pegada al versículo que encabeza la lectura. */}
+          {headingRef && (
+            <>
+              {' '}
+              <RefLink refItem={headingRef} locale={locale} bibleProvider={bibleProvider} />
+            </>
+          )}
         </h1>
 
         {/* pre-line: los artículos largos (p. ej. Confesión Belga) traen párrafos
             separados por línea en blanco en el JSON. */}
         <p className="mt-3.5 whitespace-pre-line text-[17px] leading-relaxed text-ink">{entry.answer}</p>
+
+        {content.author && (
+          <p className="mt-4 text-right text-[15px] italic text-ink-soft">— {content.author}</p>
+        )}
 
         {/* Citas de apoyo como nota al pie de la ficha: filete hairline arriba
             (como en un catecismo impreso), sin etiqueta ni cromo. El color acento
@@ -301,9 +334,9 @@ export default function MaterialReader() {
             entrada junta varios párrafos (p. ej. un capítulo de la 1689), cada
             cita trae su párrafo (`p`) y van en un renglón por párrafo, con su
             número delante, como las notas de una confesión impresa. */}
-        {entry.refs.length > 0 && (
+        {footRefs.length > 0 && (
           <div className="mt-5 space-y-1 border-t border-hairline pt-4">
-            {refGroups(entry.refs).map((g, gi) => (
+            {refGroups(footRefs).map((g, gi) => (
               <p key={gi} className="leading-relaxed">
                 {g.p != null && (
                   <span className="mr-2 text-[13px] font-medium tabular-nums text-ink-soft">{g.p}</span>
