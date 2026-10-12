@@ -61,17 +61,26 @@ const PLANES = [
   { name: 'Oficio Diario (Libro de Oración Común)', desc: 'Leccionario litúrgico de dos años: salmos y lecturas cada día.', dur: '2 años' },
 ]
 
+// Agrupados por tipo; dentro de cada grupo, en orden cronológico.
 const MATERIALES = [
-  'Catecismo Menor de Westminster',
-  'Catecismo de Heidelberg',
-  'Catecismo de Spurgeon',
-  'Catecismo para Niños de Spurgeon',
-  'Catecismo de Keach',
-  'Cánones de Dort',
-  'Confesión Belga',
-  'Confesión Bautista de 1689',
-  'Credos de la iglesia antigua',
-  'Lecturas matutinas de Spurgeon',
+  {
+    group: 'Credos y confesiones',
+    items: ['Credos de la iglesia antigua', 'Confesión Belga', 'Cánones de Dort', 'Confesión Bautista de 1689'],
+  },
+  {
+    group: 'Catecismos',
+    items: [
+      'Catecismo de Heidelberg',
+      'Catecismo Menor de Westminster',
+      'Catecismo de Keach',
+      'Catecismo de Spurgeon',
+      'Catecismo para Niños de Spurgeon',
+    ],
+  },
+  {
+    group: 'Devocional',
+    items: ['Lecturas matutinas de Spurgeon'],
+  },
 ]
 
 const ORACION = [
@@ -244,16 +253,25 @@ export default function Ayuda() {
             Para enriquecer tu tiempo
           </h3>
           <p className="mt-4 max-w-[520px] text-[16px] leading-relaxed text-ink-soft">
-            Catecismos y confesiones históricas que acompañan la lectura, cada uno con su breve introducción.
+            Credos, confesiones y catecismos históricos, cada uno con su breve introducción, y un
+            devocional para cada mañana del año. Al activar uno, aparece en Hoy junto a tu lectura, y
+            avanzás a tu ritmo.
           </p>
-          <div className="mt-7 flex flex-wrap gap-2.5">
-            {MATERIALES.map((m) => (
-              <span
-                key={m}
-                className="rounded-pill bg-accent-tint px-4 py-2 text-[14px] font-semibold text-accent-ink"
-              >
-                {m}
-              </span>
+          <div className="mt-7 space-y-6">
+            {MATERIALES.map((g) => (
+              <div key={g.group}>
+                <p className="text-[13px] font-semibold text-ink-soft">{g.group}</p>
+                <div className="mt-2.5 flex flex-wrap gap-2.5">
+                  {g.items.map((m) => (
+                    <span
+                      key={m}
+                      className="rounded-pill bg-accent-tint px-4 py-2 text-[14px] font-semibold text-accent-ink"
+                    >
+                      {m}
+                    </span>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </div>
