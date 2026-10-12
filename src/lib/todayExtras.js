@@ -2,11 +2,19 @@ import { useEffect, useMemo, useState } from 'react'
 import { useAuth } from './auth.jsx'
 import { usePreferences } from './preferences.jsx'
 import { getFollowedGroupReadings } from './db.js'
-import { activeMaterials, entryOfLabel, getMaterial, loadMaterialContent } from './materials.js'
+import {
+  activeMaterials,
+  calendarEntryNumber,
+  entryOfLabel,
+  getMaterial,
+  isCalendarMaterial,
+  isReadToday,
+  loadMaterialContent,
+} from './materials.js'
 
 export function useTodayExtras() {
   const { user, profile } = useAuth()
-  const { t } = usePreferences()
+  const { t, locale } = usePreferences()
   const [groupReadings, setGroupReadings] = useState(null)
   const materials = activeMaterials(profile)
   const [contents, setContents] = useState({})
@@ -65,11 +73,22 @@ export function useTodayExtras() {
     .map((m) => {
       const content = contents[m.slug]
       if (!content) return null
+      const label = getMaterial(m.slug)?.shortName ?? content.name
+      // Por fecha: la lectura de hoy, o "✓ Leído" si ya se marcó hoy.
+      if (isCalendarMaterial(m.slug)) {
+        const done = isReadToday(profile, m.slug)
+        return {
+          slug: m.slug,
+          label,
+          meta: done ? t('hoy.read') : entryOfLabel(t, m.slug, calendarEntryNumber(), content.total, locale),
+          done,
+        }
+      }
       const done = m.position > content.total
       const entry = done ? null : content.entries[m.position - 1]
       return {
         slug: m.slug,
-        label: getMaterial(m.slug)?.shortName ?? content.name,
+        label,
         meta: done
           ? t('materialsToday.completed')
           : entryOfLabel(t, m.slug, entry?.number ?? m.position, content.total),

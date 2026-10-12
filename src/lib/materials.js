@@ -14,7 +14,9 @@
 // `unit` nombra cada entrada en la UI ("Pregunta 3 de 107", "Artículo 3 de 37"):
 //   'question' (default) · 'article' · 'item' (solo el número: para materiales
 //   cuya numeración propia no coincide con la corrida 1..N, como Dort, que
-//   reinicia los artículos en cada cabeza de doctrina).
+//   reinicia los artículos en cada cabeza de doctrina) · 'day' (la fecha).
+// `cadence: 'calendar'` (con unit 'day'): devocional de 366 entradas, una por
+// fecha; la lectura del día la da el calendario, no el marcador (ver abajo).
 // Ordenado cronológicamente por fecha de origen del material.
 export const MATERIALS = [
   {
@@ -102,14 +104,75 @@ function unitKeys(slug) {
   return UNIT_KEYS[getMaterial(slug)?.unit] ?? UNIT_KEYS.question
 }
 
-// "Pregunta 3 de 107" / "Artículo 3 de 37" / "3 de 59", según el material.
-export function entryOfLabel(t, slug, n, total) {
+// "Pregunta 3 de 107" / "Artículo 3 de 37" / "3 de 59" / "12 de octubre", según
+// el material.
+export function entryOfLabel(t, slug, n, total, locale) {
+  if (getMaterial(slug)?.unit === 'day') return calendarDateLabel(n, locale)
   return t(unitKeys(slug).of, { n, total })
 }
 
-// "Vas en la pregunta 3" / "Vas en el artículo 3" / "Vas en la lectura 3".
-export function currentEntryLabel(t, slug, n) {
+// "Vas en la pregunta 3" / "Vas en el artículo 3" / "Vas en la lectura 3" /
+// "Lectura del 12 de octubre" (la de hoy, en los materiales por fecha).
+export function currentEntryLabel(t, slug, n, locale) {
+  if (isCalendarMaterial(slug)) {
+    return t('materiales.onDay', { date: calendarDateLabel(calendarEntryNumber(), locale) })
+  }
   return t(unitKeys(slug).on, { n })
+}
+
+// --- Materiales por fecha (cadence 'calendar') ---
+// Entrada N = día N de un año bisiesto (1 = 1 de enero, 60 = 29 de febrero,
+// 366 = 31 de diciembre). En años no bisiestos el 29 de febrero no le toca a
+// ninguna fecha, pero sigue en el índice. El perfil no guarda un marcador sino
+// `readOn` ('YYYY-MM-DD', fecha local): el día en que se marcó leída la de hoy.
+
+const DAYS_BEFORE_MONTH = [0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335]
+
+export function isCalendarMaterial(slug) {
+  return getMaterial(slug)?.cadence === 'calendar'
+}
+
+export function calendarEntryNumber(date = new Date()) {
+  return DAYS_BEFORE_MONTH[date.getMonth()] + date.getDate()
+}
+
+function calendarMonthDay(n) {
+  let month = 11
+  while (month > 0 && DAYS_BEFORE_MONTH[month] >= n) month--
+  return { month, day: n - DAYS_BEFORE_MONTH[month] }
+}
+
+// Día del mes de la entrada N (para el índice, agrupado por mes).
+export function calendarDayOfMonth(n) {
+  return calendarMonthDay(n).day
+}
+
+// "12 de octubre" / "October 12" / "12 de outubro".
+export function calendarDateLabel(n, locale = 'es') {
+  const { month, day } = calendarMonthDay(n)
+  return new Date(2024, month, day).toLocaleDateString(locale, { day: 'numeric', month: 'long' })
+}
+
+export function localDateKey(date = new Date()) {
+  const pad = (x) => String(x).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+}
+
+export function readOnOf(profile, slug) {
+  return activeMaterials(profile).find((m) => m.slug === slug)?.readOn ?? null
+}
+
+export function isReadToday(profile, slug, date = new Date()) {
+  return readOnOf(profile, slug) === localDateKey(date)
+}
+
+// Marca (o desmarca, con null) la lectura de hoy de un material por fecha.
+export function withMaterialReadOn(profile, slug, dateKey) {
+  return activeMaterials(profile).map((m) => {
+    if (m.slug !== slug) return m
+    const { readOn: _prev, ...rest } = m
+    return dateKey ? { ...rest, readOn: dateKey } : rest
+  })
 }
 
 // Cache en memoria del contenido ya cargado (evita re-importar en cada render).

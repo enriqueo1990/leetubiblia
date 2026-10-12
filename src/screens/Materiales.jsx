@@ -20,7 +20,7 @@ import { usePreferences } from '../lib/preferences.jsx'
 // activar no es un callejón sin salida y siempre hay camino directo a leer.
 export default function Materiales() {
   const { profile, updateProfile } = useAuth()
-  const { t } = usePreferences()
+  const { t, locale } = usePreferences()
   const [saveError, setSaveError] = useState(false)
   // Total por slug (para mostrar "Completado" cuando el marcador pasó el final).
   const [totals, setTotals] = useState({})
@@ -74,7 +74,7 @@ export default function Materiales() {
               <p className="text-[16px] font-medium text-ink">{m.name}</p>
               {on ? (
                 <p className="mt-1 text-[13px] font-medium" style={{ color: 'var(--accent-ink)' }}>
-                  {done ? `✓ ${t('materiales.completedReview')}` : currentEntryLabel(t, m.slug, position)} ›
+                  {done ? `✓ ${t('materiales.completedReview')}` : currentEntryLabel(t, m.slug, position, locale)} ›
                 </p>
               ) : (
                 <p className="mt-1 text-[13px] text-ink-soft">{m.description}</p>

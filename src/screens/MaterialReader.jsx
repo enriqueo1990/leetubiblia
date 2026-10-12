@@ -7,6 +7,13 @@ import {
   isMaterialActive,
   positionOf,
   withMaterialPosition,
+  isCalendarMaterial,
+  calendarEntryNumber,
+  calendarDayOfMonth,
+  readOnOf,
+  isReadToday,
+  localDateKey,
+  withMaterialReadOn,
 } from '../lib/materials.js'
 import { passageUrl } from '../lib/bible.js'
 import { usePreferences } from '../lib/preferences.jsx'
@@ -30,6 +37,11 @@ import ShareImageSheet from '../components/ShareImageSheet.jsx'
 // "volver" no se teletransporta al cambiar de estado. En la frontera "Marcar como
 // leído" ocupa el lugar de avanzar (no hay Siguiente); nada de botones
 // deshabilitados ocupando lugar.
+//
+// Materiales por fecha (devocional, cadence 'calendar'): no hay marcador ni
+// frontera. Se abre en la lectura de hoy, se navega libremente por todo el año, y
+// "Marcar como leído" existe solo en la de hoy (guarda la fecha, readOn). Desde
+// otro día, la acción es volver a la de hoy.
 export default function MaterialReader() {
   const { slug } = useParams()
   const { profile, updateProfile } = useAuth()
@@ -45,6 +57,9 @@ export default function MaterialReader() {
   const [shareOpen, setShareOpen] = useState(false) // hoja de formato (1:1 / 9:16)
   const [sharing, setSharing] = useState(false) // generando la imagen para compartir
   const [shareError, setShareError] = useState(false)
+  const calendar = isCalendarMaterial(slug)
+  const today = calendarEntryNumber()
+  const [readToday, setReadToday] = useState(null) // por fecha: ¿ya se marcó hoy? (optimista)
 
   // Cargar el contenido (import dinámico, cacheado).
   useEffect(() => {
@@ -66,13 +81,23 @@ export default function MaterialReader() {
     if (saved != null) setPos(saved)
   }, [profile, slug, pos])
 
+  useEffect(() => {
+    if (!calendar || readToday != null || !profile) return
+    setReadToday(isReadToday(profile, slug))
+  }, [calendar, readToday, profile, slug])
+
   // Abrir en la pregunta actual (marcador), acotada al total. Si todavía no leyó
-  // nada y el material tiene introducción, abrir en la portada (n=0).
+  // nada y el material tiene introducción, abrir en la portada (n=0). Por fecha:
+  // en la lectura de hoy (o en la portada, si nunca marcó ninguna).
   useEffect(() => {
     if (n != null || pos == null || !content) return
     const hasIntro = Array.isArray(content.intro) && content.intro.length > 0
+    if (calendar) {
+      setN(!readOnOf(profile, slug) && hasIntro ? 0 : Math.min(today, content.total))
+      return
+    }
     setN(pos === 1 && hasIntro ? 0 : Math.min(pos, content.total))
-  }, [n, pos, content])
+  }, [n, pos, content, calendar, profile, slug, today])
 
   // Al cambiar de pregunta, volver arriba: si la anterior era larga y quedaste
   // scrolleado, la ficha nueva se lee desde el título (salto instantáneo, sin
@@ -98,9 +123,9 @@ export default function MaterialReader() {
   const hasIntro = Array.isArray(content.intro) && content.intro.length > 0
   const isIntro = n === 0 // "ficha 0": portada con contexto histórico, sin marcador
   const entry = isIntro ? null : content.entries[n - 1]
-  const completed = pos > total
-  const atFrontier = !completed && n === pos // la pregunta actual, lista para marcar
-  const maxN = Math.min(pos, total) // no se avanza más allá de lo leído (+ la del frente)
+  const completed = !calendar && pos > total
+  const atFrontier = calendar ? n === today && !readToday : !completed && n === pos // lista para marcar
+  const maxN = calendar ? total : Math.min(pos, total) // no se avanza más allá de lo leído (+ la del frente)
   const canPrev = n > (hasIntro ? 0 : 1)
   const canNext = n < maxN
 
@@ -127,6 +152,19 @@ export default function MaterialReader() {
     persist(next, revertPos, revertN)
   }
 
+  // Por fecha: marcar/desmarcar la de hoy guarda solo la fecha (readOn).
+  async function setTodayRead(value) {
+    setReadToday(value)
+    setSaveError(false)
+    const { error } = await updateProfile({
+      active_materials: withMaterialReadOn(profile, slug, value ? localDateKey() : null),
+    })
+    if (error) {
+      setReadToday(!value)
+      setSaveError(true)
+    }
+  }
+
   function restart() {
     const revertPos = pos
     const revertN = n
@@ -141,7 +179,7 @@ export default function MaterialReader() {
     ? {
         meta: [
           content.name,
-          entryOfLabel(t, slug, entry.number, total).replace(/ /g, '\u00A0'),
+          entryOfLabel(t, slug, entry.number, total, locale).replace(/ /g, '\u00A0'),
         ].join(' · '),
         question: entry.question,
         answer: entry.answer,
@@ -231,7 +269,10 @@ export default function MaterialReader() {
             va acá: ya lo comunica la zona de abajo (botón primario = actual;
             solo navegación = repaso). Cada estado se dice una sola vez. */}
         <p className="text-[13px] font-medium text-ink-soft">
-          {[entryOfLabel(t, slug, entry.number, total), entry.blockTitle].filter(Boolean).join(' · ')}
+          {/* Por fecha, el bloque es el mes: ya lo dice la fecha. */}
+          {[entryOfLabel(t, slug, entry.number, total, locale), !calendar && entry.blockTitle]
+            .filter(Boolean)
+            .join(' · ')}
         </p>
 
         <h1 className="mt-2.5 text-[20px] font-semibold leading-snug text-ink">
@@ -318,14 +359,39 @@ export default function MaterialReader() {
         )}
         {isIntro && pos === 1 ? (
           /* Primera visita (nada leído): la portada invita a arrancar. */
-          <button type="button" onClick={() => setN(1)} className="btn btn-primary">
+          <button type="button" onClick={() => setN(calendar ? today : 1)} className="btn btn-primary">
             {t('materialReader.start')}
           </button>
         ) : (
           <>
             {atFrontier && (
-              <button type="button" onClick={markRead} className="btn btn-primary">
+              <button
+                type="button"
+                onClick={calendar ? () => setTodayRead(true) : markRead}
+                className="btn btn-primary"
+              >
                 {t('hoy.markRead')}
+              </button>
+            )}
+            {/* Por fecha: la de hoy ya marcada → estado + desmarcar callado (como
+                Hoy); otro día → volver a la de hoy. */}
+            {calendar && n === today && readToday && (
+              <>
+                <p className="py-2 text-center text-[15px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
+                  ✓ {t('hoy.read')}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setTodayRead(false)}
+                  className="block w-full py-2 text-center text-[14px] font-medium text-ink-soft"
+                >
+                  {t('hoy.unmark')}
+                </button>
+              </>
+            )}
+            {calendar && n !== today && (
+              <button type="button" onClick={() => setN(today)} className="btn btn-secondary">
+                {t('materialReader.goToday')}
               </button>
             )}
             {(canPrev || canNext) && (
@@ -379,6 +445,7 @@ export default function MaterialReader() {
           content={content}
           frontier={maxN}
           current={n}
+          numberOf={calendar ? (e) => calendarDayOfMonth(e.number) : undefined}
           onPick={(num) => {
             setN(num)
             setIndexOpen(false)
