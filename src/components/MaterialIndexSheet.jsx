@@ -11,8 +11,9 @@ import { usePreferences } from '../lib/preferences.jsx'
 // se marca solo con color acento (el color dice el estado; sin negritas ni checks).
 // Abre centrado en la pregunta actual.
 // `numberOf` cambia el número de la columna izquierda (p. ej. el día del mes en
-// un devocional agrupado por mes); por defecto, el número de la entrada.
-export default function MaterialIndexSheet({ content, frontier, current, numberOf = (e) => e.number, onPick, onClose }) {
+// un devocional agrupado por mes); por defecto, el número propio de la entrada
+// dentro de su bloque si lo trae (`label`), o su número corrido.
+export default function MaterialIndexSheet({ content, frontier, current, numberOf = (e) => e.label ?? e.number, onPick, onClose }) {
   const { t } = usePreferences()
   // Las entradas vienen aplanadas y en orden: re-agrupar por bloque para los títulos.
   const blocks = []

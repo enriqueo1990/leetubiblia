@@ -3,7 +3,7 @@
   "name": "Confesión Bautista de 1689",
   "description": "Segunda Confesión Bautista de Londres, publicada en 1677 y adoptada en 1689 por las iglesias bautistas particulares de Inglaterra y Gales, en 32 capítulos. Sigue de cerca a la Confesión de Westminster, con la doctrina bautista de la iglesia y del bautismo.",
   "cadence": "sequence",
-  "source": "Traducción original al español realizada a partir del texto inglés de dominio público de 1677/1689, según la transcripción de la quinta edición (1720) cotejada con el texto de 1677. Las referencias son las pruebas bíblicas originales de cada párrafo, con algunas erratas evidentes de la fuente corregidas (p. ej. Hechos 22:16 en 29.1). Entre las pruebas del capítulo 2, párrafo 3, figura 1 Juan 5:7, y entre las del capítulo 29, párrafo 2, Hechos 8:37: dos versículos del texto bíblico de la época que muchas Biblias actuales no incluyen.",
+  "source": "Traducción original al español realizada a partir del texto inglés de dominio público de 1677/1689, según la transcripción de la quinta edición (1720) cotejada con el texto de 1677. Los títulos de cada párrafo son de esta edición. Las referencias son las pruebas bíblicas originales de cada párrafo, con algunas erratas evidentes de la fuente corregidas (p. ej. Hechos 22:16 en 29.1). Entre las pruebas del capítulo 2, párrafo 3, figura 1 Juan 5:7, y entre las del capítulo 29, párrafo 2, Hechos 8:37: dos versículos del texto bíblico de la época que muchas Biblias actuales no incluyen.",
   "intro": [
     "La Confesión Bautista de 1689 se publicó por primera vez en Londres en 1677, en plena persecución de los disidentes bajo Carlos II, sin el nombre de sus autores. Las iglesias bautistas particulares —de convicción calvinista— quisieron mostrar que compartían la fe de las demás iglesias reformadas, y por eso tomaron como base la Confesión de Westminster (1646) y la Declaración de Saboya (1658), cambiando solo lo necesario.",
     "En 1689, tras el Acta de Tolerancia, representantes de más de cien iglesias se reunieron en Londres y la adoptaron como expresión de su fe; de ahí el nombre con que se la conoce. Sus 32 capítulos recorren la fe cristiana de las Escrituras al juicio final, con el acento bautista en la doctrina de la iglesia y del bautismo de los creyentes por inmersión. Es la confesión detrás del Catecismo de Keach (1693), y Spurgeon la reeditó en 1855 para su congregación.",
@@ -16,7 +16,8 @@
       "questions": [
         {
           "number": 1,
-          "question": "Párrafo 1",
+          "question": "La Escritura, única regla suficiente",
+          "label": "1",
           "answer": "La Santa Escritura es la única regla suficiente, cierta e infalible de todo conocimiento, fe y obediencia salvadores. Aunque la luz de la naturaleza y las obras de la creación y de la providencia manifiestan de tal manera la bondad, la sabiduría y el poder de Dios que dejan a los hombres sin excusa, no son, sin embargo, suficientes para dar aquel conocimiento de Dios y de su voluntad que es necesario para la salvación. Por eso agradó al Señor, en diversas ocasiones y de diversas maneras, revelarse a sí mismo y declarar esa voluntad suya a su iglesia; y después, para preservar y propagar mejor la verdad, y para el más seguro establecimiento y consuelo de la iglesia contra la corrupción de la carne y la malicia de Satanás y del mundo, consignarla íntegramente por escrito; lo cual hace que las Santas Escrituras sean sumamente necesarias, habiendo cesado ya aquellas formas anteriores en que Dios revelaba su voluntad a su pueblo.",
           "refs": [
             {
@@ -83,7 +84,8 @@
         },
         {
           "number": 2,
-          "question": "Párrafo 2",
+          "question": "Los libros del canon",
+          "label": "2",
           "answer": "Bajo el nombre de Santa Escritura, o Palabra de Dios escrita, están contenidos ahora todos los libros del Antiguo y del Nuevo Testamento, que son estos. Del Antiguo Testamento: Génesis, Éxodo, Levítico, Números, Deuteronomio, Josué, Jueces, Rut, 1 Samuel, 2 Samuel, 1 Reyes, 2 Reyes, 1 Crónicas, 2 Crónicas, Esdras, Nehemías, Ester, Job, Salmos, Proverbios, Eclesiastés, el Cantar de los Cantares, Isaías, Jeremías, Lamentaciones, Ezequiel, Daniel, Oseas, Joel, Amós, Abdías, Jonás, Miqueas, Nahúm, Habacuc, Sofonías, Hageo, Zacarías, Malaquías. Del Nuevo Testamento: Mateo, Marcos, Lucas, Juan, los Hechos de los Apóstoles, la Epístola de Pablo a los Romanos, 1 Corintios, 2 Corintios, Gálatas, Efesios, Filipenses, Colosenses, 1 Tesalonicenses, 2 Tesalonicenses, 1 Timoteo, 2 Timoteo, a Tito, a Filemón, la Epístola a los Hebreos, la Epístola de Santiago, la primera y la segunda Epístolas de Pedro, la primera, la segunda y la tercera Epístolas de Juan, la Epístola de Judas, el Apocalipsis. Todos los cuales son dados por inspiración de Dios para ser la regla de fe y de vida.",
           "refs": [
             {
@@ -95,7 +97,8 @@
         },
         {
           "number": 3,
-          "question": "Párrafo 3",
+          "question": "Los libros apócrifos",
+          "label": "3",
           "answer": "Los libros comúnmente llamados apócrifos, no siendo de inspiración divina, no forman parte del canon (o regla) de la Escritura y, por lo tanto, no tienen ninguna autoridad para la iglesia de Dios, ni han de ser aprobados o usados de otra manera que como otros escritos humanos.",
           "refs": [
             {
@@ -117,7 +120,8 @@
         },
         {
           "number": 4,
-          "question": "Párrafo 4",
+          "question": "La autoridad de la Escritura viene de Dios",
+          "label": "4",
           "answer": "La autoridad de la Santa Escritura, por la cual debe ser creída, no depende del testimonio de ningún hombre ni de ninguna iglesia, sino enteramente de Dios (que es la verdad misma), su autor; por lo tanto, ha de ser recibida porque es la Palabra de Dios.",
           "refs": [
             {
@@ -144,7 +148,8 @@
         },
         {
           "number": 5,
-          "question": "Párrafo 5",
+          "question": "El testimonio del Espíritu",
+          "label": "5",
           "answer": "Podemos ser movidos e inducidos por el testimonio de la iglesia de Dios a una alta y reverente estima de las Santas Escrituras; y lo celestial de su materia, la eficacia de su doctrina, la majestad de su estilo, la armonía de todas sus partes, el propósito del conjunto (que es dar toda la gloria a Dios), la plena revelación que hace del único camino de salvación del hombre, y muchas otras excelencias incomparables y perfecciones completas que posee, son argumentos por los cuales ella da abundante evidencia de ser la Palabra de Dios; no obstante, nuestra plena persuasión y seguridad de su verdad infalible y de su autoridad divina proviene de la obra interior del Espíritu Santo, que da testimonio por la Palabra y con ella en nuestros corazones.",
           "refs": [
             {
@@ -176,7 +181,8 @@
         },
         {
           "number": 6,
-          "question": "Párrafo 6",
+          "question": "La suficiencia de la Escritura",
+          "label": "6",
           "answer": "Todo el consejo de Dios tocante a todas las cosas necesarias para su propia gloria, la salvación del hombre, la fe y la vida, está expresamente consignado o necesariamente contenido en la Santa Escritura, a la cual nada ha de añadirse en ningún tiempo, ya sea por nuevas revelaciones del Espíritu o por tradiciones de los hombres. No obstante, reconocemos que la iluminación interior del Espíritu de Dios es necesaria para el entendimiento salvador de las cosas que se revelan en la Palabra, y que hay algunas circunstancias tocantes al culto de Dios y al gobierno de la iglesia, comunes a las acciones y sociedades humanas, que han de ordenarse por la luz de la naturaleza y la prudencia cristiana, conforme a las reglas generales de la Palabra, que siempre han de observarse.",
           "refs": [
             {
@@ -218,7 +224,8 @@
         },
         {
           "number": 7,
-          "question": "Párrafo 7",
+          "question": "La claridad de la Escritura",
+          "label": "7",
           "answer": "No todas las cosas de la Escritura son igualmente sencillas en sí mismas, ni igualmente claras para todos; sin embargo, aquellas cosas que es necesario conocer, creer y observar para la salvación están tan claramente propuestas y expuestas en uno u otro lugar de la Escritura, que no solo los doctos, sino también los indoctos, haciendo debido uso de los medios ordinarios, pueden alcanzar un entendimiento suficiente de ellas.",
           "refs": [
             {
@@ -240,7 +247,8 @@
         },
         {
           "number": 8,
-          "question": "Párrafo 8",
+          "question": "Los textos originales y las traducciones",
+          "label": "8",
           "answer": "El Antiguo Testamento en hebreo (que era la lengua nativa del pueblo de Dios de la antigüedad) y el Nuevo Testamento en griego (que en el tiempo en que fue escrito era la lengua más generalmente conocida entre las naciones), siendo inspirados inmediatamente por Dios y conservados puros en todas las épocas por su singular cuidado y providencia, son por lo tanto auténticos; de modo que en todas las controversias de religión la iglesia debe apelar finalmente a ellos. Pero, como estas lenguas originales no son conocidas por todo el pueblo de Dios, que tiene derecho a las Escrituras e interés en ellas, y al que se le manda leerlas y escudriñarlas en el temor de Dios, por eso han de ser traducidas a la lengua vulgar de cada nación a la que lleguen, para que, morando abundantemente en todos la Palabra de Dios, puedan adorarle de manera aceptable y, por la paciencia y la consolación de las Escrituras, tengan esperanza.",
           "refs": [
             {
@@ -297,7 +305,8 @@
         },
         {
           "number": 9,
-          "question": "Párrafo 9",
+          "question": "La Escritura se interpreta por sí misma",
+          "label": "9",
           "answer": "La regla infalible de interpretación de la Escritura es la Escritura misma; y, por lo tanto, cuando surge una cuestión acerca del sentido verdadero y pleno de cualquier Escritura (que no es múltiple, sino uno solo), debe investigarse por medio de otros pasajes que hablen con más claridad.",
           "refs": [
             {
@@ -314,7 +323,8 @@
         },
         {
           "number": 10,
-          "question": "Párrafo 10",
+          "question": "El juez supremo en toda controversia",
+          "label": "10",
           "answer": "El juez supremo por el cual han de decidirse todas las controversias de religión, y han de examinarse todos los decretos de concilios, las opiniones de escritores antiguos, las doctrinas de hombres y los espíritus particulares, y en cuya sentencia hemos de descansar, no puede ser otro que la Santa Escritura entregada por el Espíritu, en la cual, así entregada, nuestra fe halla su resolución final.",
           "refs": [
             {
@@ -347,7 +357,8 @@
       "questions": [
         {
           "number": 11,
-          "question": "Párrafo 1",
+          "question": "El único Dios vivo y verdadero",
+          "label": "1",
           "answer": "El Señor nuestro Dios es un solo Dios, vivo y verdadero; cuya subsistencia está en sí mismo y procede de sí mismo; infinito en ser y en perfección; cuya esencia no puede ser comprendida por nadie sino por él mismo; espíritu purísimo, invisible, sin cuerpo, partes ni pasiones, el único que tiene inmortalidad, que habita en la luz a la que ningún hombre puede acercarse; que es inmutable, inmenso, eterno, incomprensible, todopoderoso, infinito en todo sentido, santísimo, sapientísimo, libérrimo, absolutísimo; que obra todas las cosas según el consejo de su propia voluntad, inmutable y justísima, para su propia gloria; amantísimo, lleno de gracia, misericordioso, longánimo, abundante en bondad y verdad, que perdona la iniquidad, la transgresión y el pecado; galardonador de los que le buscan con diligencia, y a la vez justísimo y terrible en sus juicios, que aborrece todo pecado y que de ningún modo tendrá por inocente al culpable.",
           "refs": [
             {
@@ -479,7 +490,8 @@
         },
         {
           "number": 12,
-          "question": "Párrafo 2",
+          "question": "La suficiencia y el señorío de Dios",
+          "label": "2",
           "answer": "Dios, teniendo en sí mismo y de sí mismo toda vida, gloria, bondad y bienaventuranza, es el único que, en sí mismo y para sí mismo, es omnisuficiente, sin tener necesidad de ninguna criatura que él haya hecho ni derivar de ellas gloria alguna, sino solamente manifestando su propia gloria en ellas, por ellas, hacia ellas y sobre ellas; él es la única fuente de todo ser, de quien, por quien y para quien son todas las cosas, y tiene el más soberano dominio sobre todas las criaturas, para hacer por medio de ellas, para ellas o sobre ellas todo lo que a él le plazca. Ante su vista todas las cosas están abiertas y manifiestas; su conocimiento es infinito, infalible e independiente de la criatura, de modo que nada es para él contingente o incierto. Es santísimo en todos sus consejos, en todas sus obras y en todos sus mandamientos. A él se le debe, de parte de los ángeles y de los hombres, todo culto, servicio u obediencia que como criaturas deben al Creador, y todo lo demás que a él le plazca requerir de ellos.",
           "refs": [
             {
@@ -546,7 +558,8 @@
         },
         {
           "number": 13,
-          "question": "Párrafo 3",
+          "question": "La Trinidad",
+          "label": "3",
           "answer": "En este Ser divino e infinito hay tres subsistencias, el Padre, el Verbo (o Hijo) y el Espíritu Santo, de una sola sustancia, poder y eternidad, teniendo cada uno toda la esencia divina, pero sin que la esencia esté dividida: el Padre no es de nadie, ni engendrado ni procedente; el Hijo es eternamente engendrado del Padre; el Espíritu Santo procede del Padre y del Hijo; todos infinitos, sin principio, y por lo tanto un solo Dios, que no ha de ser dividido en naturaleza y ser, sino distinguido por varias propiedades peculiares y relativas, y por relaciones personales; doctrina de la Trinidad que es el fundamento de toda nuestra comunión con Dios y de nuestra consoladora dependencia de él.",
           "refs": [
             {
@@ -609,7 +622,8 @@
       "questions": [
         {
           "number": 14,
-          "question": "Párrafo 1",
+          "question": "El decreto eterno de Dios",
+          "label": "1",
           "answer": "Dios ha decretado en sí mismo, desde toda la eternidad, por el sapientísimo y santo consejo de su propia voluntad, libre e inmutablemente, todas las cosas que suceden, cualesquiera que sean; pero de tal manera que por ello Dios ni es autor del pecado, ni tiene comunión con nadie en él, ni se hace violencia a la voluntad de la criatura, ni se quita la libertad o contingencia de las causas segundas, sino que más bien se establecen; en lo cual se manifiesta su sabiduría al disponer todas las cosas, y su poder y fidelidad al cumplir su decreto.",
           "refs": [
             {
@@ -671,7 +685,8 @@
         },
         {
           "number": 15,
-          "question": "Párrafo 2",
+          "question": "Un decreto que no depende de la presciencia",
+          "label": "2",
           "answer": "Aunque Dios sabe todo cuanto puede o podría suceder bajo todas las condiciones supuestas, sin embargo no ha decretado nada porque lo previera como futuro, o como aquello que sucedería bajo tales condiciones.",
           "refs": [
             {
@@ -703,7 +718,8 @@
         },
         {
           "number": 16,
-          "question": "Párrafo 3",
+          "question": "La predestinación para vida",
+          "label": "3",
           "answer": "Por el decreto de Dios, para la manifestación de su gloria, algunos hombres y ángeles son predestinados o preordenados a vida eterna por medio de Jesucristo, para alabanza de su gloriosa gracia; otros son dejados para que actúen en su pecado, para su justa condenación, para alabanza de su gloriosa justicia.",
           "refs": [
             {
@@ -735,7 +751,8 @@
         },
         {
           "number": 17,
-          "question": "Párrafo 4",
+          "question": "El número cierto de los elegidos",
+          "label": "4",
           "answer": "Estos ángeles y hombres así predestinados y preordenados están designados particular e inmutablemente, y su número es tan cierto y definido que no puede ser aumentado ni disminuido.",
           "refs": [
             {
@@ -752,7 +769,8 @@
         },
         {
           "number": 18,
-          "question": "Párrafo 5",
+          "question": "Elegidos en Cristo por pura gracia",
+          "label": "5",
           "answer": "A aquellos del género humano que están predestinados para vida, Dios, antes de que fuese puesto el fundamento del mundo, según su propósito eterno e inmutable y el consejo secreto y beneplácito de su voluntad, los ha escogido en Cristo para gloria eterna, por su pura y libre gracia y amor, sin ninguna otra cosa en la criatura como condición o causa que le moviera a ello.",
           "refs": [
             {
@@ -809,7 +827,8 @@
         },
         {
           "number": 19,
-          "question": "Párrafo 6",
+          "question": "Los medios para la salvación de los elegidos",
+          "label": "6",
           "answer": "Así como Dios ha destinado a los elegidos para la gloria, así también, por el propósito eterno y libérrimo de su voluntad, ha preordenado todos los medios para ello; por lo cual, los que son elegidos, habiendo caído en Adán, son redimidos por Cristo, son eficazmente llamados a la fe en Cristo por su Espíritu, que obra a su debido tiempo, son justificados, adoptados, santificados y guardados por su poder, mediante la fe, para salvación; y ningún otro es redimido por Cristo, ni eficazmente llamado, justificado, adoptado, santificado y salvado, sino solamente los elegidos.",
           "refs": [
             {
@@ -861,7 +880,8 @@
         },
         {
           "number": 20,
-          "question": "Párrafo 7",
+          "question": "Cómo tratar esta doctrina",
+          "label": "7",
           "answer": "La doctrina de este alto misterio de la predestinación ha de tratarse con especial prudencia y cuidado, para que los hombres, atendiendo a la voluntad de Dios revelada en su Palabra y prestándole obediencia, puedan, por la certeza de su vocación eficaz, estar seguros de su elección eterna; así esta doctrina proporcionará motivo de alabanza, reverencia y admiración a Dios, y de humildad, diligencia y abundante consolación a todos los que obedecen sinceramente el evangelio.",
           "refs": [
             {
@@ -904,7 +924,8 @@
       "questions": [
         {
           "number": 21,
-          "question": "Párrafo 1",
+          "question": "La creación del mundo",
+          "label": "1",
           "answer": "En el principio agradó a Dios Padre, Hijo y Espíritu Santo, para la manifestación de la gloria de su eterno poder, sabiduría y bondad, crear o hacer el mundo y todas las cosas que hay en él, ya sean visibles o invisibles, en el espacio de seis días, y todas muy buenas.",
           "refs": [
             {
@@ -946,7 +967,8 @@
         },
         {
           "number": 22,
-          "question": "Párrafo 2",
+          "question": "La creación del hombre",
+          "label": "2",
           "answer": "Después que Dios hubo hecho todas las demás criaturas, creó al hombre, varón y hembra, con almas racionales e inmortales, haciéndolos aptos para aquella vida para Dios para la cual fueron creados; siendo hechos a imagen de Dios, en conocimiento, justicia y verdadera santidad; teniendo la ley de Dios escrita en sus corazones y poder para cumplirla, y sin embargo bajo la posibilidad de transgredirla, al ser dejados a la libertad de su propia voluntad, que estaba sujeta a cambio.",
           "refs": [
             {
@@ -983,7 +1005,8 @@
         },
         {
           "number": 23,
-          "question": "Párrafo 3",
+          "question": "El mandato en el huerto",
+          "label": "3",
           "answer": "Además de la ley escrita en sus corazones, recibieron el mandato de no comer del árbol del conocimiento del bien y del mal; y mientras lo guardaron, fueron felices en su comunión con Dios y tuvieron dominio sobre las criaturas.",
           "refs": [
             {
@@ -1016,7 +1039,8 @@
       "questions": [
         {
           "number": 24,
-          "question": "Párrafo 1",
+          "question": "Dios sostiene y gobierna todas las cosas",
+          "label": "1",
           "answer": "Dios, el buen Creador de todas las cosas, en su infinito poder y sabiduría, sostiene, dirige, dispone y gobierna a todas las criaturas y cosas, desde la mayor hasta la más pequeña, por su sapientísima y santa providencia, hacia el fin para el cual fueron creadas, conforme a su infalible presciencia y al libre e inmutable consejo de su propia voluntad, para alabanza de la gloria de su sabiduría, poder, justicia, infinita bondad y misericordia.",
           "refs": [
             {
@@ -1058,7 +1082,8 @@
         },
         {
           "number": 25,
-          "question": "Párrafo 2",
+          "question": "La causa primera y las causas segundas",
+          "label": "2",
           "answer": "Aunque, en relación con la presciencia y el decreto de Dios, la causa primera, todas las cosas suceden inmutable e infaliblemente, de modo que nada le acontece a nadie por casualidad ni fuera de su providencia, sin embargo, por la misma providencia, él las ordena de tal manera que sucedan según la naturaleza de las causas segundas, ya sea necesaria, libre o contingentemente.",
           "refs": [
             {
@@ -1080,7 +1105,8 @@
         },
         {
           "number": 26,
-          "question": "Párrafo 3",
+          "question": "Dios obra con medios y sin ellos",
+          "label": "3",
           "answer": "Dios, en su providencia ordinaria, hace uso de medios; sin embargo, es libre para obrar sin ellos, por encima de ellos y contra ellos, según le plazca.",
           "refs": [
             {
@@ -1117,7 +1143,8 @@
         },
         {
           "number": 27,
-          "question": "Párrafo 4",
+          "question": "La providencia y el pecado",
+          "label": "4",
           "answer": "El poder todopoderoso, la sabiduría inescrutable y la bondad infinita de Dios se manifiestan de tal manera en su providencia que su consejo determinado se extiende aun a la primera caída y a todas las demás acciones pecaminosas, tanto de los ángeles como de los hombres (y esto no por un mero permiso), las cuales él también limita sapientísima y poderosamente, y de otras maneras ordena y gobierna, en una múltiple dispensación, hacia sus santísimos fines; pero de tal modo que la pecaminosidad de sus actos procede solo de las criaturas y no de Dios, quien, siendo santísimo y justísimo, ni es ni puede ser autor ni aprobador del pecado.",
           "refs": [
             {
@@ -1174,7 +1201,8 @@
         },
         {
           "number": 28,
-          "question": "Párrafo 5",
+          "question": "Por qué Dios deja a sus hijos en la prueba",
+          "label": "5",
           "answer": "Dios, sapientísimo, justo y lleno de gracia, a menudo deja por un tiempo a sus propios hijos a merced de múltiples tentaciones y de las corrupciones de su propio corazón, para castigarlos por sus pecados anteriores o para descubrirles la fuerza oculta de la corrupción y el engaño de sus corazones, a fin de que sean humillados; y para llevarlos a una dependencia más estrecha y constante de él para su sostén; y para hacerlos más vigilantes contra todas las ocasiones futuras de pecado, y para otros fines justos y santos. De modo que todo lo que le acontece a cualquiera de sus elegidos es por designación suya, para su gloria y para el bien de ellos.",
           "refs": [
             {
@@ -1206,7 +1234,8 @@
         },
         {
           "number": 29,
-          "question": "Párrafo 6",
+          "question": "Los impíos endurecidos",
+          "label": "6",
           "answer": "En cuanto a aquellos hombres malvados e impíos a quienes Dios, como juez justo, ciega y endurece a causa de pecados anteriores, no solo les retiene su gracia, por la cual podrían haber sido iluminados en su entendimiento y movidos en sus corazones, sino que a veces también les retira los dones que tenían, y los expone a objetos tales que su corrupción convierte en ocasión de pecado; y además los entrega a sus propias concupiscencias, a las tentaciones del mundo y al poder de Satanás, por lo cual sucede que se endurecen a sí mismos, aun bajo aquellos medios que Dios usa para ablandar a otros.",
           "refs": [
             {
@@ -1278,7 +1307,8 @@
         },
         {
           "number": 30,
-          "question": "Párrafo 7",
+          "question": "El cuidado especial de su iglesia",
+          "label": "7",
           "answer": "Así como la providencia de Dios alcanza en general a todas las criaturas, así también, de un modo más especial, cuida de su iglesia y dispone todas las cosas para el bien de ella.",
           "refs": [
             {
@@ -1306,7 +1336,8 @@
       "questions": [
         {
           "number": 31,
-          "question": "Párrafo 1",
+          "question": "La caída",
+          "label": "1",
           "answer": "Aunque Dios creó al hombre recto y perfecto, y le dio una ley justa, que habría sido para vida si la hubiera guardado, y le amenazó con la muerte si la quebrantaba, sin embargo el hombre no permaneció mucho tiempo en este honor: Satanás usó la astucia de la serpiente para seducir a Eva, y luego, por la seducción de ella, a Adán, quien, sin ninguna coacción, transgredió voluntariamente la ley de su creación y el mandato que les había sido dado, al comer del fruto prohibido; lo cual agradó a Dios permitir, conforme a su sabio y santo consejo, habiéndose propuesto ordenarlo para su propia gloria.",
           "refs": [
             {
@@ -1328,7 +1359,8 @@
         },
         {
           "number": 32,
-          "question": "Párrafo 2",
+          "question": "La muerte en el pecado",
+          "label": "2",
           "answer": "Nuestros primeros padres, por este pecado, cayeron de su justicia original y de su comunión con Dios, y nosotros en ellos, por lo cual la muerte vino sobre todos, quedando todos muertos en el pecado y enteramente contaminados en todas las facultades y partes del alma y del cuerpo.",
           "refs": [
             {
@@ -1365,7 +1397,8 @@
         },
         {
           "number": 33,
-          "question": "Párrafo 3",
+          "question": "El pecado transmitido a toda la humanidad",
+          "label": "3",
           "answer": "Siendo ellos la raíz y estando, por designación de Dios, en el lugar y en representación de todo el género humano, la culpa del pecado fue imputada, y la naturaleza corrompida transmitida, a toda su posteridad, que desciende de ellos por generación ordinaria, los cuales son ahora concebidos en pecado y son por naturaleza hijos de ira, siervos del pecado, sujetos a la muerte y a todas las demás miserias, espirituales, temporales y eternas, a menos que el Señor Jesús los haga libres.",
           "refs": [
             {
@@ -1427,7 +1460,8 @@
         },
         {
           "number": 34,
-          "question": "Párrafo 4",
+          "question": "La corrupción original, fuente de todo pecado",
+          "label": "4",
           "answer": "De esta corrupción original, por la cual estamos completamente indispuestos, incapacitados y opuestos a todo bien, y enteramente inclinados a todo mal, proceden todas las transgresiones actuales.",
           "refs": [
             {
@@ -1454,7 +1488,8 @@
         },
         {
           "number": 35,
-          "question": "Párrafo 5",
+          "question": "La corrupción que queda en los regenerados",
+          "label": "5",
           "answer": "Esta corrupción de la naturaleza permanece, durante esta vida, en aquellos que son regenerados; y aunque sea perdonada y mortificada por medio de Cristo, sin embargo tanto ella misma como sus primeros impulsos son verdadera y propiamente pecado.",
           "refs": [
             {
@@ -1497,7 +1532,8 @@
       "questions": [
         {
           "number": 36,
-          "question": "Párrafo 1",
+          "question": "La condescendencia de Dios en sus pactos",
+          "label": "1",
           "answer": "La distancia entre Dios y la criatura es tan grande que, aunque las criaturas racionales le deben obediencia como a su Creador, nunca podrían haber alcanzado la recompensa de la vida sino por alguna condescendencia voluntaria de parte de Dios, que a él le ha placido expresar por medio de un pacto.",
           "refs": [
             {
@@ -1514,7 +1550,8 @@
         },
         {
           "number": 37,
-          "question": "Párrafo 2",
+          "question": "El pacto de gracia",
+          "label": "2",
           "answer": "Además, habiéndose puesto el hombre por su caída bajo la maldición de la ley, agradó al Señor hacer un pacto de gracia, en el cual ofrece gratuitamente a los pecadores la vida y la salvación por Jesucristo, requiriendo de ellos fe en él para que sean salvos, y prometiendo dar a todos aquellos que están ordenados para vida eterna su Espíritu Santo, para hacerlos dispuestos y capaces de creer.",
           "refs": [
             {
@@ -1566,7 +1603,8 @@
         },
         {
           "number": 38,
-          "question": "Párrafo 3",
+          "question": "El pacto revelado en el evangelio",
+          "label": "3",
           "answer": "Este pacto es revelado en el evangelio: primero a Adán, en la promesa de salvación por medio de la simiente de la mujer, y después por pasos sucesivos, hasta que su plena revelación fue completada en el Nuevo Testamento; y está fundado en aquella transacción eterna del pacto que hubo entre el Padre y el Hijo acerca de la redención de los elegidos; y es solamente por la gracia de este pacto que todos los descendientes del Adán caído que alguna vez fueron salvos obtuvieron la vida y la bienaventurada inmortalidad, siendo el hombre ahora completamente incapaz de ser aceptado por Dios en los términos en que Adán estaba en su estado de inocencia.",
           "refs": [
             {
@@ -1624,7 +1662,8 @@
       "questions": [
         {
           "number": 39,
-          "question": "Párrafo 1",
+          "question": "Cristo, el Mediador escogido",
+          "label": "1",
           "answer": "Agradó a Dios, en su propósito eterno, escoger y ordenar al Señor Jesús, su Hijo unigénito, conforme al pacto hecho entre ambos, para que fuera el Mediador entre Dios y el hombre; el Profeta, Sacerdote y Rey; Cabeza y Salvador de su iglesia, el heredero de todas las cosas y juez del mundo; a quien desde toda la eternidad dio un pueblo para que fuera su simiente, y para que a su tiempo fuera por él redimido, llamado, justificado, santificado y glorificado.",
           "refs": [
             {
@@ -1691,7 +1730,8 @@
         },
         {
           "number": 40,
-          "question": "Párrafo 2",
+          "question": "Verdadero Dios y verdadero hombre",
+          "label": "2",
           "answer": "El Hijo de Dios, la segunda Persona de la Santa Trinidad, siendo verdadero y eterno Dios, el resplandor de la gloria del Padre, de una sola sustancia con él e igual a él, que hizo el mundo, que sostiene y gobierna todas las cosas que ha hecho, cuando llegó la plenitud del tiempo tomó sobre sí la naturaleza del hombre, con todas sus propiedades esenciales y sus debilidades comunes, aunque sin pecado; siendo concebido por el Espíritu Santo en el vientre de la virgen María, al venir sobre ella el Espíritu Santo y cubrirla con su sombra el poder del Altísimo; y así fue hecho de mujer, de la tribu de Judá, de la simiente de Abraham y de David, conforme a las Escrituras; de manera que dos naturalezas completas, perfectas y distintas quedaron unidas inseparablemente en una sola Persona, sin conversión, composición ni confusión; la cual Persona es verdadero Dios y verdadero hombre, y sin embargo un solo Cristo, el único Mediador entre Dios y el hombre.",
           "refs": [
             {
@@ -1753,7 +1793,8 @@
         },
         {
           "number": 41,
-          "question": "Párrafo 3",
+          "question": "Ungido para su oficio",
+          "label": "3",
           "answer": "El Señor Jesús, en su naturaleza humana así unida a la divina en la Persona del Hijo, fue santificado y ungido con el Espíritu Santo sobre toda medida, teniendo en sí todos los tesoros de la sabiduría y del conocimiento; en quien agradó al Padre que habitara toda plenitud, a fin de que, siendo santo, inocente, sin mancha y lleno de gracia y de verdad, estuviera enteramente capacitado para desempeñar el oficio de Mediador y Fiador; oficio que no tomó por sí mismo, sino que fue llamado a él por su Padre, quien también puso en su mano todo poder y todo juicio, y le dio mandamiento de ejercerlos.",
           "refs": [
             {
@@ -1825,7 +1866,8 @@
         },
         {
           "number": 42,
-          "question": "Párrafo 4",
+          "question": "Bajo la ley y en nuestro lugar",
+          "label": "4",
           "answer": "Este oficio lo asumió el Señor Jesús de muy buena voluntad; y para desempeñarlo fue hecho bajo la ley, y la cumplió perfectamente, y sufrió el castigo que nos correspondía a nosotros, el cual nosotros debíamos haber llevado y padecido, siendo hecho pecado y maldición por nosotros; soportando gravísimas aflicciones en su alma y dolorosísimos padecimientos en su cuerpo; fue crucificado, y murió, y permaneció en el estado de los muertos, aunque no vio corrupción; al tercer día resucitó de entre los muertos con el mismo cuerpo en que sufrió, con el cual también ascendió al cielo; y allí está sentado a la diestra de su Padre, intercediendo; y volverá para juzgar a los hombres y a los ángeles al fin del mundo.",
           "refs": [
             {
@@ -1947,7 +1989,8 @@
         },
         {
           "number": 43,
-          "question": "Párrafo 5",
+          "question": "Una satisfacción plena",
+          "label": "5",
           "answer": "El Señor Jesús, por su perfecta obediencia y por el sacrificio de sí mismo, que mediante el Espíritu eterno ofreció una vez a Dios, ha satisfecho plenamente la justicia de Dios, ha obtenido la reconciliación y ha adquirido una herencia eterna en el reino de los cielos para todos aquellos que el Padre le ha dado.",
           "refs": [
             {
@@ -1979,7 +2022,8 @@
         },
         {
           "number": 44,
-          "question": "Párrafo 6",
+          "question": "La redención aplicada en todas las épocas",
+          "label": "6",
           "answer": "Aunque el precio de la redención no fue pagado efectivamente por Cristo sino hasta después de su encarnación, sin embargo la virtud, la eficacia y el beneficio de ella fueron comunicados a los elegidos en todas las épocas sucesivamente desde el principio del mundo, en y por medio de aquellas promesas, tipos y sacrificios en los cuales él fue revelado y señalado como la simiente de la mujer que heriría la cabeza de la serpiente, y como el Cordero inmolado desde la fundación del mundo, siendo el mismo ayer, hoy y por los siglos.",
           "refs": [
             {
@@ -2011,7 +2055,8 @@
         },
         {
           "number": 45,
-          "question": "Párrafo 7",
+          "question": "La obra según ambas naturalezas",
+          "label": "7",
           "answer": "Cristo, en la obra de mediación, actúa conforme a ambas naturalezas, haciendo cada naturaleza lo que le es propio; sin embargo, en razón de la unidad de la Persona, lo que es propio de una naturaleza a veces se atribuye en la Escritura a la Persona designada por la otra naturaleza.",
           "refs": [
             {
@@ -2028,7 +2073,8 @@
         },
         {
           "number": 46,
-          "question": "Párrafo 8",
+          "question": "Cristo aplica la redención que obtuvo",
+          "label": "8",
           "answer": "A todos aquellos para quienes Cristo ha obtenido eterna redención, él les aplica y comunica la misma de manera cierta y eficaz: intercediendo por ellos; uniéndolos a sí mismo por su Espíritu; revelándoles, en y por medio de la Palabra, el misterio de la salvación; persuadiéndolos a creer y obedecer; gobernando sus corazones por su Palabra y Espíritu; y venciendo a todos sus enemigos por su omnipotente poder y sabiduría, de la manera y por los caminos más conformes a su maravillosa e inescrutable dispensación; y todo ello por gracia libre y absoluta, sin ninguna condición prevista en ellos para procurarla.",
           "refs": [
             {
@@ -2100,7 +2146,8 @@
         },
         {
           "number": 47,
-          "question": "Párrafo 9",
+          "question": "Un oficio exclusivo de Cristo",
+          "label": "9",
           "answer": "Este oficio de Mediador entre Dios y el hombre es propio únicamente de Cristo, quien es el Profeta, Sacerdote y Rey de la iglesia de Dios; y no puede ser transferido de él a ningún otro, ni en todo ni en parte alguna.",
           "refs": [
             {
@@ -2112,7 +2159,8 @@
         },
         {
           "number": 48,
-          "question": "Párrafo 10",
+          "question": "Profeta, Sacerdote y Rey",
+          "label": "10",
           "answer": "Este número y orden de oficios es necesario; porque, en razón de nuestra ignorancia, tenemos necesidad de su oficio profético; y en razón de nuestra alienación de Dios y de la imperfección de nuestros mejores servicios, necesitamos su oficio sacerdotal para reconciliarnos y presentarnos aceptos ante Dios; y en razón de nuestra aversión y total incapacidad para volver a Dios, y para nuestro rescate y seguridad frente a nuestros adversarios espirituales, necesitamos su oficio real para convencernos, someternos, atraernos, sostenernos, librarnos y preservarnos para su reino celestial.",
           "refs": [
             {
@@ -2155,7 +2203,8 @@
       "questions": [
         {
           "number": 49,
-          "question": "Párrafo 1",
+          "question": "La libertad natural de la voluntad",
+          "label": "1",
           "answer": "Dios ha dotado a la voluntad del hombre de aquella libertad natural y poder de obrar por elección, de modo que no es forzada ni determinada por ninguna necesidad de la naturaleza a hacer el bien o el mal.",
           "refs": [
             {
@@ -2177,7 +2226,8 @@
         },
         {
           "number": 50,
-          "question": "Párrafo 2",
+          "question": "La voluntad en el estado de inocencia",
+          "label": "2",
           "answer": "El hombre, en su estado de inocencia, tenía libertad y poder para querer y hacer lo que era bueno y agradable a Dios; pero, con todo, era mudable, de modo que podía caer de ese estado.",
           "refs": [
             {
@@ -2194,7 +2244,8 @@
         },
         {
           "number": 51,
-          "question": "Párrafo 3",
+          "question": "La voluntad después de la caída",
+          "label": "3",
           "answer": "El hombre, por su caída en un estado de pecado, ha perdido por completo toda capacidad de la voluntad para cualquier bien espiritual que acompañe a la salvación; de manera que el hombre natural, siendo enteramente contrario a ese bien y estando muerto en el pecado, no es capaz, por sus propias fuerzas, de convertirse a sí mismo ni de prepararse para ello.",
           "refs": [
             {
@@ -2231,7 +2282,8 @@
         },
         {
           "number": 52,
-          "question": "Párrafo 4",
+          "question": "La voluntad en el estado de gracia",
+          "label": "4",
           "answer": "Cuando Dios convierte a un pecador y lo traslada al estado de gracia, lo libra de su esclavitud natural bajo el pecado y, solo por su gracia, lo capacita para querer y hacer libremente lo que es espiritualmente bueno; pero de tal modo que, a causa de sus corrupciones remanentes, no quiere perfecta ni únicamente lo que es bueno, sino que también quiere lo que es malo.",
           "refs": [
             {
@@ -2268,7 +2320,8 @@
         },
         {
           "number": 53,
-          "question": "Párrafo 5",
+          "question": "La voluntad en el estado de gloria",
+          "label": "5",
           "answer": "La voluntad del hombre es hecha perfecta e inmutablemente libre para el bien solamente, y esto solo en el estado de gloria.",
           "refs": [
             {
@@ -2286,7 +2339,8 @@
       "questions": [
         {
           "number": 54,
-          "question": "Párrafo 1",
+          "question": "El llamamiento eficaz",
+          "label": "1",
           "answer": "A aquellos a quienes Dios ha predestinado para vida, le place, en su tiempo señalado y aceptable, llamarlos eficazmente por su Palabra y Espíritu, sacándolos de aquel estado de pecado y muerte en que están por naturaleza, a la gracia y la salvación por Jesucristo; iluminando sus mentes espiritual y salvíficamente para que entiendan las cosas de Dios; quitándoles su corazón de piedra y dándoles un corazón de carne; renovando sus voluntades y, por su omnipotente poder, determinándolos a lo que es bueno, y atrayéndolos eficazmente a Jesucristo; pero de tal modo que vienen con entera libertad, habiendo sido hechos dispuestos por su gracia.",
           "refs": [
             {
@@ -2358,7 +2412,8 @@
         },
         {
           "number": 55,
-          "question": "Párrafo 2",
+          "question": "Obra de la gracia libre de Dios",
+          "label": "2",
           "answer": "Este llamamiento eficaz procede solamente de la gracia libre y especial de Dios, y no de cosa alguna prevista en el hombre, ni de ningún poder o agencia en la criatura que coopere con su gracia especial, siendo la criatura enteramente pasiva en ello, por estar muerta en pecados y delitos, hasta que, vivificada y renovada por el Espíritu Santo, es por ello capacitada para responder a este llamamiento y para abrazar la gracia ofrecida y comunicada en él; y esto por un poder no menor que el que levantó a Cristo de los muertos.",
           "refs": [
             {
@@ -2395,7 +2450,8 @@
         },
         {
           "number": 56,
-          "question": "Párrafo 3",
+          "question": "Los niños elegidos que mueren en la infancia",
+          "label": "3",
           "answer": "Los niños elegidos que mueren en la infancia son regenerados y salvados por Cristo por medio del Espíritu, quien obra cuando, donde y como le place; así también lo son todas las demás personas elegidas que son incapaces de ser llamadas externamente por el ministerio de la Palabra.",
           "refs": [
             {
@@ -2417,7 +2473,8 @@
         },
         {
           "number": 57,
-          "question": "Párrafo 4",
+          "question": "Los que no son elegidos",
+          "label": "4",
           "answer": "Los demás, no elegidos, aunque sean llamados por el ministerio de la Palabra y tengan algunas operaciones comunes del Espíritu, sin embargo, al no ser atraídos eficazmente por el Padre, ni quieren ni pueden venir verdaderamente a Cristo, y por lo tanto no pueden ser salvos; mucho menos pueden ser salvos los hombres que no reciben la religión cristiana, por muy diligentes que sean en ajustar sus vidas a la luz de la naturaleza y a la ley de la religión que profesan.",
           "refs": [
             {
@@ -2475,7 +2532,8 @@
       "questions": [
         {
           "number": 58,
-          "question": "Párrafo 1",
+          "question": "Justificados gratuitamente",
+          "label": "1",
           "answer": "A aquellos a quienes Dios llama eficazmente, también los justifica gratuitamente, no infundiéndoles justicia, sino perdonando sus pecados y considerando y aceptando sus personas como justas; no por algo obrado en ellos o hecho por ellos, sino solamente por causa de Cristo; no imputándoles como su justicia la fe misma, el acto de creer, ni ninguna otra obediencia evangélica, sino imputándoles la obediencia activa de Cristo a toda la ley y su obediencia pasiva en su muerte como su entera y única justicia, recibiéndolo ellos y descansando en él y en su justicia por la fe; la cual fe no tienen de sí mismos, pues es don de Dios.",
           "refs": [
             {
@@ -2532,7 +2590,8 @@
         },
         {
           "number": 59,
-          "question": "Párrafo 2",
+          "question": "La fe, único instrumento de la justificación",
+          "label": "2",
           "answer": "La fe, que así recibe a Cristo y descansa en él y en su justicia, es el único instrumento de la justificación; sin embargo, no está sola en la persona justificada, sino que siempre va acompañada de todas las demás gracias salvadoras, y no es una fe muerta, sino que obra por el amor.",
           "refs": [
             {
@@ -2564,7 +2623,8 @@
         },
         {
           "number": 60,
-          "question": "Párrafo 3",
+          "question": "Cristo saldó la deuda de los justificados",
+          "label": "3",
           "answer": "Cristo, por su obediencia y muerte, saldó plenamente la deuda de todos aquellos que son justificados; y por el sacrificio de sí mismo en la sangre de su cruz, sufriendo en lugar de ellos la pena que les correspondía, hizo una satisfacción propia, real y completa a la justicia de Dios en favor de ellos; sin embargo, por cuanto él fue dado por el Padre para ellos, y su obediencia y satisfacción fueron aceptadas en lugar de ellos, y ambas cosas gratuitamente, no por algo que hubiera en ellos, su justificación es solamente de libre gracia, a fin de que tanto la exacta justicia como la rica gracia de Dios fueran glorificadas en la justificación de los pecadores.",
           "refs": [
             {
@@ -2611,7 +2671,8 @@
         },
         {
           "number": 61,
-          "question": "Párrafo 4",
+          "question": "Cuándo es justificada cada persona",
+          "label": "4",
           "answer": "Dios decretó desde toda la eternidad justificar a todos los elegidos, y Cristo, en la plenitud del tiempo, murió por sus pecados y resucitó para su justificación; sin embargo, no son justificados personalmente hasta que el Espíritu Santo, a su debido tiempo, les aplica efectivamente a Cristo.",
           "refs": [
             {
@@ -2648,7 +2709,8 @@
         },
         {
           "number": 62,
-          "question": "Párrafo 5",
+          "question": "El perdón continuo de los justificados",
+          "label": "5",
           "answer": "Dios continúa perdonando los pecados de los que son justificados; y aunque ellos nunca pueden caer del estado de justificación, sin embargo pueden, por sus pecados, caer bajo el desagrado paternal de Dios; y en esa condición no suelen tener restaurada la luz de su rostro hasta que se humillan, confiesan sus pecados, piden perdón y renuevan su fe y su arrepentimiento.",
           "refs": [
             {
@@ -2695,7 +2757,8 @@
         },
         {
           "number": 63,
-          "question": "Párrafo 6",
+          "question": "Una misma justificación en ambos Testamentos",
+          "label": "6",
           "answer": "La justificación de los creyentes bajo el Antiguo Testamento fue, en todos estos aspectos, una y la misma que la justificación de los creyentes bajo el Nuevo Testamento.",
           "refs": [
             {
@@ -2718,7 +2781,8 @@
       "questions": [
         {
           "number": 64,
-          "question": "Párrafo 1",
+          "question": "La adopción",
+          "label": "1",
           "answer": "A todos aquellos que son justificados, Dios se dignó, en su único Hijo Jesucristo y por causa de él, hacerlos partícipes de la gracia de la adopción, por la cual son recibidos en el número de los hijos de Dios y gozan de sus libertades y privilegios; tienen su nombre puesto sobre ellos; reciben el Espíritu de adopción; tienen acceso con confianza al trono de la gracia; son capacitados para clamar: «Abba, Padre»; son compadecidos, protegidos, provistos y disciplinados por él como por un Padre, pero nunca desechados, sino sellados para el día de la redención; y heredan las promesas como herederos de la salvación eterna.",
           "refs": [
             {
@@ -2821,7 +2885,8 @@
       "questions": [
         {
           "number": 65,
-          "question": "Párrafo 1",
+          "question": "Una santificación real y personal",
+          "label": "1",
           "answer": "Los que están unidos a Cristo, llamados eficazmente y regenerados, teniendo un nuevo corazón y un nuevo espíritu creados en ellos por la virtud de la muerte y resurrección de Cristo, son además santificados real y personalmente, por la misma virtud, por medio de su Palabra y su Espíritu que moran en ellos; el dominio de todo el cuerpo del pecado es destruido, y sus diversas concupiscencias son cada vez más debilitadas y mortificadas, y ellos son cada vez más vivificados y fortalecidos en todas las gracias salvadoras, para la práctica de toda verdadera santidad, sin la cual nadie verá al Señor.",
           "refs": [
             {
@@ -2878,7 +2943,8 @@
         },
         {
           "number": 66,
-          "question": "Párrafo 2",
+          "question": "Una guerra continua",
+          "label": "2",
           "answer": "Esta santificación es completa, en todo el hombre, aunque imperfecta en esta vida; aún permanecen algunos restos de corrupción en cada parte, de donde surge una guerra continua e irreconciliable: la carne codiciando contra el Espíritu, y el Espíritu contra la carne.",
           "refs": [
             {
@@ -2910,7 +2976,8 @@
         },
         {
           "number": 67,
-          "question": "Párrafo 3",
+          "question": "La victoria de la parte regenerada",
+          "label": "3",
           "answer": "En esta guerra, aunque la corrupción remanente pueda prevalecer mucho por un tiempo, sin embargo, mediante el continuo suministro de fuerza de parte del Espíritu santificador de Cristo, la parte regenerada vence; y así los santos crecen en la gracia, perfeccionando la santidad en el temor de Dios, esforzándose por alcanzar una vida celestial, en obediencia evangélica a todos los mandamientos que Cristo, como Cabeza y Rey, les ha prescrito en su Palabra.",
           "refs": [
             {
@@ -2948,7 +3015,8 @@
       "questions": [
         {
           "number": 68,
-          "question": "Párrafo 1",
+          "question": "La fe, obra del Espíritu",
+          "label": "1",
           "answer": "La gracia de la fe, por la cual los elegidos son capacitados para creer para la salvación de sus almas, es obra del Espíritu de Cristo en sus corazones, y ordinariamente es producida por el ministerio de la Palabra; por el cual también, y por la administración del bautismo y de la Cena del Señor, la oración y otros medios designados por Dios, es aumentada y fortalecida.",
           "refs": [
             {
@@ -2990,7 +3058,8 @@
         },
         {
           "number": 69,
-          "question": "Párrafo 2",
+          "question": "Los actos de la fe salvadora",
+          "label": "2",
           "answer": "Por esta fe, el cristiano cree que es verdadero todo cuanto está revelado en la Palabra, por la autoridad de Dios mismo, y también percibe en ella una excelencia superior a todos los demás escritos y a todas las cosas del mundo, por cuanto manifiesta la gloria de Dios en sus atributos, la excelencia de Cristo en su naturaleza y oficios, y el poder y la plenitud del Espíritu Santo en sus obras y operaciones; y así es capacitado para entregar su alma a la verdad así creída; y también obra de manera diferente según lo que contiene cada pasaje en particular: prestando obediencia a los mandamientos, temblando ante las amenazas y abrazando las promesas de Dios para esta vida y para la venidera. Pero los principales actos de la fe salvadora tienen relación inmediata con Cristo: aceptándolo, recibiéndolo y descansando solo en él para la justificación, la santificación y la vida eterna, en virtud del pacto de gracia.",
           "refs": [
             {
@@ -3052,7 +3121,8 @@
         },
         {
           "number": 70,
-          "question": "Párrafo 3",
+          "question": "Fe débil y fe fuerte",
+          "label": "3",
           "answer": "Esta fe, aunque sea diferente en grados y pueda ser débil o fuerte, es sin embargo, aun en su grado mínimo, diferente en su especie o naturaleza (como lo es toda otra gracia salvadora) de la fe y la gracia común de los creyentes temporales; y por lo tanto, aunque muchas veces sea asaltada y debilitada, obtiene la victoria, creciendo en muchos hasta alcanzar una plena seguridad por medio de Cristo, quien es a la vez el autor y consumador de nuestra fe.",
           "refs": [
             {
@@ -3110,7 +3180,8 @@
       "questions": [
         {
           "number": 71,
-          "question": "Párrafo 1",
+          "question": "El arrepentimiento en la conversión",
+          "label": "1",
           "answer": "A aquellos de los elegidos que se convierten en edad más madura, habiendo vivido algún tiempo en el estado de naturaleza y servido en él a diversas concupiscencias y deleites, Dios les da, en su llamamiento eficaz, arrepentimiento para vida.",
           "refs": [
             {
@@ -3122,7 +3193,8 @@
         },
         {
           "number": 72,
-          "question": "Párrafo 2",
+          "question": "Cuando caen los creyentes",
+          "label": "2",
           "answer": "Puesto que no hay quien haga el bien y no peque, y los mejores hombres pueden, por el poder y el engaño de la corrupción que mora en ellos, junto con la fuerza de la tentación, caer en grandes pecados y provocaciones, Dios ha provisto misericordiosamente, en el pacto de gracia, que los creyentes que así pecan y caen sean renovados mediante el arrepentimiento para salvación.",
           "refs": [
             {
@@ -3139,7 +3211,8 @@
         },
         {
           "number": 73,
-          "question": "Párrafo 3",
+          "question": "Qué es el arrepentimiento salvador",
+          "label": "3",
           "answer": "Este arrepentimiento salvador es una gracia evangélica por la cual una persona, a quien el Espíritu Santo ha hecho consciente de los múltiples males de su pecado, se humilla por él mediante la fe en Cristo, con tristeza según Dios, detestación de su pecado y aborrecimiento de sí misma, orando por perdón y por fortaleza de gracia, con el propósito y el empeño, mediante los suministros del Espíritu, de andar delante de Dios agradándole plenamente en todas las cosas.",
           "refs": [
             {
@@ -3176,7 +3249,8 @@
         },
         {
           "number": 74,
-          "question": "Párrafo 4",
+          "question": "Un arrepentimiento de toda la vida",
+          "label": "4",
           "answer": "Así como el arrepentimiento ha de continuar durante todo el curso de nuestra vida, a causa del cuerpo de muerte y de sus impulsos, así también es deber de cada hombre arrepentirse particularmente de sus pecados particulares conocidos.",
           "refs": [
             {
@@ -3198,7 +3272,8 @@
         },
         {
           "number": 75,
-          "question": "Párrafo 5",
+          "question": "La provisión de Dios para el arrepentido",
+          "label": "5",
           "answer": "Tal es la provisión que Dios ha hecho por medio de Cristo en el pacto de gracia para la preservación de los creyentes para salvación, que, aunque no hay pecado tan pequeño que no merezca la condenación, tampoco hay pecado tan grande que traiga condenación sobre los que se arrepienten; lo cual hace necesaria la predicación constante del arrepentimiento.",
           "refs": [
             {
@@ -3226,7 +3301,8 @@
       "questions": [
         {
           "number": 76,
-          "question": "Párrafo 1",
+          "question": "Qué son las buenas obras",
+          "label": "1",
           "answer": "Las buenas obras son únicamente aquellas que Dios ha mandado en su santa Palabra, y no las que, sin el respaldo de ella, son ideadas por los hombres por un celo ciego o bajo cualquier pretexto de buenas intenciones.",
           "refs": [
             {
@@ -3253,7 +3329,8 @@
         },
         {
           "number": 77,
-          "question": "Párrafo 2",
+          "question": "Frutos de una fe verdadera",
+          "label": "2",
           "answer": "Estas buenas obras, hechas en obediencia a los mandamientos de Dios, son los frutos y las evidencias de una fe verdadera y viva; y por ellas los creyentes manifiestan su gratitud, fortalecen su seguridad, edifican a sus hermanos, adornan la profesión del evangelio, tapan la boca de los adversarios y glorifican a Dios, de quien son hechura, creados en Cristo Jesús para ello, a fin de que, teniendo por fruto la santidad, tengan como fin la vida eterna.",
           "refs": [
             {
@@ -3320,7 +3397,8 @@
         },
         {
           "number": 78,
-          "question": "Párrafo 3",
+          "question": "La capacidad viene del Espíritu",
+          "label": "3",
           "answer": "Su capacidad para hacer buenas obras no procede en absoluto de ellos mismos, sino enteramente del Espíritu de Cristo; y para que sean capacitados para ello, además de las gracias que ya han recibido, es necesaria una influencia efectiva del mismo Espíritu Santo que obre en ellos tanto el querer como el hacer, por su buena voluntad; sin embargo, no deben por ello volverse negligentes, como si no estuvieran obligados a cumplir ningún deber a menos que medie un impulso especial del Espíritu, sino que deben ser diligentes en avivar la gracia de Dios que está en ellos.",
           "refs": [
             {
@@ -3357,7 +3435,8 @@
         },
         {
           "number": 79,
-          "question": "Párrafo 4",
+          "question": "Nadie hace más de lo que Dios requiere",
+          "label": "4",
           "answer": "Los que en su obediencia alcanzan la mayor altura que es posible en esta vida están tan lejos de poder hacer obras de supererogación y hacer más de lo que Dios requiere, que quedan cortos en mucho de lo que por deber están obligados a hacer.",
           "refs": [
             {
@@ -3379,7 +3458,8 @@
         },
         {
           "number": 80,
-          "question": "Párrafo 5",
+          "question": "Las buenas obras no merecen la salvación",
+          "label": "5",
           "answer": "No podemos, por nuestras mejores obras, merecer el perdón del pecado o la vida eterna de la mano de Dios, a causa de la gran desproporción que existe entre ellas y la gloria venidera, y de la distancia infinita que hay entre nosotros y Dios, a quien con ellas no podemos beneficiar ni satisfacer por la deuda de nuestros pecados anteriores; sino que, cuando hemos hecho todo lo que podemos, no hemos hecho más que nuestro deber y somos siervos inútiles; y porque, en cuanto son buenas, proceden de su Espíritu, y en cuanto son hechas por nosotros, están contaminadas y mezcladas con tanta debilidad e imperfección que no pueden soportar la severidad del juicio de Dios.",
           "refs": [
             {
@@ -3416,7 +3496,8 @@
         },
         {
           "number": 81,
-          "question": "Párrafo 6",
+          "question": "Obras aceptadas en Cristo",
+          "label": "6",
           "answer": "No obstante, siendo aceptadas por medio de Cristo las personas de los creyentes, sus buenas obras también son aceptadas en él; no como si fueran en esta vida enteramente irreprochables e irreprensibles a la vista de Dios, sino que a él, mirándolas en su Hijo, le place aceptar y recompensar lo que es sincero, aunque vaya acompañado de muchas debilidades e imperfecciones.",
           "refs": [
             {
@@ -3448,7 +3529,8 @@
         },
         {
           "number": 82,
-          "question": "Párrafo 7",
+          "question": "Las obras de los no regenerados",
+          "label": "7",
           "answer": "Las obras hechas por hombres no regenerados, aunque en cuanto a su materia puedan ser cosas que Dios manda y de buena utilidad tanto para ellos mismos como para otros, sin embargo, por no proceder de un corazón purificado por la fe, ni ser hechas de la manera correcta conforme a la Palabra, ni con el fin correcto, que es la gloria de Dios, son pecaminosas y no pueden agradar a Dios ni hacer a un hombre apto para recibir gracia de Dios; y, con todo, su descuido de ellas es más pecaminoso y desagradable a Dios.",
           "refs": [
             {
@@ -3531,7 +3613,8 @@
       "questions": [
         {
           "number": 83,
-          "question": "Párrafo 1",
+          "question": "Los santos no pueden caer de la gracia",
+          "label": "1",
           "answer": "Aquellos a quienes Dios ha aceptado en el Amado, llamado eficazmente y santificado por su Espíritu, y a quienes ha dado la preciosa fe de sus elegidos, no pueden caer ni total ni finalmente del estado de gracia, sino que ciertamente perseverarán en él hasta el fin y serán salvos eternamente, puesto que los dones y el llamamiento de Dios son sin arrepentimiento (por lo cual él sigue engendrando y nutriendo en ellos la fe, el arrepentimiento, el amor, el gozo, la esperanza y todas las gracias del Espíritu para inmortalidad); y aunque se levanten muchas tormentas e inundaciones y golpeen contra ellos, nunca podrán, sin embargo, apartarlos de aquel fundamento y roca sobre la cual están afirmados por la fe; no obstante, aunque por la incredulidad y las tentaciones de Satanás la percepción sensible de la luz y del amor de Dios pueda por un tiempo nublárseles y oscurecérseles, él sigue siendo el mismo, y ellos ciertamente serán guardados por el poder de Dios para salvación, donde gozarán de su posesión adquirida, pues están grabados en la palma de sus manos, y sus nombres han sido escritos en el libro de la vida desde toda la eternidad.",
           "refs": [
             {
@@ -3573,7 +3656,8 @@
         },
         {
           "number": 84,
-          "question": "Párrafo 2",
+          "question": "Lo que sostiene la perseverancia",
+          "label": "2",
           "answer": "Esta perseverancia de los santos no depende de su propio libre albedrío, sino de la inmutabilidad del decreto de elección, que fluye del amor libre e inmutable de Dios Padre; de la eficacia del mérito y de la intercesión de Jesucristo y de la unión con él; del juramento de Dios; de la permanencia de su Espíritu y de la simiente de Dios dentro de ellos; y de la naturaleza del pacto de gracia; de todo lo cual surgen también su certeza e infalibilidad.",
           "refs": [
             {
@@ -3620,7 +3704,8 @@
         },
         {
           "number": 85,
-          "question": "Párrafo 3",
+          "question": "Las caídas de los santos",
+          "label": "3",
           "answer": "Y aunque, por la tentación de Satanás y del mundo, por el predominio de la corrupción que permanece en ellos y por el descuido de los medios para su preservación, puedan caer en pecados graves y continuar en ellos por un tiempo, con lo cual incurren en el desagrado de Dios y contristan a su Santo Espíritu, llegan a tener menoscabadas sus gracias y consuelos, endurecidos sus corazones y heridas sus conciencias, dañan y escandalizan a otros y atraen sobre sí juicios temporales, sin embargo renovarán su arrepentimiento y serán preservados mediante la fe en Cristo Jesús hasta el fin.",
           "refs": [
             {
@@ -3693,7 +3778,8 @@
       "questions": [
         {
           "number": 86,
-          "question": "Párrafo 1",
+          "question": "La seguridad de la salvación",
+          "label": "1",
           "answer": "Aunque los creyentes temporales y otros hombres no regenerados puedan engañarse vanamente a sí mismos con falsas esperanzas y presunciones carnales de estar en el favor de Dios y en estado de salvación, esperanza suya que perecerá, sin embargo, los que verdaderamente creen en el Señor Jesús y lo aman con sinceridad, procurando andar delante de él con toda buena conciencia, pueden en esta vida estar ciertamente seguros de que están en el estado de gracia, y pueden regocijarse en la esperanza de la gloria de Dios, esperanza que nunca los avergonzará.",
           "refs": [
             {
@@ -3750,7 +3836,8 @@
         },
         {
           "number": 87,
-          "question": "Párrafo 2",
+          "question": "Una seguridad infalible de fe",
+          "label": "2",
           "answer": "Esta certeza no es una mera persuasión conjetural y probable, fundada en una esperanza falible, sino una seguridad infalible de fe, fundada en la sangre y la justicia de Cristo reveladas en el evangelio; y también en la evidencia interior de aquellas gracias del Espíritu a las cuales se han hecho promesas, y en el testimonio del Espíritu de adopción, que da testimonio juntamente con nuestro espíritu de que somos hijos de Dios; y que, como fruto de ello, mantiene el corazón a la vez humilde y santo.",
           "refs": [
             {
@@ -3792,7 +3879,8 @@
         },
         {
           "number": 88,
-          "question": "Párrafo 3",
+          "question": "Una seguridad que se busca y se cultiva",
+          "label": "3",
           "answer": "Esta seguridad infalible no pertenece a la esencia de la fe de tal manera que un verdadero creyente no pueda esperar mucho tiempo y luchar con muchas dificultades antes de ser partícipe de ella; pero, siendo capacitado por el Espíritu para conocer las cosas que Dios le ha dado gratuitamente, puede, sin revelación extraordinaria, mediante el uso correcto de los medios, alcanzarla; y por lo tanto es deber de cada uno poner toda diligencia para hacer firme su llamamiento y elección, a fin de que así su corazón se ensanche en paz y gozo en el Espíritu Santo, en amor y gratitud a Dios, y en fuerza y alegría en los deberes de la obediencia, que son los frutos propios de esta seguridad; tan lejos está ella de inclinar a los hombres a la relajación.",
           "refs": [
             {
@@ -3859,7 +3947,8 @@
         },
         {
           "number": 89,
-          "question": "Párrafo 4",
+          "question": "La seguridad sacudida y renovada",
+          "label": "4",
           "answer": "Los verdaderos creyentes pueden tener la seguridad de su salvación sacudida, disminuida e interrumpida de diversas maneras: como por negligencia en conservarla, por caer en algún pecado especial que hiere la conciencia y contrista al Espíritu, por alguna tentación repentina o violenta, o porque Dios retira la luz de su rostro y permite que aun los que le temen anden en tinieblas y no tengan luz; sin embargo, nunca quedan desprovistos de la simiente de Dios y de la vida de fe, de aquel amor a Cristo y a los hermanos, de aquella sinceridad de corazón y conciencia del deber, a partir de los cuales, por la operación del Espíritu, esta seguridad puede ser reavivada a su debido tiempo, y por los cuales, mientras tanto, son preservados de la desesperación total.",
           "refs": [
             {
@@ -3942,7 +4031,8 @@
       "questions": [
         {
           "number": 90,
-          "question": "Párrafo 1",
+          "question": "La ley dada a Adán",
+          "label": "1",
           "answer": "Dios dio a Adán una ley de obediencia universal, escrita en su corazón, y un precepto particular de no comer del fruto del árbol del conocimiento del bien y del mal; por la cual lo obligó a él y a toda su posteridad a una obediencia personal, completa, exacta y perpetua; prometió la vida por su cumplimiento y amenazó con la muerte por su violación; y lo dotó de poder y capacidad para guardarla.",
           "refs": [
             {
@@ -3974,7 +4064,8 @@
         },
         {
           "number": 91,
-          "question": "Párrafo 2",
+          "question": "La ley moral y los diez mandamientos",
+          "label": "2",
           "answer": "La misma ley que fue escrita primero en el corazón del hombre continuó siendo una regla perfecta de justicia después de la caída; y fue entregada por Dios en el monte Sinaí en diez mandamientos, y escrita en dos tablas: los cuatro primeros contienen nuestro deber para con Dios, y los otros seis, nuestro deber para con el hombre.",
           "refs": [
             {
@@ -3991,7 +4082,8 @@
         },
         {
           "number": 92,
-          "question": "Párrafo 3",
+          "question": "Las leyes ceremoniales",
+          "label": "3",
           "answer": "Además de esta ley, comúnmente llamada moral, Dios tuvo a bien dar al pueblo de Israel leyes ceremoniales, que contenían diversas ordenanzas típicas, en parte de culto, que prefiguraban a Cristo, sus gracias, acciones, sufrimientos y beneficios, y en parte presentaban diversas instrucciones sobre deberes morales; todas las cuales leyes ceremoniales, habiendo sido establecidas solo hasta el tiempo de la reforma, han sido abrogadas y quitadas por Jesucristo, el verdadero Mesías y único Legislador, quien fue investido de poder por el Padre para ese fin.",
           "refs": [
             {
@@ -4033,7 +4125,8 @@
         },
         {
           "number": 93,
-          "question": "Párrafo 4",
+          "question": "Las leyes judiciales",
+          "label": "4",
           "answer": "A ellos también les dio diversas leyes judiciales, que expiraron junto con el estado de aquel pueblo, y que no obligan ahora a nadie en virtud de aquella institución; solo su equidad general tiene uso moral.",
           "refs": [
             {
@@ -4045,7 +4138,8 @@
         },
         {
           "number": 94,
-          "question": "Párrafo 5",
+          "question": "La ley moral obliga para siempre",
+          "label": "5",
           "answer": "La ley moral obliga para siempre a todos, tanto a los justificados como a los demás, a obedecerla, y esto no solo en cuanto a la materia contenida en ella, sino también en lo que respecta a la autoridad de Dios el Creador, quien la dio. Tampoco Cristo, en el evangelio, disuelve de modo alguno esta obligación, sino que la fortalece mucho.",
           "refs": [
             {
@@ -4082,7 +4176,8 @@
         },
         {
           "number": 95,
-          "question": "Párrafo 6",
+          "question": "El uso de la ley para los creyentes",
+          "label": "6",
           "answer": "Aunque los verdaderos creyentes no están bajo la ley como pacto de obras, para ser por ella justificados o condenados, sin embargo, ella les es de gran utilidad a ellos, así como a otros, en cuanto que, como regla de vida que les informa de la voluntad de Dios y de su deber, los dirige y los obliga a andar conforme a ella; descubriéndoles también las contaminaciones pecaminosas de su naturaleza, de su corazón y de su vida, de modo que, examinándose por medio de ella, puedan llegar a una mayor convicción de pecado, humillación por él y aborrecimiento contra él, junto con una visión más clara de la necesidad que tienen de Cristo y de la perfección de su obediencia. Es igualmente útil a los regenerados para refrenar sus corrupciones, en cuanto prohíbe el pecado; y sus amenazas sirven para mostrar lo que aun sus pecados merecen y qué aflicciones pueden esperar en esta vida a causa de ellos, aunque estén libres de su maldición y de su rigor no mitigado. Sus promesas, asimismo, les muestran la aprobación de Dios a la obediencia y qué bendiciones pueden esperar por cumplirla, aunque no como debidas a ellos por la ley como pacto de obras; de manera que el hecho de que un hombre haga el bien y se abstenga del mal porque la ley anima a lo uno y disuade de lo otro no es evidencia de que esté bajo la ley y no bajo la gracia.",
           "refs": [
             {
@@ -4129,7 +4224,8 @@
         },
         {
           "number": 96,
-          "question": "Párrafo 7",
+          "question": "La ley y la gracia concuerdan",
+          "label": "7",
           "answer": "Tampoco son contrarios a la gracia del evangelio los usos de la ley antes mencionados, sino que concuerdan dulcemente con ella, pues el Espíritu de Cristo somete y capacita la voluntad del hombre para hacer libre y alegremente lo que la voluntad de Dios, revelada en la ley, requiere que se haga.",
           "refs": [
             {
@@ -4152,7 +4248,8 @@
       "questions": [
         {
           "number": 97,
-          "question": "Párrafo 1",
+          "question": "La promesa de Cristo",
+          "label": "1",
           "answer": "Habiendo sido quebrantado por el pecado el pacto de obras, y hecho inútil para dar vida, Dios tuvo a bien dar la promesa de Cristo, la simiente de la mujer, como el medio para llamar a los elegidos y engendrar en ellos fe y arrepentimiento; en esta promesa fue revelado el evangelio en cuanto a su sustancia, y fue en ella eficaz para la conversión y salvación de los pecadores.",
           "refs": [
             {
@@ -4169,7 +4266,8 @@
         },
         {
           "number": 98,
-          "question": "Párrafo 2",
+          "question": "Cristo, revelado solo por la Palabra",
+          "label": "2",
           "answer": "Esta promesa de Cristo, y de la salvación por medio de él, es revelada solamente por la Palabra de Dios; ni las obras de la creación o de la providencia, con la luz de la naturaleza, descubren a Cristo, o la gracia por medio de él, ni siquiera de un modo general u oscuro; mucho menos que los hombres desprovistos de la revelación de él por la promesa o el evangelio sean capacitados por ellas para alcanzar la fe salvadora o el arrepentimiento.",
           "refs": [
             {
@@ -4206,7 +4304,8 @@
         },
         {
           "number": 99,
-          "question": "Párrafo 3",
+          "question": "El evangelio, según la voluntad de Dios",
+          "label": "3",
           "answer": "La revelación del evangelio a los pecadores, hecha en diversos tiempos y por diversas partes, con la añadidura de promesas y preceptos para la obediencia requerida en él, en cuanto a las naciones y personas a quienes es concedida, procede meramente de la voluntad soberana y del beneplácito de Dios; no estando ligada, en virtud de ninguna promesa, al debido aprovechamiento de las capacidades naturales de los hombres en virtud de la luz común recibida sin él, cosa que nadie hizo jamás ni puede hacer; y por lo tanto, en todas las épocas, la predicación del evangelio ha sido concedida a personas y naciones, en cuanto a su extensión o restricción, con gran variedad, según el consejo de la voluntad de Dios.",
           "refs": [
             {
@@ -4228,7 +4327,8 @@
         },
         {
           "number": 100,
-          "question": "Párrafo 4",
+          "question": "El evangelio y la obra del Espíritu",
+          "label": "4",
           "answer": "Aunque el evangelio es el único medio externo para revelar a Cristo y la gracia salvadora, y es, como tal, abundantemente suficiente para ello, sin embargo, para que los hombres que están muertos en delitos puedan nacer de nuevo, ser vivificados o regenerados, es necesaria además una obra eficaz e invencible del Espíritu Santo sobre toda el alma, para producir en ellos una nueva vida espiritual; sin la cual ningún otro medio efectuará su conversión a Dios.",
           "refs": [
             {
@@ -4271,7 +4371,8 @@
       "questions": [
         {
           "number": 101,
-          "question": "Párrafo 1",
+          "question": "La libertad que Cristo compró",
+          "label": "1",
           "answer": "La libertad que Cristo ha comprado para los creyentes bajo el evangelio consiste en que están libres de la culpa del pecado, de la ira condenatoria de Dios, del rigor y la maldición de la ley; y en que son librados de este presente mundo malo, de la esclavitud a Satanás y del dominio del pecado, del mal de las aflicciones, del temor y el aguijón de la muerte, de la victoria del sepulcro y de la condenación eterna; como también en su libre acceso a Dios, y en que le rinden obediencia no por un temor servil, sino con un amor filial y un ánimo dispuesto. Todo lo cual era común también a los creyentes bajo la ley en cuanto a su sustancia; pero bajo el Nuevo Testamento la libertad de los cristianos se amplía aún más, en que están libres del yugo de la ley ceremonial, a la cual estaba sujeta la iglesia judía, y en una mayor confianza para acceder al trono de la gracia, y en comunicaciones más plenas del Espíritu libre de Dios que aquellas de las que ordinariamente participaban los creyentes bajo la ley.",
           "refs": [
             {
@@ -4348,7 +4449,8 @@
         },
         {
           "number": 102,
-          "question": "Párrafo 2",
+          "question": "Solo Dios es Señor de la conciencia",
+          "label": "2",
           "answer": "Solo Dios es Señor de la conciencia, y la ha dejado libre de las doctrinas y mandamientos de los hombres que en algo sean contrarios a su Palabra o no estén contenidos en ella. De modo que creer tales doctrinas u obedecer tales mandamientos por motivo de conciencia es traicionar la verdadera libertad de conciencia; y exigir una fe implícita y una obediencia absoluta y ciega es destruir la libertad de conciencia y también la razón.",
           "refs": [
             {
@@ -4405,7 +4507,8 @@
         },
         {
           "number": 103,
-          "question": "Párrafo 3",
+          "question": "El abuso de la libertad cristiana",
+          "label": "3",
           "answer": "Los que, con el pretexto de la libertad cristiana, practican algún pecado o abrigan alguna concupiscencia pecaminosa, así como pervierten con ello el propósito principal de la gracia del evangelio para su propia destrucción, así también destruyen por completo el fin de la libertad cristiana, que es que, librados de las manos de todos nuestros enemigos, sirvamos al Señor sin temor, en santidad y justicia delante de él, todos los días de nuestra vida.",
           "refs": [
             {
@@ -4438,7 +4541,8 @@
       "questions": [
         {
           "number": 104,
-          "question": "Párrafo 1",
+          "question": "El culto que Dios ha instituido",
+          "label": "1",
           "answer": "La luz de la naturaleza muestra que hay un Dios que tiene señorío y soberanía sobre todo; que es justo, bueno y hace bien a todos; y que, por lo tanto, ha de ser temido, amado, alabado, invocado, que se ha de confiar en él y que ha de ser servido con todo el corazón, con toda el alma y con todas las fuerzas. Pero el modo aceptable de adorar al Dios verdadero está instituido por él mismo, y tan limitado por su propia voluntad revelada, que no debe ser adorado según las imaginaciones e invenciones de los hombres, ni las sugerencias de Satanás, bajo ninguna representación visible, ni de ninguna otra manera no prescrita en las Santas Escrituras.",
           "refs": [
             {
@@ -4465,7 +4569,8 @@
         },
         {
           "number": 105,
-          "question": "Párrafo 2",
+          "question": "A quién se rinde el culto",
+          "label": "2",
           "answer": "El culto religioso ha de rendirse a Dios Padre, Hijo y Espíritu Santo, y solo a él; no a ángeles, santos ni ninguna otra criatura; y desde la caída, no sin un Mediador, ni por la mediación de ningún otro sino solo de Cristo.",
           "refs": [
             {
@@ -4512,7 +4617,8 @@
         },
         {
           "number": 106,
-          "question": "Párrafo 3",
+          "question": "La oración",
+          "label": "3",
           "answer": "La oración con acción de gracias, siendo una parte especial del culto natural, es requerida por Dios de todos los hombres. Pero para que sea aceptada, debe hacerse en el nombre del Hijo, con la ayuda del Espíritu, conforme a su voluntad; con entendimiento, reverencia, humildad, fervor, fe, amor y perseverancia; y, cuando se hace con otros, en una lengua conocida.",
           "refs": [
             {
@@ -4554,7 +4660,8 @@
         },
         {
           "number": 107,
-          "question": "Párrafo 4",
+          "question": "Por quiénes orar",
+          "label": "4",
           "answer": "Se ha de orar por cosas lícitas y por toda clase de hombres que viven o que vivirán en lo sucesivo; pero no por los muertos, ni por aquellos de quienes se pueda saber que han cometido el pecado de muerte.",
           "refs": [
             {
@@ -4581,7 +4688,8 @@
         },
         {
           "number": 108,
-          "question": "Párrafo 5",
+          "question": "Las partes del culto",
+          "label": "5",
           "answer": "La lectura de las Escrituras, la predicación y la audición de la Palabra de Dios, el enseñarse y amonestarse unos a otros con salmos, himnos y cánticos espirituales, cantando con gracia en nuestros corazones al Señor, así como la administración del bautismo y de la Cena del Señor, son todas partes del culto religioso a Dios, que han de realizarse en obediencia a él, con entendimiento, fe, reverencia y temor piadoso; además, la humillación solemne con ayunos y la acción de gracias en ocasiones especiales deben practicarse de manera santa y religiosa.",
           "refs": [
             {
@@ -4643,7 +4751,8 @@
         },
         {
           "number": 109,
-          "question": "Párrafo 6",
+          "question": "Un culto no ligado a ningún lugar",
+          "label": "6",
           "answer": "Ni la oración ni ninguna otra parte del culto religioso está ahora, bajo el evangelio, ligada a lugar alguno en que se realice o hacia el cual se dirija, ni se hace más aceptable por él; sino que Dios ha de ser adorado en todas partes en espíritu y en verdad: tanto en las familias en privado cada día, y en secreto cada uno por sí mismo, como más solemnemente en las asambleas públicas, las cuales no deben descuidarse ni abandonarse por negligencia ni deliberadamente, cuando Dios, por su Palabra o su providencia, llama a ellas.",
           "refs": [
             {
@@ -4695,7 +4804,8 @@
         },
         {
           "number": 110,
-          "question": "Párrafo 7",
+          "question": "El día de reposo",
+          "label": "7",
           "answer": "Así como es de ley natural que, en general, una proporción del tiempo, por designación de Dios, sea apartada para el culto de Dios, así también por su Palabra, en un mandamiento positivo-moral y perpetuo, que obliga a todos los hombres en todas las épocas, él ha señalado particularmente un día de cada siete como día de reposo que ha de ser santificado para él; el cual, desde el principio del mundo hasta la resurrección de Cristo, fue el último día de la semana, y desde la resurrección de Cristo fue cambiado al primer día de la semana, que es llamado el día del Señor; y ha de continuar hasta el fin del mundo como el día de reposo cristiano, habiendo sido abolida la observancia del último día de la semana.",
           "refs": [
             {
@@ -4722,7 +4832,8 @@
         },
         {
           "number": 111,
-          "question": "Párrafo 8",
+          "question": "Cómo se santifica el día del Señor",
+          "label": "8",
           "answer": "El día de reposo se santifica para el Señor cuando los hombres, después de la debida preparación de sus corazones y de haber ordenado de antemano sus asuntos ordinarios, no solo guardan durante todo el día un santo reposo de sus propias obras, palabras y pensamientos acerca de sus ocupaciones y recreaciones mundanas, sino que también dedican todo el tiempo a los ejercicios públicos y privados de su culto y a los deberes de necesidad y de misericordia.",
           "refs": [
             {
@@ -4750,7 +4861,8 @@
       "questions": [
         {
           "number": 112,
-          "question": "Párrafo 1",
+          "question": "El juramento lícito",
+          "label": "1",
           "answer": "Un juramento lícito es una parte del culto religioso, en la cual la persona que jura con verdad, justicia y juicio invoca solemnemente a Dios como testigo de lo que jura, y para que la juzgue conforme a la verdad o falsedad de ello.",
           "refs": [
             {
@@ -4777,7 +4889,8 @@
         },
         {
           "number": 113,
-          "question": "Párrafo 2",
+          "question": "Jurar solo por el nombre de Dios",
+          "label": "2",
           "answer": "Solo el nombre de Dios es aquel por el cual los hombres deben jurar; y en ello ha de usarse con todo santo temor y reverencia; por lo tanto, jurar en vano o temerariamente por ese nombre glorioso y temible, o jurar en absoluto por cualquier otra cosa, es pecaminoso y ha de aborrecerse; sin embargo, así como en asuntos de peso y trascendencia, para confirmación de la verdad y para poner fin a toda contienda, el juramento está autorizado por la Palabra de Dios, así también, cuando un juramento lícito es impuesto por una autoridad legítima en tales asuntos, debe prestarse.",
           "refs": [
             {
@@ -4814,7 +4927,8 @@
         },
         {
           "number": 114,
-          "question": "Párrafo 3",
+          "question": "La gravedad del juramento",
+          "label": "3",
           "answer": "Todo aquel que presta un juramento autorizado por la Palabra de Dios debe considerar debidamente la gravedad de un acto tan solemne, y no afirmar en él nada sino lo que sabe que es la verdad; porque por juramentos temerarios, falsos y vanos el Señor es provocado, y a causa de ellos esta tierra se enluta.",
           "refs": [
             {
@@ -4831,7 +4945,8 @@
         },
         {
           "number": 115,
-          "question": "Párrafo 4",
+          "question": "El sentido llano de las palabras",
+          "label": "4",
           "answer": "Un juramento ha de prestarse en el sentido llano y común de las palabras, sin equívoco ni reserva mental.",
           "refs": [
             {
@@ -4843,7 +4958,8 @@
         },
         {
           "number": 116,
-          "question": "Párrafo 5",
+          "question": "Los votos",
+          "label": "5",
           "answer": "Un voto, que no ha de hacerse a ninguna criatura sino solo a Dios, ha de hacerse y cumplirse con todo cuidado religioso y fidelidad; pero los votos monásticos papistas de celibato perpetuo, pobreza profesa y obediencia regular, lejos de ser grados de una perfección superior, son lazos supersticiosos y pecaminosos en los cuales ningún cristiano debe enredarse.",
           "refs": [
             {
@@ -4886,7 +5002,8 @@
       "questions": [
         {
           "number": 117,
-          "question": "Párrafo 1",
+          "question": "Magistrados instituidos por Dios",
+          "label": "1",
           "answer": "Dios, el supremo Señor y Rey de todo el mundo, ha instituido magistrados civiles para que estén bajo él, sobre el pueblo, para su propia gloria y el bien público; y con este fin los ha armado con el poder de la espada, para la defensa y el estímulo de los que hacen el bien, y para el castigo de los malhechores.",
           "refs": [
             {
@@ -4898,7 +5015,8 @@
         },
         {
           "number": 118,
-          "question": "Párrafo 2",
+          "question": "Cristianos en el cargo de magistrado",
+          "label": "2",
           "answer": "Es lícito que los cristianos acepten y ejerzan el cargo de magistrado cuando sean llamados a ello; en el desempeño del cual, así como deben mantener especialmente la justicia y la paz, según las leyes saludables de cada reino y república, así también, con ese fin, pueden ahora lícitamente, bajo el Nuevo Testamento, hacer la guerra en ocasiones justas y necesarias.",
           "refs": [
             {
@@ -4920,7 +5038,8 @@
         },
         {
           "number": 119,
-          "question": "Párrafo 3",
+          "question": "La sujeción a los magistrados",
+          "label": "3",
           "answer": "Habiendo sido establecidos los magistrados civiles por Dios para los fines antes mencionados, debemos rendirles sujeción en el Señor en todas las cosas lícitas que ellos manden, no solo por causa de la ira, sino por causa de la conciencia; y debemos hacer súplicas y oraciones por los reyes y por todos los que están en autoridad, para que bajo ellos vivamos una vida quieta y reposada en toda piedad y honestidad.",
           "refs": [
             {
@@ -4948,7 +5067,8 @@
       "questions": [
         {
           "number": 120,
-          "question": "Párrafo 1",
+          "question": "Un hombre y una mujer",
+          "label": "1",
           "answer": "El matrimonio ha de ser entre un hombre y una mujer; no es lícito que ningún hombre tenga más de una esposa, ni que ninguna mujer tenga más de un marido al mismo tiempo.",
           "refs": [
             {
@@ -4970,7 +5090,8 @@
         },
         {
           "number": 121,
-          "question": "Párrafo 2",
+          "question": "Los fines del matrimonio",
+          "label": "2",
           "answer": "El matrimonio fue instituido para la ayuda mutua del marido y la esposa, para el aumento del género humano con una descendencia legítima, y para prevenir la impureza.",
           "refs": [
             {
@@ -4997,7 +5118,8 @@
         },
         {
           "number": 122,
-          "question": "Párrafo 3",
+          "question": "Casarse en el Señor",
+          "label": "3",
           "answer": "Es lícito que se casen toda clase de personas que sean capaces de dar con juicio su consentimiento; sin embargo, es deber de los cristianos casarse en el Señor; y por lo tanto, los que profesan la verdadera religión no deben casarse con infieles o idólatras; ni los que son piadosos deben unirse en yugo desigual casándose con los que son malvados en su vida o sostienen herejías condenables.",
           "refs": [
             {
@@ -5024,7 +5146,8 @@
         },
         {
           "number": 123,
-          "question": "Párrafo 4",
+          "question": "Los grados prohibidos",
+          "label": "4",
           "answer": "El matrimonio no debe contraerse dentro de los grados de consanguinidad o afinidad prohibidos en la Palabra; ni pueden tales matrimonios incestuosos hacerse jamás lícitos por ninguna ley humana ni por el consentimiento de las partes, de modo que esas personas puedan vivir juntas como marido y mujer.",
           "refs": [
             {
@@ -5052,7 +5175,8 @@
       "questions": [
         {
           "number": 124,
-          "question": "Párrafo 1",
+          "question": "La iglesia universal e invisible",
+          "label": "1",
           "answer": "La iglesia católica o universal, que (con respecto a la obra interna del Espíritu y a la verdad de la gracia) puede llamarse invisible, consta del número completo de los elegidos que han sido, son o serán reunidos en uno bajo Cristo, su Cabeza; y es la esposa, el cuerpo, la plenitud de aquel que todo lo llena en todo.",
           "refs": [
             {
@@ -5094,7 +5218,8 @@
         },
         {
           "number": 125,
-          "question": "Párrafo 2",
+          "question": "Los santos visibles",
+          "label": "2",
           "answer": "Todas las personas en todo el mundo que profesan la fe del evangelio y la obediencia a Dios por Cristo conforme a él, sin destruir su propia profesión con errores que subviertan el fundamento ni con impiedad de conducta, son y pueden ser llamadas santos visibles; y de tales deben estar constituidas todas las congregaciones particulares.",
           "refs": [
             {
@@ -5121,7 +5246,8 @@
         },
         {
           "number": 126,
-          "question": "Párrafo 3",
+          "question": "Iglesias puras y mezcladas",
+          "label": "3",
           "answer": "Las iglesias más puras bajo el cielo están sujetas a mezcla y a error; y algunas han degenerado tanto que han llegado a ser no iglesias de Cristo, sino sinagogas de Satanás; no obstante, Cristo siempre ha tenido, y siempre tendrá, un reino en este mundo, hasta el fin de él, de los que creen en él y hacen profesión de su nombre.",
           "refs": [
             {
@@ -5173,7 +5299,8 @@
         },
         {
           "number": 127,
-          "question": "Párrafo 4",
+          "question": "Cristo, única Cabeza de la iglesia",
+          "label": "4",
           "answer": "El Señor Jesucristo es la Cabeza de la iglesia, en quien, por designación del Padre, está investido de manera suprema y soberana todo el poder para el llamamiento, la institución, el orden o el gobierno de la iglesia; ni puede el papa de Roma en ningún sentido ser cabeza de ella, sino que es aquel anticristo, aquel hombre de pecado e hijo de perdición, que se exalta en la iglesia contra Cristo y contra todo lo que se llama Dios, a quien el Señor destruirá con el resplandor de su venida.",
           "refs": [
             {
@@ -5200,7 +5327,8 @@
         },
         {
           "number": 128,
-          "question": "Párrafo 5",
+          "question": "Cristo reúne a los suyos en iglesias",
+          "label": "5",
           "answer": "En el ejercicio de este poder que así le ha sido confiado, el Señor Jesús llama del mundo a sí mismo, mediante el ministerio de su Palabra, por su Espíritu, a aquellos que le han sido dados por su Padre, para que anden delante de él en todos los caminos de la obediencia que él les prescribe en su Palabra. A los así llamados les manda andar juntos en sociedades particulares, o iglesias, para su mutua edificación y para el debido cumplimiento del culto público que él requiere de ellos en el mundo.",
           "refs": [
             {
@@ -5227,7 +5355,8 @@
         },
         {
           "number": 129,
-          "question": "Párrafo 6",
+          "question": "Los miembros de la iglesia",
+          "label": "6",
           "answer": "Los miembros de estas iglesias son santos por llamamiento, que manifiestan y evidencian visiblemente (en su profesión y conducta, y por medio de ellas) su obediencia a ese llamamiento de Cristo; y consienten voluntariamente en andar juntos conforme a lo establecido por Cristo, entregándose al Señor y los unos a los otros, por la voluntad de Dios, en sujeción profesada a las ordenanzas del evangelio.",
           "refs": [
             {
@@ -5259,7 +5388,8 @@
         },
         {
           "number": 130,
-          "question": "Párrafo 7",
+          "question": "La autoridad de cada iglesia",
+          "label": "7",
           "answer": "A cada una de estas iglesias así reunidas, conforme a su mente declarada en su Palabra, él ha dado todo el poder y la autoridad que de algún modo sean necesarios para que lleven adelante el orden en el culto y en la disciplina que él ha instituido para que ellas lo observen, con mandatos y reglas para el debido y recto ejercicio y ejecución de ese poder.",
           "refs": [
             {
@@ -5286,7 +5416,8 @@
         },
         {
           "number": 131,
-          "question": "Párrafo 8",
+          "question": "Los oficiales de la iglesia",
+          "label": "8",
           "answer": "Una iglesia particular reunida y completamente organizada conforme a la mente de Cristo consta de oficiales y miembros; y los oficiales designados por Cristo para ser escogidos y apartados por la iglesia (así llamada y reunida) para la administración especial de las ordenanzas y el ejercicio del poder o deber que él les confía o al que los llama, y que han de continuar hasta el fin del mundo, son los obispos o ancianos y los diáconos.",
           "refs": [
             {
@@ -5308,7 +5439,8 @@
         },
         {
           "number": 132,
-          "question": "Párrafo 9",
+          "question": "El llamamiento al oficio",
+          "label": "9",
           "answer": "La manera designada por Cristo para el llamamiento de cualquier persona, capacitada y dotada por el Espíritu Santo, al oficio de obispo o anciano en una iglesia, es que sea escogido para ello por el sufragio común de la iglesia misma, y apartado solemnemente mediante ayuno y oración, con la imposición de manos del cuerpo de ancianos de la iglesia, si es que ya hay alguno constituido en ella; y la de un diácono, que sea escogido por un sufragio semejante, y apartado mediante oración y una imposición de manos semejante.",
           "refs": [
             {
@@ -5335,7 +5467,8 @@
         },
         {
           "number": 133,
-          "question": "Párrafo 10",
+          "question": "El sostén de los pastores",
+          "label": "10",
           "answer": "Siendo la obra de los pastores atender constantemente al servicio de Cristo en sus iglesias, en el ministerio de la Palabra y la oración, velando por sus almas como quienes han de rendirle cuentas a él, incumbe a las iglesias a las que ministran no solo darles todo el debido respeto, sino también hacerles partícipes de todos sus bienes, según su capacidad, de modo que tengan una provisión holgada sin que ellos mismos tengan que enredarse en los negocios seculares, y puedan también ejercer la hospitalidad hacia otros; y esto lo requieren la ley de la naturaleza y la orden expresa de nuestro Señor Jesús, quien ha ordenado que los que predican el evangelio vivan del evangelio.",
           "refs": [
             {
@@ -5377,7 +5510,8 @@
         },
         {
           "number": 134,
-          "question": "Párrafo 11",
+          "question": "La predicación de la Palabra",
+          "label": "11",
           "answer": "Aunque incumbe a los obispos o pastores de las iglesias perseverar en la predicación de la Palabra por razón de su oficio, sin embargo la obra de predicar la Palabra no está tan exclusivamente limitada a ellos, sino que otros también, dotados y capacitados por el Espíritu Santo para ello, y aprobados y llamados por la iglesia, pueden y deben realizarla.",
           "refs": [
             {
@@ -5394,7 +5528,8 @@
         },
         {
           "number": 135,
-          "question": "Párrafo 12",
+          "question": "La disciplina de la iglesia",
+          "label": "12",
           "answer": "Así como todos los creyentes están obligados a unirse a iglesias particulares cuando y donde tengan oportunidad de hacerlo, así también todos los que son admitidos a los privilegios de una iglesia están también bajo sus censuras y su gobierno, conforme a la regla de Cristo.",
           "refs": [
             {
@@ -5416,7 +5551,8 @@
         },
         {
           "number": 136,
-          "question": "Párrafo 13",
+          "question": "El miembro ofendido",
+          "label": "13",
           "answer": "Ningún miembro de iglesia, por alguna ofensa que haya recibido, habiendo cumplido el deber que se le requiere hacia la persona con quien está ofendido, debe perturbar orden alguno de la iglesia, ni ausentarse de las asambleas de la iglesia ni de la administración de ninguna ordenanza a causa de tal ofensa contra alguno de los demás miembros, sino esperar en Cristo en el ulterior proceder de la iglesia.",
           "refs": [
             {
@@ -5433,7 +5569,8 @@
         },
         {
           "number": 137,
-          "question": "Párrafo 14",
+          "question": "La comunión entre las iglesias",
+          "label": "14",
           "answer": "Así como cada iglesia, y todos sus miembros, están obligados a orar continuamente por el bien y la prosperidad de todas las iglesias de Cristo en todos los lugares, y a promoverlo en todas las ocasiones (cada uno dentro de los límites de su lugar y vocación, en el ejercicio de sus dones y gracias), así también las iglesias (cuando están plantadas por la providencia de Dios de tal manera que puedan gozar de oportunidad y ventaja para ello) deben mantener comunión entre sí para su paz, el aumento del amor y la mutua edificación.",
           "refs": [
             {
@@ -5460,7 +5597,8 @@
         },
         {
           "number": 138,
-          "question": "Párrafo 15",
+          "question": "Las asambleas de iglesias",
+          "label": "15",
           "answer": "En casos de dificultades o diferencias, ya sea en materia de doctrina o de administración, en que estén interesadas o bien las iglesias en general, o bien alguna iglesia en su paz, unión y edificación, o en que algún miembro o miembros de cualquier iglesia sean agraviados en algún procedimiento de censura, o por él, que no sea conforme a la verdad y al orden, es conforme a la mente de Cristo que muchas iglesias que mantienen comunión entre sí se reúnan por medio de sus mensajeros para considerar el asunto en diferencia y dar su consejo en cuanto a él, el cual ha de ser comunicado a todas las iglesias interesadas; sin embargo, a estos mensajeros así reunidos no se les confía ningún poder eclesiástico propiamente dicho, ni jurisdicción alguna sobre las iglesias mismas para ejercer censura alguna, ya sea sobre iglesias o sobre personas, ni para imponer su determinación a las iglesias o a los oficiales.",
           "refs": [
             {
@@ -5508,7 +5646,8 @@
       "questions": [
         {
           "number": 139,
-          "question": "Párrafo 1",
+          "question": "Unidos a Cristo y unos con otros",
+          "label": "1",
           "answer": "Todos los santos que están unidos a Jesucristo, su Cabeza, por su Espíritu y por la fe, aunque no son hechos por ello una sola persona con él, tienen participación en sus gracias, sufrimientos, muerte, resurrección y gloria; y, estando unidos unos a otros en amor, tienen comunión en los dones y gracias los unos de los otros, y están obligados al cumplimiento de aquellos deberes, públicos y privados, de manera ordenada, que contribuyan a su bien mutuo, tanto en el hombre interior como en el exterior.",
           "refs": [
             {
@@ -5575,7 +5714,8 @@
         },
         {
           "number": 140,
-          "question": "Párrafo 2",
+          "question": "Compañerismo y ayuda mutua",
+          "label": "2",
           "answer": "Los santos por profesión están obligados a mantener un santo compañerismo y comunión en el culto de Dios y en la realización de aquellos otros servicios espirituales que tiendan a su mutua edificación, como también en socorrerse unos a otros en las cosas externas según sus respectivas capacidades y necesidades; comunión que, conforme a la regla del evangelio, aunque ha de ejercerse especialmente por ellos en las relaciones en que se encuentran, ya sea en familias o en iglesias, sin embargo, según Dios dé oportunidad, ha de extenderse a toda la familia de la fe, es decir, a todos aquellos que en todo lugar invocan el nombre del Señor Jesús; no obstante, su comunión unos con otros como santos no quita ni menoscaba el título o la propiedad que cada uno tiene sobre sus bienes y posesiones.",
           "refs": [
             {
@@ -5623,7 +5763,8 @@
       "questions": [
         {
           "number": 141,
-          "question": "Párrafo 1",
+          "question": "Dos ordenanzas instituidas por Cristo",
+          "label": "1",
           "answer": "El bautismo y la Cena del Señor son ordenanzas de institución positiva y soberana, designadas por el Señor Jesús, el único Legislador, para que continúen en su iglesia hasta el fin del mundo.",
           "refs": [
             {
@@ -5640,7 +5781,8 @@
         },
         {
           "number": 142,
-          "question": "Párrafo 2",
+          "question": "Quiénes las administran",
+          "label": "2",
           "answer": "Estas santas disposiciones han de ser administradas solo por aquellos que estén calificados y llamados a ello conforme a la comisión de Cristo.",
           "refs": [
             {
@@ -5663,7 +5805,8 @@
       "questions": [
         {
           "number": 143,
-          "question": "Párrafo 1",
+          "question": "Qué significa el bautismo",
+          "label": "1",
           "answer": "El bautismo es una ordenanza del Nuevo Testamento, ordenada por Jesucristo, para que sea para la persona bautizada una señal de su comunión con él en su muerte y resurrección, de su injerto en él, de la remisión de los pecados, y de su entrega a Dios, por medio de Jesucristo, para vivir y andar en novedad de vida.",
           "refs": [
             {
@@ -5700,7 +5843,8 @@
         },
         {
           "number": 144,
-          "question": "Párrafo 2",
+          "question": "Quiénes han de ser bautizados",
+          "label": "2",
           "answer": "Los que realmente profesan arrepentimiento para con Dios, fe en nuestro Señor Jesús y obediencia a él, son los únicos sujetos apropiados de esta ordenanza.",
           "refs": [
             {
@@ -5717,7 +5861,8 @@
         },
         {
           "number": 145,
-          "question": "Párrafo 3",
+          "question": "El agua y el nombre del Dios trino",
+          "label": "3",
           "answer": "El elemento externo que ha de usarse en esta ordenanza es el agua, en la cual la persona ha de ser bautizada en el nombre del Padre, y del Hijo, y del Espíritu Santo.",
           "refs": [
             {
@@ -5734,7 +5879,8 @@
         },
         {
           "number": 146,
-          "question": "Párrafo 4",
+          "question": "La inmersión",
+          "label": "4",
           "answer": "La inmersión, o sumersión de la persona en el agua, es necesaria para la debida administración de esta ordenanza.",
           "refs": [
             {
@@ -5757,7 +5903,8 @@
       "questions": [
         {
           "number": 147,
-          "question": "Párrafo 1",
+          "question": "La institución de la Cena",
+          "label": "1",
           "answer": "La Cena del Señor Jesús fue instituida por él la misma noche en que fue entregado, para ser observada en sus iglesias hasta el fin del mundo, para el recuerdo perpetuo y la proclamación del sacrificio de sí mismo en su muerte, la confirmación de la fe de los creyentes en todos los beneficios de ella, su alimento espiritual y crecimiento en él, y su mayor compromiso en todos los deberes que le deben, y para con ellos; y para ser un vínculo y una prenda de su comunión con él y de los unos con los otros.",
           "refs": [
             {
@@ -5779,7 +5926,8 @@
         },
         {
           "number": 148,
-          "question": "Párrafo 2",
+          "question": "Un memorial, no un sacrificio",
+          "label": "2",
           "answer": "En esta ordenanza Cristo no es ofrecido a su Padre, ni se hace sacrificio real alguno por la remisión del pecado de los vivos o de los muertos, sino que es solo un memorial de aquel único ofrecimiento de sí mismo, por sí mismo, en la cruz, una vez para siempre, y una oblación espiritual de toda alabanza posible a Dios por ello; de modo que el sacrificio papista de la misa (como ellos lo llaman) es sumamente abominable e injurioso para el propio y único sacrificio de Cristo, la sola propiciación por todos los pecados de los elegidos.",
           "refs": [
             {
@@ -5806,7 +5954,8 @@
         },
         {
           "number": 149,
-          "question": "Párrafo 3",
+          "question": "Cómo se celebra",
+          "label": "3",
           "answer": "El Señor Jesús, en esta ordenanza, ha designado a sus ministros para que oren y bendigan los elementos del pan y del vino, y así los aparten de un uso común a uno santo, y para que tomen y partan el pan, tomen la copa y (participando también ellos mismos) den ambos a los comulgantes.",
           "refs": [
             {
@@ -5818,7 +5967,8 @@
         },
         {
           "number": 150,
-          "question": "Párrafo 4",
+          "question": "Prácticas contrarias a la Cena",
+          "label": "4",
           "answer": "La negación de la copa al pueblo, la adoración de los elementos, el elevarlos o llevarlos de un lado a otro para adorarlos, y el reservarlos para cualquier pretendido uso religioso, son todos contrarios a la naturaleza de esta ordenanza y a la institución de Cristo.",
           "refs": [
             {
@@ -5840,7 +5990,8 @@
         },
         {
           "number": 151,
-          "question": "Párrafo 5",
+          "question": "Los elementos y lo que representan",
+          "label": "5",
           "answer": "Los elementos externos de esta ordenanza, debidamente apartados para los usos ordenados por Cristo, tienen tal relación con él crucificado que, en verdad, aunque en términos usados figuradamente, a veces son llamados por el nombre de las cosas que representan, a saber, el cuerpo y la sangre de Cristo; si bien en sustancia y naturaleza siguen siendo verdadera y únicamente pan y vino, como lo eran antes.",
           "refs": [
             {
@@ -5862,7 +6013,8 @@
         },
         {
           "number": 152,
-          "question": "Párrafo 6",
+          "question": "Contra la transubstanciación",
+          "label": "6",
           "answer": "La doctrina que sostiene un cambio de la sustancia del pan y del vino en la sustancia del cuerpo y la sangre de Cristo (llamada comúnmente transubstanciación) por la consagración de un sacerdote, o de cualquier otro modo, es repugnante no solo a la Escritura, sino aun al sentido común y a la razón; trastorna la naturaleza de la ordenanza, y ha sido y es la causa de múltiples supersticiones, sí, de groseras idolatrías.",
           "refs": [
             {
@@ -5889,7 +6041,8 @@
         },
         {
           "number": 153,
-          "question": "Párrafo 7",
+          "question": "Cristo recibido por la fe",
+          "label": "7",
           "answer": "Los que reciben dignamente, participando externamente de los elementos visibles de esta ordenanza, también entonces internamente, por la fe, real y verdaderamente, aunque no carnal ni corporalmente, sino espiritualmente, reciben a Cristo crucificado y todos los beneficios de su muerte, y se alimentan de ellos; estando entonces el cuerpo y la sangre de Cristo presentes, no corporal ni carnalmente, sino espiritualmente, a la fe de los creyentes en esa ordenanza, así como los elementos mismos lo están a sus sentidos externos.",
           "refs": [
             {
@@ -5906,7 +6059,8 @@
         },
         {
           "number": 154,
-          "question": "Párrafo 8",
+          "question": "Quiénes no deben participar",
+          "label": "8",
           "answer": "Todas las personas ignorantes e impías, así como no son aptas para gozar de comunión con Cristo, tampoco son dignas de la mesa del Señor, y no pueden, sin gran pecado contra él, mientras permanezcan en tal estado, participar de estos santos misterios ni ser admitidas a ellos; sí, todos los que reciban indignamente son culpables del cuerpo y de la sangre del Señor, comiendo y bebiendo juicio para sí mismos.",
           "refs": [
             {
@@ -5934,7 +6088,8 @@
       "questions": [
         {
           "number": 155,
-          "question": "Párrafo 1",
+          "question": "El estado después de la muerte",
+          "label": "1",
           "answer": "Los cuerpos de los hombres, después de la muerte, vuelven al polvo y ven corrupción; pero sus almas (que ni mueren ni duermen), teniendo una subsistencia inmortal, vuelven inmediatamente a Dios, que las dio: las almas de los justos, hechas entonces perfectas en santidad, son recibidas en el paraíso, donde están con Cristo y contemplan el rostro de Dios en luz y gloria, esperando la plena redención de sus cuerpos; y las almas de los impíos son arrojadas al infierno, donde permanecen en tormento y en tinieblas absolutas, reservadas para el juicio del gran día; fuera de estos dos lugares para las almas separadas de sus cuerpos, la Escritura no reconoce ningún otro.",
           "refs": [
             {
@@ -6001,7 +6156,8 @@
         },
         {
           "number": 156,
-          "question": "Párrafo 2",
+          "question": "La resurrección de los muertos",
+          "label": "2",
           "answer": "En el último día, los santos que se hallen vivos no dormirán, sino que serán transformados; y todos los muertos serán resucitados con sus mismos cuerpos, y no con otros, aunque con cualidades diferentes, los cuales serán unidos de nuevo a sus almas para siempre.",
           "refs": [
             {
@@ -6028,7 +6184,8 @@
         },
         {
           "number": 157,
-          "question": "Párrafo 3",
+          "question": "Para honra o para deshonra",
+          "label": "3",
           "answer": "Los cuerpos de los injustos serán resucitados, por el poder de Cristo, para deshonra; los cuerpos de los justos, por su Espíritu, para honra, y serán hechos conformes a su propio cuerpo glorioso.",
           "refs": [
             {
@@ -6056,7 +6213,8 @@
       "questions": [
         {
           "number": 158,
-          "question": "Párrafo 1",
+          "question": "El día del juicio",
+          "label": "1",
           "answer": "Dios ha señalado un día en el cual juzgará al mundo con justicia por medio de Jesucristo, a quien el Padre ha dado todo poder y juicio; en ese día no solo serán juzgados los ángeles apóstatas, sino que también todas las personas que han vivido sobre la tierra comparecerán ante el tribunal de Cristo para dar cuenta de sus pensamientos, palabras y obras, y para recibir según lo que hayan hecho en el cuerpo, sea bueno o malo.",
           "refs": [
             {
@@ -6118,7 +6276,8 @@
         },
         {
           "number": 159,
-          "question": "Párrafo 2",
+          "question": "El propósito del juicio",
+          "label": "2",
           "answer": "El fin por el cual Dios ha señalado este día es la manifestación de la gloria de su misericordia en la salvación eterna de los elegidos, y de su justicia en la condenación eterna de los réprobos, que son malvados y desobedientes; porque entonces los justos entrarán en la vida eterna y recibirán aquella plenitud de gozo y de gloria, con recompensa eterna, en la presencia del Señor; pero los impíos, que no conocen a Dios ni obedecen al evangelio de Jesucristo, serán arrojados a tormentos eternos y castigados con destrucción eterna, lejos de la presencia del Señor y de la gloria de su poder.",
           "refs": [
             {
@@ -6160,7 +6319,8 @@
         },
         {
           "number": 160,
-          "question": "Párrafo 3",
+          "question": "Un día cierto, de hora desconocida",
+          "label": "3",
           "answer": "Así como Cristo quiere que estemos ciertamente persuadidos de que habrá un día de juicio, tanto para disuadir a todos los hombres del pecado como para mayor consolación de los piadosos en su adversidad, así también quiere que ese día sea desconocido para los hombres, para que se despojen de toda seguridad carnal y estén siempre vigilantes, porque no saben a qué hora vendrá el Señor, y estén siempre preparados para decir: «Ven, Señor Jesús, ven pronto». Amén.",
           "refs": [
             {

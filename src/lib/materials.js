@@ -24,7 +24,7 @@ export const MATERIALS = [
     name: 'Credos de la iglesia antigua',
     shortName: 'Credos antiguos',
     unit: 'item',
-    description: 'El Apostólico, el Niceno, Calcedonia y el Atanasiano: la fe común de la iglesia desde sus primeros siglos, artículo por artículo.',
+    description: 'El Apostólico, el Niceno, Calcedonia y el Atanasiano: la fe común de la iglesia desde sus primeros siglos, en lecturas breves.',
     load: () => import('../data/materials/credos.json'),
   },
   {
@@ -201,6 +201,9 @@ export async function loadMaterialContent(slug) {
     for (const q of block.questions ?? []) {
       entries.push({
         number: q.number,
+        // Número propio dentro del bloque, si el material lo trae (p. ej. el
+        // párrafo dentro del capítulo en la Confesión de 1689); para el índice.
+        label: q.label ?? null,
         question: q.question,
         answer: q.answer,
         refs: q.refs ?? [],
