@@ -69,6 +69,7 @@ const MATERIALES = [
   'Catecismo de Keach',
   'Cánones de Dort',
   'Confesión Belga',
+  'Confesión Bautista de 1689',
 ]
 
 const ORACION = [

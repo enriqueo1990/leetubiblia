@@ -48,6 +48,16 @@ export const MATERIALS = [
     load: () => import('../data/materials/westminster-menor.json'),
   },
   {
+    slug: 'bautista-1689',
+    name: 'Confesión Bautista de 1689',
+    shortName: 'Confesión de 1689',
+    // Cada entrada es un párrafo, numerado dentro de su capítulo ("Párrafo 2"):
+    // la corrida 1..160 no coincide con esa numeración.
+    unit: 'item',
+    description: 'La confesión de los bautistas particulares (1677/1689) en 32 capítulos, párrafo por párrafo, con pasajes para tu Biblia.',
+    load: () => import('../data/materials/bautista-1689.json'),
+  },
+  {
     slug: 'keach',
     name: 'Catecismo de Keach',
     shortName: 'Keach',
