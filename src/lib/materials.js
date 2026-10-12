@@ -24,7 +24,7 @@ export const MATERIALS = [
     name: 'Credos de la iglesia antigua',
     shortName: 'Credos antiguos',
     unit: 'item',
-    description: 'El Apostólico, el Niceno, Calcedonia y el Atanasiano: la fe común de la iglesia desde sus primeros siglos, en lecturas breves.',
+    description: 'El Apostólico, el Niceno, Calcedonia y el Atanasiano: la fe común de la iglesia desde sus primeros siglos, en cinco lecturas.',
     load: () => import('../data/materials/credos.json'),
   },
   {
@@ -61,10 +61,10 @@ export const MATERIALS = [
     slug: 'bautista-1689',
     name: 'Confesión Bautista de 1689',
     shortName: 'Confesión de 1689',
-    // Cada entrada es un párrafo, numerado dentro de su capítulo ("Párrafo 2"):
-    // la corrida 1..160 no coincide con esa numeración.
+    // Cada entrada es un capítulo (los largos, en partes): la corrida 1..35 no
+    // coincide con la numeración de capítulos.
     unit: 'item',
-    description: 'La confesión de los bautistas particulares (1677/1689) en 32 capítulos, párrafo por párrafo, con pasajes para tu Biblia.',
+    description: 'La confesión de los bautistas particulares (1677/1689), capítulo por capítulo, con las pruebas bíblicas de cada párrafo.',
     load: () => import('../data/materials/bautista-1689.json'),
   },
   {
@@ -204,6 +204,9 @@ export async function loadMaterialContent(slug) {
         // Número propio dentro del bloque, si el material lo trae (p. ej. el
         // párrafo dentro del capítulo en la Confesión de 1689); para el índice.
         label: q.label ?? null,
+        // Ubicación propia de la entrada para la línea de metadata (p. ej.
+        // "Capítulo 1, párrafos 1–5"), cuando el bloque no la dice.
+        section: q.section ?? null,
         question: q.question,
         answer: q.answer,
         refs: q.refs ?? [],

@@ -42,6 +42,18 @@ import ShareImageSheet from '../components/ShareImageSheet.jsx'
 // frontera. Se abre en la lectura de hoy, se navega libremente por todo el año, y
 // "Marcar como leído" existe solo en la de hoy (guarda la fecha, readOn). Desde
 // otro día, la acción es volver a la de hoy.
+// Agrupa las citas consecutivas del mismo párrafo (`ref.p`); sin `p`, un solo grupo.
+function refGroups(refs) {
+  const groups = []
+  for (const ref of refs) {
+    const p = ref.p ?? null
+    const last = groups[groups.length - 1]
+    if (last && last.p === p) last.refs.push(ref)
+    else groups.push({ p, refs: [ref] })
+  }
+  return groups
+}
+
 export default function MaterialReader() {
   const { slug } = useParams()
   const { profile, updateProfile } = useAuth()
@@ -270,7 +282,7 @@ export default function MaterialReader() {
             solo navegación = repaso). Cada estado se dice una sola vez. */}
         <p className="text-[13px] font-medium text-ink-soft">
           {/* Por fecha, el bloque es el mes: ya lo dice la fecha. */}
-          {[entryOfLabel(t, slug, entry.number, total, locale), !calendar && entry.blockTitle]
+          {[entryOfLabel(t, slug, entry.number, total, locale), entry.section ?? (!calendar && entry.blockTitle)]
             .filter(Boolean)
             .join(' · ')}
         </p>
@@ -285,41 +297,51 @@ export default function MaterialReader() {
 
         {/* Citas de apoyo como nota al pie de la ficha: filete hairline arriba
             (como en un catecismo impreso), sin etiqueta ni cromo. El color acento
-            ya dice "tocables"; cada una abre su capítulo en la Biblia. */}
+            ya dice "tocables"; cada una abre su capítulo en la Biblia. Si la
+            entrada junta varios párrafos (p. ej. un capítulo de la 1689), cada
+            cita trae su párrafo (`p`) y van en un renglón por párrafo, con su
+            número delante, como las notas de una confesión impresa. */}
         {entry.refs.length > 0 && (
-          <p className="mt-5 border-t border-hairline pt-4 leading-relaxed">
-            {entry.refs.map((ref, i) => {
-              const url = passageUrl(ref, locale, bibleProvider)
-              const last = i === entry.refs.length - 1
-              return (
-                // nowrap por pasaje con el "·" pegado al final: el separador cierra
-                // renglón, nunca lo abre. El espacio de quiebre va fuera del nowrap.
-                <span key={i}>
-                  <span className="whitespace-nowrap">
-                    {url ? (
-                      <a
-                        href={url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-block py-1 text-[15px] font-medium transition-opacity active:opacity-50"
-                        style={{ color: 'var(--accent-ink)' }}
-                      >
-                        {bookLabel(ref, locale)}
-                      </a>
-                    ) : (
-                      <span className="text-[15px] text-ink">{bookLabel(ref, locale)}</span>
-                    )}
-                    {!last && (
-                      <span aria-hidden="true" className="text-ink-soft" style={{ opacity: 0.5 }}>
-                        {' · '}
+          <div className="mt-5 space-y-1 border-t border-hairline pt-4">
+            {refGroups(entry.refs).map((g, gi) => (
+              <p key={gi} className="leading-relaxed">
+                {g.p != null && (
+                  <span className="mr-2 text-[13px] font-medium tabular-nums text-ink-soft">{g.p}</span>
+                )}
+                {g.refs.map((ref, i) => {
+                  const url = passageUrl(ref, locale, bibleProvider)
+                  const last = i === g.refs.length - 1
+                  return (
+                    // nowrap por pasaje con el "·" pegado al final: el separador cierra
+                    // renglón, nunca lo abre. El espacio de quiebre va fuera del nowrap.
+                    <span key={i}>
+                      <span className="whitespace-nowrap">
+                        {url ? (
+                          <a
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block py-1 text-[15px] font-medium transition-opacity active:opacity-50"
+                            style={{ color: 'var(--accent-ink)' }}
+                          >
+                            {bookLabel(ref, locale)}
+                          </a>
+                        ) : (
+                          <span className="text-[15px] text-ink">{bookLabel(ref, locale)}</span>
+                        )}
+                        {!last && (
+                          <span aria-hidden="true" className="text-ink-soft" style={{ opacity: 0.5 }}>
+                            {' · '}
+                          </span>
+                        )}
                       </span>
-                    )}
-                  </span>
-                  {!last && ' '}
-                </span>
-              )
-            })}
-          </p>
+                      {!last && ' '}
+                    </span>
+                  )
+                })}
+              </p>
+            ))}
+          </div>
         )}
       </div>
       )}

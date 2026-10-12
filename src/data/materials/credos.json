@@ -1,7 +1,7 @@
 {
   "slug": "credos",
   "name": "Credos de la iglesia antigua",
-  "description": "Los cuatro credos que la iglesia cristiana confiesa desde sus primeros siglos —el Apostólico, el Niceno, la Definición de Calcedonia y el Atanasiano—, en lecturas breves.",
+  "description": "Los cuatro credos que la iglesia cristiana confiesa desde sus primeros siglos —el Apostólico, el Niceno, la Definición de Calcedonia y el Atanasiano—, en cinco lecturas.",
   "cadence": "sequence",
   "source": "Credo Apostólico según el texto litúrgico tradicional en español (el mismo de la pregunta 23 del Catecismo de Heidelberg). Credo Niceno-Constantinopolitano: traducción original al español a partir del texto griego del Concilio de Constantinopla (381), en la forma que se usa en Occidente, con «Dios de Dios» y «y del Hijo». Definición de Calcedonia: traducción original a partir del texto griego; Credo Atanasiano: traducción original a partir del texto latino; en los tres se consultaron las traducciones inglesas de dominio público de Philip Schaff (The Creeds of Christendom, 1877). La división en secciones y las referencias bíblicas de apoyo son de esta edición.",
   "intro": [
@@ -84,8 +84,8 @@
       "questions": [
         {
           "number": 2,
-          "question": "Un solo Dios, Padre todopoderoso",
-          "answer": "Creemos en un solo Dios, Padre todopoderoso, Creador del cielo y de la tierra, de todas las cosas visibles e invisibles.",
+          "question": "Creemos en un solo Dios",
+          "answer": "Creemos en un solo Dios, Padre todopoderoso, Creador del cielo y de la tierra, de todas las cosas visibles e invisibles.\n\nY en un solo Señor, Jesucristo, el Hijo unigénito de Dios, engendrado del Padre antes de todos los siglos: Dios de Dios, Luz de Luz, Dios verdadero de Dios verdadero, engendrado, no hecho, consustancial con el Padre; por quien todas las cosas fueron hechas; quien por nosotros los hombres y por nuestra salvación descendió del cielo, y por obra del Espíritu Santo se encarnó de la virgen María, y se hizo hombre; y por nosotros fue crucificado bajo Poncio Pilato, padeció y fue sepultado; y al tercer día resucitó, conforme a las Escrituras; y subió al cielo, y está sentado a la diestra del Padre; y vendrá otra vez con gloria para juzgar a los vivos y a los muertos; y su reino no tendrá fin.\n\nY en el Espíritu Santo, Señor y dador de vida, que procede del Padre y del Hijo; que con el Padre y el Hijo juntamente es adorado y glorificado; que habló por los profetas.\n\nY en una santa iglesia católica y apostólica. Confesamos un solo bautismo para el perdón de los pecados. Esperamos la resurrección de los muertos y la vida del mundo venidero. Amén.",
           "refs": [
             {
               "label": "Deuteronomio 6:4",
@@ -98,58 +98,14 @@
               "chapter": 8
             },
             {
-              "label": "Colosenses 1:16",
-              "book_usfm": "COL",
-              "chapter": 1
-            },
-            {
-              "label": "Nehemías 9:6",
-              "book_usfm": "NEH",
-              "chapter": 9
-            }
-          ]
-        },
-        {
-          "number": 3,
-          "question": "Un solo Señor, Jesucristo",
-          "answer": "Y en un solo Señor, Jesucristo, el Hijo unigénito de Dios, engendrado del Padre antes de todos los siglos: Dios de Dios, Luz de Luz, Dios verdadero de Dios verdadero, engendrado, no hecho, consustancial con el Padre; por quien todas las cosas fueron hechas;",
-          "refs": [
-            {
               "label": "Juan 1:1-3",
               "book_usfm": "JHN",
               "chapter": 1
             },
             {
-              "label": "Juan 1:18",
-              "book_usfm": "JHN",
-              "chapter": 1
-            },
-            {
-              "label": "Juan 10:30",
-              "book_usfm": "JHN",
-              "chapter": 10
-            },
-            {
               "label": "Hebreos 1:2-3",
               "book_usfm": "HEB",
               "chapter": 1
-            },
-            {
-              "label": "1 Juan 5:20",
-              "book_usfm": "1JN",
-              "chapter": 5
-            }
-          ]
-        },
-        {
-          "number": 4,
-          "question": "Por nosotros se hizo hombre",
-          "answer": "…quien por nosotros los hombres y por nuestra salvación descendió del cielo, y por obra del Espíritu Santo se encarnó de la virgen María, y se hizo hombre;",
-          "refs": [
-            {
-              "label": "Juan 3:13",
-              "book_usfm": "JHN",
-              "chapter": 3
             },
             {
               "label": "Juan 1:14",
@@ -162,51 +118,7 @@
               "chapter": 1
             },
             {
-              "label": "Gálatas 4:4-5",
-              "book_usfm": "GAL",
-              "chapter": 4
-            },
-            {
-              "label": "1 Timoteo 1:15",
-              "book_usfm": "1TI",
-              "chapter": 1
-            }
-          ]
-        },
-        {
-          "number": 5,
-          "question": "Crucificado por nosotros",
-          "answer": "…y por nosotros fue crucificado bajo Poncio Pilato, padeció y fue sepultado;",
-          "refs": [
-            {
-              "label": "Marcos 15:15",
-              "book_usfm": "MRK",
-              "chapter": 15
-            },
-            {
-              "label": "Romanos 5:8",
-              "book_usfm": "ROM",
-              "chapter": 5
-            },
-            {
               "label": "1 Corintios 15:3-4",
-              "book_usfm": "1CO",
-              "chapter": 15
-            }
-          ]
-        },
-        {
-          "number": 6,
-          "question": "Resucitó y subió al cielo",
-          "answer": "…y al tercer día resucitó, conforme a las Escrituras; y subió al cielo, y está sentado a la diestra del Padre;",
-          "refs": [
-            {
-              "label": "Lucas 24:44-46",
-              "book_usfm": "LUK",
-              "chapter": 24
-            },
-            {
-              "label": "1 Corintios 15:4",
               "book_usfm": "1CO",
               "chapter": 15
             },
@@ -216,53 +128,9 @@
               "chapter": 16
             },
             {
-              "label": "Hebreos 8:1",
-              "book_usfm": "HEB",
-              "chapter": 8
-            }
-          ]
-        },
-        {
-          "number": 7,
-          "question": "Vendrá con gloria",
-          "answer": "…y vendrá otra vez con gloria para juzgar a los vivos y a los muertos; y su reino no tendrá fin.",
-          "refs": [
-            {
               "label": "Mateo 24:30",
               "book_usfm": "MAT",
               "chapter": 24
-            },
-            {
-              "label": "Juan 5:22",
-              "book_usfm": "JHN",
-              "chapter": 5
-            },
-            {
-              "label": "Lucas 1:32-33",
-              "book_usfm": "LUK",
-              "chapter": 1
-            },
-            {
-              "label": "Apocalipsis 11:15",
-              "book_usfm": "REV",
-              "chapter": 11
-            }
-          ]
-        },
-        {
-          "number": 8,
-          "question": "El Espíritu Santo, Señor y dador de vida",
-          "answer": "Y en el Espíritu Santo, Señor y dador de vida, que procede del Padre y del Hijo; que con el Padre y el Hijo juntamente es adorado y glorificado; que habló por los profetas.",
-          "refs": [
-            {
-              "label": "2 Corintios 3:17-18",
-              "book_usfm": "2CO",
-              "chapter": 3
-            },
-            {
-              "label": "Juan 6:63",
-              "book_usfm": "JHN",
-              "chapter": 6
             },
             {
               "label": "Juan 15:26",
@@ -270,51 +138,14 @@
               "chapter": 15
             },
             {
-              "label": "Gálatas 4:6",
-              "book_usfm": "GAL",
-              "chapter": 4
-            },
-            {
-              "label": "Mateo 28:19",
-              "book_usfm": "MAT",
-              "chapter": 28
-            },
-            {
               "label": "2 Pedro 1:21",
               "book_usfm": "2PE",
               "chapter": 1
-            }
-          ]
-        },
-        {
-          "number": 9,
-          "question": "La iglesia, el bautismo y la esperanza",
-          "answer": "Y en una santa iglesia católica y apostólica. Confesamos un solo bautismo para el perdón de los pecados. Esperamos la resurrección de los muertos y la vida del mundo venidero. Amén.",
-          "refs": [
-            {
-              "label": "Efesios 2:19-22",
-              "book_usfm": "EPH",
-              "chapter": 2
             },
             {
               "label": "Efesios 4:4-5",
               "book_usfm": "EPH",
               "chapter": 4
-            },
-            {
-              "label": "Hechos 2:38",
-              "book_usfm": "ACT",
-              "chapter": 2
-            },
-            {
-              "label": "1 Corintios 15:51-54",
-              "book_usfm": "1CO",
-              "chapter": 15
-            },
-            {
-              "label": "Marcos 10:29-30",
-              "book_usfm": "MRK",
-              "chapter": 10
             }
           ]
         }
@@ -325,9 +156,9 @@
       "title": "La Definición de Calcedonia",
       "questions": [
         {
-          "number": 10,
-          "question": "Perfecto en divinidad y perfecto en humanidad",
-          "answer": "Siguiendo, pues, a los santos padres, todos a una voz enseñamos que ha de confesarse a uno y el mismo Hijo, nuestro Señor Jesucristo: el mismo perfecto en divinidad y el mismo perfecto en humanidad; el mismo verdaderamente Dios y verdaderamente hombre, de alma racional y cuerpo; consustancial con el Padre según la divinidad, y el mismo consustancial con nosotros según la humanidad, semejante a nosotros en todo, excepto en el pecado; engendrado del Padre antes de los siglos según la divinidad, y el mismo, en los últimos días, por nosotros y por nuestra salvación, nacido de la virgen María, la Madre de Dios, según la humanidad;",
+          "number": 3,
+          "question": "Un solo Cristo, verdadero Dios y verdadero hombre",
+          "answer": "Siguiendo, pues, a los santos padres, todos a una voz enseñamos que ha de confesarse a uno y el mismo Hijo, nuestro Señor Jesucristo: el mismo perfecto en divinidad y el mismo perfecto en humanidad; el mismo verdaderamente Dios y verdaderamente hombre, de alma racional y cuerpo; consustancial con el Padre según la divinidad, y el mismo consustancial con nosotros según la humanidad, semejante a nosotros en todo, excepto en el pecado; engendrado del Padre antes de los siglos según la divinidad, y el mismo, en los últimos días, por nosotros y por nuestra salvación, nacido de la virgen María, la Madre de Dios, según la humanidad;\n\nuno y el mismo Cristo, Hijo, Señor, Unigénito, que ha de ser reconocido en dos naturalezas, sin confusión, sin cambio, sin división, sin separación; sin que la diferencia de las naturalezas quede en modo alguno suprimida por causa de la unión, sino más bien conservándose la propiedad de cada naturaleza, y concurriendo en una sola persona y una sola subsistencia; no partido ni dividido en dos personas, sino uno y el mismo Hijo, Unigénito, Dios Verbo, el Señor Jesucristo;\n\ncomo desde antiguo lo enseñaron de él los profetas, y como nos lo enseñó el mismo Señor Jesucristo, y como nos lo ha transmitido el credo de los padres.",
           "refs": [
             {
               "label": "Juan 1:1",
@@ -358,14 +189,7 @@
               "label": "Gálatas 4:4",
               "book_usfm": "GAL",
               "chapter": 4
-            }
-          ]
-        },
-        {
-          "number": 11,
-          "question": "Dos naturalezas en una sola persona",
-          "answer": "…uno y el mismo Cristo, Hijo, Señor, Unigénito, que ha de ser reconocido en dos naturalezas, sin confusión, sin cambio, sin división, sin separación; sin que la diferencia de las naturalezas quede en modo alguno suprimida por causa de la unión, sino más bien conservándose la propiedad de cada naturaleza, y concurriendo en una sola persona y una sola subsistencia; no partido ni dividido en dos personas, sino uno y el mismo Hijo, Unigénito, Dios Verbo, el Señor Jesucristo;",
-          "refs": [
+            },
             {
               "label": "Romanos 1:3-4",
               "book_usfm": "ROM",
@@ -390,14 +214,7 @@
               "label": "1 Timoteo 3:16",
               "book_usfm": "1TI",
               "chapter": 3
-            }
-          ]
-        },
-        {
-          "number": 12,
-          "question": "Lo que hemos recibido",
-          "answer": "…como desde antiguo lo enseñaron de él los profetas, y como nos lo enseñó el mismo Señor Jesucristo, y como nos lo ha transmitido el credo de los padres.",
-          "refs": [
+            },
             {
               "label": "Lucas 24:27",
               "book_usfm": "LUK",
@@ -427,32 +244,15 @@
       "title": "El Credo Atanasiano",
       "questions": [
         {
-          "number": 13,
-          "question": "La fe católica",
-          "answer": "Todo el que quiera ser salvo debe, ante todo, mantener la fe católica. Quien no la guarde íntegra e inviolada, sin duda perecerá eternamente.",
+          "number": 4,
+          "question": "Un solo Dios en Trinidad",
+          "answer": "Todo el que quiera ser salvo debe, ante todo, mantener la fe católica. Quien no la guarde íntegra e inviolada, sin duda perecerá eternamente.\n\nY la fe católica es esta: que adoremos a un solo Dios en Trinidad, y a la Trinidad en unidad, sin confundir las personas ni dividir la sustancia. Porque una es la persona del Padre, otra la del Hijo y otra la del Espíritu Santo. Pero la divinidad del Padre, del Hijo y del Espíritu Santo es una sola: igual la gloria, coeterna la majestad.\n\nCual es el Padre, tal es el Hijo, tal es el Espíritu Santo. Increado el Padre, increado el Hijo, increado el Espíritu Santo. Inmenso el Padre, inmenso el Hijo, inmenso el Espíritu Santo. Eterno el Padre, eterno el Hijo, eterno el Espíritu Santo. Y, sin embargo, no son tres eternos, sino un solo eterno; como tampoco son tres increados ni tres inmensos, sino un solo increado y un solo inmenso. Asimismo, todopoderoso el Padre, todopoderoso el Hijo, todopoderoso el Espíritu Santo. Y, sin embargo, no son tres todopoderosos, sino un solo todopoderoso.\n\nAsí, el Padre es Dios, el Hijo es Dios, el Espíritu Santo es Dios; y, sin embargo, no son tres dioses, sino un solo Dios. Así, el Padre es Señor, el Hijo es Señor, el Espíritu Santo es Señor; y, sin embargo, no son tres señores, sino un solo Señor. Porque, así como la verdad cristiana nos obliga a confesar que cada persona por sí misma es Dios y Señor, así la religión católica nos prohíbe decir que hay tres dioses o tres señores.\n\nEl Padre no fue hecho por nadie, ni creado, ni engendrado. El Hijo es del Padre solo: no hecho, ni creado, sino engendrado. El Espíritu Santo es del Padre y del Hijo: no hecho, ni creado, ni engendrado, sino que procede. Hay, pues, un solo Padre, no tres padres; un solo Hijo, no tres hijos; un solo Espíritu Santo, no tres espíritus santos.\n\nY en esta Trinidad nada es antes ni después, nada mayor ni menor, sino que las tres personas son coeternas entre sí y coiguales. De modo que en todo, como ya se ha dicho, ha de adorarse la unidad en la Trinidad, y la Trinidad en la unidad. Quien quiera, pues, ser salvo, así debe pensar de la Trinidad.",
           "refs": [
-            {
-              "label": "Hebreos 11:6",
-              "book_usfm": "HEB",
-              "chapter": 11
-            },
             {
               "label": "Judas 1:3",
               "book_usfm": "JUD",
               "chapter": 1
             },
-            {
-              "label": "Juan 3:36",
-              "book_usfm": "JHN",
-              "chapter": 3
-            }
-          ]
-        },
-        {
-          "number": 14,
-          "question": "Un solo Dios en Trinidad",
-          "answer": "Y la fe católica es esta: que adoremos a un solo Dios en Trinidad, y a la Trinidad en unidad, sin confundir las personas ni dividir la sustancia. Porque una es la persona del Padre, otra la del Hijo y otra la del Espíritu Santo. Pero la divinidad del Padre, del Hijo y del Espíritu Santo es una sola: igual la gloria, coeterna la majestad.",
-          "refs": [
             {
               "label": "Deuteronomio 6:4",
               "book_usfm": "DEU",
@@ -464,58 +264,14 @@
               "chapter": 28
             },
             {
-              "label": "Juan 14:16-17",
-              "book_usfm": "JHN",
-              "chapter": 14
-            },
-            {
               "label": "2 Corintios 13:14",
               "book_usfm": "2CO",
               "chapter": 13
-            }
-          ]
-        },
-        {
-          "number": 15,
-          "question": "Iguales en todo",
-          "answer": "Cual es el Padre, tal es el Hijo, tal es el Espíritu Santo. Increado el Padre, increado el Hijo, increado el Espíritu Santo. Inmenso el Padre, inmenso el Hijo, inmenso el Espíritu Santo. Eterno el Padre, eterno el Hijo, eterno el Espíritu Santo. Y, sin embargo, no son tres eternos, sino un solo eterno; como tampoco son tres increados ni tres inmensos, sino un solo increado y un solo inmenso. Asimismo, todopoderoso el Padre, todopoderoso el Hijo, todopoderoso el Espíritu Santo. Y, sin embargo, no son tres todopoderosos, sino un solo todopoderoso.",
-          "refs": [
+            },
             {
               "label": "Juan 1:1-3",
               "book_usfm": "JHN",
               "chapter": 1
-            },
-            {
-              "label": "Juan 5:26",
-              "book_usfm": "JHN",
-              "chapter": 5
-            },
-            {
-              "label": "Hebreos 9:14",
-              "book_usfm": "HEB",
-              "chapter": 9
-            },
-            {
-              "label": "Salmos 139:7-8",
-              "book_usfm": "PSA",
-              "chapter": 139
-            },
-            {
-              "label": "Apocalipsis 1:8",
-              "book_usfm": "REV",
-              "chapter": 1
-            }
-          ]
-        },
-        {
-          "number": 16,
-          "question": "Un solo Dios y un solo Señor",
-          "answer": "Así, el Padre es Dios, el Hijo es Dios, el Espíritu Santo es Dios; y, sin embargo, no son tres dioses, sino un solo Dios. Así, el Padre es Señor, el Hijo es Señor, el Espíritu Santo es Señor; y, sin embargo, no son tres señores, sino un solo Señor. Porque, así como la verdad cristiana nos obliga a confesar que cada persona por sí misma es Dios y Señor, así la religión católica nos prohíbe decir que hay tres dioses o tres señores.",
-          "refs": [
-            {
-              "label": "Juan 20:28",
-              "book_usfm": "JHN",
-              "chapter": 20
             },
             {
               "label": "Hechos 5:3-4",
@@ -528,44 +284,10 @@
               "chapter": 8
             },
             {
-              "label": "Isaías 45:5",
-              "book_usfm": "ISA",
-              "chapter": 45
-            }
-          ]
-        },
-        {
-          "number": 17,
-          "question": "El Padre, el Hijo y el Espíritu",
-          "answer": "El Padre no fue hecho por nadie, ni creado, ni engendrado. El Hijo es del Padre solo: no hecho, ni creado, sino engendrado. El Espíritu Santo es del Padre y del Hijo: no hecho, ni creado, ni engendrado, sino que procede. Hay, pues, un solo Padre, no tres padres; un solo Hijo, no tres hijos; un solo Espíritu Santo, no tres espíritus santos.",
-          "refs": [
-            {
-              "label": "Juan 1:14",
-              "book_usfm": "JHN",
-              "chapter": 1
-            },
-            {
               "label": "Juan 15:26",
               "book_usfm": "JHN",
               "chapter": 15
             },
-            {
-              "label": "Juan 16:7",
-              "book_usfm": "JHN",
-              "chapter": 16
-            },
-            {
-              "label": "Gálatas 4:6",
-              "book_usfm": "GAL",
-              "chapter": 4
-            }
-          ]
-        },
-        {
-          "number": 18,
-          "question": "Coeternos y coiguales",
-          "answer": "Y en esta Trinidad nada es antes ni después, nada mayor ni menor, sino que las tres personas son coeternas entre sí y coiguales. De modo que en todo, como ya se ha dicho, ha de adorarse la unidad en la Trinidad, y la Trinidad en la unidad. Quien quiera, pues, ser salvo, así debe pensar de la Trinidad.",
-          "refs": [
             {
               "label": "Juan 17:5",
               "book_usfm": "JHN",
@@ -575,34 +297,14 @@
               "label": "Filipenses 2:6",
               "book_usfm": "PHP",
               "chapter": 2
-            },
-            {
-              "label": "Hebreos 9:14",
-              "book_usfm": "HEB",
-              "chapter": 9
-            },
-            {
-              "label": "Mateo 3:16-17",
-              "book_usfm": "MAT",
-              "chapter": 3
             }
           ]
         },
         {
-          "number": 19,
-          "question": "Verdadero Dios y verdadero hombre",
-          "answer": "Pero es necesario para la salvación eterna creer también fielmente en la encarnación de nuestro Señor Jesucristo. Porque la fe recta es que creamos y confesemos que nuestro Señor Jesucristo, el Hijo de Dios, es igualmente Dios y hombre. Es Dios, engendrado de la sustancia del Padre antes de los siglos; y es hombre, nacido de la sustancia de su madre en el tiempo; perfecto Dios, perfecto hombre, que subsiste de alma racional y de carne humana; igual al Padre según la divinidad, menor que el Padre según la humanidad.",
+          "number": 5,
+          "question": "La encarnación del Hijo",
+          "answer": "Pero es necesario para la salvación eterna creer también fielmente en la encarnación de nuestro Señor Jesucristo. Porque la fe recta es que creamos y confesemos que nuestro Señor Jesucristo, el Hijo de Dios, es igualmente Dios y hombre. Es Dios, engendrado de la sustancia del Padre antes de los siglos; y es hombre, nacido de la sustancia de su madre en el tiempo; perfecto Dios, perfecto hombre, que subsiste de alma racional y de carne humana; igual al Padre según la divinidad, menor que el Padre según la humanidad.\n\nY aunque es Dios y hombre, no es dos, sino un solo Cristo; uno, no por la conversión de la divinidad en carne, sino por la asunción de la humanidad en Dios; uno del todo, no por confusión de sustancia, sino por unidad de persona. Porque así como el alma racional y la carne son un solo hombre, así Dios y hombre son un solo Cristo.\n\nÉl padeció por nuestra salvación, descendió a los infiernos, al tercer día resucitó de entre los muertos, subió a los cielos, está sentado a la diestra de Dios Padre todopoderoso, y desde allí ha de venir a juzgar a los vivos y a los muertos. A su venida, todos los hombres resucitarán con sus cuerpos y darán cuenta de sus propias obras; y los que hicieron el bien irán a la vida eterna, y los que hicieron el mal, al fuego eterno. Esta es la fe católica: quien no la crea fiel y firmemente no podrá ser salvo.",
           "refs": [
-            {
-              "label": "1 Juan 4:2-3",
-              "book_usfm": "1JN",
-              "chapter": 4
-            },
-            {
-              "label": "Juan 1:1",
-              "book_usfm": "JHN",
-              "chapter": 1
-            },
             {
               "label": "Juan 1:14",
               "book_usfm": "JHN",
@@ -622,23 +324,6 @@
               "label": "Hebreos 2:17",
               "book_usfm": "HEB",
               "chapter": 2
-            }
-          ]
-        },
-        {
-          "number": 20,
-          "question": "Un solo Cristo",
-          "answer": "Y aunque es Dios y hombre, no es dos, sino un solo Cristo; uno, no por la conversión de la divinidad en carne, sino por la asunción de la humanidad en Dios; uno del todo, no por confusión de sustancia, sino por unidad de persona. Porque así como el alma racional y la carne son un solo hombre, así Dios y hombre son un solo Cristo.",
-          "refs": [
-            {
-              "label": "Juan 1:14",
-              "book_usfm": "JHN",
-              "chapter": 1
-            },
-            {
-              "label": "Romanos 9:5",
-              "book_usfm": "ROM",
-              "chapter": 9
             },
             {
               "label": "Colosenses 2:9",
@@ -649,14 +334,7 @@
               "label": "1 Timoteo 3:16",
               "book_usfm": "1TI",
               "chapter": 3
-            }
-          ]
-        },
-        {
-          "number": 21,
-          "question": "Su obra, su venida y el juicio",
-          "answer": "Él padeció por nuestra salvación, descendió a los infiernos, al tercer día resucitó de entre los muertos, subió a los cielos, está sentado a la diestra de Dios Padre todopoderoso, y desde allí ha de venir a juzgar a los vivos y a los muertos. A su venida, todos los hombres resucitarán con sus cuerpos y darán cuenta de sus propias obras; y los que hicieron el bien irán a la vida eterna, y los que hicieron el mal, al fuego eterno. Esta es la fe católica: quien no la crea fiel y firmemente no podrá ser salvo.",
-          "refs": [
+            },
             {
               "label": "1 Corintios 15:3-4",
               "book_usfm": "1CO",
@@ -676,11 +354,6 @@
               "label": "2 Corintios 5:10",
               "book_usfm": "2CO",
               "chapter": 5
-            },
-            {
-              "label": "Mateo 25:46",
-              "book_usfm": "MAT",
-              "chapter": 25
             }
           ]
         }
