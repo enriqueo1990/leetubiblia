@@ -3,7 +3,7 @@
   "name": "Confesión Bautista de 1689",
   "description": "Segunda Confesión Bautista de Londres, publicada en 1677 y adoptada en 1689 por las iglesias bautistas particulares de Inglaterra y Gales, en 32 capítulos. Sigue de cerca a la Confesión de Westminster, con la doctrina bautista de la iglesia y del bautismo.",
   "cadence": "sequence",
-  "source": "Traducción original al español realizada a partir del texto inglés de dominio público de 1677/1689, según la transcripción de la quinta edición (1720) cotejada con el texto de 1677. Las referencias son las pruebas bíblicas originales de cada párrafo. Entre las pruebas del capítulo 2, párrafo 3, figura 1 Juan 5:7 según el texto bíblico de la época, que muchas Biblias actuales no incluyen.",
+  "source": "Traducción original al español realizada a partir del texto inglés de dominio público de 1677/1689, según la transcripción de la quinta edición (1720) cotejada con el texto de 1677. Las referencias son las pruebas bíblicas originales de cada párrafo, con algunas erratas evidentes de la fuente corregidas (p. ej. Hechos 22:16 en 29.1). Entre las pruebas del capítulo 2, párrafo 3, figura 1 Juan 5:7, y entre las del capítulo 29, párrafo 2, Hechos 8:37: dos versículos del texto bíblico de la época que muchas Biblias actuales no incluyen.",
   "intro": [
     "La Confesión Bautista de 1689 se publicó por primera vez en Londres en 1677, en plena persecución de los disidentes bajo Carlos II, sin el nombre de sus autores. Las iglesias bautistas particulares —de convicción calvinista— quisieron mostrar que compartían la fe de las demás iglesias reformadas, y por eso tomaron como base la Confesión de Westminster (1646) y la Declaración de Saboya (1658), cambiando solo lo necesario.",
     "En 1689, tras el Acta de Tolerancia, representantes de más de cien iglesias se reunieron en Londres y la adoptaron como expresión de su fe; de ahí el nombre con que se la conoce. Sus 32 capítulos recorren la fe cristiana de las Escrituras al juicio final, con el acento bautista en la doctrina de la iglesia y del bautismo de los creyentes por inmersión. Es la confesión detrás del Catecismo de Keach (1693), y Spurgeon la reeditó en 1855 para su congregación.",
@@ -315,7 +315,7 @@
         {
           "number": 10,
           "question": "Párrafo 10",
-          "answer": "El juez supremo por el cual han de decidirse todas las controversias de religión, y han de examinarse todos los decretos de concilios, las opiniones de escritores antiguos, las doctrinas de hombres y los espíritus particulares, y en cuya sentencia hemos de descansar, no puede ser otro que la Santa Escritura entregada por el Espíritu, Escritura así entregada en la cual nuestra fe halla su resolución final.",
+          "answer": "El juez supremo por el cual han de decidirse todas las controversias de religión, y han de examinarse todos los decretos de concilios, las opiniones de escritores antiguos, las doctrinas de hombres y los espíritus particulares, y en cuya sentencia hemos de descansar, no puede ser otro que la Santa Escritura entregada por el Espíritu, en la cual, así entregada, nuestra fe halla su resolución final.",
           "refs": [
             {
               "label": "Mateo 22:29",
@@ -862,7 +862,7 @@
         {
           "number": 20,
           "question": "Párrafo 7",
-          "answer": "La doctrina de este alto misterio de la predestinación ha de tratarse con especial prudencia y cuidado, para que los hombres, atendiendo a la voluntad de Dios revelada en su Palabra y prestándole obediencia, puedan, por la certeza de su vocación eficaz, estar seguros de su elección eterna; así esta doctrina proporcionará motivo de alabanza, reverencia y admiración a Dios, y de humildad, diligencia y abundante consuelo a todos los que obedecen sinceramente el evangelio.",
+          "answer": "La doctrina de este alto misterio de la predestinación ha de tratarse con especial prudencia y cuidado, para que los hombres, atendiendo a la voluntad de Dios revelada en su Palabra y prestándole obediencia, puedan, por la certeza de su vocación eficaz, estar seguros de su elección eterna; así esta doctrina proporcionará motivo de alabanza, reverencia y admiración a Dios, y de humildad, diligencia y abundante consolación a todos los que obedecen sinceramente el evangelio.",
           "refs": [
             {
               "label": "1 Tesalonicenses 1:4-5",
@@ -1175,7 +1175,7 @@
         {
           "number": 28,
           "question": "Párrafo 5",
-          "answer": "Dios, sapientísimo, justo y lleno de gracia, a menudo deja por un tiempo a sus propios hijos a merced de múltiples tentaciones y de las corrupciones de su propio corazón, para castigarlos por sus pecados anteriores o para descubrirles la fuerza oculta de la corrupción y el engaño de sus corazones, a fin de que sean humillados; y para llevarlos a una dependencia más estrecha y constante de él para su sostén; y para hacerlos más vigilantes contra todas las ocasiones futuras de pecado, y para otros fines justos y santos. De modo que todo lo que le acontece a cualquiera de sus elegidos es por designio suyo, para su gloria y para el bien de ellos.",
+          "answer": "Dios, sapientísimo, justo y lleno de gracia, a menudo deja por un tiempo a sus propios hijos a merced de múltiples tentaciones y de las corrupciones de su propio corazón, para castigarlos por sus pecados anteriores o para descubrirles la fuerza oculta de la corrupción y el engaño de sus corazones, a fin de que sean humillados; y para llevarlos a una dependencia más estrecha y constante de él para su sostén; y para hacerlos más vigilantes contra todas las ocasiones futuras de pecado, y para otros fines justos y santos. De modo que todo lo que le acontece a cualquiera de sus elegidos es por designación suya, para su gloria y para el bien de ellos.",
           "refs": [
             {
               "label": "2 Crónicas 32:25-26",
@@ -1366,7 +1366,7 @@
         {
           "number": 33,
           "question": "Párrafo 3",
-          "answer": "Siendo ellos la raíz y estando, por designio de Dios, en el lugar y en representación de todo el género humano, la culpa del pecado fue imputada, y la naturaleza corrompida transmitida, a toda su posteridad, que desciende de ellos por generación ordinaria, los cuales son ahora concebidos en pecado y son por naturaleza hijos de ira, siervos del pecado, sujetos a la muerte y a todas las demás miserias, espirituales, temporales y eternas, a menos que el Señor Jesús los haga libres.",
+          "answer": "Siendo ellos la raíz y estando, por designación de Dios, en el lugar y en representación de todo el género humano, la culpa del pecado fue imputada, y la naturaleza corrompida transmitida, a toda su posteridad, que desciende de ellos por generación ordinaria, los cuales son ahora concebidos en pecado y son por naturaleza hijos de ira, siervos del pecado, sujetos a la muerte y a todas las demás miserias, espirituales, temporales y eternas, a menos que el Señor Jesús los haga libres.",
           "refs": [
             {
               "label": "Romanos 5:12-19",
@@ -3621,7 +3621,7 @@
         {
           "number": 85,
           "question": "Párrafo 3",
-          "answer": "Y aunque, por la tentación de Satanás y del mundo, por el predominio de la corrupción que permanece en ellos y por el descuido de los medios para su preservación, puedan caer en pecados graves y continuar en ellos por un tiempo, con lo cual incurren en el desagrado de Dios y contristan a su Santo Espíritu, llegan a tener menoscabadas sus gracias y consolaciones, endurecidos sus corazones y heridas sus conciencias, dañan y escandalizan a otros y atraen sobre sí juicios temporales, sin embargo renovarán su arrepentimiento y serán preservados mediante la fe en Cristo Jesús hasta el fin.",
+          "answer": "Y aunque, por la tentación de Satanás y del mundo, por el predominio de la corrupción que permanece en ellos y por el descuido de los medios para su preservación, puedan caer en pecados graves y continuar en ellos por un tiempo, con lo cual incurren en el desagrado de Dios y contristan a su Santo Espíritu, llegan a tener menoscabadas sus gracias y consuelos, endurecidos sus corazones y heridas sus conciencias, dañan y escandalizan a otros y atraen sobre sí juicios temporales, sin embargo renovarán su arrepentimiento y serán preservados mediante la fe en Cristo Jesús hasta el fin.",
           "refs": [
             {
               "label": "Mateo 26:70",
@@ -4111,7 +4111,7 @@
               "chapter": 3
             },
             {
-              "label": "Romanos 7:7-25",
+              "label": "Romanos 7:7",
               "book_usfm": "ROM",
               "chapter": 7
             },
@@ -4153,7 +4153,7 @@
         {
           "number": 97,
           "question": "Párrafo 1",
-          "answer": "Habiendo sido quebrantado por el pecado el pacto de obras, y hecho inútil para dar vida, Dios tuvo a bien dar la promesa de Cristo, la simiente de la mujer, como el medio para llamar a los elegidos y engendrar en ellos fe y arrepentimiento; en esta promesa fue revelado el evangelio en cuanto a su sustancia, y es en ella eficaz para la conversión y salvación de los pecadores.",
+          "answer": "Habiendo sido quebrantado por el pecado el pacto de obras, y hecho inútil para dar vida, Dios tuvo a bien dar la promesa de Cristo, la simiente de la mujer, como el medio para llamar a los elegidos y engendrar en ellos fe y arrepentimiento; en esta promesa fue revelado el evangelio en cuanto a su sustancia, y fue en ella eficaz para la conversión y salvación de los pecadores.",
           "refs": [
             {
               "label": "Génesis 3:15",
@@ -4315,7 +4315,7 @@
               "chapter": 8
             },
             {
-              "label": "Lucas 1:73-75",
+              "label": "Lucas 1:74-75",
               "book_usfm": "LUK",
               "chapter": 1
             },
@@ -4367,9 +4367,9 @@
               "chapter": 4
             },
             {
-              "label": "Hechos 4:29",
+              "label": "Hechos 5:29",
               "book_usfm": "ACT",
-              "chapter": 4
+              "chapter": 5
             },
             {
               "label": "1 Corintios 7:23",
@@ -4439,7 +4439,7 @@
         {
           "number": 104,
           "question": "Párrafo 1",
-          "answer": "La luz de la naturaleza muestra que hay un Dios que tiene señorío y soberanía sobre todo; que es justo, bueno y hace bien a todos; y que, por lo tanto, ha de ser temido, amado, alabado, invocado, que se ha de confiar en él y que ha de ser servido con todo el corazón, con toda el alma y con todas las fuerzas. Pero el modo aceptable de adorar al Dios verdadero está instituido por él mismo, y tan limitado por su propia voluntad revelada, que no puede ser adorado según las imaginaciones e invenciones de los hombres, ni las sugerencias de Satanás, bajo ninguna representación visible, ni de ninguna otra manera no prescrita en las Santas Escrituras.",
+          "answer": "La luz de la naturaleza muestra que hay un Dios que tiene señorío y soberanía sobre todo; que es justo, bueno y hace bien a todos; y que, por lo tanto, ha de ser temido, amado, alabado, invocado, que se ha de confiar en él y que ha de ser servido con todo el corazón, con toda el alma y con todas las fuerzas. Pero el modo aceptable de adorar al Dios verdadero está instituido por él mismo, y tan limitado por su propia voluntad revelada, que no debe ser adorado según las imaginaciones e invenciones de los hombres, ni las sugerencias de Satanás, bajo ninguna representación visible, ni de ninguna otra manera no prescrita en las Santas Escrituras.",
           "refs": [
             {
               "label": "Jeremías 10:7",
@@ -4516,7 +4516,12 @@
           "answer": "La oración con acción de gracias, siendo una parte especial del culto natural, es requerida por Dios de todos los hombres. Pero para que sea aceptada, debe hacerse en el nombre del Hijo, con la ayuda del Espíritu, conforme a su voluntad; con entendimiento, reverencia, humildad, fervor, fe, amor y perseverancia; y, cuando se hace con otros, en una lengua conocida.",
           "refs": [
             {
-              "label": "Salmos 95:1-7",
+              "label": "Salmos 95:1",
+              "book_usfm": "PSA",
+              "chapter": 95
+            },
+            {
+              "label": "Salmos 95:7",
               "book_usfm": "PSA",
               "chapter": 95
             },
@@ -4839,7 +4844,7 @@
         {
           "number": 116,
           "question": "Párrafo 5",
-          "answer": "Un voto, que no ha de hacerse a ninguna criatura sino solo a Dios, ha de hacerse y cumplirse con todo cuidado religioso y fidelidad; pero los votos monásticos papistas de celibato perpetuo, pobreza profesa y obediencia regular, lejos de ser grados de una perfección superior, son lazos supersticiosos y pecaminosos en los cuales ningún cristiano puede enredarse.",
+          "answer": "Un voto, que no ha de hacerse a ninguna criatura sino solo a Dios, ha de hacerse y cumplirse con todo cuidado religioso y fidelidad; pero los votos monásticos papistas de celibato perpetuo, pobreza profesa y obediencia regular, lejos de ser grados de una perfección superior, son lazos supersticiosos y pecaminosos en los cuales ningún cristiano debe enredarse.",
           "refs": [
             {
               "label": "Salmos 76:11",
@@ -5048,7 +5053,7 @@
         {
           "number": 124,
           "question": "Párrafo 1",
-          "answer": "La iglesia católica o universal, que (con respecto a la obra interna del Espíritu y a la verdad de la gracia) puede llamarse invisible, consta del número completo de los elegidos que han sido, son o serán reunidos en uno bajo Cristo, su cabeza; y es la esposa, el cuerpo, la plenitud de aquel que todo lo llena en todo.",
+          "answer": "La iglesia católica o universal, que (con respecto a la obra interna del Espíritu y a la verdad de la gracia) puede llamarse invisible, consta del número completo de los elegidos que han sido, son o serán reunidos en uno bajo Cristo, su Cabeza; y es la esposa, el cuerpo, la plenitud de aquel que todo lo llena en todo.",
           "refs": [
             {
               "label": "Hebreos 12:23",
@@ -5223,7 +5228,7 @@
         {
           "number": 129,
           "question": "Párrafo 6",
-          "answer": "Los miembros de estas iglesias son santos por llamamiento, que manifiestan y evidencian visiblemente (en su profesión y conducta, y por medio de ellas) su obediencia a ese llamado de Cristo; y consienten voluntariamente en andar juntos conforme a lo establecido por Cristo, entregándose al Señor y los unos a los otros, por la voluntad de Dios, en sujeción profesada a las ordenanzas del evangelio.",
+          "answer": "Los miembros de estas iglesias son santos por llamamiento, que manifiestan y evidencian visiblemente (en su profesión y conducta, y por medio de ellas) su obediencia a ese llamamiento de Cristo; y consienten voluntariamente en andar juntos conforme a lo establecido por Cristo, entregándose al Señor y los unos a los otros, por la voluntad de Dios, en sujeción profesada a las ordenanzas del evangelio.",
           "refs": [
             {
               "label": "Romanos 1:7",
@@ -5682,9 +5687,9 @@
               "chapter": 1
             },
             {
-              "label": "Hechos 26:16",
+              "label": "Hechos 22:16",
               "book_usfm": "ACT",
-              "chapter": 26
+              "chapter": 22
             },
             {
               "label": "Romanos 6:4",
@@ -5753,7 +5758,7 @@
         {
           "number": 147,
           "question": "Párrafo 1",
-          "answer": "La Cena del Señor Jesús fue instituida por él la misma noche en que fue entregado, para ser observada en sus iglesias hasta el fin del mundo, para el recuerdo perpetuo y la proclamación del sacrificio de sí mismo en su muerte, la confirmación de la fe de los creyentes en todos los beneficios de ella, su alimento espiritual y crecimiento en él, y su mayor empeño en todos los deberes que le deben, y su mayor obligación hacia ellos; y para ser un vínculo y una prenda de su comunión con él y de los unos con los otros.",
+          "answer": "La Cena del Señor Jesús fue instituida por él la misma noche en que fue entregado, para ser observada en sus iglesias hasta el fin del mundo, para el recuerdo perpetuo y la proclamación del sacrificio de sí mismo en su muerte, la confirmación de la fe de los creyentes en todos los beneficios de ella, su alimento espiritual y crecimiento en él, y su mayor compromiso en todos los deberes que le deben, y para con ellos; y para ser un vínculo y una prenda de su comunión con él y de los unos con los otros.",
           "refs": [
             {
               "label": "1 Corintios 11:23-26",
@@ -6156,7 +6161,7 @@
         {
           "number": 160,
           "question": "Párrafo 3",
-          "answer": "Así como Cristo quiere que estemos ciertamente persuadidos de que habrá un día de juicio, tanto para disuadir a todos los hombres del pecado como para mayor consolación de los piadosos en su adversidad, así también quiere que ese día sea desconocido para los hombres, para que se despojen de toda seguridad carnal y estén siempre vigilantes, porque no saben a qué hora vendrá el Señor, y estén siempre preparados para decir: «Ven, Señor Jesús, ven pronto. Amén».",
+          "answer": "Así como Cristo quiere que estemos ciertamente persuadidos de que habrá un día de juicio, tanto para disuadir a todos los hombres del pecado como para mayor consolación de los piadosos en su adversidad, así también quiere que ese día sea desconocido para los hombres, para que se despojen de toda seguridad carnal y estén siempre vigilantes, porque no saben a qué hora vendrá el Señor, y estén siempre preparados para decir: «Ven, Señor Jesús, ven pronto». Amén.",
           "refs": [
             {
               "label": "2 Corintios 5:10-11",
