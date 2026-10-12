@@ -68,6 +68,10 @@ const MATERIALES = [
   'Catecismo para Niños de Spurgeon',
   'Catecismo de Keach',
   'Cánones de Dort',
+  'Confesión Belga',
+  'Confesión Bautista de 1689',
+  'Credos de la iglesia antigua',
+  'Lecturas matutinas de Spurgeon',
 ]
 
 const ORACION = [

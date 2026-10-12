@@ -10,7 +10,10 @@ import { usePreferences } from '../lib/preferences.jsx'
 // las futuras se ven apagadas — se muestra el camino, pero no se saltea. La actual
 // se marca solo con color acento (el color dice el estado; sin negritas ni checks).
 // Abre centrado en la pregunta actual.
-export default function MaterialIndexSheet({ content, frontier, current, onPick, onClose }) {
+// `numberOf` cambia el número de la columna izquierda (p. ej. el día del mes en
+// un devocional agrupado por mes); por defecto, el número propio de la entrada
+// dentro de su bloque si lo trae (`label`), o su número corrido.
+export default function MaterialIndexSheet({ content, frontier, current, numberOf = (e) => e.label ?? e.number, onPick, onClose }) {
   const { t } = usePreferences()
   // Las entradas vienen aplanadas y en orden: re-agrupar por bloque para los títulos.
   const blocks = []
@@ -69,7 +72,7 @@ export default function MaterialIndexSheet({ content, frontier, current, onPick,
                   style={{ opacity: locked ? 0.4 : 1 }}
                 >
                   <span className="w-7 shrink-0 text-right text-[13px] tabular-nums text-ink-soft">
-                    {e.number}
+                    {numberOf(e)}
                   </span>
                   <span
                     className="min-w-0 flex-1 truncate text-[15px] text-ink"
