@@ -11,12 +11,17 @@
 
 // Catálogo curado. Para sumar un material: agregá el JSON en src/data/materials/ y
 // una entrada acá. `load` difiere la descarga del contenido hasta que se necesita.
+// `unit` nombra cada entrada en la UI ("Pregunta 3 de 107", "Artículo 3 de 37"):
+//   'question' (default) · 'article' · 'item' (solo el número: para materiales
+//   cuya numeración propia no coincide con la corrida 1..N, como Dort, que
+//   reinicia los artículos en cada cabeza de doctrina).
 // Ordenado cronológicamente por fecha de origen del material.
 export const MATERIALS = [
   {
     slug: 'belga',
     name: 'Confesión Belga',
     shortName: 'Confesión Belga',
+    unit: 'article',
     description: '37 artículos de la fe reformada (1561), de Dios y las Escrituras al juicio final, con pasajes para tu Biblia.',
     load: () => import('../data/materials/belga.json'),
   },
@@ -31,6 +36,7 @@ export const MATERIALS = [
     slug: 'dort',
     name: 'Cánones de Dort',
     shortName: 'Dort',
+    unit: 'item',
     description: '59 artículos del Sínodo de Dort (1618-1619) sobre la gracia soberana de Dios, con pasajes para tu Biblia.',
     load: () => import('../data/materials/dort.json'),
   },
@@ -66,6 +72,26 @@ export const MATERIALS = [
 
 export function getMaterial(slug) {
   return MATERIALS.find((m) => m.slug === slug) ?? null
+}
+
+const UNIT_KEYS = {
+  question: { of: 'materialsToday.questionOf', on: 'materiales.onQuestion' },
+  article: { of: 'materialsToday.articleOf', on: 'materiales.onArticle' },
+  item: { of: 'materialsToday.itemOf', on: 'materiales.onItem' },
+}
+
+function unitKeys(slug) {
+  return UNIT_KEYS[getMaterial(slug)?.unit] ?? UNIT_KEYS.question
+}
+
+// "Pregunta 3 de 107" / "Artículo 3 de 37" / "3 de 59", según el material.
+export function entryOfLabel(t, slug, n, total) {
+  return t(unitKeys(slug).of, { n, total })
+}
+
+// "Vas en la pregunta 3" / "Vas en el artículo 3" / "Vas en la lectura 3".
+export function currentEntryLabel(t, slug, n) {
+  return t(unitKeys(slug).on, { n })
 }
 
 // Cache en memoria del contenido ya cargado (evita re-importar en cada render).

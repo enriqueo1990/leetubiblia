@@ -3,6 +3,7 @@ import { useParams, Navigate } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import {
   loadMaterialContent,
+  entryOfLabel,
   isMaterialActive,
   positionOf,
   withMaterialPosition,
@@ -140,7 +141,7 @@ export default function MaterialReader() {
     ? {
         meta: [
           content.name,
-          t('materialsToday.questionOf', { n: entry.number, total }).replace(/ /g, '\u00A0'),
+          entryOfLabel(t, slug, entry.number, total).replace(/ /g, '\u00A0'),
         ].join(' · '),
         question: entry.question,
         answer: entry.answer,
@@ -230,7 +231,7 @@ export default function MaterialReader() {
             va acá: ya lo comunica la zona de abajo (botón primario = actual;
             solo navegación = repaso). Cada estado se dice una sola vez. */}
         <p className="text-[13px] font-medium text-ink-soft">
-          {[t('materialsToday.questionOf', { n: entry.number, total }), entry.blockTitle].filter(Boolean).join(' · ')}
+          {[entryOfLabel(t, slug, entry.number, total), entry.blockTitle].filter(Boolean).join(' · ')}
         </p>
 
         <h1 className="mt-2.5 text-[20px] font-semibold leading-snug text-ink">

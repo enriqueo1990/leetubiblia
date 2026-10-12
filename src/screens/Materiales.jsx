@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import {
   MATERIALS,
+  currentEntryLabel,
   isMaterialActive,
   positionOf,
   loadMaterialContent,
@@ -73,7 +74,7 @@ export default function Materiales() {
               <p className="text-[16px] font-medium text-ink">{m.name}</p>
               {on ? (
                 <p className="mt-1 text-[13px] font-medium" style={{ color: 'var(--accent-ink)' }}>
-                  {done ? `✓ ${t('materiales.completedReview')}` : t('materiales.onQuestion', { n: position })} ›
+                  {done ? `✓ ${t('materiales.completedReview')}` : currentEntryLabel(t, m.slug, position)} ›
                 </p>
               ) : (
                 <p className="mt-1 text-[13px] text-ink-soft">{m.description}</p>

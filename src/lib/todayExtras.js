@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useAuth } from './auth.jsx'
 import { usePreferences } from './preferences.jsx'
 import { getFollowedGroupReadings } from './db.js'
-import { activeMaterials, getMaterial, loadMaterialContent } from './materials.js'
+import { activeMaterials, entryOfLabel, getMaterial, loadMaterialContent } from './materials.js'
 
 export function useTodayExtras() {
   const { user, profile } = useAuth()
@@ -72,7 +72,7 @@ export function useTodayExtras() {
         label: getMaterial(m.slug)?.shortName ?? content.name,
         meta: done
           ? t('materialsToday.completed')
-          : t('materialsToday.questionOf', { n: entry?.number ?? m.position, total: content.total }),
+          : entryOfLabel(t, m.slug, entry?.number ?? m.position, content.total),
         done,
       }
     })
