@@ -18,6 +18,14 @@
 // Ordenado cronológicamente por fecha de origen del material.
 export const MATERIALS = [
   {
+    slug: 'credos',
+    name: 'Credos de la iglesia antigua',
+    shortName: 'Credos antiguos',
+    unit: 'item',
+    description: 'El Apostólico, el Niceno, Calcedonia y el Atanasiano: la fe común de la iglesia desde sus primeros siglos, artículo por artículo.',
+    load: () => import('../data/materials/credos.json'),
+  },
+  {
     slug: 'belga',
     name: 'Confesión Belga',
     shortName: 'Confesión Belga',

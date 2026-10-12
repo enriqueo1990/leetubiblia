@@ -70,6 +70,7 @@ const MATERIALES = [
   'Cánones de Dort',
   'Confesión Belga',
   'Confesión Bautista de 1689',
+  'Credos de la iglesia antigua',
 ]
 
 const ORACION = [
