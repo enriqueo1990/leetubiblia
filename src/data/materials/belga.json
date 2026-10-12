@@ -1,0 +1,1588 @@
+{
+  "slug": "belga",
+  "name": "Confesión Belga",
+  "description": "Confesión de fe reformada de 1561, redactada por Guido de Brès y revisada por el Sínodo de Dort (1618-1619), en 37 artículos. Recorre la fe cristiana de Dios y las Escrituras hasta el juicio final.",
+  "cadence": "sequence",
+  "source": "Traducción original al español realizada a partir de la edición inglesa histórica de dominio público (Philip Schaff, The Creeds of Christendom, 1877), que sigue el texto francés revisado por el Sínodo de Dort (1619). El artículo 9 cita 1 Juan 5:7 según el texto bíblico de la época, que muchas Biblias actuales no incluyen. La agrupación en secciones y las referencias bíblicas de apoyo son de esta edición.",
+  "intro": [
+    "La Confesión Belga fue escrita en 1561 por Guido de Brès, pastor reformado de los Países Bajos del sur, en una época en que los protestantes de esas tierras eran perseguidos por la corona española. Al año siguiente se envió un ejemplar al rey Felipe II, con una carta que explicaba que los reformados no eran rebeldes sino ciudadanos fieles, dispuestos a obedecer en todo lo lícito y a sufrir antes que negar la verdad. De Brès murió mártir en Valenciennes en 1567.",
+    "Sus 37 artículos recorren toda la fe cristiana: Dios y su revelación, la Trinidad, la creación, la caída, la obra de Cristo, la justificación por la fe, la iglesia, los sacramentos y el juicio final. El Sínodo de Dort revisó su texto y la adoptó en 1619; junto con el Catecismo de Heidelberg y los Cánones de Dort forma las llamadas Tres Formas de Unidad, que todavía hoy confiesan muchas iglesias reformadas.",
+    "Esta edición conserva la redacción original de todos los artículos. En el siglo XX varias iglesias reformadas modificaron una frase del artículo 36, la que asigna al magistrado el deber de combatir la idolatría y el falso culto."
+  ],
+  "entries": [
+    {
+      "block": 1,
+      "title": "Dios y su revelación",
+      "questions": [
+        {
+          "number": 1,
+          "question": "Artículo 1: Hay un solo Dios",
+          "answer": "Todos creemos con el corazón y confesamos con la boca que hay un solo y único ser espiritual, al que llamamos Dios; y que es eterno, incomprensible, invisible, inmutable, infinito, todopoderoso, perfectamente sabio, justo, bueno, y fuente abundantísima de todos los bienes.",
+          "refs": [
+            {
+              "label": "Deuteronomio 6:4",
+              "book_usfm": "DEU",
+              "chapter": 6
+            },
+            {
+              "label": "Isaías 44:6",
+              "book_usfm": "ISA",
+              "chapter": 44
+            },
+            {
+              "label": "1 Corintios 8:6",
+              "book_usfm": "1CO",
+              "chapter": 8
+            },
+            {
+              "label": "Juan 4:24",
+              "book_usfm": "JHN",
+              "chapter": 4
+            },
+            {
+              "label": "1 Timoteo 1:17",
+              "book_usfm": "1TI",
+              "chapter": 1
+            },
+            {
+              "label": "Malaquías 3:6",
+              "book_usfm": "MAL",
+              "chapter": 3
+            },
+            {
+              "label": "Santiago 1:17",
+              "book_usfm": "JAS",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "question": "Artículo 2: Por qué medios conocemos a Dios",
+          "answer": "Lo conocemos por dos medios. Primero, por la creación, conservación y gobierno del universo, que está delante de nuestros ojos como un libro hermoso, en el cual todas las criaturas, grandes y pequeñas, son como letras que nos llevan a contemplar las cosas invisibles de Dios, a saber, su eterno poder y su divinidad, como dice el apóstol Pablo en Romanos 1:20. Todas estas cosas bastan para convencer a los hombres y dejarlos sin excusa.\n\nSegundo, se nos da a conocer más clara y plenamente por su santa y divina Palabra, es decir, tanto como nos es necesario en esta vida, para su gloria y para nuestra salvación.",
+          "refs": [
+            {
+              "label": "Salmos 19:1-4",
+              "book_usfm": "PSA",
+              "chapter": 19
+            },
+            {
+              "label": "Romanos 1:20",
+              "book_usfm": "ROM",
+              "chapter": 1
+            },
+            {
+              "label": "Salmos 19:7-8",
+              "book_usfm": "PSA",
+              "chapter": 19
+            },
+            {
+              "label": "2 Timoteo 3:15-16",
+              "book_usfm": "2TI",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "question": "Artículo 3: La Palabra de Dios escrita",
+          "answer": "Confesamos que esta Palabra de Dios no fue enviada ni dada por voluntad de hombre, sino que los santos hombres de Dios hablaron siendo inspirados por el Espíritu Santo, como dice el apóstol Pedro. Después Dios, por un cuidado especial que tiene de nosotros y de nuestra salvación, mandó a sus siervos, los profetas y los apóstoles, poner por escrito su Palabra revelada; y él mismo escribió con su dedo las dos tablas de la ley. Por eso llamamos a tales escritos Sagradas y Divinas Escrituras.",
+          "refs": [
+            {
+              "label": "2 Pedro 1:21",
+              "book_usfm": "2PE",
+              "chapter": 1
+            },
+            {
+              "label": "Éxodo 24:4",
+              "book_usfm": "EXO",
+              "chapter": 24
+            },
+            {
+              "label": "Éxodo 31:18",
+              "book_usfm": "EXO",
+              "chapter": 31
+            },
+            {
+              "label": "Apocalipsis 1:11",
+              "book_usfm": "REV",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 4,
+          "question": "Artículo 4: Los libros canónicos de la Sagrada Escritura",
+          "answer": "Creemos que las Sagradas Escrituras están contenidas en dos libros, a saber, el Antiguo y el Nuevo Testamento, que son canónicos, contra los cuales nada puede alegarse. Sus nombres son, en la iglesia de Dios, los siguientes.\n\nLos libros del Antiguo Testamento: los cinco libros de Moisés, a saber, Génesis, Éxodo, Levítico, Números y Deuteronomio; el libro de Josué, Jueces y Rut; los dos libros de Samuel y los dos de los Reyes; los dos libros de las Crónicas, llamados Paralipómenos; el primero de Esdras, Nehemías y Ester; Job; los Salmos de David; los tres libros de Salomón, a saber, los Proverbios, el Eclesiastés y el Cantar de los Cantares; los cuatro profetas mayores: Isaías, Jeremías, Ezequiel y Daniel; y los otros doce profetas menores, a saber, Oseas, Joel, Amós, Abdías, Jonás, Miqueas, Nahúm, Habacuc, Sofonías, Hageo, Zacarías y Malaquías.\n\nLos del Nuevo Testamento: los cuatro evangelistas, a saber, Mateo, Marcos, Lucas y Juan; los Hechos de los Apóstoles; las catorce epístolas del apóstol Pablo, a saber, una a los Romanos, dos a los Corintios, una a los Gálatas, una a los Efesios, una a los Filipenses, una a los Colosenses, dos a los Tesalonicenses, dos a Timoteo, una a Tito, una a Filemón y una a los Hebreos; las siete epístolas de los otros apóstoles, a saber, una de Santiago, dos de Pedro, tres de Juan y una de Judas; y el Apocalipsis del apóstol Juan.",
+          "refs": [
+            {
+              "label": "Lucas 24:44",
+              "book_usfm": "LUK",
+              "chapter": 24
+            },
+            {
+              "label": "Romanos 3:2",
+              "book_usfm": "ROM",
+              "chapter": 3
+            },
+            {
+              "label": "2 Pedro 3:15-16",
+              "book_usfm": "2PE",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 5,
+          "question": "Artículo 5: De dónde reciben las Sagradas Escrituras su dignidad y autoridad",
+          "answer": "Recibimos todos estos libros, y solo estos, como santos y canónicos, para regular, fundamentar y confirmar nuestra fe. Y creemos sin ninguna duda todo lo que en ellos está contenido, no tanto porque la iglesia los reciba y apruebe como tales, sino principalmente porque el Espíritu Santo da testimonio en nuestros corazones de que proceden de Dios, y también porque llevan en sí mismos la prueba de ello; pues aun los ciegos pueden percibir que se cumplen las cosas que en ellos se predicen.",
+          "refs": [
+            {
+              "label": "1 Tesalonicenses 2:13",
+              "book_usfm": "1TH",
+              "chapter": 2
+            },
+            {
+              "label": "1 Corintios 2:12-13",
+              "book_usfm": "1CO",
+              "chapter": 2
+            },
+            {
+              "label": "2 Timoteo 3:16",
+              "book_usfm": "2TI",
+              "chapter": 3
+            },
+            {
+              "label": "Isaías 46:9-10",
+              "book_usfm": "ISA",
+              "chapter": 46
+            }
+          ]
+        },
+        {
+          "number": 6,
+          "question": "Artículo 6: La diferencia entre los libros canónicos y los apócrifos",
+          "answer": "Distinguimos estos libros sagrados de los apócrifos, que son los siguientes: el tercero y el cuarto libro de Esdras, el libro de Tobías, Judit, el libro de la Sabiduría, Jesús hijo de Sirac, Baruc, el apéndice al libro de Ester, el Cántico de los tres jóvenes en el horno, la historia de Susana, la de Bel y el dragón, la Oración de Manasés y los dos libros de los Macabeos.\n\nLa iglesia puede leerlos y tomar de ellos instrucción en tanto concuerden con los libros canónicos; pero están lejos de tener tal poder y autoridad que por su testimonio pueda confirmarse algún punto de la fe o de la religión cristiana; y mucho menos pueden servir para disminuir la autoridad de los otros, los libros sagrados.",
+          "refs": [
+            {
+              "label": "Romanos 3:2",
+              "book_usfm": "ROM",
+              "chapter": 3
+            },
+            {
+              "label": "2 Pedro 1:19-21",
+              "book_usfm": "2PE",
+              "chapter": 1
+            },
+            {
+              "label": "Lucas 24:27",
+              "book_usfm": "LUK",
+              "chapter": 24
+            }
+          ]
+        },
+        {
+          "number": 7,
+          "question": "Artículo 7: La suficiencia de la Sagrada Escritura como única regla de fe",
+          "answer": "Creemos que esta Sagrada Escritura contiene plenamente la voluntad de Dios, y que todo lo que el hombre debe creer para ser salvo está suficientemente enseñado en ella. Porque, ya que toda la manera de culto que Dios exige de nosotros está descrita en ella extensamente, no es lícito a nadie, aunque sea apóstol, enseñar de otro modo que como ahora se nos enseña en las Sagradas Escrituras; ni aun a un ángel del cielo, como dice el apóstol Pablo. Y, puesto que está prohibido añadir o quitar algo a la Palabra de Dios, se ve claramente que su doctrina es perfectísima y completa en todos sus aspectos.\n\nTampoco debemos equiparar los escritos de hombre alguno, por santos que hayan sido, con las Escrituras divinas; ni la costumbre con la verdad de Dios, porque la verdad está por encima de todo; ni el gran número, la antigüedad, la sucesión de tiempos y personas, los concilios, decretos o estatutos con la verdad de Dios, porque todos los hombres son de suyo mentirosos y más vanos que la vanidad misma.\n\nPor tanto, rechazamos de todo corazón todo lo que no concuerda con esta regla infalible, como nos enseñan los apóstoles cuando dicen: «Probad los espíritus si son de Dios». Y también: «Si alguno viene a vosotros y no trae esta doctrina, no lo recibáis en casa».",
+          "refs": [
+            {
+              "label": "2 Timoteo 3:16-17",
+              "book_usfm": "2TI",
+              "chapter": 3
+            },
+            {
+              "label": "Gálatas 1:8",
+              "book_usfm": "GAL",
+              "chapter": 1
+            },
+            {
+              "label": "Deuteronomio 12:32",
+              "book_usfm": "DEU",
+              "chapter": 12
+            },
+            {
+              "label": "Apocalipsis 22:18-19",
+              "book_usfm": "REV",
+              "chapter": 22
+            },
+            {
+              "label": "Salmos 62:9",
+              "book_usfm": "PSA",
+              "chapter": 62
+            },
+            {
+              "label": "1 Juan 4:1",
+              "book_usfm": "1JN",
+              "chapter": 4
+            },
+            {
+              "label": "2 Juan 1:10",
+              "book_usfm": "2JN",
+              "chapter": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 2,
+      "title": "La Santa Trinidad",
+      "questions": [
+        {
+          "number": 8,
+          "question": "Artículo 8: Dios es uno en esencia, y sin embargo distinto en tres personas",
+          "answer": "Según esta verdad y esta Palabra de Dios, creemos en un solo Dios, que es una sola esencia, en la cual hay tres personas, real, verdadera y eternamente distintas según sus propiedades incomunicables; a saber, el Padre, el Hijo y el Espíritu Santo. El Padre es la causa, origen y principio de todas las cosas, visibles e invisibles; el Hijo es el Verbo, la sabiduría y la imagen del Padre; el Espíritu Santo es el poder y la virtud eternos, que procede del Padre y del Hijo.\n\nSin embargo, Dios no está por esto dividido en tres, puesto que las Sagradas Escrituras nos enseñan que el Padre, el Hijo y el Espíritu Santo tienen cada uno su subsistencia propia, distinguida por sus propiedades; pero de tal manera que estas tres personas son un solo Dios. Por tanto, es evidente que el Padre no es el Hijo, ni el Hijo es el Padre, y tampoco el Espíritu Santo es el Padre ni el Hijo.\n\nCon todo, estas personas así distintas no están divididas ni mezcladas: porque el Padre no tomó carne, ni tampoco el Espíritu Santo, sino solo el Hijo. El Padre nunca ha existido sin su Hijo ni sin su Espíritu Santo, porque los tres son coeternos y de una misma esencia. No hay primero ni último, porque los tres son uno solo en verdad, en poder, en bondad y en misericordia.",
+          "refs": [
+            {
+              "label": "Deuteronomio 6:4",
+              "book_usfm": "DEU",
+              "chapter": 6
+            },
+            {
+              "label": "Mateo 28:19",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "Juan 1:1-3",
+              "book_usfm": "JHN",
+              "chapter": 1
+            },
+            {
+              "label": "Colosenses 1:15",
+              "book_usfm": "COL",
+              "chapter": 1
+            },
+            {
+              "label": "Juan 15:26",
+              "book_usfm": "JHN",
+              "chapter": 15
+            },
+            {
+              "label": "Juan 1:14",
+              "book_usfm": "JHN",
+              "chapter": 1
+            },
+            {
+              "label": "2 Corintios 13:14",
+              "book_usfm": "2CO",
+              "chapter": 13
+            }
+          ]
+        },
+        {
+          "number": 9,
+          "question": "Artículo 9: Prueba del artículo anterior, sobre la Trinidad de personas en un solo Dios",
+          "answer": "Todo esto lo sabemos tanto por los testimonios de la Sagrada Escritura como por las operaciones de las personas, y principalmente por las que sentimos en nosotros mismos. Los testimonios de las Sagradas Escrituras que nos enseñan a creer en esta Santa Trinidad están escritos en muchos lugares del Antiguo Testamento; no es necesario enumerarlos todos, sino escoger algunos con discernimiento y juicio.\n\nEn Génesis 1:26-27 Dios dice: «Hagamos al hombre a nuestra imagen, conforme a nuestra semejanza». «Y creó Dios al hombre a su imagen; varón y hembra los creó». Y en Génesis 3:22: «He aquí el hombre es como uno de nosotros». De aquí se ve que hay en la Deidad pluralidad de personas, cuando dice: «Hagamos al hombre a nuestra imagen»; y luego señala la unidad cuando dice: «Y creó Dios». Es cierto que no dice cuántas personas hay; pero lo que nos parece algo oscuro en el Antiguo Testamento es muy claro en el Nuevo.\n\nPorque cuando nuestro Señor fue bautizado en el Jordán, se oyó la voz del Padre que decía: «Este es mi Hijo amado»; el Hijo fue visto en el agua, y el Espíritu Santo apareció en forma de paloma. Esta misma forma fue instituida por Cristo en el bautismo de todos los creyentes: «Bautizad a todas las naciones en el nombre del Padre, y del Hijo, y del Espíritu Santo». En el Evangelio de Lucas, el ángel Gabriel dijo a María, madre de nuestro Señor: «El Espíritu Santo vendrá sobre ti, y el poder del Altísimo te cubrirá con su sombra; por lo cual también lo santo que nacerá será llamado Hijo de Dios». Asimismo: «La gracia del Señor Jesucristo, y el amor de Dios, y la comunión del Espíritu Santo sean con todos vosotros». Y: «Tres son los que dan testimonio en el cielo: el Padre, el Verbo y el Espíritu Santo; y estos tres son uno».\n\nEn todos estos lugares se nos enseña plenamente que hay tres personas en una sola esencia divina. Y aunque esta doctrina sobrepasa con mucho todo entendimiento humano, la creemos ahora por la Palabra de Dios, esperando gozar en el cielo de su perfecto conocimiento y fruto.\n\nAdemás, debemos observar los oficios y operaciones particulares de estas tres personas para con nosotros. El Padre es llamado nuestro Creador, por su poder; el Hijo es nuestro Salvador y Redentor, por su sangre; el Espíritu Santo es nuestro Santificador, por su morada en nuestros corazones.\n\nEsta doctrina de la Santa Trinidad ha sido siempre defendida y mantenida por la verdadera iglesia, desde el tiempo de los apóstoles hasta hoy, contra los judíos, los mahometanos y algunos falsos cristianos y herejes, como Marción, Manes, Práxeas, Sabelio, Pablo de Samosata, Arrio y otros semejantes, que con justicia fueron condenados por los santos padres. Por tanto, en este punto recibimos de buen grado los tres credos, a saber, el de los Apóstoles, el de Nicea y el de Atanasio; y asimismo lo que los antiguos padres decidieron conforme a ellos.",
+          "refs": [
+            {
+              "label": "Génesis 1:26-27",
+              "book_usfm": "GEN",
+              "chapter": 1
+            },
+            {
+              "label": "Génesis 3:22",
+              "book_usfm": "GEN",
+              "chapter": 3
+            },
+            {
+              "label": "Mateo 3:16-17",
+              "book_usfm": "MAT",
+              "chapter": 3
+            },
+            {
+              "label": "Mateo 28:19",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "Lucas 1:35",
+              "book_usfm": "LUK",
+              "chapter": 1
+            },
+            {
+              "label": "2 Corintios 13:14",
+              "book_usfm": "2CO",
+              "chapter": 13
+            },
+            {
+              "label": "1 Juan 5:7",
+              "book_usfm": "1JN",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 10,
+          "question": "Artículo 10: Jesucristo es verdadero y eterno Dios",
+          "answer": "Creemos que Jesucristo, según su naturaleza divina, es el Hijo unigénito de Dios, engendrado desde la eternidad, no hecho ni creado (porque entonces sería una criatura), sino de una misma esencia con el Padre, coeterno con él, el resplandor de su gloria y la imagen misma de su sustancia, igual a él en todas las cosas. Es Hijo de Dios no solo desde que tomó nuestra naturaleza, sino desde toda la eternidad, como nos enseñan estos testimonios cuando se comparan entre sí.\n\nMoisés dice que Dios creó el mundo; y Juan dice que todas las cosas fueron hechas por aquel Verbo, al que llama Dios. El apóstol dice que Dios hizo el universo por su Hijo; y también, que Dios creó todas las cosas por Jesucristo. Es necesario, pues, que aquel que es llamado Dios, el Verbo, el Hijo y Jesucristo, existiera ya cuando todas las cosas fueron creadas por él. Por eso dice el profeta Miqueas: «Sus salidas son desde el principio, desde los días de la eternidad». Y el apóstol: «No tiene principio de días ni fin de vida». Él es, pues, el Dios verdadero, eterno y todopoderoso, a quien invocamos, adoramos y servimos.",
+          "refs": [
+            {
+              "label": "Juan 1:1-3",
+              "book_usfm": "JHN",
+              "chapter": 1
+            },
+            {
+              "label": "Juan 1:18",
+              "book_usfm": "JHN",
+              "chapter": 1
+            },
+            {
+              "label": "Hebreos 1:2-3",
+              "book_usfm": "HEB",
+              "chapter": 1
+            },
+            {
+              "label": "Colosenses 1:15-17",
+              "book_usfm": "COL",
+              "chapter": 1
+            },
+            {
+              "label": "Miqueas 5:2",
+              "book_usfm": "MIC",
+              "chapter": 5
+            },
+            {
+              "label": "Hebreos 7:3",
+              "book_usfm": "HEB",
+              "chapter": 7
+            },
+            {
+              "label": "Juan 17:5",
+              "book_usfm": "JHN",
+              "chapter": 17
+            }
+          ]
+        },
+        {
+          "number": 11,
+          "question": "Artículo 11: El Espíritu Santo es verdadero y eterno Dios",
+          "answer": "Creemos y confesamos también que el Espíritu Santo procede eternamente del Padre y del Hijo; y que, por tanto, no es hecho, ni creado, ni engendrado, sino que solo procede de ambos; que en orden es la tercera persona de la Santa Trinidad, de una misma esencia, majestad y gloria con el Padre y el Hijo; y que es verdadero y eterno Dios, como nos enseñan las Sagradas Escrituras.",
+          "refs": [
+            {
+              "label": "Juan 14:16-17",
+              "book_usfm": "JHN",
+              "chapter": 14
+            },
+            {
+              "label": "Juan 15:26",
+              "book_usfm": "JHN",
+              "chapter": 15
+            },
+            {
+              "label": "Gálatas 4:6",
+              "book_usfm": "GAL",
+              "chapter": 4
+            },
+            {
+              "label": "Hechos 5:3-4",
+              "book_usfm": "ACT",
+              "chapter": 5
+            },
+            {
+              "label": "1 Corintios 3:16",
+              "book_usfm": "1CO",
+              "chapter": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 3,
+      "title": "La creación y la providencia",
+      "questions": [
+        {
+          "number": 12,
+          "question": "Artículo 12: La creación de todas las cosas, especialmente de los ángeles",
+          "answer": "Creemos que el Padre, por el Verbo, es decir, por su Hijo, creó de la nada el cielo, la tierra y todas las criaturas, cuando bien le pareció, dando a cada criatura su ser, su forma y su figura, y diversos oficios para servir a su Creador. Y que aun ahora las sostiene y gobierna a todas según su providencia eterna y por su poder infinito, para que sirvan al hombre, a fin de que el hombre sirva a su Dios.\n\nCreó también buenos a los ángeles, para que fueran sus mensajeros y sirvieran a sus elegidos. Algunos de ellos cayeron de la excelencia en que Dios los había creado a la perdición eterna; y los otros, por la gracia de Dios, permanecieron firmes y se mantuvieron en su estado primero. Los demonios y espíritus malos están tan depravados que son enemigos de Dios y de todo bien; con todo su poder, como asesinos, acechan para arruinar a la iglesia y a cada uno de sus miembros, y para destruirlo todo con sus engaños. Por eso, por su propia maldad, están condenados a la condenación eterna, y esperan cada día sus horribles tormentos.\n\nPor tanto, rechazamos y aborrecemos el error de los saduceos, que niegan que existan espíritus y ángeles; y también el error de los maniqueos, que dicen que los demonios tienen su origen en sí mismos y que son malos por su propia naturaleza, sin haber sido corrompidos.",
+          "refs": [
+            {
+              "label": "Génesis 1:1",
+              "book_usfm": "GEN",
+              "chapter": 1
+            },
+            {
+              "label": "Hebreos 11:3",
+              "book_usfm": "HEB",
+              "chapter": 11
+            },
+            {
+              "label": "Colosenses 1:16",
+              "book_usfm": "COL",
+              "chapter": 1
+            },
+            {
+              "label": "Hebreos 1:14",
+              "book_usfm": "HEB",
+              "chapter": 1
+            },
+            {
+              "label": "Salmos 103:20-21",
+              "book_usfm": "PSA",
+              "chapter": 103
+            },
+            {
+              "label": "2 Pedro 2:4",
+              "book_usfm": "2PE",
+              "chapter": 2
+            },
+            {
+              "label": "Juan 8:44",
+              "book_usfm": "JHN",
+              "chapter": 8
+            },
+            {
+              "label": "1 Pedro 5:8",
+              "book_usfm": "1PE",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 13,
+          "question": "Artículo 13: La providencia de Dios y su gobierno de todas las cosas",
+          "answer": "Creemos que este buen Dios, después de haber creado todas las cosas, no las abandonó ni las entregó a la fortuna o al azar, sino que las dirige y gobierna según su santa voluntad, de tal manera que nada sucede en este mundo sin su ordenación. Sin embargo, Dios no es autor ni culpable del pecado que se comete. Porque su poder y su bondad son tan grandes e incomprensibles que ordena y hace su obra muy bien y con justicia, aun cuando los demonios y los hombres malvados obran injustamente.\n\nEn cuanto a lo que él hace que sobrepasa el entendimiento humano, no queremos indagarlo con curiosidad más allá de lo que alcanza nuestra capacidad; sino que con toda humildad y reverencia adoramos los justos juicios de Dios que nos están ocultos, contentándonos con ser discípulos de Cristo, para aprender solo lo que él nos revela en su Palabra, sin traspasar estos límites.\n\nEsta doctrina nos da un consuelo inefable, pues por ella aprendemos que nada nos sucede por azar, sino por la disposición de nuestro bondadoso Padre celestial, que vela por nosotros con un cuidado paternal y tiene a todas las criaturas sujetas a él, de modo que ni un cabello de nuestra cabeza (pues todos están contados), ni un pajarillo, puede caer a tierra sin la voluntad de nuestro Padre. En él confiamos plenamente, sabiendo que refrena al diablo y a todos nuestros enemigos, de manera que no pueden dañarnos sin su permiso y voluntad.\n\nPor eso rechazamos el error condenable de los epicúreos, que dicen que Dios no se ocupa de nada y lo deja todo al azar.",
+          "refs": [
+            {
+              "label": "Salmos 115:3",
+              "book_usfm": "PSA",
+              "chapter": 115
+            },
+            {
+              "label": "Proverbios 16:33",
+              "book_usfm": "PRO",
+              "chapter": 16
+            },
+            {
+              "label": "Efesios 1:11",
+              "book_usfm": "EPH",
+              "chapter": 1
+            },
+            {
+              "label": "Génesis 50:20",
+              "book_usfm": "GEN",
+              "chapter": 50
+            },
+            {
+              "label": "Romanos 11:33-34",
+              "book_usfm": "ROM",
+              "chapter": 11
+            },
+            {
+              "label": "Deuteronomio 29:29",
+              "book_usfm": "DEU",
+              "chapter": 29
+            },
+            {
+              "label": "Mateo 10:29-30",
+              "book_usfm": "MAT",
+              "chapter": 10
+            },
+            {
+              "label": "Job 1:12",
+              "book_usfm": "JOB",
+              "chapter": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 4,
+      "title": "El hombre, la caída y el pecado",
+      "questions": [
+        {
+          "number": 14,
+          "question": "Artículo 14: La creación y la caída del hombre, y su incapacidad para hacer lo que es verdaderamente bueno",
+          "answer": "Creemos que Dios creó al hombre del polvo de la tierra, y lo hizo y formó a su imagen y semejanza, bueno, justo y santo, capaz de conformar su voluntad en todo a la voluntad de Dios. Pero, estando en honra, no lo entendió ni reconoció su excelencia, sino que voluntariamente se sometió al pecado y, por consiguiente, a la muerte y a la maldición, prestando oído a las palabras del diablo. Porque transgredió el mandamiento de vida que había recibido, y por su pecado se separó de Dios, que era su verdadera vida, habiendo corrompido toda su naturaleza; por lo cual se hizo merecedor de la muerte corporal y espiritual.\n\nY, habiéndose hecho impío, perverso y corrompido en todos sus caminos, perdió todos los excelentes dones que había recibido de Dios, y no le quedaron de ellos sino pequeños restos, que bastan para dejar al hombre sin excusa; porque toda la luz que hay en nosotros se ha convertido en tinieblas, como nos enseña la Escritura: «La luz en las tinieblas resplandece, y las tinieblas no la comprendieron»; donde el apóstol Juan llama tinieblas a los hombres.\n\nPor tanto, rechazamos todo lo que se enseña en contra de esto acerca del libre albedrío del hombre, puesto que el hombre no es sino esclavo del pecado y no puede recibir nada si no le es dado del cielo. Pues ¿quién se atreverá a gloriarse de poder hacer algún bien por sí mismo, cuando Cristo dice: «Ninguno puede venir a mí, si el Padre que me envió no le trajere»? ¿Quién se gloriará de su propia voluntad, entendiendo que «la mente carnal es enemistad contra Dios»? ¿Quién hablará de su conocimiento, viendo que «el hombre natural no percibe las cosas que son del Espíritu de Dios»? En suma, ¿quién se atreverá a proponer un solo pensamiento, sabiendo que no somos suficientes por nosotros mismos para pensar algo como de nosotros mismos, sino que nuestra suficiencia proviene de Dios?\n\nPor eso, lo que dice el apóstol debe tenerse con justicia por cierto y firme: que Dios es el que produce en nosotros así el querer como el hacer, por su buena voluntad. Porque no hay voluntad ni entendimiento conformes a la voluntad y al entendimiento divinos sino los que Cristo ha obrado en el hombre; lo cual él nos enseña cuando dice: «Separados de mí nada podéis hacer».",
+          "refs": [
+            {
+              "label": "Génesis 2:7",
+              "book_usfm": "GEN",
+              "chapter": 2
+            },
+            {
+              "label": "Génesis 1:26-27",
+              "book_usfm": "GEN",
+              "chapter": 1
+            },
+            {
+              "label": "Eclesiastés 7:29",
+              "book_usfm": "ECC",
+              "chapter": 7
+            },
+            {
+              "label": "Salmos 49:20",
+              "book_usfm": "PSA",
+              "chapter": 49
+            },
+            {
+              "label": "Génesis 3:6",
+              "book_usfm": "GEN",
+              "chapter": 3
+            },
+            {
+              "label": "Romanos 5:12",
+              "book_usfm": "ROM",
+              "chapter": 5
+            },
+            {
+              "label": "Juan 1:5",
+              "book_usfm": "JHN",
+              "chapter": 1
+            },
+            {
+              "label": "Juan 6:44",
+              "book_usfm": "JHN",
+              "chapter": 6
+            },
+            {
+              "label": "Romanos 8:7",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "1 Corintios 2:14",
+              "book_usfm": "1CO",
+              "chapter": 2
+            },
+            {
+              "label": "Filipenses 2:13",
+              "book_usfm": "PHP",
+              "chapter": 2
+            },
+            {
+              "label": "Juan 15:5",
+              "book_usfm": "JHN",
+              "chapter": 15
+            }
+          ]
+        },
+        {
+          "number": 15,
+          "question": "Artículo 15: El pecado original",
+          "answer": "Creemos que, por la desobediencia de Adán, el pecado original se ha extendido por todo el género humano. Es una corrupción de toda la naturaleza y un mal hereditario, con el que están contaminados aun los niños en el vientre de su madre, y que produce en el hombre toda clase de pecados, estando en él como su raíz. Por eso es tan vil y abominable a los ojos de Dios que basta para condenar al género humano. Y no queda abolido ni enteramente desarraigado ni siquiera por el bautismo, puesto que el pecado brota siempre de esta corrupción, como el agua de una fuente envenenada.\n\nSin embargo, no se imputa a los hijos de Dios para condenación, sino que por su gracia y misericordia les es perdonado. No para que se duerman tranquilos en el pecado, sino para que la conciencia de esta corrupción haga gemir a menudo a los creyentes, anhelando ser librados de este cuerpo de muerte.\n\nPor tanto, rechazamos el error de los pelagianos, que afirman que este pecado no es otra cosa que imitación.",
+          "refs": [
+            {
+              "label": "Romanos 5:12-14",
+              "book_usfm": "ROM",
+              "chapter": 5
+            },
+            {
+              "label": "Salmos 51:5",
+              "book_usfm": "PSA",
+              "chapter": 51
+            },
+            {
+              "label": "Efesios 2:3",
+              "book_usfm": "EPH",
+              "chapter": 2
+            },
+            {
+              "label": "Romanos 7:18-24",
+              "book_usfm": "ROM",
+              "chapter": 7
+            },
+            {
+              "label": "Romanos 8:1",
+              "book_usfm": "ROM",
+              "chapter": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 5,
+      "title": "La elección y la redención en Cristo",
+      "questions": [
+        {
+          "number": 16,
+          "question": "Artículo 16: La elección eterna",
+          "answer": "Creemos que, estando toda la descendencia de Adán sumida así en perdición y ruina por el pecado del primer hombre, Dios se mostró tal como es, a saber, misericordioso y justo: misericordioso, porque libra y preserva de esta perdición a todos los que, en su consejo eterno e inmutable, por pura bondad, ha elegido en Jesucristo nuestro Señor, sin consideración alguna de sus obras; justo, porque deja a los demás en la caída y perdición en que ellos mismos se han arrojado.",
+          "refs": [
+            {
+              "label": "Romanos 9:15-16",
+              "book_usfm": "ROM",
+              "chapter": 9
+            },
+            {
+              "label": "Efesios 1:4-6",
+              "book_usfm": "EPH",
+              "chapter": 1
+            },
+            {
+              "label": "2 Timoteo 1:9",
+              "book_usfm": "2TI",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 9:22-23",
+              "book_usfm": "ROM",
+              "chapter": 9
+            },
+            {
+              "label": "Juan 6:37",
+              "book_usfm": "JHN",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 17,
+          "question": "Artículo 17: La restauración del hombre caído",
+          "answer": "Creemos que nuestro bondadosísimo Dios, en su admirable sabiduría y bondad, viendo que el hombre se había arrojado así a la muerte temporal y espiritual y se había hecho completamente miserable, se dispuso a buscarlo y consolarlo cuando él huía temblando de su presencia, prometiéndole que le daría a su Hijo, que nacería de mujer, para quebrantar la cabeza de la serpiente y hacerlo bienaventurado.",
+          "refs": [
+            {
+              "label": "Génesis 3:8-9",
+              "book_usfm": "GEN",
+              "chapter": 3
+            },
+            {
+              "label": "Génesis 3:15",
+              "book_usfm": "GEN",
+              "chapter": 3
+            },
+            {
+              "label": "Gálatas 4:4",
+              "book_usfm": "GAL",
+              "chapter": 4
+            },
+            {
+              "label": "Romanos 16:20",
+              "book_usfm": "ROM",
+              "chapter": 16
+            }
+          ]
+        },
+        {
+          "number": 18,
+          "question": "Artículo 18: La encarnación de Jesucristo",
+          "answer": "Confesamos, pues, que Dios cumplió la promesa que había hecho a los padres por boca de sus santos profetas cuando, en el tiempo señalado por él, envió al mundo a su propio Hijo unigénito y eterno, quien tomó forma de siervo y se hizo semejante a los hombres, asumiendo verdaderamente una naturaleza humana real, con todas sus debilidades, excepto el pecado, siendo concebido en el vientre de la bienaventurada virgen María por el poder del Espíritu Santo, sin intervención de varón. Y no solo asumió la naturaleza humana en cuanto al cuerpo, sino también un alma verdaderamente humana, para ser un hombre verdadero. Porque, como tanto el alma como el cuerpo se habían perdido, era necesario que tomara ambos para salvar a ambos.\n\nPor tanto, confesamos, contra la herejía de los anabaptistas, que niegan que Cristo haya tomado carne humana de su madre, que Cristo participó de la carne y la sangre de los hijos; que es fruto de los lomos de David según la carne; nacido del linaje de David según la carne; fruto del vientre de la virgen María; nacido de mujer; renuevo de David; vástago de la raíz de Isaí; procedente de la tribu de Judá; descendiente de los judíos según la carne; de la simiente de Abraham, puesto que tomó la simiente de Abraham y fue hecho semejante a sus hermanos en todo, excepto en el pecado; de modo que es en verdad nuestro Emanuel, es decir, Dios con nosotros.",
+          "refs": [
+            {
+              "label": "Gálatas 4:4",
+              "book_usfm": "GAL",
+              "chapter": 4
+            },
+            {
+              "label": "Filipenses 2:7",
+              "book_usfm": "PHP",
+              "chapter": 2
+            },
+            {
+              "label": "Lucas 1:31-35",
+              "book_usfm": "LUK",
+              "chapter": 1
+            },
+            {
+              "label": "Hebreos 2:14-17",
+              "book_usfm": "HEB",
+              "chapter": 2
+            },
+            {
+              "label": "Hebreos 4:15",
+              "book_usfm": "HEB",
+              "chapter": 4
+            },
+            {
+              "label": "Romanos 1:3",
+              "book_usfm": "ROM",
+              "chapter": 1
+            },
+            {
+              "label": "Isaías 11:1",
+              "book_usfm": "ISA",
+              "chapter": 11
+            },
+            {
+              "label": "Mateo 1:23",
+              "book_usfm": "MAT",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 19,
+          "question": "Artículo 19: La unión y distinción de las dos naturalezas en la persona de Cristo",
+          "answer": "Creemos que, por esta concepción, la persona del Hijo está unida y ligada inseparablemente con la naturaleza humana; de modo que no hay dos Hijos de Dios, ni dos personas, sino dos naturalezas unidas en una sola persona; y, sin embargo, cada naturaleza conserva sus propiedades distintas. Así como la naturaleza divina ha permanecido siempre increada, sin principio de días ni fin de vida, llenando el cielo y la tierra, así también la naturaleza humana no ha perdido sus propiedades, sino que ha seguido siendo criatura, con principio de días, de naturaleza finita, y conservando todas las propiedades de un cuerpo verdadero. Y aunque por su resurrección le dio inmortalidad, no cambió la realidad de su naturaleza humana, puesto que nuestra salvación y resurrección dependen también de la realidad de su cuerpo.\n\nPero estas dos naturalezas están tan estrechamente unidas en una sola persona que ni siquiera fueron separadas por su muerte. Lo que al morir encomendó a su Padre fue, pues, un verdadero espíritu humano, que salió de su cuerpo. Pero entretanto la naturaleza divina permaneció siempre unida a la humana, aun mientras yacía en el sepulcro; y la Deidad no dejó de estar en él, como tampoco había dejado de estarlo cuando era un niño, aunque por un tiempo no se manifestó así.\n\nPor eso confesamos que es verdadero Dios y verdadero hombre: verdadero Dios, para vencer a la muerte por su poder; y verdadero hombre, para poder morir por nosotros según la debilidad de su carne.",
+          "refs": [
+            {
+              "label": "Juan 1:14",
+              "book_usfm": "JHN",
+              "chapter": 1
+            },
+            {
+              "label": "Colosenses 2:9",
+              "book_usfm": "COL",
+              "chapter": 2
+            },
+            {
+              "label": "Hebreos 7:3",
+              "book_usfm": "HEB",
+              "chapter": 7
+            },
+            {
+              "label": "Lucas 24:39",
+              "book_usfm": "LUK",
+              "chapter": 24
+            },
+            {
+              "label": "Lucas 23:46",
+              "book_usfm": "LUK",
+              "chapter": 23
+            },
+            {
+              "label": "1 Timoteo 2:5",
+              "book_usfm": "1TI",
+              "chapter": 2
+            }
+          ]
+        },
+        {
+          "number": 20,
+          "question": "Artículo 20: Dios ha manifestado su justicia y su misericordia en Cristo",
+          "answer": "Creemos que Dios, que es perfectamente misericordioso y justo, envió a su Hijo a tomar la naturaleza en la que se había cometido la desobediencia, para satisfacer en ella y llevar el castigo del pecado por su amarguísima pasión y muerte. Así manifestó Dios su justicia contra su Hijo, cuando cargó sobre él nuestras iniquidades; y derramó su bondad y misericordia sobre nosotros, que éramos culpables y dignos de condenación, entregando por nosotros a su Hijo a la muerte, por un amor perfectísimo, y resucitándolo para nuestra justificación, a fin de que por él obtuviéramos la inmortalidad y la vida eterna.",
+          "refs": [
+            {
+              "label": "Romanos 3:25-26",
+              "book_usfm": "ROM",
+              "chapter": 3
+            },
+            {
+              "label": "Hebreos 2:14",
+              "book_usfm": "HEB",
+              "chapter": 2
+            },
+            {
+              "label": "Isaías 53:6",
+              "book_usfm": "ISA",
+              "chapter": 53
+            },
+            {
+              "label": "Romanos 8:32",
+              "book_usfm": "ROM",
+              "chapter": 8
+            },
+            {
+              "label": "Romanos 4:25",
+              "book_usfm": "ROM",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 21,
+          "question": "Artículo 21: La satisfacción de Cristo, nuestro único Sumo Sacerdote, por nosotros",
+          "answer": "Creemos que Jesucristo fue ordenado con juramento para ser Sumo Sacerdote eterno, según el orden de Melquisedec; y que se presentó en nuestro lugar delante de su Padre para aplacar su ira con su plena satisfacción, ofreciéndose a sí mismo en el madero de la cruz y derramando su preciosa sangre para limpiar nuestros pecados, como lo habían anunciado los profetas. Porque está escrito: «El castigo de nuestra paz fue sobre él, y por su llaga fuimos nosotros curados»; «como cordero fue llevado al matadero»; «fue contado con los transgresores»; y fue condenado como malhechor por Poncio Pilato, aunque este primero lo había declarado inocente.\n\nAsí pagó lo que no había robado, y padeció el justo por los injustos, tanto en su cuerpo como en su alma, sintiendo el terrible castigo que merecían nuestros pecados, hasta que su sudor fue como grandes gotas de sangre que caían sobre la tierra. Y exclamó: «Dios mío, Dios mío, ¿por qué me has desamparado?». Todo esto lo padeció para el perdón de nuestros pecados.\n\nPor eso decimos con justicia, con el apóstol Pablo, que no sabemos nada sino a Jesucristo, y a este crucificado; y estimamos todas las cosas como pérdida y basura por la excelencia del conocimiento de nuestro Señor Jesucristo, en cuyas heridas hallamos toda clase de consuelo. Tampoco es necesario buscar o inventar otro medio de reconciliarnos con Dios fuera de este único sacrificio, ofrecido una sola vez, por el cual los creyentes son hechos perfectos para siempre. Esta es también la razón por la cual el ángel de Dios lo llamó Jesús, es decir, Salvador, porque salvaría a su pueblo de sus pecados.",
+          "refs": [
+            {
+              "label": "Salmos 110:4",
+              "book_usfm": "PSA",
+              "chapter": 110
+            },
+            {
+              "label": "Hebreos 7:26-27",
+              "book_usfm": "HEB",
+              "chapter": 7
+            },
+            {
+              "label": "Isaías 53:5-7",
+              "book_usfm": "ISA",
+              "chapter": 53
+            },
+            {
+              "label": "Isaías 53:12",
+              "book_usfm": "ISA",
+              "chapter": 53
+            },
+            {
+              "label": "1 Pedro 3:18",
+              "book_usfm": "1PE",
+              "chapter": 3
+            },
+            {
+              "label": "Lucas 22:44",
+              "book_usfm": "LUK",
+              "chapter": 22
+            },
+            {
+              "label": "Mateo 27:46",
+              "book_usfm": "MAT",
+              "chapter": 27
+            },
+            {
+              "label": "1 Corintios 2:2",
+              "book_usfm": "1CO",
+              "chapter": 2
+            },
+            {
+              "label": "Filipenses 3:8",
+              "book_usfm": "PHP",
+              "chapter": 3
+            },
+            {
+              "label": "Hebreos 10:14",
+              "book_usfm": "HEB",
+              "chapter": 10
+            },
+            {
+              "label": "Mateo 1:21",
+              "book_usfm": "MAT",
+              "chapter": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 6,
+      "title": "La justificación y la santificación",
+      "questions": [
+        {
+          "number": 22,
+          "question": "Artículo 22: Nuestra justificación por la fe en Jesucristo",
+          "answer": "Creemos que, para que alcancemos el verdadero conocimiento de este gran misterio, el Espíritu Santo enciende en nuestros corazones una fe verdadera, que abraza a Jesucristo con todos sus méritos, se apropia de él y no busca nada fuera de él. Porque necesariamente se sigue que, o bien no está en Jesucristo todo lo que es necesario para nuestra salvación, o bien, si todo está en él, quienes poseen a Jesucristo por la fe tienen en él la salvación completa. Por tanto, afirmar que Cristo no basta, sino que se necesita algo más además de él, sería una blasfemia demasiado grave; porque de ahí se seguiría que Cristo es solo un Salvador a medias.\n\nPor eso decimos con justicia, con Pablo, que somos justificados solo por la fe, o por la fe sin las obras. Sin embargo, para hablar con más claridad, no queremos decir que la fe misma sea la que nos justifica, pues no es más que un instrumento con el cual abrazamos a Cristo, nuestra justicia. Es Jesucristo, imputándonos todos sus méritos y tantas obras santas como hizo por nosotros y en nuestro lugar, quien es nuestra justicia. Y la fe es el instrumento que nos mantiene en comunión con él en todos sus beneficios, los cuales, una vez hechos nuestros, son más que suficientes para absolvernos de nuestros pecados.",
+          "refs": [
+            {
+              "label": "Efesios 1:17-18",
+              "book_usfm": "EPH",
+              "chapter": 1
+            },
+            {
+              "label": "1 Corintios 2:12",
+              "book_usfm": "1CO",
+              "chapter": 2
+            },
+            {
+              "label": "Colosenses 2:10",
+              "book_usfm": "COL",
+              "chapter": 2
+            },
+            {
+              "label": "Romanos 3:28",
+              "book_usfm": "ROM",
+              "chapter": 3
+            },
+            {
+              "label": "Gálatas 2:16",
+              "book_usfm": "GAL",
+              "chapter": 2
+            },
+            {
+              "label": "Jeremías 23:6",
+              "book_usfm": "JER",
+              "chapter": 23
+            },
+            {
+              "label": "1 Corintios 1:30",
+              "book_usfm": "1CO",
+              "chapter": 1
+            },
+            {
+              "label": "Filipenses 3:9",
+              "book_usfm": "PHP",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 23,
+          "question": "Artículo 23: En qué consiste nuestra justificación delante de Dios",
+          "answer": "Creemos que nuestra salvación consiste en la remisión de nuestros pecados por causa de Jesucristo, y que en ella está contenida nuestra justicia delante de Dios, como enseñan David y Pablo, declarando que la bienaventuranza del hombre consiste en que Dios le atribuye justicia sin obras. Y el mismo apóstol dice que somos justificados gratuitamente por su gracia, mediante la redención que es en Cristo Jesús.\n\nPor eso nos aferramos siempre a este fundamento, dando toda la gloria a Dios, humillándonos delante de él y reconociéndonos tales como somos, sin presumir de cosa alguna en nosotros mismos ni de mérito alguno, apoyándonos y descansando solo en la obediencia de Cristo crucificado, la cual es nuestra cuando creemos en él. Ella basta para cubrir todas nuestras iniquidades y darnos confianza para acercarnos a Dios, librando la conciencia del temor, del terror y del espanto, sin seguir el ejemplo de nuestro primer padre Adán, que, temblando, procuró cubrirse con hojas de higuera.\n\nY, en verdad, si tuviéramos que presentarnos delante de Dios apoyándonos, por poco que fuera, en nosotros mismos o en alguna otra criatura, seríamos, ¡ay de nosotros!, consumidos. Por eso cada uno debe decir con David: «Señor, no entres en juicio con tu siervo, porque no se justificará delante de ti ningún viviente».",
+          "refs": [
+            {
+              "label": "Salmos 32:1-2",
+              "book_usfm": "PSA",
+              "chapter": 32
+            },
+            {
+              "label": "Romanos 4:6-8",
+              "book_usfm": "ROM",
+              "chapter": 4
+            },
+            {
+              "label": "Romanos 3:24",
+              "book_usfm": "ROM",
+              "chapter": 3
+            },
+            {
+              "label": "1 Corintios 4:7",
+              "book_usfm": "1CO",
+              "chapter": 4
+            },
+            {
+              "label": "Génesis 3:7",
+              "book_usfm": "GEN",
+              "chapter": 3
+            },
+            {
+              "label": "Hebreos 10:19-22",
+              "book_usfm": "HEB",
+              "chapter": 10
+            },
+            {
+              "label": "Salmos 143:2",
+              "book_usfm": "PSA",
+              "chapter": 143
+            }
+          ]
+        },
+        {
+          "number": 24,
+          "question": "Artículo 24: La santificación del hombre y las buenas obras",
+          "answer": "Creemos que esta fe verdadera, obrada en el hombre por el oír de la Palabra de Dios y por la operación del Espíritu Santo, lo regenera y lo hace un hombre nuevo, haciéndolo vivir una vida nueva y librándolo de la servidumbre del pecado. Por tanto, está tan lejos de ser cierto que esta fe justificadora haga a los hombres negligentes en vivir una vida piadosa y santa que, por el contrario, sin ella nunca harían nada por amor a Dios, sino solo por amor de sí mismos o por temor a la condenación.\n\nEs imposible, pues, que esta santa fe sea estéril en el hombre; porque no hablamos de una fe vana, sino de la que la Escritura llama «fe que obra por el amor», la cual mueve al hombre a ejercitarse en las obras que Dios ha mandado en su Palabra. Estas obras, por proceder de la buena raíz de la fe, son buenas y agradables a los ojos de Dios, por cuanto todas son santificadas por su gracia; con todo, no cuentan para nuestra justificación. Porque es por la fe en Cristo que somos justificados, aun antes de hacer buenas obras; de otro modo no podrían ser buenas, como tampoco puede ser bueno el fruto de un árbol antes de que el árbol mismo sea bueno.\n\nHacemos, pues, buenas obras, pero no para merecer por ellas (porque ¿qué podríamos merecer?); antes bien, somos deudores a Dios por las buenas obras que hacemos, y no él a nosotros, ya que es él quien produce en nosotros así el querer como el hacer, por su buena voluntad. Atendamos, pues, a lo que está escrito: «Cuando hayáis hecho todo lo que os ha sido ordenado, decid: Siervos inútiles somos, pues lo que debíamos hacer, hicimos». Entretanto, no negamos que Dios recompense las buenas obras; pero es por su gracia que corona sus dones.\n\nAdemás, aunque hagamos buenas obras, no fundamos en ellas nuestra salvación; porque no podemos hacer obra alguna que no esté contaminada por nuestra carne y que no merezca también castigo. Y aun si pudiéramos presentar una sola buena obra, el recuerdo de un solo pecado basta para que Dios la rechace. Así estaríamos siempre en duda, zarandeados de un lado a otro sin certeza alguna, y nuestras pobres conciencias serían atormentadas continuamente, si no descansaran en los méritos de la pasión y muerte de nuestro Salvador.",
+          "refs": [
+            {
+              "label": "1 Pedro 1:23",
+              "book_usfm": "1PE",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 10:17",
+              "book_usfm": "ROM",
+              "chapter": 10
+            },
+            {
+              "label": "2 Corintios 5:17",
+              "book_usfm": "2CO",
+              "chapter": 5
+            },
+            {
+              "label": "Gálatas 5:6",
+              "book_usfm": "GAL",
+              "chapter": 5
+            },
+            {
+              "label": "Tito 3:8",
+              "book_usfm": "TIT",
+              "chapter": 3
+            },
+            {
+              "label": "Mateo 7:17",
+              "book_usfm": "MAT",
+              "chapter": 7
+            },
+            {
+              "label": "Filipenses 2:13",
+              "book_usfm": "PHP",
+              "chapter": 2
+            },
+            {
+              "label": "Lucas 17:10",
+              "book_usfm": "LUK",
+              "chapter": 17
+            },
+            {
+              "label": "Isaías 64:6",
+              "book_usfm": "ISA",
+              "chapter": 64
+            }
+          ]
+        },
+        {
+          "number": 25,
+          "question": "Artículo 25: La abolición de la ley ceremonial",
+          "answer": "Creemos que las ceremonias y figuras de la ley cesaron con la venida de Cristo, y que todas las sombras se han cumplido, de modo que su uso debe ser abolido entre los cristianos; pero su verdad y sustancia permanecen para nosotros en Jesucristo, en quien tienen su cumplimiento. Entretanto, seguimos usando los testimonios tomados de la ley y de los profetas para confirmarnos en la doctrina del evangelio y para ordenar nuestra vida con toda honestidad, para la gloria de Dios, conforme a su voluntad.",
+          "refs": [
+            {
+              "label": "Mateo 5:17",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Colosenses 2:16-17",
+              "book_usfm": "COL",
+              "chapter": 2
+            },
+            {
+              "label": "Hebreos 10:1",
+              "book_usfm": "HEB",
+              "chapter": 10
+            },
+            {
+              "label": "Gálatas 5:2-4",
+              "book_usfm": "GAL",
+              "chapter": 5
+            },
+            {
+              "label": "2 Pedro 1:19",
+              "book_usfm": "2PE",
+              "chapter": 1
+            },
+            {
+              "label": "Romanos 13:8-10",
+              "book_usfm": "ROM",
+              "chapter": 13
+            }
+          ]
+        },
+        {
+          "number": 26,
+          "question": "Artículo 26: La intercesión de Cristo",
+          "answer": "Creemos que no tenemos acceso a Dios sino por el único Mediador y Abogado, Jesucristo el justo, quien para eso se hizo hombre, uniendo en una sola persona la naturaleza divina y la humana, para que los hombres tuviéramos acceso a la Majestad divina, acceso que de otro modo nos estaría cerrado. Pero este Mediador, que el Padre ha puesto entre él y nosotros, de ningún modo debe atemorizarnos por su majestad, ni hacernos buscar a otro según nuestra fantasía. Porque no hay criatura, ni en el cielo ni en la tierra, que nos ame más que Jesucristo; quien, siendo en forma de Dios, se despojó a sí mismo, tomando forma de hombre y de siervo por nosotros, y fue hecho semejante a sus hermanos en todo.\n\nSi tuviéramos que buscar otro intercesor, ¿quién nos amaría más que aquel que puso su vida por nosotros, aun cuando éramos sus enemigos? Y si buscamos a uno que tenga poder y majestad, ¿quién tiene tanto como el que está sentado a la diestra de su Padre y tiene todo poder en el cielo y en la tierra? ¿Y quién será escuchado antes que el propio Hijo amado de Dios?\n\nPor tanto, fue solo por desconfianza que se introdujo esta costumbre de deshonrar a los santos en lugar de honrarlos, haciendo lo que ellos nunca hicieron ni pidieron, sino que, por el contrario, rechazaron constantemente, como era su deber, según se ve en sus escritos. Y no debemos alegar aquí que somos indignos; porque no se trata de ofrecer nuestras oraciones a Dios por nuestra propia dignidad, sino solo por la excelencia y dignidad de nuestro Señor Jesucristo, cuya justicia es nuestra por la fe.\n\nPor eso el apóstol, para quitarnos este temor insensato, o más bien esta desconfianza, nos dice que Jesucristo fue hecho semejante a sus hermanos en todo, para venir a ser misericordioso y fiel sumo sacerdote, a fin de expiar los pecados del pueblo. «Pues en cuanto él mismo padeció siendo tentado, es poderoso para socorrer a los que son tentados». Y para animarnos aún más, añade: «Por tanto, teniendo un gran sumo sacerdote que traspasó los cielos, Jesús el Hijo de Dios, retengamos nuestra profesión. Porque no tenemos un sumo sacerdote que no pueda compadecerse de nuestras debilidades, sino uno que fue tentado en todo según nuestra semejanza, pero sin pecado. Acerquémonos, pues, confiadamente al trono de la gracia, para alcanzar misericordia y hallar gracia para el oportuno socorro». El mismo apóstol dice: «Teniendo libertad para entrar en el Lugar Santísimo por la sangre de Jesucristo, acerquémonos con corazón sincero, en plena certidumbre de fe». Asimismo: «Cristo tiene un sacerdocio inmutable; por lo cual puede también salvar perpetuamente a los que por él se acercan a Dios, viviendo siempre para interceder por ellos».\n\n¿Qué más hace falta? Pues Cristo mismo dice: «Yo soy el camino, y la verdad, y la vida; nadie viene al Padre, sino por mí». ¿Para qué buscaríamos otro abogado, si a Dios le agradó darnos a su propio Hijo como abogado? No lo dejemos para tomar a otro, ni busquemos a otro sin hallarlo nunca; porque Dios sabía bien, cuando nos lo dio, que éramos pecadores.\n\nPor tanto, conforme al mandamiento de Cristo, invocamos al Padre celestial por medio de Jesucristo, nuestro único Mediador, como se nos enseña en la oración del Señor, seguros de que todo lo que pidamos al Padre en su nombre nos será concedido.",
+          "refs": [
+            {
+              "label": "1 Timoteo 2:5",
+              "book_usfm": "1TI",
+              "chapter": 2
+            },
+            {
+              "label": "1 Juan 2:1",
+              "book_usfm": "1JN",
+              "chapter": 2
+            },
+            {
+              "label": "Filipenses 2:6-8",
+              "book_usfm": "PHP",
+              "chapter": 2
+            },
+            {
+              "label": "Romanos 5:8-10",
+              "book_usfm": "ROM",
+              "chapter": 5
+            },
+            {
+              "label": "Hebreos 2:17-18",
+              "book_usfm": "HEB",
+              "chapter": 2
+            },
+            {
+              "label": "Hebreos 4:14-16",
+              "book_usfm": "HEB",
+              "chapter": 4
+            },
+            {
+              "label": "Hebreos 10:19-22",
+              "book_usfm": "HEB",
+              "chapter": 10
+            },
+            {
+              "label": "Hebreos 7:24-25",
+              "book_usfm": "HEB",
+              "chapter": 7
+            },
+            {
+              "label": "Juan 14:6",
+              "book_usfm": "JHN",
+              "chapter": 14
+            },
+            {
+              "label": "Juan 16:23",
+              "book_usfm": "JHN",
+              "chapter": 16
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 7,
+      "title": "La iglesia",
+      "questions": [
+        {
+          "number": 27,
+          "question": "Artículo 27: La iglesia católica o universal",
+          "answer": "Creemos y profesamos una sola iglesia católica o universal, que es una santa congregación y asamblea de verdaderos creyentes cristianos, que esperan toda su salvación en Jesucristo, lavados por su sangre, santificados y sellados por el Espíritu Santo.\n\nEsta iglesia ha existido desde el principio del mundo y existirá hasta el fin, como se ve porque Cristo es un Rey eterno, que no puede estar sin súbditos. Y esta santa iglesia es guardada y sostenida por Dios contra la furia del mundo entero, aunque a veces, por un tiempo, parezca muy pequeña y, a los ojos de los hombres, reducida a casi nada; como durante el peligroso reinado de Acab, cuando el Señor se reservó siete mil hombres que no habían doblado la rodilla ante Baal.\n\nAdemás, esta santa iglesia no está ligada, limitada ni confinada a un lugar determinado ni a ciertas personas, sino que está extendida y esparcida por todo el mundo; y, sin embargo, está unida y congregada de corazón y de voluntad, por el poder de la fe, en un mismo Espíritu.",
+          "refs": [
+            {
+              "label": "Efesios 4:3-6",
+              "book_usfm": "EPH",
+              "chapter": 4
+            },
+            {
+              "label": "Hebreos 12:22-23",
+              "book_usfm": "HEB",
+              "chapter": 12
+            },
+            {
+              "label": "Lucas 1:32-33",
+              "book_usfm": "LUK",
+              "chapter": 1
+            },
+            {
+              "label": "Mateo 16:18",
+              "book_usfm": "MAT",
+              "chapter": 16
+            },
+            {
+              "label": "1 Reyes 19:18",
+              "book_usfm": "1KI",
+              "chapter": 19
+            },
+            {
+              "label": "Apocalipsis 7:9",
+              "book_usfm": "REV",
+              "chapter": 7
+            }
+          ]
+        },
+        {
+          "number": 28,
+          "question": "Artículo 28: Todos están obligados a unirse a la verdadera iglesia",
+          "answer": "Creemos que, puesto que esta santa congregación es una asamblea de los que son salvos, y fuera de ella no hay salvación, nadie, cualquiera sea su estado o condición, debe apartarse de ella para quedarse solo; sino que todos están obligados a unirse e incorporarse a ella, conservando la unidad de la iglesia, sometiéndose a su doctrina y disciplina, inclinando el cuello bajo el yugo de Jesucristo y, como miembros los unos de los otros de un mismo cuerpo, sirviendo a la edificación de los hermanos según los dones que Dios les ha dado.\n\nY para que esto se observe mejor, es deber de todos los creyentes, según la Palabra de Dios, apartarse de todos los que no pertenecen a la iglesia y unirse a esta congregación dondequiera que Dios la haya establecido, aun cuando los magistrados y los edictos de los príncipes estén en contra, y aunque por ello deban sufrir la muerte o castigos corporales. Por tanto, todos los que se apartan de ella o no se unen a ella obran contra la ordenanza de Dios.",
+          "refs": [
+            {
+              "label": "Hechos 2:40-47",
+              "book_usfm": "ACT",
+              "chapter": 2
+            },
+            {
+              "label": "Hebreos 10:25",
+              "book_usfm": "HEB",
+              "chapter": 10
+            },
+            {
+              "label": "Efesios 4:12-16",
+              "book_usfm": "EPH",
+              "chapter": 4
+            },
+            {
+              "label": "Mateo 11:29-30",
+              "book_usfm": "MAT",
+              "chapter": 11
+            },
+            {
+              "label": "2 Corintios 6:17",
+              "book_usfm": "2CO",
+              "chapter": 6
+            },
+            {
+              "label": "Hechos 4:19-20",
+              "book_usfm": "ACT",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 29,
+          "question": "Artículo 29: Las marcas de la verdadera iglesia, y en qué se distingue de la falsa",
+          "answer": "Creemos que debemos discernir con diligencia y prudencia, a partir de la Palabra de Dios, cuál es la verdadera iglesia, ya que todas las sectas que hay hoy en el mundo se atribuyen el nombre de iglesia. No hablamos aquí de los hipócritas, que están mezclados en la iglesia con los buenos y, aunque exteriormente estén en ella, no son de la iglesia; sino que decimos que el cuerpo y la comunión de la verdadera iglesia deben distinguirse de todas las sectas que se llaman a sí mismas la iglesia.\n\nLas marcas por las que se conoce la verdadera iglesia son estas: si en ella se predica la doctrina pura del evangelio; si mantiene la administración pura de los sacramentos tal como Cristo los instituyó; si se ejerce la disciplina eclesiástica para castigar el pecado; en suma, si se gobierna conforme a la pura Palabra de Dios, rechazando todo lo que le es contrario y teniendo a Jesucristo como única Cabeza. Por estas marcas se puede conocer con certeza la verdadera iglesia, de la cual nadie tiene derecho a separarse.\n\nEn cuanto a los que son miembros de la iglesia, pueden conocerse por las marcas de los cristianos, a saber, por la fe; y cuando han recibido a Jesucristo, el único Salvador, huyen del pecado, siguen la justicia, aman al verdadero Dios y a su prójimo, no se desvían ni a derecha ni a izquierda, y crucifican la carne con sus obras. Esto no ha de entenderse como si no quedara en ellos gran debilidad; sino que luchan contra ella por el Espíritu todos los días de su vida, acogiéndose continuamente a la sangre, la muerte, la pasión y la obediencia de nuestro Señor Jesucristo, en quien tienen el perdón de sus pecados por la fe en él.\n\nEn cuanto a la iglesia falsa, se atribuye a sí misma y a sus ordenanzas más poder y autoridad que a la Palabra de Dios, y no quiere someterse al yugo de Cristo. No administra los sacramentos como Cristo los ordenó en su Palabra, sino que les añade y les quita según le parece; se apoya más en los hombres que en Cristo; y persigue a los que viven santamente según la Palabra de Dios y le reprochan sus faltas, su avaricia y su idolatría. Estas dos iglesias son fáciles de conocer y de distinguir entre sí.",
+          "refs": [
+            {
+              "label": "Juan 10:27",
+              "book_usfm": "JHN",
+              "chapter": 10
+            },
+            {
+              "label": "Efesios 2:20",
+              "book_usfm": "EPH",
+              "chapter": 2
+            },
+            {
+              "label": "Mateo 28:19-20",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "Mateo 18:15-17",
+              "book_usfm": "MAT",
+              "chapter": 18
+            },
+            {
+              "label": "Colosenses 1:18",
+              "book_usfm": "COL",
+              "chapter": 1
+            },
+            {
+              "label": "Gálatas 5:24",
+              "book_usfm": "GAL",
+              "chapter": 5
+            },
+            {
+              "label": "Romanos 7:24-25",
+              "book_usfm": "ROM",
+              "chapter": 7
+            },
+            {
+              "label": "1 Juan 4:1-3",
+              "book_usfm": "1JN",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 30,
+          "question": "Artículo 30: El gobierno de la iglesia y sus oficios",
+          "answer": "Creemos que esta verdadera iglesia debe ser gobernada según el orden espiritual que nuestro Señor nos ha enseñado en su Palabra; a saber, que debe haber ministros o pastores que prediquen la Palabra de Dios y administren los sacramentos; y también ancianos y diáconos que, junto con los pastores, formen el consejo de la iglesia. Así se conservará la verdadera religión y se propagará por todas partes la verdadera doctrina; se castigará y refrenará a los transgresores por medios espirituales; y se socorrerá y consolará a los pobres y afligidos, según su necesidad. Por estos medios todo se hará en la iglesia con buen orden y decencia, cuando se elija a personas fieles conforme a la regla que el apóstol Pablo da en su epístola a Timoteo.",
+          "refs": [
+            {
+              "label": "Efesios 4:11-12",
+              "book_usfm": "EPH",
+              "chapter": 4
+            },
+            {
+              "label": "Hechos 20:28",
+              "book_usfm": "ACT",
+              "chapter": 20
+            },
+            {
+              "label": "Tito 1:5",
+              "book_usfm": "TIT",
+              "chapter": 1
+            },
+            {
+              "label": "Hechos 6:1-4",
+              "book_usfm": "ACT",
+              "chapter": 6
+            },
+            {
+              "label": "1 Timoteo 3:1-13",
+              "book_usfm": "1TI",
+              "chapter": 3
+            },
+            {
+              "label": "1 Corintios 14:40",
+              "book_usfm": "1CO",
+              "chapter": 14
+            }
+          ]
+        },
+        {
+          "number": 31,
+          "question": "Artículo 31: Los ministros, los ancianos y los diáconos",
+          "answer": "Creemos que los ministros de la Palabra de Dios, los ancianos y los diáconos deben ser elegidos para sus respectivos oficios por elección legítima de la iglesia, invocando el nombre del Señor y con buen orden, como enseña la Palabra de Dios. Por tanto, cada uno debe cuidarse de no introducirse por medios indebidos, sino que debe esperar a ser llamado por Dios, para tener testimonio de su vocación y estar cierto y seguro de que viene del Señor.\n\nEn cuanto a los ministros de la Palabra de Dios, tienen igual poder y autoridad dondequiera que estén, puesto que todos son ministros de Cristo, el único Obispo universal y la única Cabeza de la iglesia.\n\nAdemás, para que este santo orden de Dios no sea violado ni menospreciado, decimos que todos deben tener en singular estima a los ministros de la Palabra y a los ancianos de la iglesia, por causa de su obra, y estar en paz con ellos, sin murmuraciones, contiendas ni disputas, en cuanto sea posible.",
+          "refs": [
+            {
+              "label": "Hechos 1:23-26",
+              "book_usfm": "ACT",
+              "chapter": 1
+            },
+            {
+              "label": "Hechos 6:2-3",
+              "book_usfm": "ACT",
+              "chapter": 6
+            },
+            {
+              "label": "Hechos 13:2-3",
+              "book_usfm": "ACT",
+              "chapter": 13
+            },
+            {
+              "label": "Jeremías 23:21",
+              "book_usfm": "JER",
+              "chapter": 23
+            },
+            {
+              "label": "1 Corintios 4:1",
+              "book_usfm": "1CO",
+              "chapter": 4
+            },
+            {
+              "label": "1 Pedro 5:1-4",
+              "book_usfm": "1PE",
+              "chapter": 5
+            },
+            {
+              "label": "1 Tesalonicenses 5:12-13",
+              "book_usfm": "1TH",
+              "chapter": 5
+            },
+            {
+              "label": "Hebreos 13:17",
+              "book_usfm": "HEB",
+              "chapter": 13
+            }
+          ]
+        },
+        {
+          "number": 32,
+          "question": "Artículo 32: El orden y la disciplina de la iglesia",
+          "answer": "Creemos, además, que aunque es útil y bueno que quienes gobiernan la iglesia instituyan y establezcan entre sí cierto orden para mantener el cuerpo de la iglesia, deben cuidarse mucho de no apartarse de lo que Cristo, nuestro único Maestro, ha instituido. Por tanto, rechazamos todas las invenciones humanas y todas las leyes que se quisieran introducir en el culto de Dios para atar y obligar las conciencias de cualquier manera. Admitimos, pues, solo lo que sirve para fomentar y preservar la concordia y la unidad, y para mantener a todos en la obediencia a Dios. Para ello se requiere la excomunión, o disciplina eclesiástica, con todo lo que a ella pertenece, conforme a la Palabra de Dios.",
+          "refs": [
+            {
+              "label": "Colosenses 2:6-7",
+              "book_usfm": "COL",
+              "chapter": 2
+            },
+            {
+              "label": "Mateo 15:9",
+              "book_usfm": "MAT",
+              "chapter": 15
+            },
+            {
+              "label": "Gálatas 5:1",
+              "book_usfm": "GAL",
+              "chapter": 5
+            },
+            {
+              "label": "Colosenses 2:20-23",
+              "book_usfm": "COL",
+              "chapter": 2
+            },
+            {
+              "label": "Mateo 18:17-18",
+              "book_usfm": "MAT",
+              "chapter": 18
+            },
+            {
+              "label": "1 Corintios 5:4-5",
+              "book_usfm": "1CO",
+              "chapter": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 8,
+      "title": "Los sacramentos",
+      "questions": [
+        {
+          "number": 33,
+          "question": "Artículo 33: Los sacramentos",
+          "answer": "Creemos que nuestro bondadoso Dios, atento a nuestra torpeza y debilidad, ha ordenado los sacramentos para sellarnos sus promesas y para que sean prendas de su buena voluntad y su gracia para con nosotros, y también para alimentar y sostener nuestra fe. Los ha añadido a la Palabra del evangelio para representar mejor a nuestros sentidos externos tanto lo que nos declara en su Palabra como lo que obra interiormente en nuestros corazones, confirmando así en nosotros la salvación que nos comunica. Porque son señales y sellos visibles de algo interno e invisible, por medio de los cuales Dios obra en nosotros por el poder del Espíritu Santo. Las señales, pues, no son vanas ni vacías, como para engañarnos; porque Jesucristo es su verdad, y sin él no serían nada.\n\nAdemás, nos contentamos con el número de sacramentos que Cristo nuestro Señor ha instituido, que son solo dos, a saber: el sacramento del bautismo y la santa cena de Jesucristo.",
+          "refs": [
+            {
+              "label": "Génesis 17:11",
+              "book_usfm": "GEN",
+              "chapter": 17
+            },
+            {
+              "label": "Romanos 4:11",
+              "book_usfm": "ROM",
+              "chapter": 4
+            },
+            {
+              "label": "Colosenses 2:11-12",
+              "book_usfm": "COL",
+              "chapter": 2
+            },
+            {
+              "label": "1 Corintios 10:1-4",
+              "book_usfm": "1CO",
+              "chapter": 10
+            },
+            {
+              "label": "Mateo 28:19",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "1 Corintios 11:23-26",
+              "book_usfm": "1CO",
+              "chapter": 11
+            }
+          ]
+        },
+        {
+          "number": 34,
+          "question": "Artículo 34: El santo bautismo",
+          "answer": "Creemos y confesamos que Jesucristo, que es el fin de la ley, ha puesto fin, por su sangre derramada, a todo otro derramamiento de sangre que pudiera o quisiera hacerse como propiciación o satisfacción por el pecado; y que, habiendo abolido la circuncisión, que se hacía con sangre, instituyó en su lugar el sacramento del bautismo, por el cual somos recibidos en la iglesia de Dios y separados de todos los demás pueblos y religiones extrañas, para pertenecer enteramente a aquel cuya marca y enseña llevamos; y que nos sirve de testimonio de que él será para siempre nuestro Dios y Padre misericordioso.\n\nPor eso mandó que todos los que son suyos fueran bautizados con agua pura, en el nombre del Padre, y del Hijo, y del Espíritu Santo, dándonos a entender con ello que, así como el agua lava la suciedad del cuerpo cuando se derrama sobre él, y se ve sobre el cuerpo del bautizado cuando se le rocía, así la sangre de Cristo, por el poder del Espíritu Santo, rocía y limpia interiormente el alma de sus pecados, y nos regenera de hijos de ira en hijos de Dios. No es que esto se efectúe por el agua exterior, sino por la aspersión de la preciosa sangre del Hijo de Dios, que es nuestro mar Rojo, por el cual debemos pasar para escapar de la tiranía de Faraón, es decir, del diablo, y entrar en la tierra espiritual de Canaán.\n\nAsí, los ministros, por su parte, nos dan el sacramento y lo que es visible; pero nuestro Señor da lo que el sacramento significa, a saber, los dones y la gracia invisibles: lavando, limpiando y purificando nuestras almas de toda inmundicia e injusticia; renovando nuestros corazones y llenándolos de todo consuelo; dándonos una verdadera certeza de su bondad paternal; revistiéndonos del hombre nuevo y despojándonos del viejo con todas sus obras.\n\nPor tanto, creemos que todo el que aspira a alcanzar la vida eterna debe ser bautizado una sola vez con este único bautismo, sin repetirlo jamás, puesto que tampoco podemos nacer dos veces. Y este bautismo no nos aprovecha solo en el momento en que el agua se derrama sobre nosotros y la recibimos, sino durante toda nuestra vida.\n\nPor eso rechazamos el error de los anabaptistas, que no se contentan con el único bautismo que una vez recibieron, y que además condenan el bautismo de los niños de los creyentes, los cuales creemos que deben ser bautizados y sellados con la señal del pacto, como los niños en Israel eran circuncidados en virtud de las mismas promesas que se hacen ahora a nuestros hijos. Y, en verdad, Cristo derramó su sangre no menos para lavar a los niños de los creyentes que a los adultos; por tanto, deben recibir la señal y el sacramento de lo que Cristo ha hecho por ellos, así como el Señor mandó en la ley que se les hiciera partícipes del sacramento de la pasión y muerte de Cristo poco después de nacer, ofreciendo por ellos un cordero, que era un sacramento de Jesucristo. Además, lo que la circuncisión era para los judíos, eso es el bautismo para nuestros hijos; y por eso el apóstol Pablo llama al bautismo la circuncisión de Cristo.",
+          "refs": [
+            {
+              "label": "Romanos 10:4",
+              "book_usfm": "ROM",
+              "chapter": 10
+            },
+            {
+              "label": "Colosenses 2:11-12",
+              "book_usfm": "COL",
+              "chapter": 2
+            },
+            {
+              "label": "Mateo 28:19",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "1 Corintios 6:11",
+              "book_usfm": "1CO",
+              "chapter": 6
+            },
+            {
+              "label": "Tito 3:5",
+              "book_usfm": "TIT",
+              "chapter": 3
+            },
+            {
+              "label": "1 Corintios 10:1-2",
+              "book_usfm": "1CO",
+              "chapter": 10
+            },
+            {
+              "label": "Hechos 2:38-39",
+              "book_usfm": "ACT",
+              "chapter": 2
+            },
+            {
+              "label": "Génesis 17:7-12",
+              "book_usfm": "GEN",
+              "chapter": 17
+            },
+            {
+              "label": "Levítico 12:6",
+              "book_usfm": "LEV",
+              "chapter": 12
+            }
+          ]
+        },
+        {
+          "number": 35,
+          "question": "Artículo 35: La santa cena de nuestro Señor Jesucristo",
+          "answer": "Creemos y confesamos que nuestro Salvador Jesucristo ha ordenado e instituido el sacramento de la santa cena para alimentar y sostener a los que ya ha regenerado e incorporado a su familia, que es su iglesia.\n\nLos que son regenerados tienen en sí una doble vida: una corporal y temporal, que recibieron en su primer nacimiento y que es común a todos los hombres; la otra, espiritual y celestial, que les es dada en el segundo nacimiento, que se efectúa por la Palabra del evangelio en la comunión del cuerpo de Cristo; y esta vida no es común a todos, sino propia solo de los elegidos de Dios. Del mismo modo, para sostener la vida corporal y terrenal, Dios nos ha dado un pan terrenal y común, que sirve para ello y es común a todos, como la vida misma. Pero para sostener la vida espiritual y celestial que tienen los creyentes, les ha enviado un pan vivo que descendió del cielo, a saber, Jesucristo, que alimenta y fortalece la vida espiritual de los creyentes cuando es comido por ellos, es decir, cuando lo hacen suyo y lo reciben por la fe, en el espíritu.\n\nPara representarnos este pan espiritual y celestial, Cristo instituyó un pan terrenal y visible como sacramento de su cuerpo, y el vino como sacramento de su sangre, para darnos a entender que, tan ciertamente como recibimos y tenemos este sacramento en nuestras manos, y lo comemos y bebemos con la boca, con lo cual se sustenta después nuestra vida, así también recibimos verdaderamente por la fe —que es la mano y la boca de nuestra alma— el verdadero cuerpo y la verdadera sangre de Cristo, nuestro único Salvador, en nuestras almas, para sostener nuestra vida espiritual.\n\nEs cierto y fuera de toda duda que Jesucristo no nos ha encomendado sus sacramentos en vano; de modo que obra en nosotros todo lo que nos representa por estas santas señales, aunque la manera sobrepasa nuestro entendimiento y no podemos comprenderla, así como la operación del Espíritu Santo es oculta e incomprensible. Entretanto, no erramos cuando decimos que lo que comemos y bebemos es el propio y natural cuerpo y la propia sangre de Cristo. Pero la manera en que los recibimos no es por la boca, sino por el espíritu, mediante la fe. Así, aunque Cristo está siempre sentado a la diestra de su Padre en los cielos, no deja por eso de hacernos partícipes de sí mismo por la fe. Esta cena es una mesa espiritual, en la que Cristo se comunica a sí mismo con todos sus beneficios, y nos da a gozar allí tanto de sí mismo como de los méritos de su pasión y muerte: alimentando, fortaleciendo y consolando nuestras pobres almas desconsoladas por el comer de su carne, y aliviándolas y renovándolas por el beber de su sangre.\n\nAdemás, aunque los sacramentos están unidos a la cosa significada, no todos reciben ambas cosas. El impío recibe ciertamente el sacramento para su condenación, pero no recibe la verdad del sacramento; así como Judas y Simón el mago recibieron ambos el sacramento, pero no a Cristo, que era significado por él, del cual solo los creyentes son hechos partícipes.\n\nPor último, recibimos este santo sacramento en la asamblea del pueblo de Dios, con humildad y reverencia, celebrando juntos con acción de gracias una santa memoria de la muerte de Cristo nuestro Salvador, y haciendo allí confesión de nuestra fe y de la religión cristiana. Por tanto, nadie debe acercarse a esta mesa sin haberse examinado antes a sí mismo con cuidado, no sea que, comiendo de este pan y bebiendo de esta copa, coma y beba juicio para sí. En suma, por el uso de este santo sacramento somos movidos a un amor ferviente hacia Dios y hacia nuestro prójimo.\n\nPor eso rechazamos todas las mezclas e invenciones condenables que los hombres han añadido a los sacramentos y con las que los han mezclado, como profanaciones de ellos; y afirmamos que debemos contentarnos con la ordenanza que Cristo y sus apóstoles nos enseñaron, y hablar de ella como ellos hablaron.",
+          "refs": [
+            {
+              "label": "Juan 3:5-6",
+              "book_usfm": "JHN",
+              "chapter": 3
+            },
+            {
+              "label": "Juan 6:32-35",
+              "book_usfm": "JHN",
+              "chapter": 6
+            },
+            {
+              "label": "Juan 6:48-58",
+              "book_usfm": "JHN",
+              "chapter": 6
+            },
+            {
+              "label": "Efesios 3:17",
+              "book_usfm": "EPH",
+              "chapter": 3
+            },
+            {
+              "label": "1 Corintios 10:16-17",
+              "book_usfm": "1CO",
+              "chapter": 10
+            },
+            {
+              "label": "Hechos 3:21",
+              "book_usfm": "ACT",
+              "chapter": 3
+            },
+            {
+              "label": "1 Corintios 11:23-29",
+              "book_usfm": "1CO",
+              "chapter": 11
+            },
+            {
+              "label": "Hechos 8:13-21",
+              "book_usfm": "ACT",
+              "chapter": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 9,
+      "title": "El magistrado civil",
+      "questions": [
+        {
+          "number": 36,
+          "question": "Artículo 36: El magistrado civil",
+          "answer": "Creemos que nuestro bondadoso Dios, a causa de la depravación del género humano, ha establecido reyes, príncipes y magistrados, queriendo que el mundo sea gobernado por leyes y gobiernos, para que la disolución de los hombres sea refrenada y todo se haga entre ellos con buen orden y decencia. Para este fin ha puesto la espada en manos de los magistrados, para castigar a los malhechores y proteger a los que hacen el bien.\n\nY su oficio no es solo velar por el Estado y procurar su bien, sino también proteger el sagrado ministerio, y así quitar e impedir toda idolatría y falso culto, para que el reino del anticristo sea destruido y el reino de Cristo promovido. Por tanto, deben hacer que el evangelio sea predicado en todas partes, para que Dios sea honrado y adorado por todos, como lo manda en su Palabra.\n\nAdemás, es deber de todos, cualquiera sea su calidad, condición o rango, someterse a los magistrados, pagar los tributos, darles la honra y el respeto debidos, y obedecerles en todo lo que no se oponga a la Palabra de Dios; orar por ellos, para que el Señor los dirija en todos sus caminos y para que vivamos quieta y reposadamente en toda piedad y honestidad.\n\nPor eso detestamos a los anabaptistas y a otros sediciosos, y en general a todos los que quieren rechazar las autoridades superiores y a los magistrados, subvertir la justicia, introducir la comunidad de bienes y confundir el orden y la decencia que Dios ha establecido entre los hombres.",
+          "refs": [
+            {
+              "label": "Proverbios 8:15",
+              "book_usfm": "PRO",
+              "chapter": 8
+            },
+            {
+              "label": "Romanos 13:1-7",
+              "book_usfm": "ROM",
+              "chapter": 13
+            },
+            {
+              "label": "1 Pedro 2:13-17",
+              "book_usfm": "1PE",
+              "chapter": 2
+            },
+            {
+              "label": "Tito 3:1",
+              "book_usfm": "TIT",
+              "chapter": 3
+            },
+            {
+              "label": "Hechos 5:29",
+              "book_usfm": "ACT",
+              "chapter": 5
+            },
+            {
+              "label": "Mateo 22:21",
+              "book_usfm": "MAT",
+              "chapter": 22
+            },
+            {
+              "label": "1 Timoteo 2:1-2",
+              "book_usfm": "1TI",
+              "chapter": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 10,
+      "title": "El juicio final",
+      "questions": [
+        {
+          "number": 37,
+          "question": "Artículo 37: El juicio final",
+          "answer": "Finalmente, creemos, según la Palabra de Dios, que cuando llegue el tiempo señalado por el Señor, que es desconocido para todas las criaturas, y el número de los elegidos esté completo, nuestro Señor Jesucristo vendrá del cielo, corporal y visiblemente, como ascendió, con gran gloria y majestad, para declararse Juez de vivos y muertos, prendiendo fuego a este viejo mundo para purificarlo.\n\nEntonces comparecerán en persona delante de este gran Juez todas las criaturas humanas, hombres, mujeres y niños, que hayan existido desde el principio del mundo hasta el fin, citados por la voz del arcángel y por el sonido de la trompeta de Dios. Porque todos los muertos serán resucitados de la tierra, y sus almas unidas y juntadas con los mismos cuerpos en que vivieron. En cuanto a los que entonces estén vivos, no morirán como los demás, sino que serán transformados en un abrir y cerrar de ojos, y de corruptibles serán hechos incorruptibles.\n\nEntonces se abrirán los libros, y los muertos serán juzgados según lo que hayan hecho en este mundo, sea bueno o malo. Más aún, todos los hombres darán cuenta de toda palabra ociosa que hayan hablado, que el mundo tiene por simple juego y pasatiempo; y entonces los secretos y las hipocresías de los hombres serán descubiertos y puestos a la vista de todos.\n\nPor eso la consideración de este juicio es con razón terrible y espantosa para los impíos y malvados, pero muy deseable y consoladora para los piadosos y elegidos; porque entonces se consumará su plena liberación, y allí recibirán los frutos de su trabajo y de las aflicciones que han soportado. Su inocencia será conocida por todos, y verán la terrible venganza que Dios ejecutará sobre los impíos que los tiranizaron, oprimieron y atormentaron en este mundo, los cuales serán convencidos por el testimonio de sus propias conciencias y, siendo inmortales, serán atormentados en aquel fuego eterno preparado para el diablo y sus ángeles.\n\nPero, por el contrario, los fieles y elegidos serán coronados de gloria y honra; el Hijo de Dios confesará sus nombres delante de Dios su Padre y de sus ángeles escogidos; todas las lágrimas serán enjugadas de sus ojos; y su causa, que ahora es condenada como herética e impía por muchos jueces y magistrados, será entonces reconocida como la causa del Hijo de Dios. Y, como recompensa de gracia, el Señor les hará poseer una gloria tal como jamás pudo concebirla corazón humano.\n\nPor tanto, esperamos aquel gran día con ardiente deseo, para gozar plenamente de las promesas de Dios en Cristo Jesús, nuestro Señor. «Amén; sí, ven, Señor Jesús».",
+          "refs": [
+            {
+              "label": "Mateo 24:36",
+              "book_usfm": "MAT",
+              "chapter": 24
+            },
+            {
+              "label": "Hechos 1:11",
+              "book_usfm": "ACT",
+              "chapter": 1
+            },
+            {
+              "label": "2 Pedro 3:10-13",
+              "book_usfm": "2PE",
+              "chapter": 3
+            },
+            {
+              "label": "1 Tesalonicenses 4:16-17",
+              "book_usfm": "1TH",
+              "chapter": 4
+            },
+            {
+              "label": "1 Corintios 15:51-53",
+              "book_usfm": "1CO",
+              "chapter": 15
+            },
+            {
+              "label": "Apocalipsis 20:12",
+              "book_usfm": "REV",
+              "chapter": 20
+            },
+            {
+              "label": "Mateo 12:36",
+              "book_usfm": "MAT",
+              "chapter": 12
+            },
+            {
+              "label": "2 Tesalonicenses 1:6-10",
+              "book_usfm": "2TH",
+              "chapter": 1
+            },
+            {
+              "label": "Mateo 25:31-46",
+              "book_usfm": "MAT",
+              "chapter": 25
+            },
+            {
+              "label": "Apocalipsis 21:4",
+              "book_usfm": "REV",
+              "chapter": 21
+            },
+            {
+              "label": "Apocalipsis 22:20",
+              "book_usfm": "REV",
+              "chapter": 22
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

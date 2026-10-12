@@ -237,7 +237,9 @@ export default function MaterialReader() {
           {entry.question}
         </h1>
 
-        <p className="mt-3.5 text-[17px] leading-relaxed text-ink">{entry.answer}</p>
+        {/* pre-line: los artículos largos (p. ej. Confesión Belga) traen párrafos
+            separados por línea en blanco en el JSON. */}
+        <p className="mt-3.5 whitespace-pre-line text-[17px] leading-relaxed text-ink">{entry.answer}</p>
 
         {/* Citas de apoyo como nota al pie de la ficha: filete hairline arriba
             (como en un catecismo impreso), sin etiqueta ni cromo. El color acento

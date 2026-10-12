@@ -14,6 +14,13 @@
 // Ordenado cronológicamente por fecha de origen del material.
 export const MATERIALS = [
   {
+    slug: 'belga',
+    name: 'Confesión Belga',
+    shortName: 'Confesión Belga',
+    description: '37 artículos de la fe reformada (1561), de Dios y las Escrituras al juicio final, con pasajes para tu Biblia.',
+    load: () => import('../data/materials/belga.json'),
+  },
+  {
     slug: 'heidelberg',
     name: 'Catecismo de Heidelberg',
     shortName: 'Heidelberg',
