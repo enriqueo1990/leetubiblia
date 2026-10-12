@@ -82,6 +82,15 @@ export const MATERIALS = [
     load: () => import('../data/materials/spurgeon.json'),
   },
   {
+    slug: 'spurgeon-matutinas',
+    name: 'Lecturas matutinas de Spurgeon',
+    shortName: 'Lecturas matutinas',
+    unit: 'day',
+    cadence: 'calendar',
+    description: 'Una lectura devocional para cada mañana del año (1865), con el versículo del día para tu Biblia.',
+    load: () => import('../data/materials/spurgeon-matutinas.json'),
+  },
+  {
     slug: 'spurgeon-ninos',
     name: 'Catecismo para Niños de Spurgeon',
     shortName: 'Spurgeon para Niños',
