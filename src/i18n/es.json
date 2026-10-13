@@ -125,6 +125,7 @@
   "gate.verseText": "Santifícalos en la verdad; Tu palabra es verdad.",
   "gate.verseRef": "Juan 17:17",
   "gate.loadError": "No pudimos cargar tu perfil. Revisá tu conexión y volvé a intentar.",
+  "gate.signOut": "Salir",
 
   "onboarding.askName.title": "¿Cómo te llamás?",
   "onboarding.askName.label": "Tu nombre",
@@ -167,6 +168,7 @@
   "onboarding.auth.createOne": "Creá una cuenta",
   "onboarding.auth.loginNotFound": "No encontramos una cuenta con ese correo. Revisá que esté bien escrito o creá una cuenta.",
   "onboarding.auth.sendError": "No pudimos enviar el código. Probá de nuevo.",
+  "onboarding.auth.sessionExpired": "Tu sesión venció. Ingresá de nuevo.",
   "onboarding.auth.codeError": "Código incorrecto o vencido. Revisá el correo o pedí uno nuevo.",
   "onboarding.choosePlan.title": "Elegí un plan",
   "onboarding.choosePlan.step": "Paso 2 de 3",

@@ -24,7 +24,7 @@ function Centered({ children }) {
 }
 
 export default function AuthFlow() {
-  const { signInWithEmail, verifyEmailCode } = useAuth()
+  const { signInWithEmail, verifyEmailCode, sessionExpired } = useAuth()
   const { t } = usePreferences()
   const { pathname, search } = useLocation()
   const [step, setStep] = useState('welcome')
@@ -135,6 +135,12 @@ export default function AuthFlow() {
           <p className="mt-3 max-w-[300px] text-[13px] leading-relaxed text-ink-soft">
             {t('onboarding.auth.physicalBibleNote')}
           </p>
+          {/* Había una sesión en este dispositivo y ya no es válida. */}
+          {sessionExpired && (
+            <p className="mt-4 max-w-[300px] text-[14px] font-medium text-ink" role="status">
+              {t('onboarding.auth.sessionExpired')}
+            </p>
+          )}
         </div>
         <div className="space-y-3">
           <button

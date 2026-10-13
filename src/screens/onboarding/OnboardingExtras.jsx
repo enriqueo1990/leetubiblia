@@ -3,12 +3,12 @@ import { useAuth } from '../../lib/auth.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
 import { subscribeToPush } from '../../lib/push.js'
 import Switch from '../../components/Switch.jsx'
+import { markExtrasDone } from '../../lib/sessionFlags.js'
 
 // Último paso del onboarding (documento maestro §5.8): ofrecer recordatorio y, en
 // iOS, guiar a "Agregar a pantalla de inicio". La programación real de la
 // notificación es Tarea 7; acá solo se registra la intención (reminder_enabled).
-// Se muestra una sola vez (flag en localStorage), luego aterriza en Hoy.
-const DONE_KEY = 'ltb.onboarded_extras'
+// Se muestra una sola vez por usuario (ver lib/sessionFlags.js), luego aterriza en Hoy.
 
 function isIOS() {
   return /iphone|ipad|ipod/i.test(navigator.userAgent)
@@ -64,7 +64,7 @@ export default function OnboardingExtras({ onDone }) {
         return
       }
     }
-    localStorage.setItem(DONE_KEY, '1')
+    markExtrasDone(user?.id)
     setBusy(false)
     onDone?.()
   }
@@ -169,5 +169,3 @@ export default function OnboardingExtras({ onDone }) {
   )
 }
 
-OnboardingExtras.DONE_KEY = DONE_KEY
-export { DONE_KEY as EXTRAS_DONE_KEY }

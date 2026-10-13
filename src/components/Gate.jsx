@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
-import { clearPendingPlan } from '../lib/pendingPlan.js'
+import { clearPendingPlan, readPendingPlan } from '../lib/pendingPlan.js'
+import { isExtrasDone } from '../lib/sessionFlags.js'
 import LaunchReady from './LaunchReady.jsx'
 import AuthFlow from '../screens/onboarding/AuthFlow.jsx'
 import AskName from '../screens/onboarding/AskName.jsx'
 import ChoosePlanOnboarding from '../screens/onboarding/ChoosePlanOnboarding.jsx'
-import OnboardingExtras, { EXTRAS_DONE_KEY } from '../screens/onboarding/OnboardingExtras.jsx'
+import OnboardingExtras from '../screens/onboarding/OnboardingExtras.jsx'
 
 // Decide qué mostrar según el estado de auth + perfil (documento maestro §5.8):
 //   sin sesión            → bienvenida + magic link
@@ -16,7 +17,7 @@ import OnboardingExtras, { EXTRAS_DONE_KEY } from '../screens/onboarding/Onboard
 //   listo                 → la app (children)
 // Hay sesión pero no se pudo cargar el perfil y no hay copia en caché (típico:
 // primer arranque sin conexión). Ofrece reintentar en vez de colgarse.
-function LoadError({ onRetry }) {
+function LoadError({ onRetry, onSignOut }) {
   const { t } = usePreferences()
   const [retrying, setRetrying] = useState(false)
   const retry = async () => {
@@ -39,16 +40,27 @@ function LoadError({ onRetry }) {
       >
         {retrying ? t('common.retrying') : t('common.retry')}
       </button>
+      {/* Salida: sin esto, quien queda atascado no puede ni cerrar sesión. */}
+      {onSignOut && (
+        <button
+          type="button"
+          onClick={onSignOut}
+          className="min-h-11 px-2 text-[15px] font-medium text-ink-soft"
+        >
+          {t('gate.signOut')}
+        </button>
+      )}
     </div>
   )
 }
 
 export default function Gate({ children }) {
-  const { loading, session, profile, profileError, refreshProfile } = useAuth()
-  // Re-render al terminar los extras sin recargar.
-  const [extrasDone, setExtrasDone] = useState(
-    () => localStorage.getItem(EXTRAS_DONE_KEY) === '1'
-  )
+  const { loading, session, profile, profileError, refreshProfile, signOut } = useAuth()
+  // Re-render al terminar los extras sin recargar. La bandera persistida es POR
+  // USUARIO (lib/sessionFlags.js): una segunda cuenta en el mismo dispositivo no
+  // hereda los pasos ya hechos por otra.
+  const [extrasJustDone, setExtrasJustDone] = useState(false)
+  const extrasDone = extrasJustDone || isExtrasDone(session?.user?.id, profile)
   // Permite atravesar el paso 2 sin plan personal para adoptar luego el de un
   // grupo. Al completar extras, EXTRAS_DONE_KEY conserva que el onboarding ya
   // terminó; antes de eso, una recarga vuelve a ofrecer la elección.
@@ -66,20 +78,25 @@ export default function Gate({ children }) {
   if (!session) return <LaunchReady><AuthFlow /></LaunchReady>
 
   // Hay sesión pero el perfil no cargó ni hay caché: reintento, no cuelgue.
-  if (profileError) return <LaunchReady><LoadError onRetry={refreshProfile} /></LaunchReady>
+  if (profileError) {
+    return <LaunchReady><LoadError onRetry={refreshProfile} onSignOut={signOut} /></LaunchReady>
+  }
 
   // Sesión recién creada: el trigger crea el profile; mientras llega, splash.
   if (!profile) return null
 
   if (!profile.display_name) return <LaunchReady><AskName /></LaunchReady>
-  if (!profile.active_plan_id && !extrasDone && !planStepDone) {
+  // El plan elegido ANTES de crear la cuenta se aplica aunque los extras ya figuren
+  // hechos (p. ej. una segunda cuenta en el mismo dispositivo).
+  const hasPendingPlan = Boolean(readPendingPlan())
+  if (!profile.active_plan_id && !planStepDone && (!extrasDone || hasPendingPlan)) {
     return (
       <LaunchReady>
         <ChoosePlanOnboarding onSkip={() => setPlanStepDone(true)} />
       </LaunchReady>
     )
   }
-  if (!extrasDone) return <LaunchReady><OnboardingExtras onDone={() => setExtrasDone(true)} /></LaunchReady>
+  if (!extrasDone) return <LaunchReady><OnboardingExtras onDone={() => setExtrasJustDone(true)} /></LaunchReady>
 
   return <LaunchReady>{children}</LaunchReady>
 }

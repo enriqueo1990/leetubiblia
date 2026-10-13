@@ -125,6 +125,7 @@
   "gate.verseText": "Sanctify them in the truth; your word is truth.",
   "gate.verseRef": "John 17:17",
   "gate.loadError": "We couldn't load your profile. Check your connection and try again.",
+  "gate.signOut": "Sign out",
 
   "onboarding.askName.title": "What's your name?",
   "onboarding.askName.label": "Your name",
@@ -167,6 +168,7 @@
   "onboarding.auth.createOne": "Create an account",
   "onboarding.auth.loginNotFound": "We couldn't find an account with that email. Check the spelling or create an account.",
   "onboarding.auth.sendError": "We couldn't send the code. Try again.",
+  "onboarding.auth.sessionExpired": "Your session expired. Please sign in again.",
   "onboarding.auth.codeError": "Wrong or expired code. Check your email or request a new one.",
   "onboarding.choosePlan.title": "Choose a plan",
   "onboarding.choosePlan.step": "Step 2 of 3",

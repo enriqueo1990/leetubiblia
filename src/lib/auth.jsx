@@ -3,6 +3,7 @@ import { supabase } from './supabase.js'
 import { recordDiag } from './diag.js'
 import { unsubscribeFromPush } from './push.js'
 import { clearOfflineData } from './offline.js'
+import { clearSessionFlags } from './sessionFlags.js'
 
 // Contexto de autenticación. Expone la sesión, el perfil del usuario y las
 // acciones de auth (magic link, sign out). El onboarding decide qué pantalla
@@ -20,6 +21,33 @@ function readCachedProfile(uid) {
     return null
   }
 }
+// Último usuario que inició sesión en este dispositivo. Permite abrir la PWA sin
+// conexión con su perfil en caché cuando el token venció y no se puede refrescar
+// (supabase-js devuelve sesión null), en vez de mostrarle la bienvenida como si no
+// tuviera cuenta. Se borra al cerrar sesión.
+const LAST_USER_KEY = 'ltb.lastUser'
+function readLastUser() {
+  try {
+    return localStorage.getItem(LAST_USER_KEY)
+  } catch {
+    return null
+  }
+}
+function writeLastUser(uid) {
+  try {
+    localStorage.setItem(LAST_USER_KEY, uid)
+  } catch {
+    /* no crítico */
+  }
+}
+function clearLastUser() {
+  try {
+    localStorage.removeItem(LAST_USER_KEY)
+  } catch {
+    /* no-op */
+  }
+}
+
 function writeCachedProfile(uid, p) {
   try {
     if (p) localStorage.setItem(profileCacheKey(uid), JSON.stringify(p))
@@ -38,6 +66,12 @@ export function AuthProvider({ children }) {
   // Último user id para el que ya pedimos el perfil. Evita recargas redundantes
   // en cada TOKEN_REFRESHED (que no cambia el perfil) y deduplica el arranque.
   const lastUid = useRef(null)
+  // Modo "sesión conocida sin red": hay perfil en caché de un usuario que ya había
+  // entrado, pero no se puede validar el token. Se entra a la app (solo lectura
+  // efectiva: toda escritura a la red falla de forma honesta) hasta que vuelva la
+  // conexión y se confirme —o no— la sesión real.
+  const [offlineAuth, setOfflineAuth] = useState(false)
+  const offlineAuthRef = useRef(false)
 
   // Trae (o refresca) la fila de profiles del usuario logueado. Nunca lanza:
   // ante fallo de red/RLS cae a la caché local y, si no hay, marca profileError.
@@ -68,7 +102,10 @@ export function AuthProvider({ children }) {
       if (error) throw error
       setProfile(data ?? null)
       setProfileError(false)
-      if (data) writeCachedProfile(userId, data)
+      if (data) {
+        writeCachedProfile(userId, data)
+        writeLastUser(userId)
+      }
     } catch (e) {
       // Sin conexión, timeout o error transitorio: usar la última copia conocida.
       const cached = readCachedProfile(userId)
@@ -80,6 +117,21 @@ export function AuthProvider({ children }) {
       }
       console.error('[auth] error cargando profile:', e?.message || e)
     }
+  }, [])
+
+  // Entra con el perfil cacheado si no hay red y hay un usuario conocido.
+  const tryOfflineSession = useCallback(() => {
+    if (typeof navigator === 'undefined' || navigator.onLine !== false) return false
+    const uid = readLastUser()
+    const cached = uid ? readCachedProfile(uid) : null
+    if (!uid || !cached) return false
+    offlineAuthRef.current = true
+    setOfflineAuth(true)
+    setSession({ user: { id: uid, email: cached.email ?? null }, offline: true })
+    setProfile(cached)
+    setProfileError(false)
+    lastUid.current = uid
+    return true
   }, [])
 
   useEffect(() => {
@@ -96,6 +148,9 @@ export function AuthProvider({ children }) {
     // no resolvió en 6 s → sospechoso del lock de navigator.locks en iOS PWA).
     const timer = setTimeout(() => {
       recordDiag('getsession_slow', { resolved: false, waitedMs: 6000 })
+      // getSession sigue intentando refrescar un token vencido sin red: no dejar al
+      // usuario sin su app; entrar con el perfil cacheado.
+      tryOfflineSession()
       finishLoading()
     }, 6000)
 
@@ -125,6 +180,13 @@ export function AuthProvider({ children }) {
           sess = d?.session ?? null
         }
 
+        if (!sess) {
+          // Ya entramos con el perfil cacheado (backstop): no pisarlo con null.
+          if (offlineAuthRef.current || tryOfflineSession()) return
+        } else if (offlineAuthRef.current) {
+          offlineAuthRef.current = false
+          setOfflineAuth(false)
+        }
         setSession(sess)
         lastUid.current = sess?.user?.id ?? null
         await loadProfile(sess?.user?.id)
@@ -142,8 +204,14 @@ export function AuthProvider({ children }) {
     // "splash infinito en la 1ª apertura" (evento INITIAL_SESSION) y "pantalla en
     // blanco al volver a la pestaña" (TOKEN_REFRESHED). La solución canónica es
     // diferir el trabajo con setTimeout(…, 0): el lock se libera antes de correr.
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, sess) => {
+    const { data: sub } = supabase.auth.onAuthStateChange((event, sess) => {
       if (!active) return
+      // Un null espurio (INITIAL_SESSION sin red) no debe tirar la sesión conocida.
+      if (!sess && offlineAuthRef.current && event !== 'SIGNED_OUT') return
+      if (sess && offlineAuthRef.current) {
+        offlineAuthRef.current = false
+        setOfflineAuth(false)
+      }
       setSession(sess)
       const uid = sess?.user?.id ?? null
       setTimeout(() => {
@@ -160,6 +228,32 @@ export function AuthProvider({ children }) {
       clearTimeout(timer)
       sub.subscription.unsubscribe()
     }
+  }, [loadProfile, tryOfflineSession])
+
+  // Al volver la red en modo sesión conocida: confirmar la sesión real. Si no hay
+  // (token vencido de verdad), recién ahí se muestra la bienvenida, con aviso.
+  useEffect(() => {
+    async function onOnline() {
+      if (!offlineAuthRef.current) return
+      try {
+        const { data } = await supabase.auth.getSession()
+        offlineAuthRef.current = false
+        setOfflineAuth(false)
+        if (data?.session) {
+          setSession(data.session)
+          lastUid.current = data.session.user.id
+          loadProfile(data.session.user.id)
+        } else {
+          lastUid.current = null
+          setSession(null)
+          setProfile(null)
+        }
+      } catch {
+        /* sigue sin poder confirmar: queda en modo sesión conocida */
+      }
+    }
+    window.addEventListener('online', onOnline)
+    return () => window.removeEventListener('online', onOnline)
   }, [loadProfile])
 
   // Hay sesión pero el perfil aún no existe (no es error de red: la fila todavía
@@ -170,12 +264,20 @@ export function AuthProvider({ children }) {
     let n = 0
     // Telemetría temporal: este camino solía colgar el Gate en el splash.
     recordDiag('profile_retry', { reason: 'session sin profile al montar' })
+    let giveUp
     const t = setInterval(() => {
       n += 1
       loadProfile(session.user.id)
-      if (n >= 5) clearInterval(t) // ~10 s de reintentos; luego paramos
+      if (n >= 5) {
+        clearInterval(t) // ~10 s de reintentos; luego paramos
+        // Y avisamos: sin esto el splash quedaba para siempre sin mensaje ni salida.
+        giveUp = setTimeout(() => setProfileError(true), 2500)
+      }
     }, 2000)
-    return () => clearInterval(t)
+    return () => {
+      clearInterval(t)
+      clearTimeout(giveUp)
+    }
   }, [session, profile, profileError, loadProfile])
 
   // Envía un código de 6 dígitos al email (sin contraseña). Se usa OTP por código
@@ -209,6 +311,11 @@ export function AuthProvider({ children }) {
       }
       clearOfflineData(uid)
     }
+    clearLastUser()
+    clearSessionFlags(uid)
+    offlineAuthRef.current = false
+    setOfflineAuth(false)
+    lastUid.current = null
     setProfile(null)
     setProfileError(false)
   }, [session])
@@ -243,6 +350,9 @@ export function AuthProvider({ children }) {
     signOut,
     updateProfile,
     refreshProfile: () => loadProfile(session?.user?.id),
+    offlineAuth,
+    // Había una sesión en este dispositivo y ya no es válida: la bienvenida avisa.
+    sessionExpired: !loading && !session && !!readLastUser(),
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
