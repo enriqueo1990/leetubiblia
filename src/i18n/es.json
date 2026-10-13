@@ -515,6 +515,9 @@
   "hoy.withGroups": "Con tus grupos",
   "hoy.alsoToday": "También hoy",
   "hoy.extrasSeeAll": "Ver todas ({count})",
+  "hoy.extrasTypeGroup": "Lectura de grupo",
+  "hoy.extrasTypeMaterial": "Material",
+  "hoy.extrasReadDone": "Ya leído",
   "hoy.extrasEmpty": "No hay otras lecturas para hoy.",
 
   "materialsToday.otherReadings": "Mis otras lecturas",

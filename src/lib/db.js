@@ -819,7 +819,8 @@ async function hasReadDay(userId, planId, dayNumber) {
 // Lecturas de grupo que sigo como adicionales, listas para las filas de Hoy:
 // por cada grupo seguido con plan vigente, el día que dicta SU calendario y si
 // ya lo marqué. Los planes terminados no vienen: en Hoy serían ruido (el cierre
-// se ve en el detalle del grupo). Las refs viven en la vista de lectura.
+// se ve en el detalle del grupo). Incluye las refs del día para que la fila de
+// Hoy diga QUÉ leer sin abrir la vista de lectura.
 export async function getFollowedGroupReadings(userId) {
   const { data, error } = await supabase
     .from('group_members')
@@ -835,7 +836,8 @@ export async function getFollowedGroupReadings(userId) {
 
   const days = groups.map((g) => ({ group: g, day: dayNumberFor(g.plan_start_date) }))
   const planIds = [...new Set(groups.map((g) => g.plan_id))]
-  const [{ data: plans, error: pe }, { data: progress, error: re }] = await Promise.all([
+  const dayNumbers = [...new Set(days.map((d) => d.day))]
+  const [{ data: plans, error: pe }, { data: progress, error: re }, { data: planDays, error: de }] = await Promise.all([
     supabase
       .from('reading_plans')
       .select('id, duration_days')
@@ -845,9 +847,16 @@ export async function getFollowedGroupReadings(userId) {
       .select('plan_id, day_number')
       .eq('user_id', userId)
       .in('plan_id', planIds),
+    supabase
+      .from('plan_days')
+      .select('plan_id, day_number, refs')
+      .in('plan_id', planIds)
+      .in('day_number', dayNumbers),
   ])
   if (pe) throw dbError(pe)
   if (re) throw dbError(re)
+  if (de) throw dbError(de)
+  const refsByDay = new Map((planDays ?? []).map((d) => [`${d.plan_id}:${d.day_number}`, d.refs]))
   const durations = Object.fromEntries((plans ?? []).map((p) => [p.id, p.duration_days]))
   const read = new Set((progress ?? []).map((p) => `${p.plan_id}:${p.day_number}`))
 
@@ -861,6 +870,7 @@ export async function getFollowedGroupReadings(userId) {
       day,
       totalDays: durations[g.plan_id],
       read: read.has(`${g.plan_id}:${day}`),
+      refs: refsByDay.get(`${g.plan_id}:${day}`) ?? [],
     }))
 }
 
