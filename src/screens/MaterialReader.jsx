@@ -289,6 +289,9 @@ export default function MaterialReader() {
           <h1 className="mt-2.5 text-[20px] font-semibold leading-snug text-ink">
             {content.name}
           </h1>
+          {locale !== 'es' && (
+            <p className="mt-1 text-[12px] text-ink-soft">{t('materiales.inSpanish')}</p>
+          )}
           <div className="mt-3.5 space-y-3">
             {content.intro.map((p, i) => (
               <p key={i} className="text-[17px] leading-relaxed text-ink">
