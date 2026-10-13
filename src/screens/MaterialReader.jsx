@@ -21,6 +21,8 @@ import { bookLabel } from '../i18n/books.js'
 import { shareQuestion } from '../lib/shareImage.js'
 import { ListIcon, ShareIcon } from '../components/icons.jsx'
 import BackLink from '../components/BackLink.jsx'
+import RetryError from '../components/RetryError.jsx'
+import { SkeletonDetail } from '../components/Skeleton.jsx'
 import MaterialIndexSheet from '../components/MaterialIndexSheet.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import ShareImageSheet from '../components/ShareImageSheet.jsx'
@@ -79,6 +81,8 @@ export default function MaterialReader() {
 
   const [content, setContent] = useState(null) // null = cargando
   const [notFound, setNotFound] = useState(false)
+  const [loadError, setLoadError] = useState(false) // falló el import del material
+  const [attempt, setAttempt] = useState(0)
   const [pos, setPos] = useState(null) // marcador optimista (próxima sin leer, 1-based)
   const [n, setN] = useState(null) // pregunta que se está viendo
   const [indexOpen, setIndexOpen] = useState(false) // hoja de índice
@@ -94,15 +98,20 @@ export default function MaterialReader() {
   // Cargar el contenido (import dinámico, cacheado).
   useEffect(() => {
     let on = true
-    loadMaterialContent(slug).then((c) => {
-      if (!on) return
-      if (!c) setNotFound(true)
-      else setContent(c)
-    })
+    setLoadError(false)
+    loadMaterialContent(slug)
+      .then((c) => {
+        if (!on) return
+        if (!c) setNotFound(true)
+        else setContent(c)
+      })
+      // Sin red, o un chunk viejo tras un deploy: avisar con reintento en vez de
+      // dejar el skeleton para siempre.
+      .catch(() => on && setLoadError(true))
     return () => {
       on = false
     }
-  }, [slug])
+  }, [slug, attempt])
 
   // Sembrar el marcador desde el perfil una sola vez (después queda local/optimista).
   useEffect(() => {
@@ -140,13 +149,17 @@ export default function MaterialReader() {
   if (notFound) return <Navigate to="/materiales" replace />
   if (profile && !isMaterialActive(profile, slug)) return <Navigate to="/materiales" replace />
 
-  if (!content || pos == null || n == null) {
+  if (loadError && !content) {
     return (
       <div className="pt-2">
-        <div className="h-4 w-40 rounded-pill" style={{ backgroundColor: 'var(--surface-alt)' }} />
-        <div className="mt-6 h-7 w-3/4 rounded-pill" style={{ backgroundColor: 'var(--surface-alt)' }} />
+        <BackLink to="/materiales" label={t('nav.materiales')} />
+        <RetryError message={t('common.loadError')} onRetry={() => setAttempt((x) => x + 1)} />
       </div>
     )
+  }
+
+  if (!content || pos == null || n == null) {
+    return <SkeletonDetail />
   }
 
   const total = content.total

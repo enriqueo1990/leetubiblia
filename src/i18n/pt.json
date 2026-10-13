@@ -520,6 +520,7 @@
   "hoy.extrasTypeMaterial": "Material",
   "hoy.extrasReadDone": "Já lido",
   "hoy.extrasEmpty": "Não há outras leituras para hoje.",
+  "hoy.extrasLoadError": "Não foi possível carregar suas outras leituras.",
 
   "materialsToday.questionOf": "Pergunta {n} de {total}",
   "materialsToday.articleOf": "Artigo {n} de {total}",

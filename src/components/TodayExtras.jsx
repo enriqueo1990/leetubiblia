@@ -5,6 +5,7 @@ import { usePreferences } from '../lib/preferences.jsx'
 import { useTodayExtras } from '../lib/todayExtras.js'
 import TodayExtraRows from './TodayExtraRows.jsx'
 import { SkeletonRows } from './Skeleton.jsx'
+import RetryError from './RetryError.jsx'
 import { ChevronRight } from './icons.jsx'
 
 // La pista se descarta por usuario. La clave vieja (por dispositivo) se sigue
@@ -29,7 +30,7 @@ function readCount(userId) {
 export default function TodayExtras() {
   const { t } = usePreferences()
   const { user } = useAuth()
-  const { loading, profile, rows } = useTodayExtras()
+  const { loading, profile, rows, error, retry } = useTodayExtras()
   const [hintDismissed, setHintDismissed] = useState(() => {
     try {
       return (
@@ -72,6 +73,22 @@ export default function TodayExtras() {
           {t('hoy.alsoToday')}
         </p>
         <SkeletonRows count={Math.min(expected, INLINE_LIMIT)} twoLine />
+      </div>
+    )
+  }
+
+  const errorBlock = error ? (
+    <RetryError message={t('hoy.extrasLoadError')} onRetry={retry} />
+  ) : null
+
+  if (rows.length === 0 && error) {
+    // No ofrecer la pista de materiales a quien quizá sí tiene lecturas: avisar.
+    return (
+      <div className="mt-8">
+        <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+          {t('hoy.alsoToday')}
+        </p>
+        {errorBlock}
       </div>
     )
   }
@@ -128,6 +145,7 @@ export default function TodayExtras() {
           </Link>
         )}
       </div>
+      {errorBlock}
     </div>
   )
 }

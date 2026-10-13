@@ -9,6 +9,11 @@ export function useTodayExtras() {
   const { user, profile } = useAuth()
   const { t, locale } = usePreferences()
   const [groupReadings, setGroupReadings] = useState(null)
+  // Si falla una carga NO se disfraza de "no hay lecturas": se expone `error` y un
+  // `retry` para que la vista pueda avisar y reintentar.
+  const [attempt, setAttempt] = useState(0)
+  const [groupsFailed, setGroupsFailed] = useState(false)
+  const [materialsFailed, setMaterialsFailed] = useState(false)
   const materials = activeMaterials(profile)
   const [contents, setContents] = useState({})
   const [materialsReady, setMaterialsReady] = useState(materials.length === 0)
@@ -21,38 +26,49 @@ export function useTodayExtras() {
     }
     let on = true
     setGroupReadings(null)
+    setGroupsFailed(false)
     getFollowedGroupReadings(user.id)
       .then((list) => on && setGroupReadings(list))
-      .catch(() => on && setGroupReadings([]))
+      .catch(() => {
+        if (!on) return
+        setGroupReadings([])
+        setGroupsFailed(true)
+      })
     return () => {
       on = false
     }
-  }, [user])
+  }, [user, attempt])
 
   const activeKey = materials.map((m) => m.slug).join(',')
   useEffect(() => {
     let on = true
     setMaterialsReady(materials.length === 0)
+    setMaterialsFailed(false)
     if (materials.length === 0) {
       setContents({})
       return () => {
         on = false
       }
     }
-    Promise.all(materials.map((m) => loadMaterialContent(m.slug))).then((loaded) => {
+    // Un material que no carga (chunk viejo tras un deploy, sin red) no cuelga a
+    // los demás ni deja la sección cargando para siempre.
+    Promise.all(
+      materials.map((m) => loadMaterialContent(m.slug).catch(() => undefined))
+    ).then((loaded) => {
       if (!on) return
       const next = {}
       loaded.forEach((c) => {
         if (c) next[c.slug] = c
       })
       setContents(next)
+      setMaterialsFailed(loaded.some((c) => c === undefined))
       setMaterialsReady(true)
     })
     return () => {
       on = false
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeKey])
+  }, [activeKey, attempt])
 
   const rows = useMemo(
     () => buildExtraRows({ groupReadings, materials, contents, profile, t, locale }),
@@ -65,5 +81,7 @@ export function useTodayExtras() {
     profile,
     rows,
     pendingCount: rows.filter((r) => r.pending).length,
+    error: groupsFailed || materialsFailed,
+    retry: () => setAttempt((n) => n + 1),
   }
 }

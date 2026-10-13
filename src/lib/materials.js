@@ -2,7 +2,9 @@
 //
 // El contenido de cada material es un JSON estático en src/data/materials/. Se carga
 // con import() dinámico para que Hoy solo descargue lo que el usuario tiene activo
-// (Vite hace code-splitting; el Service Worker precachea igual para offline).
+// (Vite hace code-splitting). Estos chunks NO están en el precache del Service
+// Worker: se guardan en la caché de runtime la primera vez que se usan, así que
+// abrir un material nuevo sin conexión falla y las vistas deben avisar.
 //
 // La preferencia del usuario vive en profiles.active_materials (jsonb):
 //   [{ slug: 'westminster-menor', position: 12 }]
