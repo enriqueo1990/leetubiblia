@@ -36,6 +36,11 @@ function SectionLabel({ children }) {
   )
 }
 
+// Sub-etiqueta dentro de una sección (p. ej. cada control de "Apariencia e idioma").
+function SubLabel({ children }) {
+  return <h3 className="mb-2 mt-4 px-1 text-[13px] font-medium text-ink-soft">{children}</h3>
+}
+
 // Fila de lista agrupada (estilo iOS Settings): título + subtítulo explicativo
 // dentro de la fila, control a la derecha. Reemplaza al patrón "una card por
 // switch + ayuda suelta debajo" que apilaba cajas monótonas.
@@ -460,119 +465,6 @@ export default function Ajustes() {
           }
         />
       </div>
-      {/* Fijar en qué día del plan vas (catch-up para quien ya venía leyendo). */}
-      {currentDay != null && (
-        <>
-          <SectionLabel>{t('ajustes.section.queDia')}</SectionLabel>
-          <div className="card p-4">
-            <p className="text-[15px] text-ink-soft">
-              {t('ajustes.currentDay')}: <span className="font-semibold text-ink">{currentDay}</span>{' '}
-              {t('ajustes.ofTotal', { total: duration })}
-            </p>
-            <p className="mt-1 text-[13px] leading-snug text-ink-soft">
-              {t('ajustes.dayPositionHelp')}
-            </p>
-            <label htmlFor="plan-day" className="sr-only">{t('ajustes.section.queDia')}</label>
-            <input
-              id="plan-day"
-              type="text"
-              inputMode="numeric"
-              value={dayInput}
-              onChange={(e) => {
-                setDayInput(e.target.value.replace(/[^\d]/g, ''))
-                setSavedDay(false)
-              }}
-              placeholder={t('ajustes.dayPlaceholder', { day: currentDay })}
-              className="mt-3 w-full rounded-input px-4 py-3 text-[16px] outline-none"
-              style={{ backgroundColor: 'var(--surface-alt)', border: '1px solid var(--control-border)', color: 'var(--text-primary)' }}
-            />
-            <button
-              type="button"
-              onClick={updatePlanDay}
-              disabled={!canUpdateDay || savingDay}
-              className="btn btn-primary mt-3"
-              style={{ opacity: !canUpdateDay || savingDay ? 0.5 : 1 }}
-            >
-              {savingDay ? '…' : t('ajustes.actualizar')}
-            </button>
-            {canUpdateDay && (
-              <p className="mt-2 text-[13px] text-ink-soft">
-                {targetDay < currentDay
-                  ? t('ajustes.dayChangeBack', { day: targetDay })
-                  : t('ajustes.dayChangeForward', { day: targetDay })}
-              </p>
-            )}
-            {dayError && (
-              <InlineError
-                message={dayError === 'save' ? t('common.saveError') : t('ajustes.dayMarkError')}
-                className="mt-2"
-              />
-            )}
-            {savedDay && !dayInput && (
-              <p className="mt-2 text-[13px]" style={{ color: 'var(--accent-ink)' }}>
-                ✓ {t('ajustes.daySaved', { day: currentDay })}
-              </p>
-            )}
-          </div>
-        </>
-      )}
-      </div>
-
-      <div>
-
-      <SectionLabel>{t('ajustes.section.acento')}</SectionLabel>
-      {/* Swatch chico (28px) centrado en un área táctil de 44px: neto como en
-          iOS, no círculos enormes que llenan la celda. */}
-      <div className="card grid grid-cols-4 gap-1 p-3 sm:grid-cols-8">
-        {accents.map((a) => {
-          const selected = a.key === accent
-          const swatch = resolvedMode === 'dark' ? a.dark : a.light
-          return (
-            <button
-              key={a.key}
-              type="button"
-              aria-label={a.name}
-              aria-pressed={selected}
-              title={a.name}
-              onClick={() => pickAccent(a.key)}
-              className="flex h-11 items-center justify-center"
-            >
-              <span
-                className="block h-7 w-7 rounded-full transition-transform duration-200"
-                style={{
-                  backgroundColor: swatch,
-                  boxShadow: selected
-                    ? '0 0 0 2px var(--surface), 0 0 0 4px var(--accent)'
-                    : 'none',
-                }}
-              />
-            </button>
-          )
-        })}
-      </div>
-
-      <InlineError message={errorFor('accent')} className="mt-2 px-1" />
-
-      <SectionLabel>{t('ajustes.section.tema')}</SectionLabel>
-      <Segmented label={t('ajustes.section.tema')} options={THEMES} value={themePref} onChange={pickTheme} />
-      <InlineError message={errorFor('theme')} className="mt-2 px-1" />
-
-      <SectionLabel>{t('ajustes.idioma')}</SectionLabel>
-      <Segmented label={t('ajustes.idioma')} options={locales} value={locale} onChange={pickLocale} />
-      <InlineError message={errorFor('locale')} className="mt-2 px-1" />
-
-      <SectionLabel>{t('ajustes.proveedorBiblia')}</SectionLabel>
-      <Segmented
-        label={t('ajustes.proveedorBiblia')}
-        options={bibleProviders}
-        value={bibleProvider}
-        onChange={pickBibleProvider}
-      />
-      <InlineError message={errorFor('provider')} className="mt-2 px-1" />
-      <p className="mt-2 px-1 text-[13px] leading-snug text-ink-soft">
-        {t('ajustes.proveedorBibliaHelp')}
-      </p>
-
       <SectionLabel>{t('ajustes.section.avisos')}</SectionLabel>
       <div className="card divide-y divide-hairline">
         <Row
@@ -635,6 +527,120 @@ export default function Ajustes() {
         />
       </div>
 
+      {/* Fijar en qué día del plan vas (catch-up para quien ya venía leyendo). */}
+      {currentDay != null && (
+        <>
+          <SectionLabel>{t('ajustes.section.queDia')}</SectionLabel>
+          <div className="card p-4">
+            <p className="text-[15px] text-ink-soft">
+              {t('ajustes.currentDay')}: <span className="font-semibold text-ink">{currentDay}</span>{' '}
+              {t('ajustes.ofTotal', { total: duration })}
+            </p>
+            <p className="mt-1 text-[13px] leading-snug text-ink-soft">
+              {t('ajustes.dayPositionHelp')}
+            </p>
+            <label htmlFor="plan-day" className="sr-only">{t('ajustes.section.queDia')}</label>
+            <input
+              id="plan-day"
+              type="text"
+              inputMode="numeric"
+              value={dayInput}
+              onChange={(e) => {
+                setDayInput(e.target.value.replace(/[^\d]/g, ''))
+                setSavedDay(false)
+              }}
+              placeholder={t('ajustes.dayPlaceholder', { day: currentDay })}
+              className="mt-3 w-full rounded-input px-4 py-3 text-[16px] outline-none"
+              style={{ backgroundColor: 'var(--surface-alt)', border: '1px solid var(--control-border)', color: 'var(--text-primary)' }}
+            />
+            <button
+              type="button"
+              onClick={updatePlanDay}
+              disabled={!canUpdateDay || savingDay}
+              className="btn btn-primary mt-3"
+              style={{ opacity: !canUpdateDay || savingDay ? 0.5 : 1 }}
+            >
+              {savingDay ? '…' : t('ajustes.actualizar')}
+            </button>
+            {canUpdateDay && (
+              <p className="mt-2 text-[13px] text-ink-soft">
+                {targetDay < currentDay
+                  ? t('ajustes.dayChangeBack', { day: targetDay })
+                  : t('ajustes.dayChangeForward', { day: targetDay })}
+              </p>
+            )}
+            {dayError && (
+              <InlineError
+                message={dayError === 'save' ? t('common.saveError') : t('ajustes.dayMarkError')}
+                className="mt-2"
+              />
+            )}
+            {savedDay && !dayInput && (
+              <p className="mt-2 text-[13px]" style={{ color: 'var(--accent-ink)' }}>
+                ✓ {t('ajustes.daySaved', { day: currentDay })}
+              </p>
+            )}
+          </div>
+        </>
+      )}
+      </div>
+
+      <div>
+
+      <SectionLabel>{t('ajustes.section.apariencia')}</SectionLabel>
+      <SubLabel>{t('ajustes.section.acento')}</SubLabel>
+      {/* Swatch chico (28px) centrado en un área táctil de 44px: neto como en
+          iOS, no círculos enormes que llenan la celda. */}
+      <div className="card grid grid-cols-4 gap-1 p-3 sm:grid-cols-8">
+        {accents.map((a) => {
+          const selected = a.key === accent
+          const swatch = resolvedMode === 'dark' ? a.dark : a.light
+          return (
+            <button
+              key={a.key}
+              type="button"
+              aria-label={a.name}
+              aria-pressed={selected}
+              title={a.name}
+              onClick={() => pickAccent(a.key)}
+              className="flex h-11 items-center justify-center"
+            >
+              <span
+                className="block h-7 w-7 rounded-full transition-transform duration-200"
+                style={{
+                  backgroundColor: swatch,
+                  boxShadow: selected
+                    ? '0 0 0 2px var(--surface), 0 0 0 4px var(--accent)'
+                    : 'none',
+                }}
+              />
+            </button>
+          )
+        })}
+      </div>
+
+      <InlineError message={errorFor('accent')} className="mt-2 px-1" />
+
+      <SubLabel>{t('ajustes.section.tema')}</SubLabel>
+      <Segmented label={t('ajustes.section.tema')} options={THEMES} value={themePref} onChange={pickTheme} />
+      <InlineError message={errorFor('theme')} className="mt-2 px-1" />
+
+      <SubLabel>{t('ajustes.idioma')}</SubLabel>
+      <Segmented label={t('ajustes.idioma')} options={locales} value={locale} onChange={pickLocale} />
+      <InlineError message={errorFor('locale')} className="mt-2 px-1" />
+
+      <SubLabel>{t('ajustes.proveedorBiblia')}</SubLabel>
+      <Segmented
+        label={t('ajustes.proveedorBiblia')}
+        options={bibleProviders}
+        value={bibleProvider}
+        onChange={pickBibleProvider}
+      />
+      <InlineError message={errorFor('provider')} className="mt-2 px-1" />
+      <p className="mt-2 px-1 text-[13px] leading-snug text-ink-soft">
+        {t('ajustes.proveedorBibliaHelp')}
+      </p>
+
       <SectionLabel>{t('ajustes.section.laApp')}</SectionLabel>
       <div className="card divide-y divide-hairline">
         <button
@@ -694,10 +700,7 @@ export default function Ajustes() {
           <HeartIcon size={20} /> {t('ajustes.section.mision')}
         </summary>
       <div className="border-t border-hairline p-4">
-        <div className="flex items-start gap-2.5">
-          <span className="shrink-0 pt-0.5 text-ink-soft">
-            <HeartIcon size={20} />
-          </span>
+        <div>
           <div>
             <p className="text-[15px] text-ink">
               {t('ajustes.misionText')}
