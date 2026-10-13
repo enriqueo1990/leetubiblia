@@ -7,17 +7,20 @@ import { planName } from '../lib/planLabels.js'
 import BackLink from '../components/BackLink.jsx'
 import RetryError from '../components/RetryError.jsx'
 import PassageList from '../components/PassageList.jsx'
+import InlineError from '../components/InlineError.jsx'
 
 // La lectura del día con un grupo (plan seguido como lectura adicional) — misma
 // anatomía que Hoy: metadata callada arriba, los pasajes como protagonistas
 // (cada uno abre su capítulo en la Biblia) y UNA acción primaria abajo. El día
 // lo dicta el calendario del grupo; marcar escribe en reading_progress con el
-// plan_id del grupo (el pulso "quién leyó hoy" la cuenta), sin tocar tu plan ni
-// tu racha. Se llega desde la fila de "Con tus grupos" en Hoy.
+// plan_id del grupo (el pulso "quién leyó hoy" la cuenta). OJO: reading_progress
+// se clava por (usuario, plan, día), así que si el grupo lee TU MISMO plan, marcar
+// acá marca también ese día en tu plan y en tu racha: se avisa en pantalla (ver
+// samePlan). Se llega desde la fila de "También hoy" en Hoy.
 export default function GroupReading() {
   const { id } = useParams()
-  const { user } = useAuth()
-  const { t, locale } = usePreferences()
+  const { user, profile } = useAuth()
+  const { t, locale, bibleProvider } = usePreferences()
 
   const [data, setData] = useState(null) // null = cargando
   const [noPlan, setNoPlan] = useState(false) // el grupo ya no tiene plan
@@ -78,6 +81,9 @@ export default function GroupReading() {
     }
   }
 
+  // ¿El grupo lee el mismo plan que el tuyo? (marcar acá marca también el tuyo)
+  const samePlan = !!profile && profile.active_plan_id === data.planId
+
   return (
     <div className="flex min-h-[calc(100dvh-120px)] flex-col pt-2">
       <BackLink to="/" label={t('nav.hoy')} />
@@ -107,8 +113,18 @@ export default function GroupReading() {
       ) : (
         // Los pasajes son la página, como en Hoy: cada referencia abre su capítulo.
         <div className="mt-9 space-y-1">
-          <PassageList refs={data.refs} locale={locale} />
+          <PassageList
+            refs={data.refs}
+            locale={locale}
+            provider={bibleProvider}
+            externalHint={t('hoy.externalBibleHint')}
+          />
         </div>
+      )}
+
+      {/* Mismo plan que el tuyo: marcar el día del grupo marca el tuyo. */}
+      {samePlan && !data.finished && (
+        <p className="mt-6 text-[13px] leading-snug text-ink-soft">{t('groupReading.samePlanNote')}</p>
       )}
 
       <div className="flex-1 lg:hidden" />
@@ -117,11 +133,7 @@ export default function GroupReading() {
       {!data.finished && (
         <div className="action-bar">
           <div className="lg:mx-auto lg:max-w-[440px]">
-            {saveError && (
-              <p className="pb-1 text-[12px]" style={{ color: 'var(--danger)' }}>
-                {t('materialReader.saveError')}
-              </p>
-            )}
+            {saveError && <InlineError message={t('materialReader.saveError')} className="pb-1" />}
             {!data.read ? (
               <button
                 type="button"

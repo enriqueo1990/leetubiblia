@@ -56,6 +56,9 @@ export function buildExtraRows({ groupReadings, materials, contents, profile, t,
     key: `group-${r.groupId}`,
     item: r,
     pending: !r.read,
+    // Mismo plan que el tuyo con otra fecha de inicio: marcar el día del grupo
+    // marca también el tuyo (misma clave en reading_progress).
+    samePlan: r.planId === profile?.active_plan_id,
   }))
   const materialItems = materialRows.map((m) => ({
     type: 'material',

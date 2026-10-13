@@ -94,3 +94,14 @@ test('un material por fecha muestra la lectura de hoy y baja al final al marcarl
   assert.equal(done[1].pending, false)
   assert.equal(done[1].item.meta, 'hoy.read')
 })
+
+test('un grupo con tu mismo plan pero otra fecha se marca como samePlan', () => {
+  const rows = buildExtraRows({
+    groupReadings: [group(1, { planId: 1, planStartDate: '2026-03-01' }), group(2)],
+    materials: [],
+    contents: {},
+    profile,
+    t,
+  })
+  assert.deepEqual(rows.map((r) => [r.key, r.samePlan]), [['group-1', true], ['group-2', false]])
+})

@@ -555,6 +555,7 @@
   "groupDetail.readingWithGroup": "Lo estás leyendo con el grupo",
   "groupDetail.joinPlan": "Leer este plan con el grupo",
   "groupDetail.planFinished": "El grupo llegó al final de este plan",
+  "groupReading.samePlanNote": "Este grupo lee tu mismo plan. Marcar acá también marca ese día en tu plan.",
   "groupDetail.adoptTitle": "¿Leer {name} con el grupo?",
   "groupDetail.adoptMsgDay1": "Pasa a ser tu plan activo desde el día 1, hoy. Tu progreso anterior se guarda aparte.",
   "groupDetail.adoptMsg": "Pasa a ser tu plan activo en el día {day}, el mismo en que va el grupo. Los días anteriores quedan como leídos y tu progreso anterior se guarda aparte.",
