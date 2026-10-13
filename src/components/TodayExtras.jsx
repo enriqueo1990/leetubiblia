@@ -6,7 +6,8 @@ import TodayExtraRows from './TodayExtraRows.jsx'
 import { ChevronRight } from './icons.jsx'
 
 const HINT_KEY = 'ltb.materialsHint.dismissed'
-const INLINE_LIMIT = 2
+const INLINE_LIMIT = 4 // hasta acá se ven todas las filas
+const PREVIEW_ROWS = 3 // con más, se ven estas y un "Ver todas"
 
 export default function TodayExtras() {
   const { t } = usePreferences()
@@ -57,43 +58,31 @@ export default function TodayExtras() {
     )
   }
 
-  if (rows.length <= INLINE_LIMIT) {
-    return (
-      <div className="mt-8">
-        <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-          {t('hoy.alsoToday')}
-        </p>
-        <div className="card divide-y divide-hairline">
-          <TodayExtraRows rows={rows} />
-        </div>
-      </div>
-    )
-  }
+  const overflow = rows.length > INLINE_LIMIT
+  const shown = overflow ? rows.slice(0, PREVIEW_ROWS) : rows
 
   return (
     <div className="mt-8">
-      <Link
-        to="/hoy/lecturas"
-        state={{ from: { to: '/', label: t('nav.hoy') } }}
-        className="card flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
-      >
-        <span className="min-w-0">
-          <span className="block text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-            {t('hoy.alsoToday')}
-          </span>
-          <span className="mt-1 block truncate text-[16px] text-ink">
-            {t('hoy.extrasTotalCount', { count: rows.length })}
-          </span>
-        </span>
-        <span className="flex shrink-0 items-center gap-1.5">
-          <span className="hidden text-[13px] font-medium sm:inline" style={{ color: 'var(--accent-ink)' }}>
-            {t('hoy.extrasOpen')}
-          </span>
-          <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-            <ChevronRight size={18} />
-          </span>
-        </span>
-      </Link>
+      <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+        {t('hoy.alsoToday')}
+      </p>
+      <div className="card divide-y divide-hairline">
+        <TodayExtraRows rows={shown} />
+        {overflow && (
+          <Link
+            to="/hoy/lecturas"
+            state={{ from: { to: '/', label: t('nav.hoy') } }}
+            className="flex min-h-11 w-full items-center justify-between gap-3 px-4 py-3 text-left"
+          >
+            <span className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
+              {t('hoy.extrasSeeAll', { count: rows.length })}
+            </span>
+            <span className="text-ink-soft" style={{ opacity: 0.5 }}>
+              <ChevronRight size={18} />
+            </span>
+          </Link>
+        )}
+      </div>
     </div>
   )
 }

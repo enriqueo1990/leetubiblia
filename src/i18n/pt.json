@@ -514,11 +514,7 @@
 
   "hoy.withGroups": "Com seus grupos",
   "hoy.alsoToday": "Também hoje",
-  "hoy.extrasTotalCount": {
-    "one": "{count} leitura para hoje",
-    "other": "{count} leituras para hoje"
-  },
-  "hoy.extrasOpen": "Ver leituras",
+  "hoy.extrasSeeAll": "Ver todas ({count})",
   "hoy.extrasEmpty": "Não há outras leituras para hoje.",
 
   "materialsToday.otherReadings": "Minhas outras leituras",
