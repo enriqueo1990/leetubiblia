@@ -1,12 +1,15 @@
 import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { usePreferences } from '../lib/preferences.jsx'
+import InlineError from './InlineError.jsx'
 
 // Diálogo de confirmación propio (reemplaza window.confirm/alert para mantener el
 // lenguaje visual de la app, incluso en PWA instalada). Cierra con Escape o tap
 // en el scrim; foco inicial en la acción y trampa de foco básica.
 //   danger  → la acción primaria se pinta en --danger (borrar/quitar).
 //   busy    → deshabilita y muestra "…" mientras corre la acción async.
+//   error   → texto de error (role=alert) bajo el mensaje; el diálogo queda abierto
+//             para reintentar si la acción falló.
 export default function ConfirmDialog({
   title,
   message,
@@ -14,6 +17,7 @@ export default function ConfirmDialog({
   cancelLabel,
   danger = false,
   busy = false,
+  error = null,
   onConfirm,
   onCancel,
 }) {
@@ -80,6 +84,7 @@ export default function ConfirmDialog({
       >
         <h2 className="text-[18px] font-bold text-ink">{title}</h2>
         {message && <p className="mt-2 text-[15px] text-ink-soft">{message}</p>}
+        <InlineError message={error} className="mt-2" />
         <div className="mt-5 flex gap-3">
           <button
             ref={cancelRef}
