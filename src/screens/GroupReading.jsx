@@ -8,6 +8,7 @@ import BackLink from '../components/BackLink.jsx'
 import RetryError from '../components/RetryError.jsx'
 import PassageList from '../components/PassageList.jsx'
 import InlineError from '../components/InlineError.jsx'
+import { SkeletonPassages } from '../components/Skeleton.jsx'
 
 // La lectura del día con un grupo (plan seguido como lectura adicional) — misma
 // anatomía que Hoy: metadata callada arriba, los pasajes como protagonistas
@@ -58,9 +59,8 @@ export default function GroupReading() {
     return (
       <div className="pt-2" aria-hidden="true">
         <div className="h-4 w-40 rounded-pill" style={{ backgroundColor: 'var(--surface-alt)' }} />
-        <div className="mt-9 animate-pulse space-y-2">
-          <div className="rounded-pill" style={{ width: '60%', height: 32, backgroundColor: 'var(--surface-alt)' }} />
-          <div className="rounded-pill" style={{ width: '44%', height: 32, backgroundColor: 'var(--surface-alt)' }} />
+        <div className="mt-9">
+          <SkeletonPassages />
         </div>
       </div>
     )
@@ -148,7 +148,7 @@ export default function GroupReading() {
             ) : (
               <>
                 <p
-                  className="py-2 text-center text-[15px] font-semibold"
+                  className="min-h-11 py-2 text-center text-[15px] font-semibold"
                   style={{ color: 'var(--accent-ink)' }}
                 >
                   ✓ {t('hoy.read')}
@@ -156,7 +156,7 @@ export default function GroupReading() {
                 <button
                   type="button"
                   onClick={toggle}
-                  className="block w-full py-2 text-center text-[14px] font-medium text-ink-soft"
+                  className="block min-h-11 w-full py-2 text-center text-[14px] font-medium text-ink-soft"
                 >
                   {t('hoy.unmark')}
                 </button>

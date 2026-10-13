@@ -4,6 +4,7 @@ import ShareImageSheet from './ShareImageSheet.jsx'
 import { ShareIcon } from './icons.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { shareQuestion } from '../lib/shareImage.js'
+import InlineError from './InlineError.jsx'
 
 // Hoja para anotar/editar la reflexión del día ("¿Qué te habló hoy?"). Feature 1.
 // Componente presentacional: la persistencia (db.js) la cablea el contenedor.
@@ -147,6 +148,7 @@ export default function ReflectionSheet({
             maxLength={1000}
             rows={4}
             placeholder={t('reflectionSheet.placeholder')}
+            aria-label={t('reflectionSheet.titleEdit')}
             className="mt-3 w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
             style={{
               backgroundColor: 'var(--surface)',
@@ -198,11 +200,7 @@ export default function ReflectionSheet({
             <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✦ </span>
             <span className="text-ink-soft" style={{ opacity: 0.8 }}>Lee Tu Biblia</span>
           </p>
-          {shareError && (
-            <p className="mt-3 text-[12px]" style={{ color: 'var(--danger)' }}>
-              {t('hoy.imageError')}
-            </p>
-          )}
+          {shareError && <InlineError message={t('hoy.imageError')} className="mt-3" />}
         </div>
       )}
     </Sheet>

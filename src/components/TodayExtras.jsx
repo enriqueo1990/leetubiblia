@@ -100,7 +100,7 @@ export default function TodayExtras() {
         <Link
           to="/materiales"
           state={{ from: { to: '/', label: t('nav.hoy') } }}
-          className="min-w-0 py-2 text-[13px] text-ink-soft"
+          className="block min-w-0 py-3 text-[13px] leading-snug text-ink-soft"
         >
           {t('materialsToday.hint')}{' '}
           <span className="font-semibold" style={{ color: 'var(--accent-ink)' }}>

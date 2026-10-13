@@ -22,6 +22,17 @@ export function SkeletonCards({ count = 3 }) {
 }
 
 // `twoLine`: filas de dos líneas (nombre + detalle), como "También hoy".
+// Dos "pasajes" (referencias en display) mientras cargan: Hoy en modo "seguir
+// leyendo" y la lectura de grupo muestran la misma forma.
+export function SkeletonPassages() {
+  return (
+    <div className="animate-pulse space-y-2" aria-hidden="true">
+      {bar('60%', 32)}
+      {bar('44%', 32)}
+    </div>
+  )
+}
+
 export function SkeletonRows({ count = 5, twoLine = false }) {
   return (
     <div className="card animate-pulse divide-y divide-hairline" aria-hidden="true">

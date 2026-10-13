@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useReading } from '../hooks/useReading.js'
 import { useInstallPrompt } from '../hooks/useInstallPrompt.js'
@@ -20,7 +20,8 @@ import { usePreferences } from '../lib/preferences.jsx'
 import { fmtISODate } from '../i18n/dates.js'
 import { planName } from '../lib/planLabels.js'
 import { shareCompletion } from '../lib/shareImage.js'
-import { SkeletonHoy } from '../components/Skeleton.jsx'
+import { SkeletonHoy, SkeletonPassages } from '../components/Skeleton.jsx'
+import InlineError from '../components/InlineError.jsx'
 import PassageList from '../components/PassageList.jsx'
 import { BookIcon, CheckIcon, GearIcon, InstallIcon, ShareIcon } from '../components/icons.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
@@ -79,6 +80,8 @@ export default function Hoy() {
   const [justMarked, setJustMarked] = useState(false)
   const [breathDone, setBreathDone] = useState(false)
   const [chipMenuOpen, setChipMenuOpen] = useState(false)
+  const chipRef = useRef(null)
+  const menuRef = useRef(null)
 
   // Reflexión del día ("Mi camino"): hoja abierta + nota cargada del día mostrado.
   // note: undefined = aún no sabemos · null = no hay nota · objeto = hay nota.
@@ -127,6 +130,28 @@ export default function Hoy() {
     const id = setTimeout(() => setBreathDone(true), 2400)
     return () => clearTimeout(id)
   }, [justMarked])
+
+  // Menú del chip "✓ Leído": al abrir, el foco va al primer ítem (teclado y lector
+  // de pantalla), y Escape / flechas se manejan en el propio menú.
+  useEffect(() => {
+    if (chipMenuOpen) menuRef.current?.querySelector('[role="menuitem"]')?.focus()
+  }, [chipMenuOpen])
+
+  function onMenuKeyDown(e) {
+    if (e.key === 'Escape') {
+      e.preventDefault()
+      setChipMenuOpen(false)
+      chipRef.current?.focus()
+      return
+    }
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return
+    e.preventDefault()
+    const items = [...(menuRef.current?.querySelectorAll('[role="menuitem"]') ?? [])]
+    if (!items.length) return
+    const i = items.indexOf(document.activeElement)
+    const next = e.key === 'ArrowDown' ? (i + 1) % items.length : (i - 1 + items.length) % items.length
+    items[next].focus()
+  }
 
   // Mostrar "Listo, seguimos desde hoy" unos segundos al terminar de reprogramar.
   useEffect(() => {
@@ -335,7 +360,7 @@ export default function Hoy() {
               <Link
                 to={`/planes/${r.plan.id}`}
                 state={{ from: { to: '/', label: t('nav.hoy') } }}
-                className="flex min-w-0 items-center gap-1.5 py-1 text-[13px] font-medium text-ink-soft"
+                className="flex min-h-11 min-w-0 items-center gap-1.5 text-[13px] font-medium text-ink-soft"
               >
                 {!r.planFinished && dayShown != null && (
                   <>
@@ -352,15 +377,20 @@ export default function Hoy() {
             {!r.planFinished && doneShown && (breathDone || !justMarked) && (
               <div className="relative shrink-0">
                 <button
+                  ref={chipRef}
                   type="button"
                   onClick={() => setChipMenuOpen((v) => !v)}
                   aria-expanded={chipMenuOpen}
                   aria-haspopup="menu"
-                  className="moment-in flex items-center gap-1 rounded-pill px-2.5 py-1 text-[12px] font-semibold"
-                  style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
+                  className="moment-in flex min-h-11 items-center"
                 >
-                  ✓ {t('hoy.read')}
-                  <span aria-hidden="true" style={{ fontSize: 9, opacity: 0.65 }}>▾</span>
+                  <span
+                    className="flex items-center gap-1 rounded-pill px-2.5 py-1 text-[12px] font-semibold"
+                    style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
+                  >
+                    ✓ {t('hoy.read')}
+                    <span aria-hidden="true" style={{ fontSize: 9, opacity: 0.65 }}>▾</span>
+                  </span>
                 </button>
                 {chipMenuOpen && (
                   <>
@@ -373,8 +403,10 @@ export default function Hoy() {
                       onClick={() => setChipMenuOpen(false)}
                     />
                     <div
+                      ref={menuRef}
                       role="menu"
-                      className="absolute right-0 top-full z-30 mt-2 w-max divide-y divide-hairline overflow-hidden rounded-input"
+                      onKeyDown={onMenuKeyDown}
+                      className="absolute right-0 top-full z-30 -mt-1 w-max divide-y divide-hairline overflow-hidden rounded-input"
                       style={{ backgroundColor: 'var(--surface)', boxShadow: 'var(--shadow-overlay)' }}
                     >
                       {reflectionsEnabled && note && (
@@ -425,11 +457,7 @@ export default function Hoy() {
           {r.staleReadings ? t('hoy.offline.stale') : t('hoy.offline.fresh')}
         </p>
       )}
-      {r.readWriteError && (
-        <p className="mt-2 text-[12px]" style={{ color: 'var(--danger)' }}>
-          {t('hoy.readWriteError')}
-        </p>
-      )}
+      {r.readWriteError && <InlineError message={t('hoy.readWriteError')} className="mt-2" />}
 
       {/* Aviso de atraso — sin culpa y sin caja: una línea en el tono del resto
           del texto, con la acción en acento y el descarte apenas presente. */}
@@ -443,7 +471,7 @@ export default function Hoy() {
               type="button"
               onClick={r.reprogramar}
               disabled={r.reprogramando}
-              className="ml-3 py-2 text-[14px] font-semibold"
+              className="ml-3 min-h-11 py-2 text-[14px] font-semibold"
               style={{ color: 'var(--accent-ink)', opacity: r.reprogramando ? 0.5 : 1 }}
             >
               {r.reprogramando ? t('hoy.reprogramando') : t('hoy.reprogramar')}
@@ -458,11 +486,7 @@ export default function Hoy() {
               ✕
             </button>
           </div>
-          {r.reprogramarError && (
-            <p className="mt-1 text-[12px]" style={{ color: 'var(--danger)' }}>
-              {t('hoy.reprogramarError')}
-            </p>
-          )}
+          {r.reprogramarError && <InlineError message={t('hoy.reprogramarError')} />}
         </>
       )}
       {showReprogramado && (
@@ -555,10 +579,7 @@ export default function Hoy() {
         // preámbulo. La Palabra es la página.
         <div className="mt-9 space-y-1">
           {viewingAhead && aheadLoading ? (
-            <div className="animate-pulse space-y-2" aria-hidden="true">
-              <div className="rounded-pill" style={{ width: '60%', height: 32, backgroundColor: 'var(--surface-alt)' }} />
-              <div className="rounded-pill" style={{ width: '44%', height: 32, backgroundColor: 'var(--surface-alt)' }} />
-            </div>
+            <SkeletonPassages />
           ) : (
             // El pasaje mismo es la puerta a la Biblia: cada referencia abre su
             // capítulo (tinta plena, sin color — el toque lo confirma la opacidad
@@ -654,7 +675,7 @@ export default function Hoy() {
           <button
             type="button"
             onClick={() => readNext(nextDay)}
-            className="block w-full py-2 text-center text-[15px] font-semibold"
+            className="block min-h-11 w-full py-2 text-center text-[15px] font-semibold"
             style={{ color: 'var(--accent-ink)' }}
           >
             {t('hoy.readNextDay')} →
@@ -664,7 +685,7 @@ export default function Hoy() {
           <button
             type="button"
             onClick={() => setReflectOpen(true)}
-            className="block w-full py-2 text-center text-[15px] font-medium text-ink-soft"
+            className="block min-h-11 w-full py-2 text-center text-[15px] font-medium text-ink-soft"
           >
             {noteEditable ? t('hoy.editNote') : t('hoy.viewNote')}
           </button>
