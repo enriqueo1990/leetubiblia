@@ -175,15 +175,24 @@ export default defineConfig({
         skipWaiting: true,
         clientsClaim: true,
         cleanupOutdatedCaches: true,
-        // Precache mínimo: shell, estilos e iconos. Las pantallas, materiales y
-        // capturas se guardan al usarse, en vez de descargar ~2 MB al instalar.
+        // Precache: shell, estilos, iconos y el CAMINO CRÍTICO hasta Hoy (la pantalla
+        // privada de arranque). Sin esto, tras una actualización el primer arranque
+        // sin red pedía chunks con hash nuevo que no estaban en ninguna caché, el
+        // `lazy()` fallaba y la app quedaba en una pantalla de error en bucle.
+        // El resto (otras pantallas, materiales, capturas) se guarda al usarse, en
+        // vez de descargar ~2 MB al instalar.
+        //
+        // La lista de chunks sale del cierre de imports estáticos de PrivateRoot +
+        // Hoy (el build los nombra por prefijo, el hash cambia). Si agregás un import
+        // estático nuevo a Hoy y aparece un chunk nuevo, sumalo acá.
         globPatterns: [
           '**/*.{html,css,svg,woff2}',
           'registerSW.js',
           'manifest.webmanifest',
           'icons/*.png',
           'assets/index-*.js',
-          'assets/vendor-react-*.js',
+          'assets/vendor-*.js',
+          'assets/{PrivateRoot,Hoy,ConfirmDialog,EmptyState,InlineError,PassageList,ReflectionSheet,Segmented,ShareImageSheet,Sheet,Skeleton,TodayExtraRows,bible,books,dates,icons,materials,planCycle,planLabels,useInstallPrompt,useReading}-*.js',
         ],
         runtimeCaching: [
           {
