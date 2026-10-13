@@ -599,8 +599,9 @@ export default function Hoy() {
       )}
 
       {/* Lecturas secundarias del día. Una sola sección para no competir con la
-          lectura principal: si no hay grupos/materiales, no ocupa lugar. */}
-      {!r.planFinished && <TodayExtras />}
+          lectura principal: si no hay grupos/materiales, no ocupa lugar. Con el
+          plan terminado sigue visible: ahí son justo lo que queda por leer. */}
+      <TodayExtras />
 
       <div className="flex-1 lg:hidden" />
 
