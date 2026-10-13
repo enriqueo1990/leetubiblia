@@ -599,9 +599,9 @@ export default function Ajustes() {
             <button
               key={a.key}
               type="button"
-              aria-label={a.name}
+              aria-label={t(`accent.${a.key}`)}
               aria-pressed={selected}
-              title={a.name}
+              title={t(`accent.${a.key}`)}
               onClick={() => pickAccent(a.key)}
               className="flex h-11 items-center justify-center"
             >
@@ -684,7 +684,10 @@ export default function Ajustes() {
             puerta desde adentro de la app. */}
         <Link to="/ayuda" className="flex items-center justify-between gap-4 px-4 py-3">
           <span className="min-w-0 flex-1">
-            <span className="block text-[16px] text-ink">{t('ajustes.guiaApp')}</span>
+            <span className="block text-[16px] text-ink">
+              {t('ajustes.guiaApp')}
+              {locale !== 'es' && t('ajustes.guideInSpanish')}
+            </span>
             <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">
               {t('ajustes.ayudaHelp')}
             </span>

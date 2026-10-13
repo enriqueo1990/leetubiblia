@@ -63,7 +63,7 @@ export default function GroupTestimonies() {
             {item.testimony && (
               <p className="mt-2.5 text-[15px] leading-relaxed text-ink">«{item.testimony}»</p>
             )}
-            <p className="mt-3 text-[13px] font-medium text-ink-soft">{item.author_name}</p>
+            <p className="mt-3 text-[13px] font-medium text-ink-soft">{item.author_name ?? t('common.someone')}</p>
           </li>
         ))}
       </ul>

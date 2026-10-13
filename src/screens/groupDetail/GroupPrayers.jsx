@@ -86,7 +86,7 @@ export default function GroupPrayers({
                       <Avatars people={p.intercessors} size={22} surface="var(--surface)" />
                     )}
                     <span className="truncate text-[12px] text-ink-soft">
-                      {p.author_name} ·{' '}
+                      {p.author_name ?? t('common.someone')} ·{' '}
                       {p.intercessors.length > 0
                         ? t('groupDetail.nPraying', { count: p.intercessors.length })
                         : t('groupDetail.nobodyYet')}

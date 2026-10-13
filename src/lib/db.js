@@ -338,7 +338,7 @@ export async function getGroupDetail(groupId) {
   }
   return {
     group,
-    members: members.map((m) => ({ ...m, display_name: names[m.user_id] || 'Miembro' })),
+    members: members.map((m) => ({ ...m, display_name: names[m.user_id] || null })),
   }
 }
 
@@ -456,7 +456,7 @@ export async function getGroupPrayers(userId) {
   }
   return data.map((p) => ({
     ...p,
-    author_name: names[p.user_id] || 'Alguien',
+    author_name: names[p.user_id] || null,
     intercessor_count: countMap[p.id] ?? 0,
   }))
 }
@@ -521,6 +521,8 @@ export async function getPlanDays(planId) {
 // Requiere la migración 0007.
 // ============================================================================
 
+// (Sin nombre se devuelve null: la vista resuelve el respaldo con t('common.someone') /
+// t('common.member'), así sigue el idioma elegido.)
 // Resuelve display_name para un set de user_ids → { id: nombre }. RLS de
 // co-miembros (0004) permite ver el nombre de quienes comparten grupo conmigo.
 async function namesFor(userIds) {
@@ -543,7 +545,7 @@ export async function getIntercessors(prayerId) {
     .order('created_at', { ascending: true })
   if (error) throw dbError(error)
   const names = await namesFor(data.map((r) => r.user_id))
-  return data.map((r) => ({ user_id: r.user_id, display_name: names[r.user_id] || 'Miembro' }))
+  return data.map((r) => ({ user_id: r.user_id, display_name: names[r.user_id] || null }))
 }
 
 // Detalle de un pedido compartido (vista "estoy orando"): el pedido + grupo +
@@ -566,7 +568,7 @@ export async function getPrayerDetail(prayerId, userId) {
   ])
   return {
     ...p,
-    author_name: names[p.user_id] || 'Alguien',
+    author_name: names[p.user_id] || null,
     intercessors,
     intercessor_count: intercessors.length,
     i_intercede: intercessors.some((x) => x.user_id === userId),
@@ -715,7 +717,7 @@ export async function getGroupTestimonies(groupId) {
     .order('answered_at', { ascending: false })
   if (error) throw dbError(error)
   const names = await namesFor(data.map((p) => p.user_id))
-  return data.map((p) => ({ ...p, author_name: names[p.user_id] || 'Alguien' }))
+  return data.map((p) => ({ ...p, author_name: names[p.user_id] || null }))
 }
 
 // Datos mínimos de un grupo (para encabezados; RLS permite ver mis grupos).
@@ -891,13 +893,13 @@ export async function getGroupPrayersWithIntercessors(groupId) {
     if (!interByPrayer[i.prayer_id]) interByPrayer[i.prayer_id] = []
     interByPrayer[i.prayer_id].push({
       user_id: i.user_id,
-      display_name: names[i.user_id] || 'Miembro',
+      display_name: names[i.user_id] || null,
     })
   }
 
   return prayers.map((p) => ({
     ...p,
-    author_name: names[p.user_id] || 'Alguien',
+    author_name: names[p.user_id] || null,
     intercessors: interByPrayer[p.id] || [],
   }))
 }
@@ -1100,14 +1102,14 @@ export async function getGroupActivePrayers(groupId) {
     for (const i of ints ?? []) {
       ;(interByPrayer[i.prayer_id] ??= []).push({
         user_id: i.user_id,
-        display_name: interNames[i.user_id] || 'Miembro',
+        display_name: interNames[i.user_id] || null,
       })
     }
   }
 
   return data.map((p) => ({
     ...p,
-    author_name: names[p.user_id] || 'Alguien',
+    author_name: names[p.user_id] || null,
     intercessors: interByPrayer[p.id] || [],
     intercessor_count: (interByPrayer[p.id] || []).length,
   }))

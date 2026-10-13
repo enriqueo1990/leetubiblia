@@ -26,7 +26,7 @@ export default function GroupTestimony({ testimony, groupId }) {
               &quot;{testimony.testimony || testimony.title}&quot;
             </p>
             <p className="mt-1 text-[13px]" style={{ color: 'var(--accent-ink)' }}>
-              {testimony.author_name} · {t('groupDetail.seeAll')} →
+              {testimony.author_name ?? t('common.someone')} · {t('groupDetail.seeAll')} →
             </p>
           </div>
         </div>

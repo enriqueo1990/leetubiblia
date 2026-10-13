@@ -601,7 +601,7 @@ export default function GroupDetail() {
       )}
       {confirm?.type === 'kick' && (
         <ConfirmDialog
-          title={t('groupDetail.kickTitle', { name: confirm.member.display_name })}
+          title={t('groupDetail.kickTitle', { name: confirm.member.display_name ?? t('common.member') })}
           message={t('groupDetail.kickMsg')}
           confirmLabel={t('groupDetail.kick')}
           danger

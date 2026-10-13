@@ -301,7 +301,7 @@ export default function Oracion() {
                       key={p.id}
                       p={p}
                       dimmed={p.status === 'answered'}
-                      subtitle={`${p.author_name} · ${fmtD(p.created_at)}`}
+                      subtitle={`${p.author_name ?? t('common.someone')} · ${fmtD(p.created_at)}`}
                       onClick={() => navigate(`/oracion/${p.id}`, { state: { from: { to: '/oracion', label: t('nav.oracion') } } })}
                     />
                   ))}

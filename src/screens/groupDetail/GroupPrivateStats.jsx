@@ -71,10 +71,10 @@ export default function GroupPrivateStats({ stats, weekRows, answeredPct }) {
                 <div
                   key={m.user_id}
                   className="flex items-center gap-3"
-                  aria-label={t('groupDetail.weekAria', { name: m.display_name, days: readDays })}
+                  aria-label={t('groupDetail.weekAria', { name: m.display_name ?? t('common.member'), days: readDays })}
                 >
                   <span className="min-w-0 flex-1 truncate text-[14px] text-ink">
-                    {m.display_name}
+                    {m.display_name ?? t('common.member')}
                     {m.user_id === user?.id && <span className="text-ink-soft"> {t('groupDetail.youParen')}</span>}
                   </span>
                   <div className="flex gap-1.5" aria-hidden="true">

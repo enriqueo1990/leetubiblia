@@ -9,6 +9,24 @@ import { recordDiag } from '../lib/diag.js'
 // El fallback usa estilos inline (no Tailwind) con var(--token, hex): si los
 // tokens CSS cargaron, respeta modo claro/oscuro y acento; si el fallo es del
 // propio sistema de estilos, cae a los hex de marca (claro).
+// Este boundary vive FUERA del proveedor de idioma (si el árbol falla, el
+// contexto también), así que lleva su propio mini diccionario y lee el idioma
+// elegido directo de localStorage.
+const TEXTS = {
+  es: { message: 'Algo se interrumpió. Volvé a intentarlo.', reload: 'Recargar' },
+  en: { message: 'Something was interrupted. Please try again.', reload: 'Reload' },
+  pt: { message: 'Algo foi interrompido. Tente de novo.', reload: 'Recarregar' },
+}
+function fallbackTexts() {
+  try {
+    const stored = localStorage.getItem('ltb.locale')
+    const lang = (stored || navigator.language || 'es').slice(0, 2)
+    return TEXTS[lang] ?? TEXTS.es
+  } catch {
+    return TEXTS.es
+  }
+}
+
 export default class ErrorBoundary extends Component {
   constructor(props) {
     super(props)
@@ -32,6 +50,7 @@ export default class ErrorBoundary extends Component {
 
   render() {
     if (!this.state.hasError) return this.props.children
+    const text = fallbackTexts()
     return (
       <div
         style={{
@@ -48,7 +67,7 @@ export default class ErrorBoundary extends Component {
         }}
       >
         <p style={{ margin: 0, fontSize: 16, color: 'var(--text-soft, #56565C)', maxWidth: 280, lineHeight: 1.5 }}>
-          Algo se interrumpió. Volvé a intentarlo.
+          {text.message}
         </p>
         <button
           onClick={() => window.location.reload()}
@@ -63,7 +82,7 @@ export default class ErrorBoundary extends Component {
             cursor: 'pointer',
           }}
         >
-          Recargar
+          {text.reload}
         </button>
       </div>
     )

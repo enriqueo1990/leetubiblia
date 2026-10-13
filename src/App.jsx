@@ -3,6 +3,7 @@ import { Routes, Route, Link } from 'react-router-dom'
 import Gate from './components/Gate.jsx'
 import ProfilePrefSync from './components/ProfilePrefSync.jsx'
 import Layout from './components/Layout.jsx'
+import { usePreferences } from './lib/preferences.jsx'
 
 const Hoy = lazy(() => import('./screens/Hoy.jsx'))
 const TodayExtrasView = lazy(() => import('./screens/TodayExtrasView.jsx'))
@@ -22,6 +23,18 @@ const Ajustes = lazy(() => import('./screens/Ajustes.jsx'))
 const Materiales = lazy(() => import('./screens/Materiales.jsx'))
 const MaterialReader = lazy(() => import('./screens/MaterialReader.jsx'))
 const Admin = lazy(() => import('./screens/Admin.jsx'))
+
+function NotFound() {
+  const { t } = usePreferences()
+  return (
+    <>
+      <p className="text-[17px] text-ink">{t('notFound.title')}</p>
+      <Link to="/" className="btn btn-primary mt-6 inline-block px-8">
+        {t('notFound.goHome')}
+      </Link>
+    </>
+  )
+}
 
 function RouteFallback() {
   return (
@@ -79,10 +92,7 @@ export default function App() {
                 path="*"
                 element={
                   <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
-                    <p className="text-[17px] text-ink">Esta página no existe.</p>
-                    <Link to="/" className="btn btn-primary mt-6 inline-block px-8">
-                      Ir a Hoy
-                    </Link>
+                    <NotFound />
                   </div>
                 }
               />

@@ -19,6 +19,7 @@ export default function GroupMembers({ members, isOwner, iShare, readMap, onKick
       {iShare && <p className="mt-1 text-[13px] leading-snug text-ink-soft">{t('groupDetail.membersShareHint')}</p>}
       <ul className="mt-3 card divide-y divide-hairline">
         {members.map((m) => {
+          const memberName = m.display_name ?? t('common.member')
           const isMe = m.user_id === user?.id
           const isMemberOwner = m.role === 'owner'
           const shares = readMap.has(m.user_id)
@@ -29,11 +30,11 @@ export default function GroupMembers({ members, isOwner, iShare, readMap, onKick
                 className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-[15px] font-semibold"
                 style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
               >
-                {initials(m.display_name)}
+                {initials(memberName)}
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-[16px] text-ink">
-                  {m.display_name}
+                  {memberName}
                   {isMe && <span className="text-ink-soft"> {t('groupDetail.youParen')}</span>}
                   {isMemberOwner && <span className="text-[13px] text-ink-soft"> · {t('groupDetail.adminShort')}</span>}
                 </p>
@@ -51,7 +52,7 @@ export default function GroupMembers({ members, isOwner, iShare, readMap, onKick
                   <button
                     type="button"
                     onClick={() => onKick(m)}
-                    aria-label={t('groupDetail.removeAria', { name: m.display_name })}
+                    aria-label={t('groupDetail.removeAria', { name: memberName })}
                     className="flex h-11 w-11 items-center justify-center rounded-full text-ink-soft"
                   >
                     <span

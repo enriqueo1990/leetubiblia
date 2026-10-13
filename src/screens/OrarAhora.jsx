@@ -278,7 +278,7 @@ export default function OrarAhora() {
   const eyebrow = p.mine ? null : p.group?.name
   const meta = p.mine
     ? t('orar.myRequestMeta', { date: fmtLongD(p.created_at) })
-    : t('orar.groupRequestMeta', { name: p.author_name, date: fmtLongD(p.created_at) })
+    : t('orar.groupRequestMeta', { name: p.author_name ?? t('common.someone'), date: fmtLongD(p.created_at) })
 
   return (
     <div className="flex min-h-[calc(100dvh-56px)] flex-col pt-2 lg:min-h-0">

@@ -114,7 +114,7 @@ export default function PrayerDetail() {
   const { intercessors, intercessor_count: count, i_intercede } = data
   const isAuthor = data.user_id === user?.id
   const updates = data.updates ?? []
-  const displayAuthor = isAuthor ? t('common.you') : data.author_name
+  const displayAuthor = isAuthor ? t('common.you') : data.author_name ?? t('common.someone')
 
   let countLabel
   if (i_intercede) {
@@ -270,7 +270,7 @@ export default function PrayerDetail() {
 
         {!isAuthor && data.status === 'active' && i_intercede && (
           <p className="mt-2 text-[13px] text-ink-soft">
-            {t('prayerDetail.authorWillKnow', { author: data.author_name })}
+            {t('prayerDetail.authorWillKnow', { author: data.author_name ?? t('common.someone') })}
           </p>
         )}
         {intercessionError && (

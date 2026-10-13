@@ -62,7 +62,8 @@ export function bibleGatewayUrl(ref, locale = 'es') {
   if (!ref?.book_usfm || !ref?.chapter) return null
   const v = bibleVersion(locale)
   const verses = parseVerseRange(ref)
-  const bookName = BOOKS[ref.book_usfm]?.es || ref.book_usfm
+  // El nombre del libro va en el idioma de la versión elegida (ESV/ARA/NBLA).
+  const bookName = BOOKS[ref.book_usfm]?.[locale] || BOOKS[ref.book_usfm]?.es || ref.book_usfm
   let reference = `${bookName} ${ref.chapter}`
   if (verses) {
     reference = verses.chapterEnd === verses.chapterStart
