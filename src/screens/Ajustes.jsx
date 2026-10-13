@@ -15,6 +15,8 @@ import Segmented from '../components/Segmented.jsx'
 import Switch from '../components/Switch.jsx'
 import BackLink from '../components/BackLink.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
+import InlineError from '../components/InlineError.jsx'
+import { saveOrRevert } from '../lib/saveWithRevert.js'
 import { ChevronRight, HeartIcon, InstallIcon, ShareIcon } from '../components/icons.jsx'
 import { subscribeToPush, unsubscribeFromPush, getTimezone } from '../lib/push.js'
 import { activeMaterials } from '../lib/materials.js'
@@ -36,12 +38,16 @@ function SectionLabel({ children }) {
 // Fila de lista agrupada (estilo iOS Settings): título + subtítulo explicativo
 // dentro de la fila, control a la derecha. Reemplaza al patrón "una card por
 // switch + ayuda suelta debajo" que apilaba cajas monótonas.
-function Row({ title, subtitle, control }) {
+// `error` y `note` viven en la propia fila: el resultado aparece donde ocurrió el
+// toque, no al pie de la tarjeta.
+function Row({ title, subtitle, control, error, note }) {
   return (
     <div className="flex items-center justify-between gap-4 px-4 py-3">
       <div className="min-w-0 flex-1">
         <p className="text-[16px] text-ink">{title}</p>
         {subtitle && <p className="mt-0.5 text-[13px] leading-snug text-ink-soft">{subtitle}</p>}
+        {note}
+        <InlineError message={error} />
       </div>
       {control}
     </div>
@@ -92,6 +98,11 @@ export default function Ajustes() {
   const [exportNote, setExportNote] = useState(null)
   // Aviso bajo el toggle que falló al activar el push: { target, msg }.
   const [pushNote, setPushNote] = useState(null)
+  // Guardado de un ajuste: cuál está guardando y cuál falló (para mostrar el error
+  // en su fila y deshabilitar solo ese control).
+  const [savingKey, setSavingKey] = useState(null)
+  const [failedKey, setFailedKey] = useState(null)
+  const [dayError, setDayError] = useState(null) // null | 'save' | 'marks'
 
   // Recordatorio (best-effort) — refleja el perfil.
   const reminderOn = !!profile?.reminder_enabled
@@ -100,6 +111,18 @@ export default function Ajustes() {
   const shareReadingOn = !!profile?.share_reading
   const prayerFollowupOn = profile?.prayer_followup_enabled !== false // default true
   const materialsCount = activeMaterials(profile).length
+
+  // Guarda un ajuste con reversión: si falla, `revert` deshace el cambio local y
+  // se marca la fila para mostrar el error. Optimista pero honesto (canon).
+  async function persist(key, patch, revert) {
+    setSavingKey(key)
+    setFailedKey(null)
+    const ok = await saveOrRevert(() => updateProfile(patch), revert)
+    setSavingKey(null)
+    if (!ok) setFailedKey(key)
+    return ok
+  }
+  const errorFor = (key) => (failedKey === key ? t('common.saveError') : null)
 
   // Compartir lectura con grupos (Fase 3). Al activarlo, guardamos también la
   // timezone para que el "leyó hoy" del grupo se calcule en tu hora local.
@@ -110,7 +133,7 @@ export default function Ajustes() {
       const tz = getTimezone()
       if (tz) patch.timezone = tz
     }
-    updateProfile(patch)
+    persist('share', patch)
   }
 
   useEffect(() => {
@@ -134,21 +157,27 @@ export default function Ajustes() {
   const canUpdateDay = targetDay != null && targetDay !== currentDay
 
   // Persistencia: aplica en vivo (hook) + guarda en profiles.
+  // Si el guardado falla se vuelve al valor anterior: si no, ProfilePrefSync lo
+  // revertiría en silencio en la próxima carga del perfil.
   function pickAccent(key) {
+    const prev = accent
     setAccent(key)
-    updateProfile({ accent_color: key })
+    persist('accent', { accent_color: key }, () => setAccent(prev))
   }
   function pickTheme(key) {
+    const prev = themePref
     setTheme(key)
-    updateProfile({ theme_pref: key })
+    persist('theme', { theme_pref: key }, () => setTheme(prev))
   }
   function pickLocale(key) {
+    const prev = locale
     setLocale(key)
-    updateProfile({ locale: key })
+    persist('locale', { locale: key }, () => setLocale(prev))
   }
   function pickBibleProvider(key) {
+    const prev = bibleProvider
     setBibleProvider(key)
-    updateProfile({ bible_provider: key })
+    persist('provider', { bible_provider: key }, () => setBibleProvider(prev))
   }
   const THEMES = [
     { key: 'auto', label: t('ajustes.theme.auto') },
@@ -169,17 +198,18 @@ export default function Ajustes() {
       // mostramos por qué en vez de mentir que está activo.
       const res = await subscribeToPush(user.id)
       if (!res.ok) {
-        setPushNote({ target: 'reminder', msg: pushReasonMessage(res.reason, t) })
+        setPushNote({ target: 'reminder', msg: pushReasonMessage(res.reason, t), reason: res.reason })
         return
       }
-      await updateProfile({ reminder_enabled: true, reminder_time: reminderTime + ':00' })
+      await persist('reminder', { reminder_enabled: true, reminder_time: reminderTime + ':00' })
     } else {
-      await updateProfile({ reminder_enabled: false, reminder_time: reminderTime + ':00' })
-      if (!groupNotifOn) await unsubscribeFromPush(user.id)
+      const ok = await persist('reminder', { reminder_enabled: false, reminder_time: reminderTime + ':00' })
+      // Solo se borra la suscripción si el apagado quedó guardado.
+      if (ok && !groupNotifOn) await unsubscribeFromPush(user.id)
     }
   }
   function changeTime(value) {
-    updateProfile({ reminder_enabled: reminderOn, reminder_time: value + ':00' })
+    persist('time', { reminder_enabled: reminderOn, reminder_time: value + ':00' })
   }
 
   // Avisos de pedidos del grupo (opt-out; default true). Al activar, aseguramos la
@@ -190,13 +220,13 @@ export default function Ajustes() {
     if (next) {
       const res = await subscribeToPush(user.id)
       if (!res.ok) {
-        setPushNote({ target: 'group', msg: pushReasonMessage(res.reason, t) })
+        setPushNote({ target: 'group', msg: pushReasonMessage(res.reason, t), reason: res.reason })
         return
       }
-      await updateProfile({ group_prayer_notifications_enabled: true })
+      await persist('group', { group_prayer_notifications_enabled: true })
     } else {
-      await updateProfile({ group_prayer_notifications_enabled: false })
-      if (!reminderOn) await unsubscribeFromPush(user.id)
+      const ok = await persist('group', { group_prayer_notifications_enabled: false })
+      if (ok && !reminderOn) await unsubscribeFromPush(user.id)
     }
   }
 
@@ -209,20 +239,26 @@ export default function Ajustes() {
     if (!profile?.active_plan_id || targetDay == null || !user) return
     const planId = profile.active_plan_id
     setSavingDay(true)
+    setDayError(null)
     const { error } = await updateProfile({ plan_start_date: startDateForDay(targetDay) })
+    let marksFailed = false
     if (!error) {
       try {
         if (targetDay > 1) await markDaysRead(user.id, planId, targetDay - 1)
         await unmarkDaysFrom(user.id, planId, targetDay)
       } catch {
-        // No es bloqueante: el día ya quedó fijado.
+        // El día quedó fijado pero las marcas no: se avisa en vez de dejar un
+        // atraso falso sin explicación.
+        marksFailed = true
       }
     }
     setSavingDay(false)
-    if (!error) {
-      setDayInput('')
-      setSavedDay(true)
+    if (error || marksFailed) {
+      setDayError(error ? 'save' : 'marks')
+      return
     }
+    setDayInput('')
+    setSavedDay(true)
   }
 
   // Exportar "Mi camino" como archivo de texto: las reflexiones son del
@@ -286,6 +322,24 @@ export default function Ajustes() {
 
   const showReminderIOSNote = reminderOn && isIOS() && !isStandalone()
 
+  // Aviso de por qué no se pudo activar el push, en la fila que lo pidió. En iOS
+  // sin instalar, además, los pasos para agregar la app a la pantalla de inicio.
+  function pushNoteFor(target) {
+    if (pushNote?.target !== target) return null
+    const needsInstall = pushNote.reason === 'unsupported' && isIOS() && !isStandalone()
+    return (
+      <div role="status" className="mt-1 text-[13px] leading-snug text-ink-soft">
+        <p>{pushNote.msg}</p>
+        {needsInstall && (
+          <ol className="mt-1 list-decimal pl-5">
+            <li>{t('onboarding.extras.step1')}</li>
+            <li>{t('onboarding.extras.step2')}</li>
+          </ol>
+        )}
+      </div>
+    )
+  }
+
   return (
     <div className="pt-2">
       {/* Ajustes cuelga de Hoy (engranaje en su header) desde que Progreso tomó
@@ -328,11 +382,13 @@ export default function Ajustes() {
         <Row
           title={t('ajustes.section.diario')}
           subtitle={t('ajustes.diarioHelp')}
+          error={errorFor('diario')}
           control={
             <Switch
               on={reflectionsOn}
-              onChange={() => updateProfile({ reflections_enabled: !reflectionsOn })}
+              onChange={() => persist('diario', { reflections_enabled: !reflectionsOn })}
               label={t('ajustes.section.diario')}
+              disabled={savingKey === 'diario'}
             />
           }
         />
@@ -355,32 +411,33 @@ export default function Ajustes() {
             {exporting ? t('ajustes.exporting') : <ShareIcon size={18} />}
           </span>
         </button>
+        {exportNote && (
+          <p
+            className="px-4 pb-3 text-[13px]"
+            role="status"
+            style={{ color: exportNote === 'error' ? 'var(--danger)' : 'var(--text-soft)' }}
+          >
+            {exportNote === 'empty'
+              ? t('ajustes.exportEmpty')
+              : exportNote === 'error'
+                ? t('ajustes.exportError')
+                : t('ajustes.exportDownloaded')}
+          </p>
+        )}
         <Row
           title={t('ajustes.compartirLectura')}
           subtitle={t('ajustes.compartirLecturaHelp')}
+          error={errorFor('share')}
           control={
             <Switch
               on={shareReadingOn}
               onChange={toggleShareReading}
               label={t('ajustes.compartirLecturaLabel')}
+              disabled={savingKey === 'share'}
             />
           }
         />
       </div>
-      {exportNote && (
-        <p
-          className="mt-2 px-1 text-[13px]"
-          role="status"
-          style={{ color: exportNote === 'error' ? 'var(--danger)' : 'var(--text-soft)' }}
-        >
-          {exportNote === 'empty'
-            ? t('ajustes.exportEmpty')
-            : exportNote === 'error'
-              ? t('ajustes.exportError')
-              : t('ajustes.exportDownloaded')}
-        </p>
-      )}
-
       {/* Fijar en qué día del plan vas (catch-up para quien ya venía leyendo). */}
       {currentDay != null && (
         <>
@@ -422,6 +479,12 @@ export default function Ajustes() {
                   ? t('ajustes.dayChangeBack', { day: targetDay })
                   : t('ajustes.dayChangeForward', { day: targetDay })}
               </p>
+            )}
+            {dayError && (
+              <InlineError
+                message={dayError === 'save' ? t('common.saveError') : t('ajustes.dayMarkError')}
+                className="mt-2"
+              />
             )}
             {savedDay && !dayInput && (
               <p className="mt-2 text-[13px]" style={{ color: 'var(--accent-ink)' }}>
@@ -466,11 +529,15 @@ export default function Ajustes() {
         })}
       </div>
 
+      <InlineError message={errorFor('accent')} className="mt-2 px-1" />
+
       <SectionLabel>{t('ajustes.section.tema')}</SectionLabel>
       <Segmented label={t('ajustes.section.tema')} options={THEMES} value={themePref} onChange={pickTheme} />
+      <InlineError message={errorFor('theme')} className="mt-2 px-1" />
 
       <SectionLabel>{t('ajustes.idioma')}</SectionLabel>
       <Segmented label={t('ajustes.idioma')} options={locales} value={locale} onChange={pickLocale} />
+      <InlineError message={errorFor('locale')} className="mt-2 px-1" />
 
       <SectionLabel>{t('ajustes.proveedorBiblia')}</SectionLabel>
       <Segmented
@@ -479,6 +546,7 @@ export default function Ajustes() {
         value={bibleProvider}
         onChange={pickBibleProvider}
       />
+      <InlineError message={errorFor('provider')} className="mt-2 px-1" />
       <p className="mt-2 px-1 text-[13px] leading-snug text-ink-soft">
         {t('ajustes.proveedorBibliaHelp')}
       </p>
@@ -488,49 +556,62 @@ export default function Ajustes() {
         <Row
           title={t('ajustes.section.recordatorio')}
           subtitle={showReminderIOSNote ? t('ajustes.reminderIOSNote') : t('ajustes.reminderHelp')}
+          note={pushNoteFor('reminder')}
+          error={errorFor('reminder')}
           control={
-            <Switch on={reminderOn} onChange={toggleReminder} label={t('ajustes.section.recordatorio')} />
+            <Switch
+              on={reminderOn}
+              onChange={toggleReminder}
+              label={t('ajustes.section.recordatorio')}
+              disabled={savingKey === 'reminder'}
+            />
           }
         />
         {reminderOn && (
-          <div className="flex items-center justify-between px-4 py-3">
-            <span className="text-[16px] text-ink">{t('ajustes.hora')}</span>
-            <input
-              type="time"
-              value={reminderTime}
-              onChange={(e) => changeTime(e.target.value)}
-              aria-label={t('ajustes.hora')}
-              className="min-h-11 rounded-input px-3 text-[16px] outline-none"
-              style={{ backgroundColor: 'var(--surface-alt)', border: '1px solid var(--control-border)', color: 'var(--text-primary)' }}
-            />
+          <div className="px-4 py-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[16px] text-ink">{t('ajustes.hora')}</span>
+              <input
+                type="time"
+                value={reminderTime}
+                onChange={(e) => changeTime(e.target.value)}
+                disabled={savingKey === 'time'}
+                aria-label={t('ajustes.hora')}
+                className="min-h-11 rounded-input px-3 text-[16px] outline-none"
+                style={{ backgroundColor: 'var(--surface-alt)', border: '1px solid var(--control-border)', color: 'var(--text-primary)' }}
+              />
+            </div>
+            <InlineError message={errorFor('time')} />
           </div>
         )}
         <Row
           title={t('ajustes.pedidosNuevos')}
           subtitle={t('ajustes.avisosGrupoHelp')}
+          note={pushNoteFor('group')}
+          error={errorFor('group')}
           control={
             <Switch
               on={groupNotifOn}
               onChange={toggleGroupNotif}
               label={t('ajustes.avisosGrupoLabel')}
+              disabled={savingKey === 'group'}
             />
           }
         />
         <Row
           title={t('ajustes.recordarRevisar')}
           subtitle={t('ajustes.seguimientoHelp')}
+          error={errorFor('followup')}
           control={
             <Switch
               on={prayerFollowupOn}
-              onChange={() => updateProfile({ prayer_followup_enabled: !prayerFollowupOn })}
+              onChange={() => persist('followup', { prayer_followup_enabled: !prayerFollowupOn })}
               label={t('ajustes.recordarRevisarLabel')}
+              disabled={savingKey === 'followup'}
             />
           }
         />
       </div>
-      {pushNote && (
-        <p className="mt-2 px-1 text-[13px] text-ink-soft" role="status">{pushNote.msg}</p>
-      )}
 
       <SectionLabel>{t('ajustes.section.laApp')}</SectionLabel>
       <div className="card divide-y divide-hairline">

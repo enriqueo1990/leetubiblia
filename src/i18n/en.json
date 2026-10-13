@@ -23,6 +23,7 @@
   "ajustes.section.queDia": "What day are you on?",
   "ajustes.currentDay": "Calendar day",
   "ajustes.dayPositionHelp": "Today may show an earlier or later plan day based on the readings you marked.",
+  "ajustes.dayMarkError": "We saved the day, but couldn't update your reading marks. Please try again.",
   "ajustes.ofTotal": "of {total}",
   "ajustes.dayPlaceholder": "e.g. {day}",
   "ajustes.actualizar": "Update",

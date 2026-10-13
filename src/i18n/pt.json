@@ -23,6 +23,7 @@
   "ajustes.section.queDia": "Em que dia você está?",
   "ajustes.currentDay": "Dia do calendário",
   "ajustes.dayPositionHelp": "Hoje pode mostrar um dia adiantado conforme as leituras que você marcou.",
+  "ajustes.dayMarkError": "Salvamos o dia, mas não conseguimos atualizar suas marcas de leitura. Tente de novo.",
   "ajustes.ofTotal": "de {total}",
   "ajustes.dayPlaceholder": "ex: {day}",
   "ajustes.actualizar": "Atualizar",
