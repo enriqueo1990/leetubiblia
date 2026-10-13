@@ -7,7 +7,7 @@ import { buildExtraRows } from './todayExtrasRows.js'
 
 export function useTodayExtras() {
   const { user, profile } = useAuth()
-  const { t } = usePreferences()
+  const { t, locale } = usePreferences()
   const [groupReadings, setGroupReadings] = useState(null)
   const materials = activeMaterials(profile)
   const [contents, setContents] = useState({})
@@ -55,9 +55,9 @@ export function useTodayExtras() {
   }, [activeKey])
 
   const rows = useMemo(
-    () => buildExtraRows({ groupReadings, materials, contents, profile, t }),
+    () => buildExtraRows({ groupReadings, materials, contents, profile, t, locale }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [groupReadings, contents, profile, t]
+    [groupReadings, contents, profile, t, locale]
   )
 
   return {

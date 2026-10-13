@@ -3,9 +3,17 @@ import { useParams, Navigate } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import {
   loadMaterialContent,
+  entryOfLabel,
   isMaterialActive,
   positionOf,
   withMaterialPosition,
+  isCalendarMaterial,
+  calendarEntryNumber,
+  calendarDayOfMonth,
+  readOnOf,
+  isReadToday,
+  localDateKey,
+  withMaterialReadOn,
 } from '../lib/materials.js'
 import { passageUrl } from '../lib/bible.js'
 import { usePreferences } from '../lib/preferences.jsx'
@@ -29,6 +37,41 @@ import ShareImageSheet from '../components/ShareImageSheet.jsx'
 // "volver" no se teletransporta al cambiar de estado. En la frontera "Marcar como
 // leído" ocupa el lugar de avanzar (no hay Siguiente); nada de botones
 // deshabilitados ocupando lugar.
+//
+// Materiales por fecha (devocional, cadence 'calendar'): no hay marcador ni
+// frontera. Se abre en la lectura de hoy, se navega libremente por todo el año, y
+// "Marcar como leído" existe solo en la de hoy (guarda la fecha, readOn). Desde
+// otro día, la acción es volver a la de hoy.
+// Una cita como enlace a la Biblia (o texto, si no hay enlace posible).
+function RefLink({ refItem, locale, bibleProvider }) {
+  const url = passageUrl(refItem, locale, bibleProvider)
+  const label = bookLabel(refItem, locale)
+  if (!url) return <span className="whitespace-nowrap text-[15px] font-medium text-ink-soft">{label}</span>
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="whitespace-nowrap text-[15px] font-medium transition-opacity active:opacity-50"
+      style={{ color: 'var(--accent-ink)' }}
+    >
+      {label}
+    </a>
+  )
+}
+
+// Agrupa las citas consecutivas del mismo párrafo (`ref.p`); sin `p`, un solo grupo.
+function refGroups(refs) {
+  const groups = []
+  for (const ref of refs) {
+    const p = ref.p ?? null
+    const last = groups[groups.length - 1]
+    if (last && last.p === p) last.refs.push(ref)
+    else groups.push({ p, refs: [ref] })
+  }
+  return groups
+}
+
 export default function MaterialReader() {
   const { slug } = useParams()
   const { profile, updateProfile } = useAuth()
@@ -44,6 +87,9 @@ export default function MaterialReader() {
   const [shareOpen, setShareOpen] = useState(false) // hoja de formato (1:1 / 9:16)
   const [sharing, setSharing] = useState(false) // generando la imagen para compartir
   const [shareError, setShareError] = useState(false)
+  const calendar = isCalendarMaterial(slug)
+  const today = calendarEntryNumber()
+  const [readToday, setReadToday] = useState(null) // por fecha: ¿ya se marcó hoy? (optimista)
 
   // Cargar el contenido (import dinámico, cacheado).
   useEffect(() => {
@@ -65,13 +111,23 @@ export default function MaterialReader() {
     if (saved != null) setPos(saved)
   }, [profile, slug, pos])
 
+  useEffect(() => {
+    if (!calendar || readToday != null || !profile) return
+    setReadToday(isReadToday(profile, slug))
+  }, [calendar, readToday, profile, slug])
+
   // Abrir en la pregunta actual (marcador), acotada al total. Si todavía no leyó
-  // nada y el material tiene introducción, abrir en la portada (n=0).
+  // nada y el material tiene introducción, abrir en la portada (n=0). Por fecha:
+  // en la lectura de hoy (o en la portada, si nunca marcó ninguna).
   useEffect(() => {
     if (n != null || pos == null || !content) return
     const hasIntro = Array.isArray(content.intro) && content.intro.length > 0
+    if (calendar) {
+      setN(!readOnOf(profile, slug) && hasIntro ? 0 : Math.min(today, content.total))
+      return
+    }
     setN(pos === 1 && hasIntro ? 0 : Math.min(pos, content.total))
-  }, [n, pos, content])
+  }, [n, pos, content, calendar, profile, slug, today])
 
   // Al cambiar de pregunta, volver arriba: si la anterior era larga y quedaste
   // scrolleado, la ficha nueva se lee desde el título (salto instantáneo, sin
@@ -97,9 +153,13 @@ export default function MaterialReader() {
   const hasIntro = Array.isArray(content.intro) && content.intro.length > 0
   const isIntro = n === 0 // "ficha 0": portada con contexto histórico, sin marcador
   const entry = isIntro ? null : content.entries[n - 1]
-  const completed = pos > total
-  const atFrontier = !completed && n === pos // la pregunta actual, lista para marcar
-  const maxN = Math.min(pos, total) // no se avanza más allá de lo leído (+ la del frente)
+  // Con `headingRef`, la primera cita es la del versículo del encabezado y se
+  // muestra junto a él; el pie queda para las demás (si las hay).
+  const headingRef = content.headingRef && entry?.refs.length ? entry.refs[0] : null
+  const footRefs = entry ? (headingRef ? entry.refs.slice(1) : entry.refs) : []
+  const completed = !calendar && pos > total
+  const atFrontier = calendar ? n === today && !readToday : !completed && n === pos // lista para marcar
+  const maxN = calendar ? total : Math.min(pos, total) // no se avanza más allá de lo leído (+ la del frente)
   const canPrev = n > (hasIntro ? 0 : 1)
   const canNext = n < maxN
 
@@ -126,6 +186,19 @@ export default function MaterialReader() {
     persist(next, revertPos, revertN)
   }
 
+  // Por fecha: marcar/desmarcar la de hoy guarda solo la fecha (readOn).
+  async function setTodayRead(value) {
+    setReadToday(value)
+    setSaveError(false)
+    const { error } = await updateProfile({
+      active_materials: withMaterialReadOn(profile, slug, value ? localDateKey() : null),
+    })
+    if (error) {
+      setReadToday(!value)
+      setSaveError(true)
+    }
+  }
+
   function restart() {
     const revertPos = pos
     const revertN = n
@@ -140,7 +213,7 @@ export default function MaterialReader() {
     ? {
         meta: [
           content.name,
-          t('materialsToday.questionOf', { n: entry.number, total }).replace(/ /g, '\u00A0'),
+          entryOfLabel(t, slug, entry.number, total, locale).replace(/ /g, '\u00A0'),
         ].join(' · '),
         question: entry.question,
         answer: entry.answer,
@@ -230,52 +303,78 @@ export default function MaterialReader() {
             va acá: ya lo comunica la zona de abajo (botón primario = actual;
             solo navegación = repaso). Cada estado se dice una sola vez. */}
         <p className="text-[13px] font-medium text-ink-soft">
-          {[t('materialsToday.questionOf', { n: entry.number, total }), entry.blockTitle].filter(Boolean).join(' · ')}
+          {/* Por fecha, el bloque es el mes: ya lo dice la fecha. */}
+          {[entryOfLabel(t, slug, entry.number, total, locale), entry.section ?? (!calendar && entry.blockTitle)]
+            .filter(Boolean)
+            .join(' · ')}
         </p>
 
         <h1 className="mt-2.5 text-[20px] font-semibold leading-snug text-ink">
           {entry.question}
+          {/* Devocional: la cita va pegada al versículo que encabeza la lectura. */}
+          {headingRef && (
+            <>
+              {' '}
+              <RefLink refItem={headingRef} locale={locale} bibleProvider={bibleProvider} />
+            </>
+          )}
         </h1>
 
-        <p className="mt-3.5 text-[17px] leading-relaxed text-ink">{entry.answer}</p>
+        {/* pre-line: los artículos largos (p. ej. Confesión Belga) traen párrafos
+            separados por línea en blanco en el JSON. */}
+        <p className="mt-3.5 whitespace-pre-line text-[17px] leading-relaxed text-ink">{entry.answer}</p>
+
+        {content.author && (
+          <p className="mt-4 text-right text-[15px] italic text-ink-soft">— {content.author}</p>
+        )}
 
         {/* Citas de apoyo como nota al pie de la ficha: filete hairline arriba
             (como en un catecismo impreso), sin etiqueta ni cromo. El color acento
-            ya dice "tocables"; cada una abre su capítulo en la Biblia. */}
-        {entry.refs.length > 0 && (
-          <p className="mt-5 border-t border-hairline pt-4 leading-relaxed">
-            {entry.refs.map((ref, i) => {
-              const url = passageUrl(ref, locale, bibleProvider)
-              const last = i === entry.refs.length - 1
-              return (
-                // nowrap por pasaje con el "·" pegado al final: el separador cierra
-                // renglón, nunca lo abre. El espacio de quiebre va fuera del nowrap.
-                <span key={i}>
-                  <span className="whitespace-nowrap">
-                    {url ? (
-                      <a
-                        href={url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-block py-1 text-[15px] font-medium transition-opacity active:opacity-50"
-                        style={{ color: 'var(--accent-ink)' }}
-                      >
-                        {bookLabel(ref, locale)}
-                      </a>
-                    ) : (
-                      <span className="text-[15px] text-ink">{bookLabel(ref, locale)}</span>
-                    )}
-                    {!last && (
-                      <span aria-hidden="true" className="text-ink-soft" style={{ opacity: 0.5 }}>
-                        {' · '}
+            ya dice "tocables"; cada una abre su capítulo en la Biblia. Si la
+            entrada junta varios párrafos (p. ej. un capítulo de la 1689), cada
+            cita trae su párrafo (`p`) y van en un renglón por párrafo, con su
+            número delante, como las notas de una confesión impresa. */}
+        {footRefs.length > 0 && (
+          <div className="mt-5 space-y-1 border-t border-hairline pt-4">
+            {refGroups(footRefs).map((g, gi) => (
+              <p key={gi} className="leading-relaxed">
+                {g.p != null && (
+                  <span className="mr-2 text-[13px] font-medium tabular-nums text-ink-soft">{g.p}</span>
+                )}
+                {g.refs.map((ref, i) => {
+                  const url = passageUrl(ref, locale, bibleProvider)
+                  const last = i === g.refs.length - 1
+                  return (
+                    // nowrap por pasaje con el "·" pegado al final: el separador cierra
+                    // renglón, nunca lo abre. El espacio de quiebre va fuera del nowrap.
+                    <span key={i}>
+                      <span className="whitespace-nowrap">
+                        {url ? (
+                          <a
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block py-1 text-[15px] font-medium transition-opacity active:opacity-50"
+                            style={{ color: 'var(--accent-ink)' }}
+                          >
+                            {bookLabel(ref, locale)}
+                          </a>
+                        ) : (
+                          <span className="text-[15px] text-ink">{bookLabel(ref, locale)}</span>
+                        )}
+                        {!last && (
+                          <span aria-hidden="true" className="text-ink-soft" style={{ opacity: 0.5 }}>
+                            {' · '}
+                          </span>
+                        )}
                       </span>
-                    )}
-                  </span>
-                  {!last && ' '}
-                </span>
-              )
-            })}
-          </p>
+                      {!last && ' '}
+                    </span>
+                  )
+                })}
+              </p>
+            ))}
+          </div>
         )}
       </div>
       )}
@@ -315,14 +414,39 @@ export default function MaterialReader() {
         )}
         {isIntro && pos === 1 ? (
           /* Primera visita (nada leído): la portada invita a arrancar. */
-          <button type="button" onClick={() => setN(1)} className="btn btn-primary">
+          <button type="button" onClick={() => setN(calendar ? today : 1)} className="btn btn-primary">
             {t('materialReader.start')}
           </button>
         ) : (
           <>
             {atFrontier && (
-              <button type="button" onClick={markRead} className="btn btn-primary">
+              <button
+                type="button"
+                onClick={calendar ? () => setTodayRead(true) : markRead}
+                className="btn btn-primary"
+              >
                 {t('hoy.markRead')}
+              </button>
+            )}
+            {/* Por fecha: la de hoy ya marcada → estado + desmarcar callado (como
+                Hoy); otro día → volver a la de hoy. */}
+            {calendar && n === today && readToday && (
+              <>
+                <p className="py-2 text-center text-[15px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
+                  ✓ {t('hoy.read')}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setTodayRead(false)}
+                  className="block w-full py-2 text-center text-[14px] font-medium text-ink-soft"
+                >
+                  {t('hoy.unmark')}
+                </button>
+              </>
+            )}
+            {calendar && n !== today && (
+              <button type="button" onClick={() => setN(today)} className="btn btn-secondary">
+                {t('materialReader.goToday')}
               </button>
             )}
             {(canPrev || canNext) && (
@@ -376,6 +500,7 @@ export default function MaterialReader() {
           content={content}
           frontier={maxN}
           current={n}
+          numberOf={calendar ? (e) => calendarDayOfMonth(e.number) : undefined}
           onPick={(num) => {
             setN(num)
             setIndexOpen(false)

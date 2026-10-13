@@ -68,3 +68,29 @@ test('la meta del material es "Pregunta N de M" y trae la pregunta', () => {
   assert.equal(row.item.meta, 'materialsToday.questionOf:{"n":4,"total":10}')
   assert.equal(row.item.question, 'P4')
 })
+
+test('un material por fecha muestra la lectura de hoy y baja al final al marcarla', () => {
+  const now = new Date(2026, 9, 13) // 13 de octubre
+  const calContent = {
+    slug: 'spurgeon-matutinas',
+    name: 'Lecturas matutinas de Spurgeon',
+    total: 366,
+    entries: Array.from({ length: 366 }, (_, i) => ({ number: i + 1, question: `D${i + 1}` })),
+  }
+  const base = { groupReadings: [group(1)], contents: { 'spurgeon-matutinas': calContent }, t, locale: 'es', now }
+
+  const open = buildExtraRows({ ...base, materials: [{ slug: 'spurgeon-matutinas' }], profile })
+  assert.deepEqual(open.map((r) => r.key), ['group-1', 'material-spurgeon-matutinas'])
+  assert.equal(open[1].pending, true)
+  assert.equal(open[1].item.question, 'D287') // 13 de octubre = día 287 del año bisiesto
+
+  const readProfile = { ...profile, active_materials: [{ slug: 'spurgeon-matutinas', readOn: '2026-10-13' }] }
+  const done = buildExtraRows({
+    ...base,
+    materials: [{ slug: 'spurgeon-matutinas', readOn: '2026-10-13' }],
+    profile: readProfile,
+  })
+  assert.deepEqual(done.map((r) => r.key), ['group-1', 'material-spurgeon-matutinas'])
+  assert.equal(done[1].pending, false)
+  assert.equal(done[1].item.meta, 'hoy.read')
+})
