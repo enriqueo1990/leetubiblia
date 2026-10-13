@@ -3,12 +3,12 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { NAV_ITEMS, matchesExtra } from './nav.js'
 import { usePreferences } from '../lib/preferences.jsx'
 
-function TabItem({ to, labelKey, Icon, end, match }) {
+function TabItem({ to, labelKey, Icon, end, match, matchMobile }) {
   const { pathname } = useLocation()
   const { t } = usePreferences()
   // Encendido también en el subárbol del ítem (p. ej. Progreso en /recorrido):
   // el usuario nunca desaparece del mapa primario.
-  const extra = matchesExtra({ match }, pathname)
+  const extra = matchesExtra({ match, matchMobile }, pathname, true)
   const [tapped, setTapped] = useState(false)
   const timerRef = useRef(null)
 

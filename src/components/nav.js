@@ -8,16 +8,28 @@ import { BookIcon, HeartIcon, PeopleIcon, ChartIcon } from './icons.jsx'
 // `match`: prefijos extra que encienden el ítem además de su propia ruta, para
 // que las pantallas de segundo anillo no dejen el mapa apagado. Todo lo que
 // cuelga de Ajustes (planes, materiales) cuelga a su vez de Hoy.
+// `matchMobile`: prefijos que solo encienden el ítem en la tab bar. Ajustes
+// cuelga de Hoy (engranaje en su header) y en móvil no tiene pestaña propia; en
+// desktop el sidebar ya tiene su ítem de Ajustes y encenderlo también en Hoy
+// dejaría dos ítems activos.
 export const NAV_ITEMS = [
-  { to: '/', labelKey: 'nav.hoy', Icon: BookIcon, end: true, match: ['/hoy', '/planes', '/materiales'] },
+  {
+    to: '/',
+    labelKey: 'nav.hoy',
+    Icon: BookIcon,
+    end: true,
+    match: ['/hoy', '/planes', '/materiales'],
+    matchMobile: ['/ajustes'],
+  },
   { to: '/oracion', labelKey: 'nav.oracion', Icon: HeartIcon },
   { to: '/grupos', labelKey: 'nav.grupos', Icon: PeopleIcon, match: ['/join'] },
   { to: '/progreso', labelKey: 'nav.progreso', Icon: ChartIcon, match: ['/recorrido'] },
 ]
 
 // ¿La ruta actual pertenece al subárbol de este ítem (sin ser su ruta propia)?
-export function matchesExtra(item, pathname) {
-  return (item.match ?? []).some(
+export function matchesExtra(item, pathname, mobile = false) {
+  const prefixes = [...(item.match ?? []), ...(mobile ? item.matchMobile ?? [] : [])]
+  return prefixes.some(
     (p) => pathname === p || pathname.startsWith(`${p}/`)
   )
 }
