@@ -621,7 +621,10 @@
   "groupDetail.prayError": "We couldn't record your prayer.",
   "groupDetail.partialLoadError": "Some group information couldn't be updated. What you see may be incomplete.",
   "groupDetail.seeAll": "See all",
-  "groupDetail.seeRemaining": "See the other {count}",
+  "groupDetail.seeRemaining": {
+    "one": "See 1 more",
+    "other": "See the other {count}"
+  },
   "groupDetail.testimonies": "Testimonies",
   "groupDetail.members": "Members",
   "groupDetail.membersShareHint": "You only see the reading of those who share it.",

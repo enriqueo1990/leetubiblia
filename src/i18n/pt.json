@@ -621,7 +621,10 @@
   "groupDetail.prayError": "Não foi possível registrar sua oração.",
   "groupDetail.partialLoadError": "Parte das informações do grupo não pôde ser atualizada. O que você vê pode estar incompleto.",
   "groupDetail.seeAll": "Ver todos",
-  "groupDetail.seeRemaining": "Ver os {count} restantes",
+  "groupDetail.seeRemaining": {
+    "one": "Ver mais 1",
+    "other": "Ver os {count} restantes"
+  },
   "groupDetail.testimonies": "Testemunhos",
   "groupDetail.members": "Membros",
   "groupDetail.membersShareHint": "Só aparece a leitura de quem a compartilha.",
