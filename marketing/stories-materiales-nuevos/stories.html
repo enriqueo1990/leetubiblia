@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Stories — Materiales nuevos</title>
+<meta name="hz:slide-selector" content=".slide" />
+<meta name="hz:canvas-width" content="1080" />
+<meta name="hz:canvas-height" content="1920" />
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #e9e7e2; }
+
+/* Story 9:16. Márgenes seguros del design system: 200px arriba y abajo
+   (ahí Instagram dibuja la barra de progreso, el avatar y el campo de respuesta). */
+.slide {
+  position: relative;
+  width: 1080px;
+  height: 1920px;
+  background: #F8F7F4;
+  overflow: hidden;
+  color: #1C1C1E;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  padding: 200px 96px;
+  display: flex;
+  flex-direction: column;
+}
+
+.serif { font-family: "Iowan Old Style", "Palatino", "Charter", "Bitstream Charter", Georgia, serif; }
+
+/* Marca de agua del libro: sangra por la derecha, apenas perceptible. */
+.watermark {
+  position: absolute; right: -230px; top: 560px;
+  width: 900px; height: 900px; opacity: 0.075;
+}
+
+.kicker {
+  display: inline-block; align-self: flex-start;
+  background: rgba(168,139,106,0.13); color: #705F4C;
+  font-size: 26px; font-weight: 600; letter-spacing: 2.5px;
+  padding: 12px 26px; border-radius: 100px; text-transform: uppercase;
+}
+
+/* Bloque central, un poco por encima del centro óptico. */
+.body { margin-top: auto; margin-bottom: auto; position: relative; }
+
+.era {
+  font-size: 46px; font-style: italic; color: #A88B6A;
+  font-variant-numeric: tabular-nums; letter-spacing: 0.5px;
+}
+.h {
+  font-size: 96px; font-weight: 650; letter-spacing: -2.6px; line-height: 1.04;
+  margin-top: 28px;
+}
+.rule { width: 96px; height: 4px; border-radius: 2px; background: #A88B6A; margin-top: 56px; }
+.lead {
+  font-size: 42px; line-height: 1.42; color: #56565C; margin-top: 48px; max-width: 860px;
+}
+.lead strong { color: #1C1C1E; font-weight: 600; }
+
+/* Pie de marca: logo + nombre + URL. */
+.brandfoot { display: flex; align-items: center; gap: 24px; }
+.brandfoot .logo { width: 84px; height: 84px; filter: drop-shadow(0 6px 16px rgba(168,139,106,0.30)); }
+.brandfoot .name { font-size: 36px; font-weight: 650; letter-spacing: -0.6px; color: #1C1C1E; }
+.brandfoot .url { font-size: 28px; font-weight: 500; color: #705F4C; margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════ 1 · CREDOS ═══════ -->
+<div class="slide" id="s1" data-canvas-width="1080" data-canvas-height="1920">
+  <svg class="watermark" viewBox="0 0 64 64"><path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z" fill="none" stroke="#A88B6A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 20v28" fill="none" stroke="#A88B6A" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <span class="kicker">Nuevo en Lee Tu Biblia</span>
+  <div class="body">
+    <p class="era serif">Siglos II al VI</p>
+    <h1 class="h">Credos de la iglesia antigua</h1>
+    <div class="rule"></div>
+    <p class="lead">El Apostólico, el Niceno, Calcedonia y el Atanasiano: <strong>la fe que la iglesia confiesa desde sus primeros siglos</strong>, en cinco lecturas.</p>
+  </div>
+  <div class="brandfoot">
+    <svg class="logo" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#A88B6A"/><path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z" fill="none" stroke="#FFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 20v28" fill="none" stroke="#FFF" stroke-width="3" stroke-linecap="round"/></svg>
+    <div><p class="name">Lee Tu Biblia</p><p class="url">leetubiblia.com</p></div>
+  </div>
+</div>
+
+<!-- ═══════ 2 · CONFESIÓN BELGA ═══════ -->
+<div class="slide" id="s2" data-canvas-width="1080" data-canvas-height="1920">
+  <svg class="watermark" viewBox="0 0 64 64"><path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z" fill="none" stroke="#A88B6A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 20v28" fill="none" stroke="#A88B6A" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <span class="kicker">Nuevo en Lee Tu Biblia</span>
+  <div class="body">
+    <p class="era serif">1561</p>
+    <h1 class="h">Confesión Belga</h1>
+    <div class="rule"></div>
+    <p class="lead">37 artículos escritos en plena persecución por Guido de Brès, <strong>que dio su vida por esta fe</strong>.</p>
+  </div>
+  <div class="brandfoot">
+    <svg class="logo" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#A88B6A"/><path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z" fill="none" stroke="#FFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 20v28" fill="none" stroke="#FFF" stroke-width="3" stroke-linecap="round"/></svg>
+    <div><p class="name">Lee Tu Biblia</p><p class="url">leetubiblia.com</p></div>
+  </div>
+</div>
+
+<!-- ═══════ 3 · CONFESIÓN BAUTISTA DE 1689 ═══════ -->
+<div class="slide" id="s3" data-canvas-width="1080" data-canvas-height="1920">
+  <svg class="watermark" viewBox="0 0 64 64"><path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z" fill="none" stroke="#A88B6A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 20v28" fill="none" stroke="#A88B6A" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <span class="kicker">Nuevo en Lee Tu Biblia</span>
+  <div class="body">
+    <p class="era serif">1677 · 1689</p>
+    <h1 class="h">Confesión Bautista de 1689</h1>
+    <div class="rule"></div>
+    <p class="lead">La confesión de los bautistas particulares, <strong>capítulo por capítulo</strong>, con las pruebas bíblicas de cada párrafo.</p>
+  </div>
+  <div class="brandfoot">
+    <svg class="logo" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#A88B6A"/><path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z" fill="none" stroke="#FFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 20v28" fill="none" stroke="#FFF" stroke-width="3" stroke-linecap="round"/></svg>
+    <div><p class="name">Lee Tu Biblia</p><p class="url">leetubiblia.com</p></div>
+  </div>
+</div>
+
+<!-- ═══════ 4 · LECTURAS MATUTINAS DE SPURGEON ═══════ -->
+<div class="slide" id="s4" data-canvas-width="1080" data-canvas-height="1920">
+  <svg class="watermark" viewBox="0 0 64 64"><path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z" fill="none" stroke="#A88B6A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 20v28" fill="none" stroke="#A88B6A" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <span class="kicker">Nuevo en Lee Tu Biblia</span>
+  <div class="body">
+    <p class="era serif">C. H. Spurgeon · 1865</p>
+    <h1 class="h">Lecturas matutinas</h1>
+    <div class="rule"></div>
+    <p class="lead">Una meditación breve <strong>para cada mañana del año</strong>, sobre el versículo del día. Se abre sola en la fecha de hoy.</p>
+  </div>
+  <div class="brandfoot">
+    <svg class="logo" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#A88B6A"/><path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z" fill="none" stroke="#FFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 20v28" fill="none" stroke="#FFF" stroke-width="3" stroke-linecap="round"/></svg>
+    <div><p class="name">Lee Tu Biblia</p><p class="url">leetubiblia.com</p></div>
+  </div>
+</div>
+
+</body>
+</html>
