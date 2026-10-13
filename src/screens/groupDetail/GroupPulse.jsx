@@ -3,7 +3,7 @@ import { BookIcon, HeartIcon } from '../../components/icons.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
 
 // HOY — el pulso del grupo: quién leyó y cuántos pedidos activos hay.
-export default function GroupPulse({ iShare, readCount, prayingCount, prayersCount }) {
+export default function GroupPulse({ iShare, iRead = false, readCount, prayingCount, prayersCount }) {
   const { t } = usePreferences()
 
   return (
@@ -21,7 +21,9 @@ export default function GroupPulse({ iShare, readCount, prayingCount, prayersCou
           </span>
           <span className="text-[15px]">
             {readCount === 0 ? (
-              t('groupDetail.noneReadToday')
+              iRead ? t('groupDetail.onlyYouReadToday') : t('groupDetail.noneReadToday')
+            ) : iRead ? (
+              t('groupDetail.youAndOthersRead', { count: readCount })
             ) : (
               <>
                 <b>{readCount}</b> {t('groupDetail.readTodaySuffix', { count: readCount })}
@@ -30,7 +32,7 @@ export default function GroupPulse({ iShare, readCount, prayingCount, prayersCou
           </span>
         </div>
       ) : (
-        <Link to="/ajustes" className="mt-2.5 flex items-center gap-2.5" style={{ color: 'var(--accent-ink)' }}>
+        <Link to="/ajustes" className="mt-1.5 flex min-h-11 items-center gap-2.5" style={{ color: 'var(--accent-ink)' }}>
           <BookIcon size={18} />
           <span className="text-[14px] font-medium">{t('groupDetail.shareToSee')} →</span>
         </Link>

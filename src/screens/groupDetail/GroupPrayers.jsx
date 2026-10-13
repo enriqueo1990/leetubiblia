@@ -1,4 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { CheckIcon, HeartIcon, PlusIcon } from '../../components/icons.jsx'
 import Avatars from '../../components/Avatars.jsx'
 import { useAuth } from '../../lib/auth.jsx'
@@ -18,6 +19,10 @@ export default function GroupPrayers({
   const { t } = usePreferences()
   const { user } = useAuth()
   const navigate = useNavigate()
+  // Ver el resto acá mismo: ir a /oracion sacaba del grupo y mezclaba todos.
+  const [expanded, setExpanded] = useState(false)
+  const LIMIT = 4
+  const hidden = Math.max(0, prayers.length - LIMIT)
   const interceding = (p) => p.intercessors.some((x) => x.user_id === user?.id)
 
   return (
@@ -54,7 +59,7 @@ export default function GroupPrayers({
       ) : (
         <>
           <ul className="card mt-3 divide-y divide-hairline">
-            {prayers.slice(0, 4).map((p) => (
+            {(expanded ? prayers : prayers.slice(0, LIMIT)).map((p) => (
               <li key={p.id}>
                 <button
                   type="button"
@@ -127,9 +132,16 @@ export default function GroupPrayers({
               </li>
             ))}
           </ul>
-          <Link to="/oracion?tab=grupos" className="mt-2 inline-flex min-h-11 items-center text-[14px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
-            {t('groupDetail.seeAll')} →
-          </Link>
+          {hidden > 0 && !expanded && (
+            <button
+              type="button"
+              onClick={() => setExpanded(true)}
+              className="mt-2 inline-flex min-h-11 items-center text-[14px] font-semibold"
+              style={{ color: 'var(--accent-ink)' }}
+            >
+              {t('groupDetail.seeRemaining', { count: hidden })} ↓
+            </button>
+          )}
         </>
       )}
     </>

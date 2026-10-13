@@ -8,6 +8,7 @@ import {
   regenerateInviteCode,
   removeMember,
   leaveGroup,
+  deleteGroup,
   getGroupStats,
   renameGroup,
   getGroupActivePrayers,
@@ -24,6 +25,7 @@ import {
   unmarkDaysFrom,
 } from '../lib/db.js'
 import { planName } from '../lib/planLabels.js'
+import { nextCyclePatch } from '../lib/planCycle.js'
 import { SkeletonDetail } from '../components/Skeleton.jsx'
 import RetryError from '../components/RetryError.jsx'
 import PrayerSheet from './PrayerSheet.jsx'
@@ -146,7 +148,10 @@ export default function GroupDetail() {
 
   // Lectura del grupo: el RPC solo devuelve filas si vos compartís (recíproco).
   const readMap = new Map(reading.map((r) => [r.user_id, r.has_read]))
-  const readCount = reading.filter((r) => r.has_read).length
+  // El conteo no te incluye: "N leyeron hoy" son OTRAS personas (si no, un líder
+  // que es el único en compartir creería que leyó un miembro).
+  const iRead = reading.some((r) => r.user_id === user?.id && r.has_read)
+  const readCount = reading.filter((r) => r.has_read && r.user_id !== user?.id).length
 
   // Semana del grupo (solo owner): filas en el orden de la lista de miembros,
   // con nombre resuelto.
@@ -172,9 +177,14 @@ export default function GroupDetail() {
     profile?.active_plan_id === group.plan_id &&
     profile?.plan_start_date === group.plan_start_date
 
-  // El owner elige (o cambia) el plan del grupo; arranca hoy como día 1.
+  // El owner elige (o cambia) el plan del grupo; arranca hoy como día 1. Si ya hay
+  // uno, cambiarlo desengancha a todos los seguidores: se pide confirmación.
   async function handleSetPlan(planId) {
     if (savingPlan) return
+    if (group.plan_id != null && planId !== group.plan_id) {
+      setConfirm({ type: 'changePlan', planId })
+      return
+    }
     setSavingPlan(true)
     setPlanError(false)
     try {
@@ -199,6 +209,7 @@ export default function GroupDetail() {
       const { error: err } = await updateProfile({
         active_plan_id: group.plan_id,
         plan_start_date: group.plan_start_date,
+        ...nextCyclePatch(profile),
       })
       if (err) throw err
       try {
@@ -334,6 +345,13 @@ export default function GroupDetail() {
       else if (confirm.type === 'clearPlan') {
         await setGroupPlan(group.id, null)
         setPlanPickerOpen(false)
+      } else if (confirm.type === 'changePlan') {
+        await setGroupPlan(group.id, confirm.planId, todayLocalISO())
+        setPlanPickerOpen(false)
+      } else if (confirm.type === 'delete') {
+        await deleteGroup(group.id)
+        navigate('/grupos', { replace: true })
+        return
       } else if (confirm.type === 'leave') {
         await leaveGroup(group.id, user.id)
         navigate('/grupos', { replace: true })
@@ -393,6 +411,7 @@ export default function GroupDetail() {
         <div>
           <GroupPulse
             iShare={iShare}
+            iRead={iRead}
             readCount={readCount}
             prayingCount={prayingCount}
             prayersCount={prayers.length}
@@ -447,10 +466,21 @@ export default function GroupDetail() {
         <button
           type="button"
           onClick={() => setConfirm({ type: 'leave' })}
-          className="mt-7 w-full py-3 text-center text-[16px]"
+          className="mt-7 min-h-11 w-full py-3 text-center text-[16px]"
           style={{ color: 'var(--danger)' }}
         >
           {t('groupDetail.leaveGroup')}
+        </button>
+      )}
+      {/* El administrador no "sale": si el grupo ya no hace falta, lo elimina. */}
+      {isOwner && (
+        <button
+          type="button"
+          onClick={() => setConfirm({ type: 'delete' })}
+          className="mt-7 min-h-11 w-full py-3 text-center text-[16px]"
+          style={{ color: 'var(--danger)' }}
+        >
+          {t('groupDetail.deleteGroup')}
         </button>
       )}
 
@@ -514,6 +544,30 @@ export default function GroupDetail() {
           title={t('groupDetail.clearPlanTitle')}
           message={t('groupDetail.clearPlanMsg')}
           confirmLabel={t('groupDetail.clearPlanConfirm')}
+          danger
+          busy={busy}
+          error={confirmError}
+          onConfirm={runConfirm}
+          onCancel={closeConfirm}
+        />
+      )}
+
+      {confirm?.type === 'changePlan' && (
+        <ConfirmDialog
+          title={t('groupDetail.changePlanTitle')}
+          message={t('groupDetail.changePlanConfirm')}
+          confirmLabel={t('groupDetail.changePlan')}
+          busy={busy}
+          error={confirmError}
+          onConfirm={runConfirm}
+          onCancel={closeConfirm}
+        />
+      )}
+      {confirm?.type === 'delete' && (
+        <ConfirmDialog
+          title={t('groupDetail.deleteGroupTitle', { name: group.name })}
+          message={t('groupDetail.deleteGroupConfirm')}
+          confirmLabel={t('groupDetail.deleteGroup')}
           danger
           busy={busy}
           error={confirmError}

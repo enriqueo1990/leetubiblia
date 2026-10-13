@@ -75,7 +75,7 @@ export default function GroupPrivateStats({ stats, weekRows, answeredPct }) {
                 >
                   <span className="min-w-0 flex-1 truncate text-[14px] text-ink">
                     {m.display_name}
-                    {m.user_id === user?.id && <span className="text-ink-soft"> (vos)</span>}
+                    {m.user_id === user?.id && <span className="text-ink-soft"> {t('groupDetail.youParen')}</span>}
                   </span>
                   <div className="flex gap-1.5" aria-hidden="true">
                     {m.week.map((read, i) => (

@@ -49,7 +49,7 @@ export default function GroupPlanCard({
           <button
             type="button"
             onClick={onChangePlan}
-            className="text-[13px] font-medium"
+            className="-mr-2 inline-flex min-h-11 items-center px-2 text-[13px] font-medium"
             style={{ color: 'var(--accent-ink)' }}
           >
             {t('groupDetail.changePlan')}
@@ -92,7 +92,7 @@ export default function GroupPlanCard({
               <button
                 type="button"
                 onClick={() => onToggleFollow(!following)}
-                className={`mt-1 w-full py-2 text-center text-[14px] font-medium${following ? ' text-ink-soft' : ''}`}
+                className={`mt-1 min-h-11 w-full py-2 text-center text-[14px] font-medium${following ? ' text-ink-soft' : ''}`}
                 style={following ? undefined : { color: 'var(--accent-ink)' }}
               >
                 {following ? t('groupDetail.unfollowPlan') : t('groupDetail.followPlan')}

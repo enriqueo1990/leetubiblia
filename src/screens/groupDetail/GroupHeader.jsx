@@ -27,6 +27,7 @@ export default function GroupHeader({
             autoFocus
             value={nameInput}
             onChange={(e) => setNameInput(e.target.value)}
+            aria-label={t('grupos.nameLabel')}
             onKeyDown={(e) => {
               if (e.key === 'Enter') onSaveName()
               if (e.key === 'Escape') onCancelEdit()

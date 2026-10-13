@@ -46,6 +46,9 @@ export default function GroupPlanSheet({ currentPlanId, saving, error, onSet, on
       }
     >
       <p className="text-[13px] leading-snug text-ink-soft">{t('groupDetail.planPickerHelp')}</p>
+      {currentPlanId != null && (
+        <p className="mt-2 text-[13px] leading-snug text-ink-soft">{t('groupDetail.planPickerChangeNote')}</p>
+      )}
 
       {loadError ? (
         <RetryError message={t('planes.loadError')} onRetry={loadPlans} />

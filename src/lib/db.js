@@ -407,6 +407,15 @@ export async function leaveGroup(groupId, userId) {
   if (error) throw dbError(error)
 }
 
+// Elimina el grupo (solo el administrador: lo exige la policy `groups owner delete`).
+// Los miembros y los pedidos compartidos en él se van por cascada. Si no se borró
+// ninguna fila (sin permiso), lanza para que la pantalla no crea que salió bien.
+export async function deleteGroup(groupId) {
+  const { data, error } = await supabase.from('groups').delete().eq('id', groupId).select('id')
+  if (error) throw dbError(error)
+  if (!data?.length) throw new Error('No se pudo eliminar el grupo')
+}
+
 // "Míos": todos los pedidos del usuario (privados y compartidos).
 // Para los compartidos añade intercessor_count con una query batch (no N+1).
 export async function getMyPrayers(userId) {
