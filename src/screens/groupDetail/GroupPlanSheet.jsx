@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Sheet from '../../components/Sheet.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
 import { getPlans } from '../../lib/db.js'
 import { planName } from '../../lib/planLabels.js'
+import RetryError from '../../components/RetryError.jsx'
+import InlineError from '../../components/InlineError.jsx'
 
 // Hoja para elegir el plan común del grupo (solo el administrador la abre).
 // El plan elegido arranca ese día como día 1 del grupo; cada miembro decide
@@ -13,11 +15,17 @@ export default function GroupPlanSheet({ currentPlanId, saving, error, onSet, on
   const [loadError, setLoadError] = useState(false)
   const [sel, setSel] = useState(currentPlanId)
 
-  useEffect(() => {
+  const loadPlans = useCallback(() => {
+    setLoadError(false)
+    setPlans(null)
     getPlans()
       .then(setPlans)
       .catch(() => setLoadError(true))
   }, [])
+
+  useEffect(() => {
+    loadPlans()
+  }, [loadPlans])
 
   const canSet = sel != null && sel !== currentPlanId && !saving
 
@@ -40,7 +48,7 @@ export default function GroupPlanSheet({ currentPlanId, saving, error, onSet, on
       <p className="text-[13px] leading-snug text-ink-soft">{t('groupDetail.planPickerHelp')}</p>
 
       {loadError ? (
-        <p className="mt-4 text-[14px] text-ink-soft">{t('planes.loadError')}</p>
+        <RetryError message={t('planes.loadError')} onRetry={loadPlans} />
       ) : plans === null ? (
         <div className="mt-4 space-y-2 animate-pulse" aria-hidden="true">
           {[0, 1, 2].map((i) => (
@@ -78,9 +86,7 @@ export default function GroupPlanSheet({ currentPlanId, saving, error, onSet, on
       )}
 
       {error && (
-        <p className="mt-3 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
-          {t('groupDetail.planError')}
-        </p>
+        <InlineError message={t('groupDetail.planError')} className="mt-3" />
       )}
 
       {onClear && (

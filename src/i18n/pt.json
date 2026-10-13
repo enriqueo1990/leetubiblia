@@ -529,6 +529,7 @@
   "materialsToday.hintDismiss": "Dispensar sugestão",
 
   "groupDetail.loadError": "Não foi possível carregar o grupo.",
+  "groupDetail.planLoadError": "Não foi possível carregar o plano do grupo.",
   "groupDetail.nameError": "Não foi possível salvar o nome.",
   "groupDetail.copyCodePrompt": "Copie o código:",
   "groupDetail.inviteText": "Convido você para o grupo \"{name}\" no Lee Tu Biblia",

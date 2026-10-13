@@ -529,6 +529,7 @@
   "materialsToday.hintDismiss": "Dismiss suggestion",
 
   "groupDetail.loadError": "Couldn't load the group.",
+  "groupDetail.planLoadError": "Couldn't load the group's plan.",
   "groupDetail.nameError": "Couldn't save the name.",
   "groupDetail.copyCodePrompt": "Copy the code:",
   "groupDetail.inviteText": "I invite you to the group \"{name}\" on Lee Tu Biblia",

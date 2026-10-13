@@ -71,6 +71,7 @@ export default function GroupDetail() {
   const [copied, setCopied] = useState(false)
   const [inviteShared, setInviteShared] = useState(false)
   const [confirm, setConfirm] = useState(null) // { type } | null
+  const [confirmError, setConfirmError] = useState(null) // falló la acción confirmada
   const [busy, setBusy] = useState(false)
   const [editingName, setEditingName] = useState(false)
   const [nameInput, setNameInput] = useState('')
@@ -319,8 +320,14 @@ export default function GroupDetail() {
     }
   }
 
+  function closeConfirm() {
+    setConfirm(null)
+    setConfirmError(null)
+  }
+
   async function runConfirm() {
     setBusy(true)
+    setConfirmError(null)
     try {
       if (confirm.type === 'regen') await regenerateInviteCode(group.id)
       else if (confirm.type === 'kick') await removeMember(group.id, confirm.member.user_id)
@@ -334,6 +341,10 @@ export default function GroupDetail() {
       }
       await load()
       setConfirm(null)
+    } catch {
+      // El diálogo queda abierto con el error, para reintentar: nunca dejar al
+      // líder sin saber si el cambio se guardó.
+      setConfirmError(t('common.saveError'))
     } finally {
       setBusy(false)
     }
@@ -390,6 +401,8 @@ export default function GroupDetail() {
           <GroupPlanCard
             isOwner={isOwner}
             planInfo={planInfo}
+            hasPlan={!!group.plan_id}
+            onRetryPlan={load}
             groupPlanFinished={groupPlanFinished}
             groupPlanDay={groupPlanDay}
             groupPlanTotal={groupPlanTotal}
@@ -503,8 +516,9 @@ export default function GroupDetail() {
           confirmLabel={t('groupDetail.clearPlanConfirm')}
           danger
           busy={busy}
+          error={confirmError}
           onConfirm={runConfirm}
-          onCancel={() => setConfirm(null)}
+          onCancel={closeConfirm}
         />
       )}
 
@@ -515,8 +529,9 @@ export default function GroupDetail() {
           confirmLabel={t('groupDetail.leave')}
           danger
           busy={busy}
+          error={confirmError}
           onConfirm={runConfirm}
-          onCancel={() => setConfirm(null)}
+          onCancel={closeConfirm}
         />
       )}
       {confirm?.type === 'regen' && (
@@ -525,8 +540,9 @@ export default function GroupDetail() {
           message={t('groupDetail.regenMsg')}
           confirmLabel={t('groupDetail.regen')}
           busy={busy}
+          error={confirmError}
           onConfirm={runConfirm}
-          onCancel={() => setConfirm(null)}
+          onCancel={closeConfirm}
         />
       )}
       {confirm?.type === 'kick' && (
@@ -536,8 +552,9 @@ export default function GroupDetail() {
           confirmLabel={t('groupDetail.kick')}
           danger
           busy={busy}
+          error={confirmError}
           onConfirm={runConfirm}
-          onCancel={() => setConfirm(null)}
+          onCancel={closeConfirm}
         />
       )}
     </div>

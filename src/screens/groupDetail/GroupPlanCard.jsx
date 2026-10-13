@@ -1,12 +1,15 @@
 import { BookIcon, CheckIcon } from '../../components/icons.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
 import { planName } from '../../lib/planLabels.js'
+import RetryError from '../../components/RetryError.jsx'
 
 // Plan del grupo — leer lo mismo, juntos. Los miembros lo ven cuando existe;
 // el owner además tiene la puerta para elegirlo/cambiarlo.
 export default function GroupPlanCard({
   isOwner,
   planInfo,
+  hasPlan = false,
+  onRetryPlan,
   groupPlanFinished,
   groupPlanDay,
   groupPlanTotal,
@@ -20,6 +23,19 @@ export default function GroupPlanCard({
   onToggleFollow,
 }) {
   const { t } = usePreferences()
+
+  // El grupo tiene plan pero no se pudo cargar: avisar con reintento. Mostrar el
+  // vacío ("Elegí un plan") sería mentir, y al usarlo pisaría el plan vigente.
+  if (hasPlan && !planInfo) {
+    return (
+      <>
+        <h2 className="mt-7 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
+          {t('groupDetail.groupPlan')}
+        </h2>
+        <RetryError message={t('groupDetail.planLoadError')} onRetry={onRetryPlan} />
+      </>
+    )
+  }
 
   if (!planInfo && !isOwner) return null
 
