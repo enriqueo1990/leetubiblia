@@ -4,6 +4,7 @@ import {
   getPlan,
   getPlanDay,
   getCompletionMap,
+  getOtherReadDates,
   dayNumberFor,
   firstUnreadDay,
   computeDateStreak,
@@ -85,6 +86,14 @@ export function useReading() {
   // Map day_number → fecha local en que se marcó. Sus claves son los "días leídos"
   // (se usa como un Set vía .has/.size) y sus valores alimentan la racha real.
   const [completedMap, setCompletedMap] = useState(new Map())
+  // Fechas de lectura de los demás planes (ver readDates). La ref permite que el
+  // snapshot offline las incluya sin cambiar la firma de persistSnapshot.
+  const [otherDates, setOtherDatesState] = useState(() => new Set())
+  const otherDatesRef = useRef(new Set())
+  const setOtherDates = useCallback((set) => {
+    otherDatesRef.current = set
+    setOtherDatesState(set)
+  }, [])
   const [loading, setLoading] = useState(true)
   // Para qué usuario+plan ya hay datos en pantalla: las recargas (volver online,
   // reprogramar) no vuelven a mostrar el skeleton, solo la primera carga.
@@ -119,9 +128,13 @@ export function useReading() {
   // que la racha (computeDateStreak): el calendario de constancia de Progreso pinta
   // estas fechas, así la grilla y el número de racha coinciden siempre. Se descartan
   // los null (snapshot viejo sin fecha), que no aportan a la racha ni se pueden pintar.
+  //
+  // La racha es del USUARIO, no del plan: las fechas de otros planes (otherDates)
+  // cuentan, así cambiar de plan no la corta. El plan activo se toma de su mapa, que
+  // se actualiza en vivo al marcar o desmarcar.
   const readDates = useMemo(
-    () => new Set([...completedMap.values()].filter(Boolean)),
-    [completedMap]
+    () => new Set([...otherDates, ...[...completedMap.values()].filter(Boolean)]),
+    [completedMap, otherDates]
   )
 
   // Cargar el descarte persistido al cambiar de usuario.
@@ -140,7 +153,11 @@ export function useReading() {
         anchorDay: anchor,
         // Guardamos la racha calculada: fallback si al hidratar el snapshot le
         // faltaran las fechas (formato viejo) y no se pudiera recalcular.
-        streak: computeDateStreak(new Set(map.values()), todayLocalISO()),
+        streak: computeDateStreak(
+          new Set([...otherDatesRef.current, ...map.values()]),
+          todayLocalISO()
+        ),
+        otherDates: [...otherDatesRef.current],
         // Fecha del cacheo: para detectar offline que el día cambió.
         snapshotDate: todayLocalISO(),
       })
@@ -159,9 +176,11 @@ export function useReading() {
       // Sincronizar pendientes antes de leer, para no pisar lo encolado.
       await flushQueue(user.id)
 
-      const [planRow, map] = await Promise.all([
+      const [planRow, map, others] = await Promise.all([
         getPlan(planId),
         getCompletionMap(user.id, planId),
+        // Si solo esto falla no es "sin conexión": se sigue con lo que hay.
+        getOtherReadDates(user.id, planId).catch(() => null),
       ])
       const calDay = dayNumberFor(planStart)
       const anchor = computeAnchorDay(map, calDay, planRow.duration_days)
@@ -170,6 +189,7 @@ export function useReading() {
         const pd = await getPlanDay(planId, anchor)
         refs = pd?.refs ?? []
       }
+      if (others) setOtherDates(others)
       setPlan(planRow)
       setCompletedMap(map)
       setAnchorDay(anchor)
@@ -185,6 +205,7 @@ export function useReading() {
         setPlan(cached.plan)
         setTodayRefs(cached.todayRefs)
         setCompletedMap(rebuildCompletedMap(cached.completed))
+        setOtherDates(new Set(Array.isArray(cached.otherDates) ? cached.otherDates : []))
         setAnchorDay(cached.anchorDay ?? null)
         setOfflineStreak(typeof cached.streak === 'number' ? cached.streak : null)
         setSnapshotDate(cached.snapshotDate ?? null)
@@ -194,7 +215,7 @@ export function useReading() {
       loadedKey.current = key
       setLoading(false)
     }
-  }, [user, planId, planStart, persistSnapshot])
+  }, [user, planId, planStart, persistSnapshot, setOtherDates])
 
   useEffect(() => {
     load()
@@ -272,7 +293,8 @@ export function useReading() {
 
   const duration = plan?.duration_days ?? null
   const completedCount = completed.size
-  const percent = duration ? Math.round((completedCount / duration) * 100) : 0
+  // floor: 199 de 200 días no puede decir 100%.
+  const percent = duration ? Math.floor((completedCount / duration) * 100) : 0
   // Racha por días reales: fechas distintas (locales) en que se marcó algo. Si el
   // snapshot offline no trae fechas (formato viejo), el recálculo daría 0 aunque
   // hayas leído: en ese caso usamos la racha guardada en el snapshot.
