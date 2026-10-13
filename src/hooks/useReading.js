@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useMemo } from 'react'
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react'
 import { useAuth } from '../lib/auth.jsx'
 import {
   getPlan,
@@ -86,6 +86,9 @@ export function useReading() {
   // (se usa como un Set vía .has/.size) y sus valores alimentan la racha real.
   const [completedMap, setCompletedMap] = useState(new Map())
   const [loading, setLoading] = useState(true)
+  // Para qué usuario+plan ya hay datos en pantalla: las recargas (volver online,
+  // reprogramar) no vuelven a mostrar el skeleton, solo la primera carga.
+  const loadedKey = useRef(null)
   const [offline, setOffline] = useState(!isOnline())
   // Nivel de atraso en el que el usuario descartó el banner (0 = no descartado).
   const [dismissedBehind, setDismissedBehindState] = useState(0)
@@ -150,7 +153,8 @@ export function useReading() {
       setLoading(false)
       return
     }
-    setLoading(true)
+    const key = `${user.id}:${planId}`
+    if (loadedKey.current !== key) setLoading(true)
     try {
       // Sincronizar pendientes antes de leer, para no pisar lo encolado.
       await flushQueue(user.id)
@@ -187,6 +191,7 @@ export function useReading() {
       }
       setOffline(true)
     } finally {
+      loadedKey.current = key
       setLoading(false)
     }
   }, [user, planId, planStart, persistSnapshot])

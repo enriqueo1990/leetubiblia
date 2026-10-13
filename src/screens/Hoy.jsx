@@ -55,6 +55,10 @@ export default function Hoy() {
   // Festejo de plan terminado (Feature 5).
   const [confirmRenew, setConfirmRenew] = useState(false)
   const [renewing, setRenewing] = useState(false)
+  const [renewError, setRenewError] = useState(false)
+  // Confirmación de reprogramar: visible unos segundos aunque el aviso de atraso
+  // ya haya desaparecido (con éxito el atraso baja a 0 en el mismo render).
+  const [showReprogramado, setShowReprogramado] = useState(false)
   const [sharing, setSharing] = useState(false)
   const [shareNote, setShareNote] = useState(null) // 'downloaded' | null
   const [recorded, setRecorded] = useState(false)
@@ -122,6 +126,14 @@ export default function Hoy() {
     const id = setTimeout(() => setBreathDone(true), 2400)
     return () => clearTimeout(id)
   }, [justMarked])
+
+  // Mostrar "Listo, seguimos desde hoy" unos segundos al terminar de reprogramar.
+  useEffect(() => {
+    if (!r.reprogramado || r.loading) return
+    setShowReprogramado(true)
+    const id = setTimeout(() => setShowReprogramado(false), 4000)
+    return () => clearTimeout(id)
+  }, [r.reprogramado, r.loading])
 
   // Día mostrado (ancla o adelantado) y si está leído — base de la reflexión.
   const shownDay = aheadDay != null ? aheadDay : r.displayDay
@@ -203,9 +215,14 @@ export default function Hoy() {
 
   // Renovar: guardar el logro (por las dudas), borrar el progreso y arrancar hoy
   // en el día 1. El cambio de plan_start_date + progreso vacío recarga useReading.
+  // Orden: primero lo que se puede deshacer (guardar el logro y mover la fecha de
+  // inicio) y recién al final borrar el progreso. Todo es idempotente, así que si
+  // algo falla el diálogo queda abierto con el error y se puede reintentar sin
+  // haber perdido nada.
   async function handleRenew() {
     if (!user || !planId || !duration) return
     setRenewing(true)
+    setRenewError(false)
     try {
       await recordPlanCompletion({
         userId: user.id,
@@ -215,11 +232,12 @@ export default function Hoy() {
         longestStreak: maxStreak,
         startedOn,
       })
+      const { error } = await updateProfile({ plan_start_date: startDateForDay(1) })
+      if (error) throw error
       await clearPlanProgress(user.id, planId)
-      await updateProfile({ plan_start_date: startDateForDay(1) })
       setConfirmRenew(false)
     } catch {
-      // se mantiene el diálogo abierto con el botón habilitado de nuevo
+      setRenewError(true)
     } finally {
       setRenewing(false)
     }
@@ -438,12 +456,12 @@ export default function Hoy() {
               {t('hoy.reprogramarError')}
             </p>
           )}
-          {r.reprogramado && (
-            <p className="mt-1 text-[12px]" style={{ color: 'var(--accent-ink)' }} role="status">
-              ✓ {t('hoy.reprogramado')}
-            </p>
-          )}
         </>
+      )}
+      {showReprogramado && (
+        <p className="mt-3 text-[13px]" style={{ color: 'var(--accent-ink)' }} role="status">
+          ✓ {t('hoy.reprogramado')}
+        </p>
       )}
 
       {r.planFinished ? (
@@ -621,6 +639,8 @@ export default function Hoy() {
         const invite = reflectionsEnabled && !note && noteEditable // sin nota: invitar
         const noteAccess = reflectionsEnabled && !!note // hay nota: editar/ver
         const settledHasAction = invite || noteAccess || nextDay != null
+        // Sin lectura disponible no hay nada que marcar: ni barra vacía.
+        if (!doneShown && readingUnavailable) return null
         if (!(!doneShown || breathing || (settled && settledHasAction))) return null
 
         const nextLink = (
@@ -760,8 +780,12 @@ export default function Hoy() {
           message={t('hoy.renewMessage')}
           confirmLabel={t('hoy.renewConfirm')}
           busy={renewing}
+          error={renewError ? t('common.saveError') : null}
           onConfirm={handleRenew}
-          onCancel={() => setConfirmRenew(false)}
+          onCancel={() => {
+            setConfirmRenew(false)
+            setRenewError(false)
+          }}
         />
       )}
     </div>
