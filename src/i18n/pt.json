@@ -384,6 +384,7 @@
   "planes.category.long": "Bíblia toda e planos anuais",
   "planes.durationYear": "Um ano",
   "planes.durationYearLong": "Um ano · 365 dias",
+  "planes.markPreviousError": "Seu plano está ativo, mas não conseguimos marcar os dias anteriores. Você pode marcá-los em Progresso.",
   "planes.durationDays": "{days} dias",
   "planes.goToday": "Ir para Hoje",
   "planes.activating": "Ativando…",

@@ -384,6 +384,7 @@
   "planes.category.long": "Toda la Biblia y planes anuales",
   "planes.durationYear": "Un año",
   "planes.durationYearLong": "Un año · 365 días",
+  "planes.markPreviousError": "Tu plan quedó activo, pero no pudimos marcar los días anteriores. Podés marcarlos desde Progreso.",
   "planes.durationDays": "{days} días",
   "planes.goToday": "Ir a Hoy",
   "planes.activating": "Activando…",

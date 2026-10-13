@@ -13,6 +13,7 @@ import { SkeletonRows } from '../components/Skeleton.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import { inputStyle } from '../components/formStyles.js'
 import RetryError from '../components/RetryError.jsx'
+import InlineError from '../components/InlineError.jsx'
 
 const WINDOW_SIZE = 31
 
@@ -33,6 +34,8 @@ export default function PlanDetail() {
   const [resumeDay, setResumeDay] = useState(null)
   const [confirm, setConfirm] = useState(false)
   const [saving, setSaving] = useState(false)
+  const [saveFailed, setSaveFailed] = useState(false) // no se pudo activar el plan
+  const [previousFailed, setPreviousFailed] = useState(false) // activó, pero no marcó 1..N−1
   const [jumpInput, setJumpInput] = useState('')
   const todayRef = useRef(null)
   const scrolled = useRef(false)
@@ -87,14 +90,28 @@ export default function PlanDetail() {
 
   async function activate() {
     setSaving(true)
+    setSaveFailed(false)
+    setPreviousFailed(false)
     const planStart = resumeDay ? startDateForDay(resumeDay) : todayLocalISO()
     const { error } = await updateProfile({ active_plan_id: planId, plan_start_date: planStart })
+    // Si no se guardó, nos quedamos acá (con el diálogo abierto, si lo hay) y se
+    // avisa: nunca navegar a Hoy como si el plan hubiera cambiado.
+    if (error) {
+      setSaving(false)
+      setSaveFailed(true)
+      return
+    }
     // Engancharse a mitad de plan: dar por leídos los días anteriores (1..N−1).
-    if (!error && resumeDay && resumeDay > 1 && user) {
+    // El plan ya quedó activo; si esto falla se avisa en vez de dejar un atraso
+    // falso sin explicación.
+    if (resumeDay && resumeDay > 1 && user) {
       try {
         await markDaysRead(user.id, planId, resumeDay - 1)
       } catch {
-        // No es bloqueante: el plan ya quedó activo en el día correcto.
+        setSaving(false)
+        setConfirm(false)
+        setPreviousFailed(true)
+        return
       }
     }
     setSaving(false)
@@ -156,6 +173,8 @@ export default function PlanDetail() {
       >
         {isActive ? t('planes.goToday') : saving ? t('planes.activating') : t('planes.useThisPlan')}
       </button>
+      {saveFailed && !confirm && <InlineError message={t('common.saveError')} className="mt-2 text-center" />}
+      {previousFailed && <InlineError message={t('planes.markPreviousError')} className="mt-2 text-center" />}
       {isActive && (
         <p className="mt-2 text-center text-[13px]" style={{ color: 'var(--accent-ink)' }}>
           {t('planes.isYourActive')}
@@ -187,7 +206,7 @@ export default function PlanDetail() {
           </form>
         )}
       </div>
-      {days === null && <SkeletonRows count={6} />}
+      {days === null && !loadError && <SkeletonRows count={6} />}
       {loadError && <RetryError message={t('planes.detailLoadError')} onRetry={load} />}
       {days && windowStart > 1 && (
         <button
@@ -257,8 +276,12 @@ export default function PlanDetail() {
           }
           confirmLabel={saving ? '…' : t('planes.change')}
           busy={saving}
+          error={saveFailed ? t('common.saveError') : null}
           onConfirm={activate}
-          onCancel={() => setConfirm(false)}
+          onCancel={() => {
+            setConfirm(false)
+            setSaveFailed(false)
+          }}
         />
       )}
     </div>
