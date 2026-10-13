@@ -6,6 +6,7 @@ import BackLink from '../components/BackLink.jsx'
 import { getCompletedPlans, getYearStats } from '../lib/db.js'
 import { planName } from '../lib/planLabels.js'
 import { SkeletonCards } from '../components/Skeleton.jsx'
+import EmptyState from '../components/EmptyState.jsx'
 import RetryError from '../components/RetryError.jsx'
 
 // "Tu recorrido en la Palabra" (Feature 5, parte 2): números acumulados + planes
@@ -15,10 +16,7 @@ import RetryError from '../components/RetryError.jsx'
 function Stat({ value, label, accent }) {
   return (
     <div className="card flex-1 p-4 text-center">
-      <p
-        className={`text-[30px] font-bold ${accent ? 'text-accent-ink' : 'text-ink'}`}
-        style={{ letterSpacing: '-1px' }}
-      >
+      <p className={`stat-num text-[30px] font-bold ${accent ? 'text-accent-ink' : 'text-ink'}`}>
         {value}
       </p>
       <p className="mt-0.5 text-[13px] leading-tight text-ink-soft">{label}</p>
@@ -76,22 +74,13 @@ export default function Recorrido() {
           <SkeletonCards count={2} />
         </div>
       ) : stats.totalDaysRead === 0 && stats.plansCompleted === 0 ? (
-        <div className="mt-16 flex flex-col items-center text-center">
-          <div
-            className="flex h-[72px] w-[72px] items-center justify-center rounded-full text-[30px]"
-            style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--accent-ink)' }}
-            aria-hidden="true"
-          >
-            ✦
-          </div>
-          <h2 className="mt-5 text-[20px] font-semibold text-ink">{t('recorrido.empty.title')}</h2>
-          <p className="mt-2 max-w-[300px] text-[15px] leading-relaxed text-ink-soft">
-            {t('recorrido.empty.text')}
-          </p>
-        </div>
+        <EmptyState icon="✦" title={t('recorrido.empty.title')} text={t('recorrido.empty.text')} />
       ) : (
         <>
-          <div className="mt-6 flex gap-3">
+          <h2 className="mt-6 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
+            {t('recorrido.sectionNumbers')}
+          </h2>
+          <div className="mt-3 flex gap-3">
             <Stat
               value={stats.plansCompleted}
               label={t('recorrido.plansCompleted', { count: stats.plansCompleted })}

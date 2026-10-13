@@ -1,12 +1,15 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useReading } from '../hooks/useReading.js'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { fmtISODate } from '../i18n/dates.js'
-import { todayLocalISO, addDaysISO } from '../lib/db.js'
+import { todayLocalISO, addDaysISO, countReflections, longestStreak } from '../lib/db.js'
 import Segmented from '../components/Segmented.jsx'
 import Diario from './Diario.jsx'
+import EmptyState from '../components/EmptyState.jsx'
+import InlineError from '../components/InlineError.jsx'
+import { SkeletonCards } from '../components/Skeleton.jsx'
 
 // Progreso — sub-vista de Hoy (documento maestro §5.2, README pantalla 2).
 // Racha, % y CALENDARIO DE CONSTANCIA de las últimas 5 semanas: cada cuadrado se
@@ -29,13 +32,41 @@ function buildGrid(todayISO) {
 
 export default function Progreso() {
   const r = useReading()
-  const { profile } = useAuth()
+  const { user, profile } = useAuth()
   const { t, locale } = usePreferences()
   const reflectionsEnabled = !!profile?.reflections_enabled
   const [seg, setSeg] = useState('progreso')
+  // Si apagó el diario pero ya escribió notas, "Mi camino" sigue a mano: esconderlo
+  // dejaba esas notas inalcanzables dentro de la app.
+  const [hasNotes, setHasNotes] = useState(false)
+  useEffect(() => {
+    if (reflectionsEnabled || !user) return
+    let on = true
+    countReflections(user.id).then((n) => on && setHasNotes(n > 0))
+    return () => {
+      on = false
+    }
+  }, [reflectionsEnabled, user])
+  const showCamino = reflectionsEnabled || hasNotes
+  // Confirmación de reprogramar visible unos segundos aunque el aviso de atraso
+  // desaparezca (con éxito el atraso baja a 0 en el mismo render).
+  const [showReprogramado, setShowReprogramado] = useState(false)
+  useEffect(() => {
+    if (!r.reprogramado || r.loading) return
+    setShowReprogramado(true)
+    const id = setTimeout(() => setShowReprogramado(false), 4000)
+    return () => clearTimeout(id)
+  }, [r.reprogramado, r.loading])
+  // Misma regla que Hoy: si estás leyendo adelantado, "te atrasaste" contradice.
+  const anchoredAhead = r.displayDay != null && r.todayDay != null && r.displayDay > r.todayDay
+  const showBehindNote = r.behind > 0 && !anchoredAhead
   const todayISO = todayLocalISO()
   const grid = buildGrid(todayISO)
   const duration = r.plan?.duration_days ?? 0
+  // Para el resumen accesible del calendario (lectores de pantalla).
+  const readLast35 = grid.filter((iso) => iso <= todayISO && r.readDates.has(iso)).length
+  const daysLast35 = grid.filter((iso) => iso <= todayISO).length
+  const bestStreak = longestStreak(r.readDates)
 
   const PROG_VIEWS = [
     { key: 'progreso', label: t('progreso.view.progreso') },
@@ -59,15 +90,21 @@ export default function Progreso() {
         </p>
       )}
 
-      {reflectionsEnabled && (
+      {showCamino && (
         <Segmented className="mt-4" options={PROG_VIEWS} value={seg} onChange={setSeg} />
       )}
 
-      {reflectionsEnabled && seg === 'camino' ? (
+      {showCamino && seg === 'camino' ? (
         <Diario />
       ) : r.loading ? (
         // Sin esto, durante la carga se veía un flash de "0 días de racha / 0%".
-        <p className="mt-8 text-[15px] text-ink-soft">{t('common.loading')}</p>
+        <div className="mt-6" aria-hidden="true">
+          <SkeletonCards count={2} />
+        </div>
+      ) : r.offline && !r.plan && r.hasPlan ? (
+        // Sin conexión y sin snapshot: mostrar ceros sería presentar como dato lo
+        // que no se sabe (justo en la racha, la métrica más sensible).
+        <EmptyState text={t('progreso.offlineNoData')} />
       ) : !r.hasPlan ? (
         <p className="mt-8 text-[15px] text-ink-soft">
           {t('progreso.noPlanPre')}
@@ -92,14 +129,28 @@ export default function Progreso() {
           <div className="lg:grid lg:grid-cols-[minmax(280px,0.8fr)_minmax(0,1.2fr)] lg:items-start lg:gap-8">
           <div>
           {/* Stat cards */}
-          <div className="mt-5 flex gap-3">
+          <h2 className="mt-5 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
+            {t('progreso.sectionConstancy')}
+          </h2>
+          <div className="mt-3 flex gap-3">
             <div className="card flex-1 p-4">
-              <p className="stat-num text-[30px] font-bold text-accent-ink">
-                {r.streak}
-              </p>
-              <p className="text-[13px] text-ink-soft">
-                {t('progreso.streakDays', { count: r.streak })}
-              </p>
+              {r.streak > 0 ? (
+                <>
+                  <p className="stat-num text-[30px] font-bold text-accent-ink">{r.streak}</p>
+                  <p className="text-[13px] text-ink-soft">
+                    {t('progreso.streakDays', { count: r.streak })}
+                  </p>
+                </>
+              ) : (
+                // Sin racha viva no se abre con un "0" héroe: el atraso es un dato,
+                // no un reto.
+                <>
+                  <p className="text-[15px] leading-snug text-ink-soft">{t('progreso.noStreakYet')}</p>
+                  {bestStreak > 0 && (
+                    <p className="mt-1 text-[13px] text-ink-soft">{t('progreso.bestStreak', { count: bestStreak })}</p>
+                  )}
+                </>
+              )}
             </div>
             <div className="card flex-1 p-4">
               <p className="stat-num text-[30px] font-bold text-ink">
@@ -154,11 +205,16 @@ export default function Progreso() {
               )
             })}
           </div>
-          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-[13px] text-ink-soft" aria-label={t('progreso.heatmapHint')}>
+          <p className="sr-only">
+            {t('progreso.heatmapSummary', { read: readLast35, total: daysLast35 })}
+          </p>
+          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-[13px] text-ink-soft">
             <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm bg-accent" />{t('progreso.state.read')}</span>
             <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-control-border" />{t('progreso.state.unread')}</span>
             <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-dashed border-control-border opacity-50" />{t('progreso.state.future')}</span>
           </div>
+
+          <p className="mt-3 text-[13px] leading-snug text-ink-soft">{t('progreso.heatmapHint')}</p>
 
           {/* Acceso al recorrido (logros + números acumulados) */}
           <Link to="/recorrido" className="card mt-6 flex items-center justify-between px-4 py-3.5">
@@ -174,7 +230,7 @@ export default function Progreso() {
           </div>
 
           {/* Nota neutra de atraso */}
-          {r.behind > 0 && (
+          {showBehindNote && (
             <>
               <p className="mt-6 text-[15px] text-ink-soft">
                 {t('progreso.behindPre', { count: r.behind })}
@@ -189,17 +245,13 @@ export default function Progreso() {
                 </button>
                 {t('progreso.behindPost')}
               </p>
-              {r.reprogramarError && (
-                <p className="mt-2 text-[12px]" style={{ color: 'var(--danger)' }}>
-                  {t('hoy.reprogramarError')}
-                </p>
-              )}
-              {r.reprogramado && (
-                <p className="mt-2 text-[12px]" style={{ color: 'var(--accent-ink)' }} role="status">
-                  ✓ {t('progreso.reprogramado')}
-                </p>
-              )}
+              {r.reprogramarError && <InlineError message={t('hoy.reprogramarError')} className="mt-2" />}
             </>
+          )}
+          {showReprogramado && (
+            <p className="mt-3 text-[13px]" style={{ color: 'var(--accent-ink)' }} role="status">
+              ✓ {t('progreso.reprogramado')}
+            </p>
           )}
         </>
       )}

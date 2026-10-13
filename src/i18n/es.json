@@ -31,7 +31,7 @@
   "ajustes.dayChangeForward": "Hoy pasará al día {day}. Los días anteriores quedan como leídos.",
   "ajustes.daySaved": "Listo, hoy es el día {day}",
   "ajustes.section.diario": "Diario de reflexión",
-  "ajustes.diarioHelp": "Al terminar tu lectura, anotá en una línea qué te habló. Lo encontrás en Progreso › Mi camino.",
+  "ajustes.diarioHelp": "Al terminar tu lectura, anotá en una línea qué te habló. Lo encontrás en Progreso › Mi camino. Si lo apagás, tus notas se conservan.",
   "ajustes.section.lecturaGrupos": "Lectura con mis grupos",
   "ajustes.compartirLectura": "Compartir mi lectura",
   "ajustes.compartirLecturaLabel": "Compartir mi lectura con mis grupos",
@@ -325,6 +325,7 @@
   "progreso.noPlanPre": "Elegí un plan en ",
   "progreso.noPlanPost": " para ver tu progreso.",
   "progreso.offline": "Sin conexión · puede estar desactualizado.",
+  "progreso.offlineNoData": "Sin conexión. Tu progreso aparece cuando vuelva la red.",
   "progreso.streakDays": {
     "one": "día de racha",
     "other": "días de racha"
@@ -332,6 +333,10 @@
   "progreso.ofDays": "{done} de {total} días",
   "progreso.last5weeks": "Últimas 5 semanas",
   "progreso.heatmapHint": "Cada cuadrado pintado es un día que marcaste tu lectura.",
+  "progreso.noStreakYet": "Hoy puede empezar una racha",
+  "progreso.sectionConstancy": "Tu constancia",
+  "progreso.heatmapSummary": "{read} de los últimos {total} días con lectura",
+  "progreso.bestStreak": "Tu mejor racha: {count}",
   "progreso.recorrido.title": "Tu recorrido",
   "progreso.recorrido.subtitle": "Tus días, planes y respuestas en la Palabra",
   "progreso.behindPre": {
@@ -358,6 +363,7 @@
   "recorrido.loadError": "No se pudo cargar tu recorrido.",
   "recorrido.title": "Tu recorrido",
   "recorrido.subtitle": "Lo que fuiste caminando en la Palabra.",
+  "recorrido.sectionNumbers": "Tus números",
   "recorrido.empty.title": "Tu recorrido empieza hoy",
   "recorrido.empty.text": "Cada día que marcás tu lectura queda guardado acá, junto con los planes que vayas terminando.",
   "recorrido.plansCompleted": {

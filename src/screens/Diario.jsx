@@ -98,11 +98,11 @@ export default function Diario() {
                 onClick={() => setSheet(e)}
                 className="card w-full p-4 text-left"
               >
-                <p className="text-[16px] leading-relaxed text-ink">{e.body}</p>
-                <div className="mt-2.5 flex items-center justify-between gap-3">
-                  <p className="text-[12px] text-ink-soft">
+                <span className="block text-[16px] leading-relaxed text-ink">{e.body}</span>
+                <span className="mt-2.5 flex items-center justify-between gap-3">
+                  <span className="block text-[12px] text-ink-soft">
                     {t('diario.entryMeta', { date: fmtDay(e.created_at), day: e.day_number })}
-                  </p>
+                  </span>
                   {editable && (
                     <span
                       className="flex shrink-0 items-center gap-1 text-[12px] font-medium"
@@ -112,7 +112,7 @@ export default function Diario() {
                       {t('common.edit')}
                     </span>
                   )}
-                </div>
+                </span>
               </button>
             </li>
           )
@@ -149,15 +149,17 @@ export default function Diario() {
             filename: `mi-camino-${localDateISO(sheet.created_at)}.png`,
           }}
           onClose={() => setSheet(null)}
+          // Se actualiza la entrada en el lugar (en vez de recargar): recargar
+          // volvía a la primera página y perdía lo traído con "Cargar más".
           onSave={async (body) => {
-            await upsertReflection(user.id, sheet.plan_id, sheet.day_number, body, sheet.cycle ?? 0)
+            const row = await upsertReflection(user.id, sheet.plan_id, sheet.day_number, body, sheet.cycle ?? 0)
+            setEntries((list) => list.map((x) => (x.id === sheet.id ? { ...x, body: row?.body ?? body.trim() } : x)))
             setSheet(null)
-            await load()
           }}
           onDelete={async () => {
             await deleteReflection(user.id, sheet.plan_id, sheet.day_number, sheet.cycle ?? 0)
+            setEntries((list) => list.filter((x) => x.id !== sheet.id))
             setSheet(null)
-            await load()
           }}
         />
       )}

@@ -31,7 +31,7 @@
   "ajustes.dayChangeForward": "Hoje vai passar para o dia {day}. Os dias anteriores ficam como lidos.",
   "ajustes.daySaved": "Pronto, hoje é o dia {day}",
   "ajustes.section.diario": "Diário de reflexão",
-  "ajustes.diarioHelp": "Ao terminar sua leitura, anote em uma linha o que falou com você. Você encontra em Progresso › Meu caminho.",
+  "ajustes.diarioHelp": "Ao terminar sua leitura, anote em uma linha o que falou com você. Você encontra em Progresso › Meu caminho. Se desligar, suas notas ficam guardadas.",
   "ajustes.section.lecturaGrupos": "Leitura com meus grupos",
   "ajustes.compartirLectura": "Compartilhar minha leitura",
   "ajustes.compartirLecturaLabel": "Compartilhar minha leitura com meus grupos",
@@ -325,6 +325,7 @@
   "progreso.noPlanPre": "Escolha um plano em ",
   "progreso.noPlanPost": " para ver seu progresso.",
   "progreso.offline": "Sem conexão · pode estar desatualizado.",
+  "progreso.offlineNoData": "Sem conexão. Seu progresso aparece quando a rede voltar.",
   "progreso.streakDays": {
     "one": "dia de sequência",
     "other": "dias de sequência"
@@ -332,6 +333,10 @@
   "progreso.ofDays": "{done} de {total} dias",
   "progreso.last5weeks": "Últimas 5 semanas",
   "progreso.heatmapHint": "Cada quadrado preenchido é um dia que você marcou sua leitura.",
+  "progreso.noStreakYet": "Hoje pode começar uma sequência",
+  "progreso.sectionConstancy": "Sua constância",
+  "progreso.heatmapSummary": "{read} dos últimos {total} dias com leitura",
+  "progreso.bestStreak": "Sua melhor sequência: {count}",
   "progreso.recorrido.title": "Sua caminhada",
   "progreso.recorrido.subtitle": "Seus dias, planos e respostas na Palavra",
   "progreso.behindPre": {
@@ -358,6 +363,7 @@
   "recorrido.loadError": "Não foi possível carregar sua caminhada.",
   "recorrido.title": "Sua caminhada",
   "recorrido.subtitle": "O quanto você caminhou na Palavra.",
+  "recorrido.sectionNumbers": "Seus números",
   "recorrido.empty.title": "Sua caminhada começa hoje",
   "recorrido.empty.text": "Cada dia que você marca sua leitura fica guardado aqui, junto com os planos que for terminando.",
   "recorrido.plansCompleted": {

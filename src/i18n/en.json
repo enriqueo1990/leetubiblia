@@ -31,7 +31,7 @@
   "ajustes.dayChangeForward": "Today will move to day {day}. Earlier days are marked as read.",
   "ajustes.daySaved": "Done, today is day {day}",
   "ajustes.section.diario": "Reflection journal",
-  "ajustes.diarioHelp": "When you finish your reading, jot down in a line what spoke to you. You'll find it in Progress › My journey.",
+  "ajustes.diarioHelp": "When you finish your reading, jot down in a line what spoke to you. You'll find it in Progress › My journey. If you turn it off, your notes are kept.",
   "ajustes.section.lecturaGrupos": "Reading with my groups",
   "ajustes.compartirLectura": "Share my reading",
   "ajustes.compartirLecturaLabel": "Share my reading with my groups",
@@ -325,6 +325,7 @@
   "progreso.noPlanPre": "Choose a plan in ",
   "progreso.noPlanPost": " to see your progress.",
   "progreso.offline": "Offline · this may be out of date.",
+  "progreso.offlineNoData": "No connection. Your progress will show up when you are back online.",
   "progreso.streakDays": {
     "one": "day streak",
     "other": "day streak"
@@ -332,6 +333,10 @@
   "progreso.ofDays": "{done} of {total} days",
   "progreso.last5weeks": "Last 5 weeks",
   "progreso.heatmapHint": "Each filled square is a day you marked your reading.",
+  "progreso.noStreakYet": "Today can start a streak",
+  "progreso.sectionConstancy": "Your consistency",
+  "progreso.heatmapSummary": "{read} of the last {total} days with reading",
+  "progreso.bestStreak": "Your best streak: {count}",
   "progreso.recorrido.title": "Your journey",
   "progreso.recorrido.subtitle": "Your days, plans, and answered prayers in the Word",
   "progreso.behindPre": {
@@ -358,6 +363,7 @@
   "recorrido.loadError": "Couldn't load your journey.",
   "recorrido.title": "Your journey",
   "recorrido.subtitle": "How far you've walked in the Word.",
+  "recorrido.sectionNumbers": "Your numbers",
   "recorrido.empty.title": "Your journey starts today",
   "recorrido.empty.text": "Every day you mark your reading is saved here, alongside the plans you finish.",
   "recorrido.plansCompleted": {

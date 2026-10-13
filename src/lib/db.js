@@ -1015,6 +1015,16 @@ export async function deleteReflection(userId, planId, dayNumber, cycle = 0) {
   reflectionCache.set(reflectionKey(userId, planId, dayNumber, cycle), null)
 }
 
+// ¿Tiene el usuario alguna nota guardada? (para no esconder "Mi camino" si apagó el
+// diario después de escribir). Un fallo cuenta como 0: es solo una comodidad.
+export async function countReflections(userId) {
+  const { count, error } = await supabase
+    .from('reading_reflections')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', userId)
+  return error ? 0 : count ?? 0
+}
+
 // Diario cross-plan, más recientes primero. Paginación por cursor de created_at
 // (pasá el created_at de la última entrada como `before` para traer las siguientes).
 export async function getReflectionJournal(userId, { limit = 30, before = null } = {}) {
