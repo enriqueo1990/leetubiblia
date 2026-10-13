@@ -79,6 +79,12 @@
   "ajustes.section.cuenta": "Account",
   "ajustes.tuNombre": "Your name",
   "ajustes.cerrarSesion": "Sign out",
+  "ajustes.signOutTitle": "Sign out?",
+  "ajustes.signOutConfirm": "To get back in you'll need a code we send you by email.",
+  "ajustes.signOutPending": {
+    "one": "You have {count} reading not saved yet. If you sign out now, it is lost.",
+    "other": "You have {count} readings not saved yet. If you sign out now, they are lost."
+  },
   "ajustes.eliminando": "Deleting…",
   "ajustes.eliminarCuenta": "Delete account",
   "ajustes.deleteError": "Couldn't delete the account. Try again.",

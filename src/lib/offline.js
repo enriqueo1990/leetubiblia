@@ -46,6 +46,11 @@ export function hasPending(userId) {
   return readQueue(userId).length > 0
 }
 
+// Cuántos marcados esperan sincronizarse (para avisar antes de cerrar sesión).
+export function pendingCount(userId) {
+  return readQueue(userId).length
+}
+
 // Reproduce la cola contra Supabase. Se detiene ante el primer fallo de red para
 // reintentar luego. Los errores permanentes se descartan para que una operación
 // inválida no bloquee para siempre las lecturas posteriores.

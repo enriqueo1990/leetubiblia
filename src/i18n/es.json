@@ -79,6 +79,12 @@
   "ajustes.section.cuenta": "Cuenta",
   "ajustes.tuNombre": "Tu nombre",
   "ajustes.cerrarSesion": "Cerrar sesión",
+  "ajustes.signOutTitle": "¿Cerrar sesión?",
+  "ajustes.signOutConfirm": "Para volver a entrar vas a necesitar un código que te mandamos por correo.",
+  "ajustes.signOutPending": {
+    "one": "Tenés {count} lectura sin guardar. Si salís ahora, se pierde.",
+    "other": "Tenés {count} lecturas sin guardar. Si salís ahora, se pierden."
+  },
   "ajustes.eliminando": "Eliminando…",
   "ajustes.eliminarCuenta": "Eliminar cuenta",
   "ajustes.deleteError": "No se pudo eliminar la cuenta. Intentá de nuevo.",

@@ -21,6 +21,7 @@ import { ChevronRight, HeartIcon, InstallIcon, ShareIcon } from '../components/i
 import { subscribeToPush, unsubscribeFromPush, getTimezone } from '../lib/push.js'
 import { activeMaterials } from '../lib/materials.js'
 import { exportJournal } from '../lib/exportJournal.js'
+import { flushQueue, pendingCount } from '../lib/offline.js'
 import { version as APP_VERSION } from '../../package.json'
 
 // Ajustes (documento maestro §5.7, README pantalla 7). Acento y tema persisten en
@@ -90,6 +91,9 @@ export default function Ajustes() {
   const [deleting, setDeleting] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [deleteError, setDeleteError] = useState(false)
+  // Cerrar sesión: null | { pending } — cuántos marcados sin sincronizar se perderían.
+  const [confirmSignOut, setConfirmSignOut] = useState(null)
+  const [signingOut, setSigningOut] = useState(false)
   const [dayInput, setDayInput] = useState('')
   const [savingDay, setSavingDay] = useState(false)
   const [savedDay, setSavedDay] = useState(false)
@@ -304,6 +308,24 @@ export default function Ajustes() {
     setInstalling(true)
     await promptInstall()
     setInstalling(false)
+  }
+
+  // Cerrar sesión borra la caché offline y la cola de marcados: antes de pedir la
+  // confirmación se intenta sincronizar, y si queda algo se avisa cuánto se pierde.
+  async function askSignOut() {
+    if (!user) return
+    await flushQueue(user.id).catch(() => {})
+    setConfirmSignOut({ pending: pendingCount(user.id) })
+  }
+
+  async function handleSignOut() {
+    setSigningOut(true)
+    try {
+      await signOut()
+    } finally {
+      setSigningOut(false)
+      setConfirmSignOut(null)
+    }
   }
 
   async function handleDelete() {
@@ -726,16 +748,20 @@ export default function Ajustes() {
         </div>
         <button
           type="button"
-          onClick={signOut}
-          className="w-full px-4 py-3 text-left text-[16px] text-ink"
+          onClick={askSignOut}
+          className="min-h-11 w-full px-4 py-3 text-left text-[16px] text-ink"
         >
           {t('ajustes.cerrarSesion')}
         </button>
+      </div>
+      {/* Eliminar la cuenta va aparte: es irreversible y no debe quedar a un toque
+          de distancia de "Cerrar sesión". */}
+      <div className="card mt-4">
         <button
           type="button"
           onClick={() => setConfirmDelete(true)}
           disabled={deleting}
-          className="w-full px-4 py-3 text-left text-[16px]"
+          className="min-h-11 w-full px-4 py-3 text-left text-[16px]"
           style={{ color: 'var(--danger)' }}
         >
           {deleting ? t('ajustes.eliminando') : t('ajustes.eliminarCuenta')}
@@ -750,6 +776,22 @@ export default function Ajustes() {
       </div>
 
       <p className="mt-8 text-center text-[13px] text-ink-soft">{t('ajustes.version', { version: APP_VERSION })}</p>
+
+      {confirmSignOut && (
+        <ConfirmDialog
+          title={t('ajustes.signOutTitle')}
+          message={
+            confirmSignOut.pending > 0
+              ? t('ajustes.signOutPending', { count: confirmSignOut.pending })
+              : t('ajustes.signOutConfirm')
+          }
+          confirmLabel={t('ajustes.cerrarSesion')}
+          danger={confirmSignOut.pending > 0}
+          busy={signingOut}
+          onConfirm={handleSignOut}
+          onCancel={() => setConfirmSignOut(null)}
+        />
+      )}
 
       {confirmDelete && (
         <ConfirmDialog
