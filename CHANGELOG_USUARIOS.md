@@ -2,6 +2,30 @@
 
 Registro de mejoras en lenguaje de usuario, para compartir.
 
+## Actualización — 13 de octubre de 2026 · cuidar lo que guardás
+<!-- ref: add095c -->
+
+### ✨ Novedades
+- En Planes, los planes ahora se agrupan por lo que buscás: para empezar, para esta temporada, un libro a la vez, toda la Biblia o un hábito breve.
+- En Oración, al orar por los pedidos de tus grupos el botón dice lo que hace —**Oré por esto**— y podés **Pasar** un pedido sin avisar que oraste.
+- Si lideras un grupo, ahora podés eliminarlo cuando ya no haga falta.
+
+### 💫 Mejoras
+- Si algo no se puede guardar, la app te lo dice junto al botón que tocaste y deja todo como estaba, en vez de mostrarte un cambio que no quedó guardado.
+- Tu racha ya no se corta cuando cambiás de plan, y volver a leer un plan no baja tus días en la Palabra.
+- Tus notas del diario se conservan cuando releés un plan, y las nuevas conviven con las viejas.
+- Cambiar el plan de un grupo, apagar un material con avance y cerrar sesión ahora piden confirmación. Al cerrar sesión te avisamos si quedaron lecturas sin sincronizar.
+- Si abrís la app sin conexión, entra con tus datos guardados en lugar de pedirte que ingreses de nuevo.
+- Cada pedido de oración se abre en la misma pantalla de detalle, privado o compartido, y desde ahí contás cómo sigue.
+- Las guías públicas, la ayuda y la privacidad ahora coinciden con lo que la app hace de verdad.
+- Pequeños ajustes de orden, tamaños táctiles, lectura con teclado y textos en portugués e inglés.
+
+### 🐛 Correcciones
+- Si un material no cargaba, la pantalla quedaba en blanco para siempre; ahora avisa y deja reintentar.
+- Un pedido de oración vencido volvía a aparecer en "Para volver a orar" aunque ya hubieras seguido orando.
+- Marcar la lectura de un grupo que lee tu mismo plan ahora te lo avisa, porque también marca ese día en tu plan.
+- El conteo de "leyeron hoy" en un grupo ya no te cuenta a vos.
+
 ## Actualización — 13 de octubre de 2026 · "También hoy"
 <!-- ref: 4c60340 -->
 
