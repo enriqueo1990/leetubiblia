@@ -21,15 +21,23 @@ export function SkeletonCards({ count = 3 }) {
   )
 }
 
-export function SkeletonRows({ count = 5 }) {
+// `twoLine`: filas de dos líneas (nombre + detalle), como "También hoy".
+export function SkeletonRows({ count = 5, twoLine = false }) {
   return (
     <div className="card animate-pulse divide-y divide-hairline" aria-hidden="true">
-      {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="flex gap-3 px-4 py-3">
-          {bar(40, 11, { marginTop: 2, flexShrink: 0 })}
-          <div className="flex-1">{bar('65%', 12)}</div>
-        </div>
-      ))}
+      {Array.from({ length: count }).map((_, i) =>
+        twoLine ? (
+          <div key={i} className="px-4 py-3" style={{ minHeight: 60 }}>
+            {bar('45%', 14)}
+            <div className="mt-2">{bar('70%', 11)}</div>
+          </div>
+        ) : (
+          <div key={i} className="flex gap-3 px-4 py-3">
+            {bar(40, 11, { marginTop: 2, flexShrink: 0 })}
+            <div className="flex-1">{bar('65%', 12)}</div>
+          </div>
+        )
+      )}
     </div>
   )
 }

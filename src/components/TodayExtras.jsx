@@ -1,16 +1,31 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { useTodayExtras } from '../lib/todayExtras.js'
 import TodayExtraRows from './TodayExtraRows.jsx'
+import { SkeletonRows } from './Skeleton.jsx'
 import { ChevronRight } from './icons.jsx'
 
 const HINT_KEY = 'ltb.materialsHint.dismissed'
 const INLINE_LIMIT = 4 // hasta acá se ven todas las filas
 const PREVIEW_ROWS = 3 // con más, se ven estas y un "Ver todas"
 
+// Cuántas filas se mostraron la última vez, por usuario: sirve para reservar el
+// alto mientras carga y que la barra de acción de Hoy no salte al llegar los datos.
+const countKey = (userId) => `ltb.extrasCount.${userId}`
+function readCount(userId) {
+  try {
+    const n = Number(localStorage.getItem(countKey(userId)))
+    return Number.isFinite(n) && n > 0 ? n : 0
+  } catch {
+    return 0
+  }
+}
+
 export default function TodayExtras() {
   const { t } = usePreferences()
+  const { user } = useAuth()
   const { loading, profile, rows } = useTodayExtras()
   const [hintDismissed, setHintDismissed] = useState(() => {
     try {
@@ -29,7 +44,31 @@ export default function TodayExtras() {
     }
   }
 
-  if (loading) return null
+  const userId = user?.id
+  useEffect(() => {
+    if (loading || !userId) return
+    try {
+      localStorage.setItem(countKey(userId), String(rows.length))
+    } catch {
+      /* sin almacenamiento: solo se pierde la reserva de alto */
+    }
+  }, [loading, userId, rows.length])
+
+  if (loading) {
+    // Lo guardado refleja lo último que de verdad se mostró (ya sin materiales
+    // completados); si no hay dato, se estima con los materiales activos.
+    const saved = userId ? readCount(userId) : 0
+    const expected = saved || (Array.isArray(profile?.active_materials) ? profile.active_materials.length : 0)
+    if (expected === 0) return null
+    return (
+      <div className="mt-8" aria-hidden="true">
+        <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+          {t('hoy.alsoToday')}
+        </p>
+        <SkeletonRows count={Math.min(expected, INLINE_LIMIT)} twoLine />
+      </div>
+    )
+  }
 
   if (rows.length === 0) {
     if (!profile || hintDismissed) return null
