@@ -5,6 +5,7 @@ import { usePreferences } from '../lib/preferences.jsx'
 import BackLink from '../components/BackLink.jsx'
 import { getPlans } from '../lib/db.js'
 import { planName, planDescription } from '../lib/planLabels.js'
+import { DOOR_ORDER, planDoor } from '../lib/planCatalog.js'
 import { ChevronRight } from '../components/icons.jsx'
 import RetryError from '../components/RetryError.jsx'
 import { SkeletonCards } from '../components/Skeleton.jsx'
@@ -36,11 +37,13 @@ export default function Planes() {
   const activeId = profile?.active_plan_id ?? null
   const activePlan = plans?.find((p) => p.id === activeId) ?? null
   const availablePlans = plans?.filter((p) => p.id !== activeId) ?? []
-  const sections = [
-    { key: 'short', label: t('planes.category.short'), plans: availablePlans.filter((p) => p.duration_days <= 31) },
-    { key: 'medium', label: t('planes.category.medium'), plans: availablePlans.filter((p) => p.duration_days > 31 && p.duration_days < 300) },
-    { key: 'long', label: t('planes.category.long'), plans: availablePlans.filter((p) => p.duration_days >= 300) },
-  ]
+  // Se agrupa por "puerta" (la situación del lector), no por duración: la duración
+  // queda como metadato de cada tarjeta. Las puertas vacías no se muestran.
+  const sections = DOOR_ORDER.map((door) => ({
+    key: door,
+    label: t(`planes.door.${door}`),
+    plans: availablePlans.filter((p) => planDoor(p.slug) === door),
+  }))
 
   function planCard(p, active = false) {
     return (

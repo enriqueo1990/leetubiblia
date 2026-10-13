@@ -2,6 +2,7 @@ import { supabase } from './supabase.js'
 import { todayLocalISO, dayNumberFor, localDateISO, longestStreak } from './dateMath.js'
 import { totalDaysRead } from './stats.js'
 import { expiresAtFor, reviewedPatch } from './prayerExpiry.js'
+import { PLAN_ORDER } from './planCatalog.js'
 
 // Las funciones puras de fechas y rachas viven en dateMath.js (sin Supabase, para
 // poder probarlas con node:test). Se re-exportan acá para no tocar los imports.
@@ -45,24 +46,6 @@ function missingCompletedOn(error) {
 // en el contexto de auth (updateProfile). Las de progreso/oración/grupos llegan
 // en sus tareas respectivas (4, 5, 6).
 
-// Orden curado del catálogo (la terna de lanzamiento primero; lo demás después).
-// Da un orden estable y con intención, en vez de ordenar solo por duración —que
-// dejaba el plan de 861 días primero y los cuatro de 365 en orden indefinido.
-const PLAN_ORDER = [
-  'mcheyne',
-  'cronologico',
-  'marcos',
-  'primeros-pasos',
-  'evangelios',
-  'proverbios',
-  'semana-santa',
-  'adviento',
-  'beginning',
-  'at-nt',
-  'nt-24-week',
-  '40-dias-con-dios',
-  'bcp-daily-office',
-]
 
 // Lista los planes activos del catálogo, en orden curado y determinista.
 export async function getPlans() {

@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import { usePreferences } from '../lib/preferences.jsx'
 import { getPlans } from '../lib/db.js'
+import { planName, planDescription } from '../lib/planLabels.js'
+import { SkeletonCards } from './Skeleton.jsx'
 import ResumeFromDay from './ResumeFromDay.jsx'
 import RetryError from './RetryError.jsx'
 
@@ -57,9 +59,7 @@ export default function PlanCatalog({
           <p className="text-[15px]" role="alert" style={{ color: 'var(--danger)' }}>{errorMessage}</p>
         )}
         {loadError && <RetryError message={t('planes.loadError')} onRetry={loadPlans} />}
-        {!loadError && plans === null && (
-          <p className="text-[15px] text-ink-soft">{t('onboarding.choosePlan.loadingPlans')}</p>
-        )}
+        {!loadError && plans === null && <SkeletonCards count={3} />}
 
         {visiblePlans?.map((p) => {
           const active = p.id === selected
@@ -72,13 +72,13 @@ export default function PlanCatalog({
               className={`card w-full p-4 text-left transition-colors duration-200${active ? ' card-active' : ''}`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-[18px] font-semibold text-ink">{p.name}</span>
+                <span className="text-[18px] font-semibold text-ink">{planName(t, p)}</span>
                 <span className="text-[13px] text-ink-soft">
                   {planDurationLabel(p.duration_days)}
                 </span>
               </div>
               {p.description && (
-                <p className="mt-1 text-[15px] text-ink-soft">{p.description}</p>
+                <p className="mt-1 text-[15px] text-ink-soft">{planDescription(t, p)}</p>
               )}
               {!showAll && recommendedIds.includes(p.id) && (
                 <p className="mt-2 text-[13px] font-medium text-accent-ink">
