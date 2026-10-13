@@ -176,7 +176,7 @@ export default function Privacidad() {
               Con tu correo, sin contraseña
             </h3>
             <p className="mt-3 text-[15.5px] leading-relaxed text-ink-soft">
-              Te enviamos un enlace de acceso a tu correo. No manejamos ni
+              Te enviamos un código a tu correo. No manejamos ni
               guardamos contraseñas, así que no hay una que se pueda filtrar.
             </p>
           </div>
@@ -205,8 +205,9 @@ export default function Privacidad() {
             En <b className="font-semibold text-accent-ink">Ajustes → Eliminar cuenta</b> borrás tu
             cuenta y con ella todos tus datos —tu lectura, tus reflexiones, tus
             oraciones y tus membresías de grupo—. El borrado es completo y no se
-            puede deshacer. También podés apagar el recordatorio diario en
-            cualquier momento.
+            puede deshacer. También podés apagar cualquiera de los avisos —el
+            recordatorio diario, los pedidos del grupo y el seguimiento de
+            oración— desde Ajustes, en cualquier momento.
           </p>
         </div>
       </section>

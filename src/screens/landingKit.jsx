@@ -26,8 +26,8 @@ export function LandingStyle() {
       .info-cta:hover { filter: brightness(0.94); }
       .info-cta:active { transform: translateY(1px); filter: brightness(0.9); }
 
-      /* Paleta SEMÁNTICA de las landings — sale de los 12 acentos de la app
-         (6 sepias + 6 pasteles). El color no es decoración alternada: comunica
+      /* Paleta SEMÁNTICA de las landings — sale de los 8 acentos de la app
+         (2 sepias + 6 pasteles). El color no es decoración alternada: comunica
          de qué habla cada bloque. lectura = sepia (la marca, --accent);
          oración = coral; grupos = menta; ajustes = cielo. Los textos de cada
          matiz se mezclan con la tinta del modo (como accent-ink) para AA. */

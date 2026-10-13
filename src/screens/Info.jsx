@@ -56,7 +56,7 @@ const CLUSTERS = [
     label: 'Además',
     items: [
       { icon: <AwardIcon size={22} />, name: 'Tu recorrido', desc: 'Tus días, planes terminados y una imagen sencilla para compartir al cerrar un plan.', tone: 'ajustes' },
-      { icon: <PaletteIcon size={22} />, name: 'A tu gusto', desc: '12 acentos de color y modo claro u oscuro automático.', tone: 'ajustes' },
+      { icon: <PaletteIcon size={22} />, name: 'A tu gusto', desc: '8 colores de acento y modo claro u oscuro automático.', tone: 'ajustes' },
       { icon: <WifiOffIcon size={22} />, name: 'Funciona sin conexión', desc: 'Se instala como app y muestra tu lectura de hoy aún sin internet.', tone: 'ajustes' },
     ],
   },
@@ -178,7 +178,7 @@ export default function Info() {
       </section>
 
       {/* ── FUNCIONALIDADES ──────────────────────────────────── */}
-      <section className="mx-auto w-full max-w-[720px] px-6 py-8">
+      <section className="mx-auto w-full max-w-[880px] px-6 py-8">
         <Eyebrow>Qué incluye</Eyebrow>
         <h2 className="mt-4 text-[28px] font-bold tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[32px]">
           Todo lo que sostiene el hábito
@@ -269,7 +269,7 @@ export default function Info() {
       </section>
 
       {/* ── INSTALACIÓN ──────────────────────────────────────── */}
-      <section className="mx-auto w-full max-w-[720px] px-6 py-20">
+      <section className="mx-auto w-full max-w-[880px] px-6 py-20">
         <Eyebrow>En 2 minutos</Eyebrow>
         <h2 className="mt-4 text-[28px] font-bold tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[32px]">
           Instalala como app

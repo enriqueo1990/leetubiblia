@@ -4,7 +4,7 @@
  * Estrategia de conmutación:
  *  - MODO (claro/oscuro): por defecto sigue prefers-color-scheme. Override manual
  *    con la clase .light o .dark en <html>.
- *  - ACENTO (12 tonos: 6 sepia + 6 pasteles): atributo data-accent en <html>. Cada
+ *  - ACENTO (8 tonos: 2 sepia + 6 pasteles): atributo data-accent en <html>. Cada
  *    acento define su hex claro y oscuro; el bloque de modo elige cuál aplica a --accent.
  *
  * --accent conserva el tono joven y suave. --accent-action es su compañero más

@@ -12,7 +12,7 @@ Lee Tu Biblia es una PWA (aplicación web instalable) que funciona con o sin con
 - **Tu recorrido**: resumen de logros y números; al terminar un plan, festejo y un logro para compartir.
 - **Oración**: pedidos privados o compartidos con tu grupo, con duración configurable (un día, una semana, un mes o siempre).
 - **Grupos de discipulado**: grupos cerrados y privados; leen al mismo ritmo, comparten pedidos y testimonios, y el líder ve el pulso de lectura de los últimos siete días de cada miembro.
-- **Personalización**: modo claro/oscuro automático y doce colores de acento (seis sepia y seis pastel).
+- **Personalización**: modo claro/oscuro automático y ocho colores de acento (dos sepia y seis pastel).
 
 ## Planes de lectura (trece, uno activo a la vez)
 

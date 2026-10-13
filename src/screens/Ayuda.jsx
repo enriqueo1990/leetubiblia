@@ -38,8 +38,9 @@ import {
 const HOY = [
   { icon: <BookIcon size={22} />, name: 'La lectura de hoy', desc: 'Cada mañana ves solo las referencias del día, grandes y claras. Una pantalla, una tarea.' },
   { icon: <CheckIcon size={22} strokeWidth={2} />, name: 'Marcar como leído', desc: 'Un toque y queda registrado. Si te atrasás, la app te lo dice sin culpa y podés reprogramar.' },
-  { icon: <BookIcon size={22} />, name: 'Abrir en tu app de Biblia', desc: 'Un botón te lleva al capítulo exacto del día en tu app de Biblia (NBLA). Igual, la lectura la hacés en tu Biblia.' },
-  { icon: <ChartIcon size={22} />, name: 'Progreso sin culpa', desc: 'Tu racha, el porcentaje completado y un mapa de las últimas cinco semanas. Tocá un día pasado para marcar lo que ya leíste.' },
+  { icon: <BookIcon size={22} />, name: 'Abrir en tu app de Biblia', desc: 'Un botón te lleva al capítulo exacto del día en YouVersion o BibleGateway, como prefieras, en la versión de tu idioma. Igual, la lectura la hacés en tu Biblia.' },
+  { icon: <ChartIcon size={22} />, name: 'Progreso sin culpa', desc: 'Tu racha, el porcentaje completado y un mapa de las últimas cinco semanas. Para acomodar lo que ya leíste, usá «¿En qué día vas?» en Ajustes.' },
+  { icon: <BookIcon size={22} />, name: 'También hoy', desc: 'Debajo de tu lectura aparecen las otras lecturas del día: las de los grupos que seguís y las de tus materiales. Cada fila dice qué toca, y lo que ya terminaste deja de ocupar tu día.' },
   { icon: <AwardIcon size={22} />, name: 'Tu recorrido', desc: 'Tus días, planes terminados y oraciones respondidas en un solo lugar.' },
   { icon: <PencilIcon size={22} />, name: 'Mi camino', desc: 'Un diario para anotar lo que Dios te va hablando en la lectura. Privado, solo tuyo.' },
 ]
@@ -100,9 +101,14 @@ const GRUPOS = [
 ]
 
 const AJUSTES = [
-  { icon: <PaletteIcon size={22} />, name: 'Tu color de acento', desc: 'El acento es el único color de la app. Elegí entre 12 tonos: 6 sepia y 6 pastel.' },
+  { icon: <PaletteIcon size={22} />, name: 'Tu color de acento', desc: 'El acento es el único color de la app. Elegí entre 8 tonos: 2 sepia y 6 pastel.' },
   { icon: <SunIcon size={22} />, name: 'Claro y oscuro', desc: 'Sigue el modo de tu teléfono. En oscuro, negro puro que descansa la vista.' },
-  { icon: <BellIcon size={22} />, name: 'Recordatorio diario', desc: 'Una notificación a tu hora, para no perder el ritmo.' },
+  { icon: <BookIcon size={22} />, name: 'Idioma', desc: 'Español, inglés o portugués. La app y sus avisos siguen el idioma que elijas; los materiales de lectura están en español.' },
+  { icon: <BookIcon size={22} />, name: 'Tu Biblia', desc: 'Elegí si el botón de la lectura abre YouVersion o BibleGateway. La versión depende del idioma.' },
+  { icon: <CheckIcon size={22} strokeWidth={2} />, name: '¿En qué día vas?', desc: 'Si ya venías leyendo un plan, fijá el día en que vas y la app acomoda tus marcas de lectura.' },
+  { icon: <BellIcon size={22} />, name: 'Avisos', desc: 'Un recordatorio diario a tu hora, avisos de los pedidos de tu grupo y un recordatorio para volver a orar. Cada uno se enciende o se apaga por separado.' },
+  { icon: <PeopleIcon size={22} />, name: 'Compartir tu lectura', desc: 'Si lo activás, tu grupo ve que leíste hoy: solo lo positivo, nunca un «no leyó». Es recíproco: para ver la de los demás, compartís la tuya.' },
+  { icon: <PencilIcon size={22} />, name: 'Descargar tu camino', desc: 'Llevate las notas de tu diario en un archivo de texto cuando quieras.' },
   { icon: <WifiOffIcon size={22} />, name: 'Funciona sin conexión', desc: 'Se instala como app y muestra tu lectura de hoy aún sin internet.' },
 ]
 
@@ -319,7 +325,7 @@ export default function Ayuda() {
 
       {/* ── AJUSTES ──────────────────────────────────────────── */}
       <section id="ajustes" className="scroll-mt-6 border-t border-hairline">
-        <div className="mx-auto w-full max-w-[720px] px-6 py-20">
+        <div className="mx-auto w-full max-w-[880px] px-6 py-20">
           <TabHead
             eyebrow="Pestaña · Ajustes"
             tone="ajustes"

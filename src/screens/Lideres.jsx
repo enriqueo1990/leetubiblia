@@ -106,7 +106,7 @@ export default function Lideres() {
       </section>
 
       {/* ── EL PORQUÉ ────────────────────────────────────────── */}
-      <section className="mx-auto w-full max-w-[720px] px-6 py-8">
+      <section className="mx-auto w-full max-w-[880px] px-6 py-8">
         <div className="border-t border-hairline pt-12">
           <Eyebrow>Por qué</Eyebrow>
           <p className="mt-5 max-w-[580px] text-[22px] font-medium leading-[1.5] tracking-[-0.02em] text-ink sm:text-[25px]">
@@ -123,7 +123,7 @@ export default function Lideres() {
       </section>
 
       {/* ── EMPEZAR ES SIMPLE ────────────────────────────────── */}
-      <section className="mx-auto w-full max-w-[720px] px-6 py-8">
+      <section className="mx-auto w-full max-w-[880px] px-6 py-8">
         <div className="border-t border-hairline pt-12">
           <Eyebrow>Empezar es simple</Eyebrow>
           <h2 className="mt-4 text-[24px] font-bold tracking-[-0.02em] text-ink sm:text-[27px]">
@@ -232,7 +232,7 @@ export default function Lideres() {
       </section>
 
       {/* ── TRES RECORDATORIOS ───────────────────────────────── */}
-      <section className="mx-auto w-full max-w-[720px] px-6 py-14">
+      <section className="mx-auto w-full max-w-[880px] px-6 py-14">
         <div className="band-grupos rounded-card px-7 py-8">
           <Eyebrow>Para tener presente</Eyebrow>
           <div className="mt-6 grid gap-7 sm:grid-cols-3">
