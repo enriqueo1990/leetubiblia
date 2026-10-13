@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { HeartIcon, CheckIcon, PlusIcon } from '../components/icons.jsx'
 import BackLink from '../components/BackLink.jsx'
@@ -22,6 +22,8 @@ import {
 } from '../lib/db.js'
 import { SkeletonDetail } from '../components/Skeleton.jsx'
 import { useOnlineStatus } from '../hooks/useOnlineStatus.js'
+import { inputStyle } from '../components/formStyles.js'
+import InlineError from '../components/InlineError.jsx'
 
 // Detalle de un pedido compartido con "Estoy orando por esto" (Fase 2, F2-A).
 // Lo abren los miembros desde "De mis grupos"; el autor lo ve sin el botón pero
@@ -30,6 +32,7 @@ import { useOnlineStatus } from '../hooks/useOnlineStatus.js'
 export default function PrayerDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
   const { user, profile } = useAuth()
   const { t, locale } = usePreferences()
   const online = useOnlineStatus()
@@ -42,7 +45,8 @@ export default function PrayerDetail() {
   const [focusTestimony, setFocusTestimony] = useState(false)
   const [groups, setGroups] = useState([])
   // Historia del pedido: composer del autor + confirmación de borrado.
-  const [adding, setAdding] = useState(false)
+  // "Actualizar" desde Oración abre directo el composer de novedades.
+  const [adding, setAdding] = useState(!!location.state?.openUpdate)
   const [updateBody, setUpdateBody] = useState('')
   const [savingUpdate, setSavingUpdate] = useState(false)
   const [updateError, setUpdateError] = useState(false)
@@ -219,7 +223,9 @@ export default function PrayerDetail() {
         )}
       </article>
 
-      {/* Interacción del pedido: quién ora + gesto de oración. */}
+      {/* Interacción del pedido: quién ora + gesto de oración. Un pedido privado no
+          la tiene: nadie más lo ve. */}
+      {data.visibility !== 'private' && (
       <div className="px-1 pt-[18px]">
         <div className="flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2.5">
@@ -280,6 +286,7 @@ export default function PrayerDetail() {
           </p>
         )}
       </div>
+      )}
 
       {isAuthor &&
         data.status === 'answered' &&
@@ -383,14 +390,11 @@ export default function PrayerDetail() {
             maxLength={1000}
             rows={3}
             placeholder={t('prayerDetail.updatePlaceholder')}
+            aria-label={t('prayerDetail.addUpdate')}
             className="w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
-            style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--text-primary)' }}
+            style={inputStyle}
           />
-          {updateError && (
-            <p className="mt-1 text-[12px]" role="alert" style={{ color: 'var(--danger)' }}>
-              {t('common.saveError')}
-            </p>
-          )}
+          {updateError && <InlineError message={t('common.saveError')} />}
           <div className="mt-2 flex gap-2">
             <button
               type="button"
@@ -458,7 +462,7 @@ export default function PrayerDetail() {
             setFocusTestimony(false)
           }}
           onSaved={handleSheetSaved}
-          onDeleted={() => navigate('/oracion')}
+          onDeleted={() => navigate(location.state?.from?.to ?? '/oracion')}
         />
       )}
 

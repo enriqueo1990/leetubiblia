@@ -57,9 +57,11 @@ export default function PrayerSheet({
   const [visibility, setVisibility] = useState(
     prayer?.visibility ?? (presetGroupId ? 'shared' : 'private')
   )
-  const [groupId, setGroupId] = useState(
-    prayer?.shared_group_id ?? presetGroupId ?? groups?.[0]?.id ?? null
-  )
+  // Con varios grupos NO se preselecciona ninguno al crear: un ✓ ya puesto hace
+  // fácil publicar al grupo equivocado. Con uno solo (o desde el grupo mismo) sí.
+  const initialGroupId =
+    prayer?.shared_group_id ?? presetGroupId ?? (groups?.length === 1 ? groups[0].id : null)
+  const [groupId, setGroupId] = useState(initialGroupId)
   const [status, setStatus] = useState(prayer?.status ?? 'active')
   const [duration, setDuration] = useState(prayer?.duration_type ?? 'forever')
   const [busy, setBusy] = useState(false)
@@ -97,10 +99,10 @@ export default function PrayerSheet({
     description !== (prayer?.description ?? '') ||
     visibility !== (prayer?.visibility ?? (presetGroupId ? 'shared' : 'private')) ||
     status !== (prayer?.status ?? 'active') ||
-    groupId !== (prayer?.shared_group_id ?? presetGroupId ?? groups?.[0]?.id ?? null) ||
+    groupId !== initialGroupId ||
     duration !== (prayer?.duration_type ?? 'forever') ||
     testimony !== (prayer?.testimony ?? '') ||
-    testimonyShared !== (prayer?.testimony_shared ?? false)
+    testimonyShared !== (focusTestimony || prayer?.testimony_shared || false)
 
   // El autor ve quiénes oran por su pedido compartido (modelo pull: así "se
   // entera" sin push). Se carga sobre el pedido tal como está guardado.
@@ -119,10 +121,13 @@ export default function PrayerSheet({
   // Editar un pedido para exponerlo a un grupo (de privado a compartido, o
   // cambiándolo a otro grupo) muestra a gente nueva algo que antes era privado:
   // pedimos confirmación explícita antes de cruzar esa frontera.
+  // Al CREAR también se confirma (con varios grupos es fácil equivocarse), salvo
+  // que se cree desde la sala de un grupo: ahí el destino ya es explícito.
   const willExpose =
-    editing &&
     visibility === 'shared' &&
-    (prayer?.visibility !== 'shared' || prayer?.shared_group_id !== groupId)
+    (editing
+      ? prayer?.visibility !== 'shared' || prayer?.shared_group_id !== groupId
+      : presetGroupId == null)
 
   function requestSave() {
     if (!canSave) return
@@ -262,14 +267,16 @@ export default function PrayerSheet({
       </p>
 
       {needsGroup && (
-        <div className="card mt-3 divide-y divide-hairline">
+        <div className="card mt-3 divide-y divide-hairline" role="radiogroup" aria-label={t('prayerSheet.fieldGroup')}>
           {groups?.length ? (
             groups.map((g) => (
               <button
                 key={g.id}
                 type="button"
+                role="radio"
+                aria-checked={g.id === groupId}
                 onClick={() => setGroupId(g.id)}
-                className="flex w-full items-center justify-between px-4 py-3 text-left"
+                className="flex min-h-11 w-full items-center justify-between px-4 py-3 text-left"
               >
                 <span className="text-[16px] text-ink">{g.name}</span>
                 {g.id === groupId && (
@@ -340,7 +347,7 @@ export default function PrayerSheet({
         <ConfirmDialog
           title={t('prayerSheet.confirmShareTitle', { group: groupName })}
           message={
-            prayer?.visibility !== 'shared'
+            editing && prayer?.visibility !== 'shared'
               ? t('prayerSheet.confirmShareMsgPrivate', { group: groupName })
               : t('prayerSheet.confirmShareMsg', { group: groupName })
           }

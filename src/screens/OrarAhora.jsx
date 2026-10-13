@@ -264,11 +264,17 @@ export default function OrarAhora() {
   const p = activeDeck[idx]
   const isLast = idx === activeDeck.length - 1
   const actionLabel = isLast ? t('orar.finish') : t('orar.nextPrayer')
+  // En los pedidos de grupo, el botón primario ES una oración registrada ("X está
+  // orando por tu pedido" lo ve el autor): se llama como lo que hace. Pasar sin
+  // orar es una acción aparte y callada.
+  const groupLabel = isLast ? t('orar.prayedForLast') : t('orar.prayedFor')
   const currentActionLabel = actionBusy
     ? t('common.saving')
     : actionError
       ? t('common.retry')
-      : actionLabel
+      : p.mine
+        ? actionLabel
+        : groupLabel
   const eyebrow = p.mine ? null : p.group?.name
   const meta = p.mine
     ? t('orar.myRequestMeta', { date: fmtLongD(p.created_at) })
@@ -380,6 +386,16 @@ export default function OrarAhora() {
               <BreathingLabel done={pressedAction === 'primary'} doneText={t('orar.keepPraying')}>
                 {currentActionLabel}
               </BreathingLabel>
+            </button>
+          )}
+          {!p.mine && (
+            <button
+              type="button"
+              onClick={() => advance(null, 'skip')}
+              disabled={leaving || actionBusy}
+              className="mt-1 block min-h-11 w-full text-center text-[15px] font-medium text-ink-soft"
+            >
+              {t('orar.skip')}
             </button>
           )}
           {actionError && (

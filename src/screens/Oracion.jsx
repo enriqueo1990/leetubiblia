@@ -118,8 +118,18 @@ export default function Oracion() {
     }
   }
 
-  // "Míos": activos primero, luego respondidos atenuados.
-  const myActive = mine?.filter((p) => p.status === 'active') ?? []
+  // Todos los pedidos propios abren el mismo detalle (privados y compartidos):
+  // un solo modelo mental. Editar vive en el detalle.
+  const openPrayer = (p, extra = {}) =>
+    navigate(`/oracion/${p.id}`, {
+      state: { from: { to: '/oracion', label: t('nav.oracion') }, ...extra },
+    })
+
+  // "Míos": activos primero, luego respondidos atenuados. Los que ya están en
+  // "Para volver a orar" no se repiten abajo.
+  const reviewIds = new Set(toReview.map((p) => p.id))
+  const allActive = mine?.filter((p) => p.status === 'active') ?? []
+  const myActive = allActive.filter((p) => !reviewIds.has(p.id))
   const myAnswered = mine?.filter((p) => p.status === 'answered') ?? []
 
   // "De mis grupos": agrupados por nombre de grupo.
@@ -130,7 +140,7 @@ export default function Oracion() {
   }
 
   // Pedidos activos para recorrer en "Orar ahora" (míos + de mis grupos).
-  const activeToPray = myActive.length + (groupPrayers?.length ?? 0)
+  const activeToPray = allActive.length + (groupPrayers?.length ?? 0)
 
   return (
     <div className="pt-2">
@@ -141,8 +151,8 @@ export default function Oracion() {
           aria-label={t('oracion.new')}
           onClick={() => setSheet({ mode: 'create' })}
           disabled={!online}
-          className="flex h-[44px] items-center justify-center gap-1 rounded-full px-3 text-on-accent lg:px-4"
-          style={{ backgroundColor: 'var(--accent-action)', minWidth: 44, opacity: online ? 1 : 0.45 }}
+          className="flex h-[44px] items-center justify-center gap-1 rounded-full px-3 lg:px-4"
+          style={{ color: 'var(--accent-ink)', minWidth: 44, opacity: online ? 1 : 0.45 }}
         >
           <PlusIcon size={20} />
           <span className="hidden text-[15px] font-semibold lg:inline">{t('oracion.new')}</span>
@@ -197,7 +207,7 @@ export default function Oracion() {
                         </button>
                         <button
                           type="button"
-                          onClick={() => setSheet({ mode: 'edit', prayer: p })}
+                          onClick={() => openPrayer(p, { openUpdate: p.status === 'active' })}
                           className="btn btn-primary flex-1 py-2 text-[14px]"
                         >
                           {t('oracion.review')}
@@ -235,11 +245,7 @@ export default function Oracion() {
                 key={p.id}
                 p={p}
                 subtitle={fmtD(p.created_at)}
-                onClick={
-                  p.visibility === 'shared'
-                    ? () => navigate(`/oracion/${p.id}`, { state: { from: { to: '/oracion', label: t('nav.oracion') } } })
-                    : () => setSheet({ mode: 'edit', prayer: p })
-                }
+                onClick={() => openPrayer(p)}
               />
             ))}
           </ul>
@@ -255,11 +261,7 @@ export default function Oracion() {
                     p={p}
                     dimmed
                     subtitle={t('oracion.answeredOn', { date: fmtD(p.answered_at || p.created_at) })}
-                    onClick={
-                      p.visibility === 'shared'
-                    ? () => navigate(`/oracion/${p.id}`, { state: { from: { to: '/oracion', label: t('nav.oracion') } } })
-                        : () => setSheet({ mode: 'edit', prayer: p })
-                    }
+                    onClick={() => openPrayer(p)}
                   />
                 ))}
               </ul>

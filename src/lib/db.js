@@ -1,6 +1,7 @@
 import { supabase } from './supabase.js'
 import { todayLocalISO, dayNumberFor, localDateISO, longestStreak } from './dateMath.js'
 import { totalDaysRead } from './stats.js'
+import { expiresAtFor, reviewedPatch } from './prayerExpiry.js'
 
 // Las funciones puras de fechas y rachas viven en dateMath.js (sin Supabase, para
 // poder probarlas con node:test). Se re-exportan acá para no tocar los imports.
@@ -480,9 +481,7 @@ export async function getGroupPrayers(userId) {
 // Computa la fecha de vencimiento según el tipo de duración elegido.
 // 'forever' → null (sin vencimiento); el resto suma días desde ahora.
 function computeExpiresAt(durationType) {
-  const days = { day: 1, week: 7, month: 30 }[durationType]
-  if (!days) return null
-  return new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString()
+  return expiresAtFor(durationType)
 }
 
 export async function createPrayer({ userId, title, description, visibility, groupId, durationType = 'forever' }) {
@@ -704,11 +703,18 @@ export async function getPrayerDeck(userId) {
   return deck.map((p) => ({ ...p, latest_update: latest[p.id] ?? null }))
 }
 
-// "Sigue igual": reinicia el reloj de revisión sin cambiar el estado.
+// "Sigue igual": reinicia el reloj de revisión sin cambiar el estado. Si el pedido
+// ya había vencido, también renueva su vencimiento (ver reviewedPatch).
 export async function markPrayerReviewed(id) {
+  const { data: current, error: readError } = await supabase
+    .from('prayer_requests')
+    .select('duration_type, expires_at')
+    .eq('id', id)
+    .maybeSingle()
+  if (readError) throw dbError(readError)
   const { error } = await supabase
     .from('prayer_requests')
-    .update({ last_reviewed_at: new Date().toISOString() })
+    .update(reviewedPatch(current))
     .eq('id', id)
   if (error) throw dbError(error)
 }
