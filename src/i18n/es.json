@@ -512,7 +512,6 @@
   "reflectionSheet.editHint": "Podés editarla hoy. Mañana queda guardada como está.",
   "reflectionSheet.shareImage": "Compartir como imagen",
 
-  "hoy.withGroups": "Con tus grupos",
   "hoy.alsoToday": "También hoy",
   "hoy.extrasSeeAll": "Ver todas ({count})",
   "hoy.extrasTypeGroup": "Lectura de grupo",
@@ -520,8 +519,6 @@
   "hoy.extrasReadDone": "Ya leído",
   "hoy.extrasEmpty": "No hay otras lecturas para hoy.",
 
-  "materialsToday.otherReadings": "Mis otras lecturas",
-  "materialsToday.completed": "Completado",
   "materialsToday.questionOf": "Pregunta {n} de {total}",
   "materialsToday.hint": "Podés sumar una lectura breve a tu día.",
   "materialsToday.hintCta": "Ver materiales",

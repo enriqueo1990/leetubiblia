@@ -7,7 +7,10 @@ import TodayExtraRows from './TodayExtraRows.jsx'
 import { SkeletonRows } from './Skeleton.jsx'
 import { ChevronRight } from './icons.jsx'
 
-const HINT_KEY = 'ltb.materialsHint.dismissed'
+// La pista se descarta por usuario. La clave vieja (por dispositivo) se sigue
+// leyendo para no volver a mostrarla a quien ya la cerró.
+const LEGACY_HINT_KEY = 'ltb.materialsHint.dismissed'
+const hintKey = (userId) => `${LEGACY_HINT_KEY}.${userId}`
 const INLINE_LIMIT = 4 // hasta acá se ven todas las filas
 const PREVIEW_ROWS = 3 // con más, se ven estas y un "Ver todas"
 
@@ -29,7 +32,10 @@ export default function TodayExtras() {
   const { loading, profile, rows } = useTodayExtras()
   const [hintDismissed, setHintDismissed] = useState(() => {
     try {
-      return localStorage.getItem(HINT_KEY) === '1'
+      return (
+        localStorage.getItem(LEGACY_HINT_KEY) === '1' ||
+        (!!user && localStorage.getItem(hintKey(user.id)) === '1')
+      )
     } catch {
       return true
     }
@@ -38,7 +44,7 @@ export default function TodayExtras() {
   function dismissHint() {
     setHintDismissed(true)
     try {
-      localStorage.setItem(HINT_KEY, '1')
+      if (user) localStorage.setItem(hintKey(user.id), '1')
     } catch {
       /* queda descartado en esta sesión */
     }

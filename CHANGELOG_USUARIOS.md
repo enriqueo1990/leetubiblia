@@ -2,6 +2,20 @@
 
 Registro de mejoras en lenguaje de usuario, para compartir.
 
+## Actualización — 13 de octubre de 2026 · "También hoy"
+<!-- ref: 4c60340 -->
+
+### 💫 Mejoras
+- En Hoy, la sección **También hoy** ahora te muestra las lecturas en vez de solo un número: ves hasta cuatro de un vistazo y un acceso a "Ver todas" si hay más.
+- Cada lectura dice qué toca: el pasaje del día en las lecturas de tus grupos y la pregunta en la que vas en los materiales. Un ícono distingue un grupo de un material.
+- Lo que ya terminaste deja de ocupar tu día: los materiales completados ya no aparecen, y las lecturas ya leídas pasan al final.
+- Al abrir una lectura desde "Ver todas" y volver, regresas a esa lista. Si no tienes lecturas, te ofrecemos ir directo a los materiales.
+- Cuando terminas tu plan, tus otras lecturas siguen a la vista en Hoy.
+- La sección ya no hace saltar la pantalla mientras carga.
+
+### 🐛 Correcciones
+- Si todavía no tenías cuenta, la sección de otras lecturas se quedaba cargando sin mostrar nada.
+
 ## Actualización — 6 de julio de 2026 · web y descubribilidad
 <!-- ref: 4efcf39 -->
 
