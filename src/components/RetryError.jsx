@@ -15,7 +15,7 @@ export default function RetryError({ message, onRetry }) {
       <button
         type="button"
         onClick={onRetry}
-        className="mt-1 font-semibold"
+        className="mt-1 inline-flex min-h-11 items-center font-semibold"
         style={{ color: 'var(--accent-ink)' }}
       >
         {t('common.retry')}

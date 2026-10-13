@@ -5,6 +5,7 @@ import { usePreferences } from '../../lib/preferences.jsx'
 import { peekGroupByCode } from '../../lib/db.js'
 import { savePendingPlan } from '../../lib/pendingPlan.js'
 import PlanCatalog from '../../components/PlanCatalog.jsx'
+import { classifySendError } from '../../lib/authErrors.js'
 import { BookIcon } from '../../components/icons.jsx'
 
 // Bienvenida + auth por código de email (documento maestro §5.8, README pantalla 8).
@@ -14,6 +15,13 @@ import { BookIcon } from '../../components/icons.jsx'
 // terminar), o se ve a qué grupo te invitaron (/join?code → peek sin sesión).
 // Sin contraseña → sin recuperación.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+// Espera entre pedidos de código: sin ella, tocar "reenviar" varias veces agota el
+// límite de envíos del servidor.
+const RESEND_COOLDOWN = 30
+
+// "‹ Volver" de la bienvenida: mismo target de 44 px que BackLink.
+const BACK_CLASS =
+  '-ml-2 mb-4 inline-flex min-h-11 items-center self-start px-2 text-[15px] font-medium'
 
 function Centered({ children }) {
   return (
@@ -36,6 +44,14 @@ export default function AuthFlow() {
   const [sending, setSending] = useState(false)
   const [verifying, setVerifying] = useState(false)
   const [error, setError] = useState(null)
+  const [resent, setResent] = useState(false)
+  const [cooldown, setCooldown] = useState(0)
+
+  useEffect(() => {
+    if (cooldown <= 0) return
+    const id = setTimeout(() => setCooldown((n) => n - 1), 1000)
+    return () => clearTimeout(id)
+  }, [cooldown])
 
   // Invitación a grupo (/join?code=X): vista previa sin sesión — solo nombre y
   // cantidad de miembros (RPC anónima, migración 0032). Si falla o el código no
@@ -59,23 +75,32 @@ export default function AuthFlow() {
 
   const valid = EMAIL_RE.test(email.trim())
 
-  async function handleSend() {
-    if (!valid || sending) return
+  async function handleSend({ resend = false } = {}) {
+    if (!valid || sending || (resend && cooldown > 0)) return
     setSending(true)
     setError(null)
+    setResent(false)
     // En "ingresar" no creamos la cuenta si no existe: así un correo mal tipeado
     // no genera una cuenta nueva en silencio.
     const { error } = await signInWithEmail(email.trim(), { createIfMissing: mode === 'signup' })
     setSending(false)
     if (error) {
+      // Decir la verdad: sin red o con límite de envíos NO es "no existe la cuenta".
+      const kind = classifySendError(error, { mode, online: navigator.onLine })
       setError(
-        mode === 'login'
-          ? t('onboarding.auth.loginNotFound')
-          : t('onboarding.auth.sendError')
+        kind === 'offline'
+          ? t('onboarding.auth.offline')
+          : kind === 'rateLimited'
+            ? t('onboarding.auth.rateLimited')
+            : kind === 'notFound'
+              ? t('onboarding.auth.loginNotFound')
+              : t('onboarding.auth.sendError')
       )
       return
     }
     setCode('')
+    setCooldown(RESEND_COOLDOWN)
+    setResent(resend)
     setStep('code')
   }
 
@@ -174,7 +199,7 @@ export default function AuthFlow() {
       <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col px-7 py-10">
         <button
           type="button"
-          className="mb-4 self-start text-[15px] font-medium"
+          className={BACK_CLASS}
           style={{ color: 'var(--accent-ink)' }}
           onClick={() => setStep('welcome')}
         >
@@ -215,7 +240,7 @@ export default function AuthFlow() {
       <Centered>
         <button
           type="button"
-          className="mb-6 self-start text-[15px] font-medium"
+          className={BACK_CLASS}
           style={{ color: 'var(--accent-ink)' }}
           onClick={() => setStep('form')}
         >
@@ -231,7 +256,7 @@ export default function AuthFlow() {
           <button
             type="button"
             onClick={() => setStep('form')}
-            className="font-medium"
+            className="inline-flex min-h-11 items-center px-1 font-medium"
             style={{ color: 'var(--accent-ink)' }}
           >
             {t('onboarding.auth.useAnotherEmail')}
@@ -279,14 +304,28 @@ export default function AuthFlow() {
           </button>
         </form>
 
+        {resent && (
+          <p className="mt-5 text-center text-[13px] text-ink-soft" role="status">
+            {t('onboarding.auth.resent')}
+          </p>
+        )}
         <button
           type="button"
-          className="mt-6 text-center text-[15px] text-ink-soft"
-          onClick={handleSend}
-          disabled={sending}
+          className="mt-3 min-h-11 text-center text-[15px] text-ink-soft"
+          onClick={() => handleSend({ resend: true })}
+          disabled={sending || cooldown > 0}
+          style={{ opacity: cooldown > 0 && !sending ? 0.6 : 1 }}
         >
-          {sending ? t('onboarding.auth.resending') : t('onboarding.auth.notArrived')}
-          {!sending && <span style={{ color: 'var(--accent-ink)' }}>{t('onboarding.auth.resendCode')}</span>}
+          {sending
+            ? t('onboarding.auth.resending')
+            : cooldown > 0
+              ? t('onboarding.auth.resendIn', { n: cooldown })
+              : (
+                <>
+                  {t('onboarding.auth.notArrived')}
+                  <span style={{ color: 'var(--accent-ink)' }}>{t('onboarding.auth.resendCode')}</span>
+                </>
+              )}
         </button>
       </Centered>
     )
@@ -306,7 +345,7 @@ export default function AuthFlow() {
     <Centered>
       <button
         type="button"
-        className="mb-6 self-start text-[15px] font-medium"
+        className={BACK_CLASS}
         style={{ color: 'var(--accent-ink)' }}
         onClick={() => setStep(formOrigin)}
       >
@@ -363,8 +402,11 @@ export default function AuthFlow() {
 
       <button
         type="button"
-        className="mt-8 text-center text-[15px] text-ink-soft"
-        onClick={() => setMode(isSignup ? 'login' : 'signup')}
+        className="mt-8 min-h-11 text-center text-[15px] text-ink-soft"
+        onClick={() => {
+          setError(null)
+          setMode(isSignup ? 'login' : 'signup')
+        }}
       >
         {isSignup ? t('onboarding.auth.haveAccountQ') : t('onboarding.auth.newQ')}
         <span style={{ color: 'var(--accent-ink)' }}>
