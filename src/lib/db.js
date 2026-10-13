@@ -921,77 +921,108 @@ export async function getGroupStats(groupId) {
 // La nota es el "fruto" de la lectura en palabras del usuario, NO la Escritura.
 // ============================================================================
 
-// Caché en memoria de la última reflexión conocida por usuario+plan+día. Deja que la
-// pantalla Hoy pinte el botón correcto ("Editar tu nota") al instante al volver, sin
-// el parpadeo de mostrar primero "Anotá…", mientras getReflection revalida por detrás
-// (stale-while-revalidate). Vive en memoria: se vacía al recargar la página.
+// Caché en memoria de la última reflexión conocida por usuario+plan+día+ciclo. Deja
+// que la pantalla Hoy pinte el botón correcto ("Editar tu nota") al instante al
+// volver, sin el parpadeo de mostrar primero "Anotá…", mientras getReflection
+// revalida por detrás (stale-while-revalidate). Vive en memoria: se vacía al
+// recargar la página.
 //   ausente (undefined) = nunca cargado   null = sin nota   objeto = hay nota
 const reflectionCache = new Map()
-const reflectionKey = (userId, planId, dayNumber) => `${userId}:${planId}:${dayNumber}`
+const reflectionKey = (userId, planId, dayNumber, cycle = 0) =>
+  `${userId}:${planId}:${dayNumber}:${cycle}`
 
 // Última reflexión conocida sin tocar la red. undefined = todavía no lo sabemos.
-export function getCachedReflection(userId, planId, dayNumber) {
-  return reflectionCache.get(reflectionKey(userId, planId, dayNumber))
+export function getCachedReflection(userId, planId, dayNumber, cycle = 0) {
+  return reflectionCache.get(reflectionKey(userId, planId, dayNumber, cycle))
 }
 
-// Reflexión del usuario para un día puntual del plan (null si no hay).
-export async function getReflection(userId, planId, dayNumber) {
-  const { data, error } = await supabase
-    .from('reading_reflections')
-    .select('id, plan_id, day_number, body, created_at, updated_at')
-    .eq('user_id', userId)
-    .eq('plan_id', planId)
-    .eq('day_number', dayNumber)
-    .maybeSingle()
+// Compatibilidad durante el despliegue de la migración 0033 (columna `cycle`):
+// si todavía no existe, se cae al comportamiento anterior (sin ciclo).
+function missingCycle(error) {
+  if (!/cycle/i.test(error?.message || '')) return false
+  return error?.code === '42703' || error?.code === 'PGRST204'
+}
+
+// Reflexión del usuario para un día puntual del plan y ciclo (null si no hay).
+export async function getReflection(userId, planId, dayNumber, cycle = 0) {
+  const base = () =>
+    supabase
+      .from('reading_reflections')
+      .select('id, plan_id, day_number, body, created_at, updated_at')
+      .eq('user_id', userId)
+      .eq('plan_id', planId)
+      .eq('day_number', dayNumber)
+  let { data, error } = await base().eq('cycle', cycle).maybeSingle()
+  if (missingCycle(error)) {
+    const legacy = await base().maybeSingle()
+    data = legacy.data
+    error = legacy.error
+  }
   if (error) throw dbError(error)
-  reflectionCache.set(reflectionKey(userId, planId, dayNumber), data ?? null)
+  reflectionCache.set(reflectionKey(userId, planId, dayNumber, cycle), data ?? null)
   return data
 }
 
-// Crea o actualiza la reflexión del día (una por usuario+plan+día).
-export async function upsertReflection(userId, planId, dayNumber, body) {
-  const { data, error } = await supabase
+// Crea o actualiza la reflexión del día (una por usuario+plan+día+ciclo).
+export async function upsertReflection(userId, planId, dayNumber, body, cycle = 0) {
+  const row = {
+    user_id: userId,
+    plan_id: planId,
+    day_number: dayNumber,
+    body: body.trim(),
+    updated_at: new Date().toISOString(),
+  }
+  let { data, error } = await supabase
     .from('reading_reflections')
-    .upsert(
-      {
-        user_id: userId,
-        plan_id: planId,
-        day_number: dayNumber,
-        body: body.trim(),
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: 'user_id,plan_id,day_number' }
-    )
+    .upsert({ ...row, cycle }, { onConflict: 'user_id,plan_id,day_number,cycle' })
     .select()
     .single()
+  if (missingCycle(error)) {
+    const legacy = await supabase
+      .from('reading_reflections')
+      .upsert(row, { onConflict: 'user_id,plan_id,day_number' })
+      .select()
+      .single()
+    data = legacy.data
+    error = legacy.error
+  }
   if (error) throw dbError(error)
-  reflectionCache.set(reflectionKey(userId, planId, dayNumber), data)
+  reflectionCache.set(reflectionKey(userId, planId, dayNumber, cycle), data)
   return data
 }
 
-// Borra la reflexión de un día.
-export async function deleteReflection(userId, planId, dayNumber) {
-  const { error } = await supabase
-    .from('reading_reflections')
-    .delete()
-    .eq('user_id', userId)
-    .eq('plan_id', planId)
-    .eq('day_number', dayNumber)
+// Borra la reflexión de un día (del ciclo indicado).
+export async function deleteReflection(userId, planId, dayNumber, cycle = 0) {
+  const base = () =>
+    supabase
+      .from('reading_reflections')
+      .delete()
+      .eq('user_id', userId)
+      .eq('plan_id', planId)
+      .eq('day_number', dayNumber)
+  let { error } = await base().eq('cycle', cycle)
+  if (missingCycle(error)) ({ error } = await base())
   if (error) throw dbError(error)
-  reflectionCache.set(reflectionKey(userId, planId, dayNumber), null)
+  reflectionCache.set(reflectionKey(userId, planId, dayNumber, cycle), null)
 }
 
 // Diario cross-plan, más recientes primero. Paginación por cursor de created_at
 // (pasá el created_at de la última entrada como `before` para traer las siguientes).
 export async function getReflectionJournal(userId, { limit = 30, before = null } = {}) {
-  let q = supabase
-    .from('reading_reflections')
-    .select('id, plan_id, day_number, body, created_at, plan:reading_plans(name, slug)')
-    .eq('user_id', userId)
-    .order('created_at', { ascending: false })
-    .limit(limit)
-  if (before) q = q.lt('created_at', before)
-  const { data, error } = await q
+  const build = (cols) => {
+    let q = supabase
+      .from('reading_reflections')
+      .select(cols)
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+      .limit(limit)
+    if (before) q = q.lt('created_at', before)
+    return q
+  }
+  let { data, error } = await build('id, plan_id, day_number, cycle, body, created_at, plan:reading_plans(name, slug)')
+  if (missingCycle(error)) {
+    ;({ data, error } = await build('id, plan_id, day_number, body, created_at, plan:reading_plans(name, slug)'))
+  }
   if (error) throw dbError(error)
   return data.map((r) => ({
     id: r.id,
@@ -999,6 +1030,7 @@ export async function getReflectionJournal(userId, { limit = 30, before = null }
     plan_name: r.plan?.name ?? null,
     plan_slug: r.plan?.slug ?? null,
     day_number: r.day_number,
+    cycle: r.cycle ?? 0,
     body: r.body,
     created_at: r.created_at,
   }))

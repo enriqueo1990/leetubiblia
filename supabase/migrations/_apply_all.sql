@@ -5032,3 +5032,99 @@ language sql security definer stable set search_path = public as $$
     and (select share_reading from public.profiles where id = auth.uid()) = true;
 $$;
 
+-- ===== 0031_profile_bible_provider.sql =====
+-- Proveedor externo para abrir pasajes bíblicos (Ajustes → Proveedor de Biblia).
+-- A diferencia de locale, no hace falta detectar nada del dispositivo: YouVersion
+-- es el proveedor con el que la app siempre trabajó, así que el default not null
+-- preserva el comportamiento actual para todos los usuarios existentes.
+
+do $$
+begin
+  if not exists (select 1 from pg_type where typname = 'bible_provider') then
+    create type bible_provider as enum ('youversion', 'biblegateway');
+  end if;
+end $$;
+
+alter table public.profiles
+  add column if not exists bible_provider bible_provider not null default 'youversion';
+
+-- ===== 0032_peek_group_by_code.sql =====
+-- ============================================================================
+-- Lee Tu Biblia — Vista previa de invitación a grupo, sin sesión.
+-- Migración 0032. Aplicar DESPUÉS de 0029.
+--
+-- Un invitado frío llega a /join?code=X desde el WhatsApp de su líder y hoy ve
+-- una bienvenida genérica: el nombre del grupo recién aparece después de crear
+-- la cuenta. Esta RPC deja mostrar "Te invitaron a {grupo}" ANTES del registro,
+-- que es el momento donde más importa entender para qué es la cuenta.
+--
+-- Superficie expuesta a anon, a propósito mínima: solo nombre y cantidad de
+-- miembros — sin ids, sin miembros, sin plan. Quien tiene un código válido ya
+-- recibió esa información de su líder; enumerar códigos al azar (32^6) solo
+-- podría revelar nombres de grupo, nunca contenido. Unirse sigue requiriendo
+-- sesión (join_group_by_code, endurecida en 0029).
+-- ============================================================================
+
+create or replace function public.peek_group_by_code(p_code text)
+returns table (name text, member_count bigint)
+language sql security definer stable set search_path = public as $$
+  select g.name, count(gm.user_id) as member_count
+  from public.groups g
+  left join public.group_members gm on gm.group_id = g.id
+  where g.invite_code = upper(trim(p_code))
+  group by g.name;
+$$;
+
+revoke execute on function public.peek_group_by_code(text) from public;
+grant execute on function public.peek_group_by_code(text) to anon, authenticated;
+
+-- ===== 0033_reflection_cycles.sql =====
+-- ============================================================================
+-- Lee Tu Biblia — Ciclos del plan para el diario ("Mi camino").
+-- Migración 0033. Aplicar DESPUÉS de 0015.
+--
+-- Problema: al renovar un plan ("Volver a leer este plan") se borra el progreso
+-- pero NO las reflexiones, y su clave única era (user, plan, día). Al releer el
+-- día N, la nota vieja ocupaba el lugar de la nueva: la hoja abría sellada
+-- (solo se edita el día en que se escribió) y un upsert hubiera pisado la nota
+-- anterior.
+--
+-- Solución: un "ciclo" que sube cada vez que se activa o renueva un plan (nunca al
+-- reprogramar ni al fijar "¿En qué día vas?"). La reflexión pertenece a
+-- (user, plan, día, ciclo): las notas viejas quedan en el diario y las nuevas
+-- conviven con ellas.
+--
+-- El front tolera que esta migración todavía no esté aplicada (cae al
+-- comportamiento anterior), así que se puede desplegar en cualquier orden.
+-- ============================================================================
+
+alter table public.profiles
+  add column if not exists plan_cycle integer not null default 0;
+
+alter table public.reading_reflections
+  add column if not exists cycle integer not null default 0;
+
+-- Soltar la unique vieja (user_id, plan_id, day_number) sea cual sea su nombre.
+do $$
+declare
+  c record;
+begin
+  for c in
+    select con.conname
+    from pg_constraint con
+    where con.conrelid = 'public.reading_reflections'::regclass
+      and con.contype = 'u'
+      and (
+        select array_agg(att.attname::text order by att.attname)
+        from unnest(con.conkey) as k(attnum)
+        join pg_attribute att
+          on att.attrelid = con.conrelid and att.attnum = k.attnum
+      ) = array['day_number', 'plan_id', 'user_id']
+  loop
+    execute format('alter table public.reading_reflections drop constraint %I', c.conname);
+  end loop;
+end $$;
+
+create unique index if not exists reflections_user_plan_day_cycle_idx
+  on public.reading_reflections (user_id, plan_id, day_number, cycle);
+

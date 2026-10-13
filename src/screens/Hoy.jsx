@@ -24,6 +24,7 @@ import { SkeletonHoy } from '../components/Skeleton.jsx'
 import PassageList from '../components/PassageList.jsx'
 import { BookIcon, CheckIcon, GearIcon, InstallIcon, ShareIcon } from '../components/icons.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
+import { cycleOf, nextCyclePatch } from '../lib/planCycle.js'
 import EmptyState from '../components/EmptyState.jsx'
 import ReflectionSheet from '../components/ReflectionSheet.jsx'
 import TodayExtras from '../components/TodayExtras.jsx'
@@ -140,9 +141,12 @@ export default function Hoy() {
   const shownDone = shownDay != null && r.completed.has(shownDay)
 
   // Clave del día con nota (null cuando no aplica: sin leer o función apagada).
+  // La nota pertenece al ciclo vigente del plan (sube al renovar o cambiar de plan):
+  // las de un ciclo anterior quedan en el diario y no bloquean las nuevas.
+  const cycle = cycleOf(profile)
   const noteKey =
     reflectionsEnabled && user && planId && shownDay != null && shownDone
-      ? `${user.id}:${planId}:${shownDay}`
+      ? `${user.id}:${planId}:${shownDay}:${cycle}`
       : null
 
   // Sembrar la nota desde la caché en el MISMO render en que cambia el día (patrón
@@ -152,7 +156,7 @@ export default function Hoy() {
   // abajo corrige si en realidad había nota. Así nunca se degrada el "marcar leído".
   if (seededKey !== noteKey) {
     setSeededKey(noteKey)
-    setNote(noteKey ? getCachedReflection(user.id, planId, shownDay) : null)
+    setNote(noteKey ? getCachedReflection(user.id, planId, shownDay, cycle) : null)
   }
 
   // Ventana de edición "tipo WhatsApp": editable solo el día en que se escribió.
@@ -163,13 +167,13 @@ export default function Hoy() {
   useEffect(() => {
     if (!noteKey) return
     let on = true
-    getReflection(user.id, planId, shownDay)
+    getReflection(user.id, planId, shownDay, cycle)
       .then((row) => on && setNote(row ?? null))
       .catch(() => {})
     return () => {
       on = false
     }
-  }, [noteKey, user, planId, shownDay])
+  }, [noteKey, user, planId, shownDay, cycle])
 
   function readNext(target) {
     if (target != null) setAheadDay(target)
@@ -232,7 +236,10 @@ export default function Hoy() {
         longestStreak: maxStreak,
         startedOn,
       })
-      const { error } = await updateProfile({ plan_start_date: startDateForDay(1) })
+      const { error } = await updateProfile({
+        plan_start_date: startDateForDay(1),
+        ...nextCyclePatch(profile),
+      })
       if (error) throw error
       await clearPlanProgress(user.id, planId)
       setConfirmRenew(false)
@@ -762,12 +769,12 @@ export default function Hoy() {
           }
           onClose={() => setReflectOpen(false)}
           onSave={async (body) => {
-            const row = await upsertReflection(user.id, planId, shownDay, body)
+            const row = await upsertReflection(user.id, planId, shownDay, body, cycle)
             setNote(row)
             setReflectOpen(false)
           }}
           onDelete={async () => {
-            await deleteReflection(user.id, planId, shownDay)
+            await deleteReflection(user.id, planId, shownDay, cycle)
             setNote(null)
             setReflectOpen(false)
           }}

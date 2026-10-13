@@ -14,6 +14,7 @@ import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import { inputStyle } from '../components/formStyles.js'
 import RetryError from '../components/RetryError.jsx'
 import InlineError from '../components/InlineError.jsx'
+import { nextCyclePatch } from '../lib/planCycle.js'
 
 const WINDOW_SIZE = 31
 
@@ -93,7 +94,12 @@ export default function PlanDetail() {
     setSaveFailed(false)
     setPreviousFailed(false)
     const planStart = resumeDay ? startDateForDay(resumeDay) : todayLocalISO()
-    const { error } = await updateProfile({ active_plan_id: planId, plan_start_date: planStart })
+    // Activar un plan abre un ciclo nuevo para las notas del diario (migración 0033).
+    const { error } = await updateProfile({
+      active_plan_id: planId,
+      plan_start_date: planStart,
+      ...nextCyclePatch(profile),
+    })
     // Si no se guardó, nos quedamos acá (con el diálogo abierto, si lo hay) y se
     // avisa: nunca navegar a Hoy como si el plan hubiera cambiado.
     if (error) {

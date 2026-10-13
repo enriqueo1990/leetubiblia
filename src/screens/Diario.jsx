@@ -150,12 +150,12 @@ export default function Diario() {
           }}
           onClose={() => setSheet(null)}
           onSave={async (body) => {
-            await upsertReflection(user.id, sheet.plan_id, sheet.day_number, body)
+            await upsertReflection(user.id, sheet.plan_id, sheet.day_number, body, sheet.cycle ?? 0)
             setSheet(null)
             await load()
           }}
           onDelete={async () => {
-            await deleteReflection(user.id, sheet.plan_id, sheet.day_number)
+            await deleteReflection(user.id, sheet.plan_id, sheet.day_number, sheet.cycle ?? 0)
             setSheet(null)
             await load()
           }}
