@@ -670,6 +670,7 @@
   "materiales.onItem": "Vas en la lectura {n}",
   "materiales.onDay": "Lectura del {date}",
   "materialReader.index": "Índice",
+  "materialReader.indexLockedHint": "Las siguientes se abren a medida que marcás las que vas leyendo.",
   "materialReader.intro": "Introducción",
   "materialReader.completed": "Completaste este material. Podés repasarlo o volver a empezar.",
   "materialReader.saveError": "No se pudo guardar tu avance. Revisá tu conexión e intentá de nuevo.",

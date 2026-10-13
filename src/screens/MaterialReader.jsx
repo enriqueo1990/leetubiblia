@@ -3,6 +3,7 @@ import { useParams, Navigate } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import {
   loadMaterialContent,
+  getMaterial,
   entryOfLabel,
   isMaterialActive,
   positionOf,
@@ -19,6 +20,7 @@ import { passageUrl } from '../lib/bible.js'
 import { usePreferences } from '../lib/preferences.jsx'
 import { bookLabel } from '../i18n/books.js'
 import { shareQuestion } from '../lib/shareImage.js'
+import { excerpt } from '../lib/excerpt.js'
 import { ListIcon, ShareIcon } from '../components/icons.jsx'
 import BackLink from '../components/BackLink.jsx'
 import RetryError from '../components/RetryError.jsx'
@@ -229,7 +231,10 @@ export default function MaterialReader() {
           entryOfLabel(t, slug, entry.number, total, locale).replace(/ /g, '\u00A0'),
         ].join(' · '),
         question: entry.question,
-        answer: entry.answer,
+        // Un devocional por fecha tiene una meditación larga que nunca entra en la
+        // tarjeta: se comparte su primer párrafo en vez de dejar solo el versículo.
+        // Los catecismos no se recortan (la doctrina no se trunca).
+        answer: getMaterial(slug)?.unit === 'day' ? excerpt(entry.answer) : entry.answer,
         refs: entry.refs.map((ref) => bookLabel(ref, locale)),
       }
     : null

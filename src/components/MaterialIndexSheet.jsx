@@ -30,6 +30,10 @@ export default function MaterialIndexSheet({ content, frontier, current, numberO
 
   return (
     <Sheet title={t('materialReader.index')} onCancel={onClose}>
+      {/* Sin esta línea, las entradas futuras apagadas parecen un error. */}
+      {frontier < content.total && (
+        <p className="mb-4 px-1 text-[13px] leading-snug text-ink-soft">{t('materialReader.indexLockedHint')}</p>
+      )}
       {Array.isArray(content.intro) && content.intro.length > 0 && (
         <div className="mb-6">
           <div className="card divide-y divide-hairline">
