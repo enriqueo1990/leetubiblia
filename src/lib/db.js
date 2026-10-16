@@ -1141,3 +1141,16 @@ export async function getAdminSignupsSeries(days = 30) {
   if (error) throw dbError(error)
   return data || []
 }
+
+// Sugerencias y reportes de error (migración 0034), más recientes primero.
+// No es RPC: lee la tabla directo, y la policy "feedback admin reads" solo deja
+// pasar el select a is_admin(); cualquier otro usuario recibe una lista vacía.
+export async function getAdminFeedback({ limit = 100 } = {}) {
+  const { data, error } = await supabase
+    .from('app_feedback')
+    .select('id, user_id, kind, body, app_version, locale, platform, standalone, user_agent, created_at')
+    .order('created_at', { ascending: false })
+    .limit(limit)
+  if (error) throw dbError(error)
+  return data || []
+}

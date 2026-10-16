@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
-import { getAdminOverview, getAdminSignupsSeries } from '../lib/db.js'
+import { getAdminOverview, getAdminSignupsSeries, getAdminFeedback } from '../lib/db.js'
 import RetryError from '../components/RetryError.jsx'
+import Segmented from '../components/Segmented.jsx'
 
 // Panel privado del dueño (/admin). No aparece en la navegación: se entra por URL
 // directa y solo responde a la cuenta admin. Toda la data llega de RPCs agregadas
 // SECURITY DEFINER (migración 0021) — el cliente nunca ve filas de otros usuarios.
+// La excepción es el buzón de sugerencias y errores (migración 0034), que se lee
+// directo de la tabla: su policy solo deja pasar el select a is_admin().
 const ADMIN_EMAIL = 'enrique.o1990@gmail.com'
 
 // Bandera emoji a partir del código ISO-2 (regional indicators). '—' o inválido → 🌍.
@@ -160,10 +163,78 @@ function PlansHealth({ rows }) {
   )
 }
 
+const FEEDBACK_KIND = { suggestion: 'Sugerencia', bug: 'Error' }
+const FEEDBACK_OPTIONS = [
+  { key: 'suggestion', label: 'Sugerencias' },
+  { key: 'bug', label: 'Errores' },
+]
+
+// Buzón de Ajustes › "Quién hace la app": sugerencias y reportes de error, con
+// la versión y el dispositivo que los mandó. Carga aparte del resto del panel
+// para que un fallo acá (tabla sin migrar, por ejemplo) no tape los números.
+function FeedbackInbox({ rows, error, onRetry }) {
+  const [kind, setKind] = useState('suggestion')
+  if (error) {
+    return (
+      <div>
+        <RetryError message="No se pudieron cargar las sugerencias." onRetry={onRetry} />
+        <p className="mt-3 break-words text-center text-[12px] text-placeholder">{error}</p>
+      </div>
+    )
+  }
+  if (!rows) return <p className="text-[15px] text-ink-soft">Cargando…</p>
+  const count = (k) => rows.filter((r) => r.kind === k).length
+  const visible = rows.filter((r) => r.kind === kind)
+  return (
+    <div>
+      <Segmented
+        label="Tipo de mensaje"
+        value={kind}
+        onChange={setKind}
+        options={FEEDBACK_OPTIONS.map((o) => ({ ...o, label: `${o.label} · ${count(o.key)}` }))}
+      />
+      {visible.length === 0 ? (
+        <p className="mt-4 text-[15px] text-ink-soft">
+          {kind === 'bug' ? 'Nadie avisó de un error todavía.' : 'Nadie sugirió nada todavía.'}
+        </p>
+      ) : (
+        <ul className="mt-3 space-y-3">
+          {visible.map((r) => (
+            <li key={r.id} className="card p-4">
+              <div className="flex items-baseline justify-between gap-3">
+                <span
+                  className="shrink-0 text-[12px] font-semibold uppercase tracking-wide"
+                  style={{ color: r.kind === 'bug' ? 'var(--danger)' : 'var(--accent-ink)' }}
+                >
+                  {FEEDBACK_KIND[r.kind] || r.kind}
+                </span>
+                <span className="text-[13px] text-ink-soft">{new Date(r.created_at).toLocaleString('es-ES')}</span>
+              </div>
+              <p className="mt-2 whitespace-pre-wrap break-words text-[15px] leading-snug text-ink">{r.body}</p>
+              <p className="mt-3 border-t pt-2.5 text-[12px] text-placeholder" style={{ borderColor: 'var(--hairline)' }}>
+                {[
+                  r.app_version ? `v${r.app_version}` : 'versión sin registrar',
+                  PLATFORM_LABEL[r.platform] || r.platform || 'plataforma sin registrar',
+                  r.standalone === true ? 'instalada' : r.standalone === false ? 'navegador' : null,
+                  r.locale || null,
+                ]
+                  .filter(Boolean)
+                  .join(' · ')}
+              </p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
 export default function Admin() {
   const { user } = useAuth()
   const [data, setData] = useState(null) // { overview, series }
   const [error, setError] = useState(null) // string | null
+  const [feedback, setFeedback] = useState(null) // filas de app_feedback | null (cargando)
+  const [feedbackError, setFeedbackError] = useState(null) // string | null
   const isAdmin = user?.email === ADMIN_EMAIL
 
   const load = useCallback(async () => {
@@ -176,9 +247,21 @@ export default function Admin() {
     }
   }, [])
 
+  const loadFeedback = useCallback(async () => {
+    setFeedbackError(null)
+    try {
+      setFeedback(await getAdminFeedback({ limit: 100 }))
+    } catch (e) {
+      setFeedbackError(e?.message || e?.hint || String(e))
+    }
+  }, [])
+
   useEffect(() => {
-    if (isAdmin) load()
-  }, [isAdmin, load])
+    if (isAdmin) {
+      load()
+      loadFeedback()
+    }
+  }, [isAdmin, load, loadFeedback])
 
   const back = (
     <Link to="/" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
@@ -317,6 +400,10 @@ export default function Admin() {
               <StatCard value={o.diary.users} label="escribieron diario" hint={`${o.diary.enabled} con diario activo`} />
               <StatCard value={o.installs.push_devices} label="dispositivos con push" />
             </div>
+          </Section>
+
+          <Section title="Sugerencias y errores" subtitle="Lo que mandaron desde Ajustes › Quién hace la app.">
+            <FeedbackInbox rows={feedback} error={feedbackError} onRetry={loadFeedback} />
           </Section>
 
           <p className="mt-10 text-center text-[12px] text-placeholder">
