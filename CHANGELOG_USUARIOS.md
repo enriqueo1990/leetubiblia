@@ -2,6 +2,15 @@
 
 Registro de mejoras en lenguaje de usuario, para compartir.
 
+## Actualización — 16 de octubre de 2026 · hablemos
+<!-- ref: c9cf49a -->
+
+### ✨ Novedades
+- En Ajustes hay una sección nueva, **Quién hace la app**: quién está detrás de Lee Tu Biblia y tres puertas para hablar con él.
+- **Sugerir una mejora**: contá qué te gustaría que la app haga distinto. Lo lee personalmente el desarrollador.
+- **Avisar de un error**: contá qué pasó y listo; la versión de la app y el tipo de dispositivo viajan solos para encontrarlo más rápido. Si el envío falla, podés mandarlo por correo con un toque.
+- **Apoyar la misión** ahora se ve a simple vista, con las opciones de PayPal y MercadoPago en una sola hoja.
+
 ## Actualización — 13 de octubre de 2026 · cuidar lo que guardás
 <!-- ref: add095c -->
 
