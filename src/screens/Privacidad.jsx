@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { BookIcon, HeartIcon, PeopleIcon, LockIcon, PencilIcon } from '../components/icons.jsx'
 import { LandingStyle, LandingGlow, LandingHeader, LandingFooter, Eyebrow, IconBadge, BellIcon } from './landingKit.jsx'
+import { CONTACT_EMAIL as CONTACTO } from '../lib/developer.js'
 
 // Página pública /privacidad — la capa de confianza del sitio (ver App.jsx, fuera
 // del Gate). Enlazada desde el footer global de todas las páginas. Está redactada
@@ -9,7 +10,6 @@ import { LandingStyle, LandingGlow, LandingHeader, LandingFooter, Eyebrow, IconB
 // Eliminar cuenta, migración 0006). Tono pastoral y claro, no jurídico: nada de
 // prometer lo que la app no hace. Mismo canon de diseño vía landingKit.
 
-const CONTACTO = 'enrique.o1990@gmail.com'
 const ACTUALIZADO = '11 de julio de 2026'
 
 // Qué guardamos y para qué — anclado a las tablas reales del backend.

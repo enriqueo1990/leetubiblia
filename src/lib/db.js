@@ -505,6 +505,15 @@ export async function deleteAccount() {
   if (error) throw dbError(error)
 }
 
+// Sugerencia o reporte de error desde Ajustes › "Quién hace la app" (migración
+// 0034). `context` = feedbackContext() de lib/developer.js: versión + dispositivo.
+export async function sendFeedback({ userId, kind, body, context }) {
+  const { error } = await supabase
+    .from('app_feedback')
+    .insert({ user_id: userId, kind, body: body.trim(), ...context })
+  if (error) throw dbError(error)
+}
+
 // Todos los días de un plan (para el detalle del plan: listado día-por-día).
 export async function getPlanDays(planId) {
   const { data, error } = await supabase

@@ -16,8 +16,9 @@ import Switch from '../components/Switch.jsx'
 import BackLink from '../components/BackLink.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import InlineError from '../components/InlineError.jsx'
+import DeveloperSection from './DeveloperSection.jsx'
 import { saveOrRevert } from '../lib/saveWithRevert.js'
-import { ChevronRight, HeartIcon, InstallIcon, ShareIcon } from '../components/icons.jsx'
+import { ChevronRight, InstallIcon, ShareIcon } from '../components/icons.jsx'
 import { subscribeToPush, unsubscribeFromPush, getTimezone } from '../lib/push.js'
 import { activeMaterials } from '../lib/materials.js'
 import { exportJournal } from '../lib/exportJournal.js'
@@ -698,53 +699,10 @@ export default function Ajustes() {
         </Link>
       </div>
 
-      <details className="card mt-7 overflow-hidden">
-        <summary className="flex min-h-12 cursor-pointer items-center gap-2.5 px-4 py-3 text-[16px] font-medium text-ink">
-          <HeartIcon size={20} /> {t('ajustes.section.mision')}
-        </summary>
-      <div className="border-t border-hairline p-4">
-        <div>
-          <div>
-            <p className="text-[15px] text-ink">
-              {t('ajustes.misionText')}
-            </p>
-            <a
-              href="https://dentonbible.org/missions/view-detail/smallgroup/oriolo-enrique-and-tamara/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-2 inline-flex items-center gap-1 text-[13px] font-medium"
-              style={{ color: 'var(--accent-ink)' }}
-            >
-              {t('ajustes.misionLink')} ↗
-            </a>
-          </div>
-        </div>
-        <div className="mt-4 space-y-2">
-          {[
-            { label: t('ajustes.donarPaypal'), url: 'https://www.paypal.com/paypalme/EnriqueOriolo' },
-            {
-              label: t('ajustes.donarMPunica'),
-              url: 'https://link.mercadopago.com.ar/enriqueoriolo',
-            },
-            { label: t('ajustes.donarMPmensual'), url: 'https://mpago.la/1EEJDnZ' },
-          ].map((d) => (
-            <a
-              key={d.url}
-              href={d.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-between rounded-card px-4 py-3"
-              style={{ backgroundColor: 'var(--surface-alt)' }}
-            >
-              <span className="text-[15px] font-medium text-ink">{d.label}</span>
-              <span className="text-[15px]" style={{ color: 'var(--accent-ink)' }} aria-hidden="true">
-                ↗
-              </span>
-            </a>
-          ))}
-        </div>
-      </div>
-      </details>
+      {/* Quién hace la app: donar, sugerir, avisar un error. Vive en su propio
+          componente (DeveloperSection) con sus dos hojas. */}
+      <SectionLabel>{t('ajustes.section.dev')}</SectionLabel>
+      <DeveloperSection />
 
       <SectionLabel>{t('ajustes.section.cuenta')}</SectionLabel>
       <div className="card divide-y divide-hairline">
