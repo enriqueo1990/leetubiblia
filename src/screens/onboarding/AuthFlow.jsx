@@ -6,10 +6,13 @@ import { peekGroupByCode } from '../../lib/db.js'
 import { savePendingPlan } from '../../lib/pendingPlan.js'
 import PlanCatalog from '../../components/PlanCatalog.jsx'
 import { classifySendError } from '../../lib/authErrors.js'
-import { BookIcon } from '../../components/icons.jsx'
+import { BookIcon, ShareIcon } from '../../components/icons.jsx'
+import { isIOSBrowser, isInAppBrowser } from '../../lib/platform.js'
+import { recordFunnel } from '../../lib/diag.js'
 
 // Bienvenida + auth por código de email (documento maestro §5.8, README pantalla 8).
-// Pasos locales: 'welcome' → 'explore' (catálogo SIN cuenta) → 'form' → 'code'.
+// Pasos locales: 'welcome' → ('install', solo iPhone en el navegador) →
+// 'explore' (catálogo SIN cuenta) → 'form' → 'code'.
 // La cuenta se pide en el momento del compromiso, no en la puerta: primero se
 // elige el plan (queda pendiente en localStorage y el onboarding lo aplica al
 // terminar), o se ve a qué grupo te invitaron (/join?code → peek sin sesión).
@@ -73,6 +76,14 @@ export default function AuthFlow() {
     }
   }, [inviteCode])
 
+  // Embudo de onboarding (/admin): cada pantalla cuenta una vez por dispositivo.
+  // Quien vuelve con la sesión vencida no es una persona nueva: no se cuenta.
+  useEffect(() => {
+    if (step === 'welcome' && !sessionExpired) recordFunnel('ob_welcome', { invite: Boolean(inviteCode) })
+    if (step === 'install') recordFunnel('ob_install_step', { in_app: isInAppBrowser() })
+    if (step === 'explore') recordFunnel('ob_explore')
+  }, [step, sessionExpired, inviteCode])
+
   const valid = EMAIL_RE.test(email.trim())
 
   async function handleSend({ resend = false } = {}) {
@@ -98,6 +109,7 @@ export default function AuthFlow() {
       )
       return
     }
+    if (mode === 'signup') recordFunnel('ob_code_sent', { invite: Boolean(invite) })
     setCode('')
     setCooldown(RESEND_COOLDOWN)
     setResent(resend)
@@ -118,6 +130,7 @@ export default function AuthFlow() {
       setError(t('onboarding.auth.codeError'))
       return
     }
+    if (mode === 'signup') recordFunnel('ob_code_verified')
     // onAuthStateChange detecta la sesión y el Gate avanza solo.
   }
 
@@ -174,8 +187,11 @@ export default function AuthFlow() {
             onClick={() => {
               // Invitación: derecho al registro (el plan se resuelve con el grupo).
               // Sin invitación: primero explorar los planes, la cuenta después.
+              // En iPhone, antes que nada, instalar: la app de inicio no comparte
+              // sesión con el navegador y la cuenta se crearía dos veces. (No con
+              // invitación: instalar desde /join podría perder el código.)
               if (invite) goToForm('signup', 'welcome')
-              else setStep('explore')
+              else setStep(isIOSBrowser() ? 'install' : 'explore')
             }}
           >
             {invite ? t('onboarding.auth.inviteCta') : t('onboarding.auth.start')}
@@ -189,6 +205,69 @@ export default function AuthFlow() {
             {t('onboarding.auth.haveAccount')}
           </button>
         </div>
+      </Centered>
+    )
+  }
+
+  // ---- Instalar primero (iPhone en el navegador) ----
+  if (step === 'install') {
+    const inApp = isInAppBrowser()
+    const steps = [
+      t('onboarding.extras.step1'),
+      t('onboarding.extras.step2'),
+      t('onboarding.install.step3'),
+    ]
+    return (
+      <Centered>
+        <button
+          type="button"
+          className={BACK_CLASS}
+          style={{ color: 'var(--accent-ink)' }}
+          onClick={() => setStep('welcome')}
+        >
+          ‹ {t('common.back')}
+        </button>
+        <h1 className="text-[26px] font-bold tracking-tight text-ink">
+          {t('onboarding.install.title')}
+        </h1>
+        <p className="mt-2 text-[16px] text-ink-soft">{t('onboarding.install.text')}</p>
+
+        <div className="card mt-7 p-4">
+          {inApp ? (
+            <p className="text-[15px] text-ink">{t('onboarding.install.inApp')}</p>
+          ) : (
+            <ol className="space-y-3">
+              {steps.map((label, i) => (
+                <li key={i} className="flex items-center gap-3">
+                  <span
+                    className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[13px] font-semibold text-on-accent"
+                    style={{ backgroundColor: 'var(--accent-action)' }}
+                  >
+                    {i + 1}
+                  </span>
+                  <span className="text-[15px] text-ink">{label}</span>
+                  {i === 0 && (
+                    <span className="ml-auto text-accent-ink">
+                      <ShareIcon size={20} />
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ol>
+          )}
+        </div>
+
+        <button
+          type="button"
+          className="btn btn-secondary mt-6"
+          style={{ color: 'var(--accent-ink)', borderColor: 'var(--accent-ink)' }}
+          onClick={() => {
+            recordFunnel('ob_install_skip')
+            setStep('explore')
+          }}
+        >
+          {t('onboarding.install.continue')}
+        </button>
       </Centered>
     )
   }
@@ -213,6 +292,7 @@ export default function AuthFlow() {
         <PlanCatalog
           onStart={(plan, resumeDay) => {
             savePendingPlan({ planId: plan.id, resumeDay, name: plan.name })
+            recordFunnel('ob_plan_chosen', { plan_id: plan.id })
             setPendingName(plan.name)
             goToForm('signup', 'explore')
           }}
@@ -224,6 +304,7 @@ export default function AuthFlow() {
           className="mt-4 min-h-11 w-full text-center text-[15px] font-medium text-accent-ink"
           onClick={() => {
             savePendingPlan({ skipped: true })
+            recordFunnel('ob_plan_chosen', { skipped: true })
             setPendingName(null)
             goToForm('signup', 'explore')
           }}

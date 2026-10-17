@@ -5,6 +5,7 @@ import { usePreferences } from '../../lib/preferences.jsx'
 import { startDateForDay, todayLocalISO, markDaysRead } from '../../lib/db.js'
 import { readPendingPlan, clearPendingPlan } from '../../lib/pendingPlan.js'
 import PlanCatalog from '../../components/PlanCatalog.jsx'
+import { recordFunnel } from '../../lib/diag.js'
 
 // Elegir plan de lectura en el onboarding (documento maestro §5.3 / §5.8).
 // Set active_plan_id + plan_start_date = hoy (local). El cambio de plan ya con
@@ -95,7 +96,10 @@ export default function ChoosePlanOnboarding({ onSkip }) {
       <p className="mt-2 text-[16px] text-ink-soft">{t('planes.subtitle')}</p>
 
       <PlanCatalog
-        onStart={(plan, resumeDay) => applyPlan(plan.id, resumeDay)}
+        onStart={(plan, resumeDay) => {
+          recordFunnel('ob_plan_chosen', { plan_id: plan.id })
+          applyPlan(plan.id, resumeDay)
+        }}
         startLabel={t('onboarding.choosePlan.start')}
         savingLabel={t('planes.activating')}
         saving={saving}
@@ -113,7 +117,10 @@ export default function ChoosePlanOnboarding({ onSkip }) {
       <button
         type="button"
         className="btn btn-secondary"
-        onClick={onSkip}
+        onClick={() => {
+          recordFunnel('ob_plan_chosen', { skipped: true })
+          onSkip()
+        }}
       >
         {joiningFromInvite
           ? t('onboarding.choosePlan.inviteCta')

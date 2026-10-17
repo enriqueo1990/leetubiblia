@@ -23,7 +23,12 @@ function isOldAccount(profile, now) {
 }
 
 export function isExtrasDone(uid, profile, store = defaultStore(), now = Date.now()) {
-  if (!uid || !store) return false
+  if (!uid) return false
+  // La marca del servidor (migración 0035) viaja con la cuenta: otro dispositivo,
+  // la app instalada en iPhone o volver a entrar tras cerrar sesión no repiten
+  // el paso 3. La bandera local queda como respaldo mientras no exista.
+  if (profile?.onboarded_at) return true
+  if (!store) return false
   try {
     if (store.getItem(keyFor(uid)) === '1') return true
     if (store.getItem(LEGACY_KEY) === '1' && isOldAccount(profile, now)) {

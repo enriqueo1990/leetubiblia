@@ -20,6 +20,7 @@ import { usePreferences } from '../lib/preferences.jsx'
 import { fmtISODate } from '../i18n/dates.js'
 import { planName } from '../lib/planLabels.js'
 import { shareCompletion } from '../lib/shareImage.js'
+import { recordFunnel } from '../lib/diag.js'
 import { SkeletonHoy, SkeletonPassages } from '../components/Skeleton.jsx'
 import InlineError from '../components/InlineError.jsx'
 import PassageList from '../components/PassageList.jsx'
@@ -44,6 +45,12 @@ function wasInstallCardDismissed() {
   } catch {
     return false
   }
+}
+
+const FIRST_MARK_WINDOW = 14 * 24 * 60 * 60 * 1000
+function isRecentAccount(profile) {
+  const created = profile?.created_at ? Date.parse(profile.created_at) : NaN
+  return Number.isFinite(created) && Date.now() - created < FIRST_MARK_WINDOW
 }
 
 export default function Hoy() {
@@ -724,6 +731,9 @@ export default function Hoy() {
                     if (dayShown == null) return
                     setJustMarked(true)
                     navigator.vibrate?.(12)
+                    // Embudo: la primera lectura de una cuenta nueva (no la de
+                    // quien solo empieza otro plan).
+                    if (r.completedCount === 0 && isRecentAccount(profile)) recordFunnel('ob_first_mark')
                     r.toggleDay(dayShown)
                   }}
                   className="btn btn-primary"

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../../lib/auth.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
+import { recordFunnel } from '../../lib/diag.js'
 
 // "¿Cómo te llamás?" — solo en la primera entrada (documento maestro §5.8).
 // El magic link no captura nombre y la app lo muestra en Grupos y pedidos
@@ -22,6 +23,7 @@ export default function AskName() {
     setSaving(false)
     // Si todo va bien, el Gate re-evalúa solo (profile.display_name ya está).
     if (error) setError(true)
+    else recordFunnel('ob_name_saved')
   }
 
   return (

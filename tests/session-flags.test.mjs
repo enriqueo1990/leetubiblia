@@ -39,3 +39,9 @@ test('cerrar sesión limpia la bandera del usuario y el plan pendiente', () => {
   assert.equal(s.getItem('ltb.onboarded_extras.a'), null)
   assert.equal(s.getItem('ltb.pendingPlan'), null)
 })
+
+test('la marca del servidor (onboarded_at) alcanza aunque el dispositivo no tenga bandera', () => {
+  const s = fakeStore()
+  assert.equal(isExtrasDone('a', { ...fresh, onboarded_at: fresh.created_at }, s, NOW), true)
+  assert.equal(isExtrasDone('a', fresh, s, NOW), false)
+})
