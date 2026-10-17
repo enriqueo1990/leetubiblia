@@ -54,7 +54,7 @@ function StatCard({ value, label, hint, accent }) {
 // id → ancla del menú. scroll-mt deja la sección justo debajo del menú fijo.
 function Section({ id, title, subtitle, children }) {
   return (
-    <section id={id} className="mt-8 scroll-mt-[76px] lg:scroll-mt-8">
+    <section id={id} className="mt-8 min-w-0 scroll-mt-[76px] lg:scroll-mt-8">
       <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">{title}</p>
       {subtitle ? <p className="mt-0.5 text-[13px] text-placeholder">{subtitle}</p> : null}
       <div className="mt-3">{children}</div>
@@ -149,7 +149,6 @@ const ONBOARDING_STEPS = [
   { step: 'ob_plan_chosen', label: 'Eligieron plan o «después»' },
   { step: 'ob_code_sent', label: 'Pidieron el código' },
   { step: 'ob_code_verified', label: 'Entraron con el código' },
-  { step: 'ob_name_saved', label: 'Pusieron su nombre' },
   { step: 'ob_extras_done', label: 'Terminaron el onboarding' },
   { step: 'ob_first_mark', label: 'Marcaron su primera lectura' },
 ]
@@ -161,8 +160,8 @@ function reducedMotion() {
 }
 
 // Sección actual según el scroll: la que pasó bajo el menú más cerca de él. En
-// escritorio dos secciones comparten fila (misma altura): gana la primera, la
-// de la derecha se enciende al tocarla. Al tocar fondo gana la última, aunque
+// escritorio dos secciones comparten fila (misma altura): gana la primera, salvo
+// que la de al lado sea la que se eligió en el menú. Al tocar fondo gana la última, aunque
 // sea corta y nunca llegue arriba.
 // select() fija una sección a mano (tap en el menú) y congela el cálculo hasta
 // que el scroll que dispara se detiene: si no, al llegar al fondo "Comunidad"
@@ -194,7 +193,11 @@ function useActiveSection(ids, enabled) {
           best = top
         }
       }
-      setActive(current)
+      // Si la elegida comparte fila con la ganadora, se queda la elegida.
+      setActive((prev) => {
+        const prevTop = document.getElementById(prev)?.getBoundingClientRect().top
+        return prevTop != null && Math.abs(prevTop - best) <= 1 ? prev : current
+      })
     }
     const onScroll = () => {
       if (lock.current) {
@@ -218,7 +221,7 @@ function useActiveSection(ids, enabled) {
   return [active, select]
 }
 
-// Escritorio (≥1024px): sidebar fijo a la derecha, gemelo del de la app
+// Escritorio (≥1024px): sidebar fijo a la izquierda, gemelo del de la app
 // (components/Sidebar.jsx): superficie con filete, ítems con icono y el activo
 // en acento sobre tinte. Abajo, refrescar los números y volver a la app.
 function AdminSidebar({ items, active, onSelect, updatedAt, onRefresh, refreshing }) {
@@ -226,7 +229,7 @@ function AdminSidebar({ items, active, onSelect, updatedAt, onRefresh, refreshin
     'flex min-h-11 w-full items-center gap-3 rounded-[10px] px-3 py-2.5 text-left transition-colors duration-300 ease-soft'
   return (
     <aside
-      className="fixed inset-y-0 right-0 hidden w-[250px] flex-col border-l border-hairline bg-surface px-4 py-7 lg:flex"
+      className="fixed inset-y-0 left-0 hidden w-[250px] flex-col border-r border-hairline bg-surface px-4 py-7 lg:flex"
       aria-label="Secciones del panel"
     >
       <div className="px-3 pb-6">
@@ -444,7 +447,7 @@ function PlansHealth({ rows }) {
     return <p className="text-[15px] text-ink-soft">Sin planes todavía.</p>
   }
   return (
-    <ul className="grid gap-3 lg:grid-cols-2">
+    <ul className="grid grid-cols-1 gap-3 lg:grid-cols-2">
       {rows.map((p) => {
         const rate = pct(p.completions, p.started)
         return (
@@ -508,7 +511,7 @@ function FeedbackInbox({ rows, error, onRetry }) {
           {kind === 'bug' ? 'Nadie avisó de un error todavía.' : 'Nadie sugirió nada todavía.'}
         </p>
       ) : (
-        <ul className="mt-3 grid items-start gap-3 lg:grid-cols-2">
+        <ul className="mt-3 grid grid-cols-1 items-start gap-3 lg:grid-cols-2">
           {visible.map((r) => (
             <li key={r.id} className="card p-4">
               <div className="flex items-baseline justify-between gap-3">
@@ -575,6 +578,11 @@ function OnboardingFunnel({ rows, error, onRetry }) {
       <p className="mt-4 border-t pt-3 text-[13px] text-ink-soft" style={{ borderColor: 'var(--hairline)' }}>
         iPhone: {count('ob_install_step')} vieron «agregala a tu inicio» · {count('ob_install_skip')} siguieron en
         el navegador
+      </p>
+      {/* El nombre solo se pide a invitados (quien lee solo lo da al crear o unirse
+          a un grupo): fuera del embudo para no simular una caída. */}
+      <p className="mt-1.5 text-[13px] text-ink-soft">
+        Invitados: {count('ob_name_saved')} pusieron su nombre
       </p>
     </div>
   )
@@ -691,10 +699,12 @@ export default function Admin() {
 
   const navItems = NAV.map((it) => (it.id === 'buzon' && feedback?.length ? { ...it, badge: feedback.length } : it))
 
-  // Escritorio: sidebar a la derecha y el contenido en grilla de dashboard (filas
+  // Escritorio: sidebar a la izquierda y el contenido en grilla de dashboard (filas
   // de a dos secciones). Móvil: una columna con el menú de chips arriba.
+  // overflow-x-clip: tope a cualquier desborde lateral sin romper el menú sticky
+  // (hidden lo convertiría en contenedor de scroll).
   return (
-    <div className="min-h-full bg-app">
+    <div className="min-h-full overflow-x-clip bg-app">
       {o ? (
         <AdminSidebar
           items={navItems}
@@ -706,7 +716,7 @@ export default function Admin() {
         />
       ) : null}
 
-      <div className={o ? 'lg:pr-[250px]' : ''}>
+      <div className={o ? 'lg:pl-[250px]' : ''}>
         <div className="mx-auto max-w-[560px] px-5 pb-16 pt-6 lg:max-w-[1080px] lg:px-10 lg:pt-10">
           <div className={o ? 'lg:hidden' : ''}>{back}</div>
           <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink lg:mt-0 lg:text-[30px]">Panel</h1>
@@ -744,7 +754,7 @@ export default function Admin() {
                 </div>
               </Section>
 
-              <div className="grid items-start gap-x-6 lg:grid-cols-2">
+              <div className="grid grid-cols-1 items-start gap-x-6 lg:grid-cols-2">
                 <Section id="activacion" title="Activación" subtitle="Del total registrado, cuántos avanzan.">
                   <div className="card p-4">
                     <BarList rows={funnel} empty="Sin usuarios todavía." />
@@ -760,7 +770,7 @@ export default function Admin() {
                 </Section>
               </div>
 
-              <div className="grid items-start gap-x-6 lg:grid-cols-2">
+              <div className="grid grid-cols-1 items-start gap-x-6 lg:grid-cols-2">
                 <Section id="constancia" title="Constancia" subtitle="Usuarios por cantidad de días leídos.">
                   <div className="card p-4">
                     <BarList
@@ -793,7 +803,7 @@ export default function Admin() {
                 <PlansHealth rows={o.plans_health} />
               </Section>
 
-              <div className="grid items-start gap-x-6 lg:grid-cols-2">
+              <div className="grid grid-cols-1 items-start gap-x-6 lg:grid-cols-2">
                 <Section id="geografia" title="Países" subtitle="Se llena desde el próximo deploy.">
                   <div className="card p-4">
                     <BarList
