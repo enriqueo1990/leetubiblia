@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import { getAdminOverview, getAdminSignupsSeries, getAdminFeedback } from '../lib/db.js'
@@ -45,13 +45,157 @@ function StatCard({ value, label, hint, accent }) {
   )
 }
 
-function Section({ title, subtitle, children }) {
+// id → ancla del menú. scroll-mt deja la sección justo debajo del menú fijo.
+function Section({ id, title, subtitle, children }) {
   return (
-    <div className="mt-8">
+    <section id={id} className="mt-8 scroll-mt-[76px]">
       <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">{title}</p>
       {subtitle ? <p className="mt-0.5 text-[13px] text-placeholder">{subtitle}</p> : null}
       <div className="mt-3">{children}</div>
-    </div>
+    </section>
+  )
+}
+
+// Destinos del menú, en el orden de la página. Cada id es el de una <Section>;
+// las secciones sin entrada propia (timezones) quedan bajo la anterior.
+const NAV = [
+  { id: 'usuarios', label: 'Usuarios' },
+  { id: 'activacion', label: 'Activación' },
+  { id: 'actividad', label: 'Actividad' },
+  { id: 'constancia', label: 'Constancia' },
+  { id: 'planes', label: 'Planes' },
+  { id: 'plataforma', label: 'Plataforma' },
+  { id: 'geografia', label: 'Geografía' },
+  { id: 'comunidad', label: 'Comunidad' },
+  { id: 'buzon', label: 'Buzón' },
+]
+
+const NAV_IDS = NAV.map((it) => it.id)
+
+const NAV_OFFSET = 80 // alto del menú fijo + aire: a partir de acá una sección "es la actual"
+
+function reducedMotion() {
+  return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+}
+
+// Sección actual según el scroll: la última cuyo borde superior ya pasó bajo el
+// menú. Al tocar fondo gana la última, aunque sea corta y nunca llegue arriba.
+// select() fija una sección a mano (tap en el menú) y congela el cálculo hasta
+// que el scroll que dispara se detiene: si no, al llegar al fondo "Comunidad"
+// se pisaría con "Buzón".
+function useActiveSection(ids, enabled) {
+  const [active, setActive] = useState(ids[0])
+  const lock = useRef(null) // timeout mientras manda la selección manual
+
+  const select = useCallback((id) => {
+    setActive(id)
+    clearTimeout(lock.current)
+    lock.current = setTimeout(() => (lock.current = null), 200)
+  }, [])
+
+  useEffect(() => {
+    if (!enabled) return
+    let frame = 0
+    const update = () => {
+      frame = 0
+      if (lock.current) return
+      const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4
+      if (atBottom) return setActive(ids[ids.length - 1])
+      let current = ids[0]
+      for (const id of ids) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top <= NAV_OFFSET) current = id
+      }
+      setActive(current)
+    }
+    const onScroll = () => {
+      if (lock.current) {
+        // Sigue el scroll del salto: estirar la espera hasta que pare.
+        clearTimeout(lock.current)
+        lock.current = setTimeout(() => (lock.current = null), 200)
+        return
+      }
+      if (!frame) frame = requestAnimationFrame(update)
+    }
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      if (frame) cancelAnimationFrame(frame)
+    }
+  }, [ids, enabled])
+  useEffect(() => () => clearTimeout(lock.current), [])
+  return [active, select]
+}
+
+// Menú fijo arriba: una fila de chips desplazable con un salto por sección.
+// La sección visible queda resaltada y su chip se centra solo en la fila.
+function AdminNav({ items, active, onSelect }) {
+  const rowRef = useRef(null)
+
+  useEffect(() => {
+    const row = rowRef.current
+    const chip = row?.querySelector(`[data-nav="${active}"]`)
+    if (!row || !chip) return
+    const left = chip.offsetLeft - (row.clientWidth - chip.offsetWidth) / 2
+    row.scrollTo({ left, behavior: reducedMotion() ? 'auto' : 'smooth' })
+  }, [active])
+
+  return (
+    <nav
+      aria-label="Secciones del panel"
+      className="sticky top-0 z-10 -mx-5 mt-5"
+      style={{
+        paddingTop: 'max(env(safe-area-inset-top), 10px)',
+        backgroundColor: 'var(--tabbar-bg)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        borderBottom: '1px solid var(--hairline)',
+      }}
+    >
+      <ul
+        ref={rowRef}
+        className="flex gap-2 overflow-x-auto px-5 pb-2.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {items.map((it) => {
+          const on = it.id === active
+          return (
+            <li key={it.id} className="shrink-0">
+              <a
+                href={`#${it.id}`}
+                data-nav={it.id}
+                aria-current={on ? 'location' : undefined}
+                onClick={(e) => {
+                  e.preventDefault()
+                  onSelect(it.id)
+                }}
+                className="flex min-h-9 items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 text-[14px] transition-colors duration-200"
+                style={{
+                  backgroundColor: on ? 'var(--accent-action)' : 'var(--segment-track)',
+                  color: on ? '#fff' : 'var(--text-soft)',
+                  fontWeight: on ? 600 : 500,
+                }}
+              >
+                {it.label}
+                {it.badge ? (
+                  <span
+                    className="rounded-full px-1.5 text-[12px] font-semibold leading-[18px]"
+                    style={{
+                      backgroundColor: on ? 'rgba(255,255,255,0.25)' : 'var(--surface)',
+                      color: on ? '#fff' : 'var(--text-primary)',
+                    }}
+                  >
+                    {it.badge}
+                  </span>
+                ) : null}
+              </a>
+            </li>
+          )
+        })}
+      </ul>
+    </nav>
   )
 }
 
@@ -236,6 +380,7 @@ export default function Admin() {
   const [feedback, setFeedback] = useState(null) // filas de app_feedback | null (cargando)
   const [feedbackError, setFeedbackError] = useState(null) // string | null
   const isAdmin = user?.email === ADMIN_EMAIL
+  const [active, setActive] = useActiveSection(NAV_IDS, Boolean(data))
 
   const load = useCallback(async () => {
     setError(null)
@@ -262,6 +407,24 @@ export default function Admin() {
       loadFeedback()
     }
   }, [isAdmin, load, loadFeedback])
+
+  const goTo = useCallback(
+    (id, smooth = true) => {
+      const el = document.getElementById(id)
+      if (!el) return
+      el.scrollIntoView({ block: 'start', behavior: smooth && !reducedMotion() ? 'smooth' : 'auto' })
+      setActive(id)
+      window.history.replaceState(null, '', `#${id}`)
+    },
+    [setActive],
+  )
+
+  // /admin#buzon abre directo en esa sección, en cuanto el panel termina de cargar.
+  const loaded = Boolean(data)
+  useEffect(() => {
+    const id = window.location.hash.slice(1)
+    if (loaded && NAV_IDS.includes(id)) goTo(id, false)
+  }, [loaded, goTo])
 
   const back = (
     <Link to="/" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
@@ -304,6 +467,14 @@ export default function Admin() {
       <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">Panel</h1>
       <p className="mt-1 text-[15px] text-ink-soft">Números de Lee Tu Biblia. Solo para vos.</p>
 
+      {o ? (
+        <AdminNav
+          items={NAV.map((it) => (it.id === 'buzon' && feedback?.length ? { ...it, badge: feedback.length } : it))}
+          active={active}
+          onSelect={goTo}
+        />
+      ) : null}
+
       {error ? (
         <div className="mt-8">
           <RetryError message="No se pudo cargar el panel." onRetry={load} />
@@ -313,7 +484,7 @@ export default function Admin() {
         <p className="mt-10 text-[15px] text-ink-soft">Cargando…</p>
       ) : (
         <>
-          <Section title="Usuarios">
+          <Section id="usuarios" title="Usuarios">
             <div className="grid grid-cols-2 gap-3">
               <StatCard value={o.users.total} label="usuarios registrados" accent />
               <StatCard value={o.installs.standalone_users} label="instalaron la app" hint="abrieron instalada" />
@@ -322,13 +493,13 @@ export default function Admin() {
             </div>
           </Section>
 
-          <Section title="Activación" subtitle="Del total registrado, cuántos avanzan.">
+          <Section id="activacion" title="Activación" subtitle="Del total registrado, cuántos avanzan.">
             <div className="card p-4">
               <BarList rows={funnel} empty="Sin usuarios todavía." />
             </div>
           </Section>
 
-          <Section title="Actividad">
+          <Section id="actividad" title="Actividad">
             <div className="grid grid-cols-2 gap-3">
               <StatCard value={o.active.d7} label="activos · 7 días" accent />
               <StatCard value={o.active.d30} label="activos · 30 días" />
@@ -341,7 +512,7 @@ export default function Admin() {
             <SignupsChart series={data.series} />
           </div>
 
-          <Section title="Constancia" subtitle="Usuarios por cantidad de días leídos.">
+          <Section id="constancia" title="Constancia" subtitle="Usuarios por cantidad de días leídos.">
             <div className="card p-4">
               <BarList
                 empty="Nadie leyó todavía."
@@ -355,11 +526,11 @@ export default function Admin() {
             </div>
           </Section>
 
-          <Section title="Salud de planes" subtitle="Tasa = terminados ÷ empezados.">
+          <Section id="planes" title="Salud de planes" subtitle="Tasa = terminados ÷ empezados.">
             <PlansHealth rows={o.plans_health} />
           </Section>
 
-          <Section title="Plataforma e instalación">
+          <Section id="plataforma" title="Plataforma e instalación">
             <div className="card p-4">
               <BarList empty="Sin datos todavía." rows={platformRows} />
               <p className="mt-4 border-t pt-3 text-[13px] text-ink-soft" style={{ borderColor: 'var(--hairline)' }}>
@@ -369,7 +540,7 @@ export default function Admin() {
             </div>
           </Section>
 
-          <Section title="Países" subtitle="Se llena desde el próximo deploy.">
+          <Section id="geografia" title="Países" subtitle="Se llena desde el próximo deploy.">
             <div className="card p-4">
               <BarList
                 empty="Sin datos de país todavía."
@@ -391,7 +562,7 @@ export default function Admin() {
             </div>
           </Section>
 
-          <Section title="Comunidad y hábito">
+          <Section id="comunidad" title="Comunidad y hábito">
             <div className="grid grid-cols-2 gap-3">
               <StatCard value={o.engagement.groups} label="grupos" />
               <StatCard value={o.engagement.group_members} label="miembros en grupos" />
@@ -402,7 +573,7 @@ export default function Admin() {
             </div>
           </Section>
 
-          <Section title="Sugerencias y errores" subtitle="Lo que mandaron desde Ajustes › Quién hace la app.">
+          <Section id="buzon" title="Sugerencias y errores" subtitle="Lo que mandaron desde Ajustes › Quién hace la app.">
             <FeedbackInbox rows={feedback} error={feedbackError} onRetry={loadFeedback} />
           </Section>
 
