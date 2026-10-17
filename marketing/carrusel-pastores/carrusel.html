@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Carrusel - Para pastores</title>
+<meta name="hz:slide-selector" content=".slide" />
+<meta name="hz:canvas-width" content="1080" />
+<meta name="hz:canvas-height" content="1350" />
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #e9e7e2; }
+
+.slide {
+  position: relative;
+  width: 1080px;
+  height: 1350px;
+  overflow: hidden;
+  background: #F8F7F4;
+  color: #1C1C1E;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  padding: 92px;
+  display: flex;
+  flex-direction: column;
+}
+.serif { font-family: "Iowan Old Style", "Palatino", Georgia, serif; }
+.pagenum {
+  position: absolute;
+  top: 92px;
+  right: 92px;
+  color: #8B8983;
+  font-size: 26px;
+  font-variant-numeric: tabular-nums;
+}
+.kicker {
+  align-self: flex-start;
+  border-radius: 100px;
+  background: rgba(168,139,106,0.13);
+  color: #705F4C;
+  padding: 12px 26px;
+  font-size: 25px;
+  font-weight: 650;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+}
+.h {
+  max-width: 860px;
+  margin-top: 46px;
+  font-size: 78px;
+  font-weight: 670;
+  letter-spacing: -2.2px;
+  line-height: 1.06;
+}
+.lead {
+  max-width: 830px;
+  margin-top: 34px;
+  color: #56565C;
+  font-size: 37px;
+  line-height: 1.38;
+}
+.lead strong { color: #1C1C1E; font-weight: 650; }
+.card {
+  background: #FFFFFF;
+  border-radius: 28px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07), 0 0 2px rgba(0,0,0,0.04);
+}
+.brandfoot {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.brandfoot svg { width: 52px; height: 52px; }
+.brandfoot span { color: #56565C; font-size: 28px; font-weight: 620; }
+.logo-big { width: 170px; height: 170px; }
+.callout {
+  margin-top: 40px;
+  padding: 30px 34px;
+  border-radius: 26px;
+  background: rgba(168,139,106,0.10);
+  color: #705F4C;
+  font-size: 30px;
+  line-height: 1.35;
+  font-weight: 560;
+}
+
+/* --- teléfono --- */
+.phone {
+  width: 430px;
+  height: 880px;
+  border-radius: 58px;
+  background: #111;
+  padding: 18px;
+  box-shadow: 0 28px 70px rgba(28,28,30,0.18);
+  flex: none;
+}
+.screen {
+  height: 100%;
+  border-radius: 42px;
+  background: #F8F7F4;
+  overflow: hidden;
+  padding: 34px 28px;
+  display: flex;
+  flex-direction: column;
+}
+.screen.shot { padding: 0; }
+.screen.shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+.screen .eyebrow { color: #8B8983; font-size: 17px; }
+.screen h2 { margin-top: 6px; font-size: 27px; letter-spacing: -0.5px; }
+.appbtn {
+  min-height: 58px;
+  border-radius: 22px;
+  background: #A88B6A;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 650;
+  flex: none;
+}
+.meta { margin-top: 14px; text-align: center; color: #8B8983; font-size: 17px; }
+.wrap {
+  margin-top: 56px;
+  display: flex;
+  align-items: center;
+  gap: 62px;
+}
+.copy { flex: 1; }
+.copy .lead { margin-top: 0; }
+
+/* filas dentro del teléfono */
+.mini-card {
+  border-radius: 22px;
+  background: #FFFFFF;
+  box-shadow: 0 1px 7px rgba(0,0,0,0.07);
+  padding: 8px 22px;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 17px 0;
+  border-bottom: 1px solid #EFEDE8;
+}
+.row:last-child { border-bottom: none; }
+.row .txt { flex: 1; min-width: 0; }
+.row .t { font-size: 21px; font-weight: 600; letter-spacing: -0.2px; }
+.row .s { margin-top: 3px; color: #8B8983; font-size: 16px; }
+.row .chev { color: #C9C7C1; font-size: 24px; }
+.icon-tile {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: rgba(168,139,106,0.13);
+  color: #705F4C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.icon-tile svg { width: 24px; height: 24px; }
+.avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(168,139,106,0.16);
+  color: #705F4C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  font-weight: 700;
+  flex: none;
+}
+.check { color: #A88B6A; font-size: 22px; font-weight: 700; }
+.section-label {
+  margin: 22px 0 10px;
+  color: #8B8983;
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
+
+/* --- portada --- */
+#s1 { align-items: center; justify-content: center; text-align: center; }
+#s1 .badge {
+  margin-top: 58px;
+  border-radius: 100px;
+  background: rgba(168,139,106,0.13);
+  color: #705F4C;
+  padding: 14px 30px;
+  font-size: 28px;
+  font-weight: 650;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+#s1 h1 {
+  margin-top: 40px;
+  font-size: 100px;
+  line-height: 1.03;
+  letter-spacing: -2.8px;
+}
+#s1 .sub {
+  max-width: 780px;
+  margin-top: 34px;
+  color: #56565C;
+  font-size: 42px;
+  line-height: 1.35;
+}
+#s1 .swipe {
+  position: absolute;
+  bottom: 92px;
+  left: 0;
+  right: 0;
+  color: #705F4C;
+  font-size: 30px;
+  font-weight: 560;
+}
+
+/* --- materiales --- */
+#s5 .cat-list { margin-top: 52px; padding: 12px 46px; }
+#s5 .cat {
+  display: flex;
+  align-items: baseline;
+  gap: 26px;
+  padding: 27px 0;
+  border-bottom: 1px solid #E4E2DC;
+}
+#s5 .cat:last-child { border-bottom: none; }
+#s5 .cat .year {
+  width: 96px;
+  flex: none;
+  color: #A88B6A;
+  font-size: 31px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+#s5 .cat .name { flex: 1; font-size: 34px; font-weight: 600; letter-spacing: -0.5px; }
+#s5 .cat .count { color: #8B8983; font-size: 26px; font-variant-numeric: tabular-nums; }
+
+/* --- sin ruido --- */
+#s6 .no-list { margin-top: 64px; display: grid; gap: 26px; }
+#s6 .no-card {
+  padding: 34px 40px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+#s6 .no-card .icon-tile { width: 78px; height: 78px; border-radius: 20px; }
+#s6 .no-card .icon-tile svg { width: 38px; height: 38px; }
+#s6 .no-card h3 { font-size: 35px; letter-spacing: -0.5px; }
+#s6 .no-card p { margin-top: 5px; color: #56565C; font-size: 27px; line-height: 1.3; }
+
+/* --- CTA --- */
+#s7 { align-items: center; text-align: center; }
+#s7 .logo-big { margin-top: 8px; width: 150px; height: 150px; }
+#s7 .h { margin-top: 50px; }
+.steps { width: 100%; margin-top: 62px; display: grid; gap: 24px; }
+.step { padding: 32px 42px; display: flex; align-items: center; gap: 28px; text-align: left; }
+.step .n {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: rgba(168,139,106,0.15);
+  color: #705F4C;
+  font-size: 34px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.step p { font-size: 33px; line-height: 1.22; font-weight: 600; letter-spacing: -0.4px; }
+#s7 .url {
+  margin-top: auto;
+  color: #705F4C;
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+}
+#s7 .urlnote { margin-top: 14px; color: #8B8983; font-size: 26px; }
+</style>
+</head>
+<body>
+
+<!-- 1 · Portada -->
+<div class="slide" id="s1" data-canvas-width="1080" data-canvas-height="1350">
+  <svg class="logo-big" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#A88B6A"/><path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 20v28" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/></svg>
+  <div class="badge">Para pastores</div>
+  <h1>Tu iglesia, leyendo la Biblia junta</h1>
+  <p class="sub">Una app gratuita para sostener el hábito de lectura y oración de tu congregación.</p>
+  <p class="swipe">Deslizá para conocerla&nbsp;&nbsp;→</p>
+</div>
+
+<!-- 2 · El principio -->
+<div class="slide" id="s2" data-canvas-width="1080" data-canvas-height="1350">
+  <span class="pagenum">2 / 7</span>
+  <span class="kicker">El principio</span>
+  <h2 class="h">No reemplaza la Biblia. La acompaña.</h2>
+  <div class="wrap">
+    <div class="phone">
+      <div class="screen shot"><img src="screen-hoy.png" alt="" /></div>
+    </div>
+    <div class="copy">
+      <p class="lead">La app <strong>no incluye el texto bíblico</strong>. Dice qué leer hoy e invita a abrir la propia Biblia — y si no está a mano, un toque abre el capítulo en YouVersion.</p>
+      <div class="callout">El hábito que se forma es abrir el Libro, no mirar una pantalla.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 3 · Grupos -->
+<div class="slide" id="s3" data-canvas-width="1080" data-canvas-height="1350">
+  <span class="pagenum">3 / 7</span>
+  <span class="kicker">Discipulado</span>
+  <h2 class="h">Toda la iglesia al mismo ritmo</h2>
+  <div class="wrap">
+    <div class="copy">
+      <p class="lead">Creás un grupo, compartís el código, y cada miembro <strong>adopta el plan del grupo</strong>. Todos llegan a la reunión habiendo leído lo mismo.</p>
+      <div class="callout">El grupo ve que un hermano leyó hoy — no qué leyó ni cuánto. Anima, sin exponer.</div>
+    </div>
+    <div class="phone">
+      <div class="screen shot"><img src="screen-grupo.png" alt="" /></div>
+    </div>
+  </div>
+</div>
+
+<!-- 4 · Oración -->
+<div class="slide" id="s4" data-canvas-width="1080" data-canvas-height="1350">
+  <span class="pagenum">4 / 7</span>
+  <span class="kicker">Oración</span>
+  <h2 class="h">Una iglesia que ora unos por otros</h2>
+  <div class="wrap">
+    <div class="phone">
+      <div class="screen shot"><img src="screen-orar.png" alt="" /></div>
+    </div>
+    <div class="copy">
+      <p class="lead">Los pedidos se comparten <strong>dentro del grupo</strong>, cada quien los ora uno por uno, y cuando Dios responde hay un lugar para contar el testimonio.</p>
+      <div class="callout">Nadie ora solo. Y el que pidió, sabe que fue sostenido.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 5 · Materiales -->
+<div class="slide" id="s5" data-canvas-width="1080" data-canvas-height="1350">
+  <span class="pagenum">5 / 7</span>
+  <span class="kicker">Formación</span>
+  <h2 class="h">Catecismos históricos, al ritmo de cada uno</h2>
+  <div class="wrap">
+    <div class="copy">
+      <p class="lead">Heidelberg, Dort, Westminster, Keach y Spurgeon — también en versión <strong>para niños</strong>. Cada pregunta trae <strong>pasajes para buscar en la propia Biblia</strong>, y se puede compartir como imagen.</p>
+      <div class="callout">Para catequesis, membresía o el culto familiar.</div>
+    </div>
+    <div class="phone">
+      <div class="screen shot"><img src="screen-materiales.png" alt="" /></div>
+    </div>
+  </div>
+</div>
+
+<!-- 6 · Sin ruido -->
+<div class="slide" id="s6" data-canvas-width="1080" data-canvas-height="1350">
+  <span class="pagenum">6 / 7</span>
+  <span class="kicker">Sin ruido</span>
+  <h2 class="h">Para recomendar desde el púlpito, sin reservas</h2>
+  <div class="no-list">
+    <div class="card no-card">
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+      <div><h3>Sin distracciones</h3><p>No hay redes, comentarios, anuncios ni ruido. Solo la guía del día.</p></div>
+    </div>
+    <div class="card no-card">
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></div>
+      <div><h3>Gratuita, sin instalar nada</h3><p>Funciona en cualquier celular desde el navegador.</p></div>
+    </div>
+    <div class="card no-card">
+      <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+      <div><h3>En tres idiomas</h3><p>Español, inglés y portugués, con un lenguaje cálido y cercano.</p></div>
+    </div>
+  </div>
+  <div class="callout" style="margin-top:auto;">La conversación sobre la lectura sigue pasando donde tiene que pasar: en la reunión.</div>
+</div>
+
+<!-- 7 · CTA -->
+<div class="slide" id="s7" data-canvas-width="1080" data-canvas-height="1350">
+  <svg class="logo-big" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#A88B6A"/><path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 20v28" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/></svg>
+  <h2 class="h">Probala con un grupo de tu iglesia</h2>
+  <div class="steps">
+    <div class="card step"><div class="n">1</div><p>Creá un grupo y compartí el código de invitación</p></div>
+    <div class="card step"><div class="n">2</div><p>Elijan un plan para leer juntos</p></div>
+    <div class="card step"><div class="n">3</div><p>Lleguen a la reunión con lo mismo leído</p></div>
+  </div>
+  <p class="url">leetubiblia.com</p>
+  <p class="urlnote">Gratis · funciona en tu navegador · es / en / pt</p>
+</div>
+
+</body>
+</html>

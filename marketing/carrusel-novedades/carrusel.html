@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Carrusel - Novedades de lectura</title>
+<meta name="hz:slide-selector" content=".slide" />
+<meta name="hz:canvas-width" content="1080" />
+<meta name="hz:canvas-height" content="1350" />
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #e9e7e2; }
+
+.slide {
+  position: relative;
+  width: 1080px;
+  height: 1350px;
+  overflow: hidden;
+  background: #F8F7F4;
+  color: #1C1C1E;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  padding: 92px;
+  display: flex;
+  flex-direction: column;
+}
+.pagenum {
+  position: absolute;
+  top: 92px;
+  right: 92px;
+  color: #8B8983;
+  font-size: 26px;
+  font-variant-numeric: tabular-nums;
+}
+.kicker {
+  align-self: flex-start;
+  border-radius: 100px;
+  background: rgba(168,139,106,0.13);
+  color: #705F4C;
+  padding: 12px 26px;
+  font-size: 25px;
+  font-weight: 650;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+}
+.h {
+  max-width: 880px;
+  margin-top: 46px;
+  font-size: 78px;
+  font-weight: 670;
+  letter-spacing: -2.2px;
+  line-height: 1.06;
+}
+.lead {
+  max-width: 860px;
+  margin-top: 34px;
+  color: #56565C;
+  font-size: 37px;
+  line-height: 1.38;
+}
+.lead strong { color: #1C1C1E; font-weight: 650; }
+.card {
+  background: #FFFFFF;
+  border-radius: 28px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07), 0 0 2px rgba(0,0,0,0.04);
+}
+.callout {
+  margin-top: auto;
+  padding: 30px 34px;
+  border-radius: 26px;
+  background: rgba(168,139,106,0.10);
+  color: #705F4C;
+  font-size: 30px;
+  line-height: 1.35;
+  font-weight: 560;
+}
+.logo-big { width: 170px; height: 170px; }
+
+/* --- portada --- */
+#s1 { align-items: center; justify-content: center; text-align: center; }
+#s1 .badge {
+  margin-top: 58px;
+  border-radius: 100px;
+  background: rgba(168,139,106,0.13);
+  color: #705F4C;
+  padding: 14px 30px;
+  font-size: 28px;
+  font-weight: 650;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+#s1 h1 {
+  margin-top: 40px;
+  font-size: 96px;
+  line-height: 1.04;
+  letter-spacing: -2.8px;
+  max-width: 900px;
+}
+#s1 .sub {
+  max-width: 780px;
+  margin-top: 34px;
+  color: #56565C;
+  font-size: 42px;
+  line-height: 1.35;
+}
+#s1 .swipe {
+  position: absolute;
+  bottom: 92px;
+  left: 0;
+  right: 0;
+  color: #705F4C;
+  font-size: 30px;
+  font-weight: 560;
+}
+
+/* --- lámina versículo exacto --- */
+.passage-card { margin-top: 52px; padding: 46px 54px; }
+.passage {
+  font-size: 56px;
+  font-weight: 670;
+  letter-spacing: -1.6px;
+  line-height: 1.5;
+}
+.passage .vv { color: #A88B6A; }
+.compare { margin-top: 44px; display: grid; gap: 22px; }
+.compare .row {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 28px 36px;
+  border-radius: 24px;
+  font-size: 31px;
+  line-height: 1.32;
+}
+.compare .before { background: #EFEDE8; color: #56565C; }
+.compare .after { background: rgba(168,139,106,0.13); color: #1C1C1E; font-weight: 560; }
+.compare .mark { font-weight: 700; flex: none; font-size: 32px; }
+.compare .before .mark { color: #8B8983; }
+.compare .after .mark { color: #A88B6A; }
+.compare .tag { font-weight: 700; letter-spacing: 0.5px; }
+
+/* --- lámina proveedor (mock de Ajustes) --- */
+/* margin auto arriba y abajo (con el callout) reparte el aire sobrante:
+   la tarjeta queda centrada entre el lead y el callout. */
+.settings-mock { margin-top: auto; padding: 48px 54px; }
+.settings-mock .slabel {
+  color: #8B8983;
+  font-size: 24px;
+  font-weight: 650;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+}
+.segmented {
+  margin-top: 26px;
+  display: flex;
+  padding: 8px;
+  border-radius: 24px;
+  background: #EFEDE8;
+}
+.segmented .seg {
+  flex: 1;
+  text-align: center;
+  padding: 26px 0;
+  border-radius: 18px;
+  font-size: 34px;
+  font-weight: 500;
+  color: #8B8983;
+}
+.segmented .seg.active {
+  background: #FFFFFF;
+  color: #1C1C1E;
+  font-weight: 650;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.settings-mock .help {
+  margin-top: 24px;
+  color: #8B8983;
+  font-size: 26px;
+  line-height: 1.35;
+}
+
+/* --- lámina explorar --- */
+.plans-mock { margin-top: 48px; display: grid; gap: 22px; }
+.plan-card { padding: 34px 40px; }
+.plan-card .top { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
+.plan-card .name { font-size: 34px; font-weight: 650; letter-spacing: -0.6px; }
+.plan-card .days { color: #8B8983; font-size: 26px; font-variant-numeric: tabular-nums; flex: none; }
+.plan-card .desc { margin-top: 8px; color: #56565C; font-size: 26px; line-height: 1.3; }
+.plan-card .rec { margin-top: 14px; color: #A88B6A; font-size: 24px; font-weight: 650; }
+#s4 .callout { margin-top: 36px; }
+
+/* --- CTA --- */
+#s5 { align-items: center; text-align: center; }
+/* logo con margin auto arriba + url con margin auto: el bloque central queda
+   centrado y la dirección anclada abajo. */
+#s5 .logo-big { margin-top: auto; width: 150px; height: 150px; }
+#s5 .h { margin-top: 50px; }
+#s5 .lead { margin-left: auto; margin-right: auto; }
+#s5 .url {
+  margin-top: auto;
+  color: #705F4C;
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+}
+#s5 .urlnote { margin-top: 14px; color: #8B8983; font-size: 26px; }
+</style>
+</head>
+<body>
+
+<!-- 1 · Portada -->
+<div class="slide" id="s1" data-canvas-width="1080" data-canvas-height="1350">
+  <svg class="logo-big" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#A88B6A"/><path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 20v28" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/></svg>
+  <div class="badge">Novedades</div>
+  <h1>Tocás el pasaje, llegás al versículo</h1>
+  <p class="sub">Mejoras nuevas en Lee Tu Biblia: chicas, pero se notan en cada lectura.</p>
+  <p class="swipe">Deslizá para verlas&nbsp;&nbsp;→</p>
+</div>
+
+<!-- 2 · Versículo exacto -->
+<div class="slide" id="s2" data-canvas-width="1080" data-canvas-height="1350">
+  <span class="pagenum">2 / 5</span>
+  <span class="kicker">Versículo exacto</span>
+  <h2 class="h">Se abre justo donde empieza tu lectura</h2>
+  <div class="card passage-card">
+    <p class="passage">Salmos 25<br />Génesis <span class="vv">8:6-22</span><br />Hebreos <span class="vv">4:14-5:6</span></p>
+    <div class="compare">
+      <div class="row before"><span class="mark">✕</span><p><span class="tag">Antes&nbsp;·&nbsp;</span>te dejaba al inicio del capítulo, y el versículo lo buscabas vos.</p></div>
+      <div class="row after"><span class="mark">✓</span><p><span class="tag">Ahora&nbsp;·&nbsp;</span>se abre en el versículo exacto, listo para leer.</p></div>
+    </div>
+  </div>
+  <div class="callout">Menos scroll buscando dónde empieza. Más tiempo en el texto.</div>
+</div>
+
+<!-- 3 · Proveedor de Biblia -->
+<div class="slide" id="s3" data-canvas-width="1080" data-canvas-height="1350">
+  <span class="pagenum">3 / 5</span>
+  <span class="kicker">Nuevo en Ajustes</span>
+  <h2 class="h">Elegí dónde se abre tu Biblia</h2>
+  <p class="lead">Cuando la Biblia de papel no está a mano, el pasaje se abre en <strong>YouVersion o BibleGateway</strong> — el que uses vos. Se elige una vez y listo.</p>
+  <div class="card settings-mock">
+    <p class="slabel">Proveedor de Biblia</p>
+    <div class="segmented">
+      <div class="seg active">YouVersion</div>
+      <div class="seg">BibleGateway</div>
+    </div>
+    <p class="help">Con qué app o sitio se abren los pasajes al tocarlos.</p>
+  </div>
+  <div class="callout">Tu Biblia de papel sigue primera. Esto es para cuando no la tenés cerca.</div>
+</div>
+
+<!-- 4 · Explorar sin cuenta -->
+<div class="slide" id="s4" data-canvas-width="1080" data-canvas-height="1350">
+  <span class="pagenum">4 / 5</span>
+  <span class="kicker">Primer contacto</span>
+  <h2 class="h">Mirá los planes antes de crear tu cuenta</h2>
+  <p class="lead">El que llega por primera vez ahora <strong>explora el catálogo y elige con calma</strong>. La cuenta recién se pide cuando hay un avance que guardar.</p>
+  <div class="plans-mock">
+    <div class="card plan-card">
+      <div class="top"><span class="name">Marcos en 16 días</span><span class="days">16 días</span></div>
+      <p class="desc">El Evangelio de Marcos, un capítulo por día, para empezar a leer.</p>
+      <p class="rec">Recomendado para empezar</p>
+    </div>
+    <div class="card plan-card">
+      <div class="top"><span class="name">Primeros pasos con Jesús</span><span class="days">21 días</span></div>
+      <p class="desc">Veintiún días por lo esencial de la fe, para quien recién empieza.</p>
+    </div>
+    <div class="card plan-card">
+      <div class="top"><span class="name">Proverbios en 31 días</span><span class="days">31 días</span></div>
+      <p class="desc">Un capítulo de Proverbios por día del mes.</p>
+    </div>
+  </div>
+  <div class="callout">Ideal para compartir la app: nadie choca con un formulario en la puerta.</div>
+</div>
+
+<!-- 5 · CTA -->
+<div class="slide" id="s5" data-canvas-width="1080" data-canvas-height="1350">
+  <svg class="logo-big" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#A88B6A"/><path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 20v28" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/></svg>
+  <h2 class="h">Ya está en tu app</h2>
+  <p class="lead">No hay nada que actualizar ni instalar: la app se actualiza sola. Abrila y las mejoras ya están ahí.</p>
+  <p class="url">leetubiblia.com</p>
+  <p class="urlnote">Gratis · funciona en tu navegador · es / en / pt</p>
+</div>
+
+</body>
+</html>
