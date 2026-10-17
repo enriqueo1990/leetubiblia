@@ -20,7 +20,6 @@ import DeveloperSection from './DeveloperSection.jsx'
 import { saveOrRevert } from '../lib/saveWithRevert.js'
 import { ChevronRight, InstallIcon, ShareIcon } from '../components/icons.jsx'
 import { subscribeToPush, unsubscribeFromPush, getTimezone } from '../lib/push.js'
-import { activeMaterials } from '../lib/materials.js'
 import { exportJournal } from '../lib/exportJournal.js'
 import { flushQueue, pendingCount } from '../lib/offline.js'
 import { version as APP_VERSION } from '../../package.json'
@@ -120,7 +119,6 @@ export default function Ajustes() {
   const reflectionsOn = !!profile?.reflections_enabled
   const shareReadingOn = !!profile?.share_reading
   const prayerFollowupOn = profile?.prayer_followup_enabled !== false // default true
-  const materialsCount = activeMaterials(profile).length
 
   // Guarda un ajuste con reversión: si falla, `revert` deshace el cambio local y
   // se marca la fila para mostrar el error. Optimista pero honesto (canon).
@@ -379,29 +377,16 @@ export default function Ajustes() {
       <div>
       <SectionLabel>{t('ajustes.section.lectura')}</SectionLabel>
       <div className="card divide-y divide-hairline">
+        {/* Plan y materiales viven en Lecturas (colgada de Hoy): acá queda solo
+            una puerta, para quien venga a buscarlos a Ajustes por costumbre. */}
         <Link
-          to="/planes"
+          to="/lecturas"
           state={{ from: { to: '/ajustes', label: t('nav.ajustes') } }}
           className="flex flex-col items-start gap-1 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
         >
-          <span className="shrink-0 text-[16px] text-ink">{t('ajustes.planDeLectura')}</span>
+          <span className="shrink-0 text-[16px] text-ink">{t('nav.lecturas')}</span>
           <span className="flex w-full min-w-0 items-center justify-between gap-1.5 sm:w-auto sm:justify-start">
             <span className="truncate text-[15px] text-ink-soft">{plan?.name || t('ajustes.elegir')}</span>
-            <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-              <ChevronRight size={18} />
-            </span>
-          </span>
-        </Link>
-        <Link
-          to="/materiales"
-          state={{ from: { to: '/ajustes', label: t('nav.ajustes') } }}
-          className="flex flex-col items-start gap-1 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
-        >
-          <span className="text-[16px] text-ink">{t('ajustes.materialesDeLectura')}</span>
-          <span className="flex w-full items-center justify-between gap-1.5 sm:w-auto sm:justify-start">
-            <span className="text-[15px] text-ink-soft">
-              {materialsCount > 0 ? t('ajustes.materialsActive', { count: materialsCount }) : t('ajustes.ninguno')}
-            </span>
             <span className="text-ink-soft" style={{ opacity: 0.5 }}>
               <ChevronRight size={18} />
             </span>

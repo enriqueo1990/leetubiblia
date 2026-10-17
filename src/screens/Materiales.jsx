@@ -18,7 +18,7 @@ import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import InlineError from '../components/InlineError.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 
-// Materiales de lectura opcionales — catálogo con toggles (Ajustes › Materiales).
+// Materiales de lectura opcionales — catálogo con toggles (Hoy › Lecturas › Materiales).
 // Fila estilo iOS con doble affordance (como Wi-Fi en Settings): el toggle activa/
 // desactiva, y cuando está activo el cuerpo de la fila navega al lector — así
 // activar no es un callejón sin salida y siempre hay camino directo a leer.
@@ -79,7 +79,7 @@ export default function Materiales() {
 
   return (
     <div className="pt-2">
-      <BackLink to="/ajustes" label={t('nav.ajustes')} />
+      <BackLink to="/lecturas" label={t('nav.lecturas')} />
 
       <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">{t('ajustes.materialesDeLectura')}</h1>
       <p className="mt-2 px-1 text-[14px] text-ink-soft">

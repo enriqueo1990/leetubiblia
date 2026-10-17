@@ -352,95 +352,23 @@ export default function Hoy() {
         <div className="min-w-0 flex-1">
           {/* Sin "volver": el modelo es el señalador — leer adelantado mueve tu
               "hoy", y el ancla (useReading) te espera donde dejaste el marcador. */}
-          {/* Header de UNA línea: el día (tuyo, en tinta suave) + el plan
-              (metadata, más apagado), todo tocable hacia el plan. El estado
-              "✓ Leído" vive acá como chip, con menú (ver nota / desmarcar). */}
-          <div className="flex min-w-0 items-center gap-2">
-            {r.plan && (
-              <Link
-                to={`/planes/${r.plan.id}`}
-                state={{ from: { to: '/', label: t('nav.hoy') } }}
-                className="flex min-h-11 min-w-0 items-center gap-1.5 text-[13px] font-medium text-ink-soft"
-              >
-                {!r.planFinished && dayShown != null && (
-                  <>
-                    <span className="shrink-0">{t('hoy.dayN', { day: dayShown })}</span>
-                    <span aria-hidden="true" className="shrink-0" style={{ opacity: 0.45 }}>·</span>
-                  </>
-                )}
-                <span className="truncate" style={{ color: 'var(--placeholder)' }}>
+          {/* Cabecera del plan, una sola unidad con la lectura: el nombre como
+              título (tocable hacia Lecturas), debajo "Día N de M" con el chip
+              "✓ Leído" a la derecha, y una regla fina de avance que separa el
+              encabezado de los pasajes. Sin hueco ni etiqueta intermedia: los
+              pasajes se leen como el día del plan. */}
+          {r.plan && (
+            <Link to="/lecturas" className="block min-w-0 py-1">
+              <span className="flex items-center gap-1">
+                <span className="line-clamp-2 text-[17px] font-semibold leading-snug text-ink">
                   {planName(t, r.plan)}
                 </span>
-                <span aria-hidden="true" className="shrink-0" style={{ opacity: 0.5 }}>›</span>
-              </Link>
-            )}
-            {!r.planFinished && doneShown && (breathDone || !justMarked) && (
-              <div className="relative shrink-0">
-                <button
-                  ref={chipRef}
-                  type="button"
-                  onClick={() => setChipMenuOpen((v) => !v)}
-                  aria-expanded={chipMenuOpen}
-                  aria-haspopup="menu"
-                  className="moment-in flex min-h-11 items-center"
-                >
-                  <span
-                    className="flex items-center gap-1 rounded-pill px-2.5 py-1 text-[12px] font-semibold"
-                    style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
-                  >
-                    ✓ {t('hoy.read')}
-                    <span aria-hidden="true" style={{ fontSize: 9, opacity: 0.65 }}>▾</span>
-                  </span>
-                </button>
-                {chipMenuOpen && (
-                  <>
-                    {/* Cerrar al tocar afuera */}
-                    <button
-                      type="button"
-                      aria-hidden="true"
-                      tabIndex={-1}
-                      className="fixed inset-0 z-20 cursor-default"
-                      onClick={() => setChipMenuOpen(false)}
-                    />
-                    <div
-                      ref={menuRef}
-                      role="menu"
-                      onKeyDown={onMenuKeyDown}
-                      className="absolute right-0 top-full z-30 -mt-1 w-max divide-y divide-hairline overflow-hidden rounded-input"
-                      style={{ backgroundColor: 'var(--surface)', boxShadow: 'var(--shadow-overlay)' }}
-                    >
-                      {reflectionsEnabled && note && (
-                        <button
-                          type="button"
-                          role="menuitem"
-                          onClick={() => {
-                            setChipMenuOpen(false)
-                            setReflectOpen(true)
-                          }}
-                          className="block w-full px-4 py-3 text-left text-[15px] text-ink"
-                        >
-                          {noteEditable ? t('hoy.editNote') : t('hoy.viewNote')}
-                        </button>
-                      )}
-                      <button
-                        type="button"
-                        role="menuitem"
-                        onClick={() => {
-                          setChipMenuOpen(false)
-                          setJustMarked(false)
-                          if (dayShown != null) r.toggleDay(dayShown)
-                        }}
-                        className="block w-full px-4 py-3 text-left text-[15px]"
-                        style={{ color: 'var(--danger)' }}
-                      >
-                        {t('hoy.unmark')}
-                      </button>
-                    </div>
-                  </>
-                )}
-              </div>
-            )}
-          </div>
+                <span aria-hidden="true" className="shrink-0 text-ink-soft" style={{ opacity: 0.5 }}>
+                  ›
+                </span>
+              </span>
+            </Link>
+          )}
         </div>
         {/* En desktop Ajustes ya está visible en el sidebar; evitar duplicarlo. */}
         <Link
@@ -451,6 +379,84 @@ export default function Hoy() {
           <GearIcon size={19} />
         </Link>
       </div>
+
+      {/* Día del plan + estado del día. Si se está leyendo adelantado, el día es
+          el adelantado (el ancla te espera donde dejaste el señalador). */}
+      {!r.planFinished && dayShown != null && (
+        <div className="flex min-h-7 items-center justify-between gap-2">
+          <p className="text-[14px] tabular-nums text-ink-soft">
+            {duration != null
+              ? t('hoy.dayOfTotal', { day: dayShown, total: duration })
+              : t('hoy.dayN', { day: dayShown })}
+          </p>
+          {!r.planFinished && doneShown && (breathDone || !justMarked) && (
+            <div className="relative shrink-0">
+              <button
+                ref={chipRef}
+                type="button"
+                onClick={() => setChipMenuOpen((v) => !v)}
+                aria-expanded={chipMenuOpen}
+                aria-haspopup="menu"
+                className="moment-in flex min-h-11 items-center"
+              >
+                <span
+                  className="flex items-center gap-1 rounded-pill px-2.5 py-1 text-[12px] font-semibold"
+                  style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
+                >
+                  ✓ {t('hoy.read')}
+                  <span aria-hidden="true" style={{ fontSize: 9, opacity: 0.65 }}>▾</span>
+                </span>
+              </button>
+              {chipMenuOpen && (
+                <>
+                  {/* Cerrar al tocar afuera */}
+                  <button
+                    type="button"
+                    aria-hidden="true"
+                    tabIndex={-1}
+                    className="fixed inset-0 z-20 cursor-default"
+                    onClick={() => setChipMenuOpen(false)}
+                  />
+                  <div
+                    ref={menuRef}
+                    role="menu"
+                    onKeyDown={onMenuKeyDown}
+                    className="absolute right-0 top-full z-30 -mt-1 w-max divide-y divide-hairline overflow-hidden rounded-input"
+                    style={{ backgroundColor: 'var(--surface)', boxShadow: 'var(--shadow-overlay)' }}
+                  >
+                    {reflectionsEnabled && note && (
+                      <button
+                        type="button"
+                        role="menuitem"
+                        onClick={() => {
+                          setChipMenuOpen(false)
+                          setReflectOpen(true)
+                        }}
+                        className="block w-full px-4 py-3 text-left text-[15px] text-ink"
+                      >
+                        {noteEditable ? t('hoy.editNote') : t('hoy.viewNote')}
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      role="menuitem"
+                      onClick={() => {
+                        setChipMenuOpen(false)
+                        setJustMarked(false)
+                        if (dayShown != null) r.toggleDay(dayShown)
+                      }}
+                      className="block w-full px-4 py-3 text-left text-[15px]"
+                      style={{ color: 'var(--danger)' }}
+                    >
+                      {t('hoy.unmark')}
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       {r.offline && (
         <p className="mt-2 text-[12px] text-ink-soft">
@@ -575,9 +581,25 @@ export default function Hoy() {
           )}
         </div>
       ) : (
-        // El día ya vive en el header ("Día N · plan"): la lectura arranca sin
-        // preámbulo. La Palabra es la página.
-        <div className="mt-9 space-y-1">
+        // Regla fina de avance (ancho completo, 2px) como frontera entre el
+        // encabezado del plan y los pasajes; después, la Palabra.
+        <div className="mt-3">
+          {duration != null && (
+            <div
+              className="h-[2px] w-full overflow-hidden rounded-full"
+              style={{ backgroundColor: 'var(--hairline)' }}
+              aria-hidden="true"
+            >
+              <div
+                className="h-full rounded-full transition-[width] duration-500 ease-soft"
+                style={{
+                  width: `${Math.max(r.percent, r.completedCount > 0 ? 1 : 0)}%`,
+                  backgroundColor: 'var(--accent)',
+                }}
+              />
+            </div>
+          )}
+          <div className="mt-5 space-y-1">
           {viewingAhead && aheadLoading ? (
             <SkeletonPassages />
           ) : (
@@ -603,6 +625,7 @@ export default function Hoy() {
               )
             )
           )}
+          </div>
         </div>
       )}
 

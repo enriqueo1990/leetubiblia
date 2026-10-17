@@ -6,8 +6,8 @@ import { BookIcon, HeartIcon, PeopleIcon, ChartIcon } from './icons.jsx'
 // el header de Hoy — se toca una vez al mes, no merece slot permanente.
 //
 // `match`: prefijos extra que encienden el ítem además de su propia ruta, para
-// que las pantallas de segundo anillo no dejen el mapa apagado. Todo lo que
-// cuelga de Ajustes (planes, materiales) cuelga a su vez de Hoy.
+// que las pantallas de segundo anillo no dejen el mapa apagado. Lecturas (plan,
+// materiales, otras lecturas de hoy) cuelga de Hoy; Ajustes también.
 // `matchMobile`: prefijos que solo encienden el ítem en la tab bar. Ajustes
 // cuelga de Hoy (engranaje en su header) y en móvil no tiene pestaña propia; en
 // desktop el sidebar ya tiene su ítem de Ajustes y encenderlo también en Hoy
@@ -18,7 +18,7 @@ export const NAV_ITEMS = [
     labelKey: 'nav.hoy',
     Icon: BookIcon,
     end: true,
-    match: ['/hoy', '/planes', '/materiales'],
+    match: ['/hoy', '/lecturas', '/planes', '/materiales'],
     matchMobile: ['/ajustes'],
   },
   { to: '/oracion', labelKey: 'nav.oracion', Icon: HeartIcon },

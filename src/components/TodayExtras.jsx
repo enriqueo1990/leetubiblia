@@ -132,8 +132,7 @@ export default function TodayExtras() {
         <TodayExtraRows rows={shown} />
         {overflow && (
           <Link
-            to="/hoy/lecturas"
-            state={{ from: { to: '/', label: t('nav.hoy') } }}
+            to="/lecturas"
             className="flex min-h-11 w-full items-center justify-between gap-3 px-4 py-3 text-left"
           >
             <span className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>

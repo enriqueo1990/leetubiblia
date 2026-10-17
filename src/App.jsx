@@ -1,12 +1,12 @@
 import { lazy, Suspense } from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link, Navigate } from 'react-router-dom'
 import Gate from './components/Gate.jsx'
 import ProfilePrefSync from './components/ProfilePrefSync.jsx'
 import Layout from './components/Layout.jsx'
 import { usePreferences } from './lib/preferences.jsx'
 
 const Hoy = lazy(() => import('./screens/Hoy.jsx'))
-const TodayExtrasView = lazy(() => import('./screens/TodayExtrasView.jsx'))
+const Lecturas = lazy(() => import('./screens/Lecturas.jsx'))
 const Progreso = lazy(() => import('./screens/Progreso.jsx'))
 const Recorrido = lazy(() => import('./screens/Recorrido.jsx'))
 const Planes = lazy(() => import('./screens/Planes.jsx'))
@@ -72,7 +72,9 @@ export default function App() {
             <Route path="admin" element={<Admin />} />
             <Route element={<Layout />}>
               <Route index element={<Hoy />} />
-              <Route path="hoy/lecturas" element={<TodayExtrasView />} />
+              <Route path="lecturas" element={<Lecturas />} />
+              {/* Ruta vieja de "Ver todas": ahora vive en el hub de Lecturas. */}
+              <Route path="hoy/lecturas" element={<Navigate to="/lecturas" replace />} />
               <Route path="progreso" element={<Progreso />} />
               <Route path="recorrido" element={<Recorrido />} />
               <Route path="planes" element={<Planes />} />
