@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { clearPendingPlan, readPendingPlan } from '../lib/pendingPlan.js'
@@ -10,10 +11,12 @@ import ChoosePlanOnboarding from '../screens/onboarding/ChoosePlanOnboarding.jsx
 import OnboardingExtras from '../screens/onboarding/OnboardingExtras.jsx'
 
 // Decide qué mostrar según el estado de auth + perfil (documento maestro §5.8):
-//   sin sesión            → bienvenida + magic link
-//   sin display_name      → ¿Cómo te llamás?
+//   sin sesión            → bienvenida + código por correo
+//   invitado sin nombre   → ¿Cómo te llamás? (quien lee solo lo pone recién al
+//                           crear o unirse a un grupo: ver Grupos.jsx)
 //   onboarding nuevo      → elegir plan personal o continuar hacia un grupo
-//   sin extras hechos      → recordatorio + agregar a inicio (una vez)
+//                           (con invitación se saltea: el plan es el del grupo)
+//   sin cierre hecho      → en el navegador del iPhone, cómo instalar (una vez)
 //   listo                 → la app (children)
 // Hay sesión pero no se pudo cargar el perfil y no hay copia en caché (típico:
 // primer arranque sin conexión). Ofrece reintentar en vez de colgarse.
@@ -56,6 +59,8 @@ function LoadError({ onRetry, onSignOut }) {
 
 export default function Gate({ children }) {
   const { loading, session, profile, profileError, refreshProfile, signOut } = useAuth()
+  const { pathname, search } = useLocation()
+  const joiningFromInvite = pathname === '/join' && new URLSearchParams(search).has('code')
   // Re-render al terminar los extras sin recargar. La bandera persistida es POR
   // USUARIO (lib/sessionFlags.js): una segunda cuenta en el mismo dispositivo no
   // hereda los pasos ya hechos por otra.
@@ -85,11 +90,17 @@ export default function Gate({ children }) {
   // Sesión recién creada: el trigger crea el profile; mientras llega, splash.
   if (!profile) return null
 
-  if (!profile.display_name) return <LaunchReady><AskName /></LaunchReady>
+  // El nombre solo hace falta para los grupos: se pide al llegar por invitación.
+  if (!profile.display_name && joiningFromInvite) return <LaunchReady><AskName /></LaunchReady>
   // El plan elegido ANTES de crear la cuenta se aplica aunque los extras ya figuren
   // hechos (p. ej. una segunda cuenta en el mismo dispositivo).
   const hasPendingPlan = Boolean(readPendingPlan())
-  if (!profile.active_plan_id && !planStepDone && (!extrasDone || hasPendingPlan)) {
+  if (
+    !profile.active_plan_id &&
+    !planStepDone &&
+    !joiningFromInvite &&
+    (!extrasDone || hasPendingPlan)
+  ) {
     return (
       <LaunchReady>
         <ChoosePlanOnboarding onSkip={() => setPlanStepDone(true)} />

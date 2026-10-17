@@ -30,6 +30,9 @@ import { cycleOf, nextCyclePatch } from '../lib/planCycle.js'
 import EmptyState from '../components/EmptyState.jsx'
 import ReflectionSheet from '../components/ReflectionSheet.jsx'
 import TodayExtras from '../components/TodayExtras.jsx'
+import ReminderOffer from '../components/ReminderOffer.jsx'
+import { canOfferReminder, wasReminderOfferDismissed } from '../lib/reminderOffer.js'
+import { isIOSBrowser } from '../lib/platform.js'
 
 // Pantalla Hoy — la cara de la app (documento maestro §5.1, README pantalla 1).
 // Se ancla en el día que dicta useReading (displayDay): si vas atrasado, el día
@@ -73,6 +76,10 @@ export default function Hoy() {
   const [recorded, setRecorded] = useState(false)
   const [installing, setInstalling] = useState(false)
   const [installCardDismissed, setInstallCardDismissed] = useState(wasInstallCardDismissed)
+  // Oferta del recordatorio tras marcar. Sticky: al activarlo el perfil cambia
+  // (reminder_enabled) y la tarjeta debe quedarse para mostrar la confirmación.
+  const [reminderOfferClosed, setReminderOfferClosed] = useState(() => wasReminderOfferDismissed(user?.id))
+  const [reminderOfferSticky, setReminderOfferSticky] = useState(false)
 
   // Lectura adelantada ("seguir leyendo"): sin mover el calendario, mostramos el
   // contenido de un día futuro y dejamos marcarlo. aheadDay = null → viendo hoy.
@@ -333,12 +340,31 @@ export default function Hoy() {
   const refsShown = viewingAhead ? aheadRefs : r.todayRefs
   const readingUnavailable = !aheadLoading && (!refsShown || refsShown.length === 0)
   const doneShown = dayShown != null && r.completed.has(dayShown)
+  // Recordatorio: aparece con el día mostrado ya marcado, pasado el respiro de
+  // la marca (el momento de más ganas). Tiene prioridad sobre instalar.
+  const showReminderOffer =
+    !reminderOfferClosed &&
+    (reminderOfferSticky ||
+      (canOfferReminder(profile) &&
+        doneShown &&
+        !r.planFinished &&
+        (!justMarked || breathDone)))
   const showInstallCard =
     canInstall &&
     r.completedCount > 0 &&
     !r.planFinished &&
     !justMarked &&
-    !installCardDismissed
+    !installCardDismissed &&
+    !showReminderOffer
+  // En iPhone no hay aviso de instalación del navegador: se explica cómo.
+  const showIOSInstallCard =
+    !canInstall &&
+    isIOSBrowser() &&
+    r.completedCount > 0 &&
+    !r.planFinished &&
+    !justMarked &&
+    !installCardDismissed &&
+    !showReminderOffer
   // ¿El día mostrado va por delante de la fecha de hoy? (ancla adelantada o sesión)
   const aheadOfToday = dayShown != null && r.todayDay != null && dayShown > r.todayDay
 
@@ -633,7 +659,66 @@ export default function Hoy() {
             )
           )}
           </div>
+          {/* Primer día: cómo se usa, una sola vez (hasta la primera marca). */}
+          {r.completedCount === 0 && !viewingAhead && !readingUnavailable && (
+            <p className="mt-4 text-[13px] leading-relaxed text-ink-soft">{t('hoy.firstDayHint')}</p>
+          )}
         </div>
+      )}
+
+      {showReminderOffer && (
+        <ReminderOffer
+          onStart={() => setReminderOfferSticky(true)}
+          onClose={() => {
+            setReminderOfferSticky(false)
+            setReminderOfferClosed(true)
+          }}
+        />
+      )}
+
+      {showIOSInstallCard && (
+        <section className="card mt-6 p-4" aria-labelledby="install-ios-title">
+          <div className="flex items-start gap-3">
+            <div
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full"
+              style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
+              aria-hidden="true"
+            >
+              <InstallIcon size={20} />
+            </div>
+            <div className="min-w-0 flex-1">
+              <h2 id="install-ios-title" className="text-[17px] font-semibold text-ink">
+                {t('hoy.install.title')}
+              </h2>
+              <p className="mt-1 text-[14px] leading-snug text-ink-soft">{t('hoy.install.textIOS')}</p>
+            </div>
+          </div>
+          <ol className="mt-4 space-y-2">
+            {[t('onboarding.extras.step1'), t('onboarding.extras.step2')].map((label, i) => (
+              <li key={i} className="flex items-center gap-3">
+                <span
+                  className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[13px] font-semibold text-on-accent"
+                  style={{ backgroundColor: 'var(--accent-action)' }}
+                >
+                  {i + 1}
+                </span>
+                <span className="text-[15px] text-ink">{label}</span>
+                {i === 0 && (
+                  <span className="ml-auto text-accent-ink">
+                    <ShareIcon size={20} />
+                  </span>
+                )}
+              </li>
+            ))}
+          </ol>
+          <button
+            type="button"
+            className="mt-2 min-h-11 w-full text-center text-[15px] font-medium text-ink-soft"
+            onClick={dismissInstallCard}
+          >
+            {t('hoy.install.dismiss')}
+          </button>
+        </section>
       )}
 
       {showInstallCard && (

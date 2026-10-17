@@ -2,7 +2,8 @@
   Plantilla de email — Magic Link / OTP (Supabase → Authentication → Emails → Magic Link)
   Variable obligatoria: {{ .Token }} (código de 6 dígitos para ingresar EN la app).
   Usamos código en vez de enlace porque el link abre el navegador, no la PWA instalada.
-  Diseño email-safe: estilos inline, una columna, acento sepia.
+  Diseño email-safe: estilos inline, una columna, acento sepia. Texto en es, con
+  en/pt debajo: Supabase manda una sola plantilla para todos los idiomas.
 -->
 <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
   style="background:#FBFBFA;padding:32px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
@@ -35,6 +36,12 @@
         <tr>
           <td align="center" style="font-size:13px;color:#8A8A8E;line-height:1.5;">
             El código vence en una hora. Si no lo pediste, ignorá este correo.
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="font-size:12px;color:#B9B7B2;line-height:1.5;padding-top:20px;border-top:1px solid #EAE8E3;">
+            <span lang="en">Enter this code in the app to sign in. No password needed. The code expires in one hour. If you didn’t request it, ignore this email.</span><br><br>
+            <span lang="pt">Digite este código no app para entrar. Não precisa de senha. O código vence em uma hora. Se você não pediu, ignore este e-mail.</span>
           </td>
         </tr>
       </table>

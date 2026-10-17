@@ -287,7 +287,7 @@ export default function AuthFlow() {
         <h1 className="text-[26px] font-bold tracking-tight text-ink">
           {t('onboarding.auth.exploreTitle')}
         </h1>
-        <p className="mt-2 text-[16px] text-ink-soft">{t('planes.subtitle')}</p>
+        <p className="mt-2 text-[16px] text-ink-soft">{t('onboarding.choosePlan.subtitle')}</p>
 
         <PlanCatalog
           onStart={(plan, resumeDay) => {

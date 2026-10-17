@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import { useAuth } from '../../lib/auth.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
 import { startDateForDay, todayLocalISO, markDaysRead } from '../../lib/db.js'
@@ -19,9 +18,6 @@ import { recordFunnel } from '../../lib/diag.js'
 export default function ChoosePlanOnboarding({ onSkip }) {
   const { user, updateProfile } = useAuth()
   const { t } = usePreferences()
-  const { pathname, search } = useLocation()
-  const joiningFromInvite =
-    pathname === '/join' && new URLSearchParams(search).has('code')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
   // Elección pre-cuenta, leída una sola vez por instancia (ref lazy: sobrevive
@@ -89,11 +85,10 @@ export default function ChoosePlanOnboarding({ onSkip }) {
 
   return (
     <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col px-7 py-10">
-      <p className="text-[13px] font-medium text-accent-ink">{t('onboarding.choosePlan.step')}</p>
       <h1 className="text-[26px] font-bold tracking-tight text-ink">
         {t('onboarding.choosePlan.title')}
       </h1>
-      <p className="mt-2 text-[16px] text-ink-soft">{t('planes.subtitle')}</p>
+      <p className="mt-2 text-[16px] text-ink-soft">{t('onboarding.choosePlan.subtitle')}</p>
 
       <PlanCatalog
         onStart={(plan, resumeDay) => {
@@ -122,14 +117,10 @@ export default function ChoosePlanOnboarding({ onSkip }) {
           onSkip()
         }}
       >
-        {joiningFromInvite
-          ? t('onboarding.choosePlan.inviteCta')
-          : t('onboarding.choosePlan.groupCta')}
+        {t('onboarding.choosePlan.groupCta')}
       </button>
       <p className="mt-2 text-center text-[13px] leading-relaxed text-ink-soft">
-        {joiningFromInvite
-          ? t('onboarding.choosePlan.inviteHelp')
-          : t('onboarding.choosePlan.groupHelp')}
+        {t('onboarding.choosePlan.groupHelp')}
       </p>
     </div>
   )

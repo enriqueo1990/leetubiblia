@@ -27,6 +27,9 @@ export default function PlanCatalog({
   const [selected, setSelected] = useState(initialSelected)
   const [resumeDay, setResumeDay] = useState(initialResumeDay)
   const [showAll, setShowAll] = useState(false)
+  // "Ya venía leyendo" casi nunca aplica a alguien nuevo: queda detrás de un link
+  // para no empujar el botón fuera de la pantalla (se abre solo si ya hay día).
+  const [resumeOpen, setResumeOpen] = useState(initialResumeDay != null)
   const [loadError, setLoadError] = useState(false)
 
   const loadPlans = useCallback(() => {
@@ -50,6 +53,7 @@ export default function PlanCatalog({
     setSelected(id)
     // Al cambiar de plan, reiniciar el "día en que voy" (la duración cambia).
     setResumeDay(null)
+    setResumeOpen(false)
   }
 
   return (
@@ -80,7 +84,8 @@ export default function PlanCatalog({
               {p.description && (
                 <p className="mt-1 text-[15px] text-ink-soft">{planDescription(t, p)}</p>
               )}
-              {!showAll && recommendedIds.includes(p.id) && (
+              {/* Una sola sugerencia: si todos son "recomendados", ninguno orienta. */}
+              {!showAll && p.id === recommendedIds[0] && (
                 <p className="mt-2 text-[13px] font-medium text-accent-ink">
                   {t('onboarding.choosePlan.recommended')}
                 </p>
@@ -95,7 +100,7 @@ export default function PlanCatalog({
         )}
       </div>
 
-      {selectedPlan && (
+      {selectedPlan && resumeOpen && (
         <div className="mt-3">
           <ResumeFromDay
             durationDays={selectedPlan.duration_days}
@@ -103,6 +108,18 @@ export default function PlanCatalog({
             onChange={setResumeDay}
           />
         </div>
+      )}
+      {selectedPlan && !resumeOpen && (
+        <button
+          type="button"
+          onClick={() => {
+            setResumeOpen(true)
+            setResumeDay(1)
+          }}
+          className="mt-2 min-h-11 w-full text-[14px] text-ink-soft"
+        >
+          {t('resume.alreadyReadingQ')}
+        </button>
       )}
 
       <button
@@ -112,7 +129,7 @@ export default function PlanCatalog({
         style={{ opacity: !selectedPlan || saving ? 0.5 : 1 }}
         onClick={() => selectedPlan && !saving && onStart(selectedPlan, resumeDay)}
       >
-        {saving ? savingLabel : startLabel}
+        {saving ? savingLabel : selectedPlan ? startLabel : t('onboarding.choosePlan.pickFirst')}
       </button>
     </>
   )

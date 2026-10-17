@@ -4,10 +4,12 @@
 
 export function isIOS() {
   if (typeof navigator === 'undefined') return false
-  // iPadOS se presenta como Mac de escritorio; lo delata el multitáctil.
+  const ua = navigator.userAgent
+  // iPadOS se presenta como Mac de escritorio; lo delata el multitáctil (y que
+  // no diga Android: un emulador táctil corriendo en una Mac también es MacIntel).
   return (
-    /iphone|ipad|ipod/i.test(navigator.userAgent) ||
-    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+    /iphone|ipad|ipod/i.test(ua) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1 && !/android/i.test(ua))
   )
 }
 

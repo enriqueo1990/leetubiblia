@@ -1,7 +1,8 @@
 <!--
   Plantilla de email — Confirm signup / OTP (Supabase → Authentication → Emails → Confirm signup)
   Es el primer correo de un usuario nuevo. Variable obligatoria: {{ .Token }} (código de 6 dígitos).
-  Mismo diseño que magic_link.html.
+  Mismo diseño que magic_link.html. Saludo sin género y texto en es, con en/pt debajo:
+  Supabase manda una sola plantilla para todos, sin importar el idioma de la app.
 -->
 <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
   style="background:#FBFBFA;padding:32px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
@@ -16,7 +17,7 @@
         </tr>
         <tr>
           <td align="center" style="font-size:20px;font-weight:700;color:#1C1C1E;padding-bottom:6px;">
-            Bienvenido a Lee Tu Biblia
+            Tu código de Lee Tu Biblia
           </td>
         </tr>
         <tr>
@@ -34,6 +35,12 @@
         <tr>
           <td align="center" style="font-size:13px;color:#8A8A8E;line-height:1.5;">
             El código vence en una hora. Si no creaste esta cuenta, ignorá este correo.
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="font-size:12px;color:#B9B7B2;line-height:1.5;padding-top:20px;border-top:1px solid #EAE8E3;">
+            <span lang="en">Enter this code in the app to confirm your email and get started. The code expires in one hour. If you didn’t create this account, ignore this email.</span><br><br>
+            <span lang="pt">Digite este código no app para confirmar seu e-mail e começar. O código vence em uma hora. Se você não criou esta conta, ignore este e-mail.</span>
           </td>
         </tr>
       </table>

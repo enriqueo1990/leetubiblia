@@ -4,6 +4,13 @@ Recorrido como persona nueva en móvil (375×812): landing `/info` → bienvenid
 
 Lo que ya resolvió `PRODUCT_REVIEW.md` (el login ya no crea cuentas sin querer, la zona horaria se sincroniza) no se repite acá.
 
+## Estado (actualizado el 2026-10-17)
+
+Todas las fricciones de este documento tienen un cambio en el código. Lo que queda abierto:
+- **#1, invitados en iPhone:** a quien llega por invitación no se le pide instalar antes, porque no está comprobado que la app instalada conserve el código del grupo. Hay que probarlo en un iPhone real.
+- **#6, minutos por día:** el catálogo todavía no los muestra; los planes no tienen ese dato.
+- **#9, correos:** las plantillas de `supabase/email-templates/` ya cambiaron, pero hay que pegarlas a mano en Supabase (Authentication → Emails).
+
 ## El recorrido hoy
 
 Camino solo (sin invitación), contando pantallas hasta ver la primera lectura:

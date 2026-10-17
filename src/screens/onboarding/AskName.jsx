@@ -3,9 +3,10 @@ import { useAuth } from '../../lib/auth.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
 import { recordFunnel } from '../../lib/diag.js'
 
-// "¿Cómo te llamás?" — solo en la primera entrada (documento maestro §5.8).
-// El magic link no captura nombre y la app lo muestra en Grupos y pedidos
-// compartidos. Set profiles.display_name.
+// "¿Cómo te llamás?" — en el onboarding solo para quien llega por invitación a
+// un grupo (Gate.jsx). Quien lee solo lo pone al crear o unirse a un grupo
+// (Grupos.jsx): el nombre solo se ve ahí y en los pedidos compartidos.
+// Set profiles.display_name.
 export default function AskName() {
   const { updateProfile } = useAuth()
   const { t } = usePreferences()
@@ -28,7 +29,6 @@ export default function AskName() {
 
   return (
     <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col justify-center px-7 py-10">
-      <p className="mb-2 text-[13px] font-medium text-accent-ink">{t('onboarding.askName.step')}</p>
       <h1 className="text-[24px] font-bold tracking-tight text-ink">
         {t('onboarding.askName.title')}
       </h1>

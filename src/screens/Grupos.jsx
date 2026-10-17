@@ -14,8 +14,47 @@ import { useOnlineStatus } from '../hooks/useOnlineStatus.js'
 
 // Grupos (documento maestro §5.6, README pantalla 6).
 
+// El nombre ya no se pide en el onboarding de quien lee solo: se pide acá, al
+// crear o unirse a un grupo, que es donde los demás lo van a ver.
+function MyNameField({ value, onChange }) {
+  const { t } = usePreferences()
+  return (
+    <div className="mb-5">
+      <label htmlFor="my-name" className="mb-2 block text-[14px] font-medium text-ink">
+        {t('onboarding.askName.label')}
+      </label>
+      <input
+        id="my-name"
+        type="text"
+        autoComplete="name"
+        placeholder={t('ajustes.tuNombre')}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full rounded-input px-4 py-3 text-[16px] outline-none"
+        style={inputStyle}
+      />
+      <p className="mt-2 text-[13px] text-ink-soft">{t('onboarding.askName.subtitle')}</p>
+    </div>
+  )
+}
+
+// Guarda el nombre si hace falta. Devuelve true si se puede seguir.
+function useMyName() {
+  const { profile, updateProfile } = useAuth()
+  const needsName = !profile?.display_name
+  const [myName, setMyName] = useState('')
+  const nameOk = !needsName || myName.trim().length >= 2
+  async function saveName() {
+    if (!needsName) return true
+    const { error } = await updateProfile({ display_name: myName.trim() })
+    return !error
+  }
+  return { needsName, myName, setMyName, nameOk, saveName }
+}
+
 function CreateGroupSheet({ onClose, onCreated, online = true }) {
   const { t } = usePreferences()
+  const { needsName, myName, setMyName, nameOk, saveName } = useMyName()
   const [name, setName] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
@@ -27,9 +66,14 @@ function CreateGroupSheet({ onClose, onCreated, online = true }) {
   }, [])
 
   async function submit() {
-    if (!online || name.trim().length < 2 || busy) return
+    if (!online || name.trim().length < 2 || !nameOk || busy) return
     setBusy(true)
     setError(null)
+    if (!(await saveName())) {
+      setError(t('common.saveError'))
+      setBusy(false)
+      return
+    }
     try {
       const g = await createGroup(name.trim())
       onCreated(g)
@@ -47,14 +91,15 @@ function CreateGroupSheet({ onClose, onCreated, online = true }) {
         <button
           type="button"
           className="btn btn-primary"
-          disabled={!online || name.trim().length < 2 || busy}
-          style={{ opacity: !online || name.trim().length < 2 || busy ? 0.5 : 1 }}
+          disabled={!online || name.trim().length < 2 || !nameOk || busy}
+          style={{ opacity: !online || name.trim().length < 2 || !nameOk || busy ? 0.5 : 1 }}
           onClick={submit}
         >
           {busy ? t('grupos.creating') : t('grupos.createTitle')}
         </button>
       }
     >
+      {needsName && <MyNameField value={myName} onChange={setMyName} />}
       <label htmlFor="group-name" className="mb-2 block text-[14px] font-medium text-ink">
         {t('grupos.nameLabel')}
       </label>
@@ -78,6 +123,7 @@ function CreateGroupSheet({ onClose, onCreated, online = true }) {
 
 function JoinGroupSheet({ onClose, onJoined, online = true }) {
   const { t } = usePreferences()
+  const { needsName, myName, setMyName, nameOk, saveName } = useMyName()
   const [code, setCode] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
@@ -90,9 +136,14 @@ function JoinGroupSheet({ onClose, onJoined, online = true }) {
 
   async function submit() {
     const c = code.trim()
-    if (!online || c.length < 4 || busy) return
+    if (!online || c.length < 4 || !nameOk || busy) return
     setBusy(true)
     setError(null)
+    if (!(await saveName())) {
+      setError(t('common.saveError'))
+      setBusy(false)
+      return
+    }
     try {
       const g = await joinGroupByCode(c)
       if (!g) {
@@ -115,14 +166,15 @@ function JoinGroupSheet({ onClose, onJoined, online = true }) {
         <button
           type="button"
           className="btn btn-primary"
-          disabled={!online || code.trim().length < 4 || busy}
-          style={{ opacity: !online || code.trim().length < 4 || busy ? 0.5 : 1 }}
+          disabled={!online || code.trim().length < 4 || !nameOk || busy}
+          style={{ opacity: !online || code.trim().length < 4 || !nameOk || busy ? 0.5 : 1 }}
           onClick={submit}
         >
           {busy ? t('grupos.joining') : t('grupos.joinButton')}
         </button>
       }
     >
+      {needsName && <MyNameField value={myName} onChange={setMyName} />}
       <label htmlFor="group-code" className="mb-2 block text-center text-[14px] font-medium text-ink">
         {t('grupos.codeLabel')}
       </label>
