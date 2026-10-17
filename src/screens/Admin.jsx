@@ -9,6 +9,8 @@ import {
 } from '../lib/db.js'
 import RetryError from '../components/RetryError.jsx'
 import Segmented from '../components/Segmented.jsx'
+import { AreaChart, ColumnChart, Delta, Meter } from './admin/charts.jsx'
+import { formatCount, shortDay } from './admin/format.js'
 import { BookIcon, HeartIcon, PeopleIcon, RefreshIcon } from '../components/icons.jsx'
 
 // Panel privado del dueño (/admin). No aparece en la navegación: se entra por URL
@@ -36,17 +38,84 @@ function prettyTz(tz) {
   return tz.replace(/_/g, ' ').replace('/', ' · ')
 }
 
-function StatCard({ value, label, hint, accent }) {
+// Ficha de un número. children: lo que lo pone en contexto (variación contra el
+// período anterior, medidor contra el total).
+function StatCard({ value, label, hint, accent, className = '', children }) {
   return (
-    <div className="card p-4">
+    <div className={`card flex flex-col p-4 ${className}`}>
       <p
         className={`text-[28px] font-bold leading-none ${accent ? 'text-accent-ink' : 'text-ink'}`}
         style={{ letterSpacing: '-1px' }}
       >
-        {value}
+        {typeof value === 'number' ? formatCount(value) : value}
       </p>
       <p className="mt-1.5 text-[13px] leading-tight text-ink-soft">{label}</p>
       {hint ? <p className="mt-0.5 text-[12px] text-placeholder">{hint}</p> : null}
+      {children ? <div className="mt-auto pt-3">{children}</div> : null}
+    </div>
+  )
+}
+
+// Suma de altas en la ventana [desde, hasta) contada desde el final de la serie
+// (0 = hoy). null si la serie no llega tan atrás.
+function signupsBetween(series, fromEnd, toEnd) {
+  if (!series || series.length < toEnd) return null
+  return series.slice(series.length - toEnd, series.length - fromEnd).reduce((s, d) => s + d.signups, 0)
+}
+
+// Cabecera del panel: el total como número principal y la curva de usuarios
+// acumulados (se reconstruye hacia atrás restando las altas de cada día).
+function UsersHero({ total, series, new30, prev30 }) {
+  const data = []
+  let acc = total
+  for (let i = series.length - 1; i >= 0; i--) {
+    data[i] = { label: shortDay(series[i].day), value: Math.max(0, acc) }
+    acc -= series[i].signups
+  }
+  return (
+    <div className="card p-4 lg:p-5">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[220px_minmax(0,1fr)] lg:items-center">
+        <div>
+          <p className="text-[13px] text-ink-soft">Usuarios registrados</p>
+          <p className="mt-1 text-[52px] font-bold leading-none text-ink" style={{ letterSpacing: '-2px' }}>
+            {formatCount(total)}
+          </p>
+          <p className="mt-2 text-[13px] text-ink-soft">+{formatCount(new30)} en los últimos 30 días</p>
+          <Delta now={new30} before={prev30} period="los 30 anteriores" />
+        </div>
+        {series.length > 1 ? (
+          <AreaChart data={data} height={150} ariaLabel={`Usuarios acumulados en los últimos ${series.length} días`} />
+        ) : null}
+      </div>
+    </div>
+  )
+}
+
+// Embudo: el paso con la mayor caída respecto del anterior va resaltado, el
+// resto queda de contexto, y una nota lo dice en palabras.
+function biggestDrop(rows) {
+  let worst = null
+  for (let i = 1; i < rows.length; i++) {
+    const prev = rows[i - 1].value
+    if (!prev) continue
+    const loss = 1 - rows[i].value / prev
+    if (loss > 0 && (!worst || loss > worst.loss)) worst = { index: i, loss, from: rows[i - 1].label, to: rows[i].label }
+  }
+  return worst
+}
+
+function FunnelChart({ rows, empty, children }) {
+  const drop = biggestDrop(rows)
+  return (
+    <div className="card p-4">
+      <BarList rows={rows} empty={empty} highlight={drop?.index} />
+      {drop ? (
+        <p className="mt-4 border-t pt-3 text-[13px] text-ink-soft" style={{ borderColor: 'var(--hairline)' }}>
+          Mayor caída: <span className="font-semibold text-ink">−{Math.round(drop.loss * 100)}%</span> de «{drop.from}» a
+          «{drop.to}».
+        </p>
+      ) : null}
+      {children}
     </div>
   )
 }
@@ -369,7 +438,9 @@ function AdminNav({ items, active, onSelect }) {
 
 // Lista de barras horizontales. rows: [{ label, value, lead?, note?, ratio? }].
 // ratio (0..1) fuerza el largo de la barra; si no, se normaliza contra el máximo.
-function BarList({ rows, empty }) {
+// highlight: índice de la fila a resaltar; las demás quedan de contexto.
+// Barras de 8px, base recta y punta redondeada (4px).
+function BarList({ rows, empty, highlight }) {
   if (!rows || rows.length === 0) {
     return <p className="text-[15px] text-ink-soft">{empty}</p>
   }
@@ -383,17 +454,18 @@ function BarList({ rows, empty }) {
               {r.lead ? <span className="mr-2">{r.lead}</span> : null}
               {r.label}
             </span>
-            <span className="shrink-0 text-[14px] font-semibold text-ink">
-              {r.value}
+            <span className="shrink-0 text-[14px] font-semibold text-ink tabular-nums">
+              {formatCount(r.value)}
               {r.note ? <span className="ml-2 font-normal text-ink-soft">{r.note}</span> : null}
             </span>
           </div>
-          <div className="mt-1.5 h-[6px] rounded-full" style={{ backgroundColor: 'var(--surface-alt)' }}>
+          <div className="mt-1.5 h-[8px] rounded-r-[4px]" style={{ backgroundColor: 'var(--surface-alt)' }}>
             <div
-              className="h-full rounded-full"
+              className="h-full rounded-r-[4px]"
               style={{
                 width: `${(r.ratio != null ? r.ratio : r.value / max) * 100}%`,
                 backgroundColor: 'var(--accent)',
+                opacity: highlight != null && highlight !== i ? 0.45 : 1,
               }}
             />
           </div>
@@ -403,40 +475,31 @@ function BarList({ rows, empty }) {
   )
 }
 
-// Mini gráfico de barras de altas por día (SVG inline, sin dependencias).
+// Altas por día: columnas con eje, una etiqueta por semana y tooltip por día.
 function SignupsChart({ series }) {
   if (!series || series.length === 0) return null
   const total = series.reduce((s, d) => s + d.signups, 0)
-  const max = Math.max(...series.map((d) => d.signups), 1)
-  const W = 320
-  const H = 60
-  const gap = 2
-  const bw = (W - gap * (series.length - 1)) / series.length
+  const data = series.map((d, i) => ({
+    value: d.signups,
+    tip: shortDay(d.day, true),
+    tick: (series.length - 1 - i) % 7 === 0 ? shortDay(d.day) : null,
+  }))
   return (
     <div className="card p-4">
-      <div className="flex items-baseline justify-between">
+      <div className="flex items-baseline justify-between gap-3">
         <p className="text-[15px] font-semibold text-ink">Altas por día</p>
         <p className="text-[13px] text-ink-soft">
-          {total} en {series.length} días
+          {formatCount(total)} en {series.length} días
         </p>
       </div>
-      <svg className="mt-3 h-[60px] w-full lg:h-[110px]" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
-        {series.map((d, i) => {
-          const h = d.signups === 0 ? 1 : (d.signups / max) * H
-          return (
-            <rect
-              key={i}
-              x={i * (bw + gap)}
-              y={H - h}
-              width={bw}
-              height={h}
-              rx={Math.min(bw / 2, 1.5)}
-              fill="var(--accent)"
-              opacity={d.signups === 0 ? 0.18 : 1}
-            />
-          )
-        })}
-      </svg>
+      <div className="mt-3">
+        <ColumnChart
+          data={data}
+          height={160}
+          ariaLabel={`Altas por día, últimos ${series.length} días: ${total} en total`}
+          valueLabel={(v) => `${formatCount(v)} ${v === 1 ? 'alta' : 'altas'}`}
+        />
+      </div>
     </div>
   )
 }
@@ -573,9 +636,8 @@ function OnboardingFunnel({ rows, error, onRetry }) {
   })
 
   return (
-    <div className="card p-4">
-      <BarList rows={base ? funnelRows : []} empty="Sin datos todavía." />
-      <p className="mt-4 border-t pt-3 text-[13px] text-ink-soft" style={{ borderColor: 'var(--hairline)' }}>
+    <FunnelChart rows={base ? funnelRows : []} empty="Sin datos todavía.">
+      <p className="mt-3 text-[13px] text-ink-soft">
         iPhone: {count('ob_install_step')} vieron «agregala a tu inicio» · {count('ob_install_skip')} siguieron en
         el navegador
       </p>
@@ -584,7 +646,7 @@ function OnboardingFunnel({ rows, error, onRetry }) {
       <p className="mt-1.5 text-[13px] text-ink-soft">
         Invitados: {count('ob_name_saved')} pusieron su nombre
       </p>
-    </div>
+    </FunnelChart>
   )
 }
 
@@ -602,7 +664,7 @@ export default function Admin() {
   const load = useCallback(async () => {
     setError(null)
     try {
-      const [overview, series] = await Promise.all([getAdminOverview(), getAdminSignupsSeries(30)])
+      const [overview, series] = await Promise.all([getAdminOverview(), getAdminSignupsSeries(90)])
       setData({ overview, series })
     } catch (e) {
       setError(e?.message || e?.hint || String(e))
@@ -734,31 +796,46 @@ export default function Admin() {
           ) : (
             <>
               <Section id="usuarios" title="Usuarios">
-                <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-                  <StatCard value={o.users.total} label="usuarios registrados" accent />
-                  <StatCard value={o.installs.standalone_users} label="instalaron la app" hint="abrieron instalada" />
-                  <StatCard value={o.users.new_7d} label="nuevos · 7 días" />
-                  <StatCard value={o.users.new_30d} label="nuevos · 30 días" />
+                <UsersHero
+                  total={o.users.total}
+                  series={data.series}
+                  new30={o.users.new_30d}
+                  prev30={signupsBetween(data.series, 30, 60)}
+                />
+                <div className="mt-3 grid grid-cols-2 gap-3 lg:grid-cols-3">
+                  <StatCard value={o.users.new_7d} label="nuevos · 7 días">
+                    <Delta now={o.users.new_7d} before={signupsBetween(data.series, 7, 14)} period="los 7 anteriores" />
+                  </StatCard>
+                  <StatCard value={o.installs.standalone_users} label="instalaron la app" hint={`${pct(o.installs.standalone_users, o.users.total)}% de los registrados`}>
+                    <Meter ratio={o.users.total ? o.installs.standalone_users / o.users.total : 0} label="Instalaron la app" />
+                  </StatCard>
+                  <StatCard value={o.users.with_reminder} label="con recordatorio" className="col-span-2 lg:col-span-1" hint={`${pct(o.users.with_reminder, o.users.total)}% de los registrados`}>
+                    <Meter ratio={o.users.total ? o.users.with_reminder / o.users.total : 0} label="Con recordatorio" />
+                  </StatCard>
+                </div>
+                <div className="mt-3">
+                  <SignupsChart series={data.series.slice(-30)} />
                 </div>
               </Section>
 
-              <Section id="actividad" title="Actividad">
+              <Section id="actividad" title="Actividad" subtitle="Leyeron o marcaron algo en el período.">
                 <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-                  <StatCard value={o.active.d7} label="activos · 7 días" accent />
-                  <StatCard value={o.active.d30} label="activos · 30 días" />
+                  <StatCard value={o.active.d7} label="activos · 7 días" accent hint={`${pct(o.active.d7, o.users.total)}% de los registrados`}>
+                    <Meter ratio={o.users.total ? o.active.d7 / o.users.total : 0} label="Activos 7 días" />
+                  </StatCard>
+                  <StatCard value={o.active.d30} label="activos · 30 días" hint={`${pct(o.active.d30, o.users.total)}% de los registrados`}>
+                    <Meter ratio={o.users.total ? o.active.d30 / o.users.total : 0} label="Activos 30 días" />
+                  </StatCard>
+                  <StatCard value={`${pct(o.active.d7, o.active.d30)}%`} label="vuelven cada semana" hint="activos 7 días ÷ activos 30 días">
+                    <Meter ratio={o.active.d30 ? o.active.d7 / o.active.d30 : 0} label="Vuelven cada semana" />
+                  </StatCard>
                   <StatCard value={o.dormant_14d} label="sin volver · 14+ días" hint="fueron activos y se enfriaron" />
-                  <StatCard value={o.users.with_reminder} label="con recordatorio" />
-                </div>
-                <div className="mt-3">
-                  <SignupsChart series={data.series} />
                 </div>
               </Section>
 
               <div className="grid grid-cols-1 items-start gap-x-6 lg:grid-cols-2">
                 <Section id="activacion" title="Activación" subtitle="Del total registrado, cuántos avanzan.">
-                  <div className="card p-4">
-                    <BarList rows={funnel} empty="Sin usuarios todavía." />
-                  </div>
+                  <FunnelChart rows={funnel} empty="Sin usuarios todavía." />
                 </Section>
 
                 <Section
@@ -773,20 +850,40 @@ export default function Admin() {
               <div className="grid grid-cols-1 items-start gap-x-6 lg:grid-cols-2">
                 <Section id="constancia" title="Constancia" subtitle="Usuarios por cantidad de días leídos.">
                   <div className="card p-4">
-                    <BarList
-                      empty="Nadie leyó todavía."
-                      rows={[
-                        { label: 'Nunca leyeron', value: o.constancy.d0 },
-                        { label: '1 a 6 días', value: o.constancy.d1_6 },
-                        { label: '7 a 29 días', value: o.constancy.d7_29 },
-                        { label: '30+ días', value: o.constancy.d30p },
-                      ]}
+                    <ColumnChart
+                      valueOnCap
+                      height={190}
+                      ariaLabel="Usuarios por cantidad de días leídos"
+                      data={[
+                        { tick: 'Nunca', value: o.constancy.d0 },
+                        { tick: '1–6 días', value: o.constancy.d1_6 },
+                        { tick: '7–29 días', value: o.constancy.d7_29 },
+                        { tick: '30+ días', value: o.constancy.d30p },
+                      ].map((d) => ({ ...d, tip: `${d.tick} · ${pct(d.value, o.users.total)}% del total` }))}
                     />
                   </div>
                 </Section>
 
                 <Section id="plataforma" title="Plataforma e instalación">
                   <div className="card p-4">
+                    <div className="mb-4 border-b pb-4" style={{ borderColor: 'var(--hairline)' }}>
+                      <div className="flex items-baseline justify-between gap-3">
+                        <p className="text-[15px] text-ink">La usan instalada</p>
+                        <p className="text-[14px] font-semibold text-ink tabular-nums">
+                          {pct(o.installs.standalone_users, o.installs.standalone_users + o.installs.browser_only)}%
+                        </p>
+                      </div>
+                      <div className="mt-1.5">
+                        <Meter
+                          ratio={
+                            o.installs.standalone_users + o.installs.browser_only
+                              ? o.installs.standalone_users / (o.installs.standalone_users + o.installs.browser_only)
+                              : 0
+                          }
+                          label="La usan instalada"
+                        />
+                      </div>
+                    </div>
                     <BarList empty="Sin datos todavía." rows={platformRows} />
                     <p
                       className="mt-4 border-t pt-3 text-[13px] text-ink-soft"
