@@ -2,6 +2,18 @@
 
 Registro de mejoras en lenguaje de usuario, para compartir.
 
+## Actualización — 17 de octubre de 2026 · tu plan y tu lectura, juntos
+<!-- ref: b2a94af -->
+
+### ✨ Novedades
+- Hay una pantalla nueva, **Lecturas**: tu plan, tus otras lecturas de hoy y los materiales, todo en un mismo lugar. Llegás tocando el nombre de tu plan en Hoy.
+- Desde Lecturas podés **cambiar de plan** o activar un material sin pasar por Ajustes.
+
+### 💫 Mejoras
+- En Hoy, el plan y la lectura del día ahora se ven como una sola cosa: arriba el nombre de tu plan, debajo en qué día vas y cuántos tiene, y enseguida los pasajes.
+- Una línea fina te muestra cuánto del plan llevás recorrido.
+- El "✓ Leído" aparece junto al día que acabás de leer.
+
 ## Actualización — 16 de octubre de 2026 · hablemos
 <!-- ref: c9cf49a -->
 
