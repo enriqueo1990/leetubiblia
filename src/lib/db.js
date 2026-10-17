@@ -1142,6 +1142,14 @@ export async function getAdminSignupsSeries(days = 30) {
   return data || []
 }
 
+// Embudo de onboarding (migración 0035): dispositivos distintos por paso 'ob_*'
+// en los últimos `days` días, en el orden del recorrido.
+export async function getAdminOnboardingFunnel(days = 30) {
+  const { data, error } = await supabase.rpc('admin_onboarding_funnel', { days })
+  if (error) throw dbError(error)
+  return data || []
+}
+
 // Sugerencias y reportes de error (migración 0034), más recientes primero.
 // No es RPC: lee la tabla directo, y la policy "feedback admin reads" solo deja
 // pasar el select a is_admin(); cualquier otro usuario recibe una lista vacía.

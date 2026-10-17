@@ -1,9 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
-import { getAdminOverview, getAdminSignupsSeries, getAdminFeedback } from '../lib/db.js'
+import {
+  getAdminOverview,
+  getAdminSignupsSeries,
+  getAdminFeedback,
+  getAdminOnboardingFunnel,
+} from '../lib/db.js'
 import RetryError from '../components/RetryError.jsx'
 import Segmented from '../components/Segmented.jsx'
+import { BookIcon, HeartIcon, PeopleIcon, RefreshIcon } from '../components/icons.jsx'
 
 // Panel privado del dueño (/admin). No aparece en la navegación: se entra por URL
 // directa y solo responde a la cuenta admin. Toda la data llega de RPCs agregadas
@@ -48,7 +54,7 @@ function StatCard({ value, label, hint, accent }) {
 // id → ancla del menú. scroll-mt deja la sección justo debajo del menú fijo.
 function Section({ id, title, subtitle, children }) {
   return (
-    <section id={id} className="mt-8 scroll-mt-[76px]">
+    <section id={id} className="mt-8 scroll-mt-[76px] lg:scroll-mt-8">
       <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">{title}</p>
       {subtitle ? <p className="mt-0.5 text-[13px] text-placeholder">{subtitle}</p> : null}
       <div className="mt-3">{children}</div>
@@ -56,21 +62,97 @@ function Section({ id, title, subtitle, children }) {
   )
 }
 
+// Iconos propios del panel, mismo trazo que components/icons.jsx (SF-like, 1.7).
+function PanelIcon({ size = 22, children }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.7}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {children}
+    </svg>
+  )
+}
+const PulseIcon = (p) => (
+  <PanelIcon {...p}>
+    <path d="M3 12h4l2.5-6 5 12 2.5-6h4" />
+  </PanelIcon>
+)
+const FunnelIcon = (p) => (
+  <PanelIcon {...p}>
+    <path d="M4 5h16l-6 7.5V19l-4-2v-4.5L4 5Z" />
+  </PanelIcon>
+)
+const DoorIcon = (p) => (
+  <PanelIcon {...p}>
+    <path d="M14 4h4.5A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5H14M4 12h11M11 8l4 4-4 4" />
+  </PanelIcon>
+)
+const CalendarIcon = (p) => (
+  <PanelIcon {...p}>
+    <rect x="4" y="5" width="16" height="15" rx="2.5" />
+    <path d="M4 10h16M9 3v4M15 3v4" />
+  </PanelIcon>
+)
+const PhoneIcon = (p) => (
+  <PanelIcon {...p}>
+    <rect x="7" y="3" width="10" height="18" rx="2.5" />
+    <path d="M11 17.5h2" />
+  </PanelIcon>
+)
+const GlobeIcon = (p) => (
+  <PanelIcon {...p}>
+    <circle cx="12" cy="12" r="8.5" />
+    <path d="M3.5 12h17M12 3.5c2.3 2.4 3.4 5.2 3.4 8.5s-1.1 6.1-3.4 8.5c-2.3-2.4-3.4-5.2-3.4-8.5s1.1-6.1 3.4-8.5Z" />
+  </PanelIcon>
+)
+const BackIcon = (p) => (
+  <PanelIcon {...p}>
+    <path d="M19 12H5M11 6l-6 6 6 6" />
+  </PanelIcon>
+)
+const InboxIcon = (p) => (
+  <PanelIcon {...p}>
+    <path d="M4 13.5 6.2 6a1.5 1.5 0 0 1 1.4-1h8.8a1.5 1.5 0 0 1 1.4 1L20 13.5V18a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18v-4.5Z" />
+    <path d="M4 13.5h4.5l1 2h5l1-2H20" />
+  </PanelIcon>
+)
+
 // Destinos del menú, en el orden de la página. Cada id es el de una <Section>;
 // las secciones sin entrada propia (timezones) quedan bajo la anterior.
 const NAV = [
-  { id: 'usuarios', label: 'Usuarios' },
-  { id: 'activacion', label: 'Activación' },
-  { id: 'actividad', label: 'Actividad' },
-  { id: 'constancia', label: 'Constancia' },
-  { id: 'planes', label: 'Planes' },
-  { id: 'plataforma', label: 'Plataforma' },
-  { id: 'geografia', label: 'Geografía' },
-  { id: 'comunidad', label: 'Comunidad' },
-  { id: 'buzon', label: 'Buzón' },
+  { id: 'usuarios', label: 'Usuarios', Icon: PeopleIcon },
+  { id: 'actividad', label: 'Actividad', Icon: PulseIcon },
+  { id: 'activacion', label: 'Activación', Icon: FunnelIcon },
+  { id: 'onboarding', label: 'Onboarding', Icon: DoorIcon },
+  { id: 'constancia', label: 'Constancia', Icon: CalendarIcon },
+  { id: 'plataforma', label: 'Plataforma', Icon: PhoneIcon },
+  { id: 'planes', label: 'Planes', Icon: BookIcon },
+  { id: 'geografia', label: 'Geografía', Icon: GlobeIcon },
+  { id: 'comunidad', label: 'Comunidad', Icon: HeartIcon },
+  { id: 'buzon', label: 'Buzón', Icon: InboxIcon },
 ]
 
 const NAV_IDS = NAV.map((it) => it.id)
+
+// Pasos del embudo de onboarding (eventos 'ob_*', migración 0035), en orden.
+const ONBOARDING_STEPS = [
+  { step: 'ob_welcome', label: 'Vieron la bienvenida' },
+  { step: 'ob_explore', label: 'Abrieron los planes' },
+  { step: 'ob_plan_chosen', label: 'Eligieron plan o «después»' },
+  { step: 'ob_code_sent', label: 'Pidieron el código' },
+  { step: 'ob_code_verified', label: 'Entraron con el código' },
+  { step: 'ob_name_saved', label: 'Pusieron su nombre' },
+  { step: 'ob_extras_done', label: 'Terminaron el onboarding' },
+  { step: 'ob_first_mark', label: 'Marcaron su primera lectura' },
+]
 
 const NAV_OFFSET = 80 // alto del menú fijo + aire: a partir de acá una sección "es la actual"
 
@@ -78,8 +160,10 @@ function reducedMotion() {
   return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 }
 
-// Sección actual según el scroll: la última cuyo borde superior ya pasó bajo el
-// menú. Al tocar fondo gana la última, aunque sea corta y nunca llegue arriba.
+// Sección actual según el scroll: la que pasó bajo el menú más cerca de él. En
+// escritorio dos secciones comparten fila (misma altura): gana la primera, la
+// de la derecha se enciende al tocarla. Al tocar fondo gana la última, aunque
+// sea corta y nunca llegue arriba.
 // select() fija una sección a mano (tap en el menú) y congela el cálculo hasta
 // que el scroll que dispara se detiene: si no, al llegar al fondo "Comunidad"
 // se pisaría con "Buzón".
@@ -102,9 +186,13 @@ function useActiveSection(ids, enabled) {
       const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4
       if (atBottom) return setActive(ids[ids.length - 1])
       let current = ids[0]
+      let best = -Infinity
       for (const id of ids) {
-        const el = document.getElementById(id)
-        if (el && el.getBoundingClientRect().top <= NAV_OFFSET) current = id
+        const top = document.getElementById(id)?.getBoundingClientRect().top
+        if (top != null && top <= NAV_OFFSET && top > best + 1) {
+          current = id
+          best = top
+        }
       }
       setActive(current)
     }
@@ -130,8 +218,85 @@ function useActiveSection(ids, enabled) {
   return [active, select]
 }
 
-// Menú fijo arriba: una fila de chips desplazable con un salto por sección.
-// La sección visible queda resaltada y su chip se centra solo en la fila.
+// Escritorio (≥1024px): sidebar fijo a la derecha, gemelo del de la app
+// (components/Sidebar.jsx): superficie con filete, ítems con icono y el activo
+// en acento sobre tinte. Abajo, refrescar los números y volver a la app.
+function AdminSidebar({ items, active, onSelect, updatedAt, onRefresh, refreshing }) {
+  const itemClass =
+    'flex min-h-11 w-full items-center gap-3 rounded-[10px] px-3 py-2.5 text-left transition-colors duration-300 ease-soft'
+  return (
+    <aside
+      className="fixed inset-y-0 right-0 hidden w-[250px] flex-col border-l border-hairline bg-surface px-4 py-7 lg:flex"
+      aria-label="Secciones del panel"
+    >
+      <div className="px-3 pb-6">
+        <span className="text-[18px] font-bold tracking-tight text-ink">Panel</span>
+        <p className="mt-0.5 text-[13px] text-ink-soft">Lee Tu Biblia</p>
+      </div>
+      <nav className="-mx-1 min-h-0 flex-1 overflow-y-auto px-1">
+        <ul className="flex flex-col gap-1">
+          {items.map(({ id, label, Icon, badge }) => {
+            const on = id === active
+            return (
+              <li key={id}>
+                <a
+                  href={`#${id}`}
+                  aria-current={on ? 'location' : undefined}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    onSelect(id)
+                  }}
+                  className={itemClass}
+                  style={{
+                    color: on ? 'var(--accent-ink)' : 'var(--text-soft)',
+                    backgroundColor: on ? 'var(--accent-tint-nav)' : 'transparent',
+                  }}
+                >
+                  <Icon size={22} />
+                  <span className="flex-1 text-[15px]" style={{ fontWeight: on ? 600 : 500 }}>
+                    {label}
+                  </span>
+                  {badge ? (
+                    <span
+                      className="rounded-full px-2 text-[12px] font-semibold leading-[20px]"
+                      style={{ backgroundColor: 'var(--accent-action)', color: '#fff' }}
+                    >
+                      {badge}
+                    </span>
+                  ) : null}
+                </a>
+              </li>
+            )
+          })}
+        </ul>
+      </nav>
+      <div className="mt-3 border-t border-hairline pt-3">
+        <button
+          type="button"
+          onClick={onRefresh}
+          disabled={refreshing}
+          className={`${itemClass} hover:bg-[var(--accent-tint-nav)] disabled:opacity-60`}
+          style={{ color: 'var(--text-soft)' }}
+        >
+          <RefreshIcon size={22} className={refreshing ? 'animate-spin' : ''} />
+          <span className="text-[15px] font-medium">{refreshing ? 'Actualizando…' : 'Actualizar'}</span>
+        </button>
+        <Link to="/" className={`${itemClass} hover:bg-[var(--accent-tint-nav)]`} style={{ color: 'var(--text-soft)' }}>
+          <BackIcon size={22} />
+          <span className="text-[15px] font-medium">Volver a la app</span>
+        </Link>
+        {updatedAt ? (
+          <p className="px-3 pt-2 text-[12px] text-placeholder">
+            Actualizado {new Date(updatedAt).toLocaleString('es-ES')}
+          </p>
+        ) : null}
+      </div>
+    </aside>
+  )
+}
+
+// Móvil/tablet: menú fijo arriba, una fila de chips desplazable con un salto
+// por sección. La sección visible queda resaltada y su chip se centra solo.
 function AdminNav({ items, active, onSelect }) {
   const rowRef = useRef(null)
 
@@ -146,7 +311,7 @@ function AdminNav({ items, active, onSelect }) {
   return (
     <nav
       aria-label="Secciones del panel"
-      className="sticky top-0 z-10 -mx-5 mt-5"
+      className="sticky top-0 z-10 -mx-5 mt-5 lg:hidden"
       style={{
         paddingTop: 'max(env(safe-area-inset-top), 10px)',
         backgroundColor: 'var(--tabbar-bg)',
@@ -252,7 +417,7 @@ function SignupsChart({ series }) {
           {total} en {series.length} días
         </p>
       </div>
-      <svg className="mt-3 w-full" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
+      <svg className="mt-3 h-[60px] w-full lg:h-[110px]" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
         {series.map((d, i) => {
           const h = d.signups === 0 ? 1 : (d.signups / max) * H
           return (
@@ -279,7 +444,7 @@ function PlansHealth({ rows }) {
     return <p className="text-[15px] text-ink-soft">Sin planes todavía.</p>
   }
   return (
-    <ul className="space-y-3">
+    <ul className="grid gap-3 lg:grid-cols-2">
       {rows.map((p) => {
         const rate = pct(p.completions, p.started)
         return (
@@ -332,6 +497,7 @@ function FeedbackInbox({ rows, error, onRetry }) {
   return (
     <div>
       <Segmented
+        className="lg:max-w-[420px]"
         label="Tipo de mensaje"
         value={kind}
         onChange={setKind}
@@ -342,7 +508,7 @@ function FeedbackInbox({ rows, error, onRetry }) {
           {kind === 'bug' ? 'Nadie avisó de un error todavía.' : 'Nadie sugirió nada todavía.'}
         </p>
       ) : (
-        <ul className="mt-3 space-y-3">
+        <ul className="mt-3 grid items-start gap-3 lg:grid-cols-2">
           {visible.map((r) => (
             <li key={r.id} className="card p-4">
               <div className="flex items-baseline justify-between gap-3">
@@ -373,12 +539,55 @@ function FeedbackInbox({ rows, error, onRetry }) {
   )
 }
 
+// Embudo de onboarding: cada paso contra la bienvenida. Con invitación se
+// saltean "planes" y "eligieron plan", por eso esos pasos pueden quedar debajo
+// de los siguientes.
+function OnboardingFunnel({ rows, error, onRetry }) {
+  if (error) {
+    return (
+      <div className="card p-4">
+        <RetryError message="No se pudo cargar el embudo." onRetry={onRetry} />
+        <p className="mt-3 break-words text-center text-[12px] text-placeholder">
+          {/admin_onboarding_funnel|PGRST202|does not exist/i.test(error)
+            ? 'Falta aplicar la migración 0035.'
+            : error}
+        </p>
+      </div>
+    )
+  }
+  if (!rows) return <p className="text-[15px] text-ink-soft">Cargando…</p>
+
+  const count = (step) => rows.find((r) => r.step === step)?.devices ?? 0
+  const base = count('ob_welcome')
+  const funnelRows = ONBOARDING_STEPS.map(({ step, label }) => {
+    const value = count(step)
+    return {
+      label,
+      value,
+      note: step === 'ob_welcome' ? null : `${pct(value, base)}%`,
+      ratio: base ? Math.min(value / base, 1) : 0,
+    }
+  })
+
+  return (
+    <div className="card p-4">
+      <BarList rows={base ? funnelRows : []} empty="Sin datos todavía." />
+      <p className="mt-4 border-t pt-3 text-[13px] text-ink-soft" style={{ borderColor: 'var(--hairline)' }}>
+        iPhone: {count('ob_install_step')} vieron «agregala a tu inicio» · {count('ob_install_skip')} siguieron en
+        el navegador
+      </p>
+    </div>
+  )
+}
+
 export default function Admin() {
   const { user } = useAuth()
   const [data, setData] = useState(null) // { overview, series }
   const [error, setError] = useState(null) // string | null
   const [feedback, setFeedback] = useState(null) // filas de app_feedback | null (cargando)
   const [feedbackError, setFeedbackError] = useState(null) // string | null
+  const [obFunnel, setObFunnel] = useState(null) // filas { step, devices } | null (cargando)
+  const [obFunnelError, setObFunnelError] = useState(null) // string | null
   const isAdmin = user?.email === ADMIN_EMAIL
   const [active, setActive] = useActiveSection(NAV_IDS, Boolean(data))
 
@@ -401,12 +610,23 @@ export default function Admin() {
     }
   }, [])
 
+  // Aparte del resto: si la migración 0035 no está aplicada, solo falla esta sección.
+  const loadObFunnel = useCallback(async () => {
+    setObFunnelError(null)
+    try {
+      setObFunnel(await getAdminOnboardingFunnel(30))
+    } catch (e) {
+      setObFunnelError(e?.message || e?.hint || String(e))
+    }
+  }, [])
+
   useEffect(() => {
     if (isAdmin) {
       load()
       loadFeedback()
+      loadObFunnel()
     }
-  }, [isAdmin, load, loadFeedback])
+  }, [isAdmin, load, loadFeedback, loadObFunnel])
 
   const goTo = useCallback(
     (id, smooth = true) => {
@@ -425,6 +645,14 @@ export default function Admin() {
     const id = window.location.hash.slice(1)
     if (loaded && NAV_IDS.includes(id)) goTo(id, false)
   }, [loaded, goTo])
+
+  // Botón "Actualizar" del sidebar: vuelve a pedir todo sin vaciar la pantalla.
+  const [refreshing, setRefreshing] = useState(false)
+  const refreshAll = useCallback(async () => {
+    setRefreshing(true)
+    await Promise.all([load(), loadFeedback(), loadObFunnel()])
+    setRefreshing(false)
+  }, [load, loadFeedback, loadObFunnel])
 
   const back = (
     <Link to="/" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
@@ -461,127 +689,164 @@ export default function Admin() {
         .sort((a, b) => b.value - a.value)
     : []
 
-  return (
-    <div className="mx-auto max-w-[560px] px-5 pb-16 pt-6">
-      {back}
-      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">Panel</h1>
-      <p className="mt-1 text-[15px] text-ink-soft">Números de Lee Tu Biblia. Solo para vos.</p>
+  const navItems = NAV.map((it) => (it.id === 'buzon' && feedback?.length ? { ...it, badge: feedback.length } : it))
 
+  // Escritorio: sidebar a la derecha y el contenido en grilla de dashboard (filas
+  // de a dos secciones). Móvil: una columna con el menú de chips arriba.
+  return (
+    <div className="min-h-full bg-app">
       {o ? (
-        <AdminNav
-          items={NAV.map((it) => (it.id === 'buzon' && feedback?.length ? { ...it, badge: feedback.length } : it))}
+        <AdminSidebar
+          items={navItems}
           active={active}
           onSelect={goTo}
+          updatedAt={o.generated_at}
+          onRefresh={refreshAll}
+          refreshing={refreshing}
         />
       ) : null}
 
-      {error ? (
-        <div className="mt-8">
-          <RetryError message="No se pudo cargar el panel." onRetry={load} />
-          <p className="mt-3 break-words text-center text-[12px] text-placeholder">{error}</p>
-        </div>
-      ) : !o ? (
-        <p className="mt-10 text-[15px] text-ink-soft">Cargando…</p>
-      ) : (
-        <>
-          <Section id="usuarios" title="Usuarios">
-            <div className="grid grid-cols-2 gap-3">
-              <StatCard value={o.users.total} label="usuarios registrados" accent />
-              <StatCard value={o.installs.standalone_users} label="instalaron la app" hint="abrieron instalada" />
-              <StatCard value={o.users.new_7d} label="nuevos · 7 días" />
-              <StatCard value={o.users.new_30d} label="nuevos · 30 días" />
+      <div className={o ? 'lg:pr-[250px]' : ''}>
+        <div className="mx-auto max-w-[560px] px-5 pb-16 pt-6 lg:max-w-[1080px] lg:px-10 lg:pt-10">
+          <div className={o ? 'lg:hidden' : ''}>{back}</div>
+          <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink lg:mt-0 lg:text-[30px]">Panel</h1>
+          <p className="mt-1 text-[15px] text-ink-soft">Números de Lee Tu Biblia. Solo para vos.</p>
+
+          {o ? <AdminNav items={navItems} active={active} onSelect={goTo} /> : null}
+
+          {error ? (
+            <div className="mt-8">
+              <RetryError message="No se pudo cargar el panel." onRetry={load} />
+              <p className="mt-3 break-words text-center text-[12px] text-placeholder">{error}</p>
             </div>
-          </Section>
+          ) : !o ? (
+            <p className="mt-10 text-[15px] text-ink-soft">Cargando…</p>
+          ) : (
+            <>
+              <Section id="usuarios" title="Usuarios">
+                <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+                  <StatCard value={o.users.total} label="usuarios registrados" accent />
+                  <StatCard value={o.installs.standalone_users} label="instalaron la app" hint="abrieron instalada" />
+                  <StatCard value={o.users.new_7d} label="nuevos · 7 días" />
+                  <StatCard value={o.users.new_30d} label="nuevos · 30 días" />
+                </div>
+              </Section>
 
-          <Section id="activacion" title="Activación" subtitle="Del total registrado, cuántos avanzan.">
-            <div className="card p-4">
-              <BarList rows={funnel} empty="Sin usuarios todavía." />
-            </div>
-          </Section>
+              <Section id="actividad" title="Actividad">
+                <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+                  <StatCard value={o.active.d7} label="activos · 7 días" accent />
+                  <StatCard value={o.active.d30} label="activos · 30 días" />
+                  <StatCard value={o.dormant_14d} label="sin volver · 14+ días" hint="fueron activos y se enfriaron" />
+                  <StatCard value={o.users.with_reminder} label="con recordatorio" />
+                </div>
+                <div className="mt-3">
+                  <SignupsChart series={data.series} />
+                </div>
+              </Section>
 
-          <Section id="actividad" title="Actividad">
-            <div className="grid grid-cols-2 gap-3">
-              <StatCard value={o.active.d7} label="activos · 7 días" accent />
-              <StatCard value={o.active.d30} label="activos · 30 días" />
-              <StatCard value={o.dormant_14d} label="sin volver · 14+ días" hint="fueron activos y se enfriaron" />
-              <StatCard value={o.users.with_reminder} label="con recordatorio" />
-            </div>
-          </Section>
+              <div className="grid items-start gap-x-6 lg:grid-cols-2">
+                <Section id="activacion" title="Activación" subtitle="Del total registrado, cuántos avanzan.">
+                  <div className="card p-4">
+                    <BarList rows={funnel} empty="Sin usuarios todavía." />
+                  </div>
+                </Section>
 
-          <div className="mt-4">
-            <SignupsChart series={data.series} />
-          </div>
+                <Section
+                  id="onboarding"
+                  title="Onboarding"
+                  subtitle="Dispositivos por paso, últimos 30 días. Se mide desde el 17/10/2026."
+                >
+                  <OnboardingFunnel rows={obFunnel} error={obFunnelError} onRetry={loadObFunnel} />
+                </Section>
+              </div>
 
-          <Section id="constancia" title="Constancia" subtitle="Usuarios por cantidad de días leídos.">
-            <div className="card p-4">
-              <BarList
-                empty="Nadie leyó todavía."
-                rows={[
-                  { label: 'Nunca leyeron', value: o.constancy.d0 },
-                  { label: '1 a 6 días', value: o.constancy.d1_6 },
-                  { label: '7 a 29 días', value: o.constancy.d7_29 },
-                  { label: '30+ días', value: o.constancy.d30p },
-                ]}
-              />
-            </div>
-          </Section>
+              <div className="grid items-start gap-x-6 lg:grid-cols-2">
+                <Section id="constancia" title="Constancia" subtitle="Usuarios por cantidad de días leídos.">
+                  <div className="card p-4">
+                    <BarList
+                      empty="Nadie leyó todavía."
+                      rows={[
+                        { label: 'Nunca leyeron', value: o.constancy.d0 },
+                        { label: '1 a 6 días', value: o.constancy.d1_6 },
+                        { label: '7 a 29 días', value: o.constancy.d7_29 },
+                        { label: '30+ días', value: o.constancy.d30p },
+                      ]}
+                    />
+                  </div>
+                </Section>
 
-          <Section id="planes" title="Salud de planes" subtitle="Tasa = terminados ÷ empezados.">
-            <PlansHealth rows={o.plans_health} />
-          </Section>
+                <Section id="plataforma" title="Plataforma e instalación">
+                  <div className="card p-4">
+                    <BarList empty="Sin datos todavía." rows={platformRows} />
+                    <p
+                      className="mt-4 border-t pt-3 text-[13px] text-ink-soft"
+                      style={{ borderColor: 'var(--hairline)' }}
+                    >
+                      {o.installs.standalone_users} instalada · {o.installs.browser_only} solo navegador ·{' '}
+                      {o.installs.total_opens} aperturas
+                    </p>
+                  </div>
+                </Section>
+              </div>
 
-          <Section id="plataforma" title="Plataforma e instalación">
-            <div className="card p-4">
-              <BarList empty="Sin datos todavía." rows={platformRows} />
-              <p className="mt-4 border-t pt-3 text-[13px] text-ink-soft" style={{ borderColor: 'var(--hairline)' }}>
-                {o.installs.standalone_users} instalada · {o.installs.browser_only} solo navegador ·{' '}
-                {o.installs.total_opens} aperturas
+              <Section id="planes" title="Salud de planes" subtitle="Tasa = terminados ÷ empezados.">
+                <PlansHealth rows={o.plans_health} />
+              </Section>
+
+              <div className="grid items-start gap-x-6 lg:grid-cols-2">
+                <Section id="geografia" title="Países" subtitle="Se llena desde el próximo deploy.">
+                  <div className="card p-4">
+                    <BarList
+                      empty="Sin datos de país todavía."
+                      rows={(o.countries || []).map((c) => ({
+                        label: c.country === '—' ? 'Sin registrar' : c.country,
+                        lead: flag(c.country),
+                        value: c.users,
+                      }))}
+                    />
+                  </div>
+                </Section>
+
+                <Section title="Geografía por timezone" subtitle="Aproximación retroactiva, hasta que el país se acumule.">
+                  <div className="card p-4">
+                    <BarList
+                      empty="Sin timezones registrados."
+                      rows={(o.timezones || []).map((t) => ({ label: prettyTz(t.tz), value: t.users }))}
+                    />
+                  </div>
+                </Section>
+              </div>
+
+              <Section id="comunidad" title="Comunidad y hábito">
+                <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
+                  <StatCard value={o.engagement.groups} label="grupos" />
+                  <StatCard value={o.engagement.group_members} label="miembros en grupos" />
+                  <StatCard
+                    value={o.engagement.prayers}
+                    label="oraciones"
+                    hint={`${o.engagement.prayers_answered} respondidas`}
+                  />
+                  <StatCard value={o.engagement.plans_completed} label="planes terminados" />
+                  <StatCard value={o.diary.users} label="escribieron diario" hint={`${o.diary.enabled} con diario activo`} />
+                  <StatCard value={o.installs.push_devices} label="dispositivos con push" />
+                </div>
+              </Section>
+
+              <Section
+                id="buzon"
+                title="Sugerencias y errores"
+                subtitle="Lo que mandaron desde Ajustes › Quién hace la app."
+              >
+                <FeedbackInbox rows={feedback} error={feedbackError} onRetry={loadFeedback} />
+              </Section>
+
+              <p className="mt-10 text-center text-[12px] text-placeholder lg:hidden">
+                Actualizado {new Date(o.generated_at).toLocaleString('es-ES')}
               </p>
-            </div>
-          </Section>
-
-          <Section id="geografia" title="Países" subtitle="Se llena desde el próximo deploy.">
-            <div className="card p-4">
-              <BarList
-                empty="Sin datos de país todavía."
-                rows={(o.countries || []).map((c) => ({
-                  label: c.country === '—' ? 'Sin registrar' : c.country,
-                  lead: flag(c.country),
-                  value: c.users,
-                }))}
-              />
-            </div>
-          </Section>
-
-          <Section title="Geografía por timezone" subtitle="Aproximación retroactiva, hasta que el país se acumule.">
-            <div className="card p-4">
-              <BarList
-                empty="Sin timezones registrados."
-                rows={(o.timezones || []).map((t) => ({ label: prettyTz(t.tz), value: t.users }))}
-              />
-            </div>
-          </Section>
-
-          <Section id="comunidad" title="Comunidad y hábito">
-            <div className="grid grid-cols-2 gap-3">
-              <StatCard value={o.engagement.groups} label="grupos" />
-              <StatCard value={o.engagement.group_members} label="miembros en grupos" />
-              <StatCard value={o.engagement.prayers} label="oraciones" hint={`${o.engagement.prayers_answered} respondidas`} />
-              <StatCard value={o.engagement.plans_completed} label="planes terminados" />
-              <StatCard value={o.diary.users} label="escribieron diario" hint={`${o.diary.enabled} con diario activo`} />
-              <StatCard value={o.installs.push_devices} label="dispositivos con push" />
-            </div>
-          </Section>
-
-          <Section id="buzon" title="Sugerencias y errores" subtitle="Lo que mandaron desde Ajustes › Quién hace la app.">
-            <FeedbackInbox rows={feedback} error={feedbackError} onRetry={loadFeedback} />
-          </Section>
-
-          <p className="mt-10 text-center text-[12px] text-placeholder">
-            Actualizado {new Date(o.generated_at).toLocaleString('es-ES')}
-          </p>
-        </>
-      )}
+            </>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
