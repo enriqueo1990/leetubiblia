@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { usePreferences } from '../lib/preferences.jsx'
 import { getPlans } from '../lib/db.js'
 import { planName, planDescription } from '../lib/planLabels.js'
+import planMinutes from '../data/planMinutes.json'
 import { SkeletonCards } from './Skeleton.jsx'
 import ResumeFromDay from './ResumeFromDay.jsx'
 import RetryError from './RetryError.jsx'
@@ -83,6 +84,12 @@ export default function PlanCatalog({
               </div>
               {p.description && (
                 <p className="mt-1 text-[15px] text-ink-soft">{planDescription(t, p)}</p>
+              )}
+              {/* Cuánto lleva por día (estimado, scripts/plan-minutes.mjs). */}
+              {planMinutes[p.slug] && (
+                <p className="mt-1 text-[13px] text-ink-soft">
+                  {t('planes.minutesPerDay', { n: planMinutes[p.slug] })}
+                </p>
               )}
               {/* Una sola sugerencia: si todos son "recomendados", ninguno orienta. */}
               {!showAll && p.id === recommendedIds[0] && (

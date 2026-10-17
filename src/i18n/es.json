@@ -167,8 +167,8 @@
   "onboarding.auth.exploreContinue": "Continuar",
   "onboarding.auth.exploreLater": "Prefiero decidir después",
   "onboarding.auth.signupForPlan": "Así guardamos tu avance en {plan}.",
-  "onboarding.auth.signupForGroup": "Con tu cuenta entrás a {group}.",
-  "onboarding.auth.inviteTitle": "Te invitaron al grupo {group}",
+  "onboarding.auth.signupForGroup": "Con tu cuenta entrás a «{group}».",
+  "onboarding.auth.inviteTitle": "Te invitaron a «{group}»",
   "onboarding.auth.inviteMembers": "Ya hay {count} personas leyendo juntas",
   "onboarding.auth.inviteCta": "Crear cuenta para unirme",
   "onboarding.auth.haveAccount": "Ya tengo cuenta",
@@ -430,6 +430,7 @@
   "recorrido.noPlansYet": "Todavía no terminaste un plan, pero vas en camino. Cuando completes uno, va a quedar acá.",
 
   "planes.subtitle": "Un plan activo a la vez.",
+  "planes.minutesPerDay": "≈ {n} min por día",
   "planes.loadError": "No se pudieron cargar los planes.",
   "planes.active": "Activo",
   "planes.yourPlan": "Tu plan",

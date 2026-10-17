@@ -18,7 +18,7 @@
 
 import { readFileSync, existsSync, writeFileSync, mkdirSync } from 'node:fs'
 import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { parseDay } from './usfm.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -30,7 +30,7 @@ const outFile = join(root, 'supabase', 'migrations', '0003_seed_plans.sql')
 const q = (s) => `'${String(s).replace(/'/g, "''")}'`
 
 // Catálogo de lanzamiento (documento maestro Tarea 2 / README pantalla 3).
-const PLANS = [
+export const PLANS = [
   {
     slug: 'mcheyne',
     name: "M'Cheyne",
@@ -125,7 +125,7 @@ const PLANS = [
 ]
 
 // Genera los días de un plan. Devuelve [{ day_number, refs }] o null si falta fuente.
-function buildDays(plan) {
+export function buildDays(plan) {
   if (plan.source === 'proverbios') {
     return Array.from({ length: 31 }, (_, i) => ({
       day_number: i + 1,
@@ -224,4 +224,5 @@ function main() {
   }
 }
 
-main()
+// Solo al ejecutarlo directo: scripts/plan-minutes.mjs importa PLANS y buildDays.
+if (import.meta.url === pathToFileURL(process.argv[1]).href) main()

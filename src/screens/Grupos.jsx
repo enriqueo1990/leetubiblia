@@ -61,8 +61,13 @@ function CreateGroupSheet({ onClose, onCreated, online = true }) {
   const nameRef = useRef(null)
 
   useEffect(() => {
-    const id = setTimeout(() => nameRef.current?.focus(), 350)
+    // Sin nombre, el foco va primero a "Tu nombre".
+    const id = setTimeout(
+      () => (needsName ? document.getElementById('my-name') : nameRef.current)?.focus(),
+      350
+    )
     return () => clearTimeout(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   async function submit() {
@@ -130,8 +135,13 @@ function JoinGroupSheet({ onClose, onJoined, online = true }) {
   const codeRef = useRef(null)
 
   useEffect(() => {
-    const id = setTimeout(() => codeRef.current?.focus(), 350)
+    // Sin nombre, el foco va primero a "Tu nombre".
+    const id = setTimeout(
+      () => (needsName ? document.getElementById('my-name') : codeRef.current)?.focus(),
+      350
+    )
     return () => clearTimeout(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   async function submit() {

@@ -7,7 +7,7 @@ import { savePendingPlan } from '../../lib/pendingPlan.js'
 import PlanCatalog from '../../components/PlanCatalog.jsx'
 import { classifySendError } from '../../lib/authErrors.js'
 import { BookIcon, ShareIcon } from '../../components/icons.jsx'
-import { isIOSBrowser, isInAppBrowser } from '../../lib/platform.js'
+import { isIOS, isIOSBrowser, isInAppBrowser, isStandalone } from '../../lib/platform.js'
 import { recordFunnel } from '../../lib/diag.js'
 
 // Bienvenida + auth por código de email (documento maestro §5.8, README pantalla 8).
@@ -78,8 +78,12 @@ export default function AuthFlow() {
 
   // Embudo de onboarding (/admin): cada pantalla cuenta una vez por dispositivo.
   // Quien vuelve con la sesión vencida no es una persona nueva: no se cuenta.
+  // La app instalada en iPhone tampoco cuenta la bienvenida: para instalarla hubo
+  // que pasar por el navegador, que ya la contó (con otro id, porque no
+  // comparten almacenamiento) y la persona aparecería dos veces.
   useEffect(() => {
-    if (step === 'welcome' && !sessionExpired) recordFunnel('ob_welcome', { invite: Boolean(inviteCode) })
+    const countWelcome = !sessionExpired && !(isIOS() && isStandalone())
+    if (step === 'welcome' && countWelcome) recordFunnel('ob_welcome', { invite: Boolean(inviteCode) })
     if (step === 'install') recordFunnel('ob_install_step', { in_app: isInAppBrowser() })
     if (step === 'explore') recordFunnel('ob_explore')
   }, [step, sessionExpired, inviteCode])
