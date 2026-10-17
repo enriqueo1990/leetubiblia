@@ -20,3 +20,21 @@ export function shortDay(s, withWeekday = false) {
     month: 'short',
   })
 }
+
+// Nombre del país en español a partir del ISO-2 ('—' u otro → 'Sin registrar').
+const regionNames = (() => {
+  try {
+    return new Intl.DisplayNames(['es'], { type: 'region' })
+  } catch {
+    return null
+  }
+})()
+
+export function countryName(code) {
+  if (!/^[A-Z]{2}$/.test(code)) return 'Sin registrar'
+  try {
+    return regionNames?.of(code) || code
+  } catch {
+    return code
+  }
+}

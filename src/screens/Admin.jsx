@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import {
@@ -10,7 +10,10 @@ import {
 import RetryError from '../components/RetryError.jsx'
 import Segmented from '../components/Segmented.jsx'
 import { AreaChart, ColumnChart, Delta, Meter } from './admin/charts.jsx'
-import { formatCount, shortDay } from './admin/format.js'
+import { countryName, formatCount, shortDay } from './admin/format.js'
+import WorldMap from './admin/WorldMap.jsx'
+import tzCountry from './admin/tzCountry.json'
+import './admin/admin.css'
 import { BookIcon, HeartIcon, PeopleIcon, RefreshIcon } from '../components/icons.jsx'
 
 // Panel privado del dueño (/admin). No aparece en la navegación: se entra por URL
@@ -33,10 +36,6 @@ function pct(part, total) {
 
 const PLATFORM_LABEL = { ios: 'iPhone / iPad', android: 'Android', desktop: 'Escritorio', '—': 'Sin registrar' }
 
-function prettyTz(tz) {
-  if (tz === '—') return 'Sin registrar'
-  return tz.replace(/_/g, ' ').replace('/', ' · ')
-}
 
 // Ficha de un número. children: lo que lo pone en contexto (variación contra el
 // período anterior, medidor contra el total).
@@ -504,37 +503,140 @@ function SignupsChart({ series }) {
   )
 }
 
-// Salud por plan: empezaron, terminados (tasa) y día promedio de freno.
+// Salud por plan: de quienes lo empezaron, cuántos terminaron, siguen o lo
+// dejaron. Barra apilada en la escala ordinal (más oscuro = mejor desenlace),
+// con todos los números escritos debajo: el hover solo resalta el tramo.
+const PLAN_STATES = [
+  { key: 'done', label: 'Terminaron', color: 'var(--ramp-3)' },
+  { key: 'active', label: 'En curso', color: 'var(--ramp-2)' },
+  { key: 'left', label: 'Lo dejaron', color: 'var(--ramp-1)' },
+]
+
+// "Empezaron" incluye a quien lo tiene activo; un plan terminado puede seguir
+// activo (lo repite), así que los tramos se recortan para no contar dos veces.
+function planStates(p) {
+  const done = Math.min(p.completions, p.started)
+  const active = Math.min(p.active_now, Math.max(0, p.started - done))
+  return { done, active, left: Math.max(0, p.started - done - active) }
+}
+
 function PlansHealth({ rows }) {
+  const [hover, setHover] = useState(null) // `${slug}:${key}`
   if (!rows || rows.length === 0) {
     return <p className="text-[15px] text-ink-soft">Sin planes todavía.</p>
   }
   return (
-    <ul className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-      {rows.map((p) => {
-        const rate = pct(p.completions, p.started)
-        return (
-          <li key={p.slug} className="card p-4">
-            <div className="flex items-baseline justify-between gap-3">
-              <p className="min-w-0 flex-1 truncate text-[16px] font-semibold text-ink">{p.name}</p>
-              <span className="shrink-0 text-[14px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
-                {rate}%
-              </span>
-            </div>
-            <div className="mt-2 h-[6px] rounded-full" style={{ backgroundColor: 'var(--surface-alt)' }}>
-              <div
-                className="h-full rounded-full"
-                style={{ width: `${rate}%`, backgroundColor: 'var(--accent)' }}
-              />
-            </div>
-            <p className="mt-2 text-[13px] text-ink-soft">
-              {p.started} empezaron · {p.completions} terminaron · {p.active_now} activos ahora
-              {p.stall_day ? ` · se frenan ~día ${p.stall_day}` : ''}
-            </p>
+    <div className="card p-4 lg:p-5">
+      <ul className="flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-ink-soft" aria-label="Referencias">
+        {PLAN_STATES.map((st) => (
+          <li key={st.key} className="flex items-center gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-[3px]" style={{ backgroundColor: st.color }} />
+            {st.label}
           </li>
-        )
-      })}
-    </ul>
+        ))}
+      </ul>
+      <ul className="mt-4 grid grid-cols-1 gap-x-8 gap-y-5 lg:grid-cols-2">
+        {rows.map((p) => {
+          const parts = planStates(p)
+          return (
+            <li key={p.slug} className="min-w-0">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="min-w-0 flex-1 truncate text-[15px] font-semibold text-ink">{p.name}</p>
+                {p.started ? (
+                  <p className="shrink-0 text-[13px] text-ink-soft">
+                    <span className="font-semibold text-ink tabular-nums">{pct(parts.done, p.started)}%</span> terminaron
+                  </p>
+                ) : null}
+              </div>
+              <div
+                className="mt-1.5 flex h-[12px] gap-[2px] overflow-hidden rounded-r-[4px]"
+                style={{ backgroundColor: p.started ? 'transparent' : 'var(--surface-alt)' }}
+                onPointerLeave={() => setHover(null)}
+              >
+                {PLAN_STATES.map((st) =>
+                  parts[st.key] ? (
+                    <div
+                      key={st.key}
+                      className="h-full transition-opacity duration-150"
+                      style={{
+                        flexGrow: parts[st.key],
+                        flexBasis: 0,
+                        backgroundColor: st.color,
+                        opacity: hover && hover !== `${p.slug}:${st.key}` ? 0.4 : 1,
+                      }}
+                      onPointerEnter={() => setHover(`${p.slug}:${st.key}`)}
+                      title={`${parts[st.key]} ${st.label.toLowerCase()} (${pct(parts[st.key], p.started)}%)`}
+                    />
+                  ) : null,
+                )}
+              </div>
+              <p className="mt-1.5 text-[13px] text-ink-soft tabular-nums">
+                {p.started
+                  ? `${p.started} empezaron · ${parts.done} terminaron · ${parts.active} en curso · ${parts.left} lo dejaron`
+                  : 'Nadie lo empezó todavía'}
+                {p.stall_day ? ` · se frenan ~día ${p.stall_day}` : ''}
+              </p>
+            </li>
+          )
+        })}
+      </ul>
+    </div>
+  )
+}
+
+// Geografía: mapa + ranking. "País" sale de la IP al abrir la app (exacto, pero
+// solo desde que se empezó a registrar); "Zona horaria" lo aproxima con la zona
+// guardada en cada perfil, que cubre a todos. Se arranca por la que tenga datos.
+const GEO_OPTIONS = [
+  { key: 'country', label: 'País' },
+  { key: 'tz', label: 'Zona horaria' },
+]
+const isCountry = (cc) => /^[A-Z]{2}$/.test(cc)
+
+function Geography({ countries, timezones }) {
+  const [mode, setMode] = useState(() => ((countries || []).some((c) => isCountry(c.country)) ? 'country' : 'tz'))
+  const { counts, unknown } = useMemo(() => {
+    const acc = {}
+    let none = 0
+    const add = (cc, n) => (cc ? (acc[cc] = (acc[cc] || 0) + n) : (none += n))
+    if (mode === 'country') for (const c of countries || []) add(isCountry(c.country) ? c.country : null, c.users)
+    else for (const t of timezones || []) add(tzCountry[t.tz] || null, t.users)
+    return { counts: acc, unknown: none }
+  }, [mode, countries, timezones])
+
+  const ranked = Object.entries(counts).sort((a, b) => b[1] - a[1])
+  const located = ranked.reduce((sum, [, n]) => sum + n, 0)
+  const TOP = 8
+  const rest = ranked.slice(TOP).reduce((sum, [, n]) => sum + n, 0)
+  const rows = [
+    ...ranked.slice(0, TOP).map(([cc, n]) => ({
+      lead: flag(cc),
+      label: countryName(cc),
+      value: n,
+      note: `${pct(n, located)}%`,
+    })),
+    ...(rest ? [{ label: `Otros ${ranked.length - TOP} países`, value: rest, note: `${pct(rest, located)}%` }] : []),
+  ]
+
+  return (
+    <div className="card p-4 lg:p-5">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-[13px] text-ink-soft">
+          <span className="font-semibold text-ink">{ranked.length}</span> {ranked.length === 1 ? 'país' : 'países'} ·{' '}
+          {formatCount(located)} usuarios ubicados{unknown ? ` · ${formatCount(unknown)} sin registrar` : ''}
+        </p>
+        <Segmented className="w-full sm:w-[280px]" label="Fuente de la ubicación" value={mode} onChange={setMode} options={GEO_OPTIONS} />
+      </div>
+      <div className="mt-4 grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1.8fr)_minmax(0,1fr)]">
+        <WorldMap counts={counts} ariaLabel={`Mapa de usuarios por país (${mode === 'country' ? 'por IP' : 'por zona horaria'})`} />
+        <BarList rows={rows} empty={mode === 'country' ? 'Sin datos de país todavía.' : 'Sin zonas horarias registradas.'} />
+      </div>
+      <p className="mt-4 text-[12px] text-placeholder">
+        {mode === 'country'
+          ? 'Por la IP al abrir la app. Cuenta desde que se empezó a registrar el país.'
+          : 'Aproximado por la zona horaria del perfil. Cubre a todos, incluso a quien no volvió a abrir la app.'}
+      </p>
+    </div>
   )
 }
 
@@ -896,45 +998,50 @@ export default function Admin() {
                 </Section>
               </div>
 
-              <Section id="planes" title="Salud de planes" subtitle="Tasa = terminados ÷ empezados.">
+              <Section id="planes" title="Salud de planes" subtitle="De quienes empezaron cada plan: cuántos lo terminaron, siguen o lo dejaron.">
                 <PlansHealth rows={o.plans_health} />
               </Section>
 
-              <div className="grid grid-cols-1 items-start gap-x-6 lg:grid-cols-2">
-                <Section id="geografia" title="Países" subtitle="Se llena desde el próximo deploy.">
-                  <div className="card p-4">
-                    <BarList
-                      empty="Sin datos de país todavía."
-                      rows={(o.countries || []).map((c) => ({
-                        label: c.country === '—' ? 'Sin registrar' : c.country,
-                        lead: flag(c.country),
-                        value: c.users,
-                      }))}
-                    />
-                  </div>
-                </Section>
-
-                <Section title="Geografía por timezone" subtitle="Aproximación retroactiva, hasta que el país se acumule.">
-                  <div className="card p-4">
-                    <BarList
-                      empty="Sin timezones registrados."
-                      rows={(o.timezones || []).map((t) => ({ label: prettyTz(t.tz), value: t.users }))}
-                    />
-                  </div>
-                </Section>
-              </div>
+              <Section id="geografia" title="Geografía" subtitle="Dónde están los usuarios. Tocá un país para ver cuántos hay.">
+                <Geography countries={o.countries} timezones={o.timezones} />
+              </Section>
 
               <Section id="comunidad" title="Comunidad y hábito">
                 <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-                  <StatCard value={o.engagement.groups} label="grupos" />
-                  <StatCard value={o.engagement.group_members} label="miembros en grupos" />
+                  <StatCard
+                    value={o.engagement.groups}
+                    label="grupos"
+                    hint={
+                      o.engagement.groups
+                        ? `${(o.engagement.group_members / o.engagement.groups).toLocaleString('es-ES', { maximumFractionDigits: 1 })} miembros por grupo`
+                        : null
+                    }
+                  />
+                  <StatCard
+                    value={o.engagement.group_members}
+                    label="miembros en grupos"
+                    hint={`${pct(o.engagement.group_members, o.users.total)}% de los registrados`}
+                  >
+                    <Meter ratio={o.users.total ? o.engagement.group_members / o.users.total : 0} label="Miembros en grupos" />
+                  </StatCard>
                   <StatCard
                     value={o.engagement.prayers}
                     label="oraciones"
-                    hint={`${o.engagement.prayers_answered} respondidas`}
-                  />
+                    hint={`${o.engagement.prayers_answered} respondidas · ${pct(o.engagement.prayers_answered, o.engagement.prayers)}%`}
+                  >
+                    <Meter
+                      ratio={o.engagement.prayers ? o.engagement.prayers_answered / o.engagement.prayers : 0}
+                      label="Oraciones respondidas"
+                    />
+                  </StatCard>
+                  <StatCard
+                    value={o.diary.users}
+                    label="escribieron diario"
+                    hint={`de ${o.diary.enabled} con diario activo · ${pct(o.diary.users, o.diary.enabled)}%`}
+                  >
+                    <Meter ratio={o.diary.enabled ? o.diary.users / o.diary.enabled : 0} label="Escribieron diario" />
+                  </StatCard>
                   <StatCard value={o.engagement.plans_completed} label="planes terminados" />
-                  <StatCard value={o.diary.users} label="escribieron diario" hint={`${o.diary.enabled} con diario activo`} />
                   <StatCard value={o.installs.push_devices} label="dispositivos con push" />
                 </div>
               </Section>

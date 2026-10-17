@@ -1,0 +1,29 @@
+/*
+ * Escala ordinal del panel (/admin): tres pasos de un solo tono, el acento del
+ * usuario, de "poco" (--ramp-1) a "mucho" (--ramp-3). La usan el mapa y las
+ * barras apiladas de planes.
+ *
+ * Claro: arranca en el acento y oscurece hacia el texto. Oscuro: los acentos
+ * pastel ya son claros y no hay margen para aclarar, así que la escala sube
+ * desde el fondo hasta el acento. Validada con los 8 acentos en ambos modos
+ * (lightness monótona, saltos visibles, el paso más suave ≥ 2:1 sobre la card).
+ */
+:root {
+  --ramp-1: var(--accent);
+  --ramp-2: color-mix(in srgb, var(--accent) 70%, var(--text-primary));
+  --ramp-3: color-mix(in srgb, var(--accent) 40%, var(--text-primary));
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --ramp-1: color-mix(in srgb, var(--accent) 50%, var(--surface));
+    --ramp-2: color-mix(in srgb, var(--accent) 75%, var(--surface));
+    --ramp-3: var(--accent);
+  }
+}
+
+:root.dark {
+  --ramp-1: color-mix(in srgb, var(--accent) 50%, var(--surface));
+  --ramp-2: color-mix(in srgb, var(--accent) 75%, var(--surface));
+  --ramp-3: var(--accent);
+}
