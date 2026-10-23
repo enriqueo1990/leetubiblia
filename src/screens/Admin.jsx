@@ -6,12 +6,15 @@ import {
   getAdminSignupsSeries,
   getAdminFeedback,
   getAdminOnboardingFunnel,
+  getAdminStoreSignals,
+  getDonationGoal,
 } from '../lib/db.js'
 import RetryError from '../components/RetryError.jsx'
 import Segmented from '../components/Segmented.jsx'
 import { AreaChart, ColumnChart, Delta, Meter } from './admin/charts.jsx'
 import { countryName, formatCount, shortDay } from './admin/format.js'
 import WorldMap from './admin/WorldMap.jsx'
+import { StoreSignals, GoalEditor } from './admin/StoreSection.jsx'
 import tzCountry from './admin/tzCountry.json'
 import './admin/admin.css'
 import { BookIcon, HeartIcon, PeopleIcon, RefreshIcon } from '../components/icons.jsx'
@@ -181,6 +184,12 @@ const GlobeIcon = (p) => (
     <path d="M3.5 12h17M12 3.5c2.3 2.4 3.4 5.2 3.4 8.5s-1.1 6.1-3.4 8.5c-2.3-2.4-3.4-5.2-3.4-8.5s1.1-6.1 3.4-8.5Z" />
   </PanelIcon>
 )
+const StoreIcon = (p) => (
+  <PanelIcon {...p}>
+    <path d="M5 8h14l-1.2 10.6a1.5 1.5 0 0 1-1.5 1.4H7.7a1.5 1.5 0 0 1-1.5-1.4L5 8Z" />
+    <path d="M9 10V7a3 3 0 0 1 6 0v3" />
+  </PanelIcon>
+)
 const BackIcon = (p) => (
   <PanelIcon {...p}>
     <path d="M19 12H5M11 6l-6 6 6 6" />
@@ -202,6 +211,7 @@ const NAV = [
   { id: 'onboarding', label: 'Onboarding', Icon: DoorIcon },
   { id: 'constancia', label: 'Constancia', Icon: CalendarIcon },
   { id: 'plataforma', label: 'Plataforma', Icon: PhoneIcon },
+  { id: 'tiendas', label: 'Tiendas', Icon: StoreIcon },
   { id: 'planes', label: 'Planes', Icon: BookIcon },
   { id: 'geografia', label: 'Geografía', Icon: GlobeIcon },
   { id: 'comunidad', label: 'Comunidad', Icon: HeartIcon },
@@ -760,6 +770,8 @@ export default function Admin() {
   const [feedbackError, setFeedbackError] = useState(null) // string | null
   const [obFunnel, setObFunnel] = useState(null) // filas { step, devices } | null (cargando)
   const [obFunnelError, setObFunnelError] = useState(null) // string | null
+  const [store, setStore] = useState(null) // { signals, goal } | null (cargando)
+  const [storeError, setStoreError] = useState(null) // string | null
   const isAdmin = user?.email === ADMIN_EMAIL
   const [active, setActive] = useActiveSection(NAV_IDS, Boolean(data))
 
@@ -792,13 +804,25 @@ export default function Admin() {
     }
   }, [])
 
+  // Tiendas (migración 0036): también aparte, por la misma razón.
+  const loadStore = useCallback(async () => {
+    setStoreError(null)
+    try {
+      const [signals, goal] = await Promise.all([getAdminStoreSignals(), getDonationGoal('stores')])
+      setStore({ signals, goal })
+    } catch (e) {
+      setStoreError(e?.message || e?.hint || String(e))
+    }
+  }, [])
+
   useEffect(() => {
     if (isAdmin) {
       load()
       loadFeedback()
       loadObFunnel()
+      loadStore()
     }
-  }, [isAdmin, load, loadFeedback, loadObFunnel])
+  }, [isAdmin, load, loadFeedback, loadObFunnel, loadStore])
 
   const goTo = useCallback(
     (id, smooth = true) => {
@@ -822,9 +846,9 @@ export default function Admin() {
   const [refreshing, setRefreshing] = useState(false)
   const refreshAll = useCallback(async () => {
     setRefreshing(true)
-    await Promise.all([load(), loadFeedback(), loadObFunnel()])
+    await Promise.all([load(), loadFeedback(), loadObFunnel(), loadStore()])
     setRefreshing(false)
-  }, [load, loadFeedback, loadObFunnel])
+  }, [load, loadFeedback, loadObFunnel, loadStore])
 
   const back = (
     <Link to="/" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
@@ -997,6 +1021,23 @@ export default function Admin() {
                   </div>
                 </Section>
               </div>
+
+              <Section
+                id="tiendas"
+                title="Tiendas"
+                subtitle="Para decidir si pagar App Store y Play Store: uso real por plataforma y la meta que debería costearlas."
+              >
+                <div className="grid grid-cols-1 items-start gap-x-6 gap-y-3 lg:grid-cols-2">
+                  <StoreSignals data={store?.signals} error={storeError} onRetry={loadStore} />
+                  <GoalEditor
+                    goal={store?.goal}
+                    funnel={store?.signals?.goal_funnel}
+                    error={storeError}
+                    onRetry={loadStore}
+                    onSaved={(goal) => setStore((prev) => ({ ...prev, goal }))}
+                  />
+                </div>
+              </Section>
 
               <Section id="planes" title="Salud de planes" subtitle="De quienes empezaron cada plan: cuántos lo terminaron, siguen o lo dejaron.">
                 <PlansHealth rows={o.plans_health} />

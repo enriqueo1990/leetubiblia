@@ -9,7 +9,8 @@ import { supabase } from './supabase.js'
 //
 // Desde la migración 0035 también lleva el embudo de onboarding (eventos 'ob_*',
 // ver recordFunnel): un paso por dispositivo, para ver en /admin dónde se cae la
-// gente antes de su primera lectura.
+// gente antes de su primera lectura. Y desde la 0036, la meta de donación
+// ('goal_*'): cuántos dispositivos la vieron, la abrieron y tocaron un link.
 
 const QUEUE_KEY = 'ltb.diag.queue'
 const OPEN_KEY = 'ltb.diag.openDay' // dedupe diario de 'app_open'
@@ -18,8 +19,10 @@ const FUNNEL_SEEN_KEY = 'ltb.diag.funnel' // pasos del embudo ya registrados en 
 
 // Los eventos que el servidor acepta desde siempre. Se envían en un lote aparte de
 // los del embudo: si la migración 0035 todavía no está aplicada, el servidor
-// rechaza los 'ob_*' y eso no debe trabar las aperturas.
+// rechaza los 'ob_*' y eso no debe trabar las aperturas. Por lo mismo, cada familia
+// posterior ('ob', 'goal') viaja en su propio lote.
 const CORE_EVENTS = new Set(['app_open', 'boot_reload', 'profile_retry', 'getsession_slow'])
+const eventFamily = (event) => (CORE_EVENTS.has(event) ? 'core' : event.split('_')[0])
 
 function isStandalone() {
   try {
@@ -145,10 +148,12 @@ async function doFlush() {
     user_agent: ua,
   })
 
-  const batches = [
-    queue.filter((e) => CORE_EVENTS.has(e.event)),
-    queue.filter((e) => !CORE_EVENTS.has(e.event)),
-  ].filter((b) => b.length)
+  const byFamily = new Map()
+  for (const e of queue) {
+    const f = eventFamily(e.event)
+    byFamily.set(f, [...(byFamily.get(f) || []), e])
+  }
+  const batches = [...byFamily.values()]
 
   const sent = new Set()
   for (const batch of batches) {

@@ -32,6 +32,9 @@ import ReflectionSheet from '../components/ReflectionSheet.jsx'
 import TodayExtras from '../components/TodayExtras.jsx'
 import ReminderOffer from '../components/ReminderOffer.jsx'
 import { canOfferReminder, wasReminderOfferDismissed } from '../lib/reminderOffer.js'
+import GoalOffer from '../components/GoalOffer.jsx'
+import { goalMoment, wasGoalMomentSeen } from '../lib/goalOffer.js'
+import { useDonationGoal } from '../hooks/useDonationGoal.js'
 import { isIOSBrowser } from '../lib/platform.js'
 
 // Pantalla Hoy — la cara de la app (documento maestro §5.1, README pantalla 1).
@@ -80,6 +83,9 @@ export default function Hoy() {
   // (reminder_enabled) y la tarjeta debe quedarse para mostrar la confirmación.
   const [reminderOfferClosed, setReminderOfferClosed] = useState(() => wasReminderOfferDismissed(user?.id))
   const [reminderOfferSticky, setReminderOfferSticky] = useState(false)
+  // Meta de donación (tiendas): se pide en un momento de gratitud, una vez por momento.
+  const donationGoal = useDonationGoal()
+  const [goalOfferClosed, setGoalOfferClosed] = useState(false)
 
   // Lectura adelantada ("seguir leyendo"): sin mover el calendario, mostramos el
   // contenido de un día futuro y dejamos marcarlo. aheadDay = null → viendo hoy.
@@ -365,6 +371,18 @@ export default function Hoy() {
     !justMarked &&
     !installCardDismissed &&
     !showReminderOffer
+  // Meta de donación: la de menor prioridad. Con el plan terminado, bajo el
+  // festejo; si no, tras marcar el día y pasado el respiro, como el recordatorio.
+  const moment = goalMoment({ planFinished: r.planFinished, streak: r.streak })
+  const showGoalOffer =
+    Boolean(donationGoal) &&
+    !goalOfferClosed &&
+    moment != null &&
+    !wasGoalMomentSeen(user?.id, moment) &&
+    (r.planFinished || (doneShown && !viewingAhead && (!justMarked || breathDone))) &&
+    !showReminderOffer &&
+    !showInstallCard &&
+    !showIOSInstallCard
   // ¿El día mostrado va por delante de la fecha de hoy? (ancla adelantada o sesión)
   const aheadOfToday = dayShown != null && r.todayDay != null && dayShown > r.todayDay
 
@@ -673,6 +691,15 @@ export default function Hoy() {
             setReminderOfferSticky(false)
             setReminderOfferClosed(true)
           }}
+        />
+      )}
+
+      {showGoalOffer && (
+        <GoalOffer
+          goal={donationGoal}
+          moment={moment}
+          streak={r.streak}
+          onClose={() => setGoalOfferClosed(true)}
         />
       )}
 

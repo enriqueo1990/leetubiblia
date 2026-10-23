@@ -34,3 +34,28 @@ export function isInAppBrowser() {
   if (typeof navigator === 'undefined') return false
   return /FBAN|FBAV|FB_IAB|Instagram|Line\/|TikTok|musical_ly|Snapchat/i.test(navigator.userAgent)
 }
+
+// ¿Corre como app de tienda? Android: la TWA de Play abre con ?source=twa (lo fija
+// su twa-manifest) y con referrer android-app://. iOS (si algún día se hace con
+// Capacitor): el puente nativo. La marca se guarda porque la TWA solo trae el
+// parámetro en la primera carga, no al navegar ni al recargar.
+// Dentro de una app de tienda no se piden donaciones: Apple y Google exigen sus
+// propios cobros para eso, y la meta se costea desde la web.
+const STORE_APP_KEY = 'ltb.storeApp'
+
+export function isStoreApp() {
+  if (typeof window === 'undefined') return false
+  try {
+    if (window.Capacitor?.isNativePlatform?.()) return true
+    const fromTwa =
+      new URLSearchParams(window.location.search).get('source') === 'twa' ||
+      document.referrer.startsWith('android-app://')
+    if (fromTwa) {
+      localStorage.setItem(STORE_APP_KEY, '1')
+      return true
+    }
+    return localStorage.getItem(STORE_APP_KEY) === '1'
+  } catch {
+    return false
+  }
+}

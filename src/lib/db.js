@@ -1162,3 +1162,36 @@ export async function getAdminFeedback({ limit = 100 } = {}) {
   if (error) throw dbError(error)
   return data || []
 }
+
+// Señales para decidir las tiendas (migración 0036): uso real por plataforma y
+// cuántos dispositivos vieron, abrieron y tocaron la meta de donación.
+export async function getAdminStoreSignals() {
+  const { data, error } = await supabase.rpc('admin_store_signals')
+  if (error) throw dbError(error)
+  return data
+}
+
+// ---- Meta de donación (migración 0036) -------------------------------------
+// Pública para leer; solo el dueño la actualiza (policy con is_admin()). Lo
+// juntado se carga a mano: las donaciones llegan por PayPal / Mercado Pago.
+export async function getDonationGoal(key = 'stores') {
+  const { data, error } = await supabase
+    .from('donation_goals')
+    .select('key, target, raised, currency, active, updated_at')
+    .eq('key', key)
+    .maybeSingle()
+  if (error) throw dbError(error)
+  if (!data) return null
+  return { ...data, target: Number(data.target), raised: Number(data.raised) }
+}
+
+export async function updateDonationGoal(key, { target, raised, active }) {
+  const { data, error } = await supabase
+    .from('donation_goals')
+    .update({ target, raised, active, updated_at: new Date().toISOString() })
+    .eq('key', key)
+    .select('key, target, raised, currency, active, updated_at')
+    .single()
+  if (error) throw dbError(error)
+  return { ...data, target: Number(data.target), raised: Number(data.raised) }
+}

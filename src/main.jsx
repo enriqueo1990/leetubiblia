@@ -7,12 +7,16 @@ import AppUpdateBanner from './components/AppUpdateBanner.jsx'
 import { PreferencesProvider } from './lib/preferences.jsx'
 import { initInstallPrompt } from './lib/installPrompt.js'
 import { initAppUpdate } from './lib/appUpdate.js'
+import { isStoreApp } from './lib/platform.js'
 import './styles/index.css'
 
 // Capturarlo antes de montar React evita perder el único evento nativo si la
 // sesión tarda en hidratarse. La UI decide más tarde cuándo ofrecerlo.
 initInstallPrompt()
 initAppUpdate()
+// La TWA de Play trae ?source=twa solo en la primera carga: se marca antes de
+// que cualquier redirección del router lo pierda.
+isStoreApp()
 
 // PreferencesProvider va por fuera de Auth: aplica tema/acento al instante y
 // también sin sesión (onboarding). La sincronización con profiles ocurre dentro

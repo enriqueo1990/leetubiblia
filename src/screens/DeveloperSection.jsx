@@ -2,13 +2,11 @@ import { useState } from 'react'
 import { usePreferences } from '../lib/preferences.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import { sendFeedback } from '../lib/db.js'
-import {
-  DEVELOPER_NAME,
-  MISSION_URL,
-  DONATE_LINKS,
-  feedbackContext,
-  feedbackMailto,
-} from '../lib/developer.js'
+import { DEVELOPER_NAME, MISSION_URL, feedbackContext, feedbackMailto } from '../lib/developer.js'
+import { isStoreApp } from '../lib/platform.js'
+import { recordFunnel } from '../lib/diag.js'
+import { useDonationGoal } from '../hooks/useDonationGoal.js'
+import DonateSheet from '../components/DonateSheet.jsx'
 import { initials } from '../components/Avatars.jsx'
 import Sheet from '../components/Sheet.jsx'
 import Segmented from '../components/Segmented.jsx'
@@ -37,42 +35,6 @@ function ActionRow({ title, subtitle, onClick }) {
         <ChevronRight size={18} />
       </span>
     </button>
-  )
-}
-
-function DonateSheet({ onClose }) {
-  const { t } = usePreferences()
-  return (
-    <Sheet title={t('dev.donate')} onCancel={onClose}>
-      <p className="text-[15px] leading-snug text-ink">{t('ajustes.misionText')}</p>
-      <p className="mt-2 text-[13px] leading-snug text-ink-soft">{t('dev.donateIntro')}</p>
-      <div className="mt-4 space-y-2">
-        {DONATE_LINKS.map((d) => (
-          <a
-            key={d.url}
-            href={d.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex min-h-12 items-center justify-between rounded-card px-4 py-3"
-            style={{ backgroundColor: 'var(--surface)' }}
-          >
-            <span className="text-[15px] font-medium text-ink">{t(`ajustes.${d.key}`)}</span>
-            <span className="text-[15px]" style={{ color: 'var(--accent-ink)' }} aria-hidden="true">
-              ↗
-            </span>
-          </a>
-        ))}
-      </div>
-      <a
-        href={MISSION_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-4 inline-flex items-center gap-1 text-[13px] font-medium"
-        style={{ color: 'var(--accent-ink)' }}
-      >
-        {t('ajustes.misionLink')} ↗
-      </a>
-    </Sheet>
   )
 }
 
@@ -190,6 +152,14 @@ export default function DeveloperSection() {
   const { t } = usePreferences()
   // null | 'donate' | 'suggestion' | 'bug'
   const [sheet, setSheet] = useState(null)
+  const goal = useDonationGoal()
+  // En la app de tienda no se piden donaciones (ver isStoreApp).
+  const canDonate = !isStoreApp()
+
+  function openDonate() {
+    if (goal) recordFunnel('goal_open')
+    setSheet('donate')
+  }
 
   return (
     <>
@@ -219,12 +189,12 @@ export default function DeveloperSection() {
             {t('ajustes.misionLink')} ↗
           </a>
         </div>
-        <ActionRow title={t('dev.donate')} subtitle={t('dev.donateHelp')} onClick={() => setSheet('donate')} />
+        {canDonate && <ActionRow title={t('dev.donate')} subtitle={t('dev.donateHelp')} onClick={openDonate} />}
         <ActionRow title={t('dev.suggest')} subtitle={t('dev.suggestHelp')} onClick={() => setSheet('suggestion')} />
         <ActionRow title={t('dev.bug')} subtitle={t('dev.bugHelp')} onClick={() => setSheet('bug')} />
       </div>
 
-      {sheet === 'donate' && <DonateSheet onClose={() => setSheet(null)} />}
+      {sheet === 'donate' && <DonateSheet goal={goal} onClose={() => setSheet(null)} />}
       {(sheet === 'suggestion' || sheet === 'bug') && (
         <FeedbackSheet key={sheet} initialKind={sheet} onClose={() => setSheet(null)} />
       )}
