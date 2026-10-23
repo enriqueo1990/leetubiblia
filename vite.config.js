@@ -38,7 +38,7 @@ const LANDING_PAGES = [
     file: 'lideres/index.html',
     title: 'Lee Tu Biblia — Para líderes de grupos de discipulado',
     description:
-      'Guiá a tu grupo en la Palabra sin chats desbordados, con capturas reales: lean al mismo ritmo, anímense a leer y oren juntos por sus pedidos y testimonios.',
+      'Cómo usar la app con tu grupo pequeño: armalo en 3 pasos, lean el mismo plan, vean quién leyó y oren unos por otros. Gratis y sin publicidad.',
     url: 'https://leetubiblia.com/lideres',
     image: 'https://leetubiblia.com/og-lideres.png',
     alt: 'Lee Tu Biblia — para líderes de grupos de discipulado',
