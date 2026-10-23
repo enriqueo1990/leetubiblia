@@ -1,4 +1,10 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { isStoreApp } from '../lib/platform.js'
+import { recordFunnel } from '../lib/diag.js'
+import { useDonationGoal } from '../hooks/useDonationGoal.js'
+import DonateSheet from '../components/DonateSheet.jsx'
+import { HeartIcon } from '../components/icons.jsx'
 import shotHoy from '../assets/mocks/hoy-lectura.png'
 import shotGrupo from '../assets/mocks/sala-grupo.png'
 import shotOracion from '../assets/mocks/oracion-lista.png'
@@ -313,6 +319,32 @@ export function LandingHeader({ current, width = 'max-w-[880px]' }) {
   )
 }
 
+// "Apoyar el proyecto" del footer: discreto, al pie, para quien llega hasta el
+// final (a menudo un líder mirando la app para su grupo). Abre la misma hoja de
+// donación que la app, con la meta de las tiendas si está vigente. No aparece
+// dentro de una app de tienda (ver isStoreApp).
+function FooterDonate() {
+  const goal = useDonationGoal()
+  const [open, setOpen] = useState(false)
+  if (isStoreApp()) return null
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => {
+          if (goal) recordFunnel('goal_open')
+          setOpen(true)
+        }}
+        className={`inline-flex items-center gap-1.5 text-[14px] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
+      >
+        <HeartIcon size={16} />
+        Apoyar el proyecto
+      </button>
+      {open && <DonateSheet goal={goal} fromGoal={Boolean(goal)} onClose={() => setOpen(false)} />}
+    </>
+  )
+}
+
 // Footer GLOBAL de las páginas públicas: el tejido conectivo del sitio. Idéntico
 // en /info, /lideres, /ayuda y /privacidad, para que desde cualquier página se
 // alcance cualquier otra en un clic (arquitectura hub-y-radios, plano). Espeja la
@@ -350,6 +382,7 @@ export function LandingFooter({ current, width = 'max-w-[880px]' }) {
         <p className="text-[13px] leading-relaxed text-ink-soft">
           Gratis · sin publicidad · hecho para acompañar tu lectura en la Palabra.
         </p>
+        <FooterDonate />
       </div>
     </footer>
   )

@@ -682,6 +682,8 @@
   "groupDetail.statPrayingWeek": "Orando esta semana",
   "groupDetail.answeredPct": "{pct}% de los pedidos del grupo ya fueron respondidos.",
   "groupDetail.weekPrivate": "Lectura de la semana · solo vos lo ves",
+  "groupDetail.goalPrivate": "Apoyar la app · solo vos lo ves",
+  "groupDetail.goalText": "Tu grupo usa Lee Tu Biblia gratis. Queremos publicarla en App Store y Google Play para que a cada uno le sea más fácil instalarla. ¿Nos ayudás a llegar?",
   "groupDetail.weekDayLetters": "D,L,M,M,J,V,S",
   "groupDetail.weekAria": "{name}: marcó su lectura {days} de los últimos 7 días",
   "groupDetail.weekHint": "Cada punto es un día en que esa persona marcó su lectura. Solo aparecen quienes comparten.",
