@@ -159,7 +159,12 @@ export default function Lideres() {
             </>,
           ],
         ]}
-      />
+      >
+        <p className="mt-7 max-w-[560px] text-[15px] leading-relaxed text-ink-soft">
+          Al entrar al grupo, la app te pregunta si compartís tu lectura. Decí que sí: sin eso
+          no ves quién leyó ni la semana de cada uno.
+        </p>
+      </Steps>
 
       {/* ── LO QUE HACE CADA MIEMBRO ─────────────────────────── */}
       <Steps
@@ -178,10 +183,10 @@ export default function Lideres() {
             </>,
           ],
           [
-            'Activa «Compartir mi lectura»',
+            'Toca «Compartir mi lectura»',
             <>
-              Viene apagado. Mientras no lo active, el grupo no ve que leyó: dentro del grupo
-              le aparece un aviso que lo lleva directo a Ajustes.
+              Al entrar al grupo la app se lo pregunta. Así el grupo ve que leyó (no qué leyó) y
+              puede ver la lectura de los demás. Si lo saltea, lo activa después desde el grupo.
             </>,
           ],
           [

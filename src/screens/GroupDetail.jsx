@@ -40,6 +40,9 @@ import GroupMembers from './groupDetail/GroupMembers.jsx'
 import GroupPrivateStats from './groupDetail/GroupPrivateStats.jsx'
 import GroupGoalCard from './groupDetail/GroupGoalCard.jsx'
 import GroupInviteSheet from './groupDetail/GroupInviteSheet.jsx'
+import ShareReadingSheet from './groupDetail/ShareReadingSheet.jsx'
+import { dismissShareReadingAsk, wasShareReadingAskDismissed } from '../lib/shareReadingAsk.js'
+import { getTimezone } from '../lib/push.js'
 import { useOnlineStatus } from '../hooks/useOnlineStatus.js'
 
 // Detalle de grupo — "de panel a sala" (Fase 3): la gente y el pulso del día
@@ -130,6 +133,30 @@ export default function GroupDetail() {
   useEffect(() => {
     load()
   }, [load])
+
+  // "¿Compartís tu lectura?": se ofrece sola una vez al abrir un grupo sin
+  // compartir (recién unido, recién creado o de antes). Después, el pulso la abre.
+  const [shareAskOpen, setShareAskOpen] = useState(false)
+  const loaded = Boolean(data)
+  useEffect(() => {
+    if (loaded && profile && !profile.share_reading && !wasShareReadingAskDismissed(user?.id)) {
+      setShareAskOpen(true)
+    }
+  }, [loaded, profile, user])
+
+  // Mismo guardado que Ajustes: con la timezone, para que "leyó hoy" se calcule
+  // en la hora local. Recarga el grupo: la lectura del grupo es recíproca y
+  // recién ahora el servidor la devuelve.
+  async function shareReading() {
+    const patch = { share_reading: true }
+    const tz = getTimezone()
+    if (tz) patch.timezone = tz
+    const { error: saveError } = await updateProfile(patch)
+    if (saveError) return false
+    setShareAskOpen(false)
+    load()
+    return true
+  }
 
   if (error) {
     return (
@@ -412,6 +439,7 @@ export default function GroupDetail() {
         <div>
           <GroupPulse
             iShare={iShare}
+            onAskShare={() => setShareAskOpen(true)}
             iRead={iRead}
             readCount={readCount}
             prayingCount={prayingCount}
@@ -495,6 +523,17 @@ export default function GroupDetail() {
           onSaved={() => {
             setSheetOpen(false)
             loadPrayers()
+          }}
+        />
+      )}
+
+      {shareAskOpen && !iShare && (
+        <ShareReadingSheet
+          isOwner={isOwner}
+          onShare={shareReading}
+          onLater={() => {
+            dismissShareReadingAsk(user?.id)
+            setShareAskOpen(false)
           }}
         />
       )}

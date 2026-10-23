@@ -1,9 +1,8 @@
-import { Link } from 'react-router-dom'
 import { BookIcon, HeartIcon } from '../../components/icons.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
 
 // HOY — el pulso del grupo: quién leyó y cuántos pedidos activos hay.
-export default function GroupPulse({ iShare, iRead = false, readCount, prayingCount, prayersCount }) {
+export default function GroupPulse({ iShare, onAskShare, iRead = false, readCount, prayingCount, prayersCount }) {
   const { t } = usePreferences()
 
   return (
@@ -32,10 +31,17 @@ export default function GroupPulse({ iShare, iRead = false, readCount, prayingCo
           </span>
         </div>
       ) : (
-        <Link to="/ajustes" className="mt-1.5 flex min-h-11 items-center gap-2.5" style={{ color: 'var(--accent-ink)' }}>
+        // Sin compartir no se ve la lectura del grupo (es recíproca): abre la hoja
+        // para activarlo acá mismo, sin ir a Ajustes.
+        <button
+          type="button"
+          onClick={onAskShare}
+          className="mt-1.5 flex min-h-11 items-center gap-2.5 text-left"
+          style={{ color: 'var(--accent-ink)' }}
+        >
           <BookIcon size={18} />
           <span className="text-[14px] font-medium">{t('groupDetail.shareToSee')} →</span>
-        </Link>
+        </button>
       )}
       <div className="mt-2 flex items-center gap-2.5 text-ink">
         <span style={{ color: 'var(--accent-ink)' }}>
