@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Sheet from './Sheet.jsx'
 import Segmented from './Segmented.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
-import { buildQuestionImage, QUOTE_STYLES } from '../lib/shareImage.js'
+import { buildCarousel, buildQuestionImage, QUOTE_STYLES } from '../lib/shareImage.js'
 
 // Último estilo y formato de imagen compartida. Es memoria de flujo, no una
 // preferencia del perfil: vive en el dispositivo. Claves compartidas entre todo
@@ -10,13 +10,19 @@ import { buildQuestionImage, QUOTE_STYLES } from '../lib/shareImage.js'
 const SHARE_FORMAT_KEY = 'ltb:shareFormat'
 const SHARE_STYLE_KEY = 'ltb:shareStyle'
 
+const revokeAll = (urls) => urls.forEach((u) => URL.revokeObjectURL(u))
+
 // Hoja de compartir como imagen: mini-compositor de dos decisiones (estilo y
 // formato) con vista previa REAL (generar la imagen tarda ~50ms, así que lo que
 // ves es exactamente lo que sale). `data` es el contenido ya resuelto en i18n
 // ({ meta, question, answer, refs }); `onShare(style, format)` dispara el share
 // en el contenedor. Nació en el lector de catecismos y lo comparten las
 // reflexiones de Mi camino.
-export default function ShareImageSheet({ data, onShare, onCancel }) {
+//
+// `carousel` (opcional): los datos de buildCarousel cuando la respuesta NO entra
+// entera en una imagen. Suma el formato "Carrusel" y arranca en él — en una
+// sola imagen se perdería el texto. No se recuerda: depende de cada entrada.
+export default function ShareImageSheet({ data, carousel = null, onShare, onCancel }) {
   const { t } = usePreferences()
   const [style, setStyle] = useState(() => {
     try {
@@ -27,25 +33,31 @@ export default function ShareImageSheet({ data, onShare, onCancel }) {
     }
   })
   const [format, setFormat] = useState(() => {
+    if (carousel) return 'carousel'
     try {
       return localStorage.getItem(SHARE_FORMAT_KEY) === 'story' ? 'story' : 'square'
     } catch {
       return 'square'
     }
   })
-  const [preview, setPreview] = useState(null)
+  const [previews, setPreviews] = useState([])
 
-  // Regenerar la vista previa al cambiar estilo/formato; la URL anterior se
-  // revoca al reemplazarla y la última al desmontar (efecto de abajo).
+  // Regenerar la vista previa al cambiar estilo/formato; las URLs anteriores se
+  // revocan al reemplazarlas y las últimas al desmontar (efecto de abajo). El
+  // carrusel se previsualiza a 1× (es una tira de miniaturas).
   useEffect(() => {
     let on = true
-    buildQuestionImage({ ...data, style, format })
-      .then((blob) => {
+    const build =
+      format === 'carousel' && carousel
+        ? buildCarousel({ ...carousel, style, scale: 1 })
+        : buildQuestionImage({ ...data, style, format }).then((blob) => [blob])
+    build
+      .then((blobs) => {
         if (!on) return
-        const url = URL.createObjectURL(blob)
-        setPreview((prev) => {
-          if (prev) URL.revokeObjectURL(prev)
-          return url
+        const urls = blobs.map((b) => URL.createObjectURL(b))
+        setPreviews((prev) => {
+          revokeAll(prev)
+          return urls
         })
       })
       .catch(() => {
@@ -54,12 +66,12 @@ export default function ShareImageSheet({ data, onShare, onCancel }) {
     return () => {
       on = false
     }
-  }, [data, style, format])
+  }, [data, carousel, style, format])
   useEffect(
     () => () =>
-      setPreview((prev) => {
-        if (prev) URL.revokeObjectURL(prev)
-        return null
+      setPreviews((prev) => {
+        revokeAll(prev)
+        return []
       }),
     []
   )
@@ -67,7 +79,7 @@ export default function ShareImageSheet({ data, onShare, onCancel }) {
   // Recordar las decisiones del momento en el dispositivo, y compartir.
   function share() {
     try {
-      localStorage.setItem(SHARE_FORMAT_KEY, format)
+      if (format !== 'carousel') localStorage.setItem(SHARE_FORMAT_KEY, format)
       localStorage.setItem(SHARE_STYLE_KEY, style)
     } catch {
       /* almacenamiento bloqueado: se comparte igual, sin recordar */
@@ -108,17 +120,42 @@ export default function ShareImageSheet({ data, onShare, onCancel }) {
       }
     >
       <div className="space-y-4 pb-1">
-        {/* Vista previa con altura fija: la hoja no salta al pasar de 1:1 a 9:16. */}
-        <div className="flex h-[38dvh] items-center justify-center">
-          {preview && (
-            <img
-              src={preview}
-              alt=""
-              className="max-h-full max-w-full rounded-[10px]"
-              style={{ boxShadow: 'var(--shadow-overlay)' }}
-            />
-          )}
-        </div>
+        {/* Vista previa con altura fija: la hoja no salta al pasar de 1:1 a 9:16.
+            El carrusel es una tira que se desliza, como en Instagram. */}
+        {format === 'carousel' ? (
+          <div
+            className="-mx-5 flex h-[38dvh] snap-x snap-mandatory gap-3 overflow-x-auto px-5 py-1"
+            role="group"
+            aria-label={t('materialReader.shareCarouselPreview', { n: previews.length })}
+          >
+            {previews.map((src, i) => (
+              <img
+                key={src}
+                src={src}
+                alt=""
+                className="h-full w-auto shrink-0 snap-center rounded-[10px]"
+                style={{ boxShadow: 'var(--shadow-overlay)', aspectRatio: '4 / 5' }}
+                data-slide={i + 1}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="flex h-[38dvh] items-center justify-center">
+            {previews[0] && (
+              <img
+                src={previews[0]}
+                alt=""
+                className="max-h-full max-w-full rounded-[10px]"
+                style={{ boxShadow: 'var(--shadow-overlay)' }}
+              />
+            )}
+          </div>
+        )}
+        {format === 'carousel' && previews.length > 0 && (
+          <p className="-mt-1 text-center text-[13px] text-ink-soft">
+            {t('materialReader.shareCarouselCount', { n: previews.length })}
+          </p>
+        )}
 
         <div className="grid grid-cols-2 gap-2">
           {styles.map((s) => {
@@ -153,6 +190,7 @@ export default function ShareImageSheet({ data, onShare, onCancel }) {
           value={format}
           onChange={setFormat}
           options={[
+            ...(carousel ? [{ key: 'carousel', label: t('materialReader.shareCarousel') }] : []),
             { key: 'square', label: t('materialReader.shareSquare') },
             { key: 'story', label: t('materialReader.shareStory') },
           ]}

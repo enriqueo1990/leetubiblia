@@ -2,6 +2,7 @@
 // Tema fijo cálido (independiente de claro/oscuro): la imagen sale igual de
 // linda en cualquier dispositivo. Sin librerías ni fuentes externas.
 import { fmtISODate } from '../i18n/dates.js'
+import { paginate, toParagraphs } from './carousel.js'
 
 const W = 1080
 const H = 1350
@@ -176,12 +177,18 @@ export async function shareCompletion(data) {
 // Flujo común: hoja nativa si el dispositivo comparte archivos (móvil);
 // si no, descarga (desktop). Cancelar la hoja no es un error.
 async function shareOrDownload(blob, filename, text) {
-  if (!blob) throw new Error('no-blob')
-  const file = new File([blob], filename, { type: 'image/png' })
+  return shareOrDownloadAll([{ blob, filename }], text)
+}
 
-  if (navigator.canShare?.({ files: [file] })) {
+// Lo mismo con varias imágenes (carrusel): la hoja nativa las manda juntas
+// (álbum en WhatsApp, carrusel en Instagram); en desktop se descargan en orden.
+async function shareOrDownloadAll(items, text) {
+  if (!items.length || items.some((it) => !it.blob)) throw new Error('no-blob')
+  const files = items.map((it) => new File([it.blob], it.filename, { type: 'image/png' }))
+
+  if (navigator.canShare?.({ files })) {
     try {
-      await navigator.share(text ? { files: [file], text } : { files: [file] })
+      await navigator.share(text ? { files, text } : { files })
       return 'shared'
     } catch (e) {
       if (e?.name === 'AbortError') return 'shared' // el usuario canceló
@@ -189,14 +196,18 @@ async function shareOrDownload(blob, filename, text) {
     }
   }
 
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = filename
-  document.body.appendChild(a)
-  a.click()
-  a.remove()
-  setTimeout(() => URL.revokeObjectURL(url), 1000)
+  for (const [i, it] of items.entries()) {
+    // Un respiro entre descargas: algunos navegadores frenan las seguidas.
+    if (i) await new Promise((r) => setTimeout(r, 250))
+    const url = URL.createObjectURL(it.blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = it.filename
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    setTimeout(() => URL.revokeObjectURL(url), 1000)
+  }
   return 'downloaded'
 }
 
@@ -554,6 +565,90 @@ function renderQuoteBlock(ctx, spec, pal, { meta, question, answer, refs }, size
   return total
 }
 
+// Ícono de la app para la firma. Si no carga (offline sin caché), devuelve null
+// y la firma sale solo con el texto — nunca frenar el share por el adorno. Ojo:
+// NO usar img.decode(), que en Chromium puede no resolver nunca con respuestas
+// de caché (304) y dejaría el share colgado; onload + timeout de gracia.
+function loadAppIcon() {
+  return new Promise((resolve) => {
+    const img = new Image()
+    let settled = false
+    const done = (ok) => {
+      if (settled) return
+      settled = true
+      clearTimeout(timer)
+      resolve(ok ? img : null)
+    }
+    const timer = setTimeout(() => done(img.complete && img.naturalWidth > 0), 1500)
+    img.onload = () => done(true)
+    img.onerror = () => done(false)
+    img.src = '/icons/icon-192.png'
+    if (img.complete && img.naturalWidth > 0) done(true)
+  })
+}
+
+// Geometría vertical de la tarjeta: la firma va pegada al fondo y el contenido
+// se centra en el espacio sobre ella. En los estilos con tarjeta, la tarjeta es
+// DINÁMICA —abraza su contenido, como en la app—; sin tarjeta el texto flota
+// directo sobre el fondo.
+function questionGeometry(H, spec) {
+  const ICON = 48 // alto del ícono de la firma
+  const CARD_TO_FIRMA = 26 // aire mínimo entre el contenido y la firma
+  // Base de la firma al borde: mismo margen que los costados.
+  const firmaMidY = H - Q_MARGIN - ICON / 2
+  const zoneBottom = firmaMidY - ICON / 2 - CARD_TO_FIRMA // techo de la firma
+  const zoneTop = spec.card ? Q_MARGIN : FREE_MARGIN
+  const innerH = zoneBottom - zoneTop - (spec.card ? Q_PAD * 2 : 0) // contenido máximo
+  return { ICON, firmaMidY, zoneBottom, zoneTop, innerH }
+}
+
+// Tipografía a escala fija de la app (ficha 13/20/17/15 escalada al lienzo):
+// el primer juego ES la proporción de pantalla. Los siguientes solo bajan
+// de cuerpo para que el contenido largo entre — nunca se agranda.
+const QUOTE_SIZES = [
+  { meta: 34, question: 52, answer: 44, refs: 39 },
+  { meta: 32, question: 48, answer: 41, refs: 36 },
+  { meta: 30, question: 44, answer: 37, refs: 34 },
+  { meta: 29, question: 41, answer: 34, refs: 32 },
+  { meta: 28, question: 38, answer: 31, refs: 30 },
+]
+
+// Elige qué entra en la tarjeta y con qué cuerpo. `complete` = la respuesta
+// entró entera (con o sin citas).
+function fitQuestion(ctx, spec, pal, { meta, question, answer, refs }, H) {
+  const { innerH } = questionGeometry(H, spec)
+  const fits = (c, s) => renderQuoteBlock(ctx, spec, pal, c, s, 0, false) <= innerH
+  const tryFit = (content, complete) => {
+    const sizes = QUOTE_SIZES.find((s) => fits(content, s))
+    return sizes ? { content, sizes, complete } : null
+  }
+  // 1ª etapa: todo, bajando de cuerpo si hace falta.
+  let fit = tryFit({ meta, question, answer, refs }, true)
+  // 2ª etapa: soltar las citas antes que la respuesta (en la imagen son
+  // decoración; en la app son links). Respuestas largas con muchas citas
+  // (p. ej. Heidelberg 1) caen acá.
+  if (!fit && refs.length > 0) fit = tryFit({ meta, question, answer, refs: [] }, true)
+  // 3ª etapa: sólo la pregunta como protagonista + sus citas — la respuesta te
+  // espera en la app (o en el carrusel). Truncar doctrina no es opción.
+  if (!fit) fit = tryFit({ meta, question, answer: null, refs }, !answer)
+  // 4ª etapa, red de seguridad: sólo la pregunta. Capítulos con decenas de
+  // citas (1689) no entran ni sin la respuesta; nunca se dibuja fuera.
+  if (!fit) {
+    const content = { meta, question, answer: null, refs: [] }
+    fit = tryFit(content, !answer) ?? { content, sizes: QUOTE_SIZES[QUOTE_SIZES.length - 1], complete: !answer }
+  }
+  return fit
+}
+
+// ¿Entra la respuesta entera en una sola tarjeta? (Medición pura, sin dibujar.)
+// Decide si la hoja de compartir ofrece el carrusel.
+export function fitsInOneImage({ meta, question, answer, refs = [], format = 'square', style = 'ficha' }) {
+  const spec = styleSpec(style)
+  const pal = spec.pal ?? resolveTheme()
+  const ctx = document.createElement('canvas').getContext('2d')
+  return fitQuestion(ctx, spec, pal, { meta, question, answer, refs }, format === 'story' ? 1920 : QSIZE).complete
+}
+
 // Dibuja la tarjeta de una pregunta y devuelve un Blob PNG.
 // `meta` ya viene armada ("Catecismo de Heidelberg · Pregunta 1 de 129") y
 // `refs` son etiquetas resueltas por idioma ("Juan 1", …): la i18n es de quien llama.
@@ -571,26 +666,8 @@ export async function buildQuestionImage({ meta, question, answer, refs = [], fo
   const pal = spec.pal ?? resolveTheme()
   const dark = isDarkColor(pal.bg)
 
-  // Ícono de la app para la firma. Si no carga (offline sin caché), la firma
-  // sale solo con el texto — nunca frenar el share por el adorno. Ojo: NO usar
-  // img.decode(), que en Chromium puede no resolver nunca con respuestas de
-  // caché (304) y dejaría el share colgado; onload + timeout de gracia.
   // (Los estilos firmaWhite generan su logo localmente: no cargan nada.)
-  const icon = spec.firmaWhite ? null : await new Promise((resolve) => {
-    const img = new Image()
-    let settled = false
-    const done = (ok) => {
-      if (settled) return
-      settled = true
-      clearTimeout(timer)
-      resolve(ok ? img : null)
-    }
-    const timer = setTimeout(() => done(img.complete && img.naturalWidth > 0), 1500)
-    img.onload = () => done(true)
-    img.onerror = () => done(false)
-    img.src = '/icons/icon-192.png'
-    if (img.complete && img.naturalWidth > 0) done(true)
-  })
+  const icon = spec.firmaWhite ? null : await loadAppIcon()
   const iconOk = icon != null
 
   const canvas = document.createElement('canvas')
@@ -599,46 +676,8 @@ export async function buildQuestionImage({ meta, question, answer, refs = [], fo
   const ctx = canvas.getContext('2d')
   ctx.scale(SCALE, SCALE)
 
-  // Geometría vertical: la firma va pegada al fondo y el contenido se centra
-  // en el espacio sobre ella. En el estilo ficha, la tarjeta es DINÁMICA —
-  // abraza su contenido, como en la app —; en los estilos sin tarjeta el texto
-  // flota directo sobre el fondo.
-  const BOTTOM_MARGIN = Q_MARGIN // base de la firma al borde: mismo margen que los costados
-  const ICON = 48 // alto del ícono de la firma
-  const CARD_TO_FIRMA = 26 // aire mínimo entre el contenido y la firma
-  const firmaMidY = H - BOTTOM_MARGIN - ICON / 2
-  const zoneBottom = firmaMidY - ICON / 2 - CARD_TO_FIRMA // techo de la firma
-  const zoneTop = spec.card ? Q_MARGIN : FREE_MARGIN
-  const innerH = zoneBottom - zoneTop - (spec.card ? Q_PAD * 2 : 0) // contenido máximo
-
-  // Tipografía a escala fija de la app (ficha 13/20/17/15 escalada al lienzo):
-  // el primer juego ES la proporción de pantalla. Los siguientes solo bajan
-  // de cuerpo para que el contenido largo entre — nunca se agranda.
-  const attempts = [
-    { meta: 34, question: 52, answer: 44, refs: 39 },
-    { meta: 32, question: 48, answer: 41, refs: 36 },
-    { meta: 30, question: 44, answer: 37, refs: 34 },
-    { meta: 29, question: 41, answer: 34, refs: 32 },
-    { meta: 28, question: 38, answer: 31, refs: 30 },
-  ]
-  const fits = (c, s) => renderQuoteBlock(ctx, spec, pal, c, s, 0, false) <= innerH
-  let content = { meta, question, answer, refs }
-  let sizes = attempts.find((s) => fits(content, s))
-  // 2ª etapa: soltar las citas antes que la respuesta (en la imagen son
-  // decoración; en la app son links). Respuestas largas con muchas citas
-  // (p. ej. Heidelberg 1) caen acá.
-  if (!sizes && refs.length > 0) {
-    const noRefs = { meta, question, answer, refs: [] }
-    sizes = attempts.find((s) => fits(noRefs, s))
-    if (sizes) content = noRefs
-  }
-  // 3ª etapa: sólo la pregunta como protagonista + sus citas — la respuesta te
-  // espera en la app (respuestas excepcionales, p. ej. Heidelberg 92). Truncar
-  // doctrina no es opción.
-  if (!sizes) {
-    content = { meta, question, answer: null, refs }
-    sizes = attempts.find((s) => fits(content, s)) || attempts[attempts.length - 1]
-  }
+  const { zoneTop, zoneBottom, firmaMidY, ICON } = questionGeometry(H, spec)
+  const { content, sizes } = fitQuestion(ctx, spec, pal, { meta, question, answer, refs }, H)
 
   // Fondo: plano (tokens de la app / noche), degradé vertical (clásico) o
   // diagonal (moderno).
@@ -697,7 +736,7 @@ export async function buildQuestionImage({ meta, question, answer, refs = [], fo
   // es violeta y desentonaría junto al logo calado).
   ctx.fillStyle = spec.firmaWhite ? 'rgba(255, 255, 255, 0.92)' : pal.soft
   const brand = 'leetubiblia.com'
-  const midY = firmaMidY // pegada al fondo (base a BOTTOM_MARGIN del borde)
+  const midY = firmaMidY // pegada al fondo (base a Q_MARGIN del borde)
   const firmaIcon = spec.firmaWhite ? makeWhiteIcon(ICON * SCALE) : iconOk ? icon : null
   if (firmaIcon) {
     const gap = 16
@@ -723,4 +762,231 @@ export async function buildQuestionImage({ meta, question, answer, refs = [], fo
 export async function shareQuestion({ filename, ...data }) {
   const blob = await buildQuestionImage(data)
   return shareOrDownload(blob, filename)
+}
+
+/* ---- Carrusel (4:5) para lo que no entra en una tarjeta ----
+ *
+ * Una confesión de 1689 o un artículo largo de la Belga no entran enteros en
+ * una imagen, y la doctrina no se trunca: en vez de recortar, se reparte en
+ * láminas de 1080×1350 (el formato de carrusel de Instagram), como las páginas
+ * de un libro. Portada con el título · una lámina por párrafo (o las que haga
+ * falta, "continúa") con sus citas al pie · invitación a leetubiblia.com.
+ * Mismos estilos que la tarjeta; las citas van siempre como texto (en chips no
+ * entrarían las de un párrafo de 1689). Los textos llegan resueltos en i18n. */
+
+const CAROUSEL_H = 1350
+const CS = { meta: 30, label: 34, body: 36, refs: 29 }
+const CBODY_LH = 1.5
+const CPARA_GAP = Math.round(CS.body * 0.6)
+
+// sections: [{ label, paragraphs, refs }] (ver lib/carousel.js).
+// labels: { swipe, more, cont, inviteKicker, inviteText, inviteFree }.
+// Devuelve un Blob PNG por lámina. `scale` 2 para compartir, 1 para la vista previa.
+export async function buildCarousel({ meta, title, coverNote, sections, inviteTitle, labels, style = 'ficha', scale = 2 }) {
+  const W = QSIZE
+  const H = CAROUSEL_H
+  const spec = styleSpec(style)
+  const pal = spec.pal ?? resolveTheme()
+  const dark = isDarkColor(pal.bg)
+  const { ICON, firmaMidY, zoneBottom } = questionGeometry(H, spec)
+  const marginX = spec.card ? Q_MARGIN + Q_PAD : FREE_MARGIN
+  const textW = W - marginX * 2
+  const top = spec.card ? Q_MARGIN + Q_PAD : FREE_MARGIN
+  const bottom = spec.card ? zoneBottom - Q_PAD : zoneBottom
+  const centered = spec.align === 'center'
+  const x = centered ? W / 2 : marginX
+  const titleColor = spec.questionInAccent ? pal.accent : pal.ink
+
+  // El ícono sepia va en la firma de los estilos sin logo blanco y en la
+  // invitación de los estilos con tarjeta (blanco sobre tarjeta blanca no se ve).
+  const appIcon = !spec.firmaWhite || spec.card ? await loadAppIcon() : null
+
+  const metaText = spec.metaCaps ? meta.toUpperCase() : meta
+  const metaFont = `${spec.metaCaps ? 600 : 500} ${CS.meta}px ${SANS}`
+  const bodyFont = `${spec.weightA} ${CS.body}px ${spec.fontA}`
+  const refsFont = `500 ${CS.refs}px ${SANS}`
+  const labelFont = `700 ${CS.label}px ${SANS}`
+
+  const measure = document.createElement('canvas').getContext('2d')
+  const linesOf = (text, font) => {
+    measure.font = font
+    return wrapWords(measure, text, textW)
+  }
+  const headH = CS.meta * 1.42 + 34 // metadata + aire debajo
+  const labelH = CS.label * 1.3 + 22
+  const refsH = (refs) =>
+    refs.length
+      ? Math.round(CS.refs * 1.5) + Math.round(CS.refs * 1.05) + linesOf(refs.join(' · '), refsFont).length * CS.refs * 1.4
+      : 0
+  const paragraphsH = (paragraphs) =>
+    paragraphs.reduce((h, p, i) => h + (i ? CPARA_GAP : 0) + linesOf(p, bodyFont).length * CS.body * CBODY_LH, 0)
+
+  const textPages = paginate(sections, {
+    height: (tokens, refs) => paragraphsH(toParagraphs(tokens)) + refsH(refs),
+    // La etiqueta ("1.1", "1.1 · continúa") ocupa lugar; el pie "sigue →" vive
+    // en el margen inferior, como "Deslizá →".
+    avail: (s) => bottom - top - headH - (s.label ? labelH : 0) - CS.body,
+  })
+  const pages = [{ kind: 'cover' }, ...textPages.map((p) => ({ kind: 'text', ...p })), { kind: 'invite' }]
+
+  const blobs = []
+  for (const [i, page] of pages.entries()) {
+    const canvas = document.createElement('canvas')
+    canvas.width = W * scale
+    canvas.height = H * scale
+    const ctx = canvas.getContext('2d')
+    ctx.scale(scale, scale)
+
+    if (spec.gradient) {
+      const g = spec.gradientDiagonal ? ctx.createLinearGradient(0, 0, W, H) : ctx.createLinearGradient(0, 0, 0, H)
+      g.addColorStop(0, spec.gradient[0])
+      g.addColorStop(1, spec.gradient[1])
+      ctx.fillStyle = g
+    } else {
+      ctx.fillStyle = pal.bg
+    }
+    ctx.fillRect(0, 0, W, H)
+
+    // Tarjeta de alto fijo: todas las láminas iguales, como páginas.
+    if (spec.card) {
+      const radius = spec.cardRadius ?? 38
+      ctx.save()
+      if (!dark) {
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.07)'
+        ctx.shadowBlur = 10 * scale
+        ctx.shadowOffsetY = 2 * scale
+      }
+      ctx.fillStyle = pal.surface
+      roundRect(ctx, Q_MARGIN, Q_MARGIN, W - Q_MARGIN * 2, zoneBottom - Q_MARGIN, radius)
+      ctx.fill()
+      ctx.restore()
+      if (dark) {
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)'
+        ctx.lineWidth = 2
+        roundRect(ctx, Q_MARGIN, Q_MARGIN, W - Q_MARGIN * 2, zoneBottom - Q_MARGIN, radius)
+        ctx.stroke()
+      }
+    }
+
+    ctx.textAlign = centered ? 'center' : 'left'
+    const write = (lines, font, size, lh, color, y, spacing = 0) => {
+      ctx.font = font
+      ctx.fillStyle = color
+      ctx.letterSpacing = `${spacing}px`
+      for (const line of lines) {
+        ctx.fillText(line, x, y + size * 0.8)
+        y += size * lh
+      }
+      ctx.letterSpacing = '0px'
+      return y
+    }
+    // Pie a la derecha de la tarjeta ("Deslizá →", "sigue →").
+    const foot = (text, font, color) => {
+      ctx.font = font
+      ctx.fillStyle = color
+      ctx.textAlign = centered ? 'center' : 'right'
+      ctx.fillText(text, centered ? W / 2 : W - marginX, bottom - 8)
+      ctx.textAlign = centered ? 'center' : 'left'
+    }
+    const writeMeta = () => write([metaText], metaFont, CS.meta, 1.42, pal.soft, top, spec.metaCaps ? 3 : 0)
+
+    if (page.kind === 'cover') {
+      writeMeta()
+      const tFont = `${spec.weightQ} 76px ${spec.fontQ}`
+      const tLines = linesOf(title, tFont)
+      const noteLines = coverNote ? linesOf(coverNote, `400 34px ${SANS}`) : []
+      const blockH = tLines.length * 76 * 1.15 + (noteLines.length ? 30 + noteLines.length * 34 * 1.4 : 0)
+      let y = top + (bottom - top - blockH) / 2
+      y = write(tLines, tFont, 76, 1.15, titleColor, y)
+      if (noteLines.length) write(noteLines, `400 34px ${SANS}`, 34, 1.4, pal.soft, y + 30)
+      foot(labels.swipe, `600 34px ${SANS}`, pal.accent)
+    }
+
+    if (page.kind === 'text') {
+      let y = writeMeta() + 34
+      if (page.label) {
+        const label = page.part > 0 ? `${page.label} · ${labels.cont}` : page.label
+        y = write([label], labelFont, CS.label, 1.3, pal.accent, y) + 22
+      }
+      for (const [pi, p] of page.paragraphs.entries()) {
+        y = write(linesOf(p, bodyFont), bodyFont, CS.body, CBODY_LH, pal.ink, y + (pi ? CPARA_GAP : 0))
+      }
+      if (page.refs.length) {
+        if (page.paragraphs.length) {
+          y += Math.round(CS.refs * 1.5)
+          ctx.strokeStyle = pal.hairline
+          ctx.lineWidth = 2
+          ctx.beginPath()
+          ctx.moveTo(centered ? W / 2 - 90 : x, y)
+          ctx.lineTo(centered ? W / 2 + 90 : x + textW, y)
+          ctx.stroke()
+          y += Math.round(CS.refs * 1.05)
+        }
+        // Una lámina de solo citas que tampoco entraría: se cortan con "…"
+        // (en la imagen son guía de lectura, no doctrina).
+        let lines = linesOf(page.refs.join(' · '), refsFont)
+        const room = Math.floor((bottom - CS.body - y) / (CS.refs * 1.4))
+        if (lines.length > room) lines = [...lines.slice(0, Math.max(1, room) - 1), `${lines[Math.max(1, room) - 1]} …`]
+        write(lines, refsFont, CS.refs, 1.4, pal.accent, y)
+      }
+      if (page.more) foot(labels.more, `500 30px ${SANS}`, pal.soft)
+    }
+
+    if (page.kind === 'invite') {
+      const big = 150
+      const tFont = `${spec.weightQ} 60px ${spec.fontQ}`
+      const kLines = linesOf(labels.inviteKicker, `500 34px ${SANS}`)
+      const tLines = linesOf(inviteTitle, tFont)
+      const bLines = linesOf(labels.inviteText, `400 36px ${SANS}`)
+      const blockH =
+        big + 56 + kLines.length * 34 * 1.4 + 12 + tLines.length * 60 * 1.2 + 28 + bLines.length * 36 * 1.45 + 64 + 34 * 1.4 + 12 + 64 * 1.2
+      let y = top + Math.max(0, (bottom - top - blockH) / 2)
+      const iconImg = spec.firmaWhite && !spec.card ? makeWhiteIcon(big * scale) : appIcon
+      if (iconImg) {
+        const iconX = centered ? W / 2 - big / 2 : marginX
+        ctx.save()
+        roundRect(ctx, iconX, y, big, big, big * 0.22)
+        ctx.clip()
+        ctx.drawImage(iconImg, iconX, y, big, big)
+        ctx.restore()
+      }
+      y += big + 56
+      y = write(kLines, `500 34px ${SANS}`, 34, 1.4, pal.soft, y) + 12
+      y = write(tLines, tFont, 60, 1.2, titleColor, y) + 28
+      y = write(bLines, `400 36px ${SANS}`, 36, 1.45, pal.soft, y) + 64
+      y = write([labels.inviteFree], `500 34px ${SANS}`, 34, 1.4, pal.soft, y) + 12
+      write(['leetubiblia.com'], `800 64px ${SANS}`, 64, 1.2, pal.accent, y)
+    }
+
+    // Firma + contador "3/10". En la invitación la dirección ya es protagonista:
+    // queda solo el contador.
+    ctx.font = `500 32px ${SANS}`
+    ctx.fillStyle = spec.firmaWhite ? 'rgba(255, 255, 255, 0.92)' : pal.soft
+    ctx.textBaseline = 'middle'
+    if (page.kind !== 'invite') {
+      const brand = 'leetubiblia.com'
+      const fIcon = spec.firmaWhite ? makeWhiteIcon(ICON * scale) : appIcon
+      const gap = fIcon ? ICON + 16 : 0
+      const startX = (W - (gap + ctx.measureText(brand).width)) / 2
+      if (fIcon) ctx.drawImage(fIcon, startX, firmaMidY - ICON / 2, ICON, ICON)
+      ctx.textAlign = 'left'
+      ctx.fillText(brand, startX + gap, firmaMidY)
+    }
+    ctx.textAlign = 'right'
+    ctx.fillText(`${i + 1}/${pages.length}`, W - Q_MARGIN - 8, firmaMidY)
+    ctx.textAlign = 'left'
+    ctx.textBaseline = 'alphabetic'
+
+    blobs.push(await new Promise((resolve) => canvas.toBlob(resolve, 'image/png')))
+  }
+  return blobs
+}
+
+// Comparte (o descarga) el carrusel entero. `filename` sin extensión: cada
+// lámina sale numerada ("bautista-1689-1-01.png") para que queden en orden.
+export async function shareCarousel({ filename, ...data }) {
+  const blobs = await buildCarousel(data)
+  return shareOrDownloadAll(
+    blobs.map((blob, i) => ({ blob, filename: `${filename}-${String(i + 1).padStart(2, '0')}.png` })),
+  )
 }

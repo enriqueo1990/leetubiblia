@@ -699,7 +699,7 @@
   "groupDetail.deleteGroup": "Delete the group",
   "groupDetail.deleteGroupTitle": "Delete \"{name}\"?",
   "groupDetail.deleteGroupConfirm": "It is removed for every member, along with the prayer requests shared in it. This cannot be undone.",
-  "groupDetail.inviteDesc": "Share this code with whoever you want to add to the group.",
+  "groupDetail.inviteDesc": "Send the invitation to whoever you want to add: the link takes them straight to the group. They can also type the code in Groups.",
   "groupDetail.copied": "Copied",
   "groupDetail.shareInvite": "Share invitation",
   "groupDetail.copyCode": "Copy code",
@@ -754,6 +754,23 @@
   "materialReader.shareSquareHint": "Chats and posts (1:1)",
   "materialReader.shareStory": "Story",
   "materialReader.shareStoryHint": "Stories and statuses (9:16)",
+  "materialReader.shareCarousel": "Carousel",
+  "materialReader.shareCarouselPreview": "Carousel preview, {n} images",
+  "materialReader.shareCarouselCount": "{n} images · swipe to see them",
+  "materialReader.carouselParagraphs": {
+    "one": "{count} paragraph",
+    "other": "{count} paragraphs"
+  },
+  "materialReader.carouselRefs": {
+    "one": "{count} passage for your Bible",
+    "other": "{count} passages for your Bible"
+  },
+  "materialReader.carouselSwipe": "Swipe →",
+  "materialReader.carouselMore": "continues →",
+  "materialReader.carouselCont": "continued",
+  "materialReader.carouselInviteKicker": "Read with your Bible open beside you",
+  "materialReader.carouselInviteText": "A little each day, with reading plans, prayer and groups to read together.",
+  "materialReader.carouselInviteFree": "Free at",
   "materialReader.shareAction": "Share",
   "materialReader.styleFicha": "Card",
   "materialReader.styleClasico": "Classic",

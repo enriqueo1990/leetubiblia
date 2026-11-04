@@ -19,7 +19,8 @@ import {
 import { passageUrl } from '../lib/bible.js'
 import { usePreferences } from '../lib/preferences.jsx'
 import { bookLabel } from '../i18n/books.js'
-import { shareQuestion } from '../lib/shareImage.js'
+import { fitsInOneImage, shareCarousel, shareQuestion } from '../lib/shareImage.js'
+import { carouselSections } from '../lib/carousel.js'
 import { excerpt } from '../lib/excerpt.js'
 import { ListIcon, ShareIcon } from '../components/icons.jsx'
 import BackLink from '../components/BackLink.jsx'
@@ -90,7 +91,7 @@ export default function MaterialReader() {
   const [indexOpen, setIndexOpen] = useState(false) // hoja de índice
   const [confirmRestart, setConfirmRestart] = useState(false)
   const [saveError, setSaveError] = useState(false) // falló guardar el avance
-  const [shareOpen, setShareOpen] = useState(false) // hoja de formato (1:1 / 9:16)
+  const [shareSnap, setShareSnap] = useState(null) // hoja de compartir abierta: { data, carousel }
   const [sharing, setSharing] = useState(false) // generando la imagen para compartir
   const [shareError, setShareError] = useState(false)
   const calendar = isCalendarMaterial(slug)
@@ -239,20 +240,61 @@ export default function MaterialReader() {
       }
     : null
 
+  // Carrusel: solo cuando la respuesta COMPLETA no entra en una imagen (1689,
+  // artículos largos de la Belga, la meditación entera de un devocional). Va
+  // completa, repartida en láminas; la tarjeta única sigue con su recorte.
+  function carouselData() {
+    if (!entry || fitsInOneImage({ ...shareData, answer: entry.answer })) return null
+    const sections = carouselSections(entry, (ref) => bookLabel(ref, locale))
+    const numbered = sections.some((s) => s.label)
+    return {
+      meta: shareData.meta,
+      // "De las Santas Escrituras (1–5)": el rango de párrafos sobra en la portada.
+      title: entry.question.replace(/\s*\(\d+[–-]\d+\)\s*$/, ''),
+      coverNote: [
+        numbered && t('materialReader.carouselParagraphs', { count: sections.length }),
+        entry.refs.length > 0 && t('materialReader.carouselRefs', { count: entry.refs.length }),
+      ]
+        .filter(Boolean)
+        .join(' · '),
+      sections,
+      inviteTitle: content.name,
+      labels: {
+        swipe: t('materialReader.carouselSwipe'),
+        more: t('materialReader.carouselMore'),
+        cont: t('materialReader.carouselCont'),
+        inviteKicker: t('materialReader.carouselInviteKicker'),
+        inviteText: t('materialReader.carouselInviteText'),
+        inviteFree: t('materialReader.carouselInviteFree'),
+      },
+    }
+  }
+
+  // La hoja recibe una foto fija de los datos al abrirse: así la vista previa
+  // no se regenera con cada render del lector (el carrusel son varias láminas).
+  function openShare() {
+    setShareSnap({ data: shareData, carousel: carouselData() })
+  }
+
   // Compartir con el estilo y formato elegidos en la hoja (la hoja misma los
   // recuerda en el dispositivo).
   async function handleShare(style, format) {
-    if (sharing || !shareData) return
-    setShareOpen(false)
+    if (sharing || !shareSnap) return
+    const { data, carousel } = shareSnap
+    setShareSnap(null)
     setSharing(true)
     setShareError(false)
     try {
-      await shareQuestion({
-        ...shareData,
-        style,
-        format,
-        filename: `${slug}-${entry.number}${format === 'story' ? '-historia' : ''}.png`,
-      })
+      if (format === 'carousel' && carousel) {
+        await shareCarousel({ ...carousel, style, filename: `${slug}-${entry.number}` })
+      } else {
+        await shareQuestion({
+          ...data,
+          style,
+          format,
+          filename: `${slug}-${entry.number}${format === 'story' ? '-historia' : ''}.png`,
+        })
+      }
     } catch {
       setShareError(true)
     } finally {
@@ -275,7 +317,7 @@ export default function MaterialReader() {
           {!isIntro && (
             <button
               type="button"
-              onClick={() => setShareOpen(true)}
+              onClick={openShare}
               disabled={sharing}
               aria-label={t('materialReader.share')}
               className="flex h-11 w-11 items-center justify-center text-ink-soft transition-colors hover:text-accent-ink disabled:opacity-50"
@@ -512,8 +554,13 @@ export default function MaterialReader() {
 
       {/* Hoja de compartir: mini-compositor de dos decisiones (estilo y
           formato) con vista previa real — la imagen que ves es la que sale. */}
-      {shareOpen && shareData && (
-        <ShareImageSheet data={shareData} onShare={handleShare} onCancel={() => setShareOpen(false)} />
+      {shareSnap && (
+        <ShareImageSheet
+          data={shareSnap.data}
+          carousel={shareSnap.carousel}
+          onShare={handleShare}
+          onCancel={() => setShareSnap(null)}
+        />
       )}
 
       {indexOpen && (

@@ -699,7 +699,7 @@
   "groupDetail.deleteGroup": "Excluir o grupo",
   "groupDetail.deleteGroupTitle": "Excluir \"{name}\"?",
   "groupDetail.deleteGroupConfirm": "Será excluído para todos os membros, junto com os pedidos de oração compartilhados nele. Não é possível desfazer.",
-  "groupDetail.inviteDesc": "Compartilhe este código com quem você quiser adicionar ao grupo.",
+  "groupDetail.inviteDesc": "Envie o convite para quem você quiser adicionar: o link leva direto ao grupo. Também dá para digitar o código em Grupos.",
   "groupDetail.copied": "Copiado",
   "groupDetail.shareInvite": "Compartilhar convite",
   "groupDetail.copyCode": "Copiar código",
@@ -754,6 +754,23 @@
   "materialReader.shareSquareHint": "Conversas e publicações (1:1)",
   "materialReader.shareStory": "Story",
   "materialReader.shareStoryHint": "Status e stories (9:16)",
+  "materialReader.shareCarousel": "Carrossel",
+  "materialReader.shareCarouselPreview": "Prévia do carrossel, {n} imagens",
+  "materialReader.shareCarouselCount": "{n} imagens · deslize para ver",
+  "materialReader.carouselParagraphs": {
+    "one": "{count} parágrafo",
+    "other": "{count} parágrafos"
+  },
+  "materialReader.carouselRefs": {
+    "one": "{count} passagem para a sua Bíblia",
+    "other": "{count} passagens para a sua Bíblia"
+  },
+  "materialReader.carouselSwipe": "Deslize →",
+  "materialReader.carouselMore": "continua →",
+  "materialReader.carouselCont": "continuação",
+  "materialReader.carouselInviteKicker": "Leia com a sua Bíblia do lado",
+  "materialReader.carouselInviteText": "Um pouco a cada dia, com planos de leitura, oração e leitura em grupo.",
+  "materialReader.carouselInviteFree": "Grátis em",
   "materialReader.shareAction": "Compartilhar",
   "materialReader.styleFicha": "Cartão",
   "materialReader.styleClasico": "Clássico",
