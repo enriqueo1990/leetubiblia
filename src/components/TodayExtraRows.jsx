@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { usePreferences } from '../lib/preferences.jsx'
 import { bookLabel } from '../i18n/books.js'
+import { BRAND_SERIF } from '../lib/brandFont.js'
 import { ChevronRight, PeopleIcon } from './icons.jsx'
 import BookCover from './BookCover.jsx'
 
@@ -12,50 +13,80 @@ function refsLine(refs, locale) {
   return labels.join(' · ') + (extra > 0 ? ` +${extra}` : '')
 }
 
-// Filas de "También hoy": dos líneas. Arriba, ícono o portadita + nombre; abajo, QUÉ
-// leer (pasajes del grupo o pregunta del material). A la derecha, el avance. El
-// ícono distingue grupo de material sin depender solo del texto de la meta.
+// Filas de "También hoy".
+//  - Material: una ficha con su portada (el color de su tapa en la Biblioteca),
+//    el nombre entero, el avance compacto ("28 de 107"), QUÉ toca hoy completo
+//    —la pregunta, en serif, como en el libro— y una barra fina de avance.
+//  - Grupo: dos líneas, el ícono y el nombre arriba; abajo los pasajes; a la
+//    derecha el día del plan del grupo.
 export default function TodayExtraRows({ rows, rowClassName = 'px-4 py-3', from }) {
   const { t, locale } = usePreferences()
   const origin = from ?? { to: '/', label: t('nav.hoy') }
 
   return rows.map((row) => {
-    const isGroup = row.type === 'group'
     const r = row.item
-    const to = isGroup ? `/grupos/${r.groupId}/lectura` : `/materiales/${r.slug}`
-    const name = isGroup ? r.groupName : r.label
-    const detail = isGroup ? refsLine(r.refs, locale) : r.question
-    const meta = isGroup
-      ? `${t('planes.dayN', { n: r.day })} ${t('ajustes.ofTotal', { total: r.totalDays })}`
-      : r.meta
     const done = !row.pending
 
+    if (row.type !== 'group') {
+      return (
+        <Link
+          key={row.key}
+          to={`/materiales/${r.slug}`}
+          state={{ from: origin }}
+          className="flex w-full items-start gap-3.5 p-3.5 text-left"
+        >
+          <BookCover slug={r.slug} size="xs" className="w-[50px] shrink-0" style={done ? { opacity: 0.6 } : undefined} />
+          <span className="min-w-0 flex-1" style={done ? { opacity: 0.6 } : undefined}>
+            <span className="sr-only">{t('hoy.extrasTypeMaterial')}: </span>
+            <span className="flex items-baseline justify-between gap-2">
+              <span className="min-w-0 truncate text-[15px] font-semibold text-ink">{r.label}</span>
+              <span className="shrink-0 text-[12px] tabular-nums text-ink-soft">
+                {done && (
+                  <>
+                    <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✓ </span>
+                    <span className="sr-only">{t('hoy.extrasReadDone')}. </span>
+                  </>
+                )}
+                {r.shortMeta ?? r.meta}
+              </span>
+            </span>
+            {r.question && (
+              <span className="mt-1 line-clamp-3 block text-[15px] leading-snug text-ink" style={{ fontFamily: BRAND_SERIF }}>
+                {r.question}
+              </span>
+            )}
+            {r.progress != null && (
+              <span className="mt-2.5 block h-[3px] overflow-hidden rounded-full" style={{ backgroundColor: 'var(--hairline)' }} aria-hidden="true">
+                <span
+                  className="block h-full rounded-full"
+                  style={{ width: `${Math.max(r.progress * 100, 2)}%`, backgroundColor: 'var(--accent)' }}
+                />
+              </span>
+            )}
+          </span>
+        </Link>
+      )
+    }
+
+    const name = r.groupName
+    const detail = refsLine(r.refs, locale)
+    const meta = `${t('planes.dayN', { n: r.day })} ${t('ajustes.ofTotal', { total: r.totalDays })}`
     return (
       <Link
         key={row.key}
-        to={to}
+        to={`/grupos/${r.groupId}/lectura`}
         state={{ from: origin }}
         className={`flex min-h-11 w-full items-center justify-between gap-3 text-left ${rowClassName}`}
       >
         <span className="min-w-0 flex-1" style={done ? { opacity: 0.6 } : undefined}>
           <span className="flex items-center gap-2">
-            {/* Grupo: su ícono. Material: su portadita, el color de su tapa en la
-                Biblioteca (la misma identidad que lo que se comparte). */}
-            {isGroup ? (
-              <span className="shrink-0 text-ink-soft">
-                <PeopleIcon size={16} />
-              </span>
-            ) : (
-              <BookCover slug={r.slug} size="thumb" className="w-[13px] shrink-0" />
-            )}
-            <span className="sr-only">
-              {isGroup ? t('hoy.extrasTypeGroup') : t('hoy.extrasTypeMaterial')}:{' '}
+            <span className="shrink-0 text-ink-soft">
+              <PeopleIcon size={16} />
             </span>
+            <span className="sr-only">{t('hoy.extrasTypeGroup')}: </span>
             <span className="block min-w-0 truncate text-[16px] text-ink">{name}</span>
           </span>
-          {detail && (
-            <span className="mt-0.5 block truncate pl-6 text-[13px] text-ink-soft">{detail}</span>
-          )}
+          {detail && <span className="mt-0.5 block truncate pl-6 text-[13px] text-ink-soft">{detail}</span>}
         </span>
         <span className="flex shrink-0 items-center gap-1.5">
           <span className="text-[13px] tabular-nums text-ink-soft">

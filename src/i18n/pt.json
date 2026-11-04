@@ -588,6 +588,10 @@
 
   "hoy.alsoToday": "Também hoje",
   "hoy.extrasSeeAll": "Ver todas ({count})",
+  "hoy.extrasMoreToday": {
+    "one": "Mais {count} hoje",
+    "other": "Mais {count} hoje"
+  },
   "hoy.extrasTypeGroup": "Leitura do grupo",
   "hoy.extrasTypeMaterial": "Material",
   "hoy.extrasReadDone": "Já lido",

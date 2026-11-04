@@ -105,3 +105,15 @@ test('un grupo con tu mismo plan pero otra fecha se marca como samePlan', () => 
   })
   assert.deepEqual(rows.map((r) => [r.key, r.samePlan]), [['group-1', true], ['group-2', false]])
 })
+
+test('el material trae su avance compacto y la fracción leída', () => {
+  const [row] = buildExtraRows({
+    groupReadings: [],
+    materials: [{ slug: 'keach', position: 4 }],
+    contents: { keach: content(10) },
+    profile,
+    t,
+  })
+  assert.equal(row.item.shortMeta, 'materialsToday.itemOf:{"n":4,"total":10}')
+  assert.equal(row.item.progress, 0.3)
+})

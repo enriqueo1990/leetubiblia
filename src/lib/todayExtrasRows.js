@@ -33,6 +33,9 @@ export function buildExtraRows({ groupReadings, materials, contents, profile, t,
           slug: m.slug,
           label,
           meta: done ? t('hoy.read') : entryOfLabel(t, m.slug, n, content.total, locale),
+          // Por fecha no hay "avance" (es la lectura del día): sin barra.
+          shortMeta: done ? t('hoy.read') : entryOfLabel(t, m.slug, n, content.total, locale),
+          progress: null,
           question: content.entries[n - 1]?.question ?? null,
           done,
         }
@@ -41,10 +44,14 @@ export function buildExtraRows({ groupReadings, materials, contents, profile, t,
       // Materiales como "Completado · repasar", pero deja de ocupar el día.
       if (m.position > content.total) return null
       const entry = content.entries[m.position - 1]
+      const n = entry?.number ?? m.position
       return {
         slug: m.slug,
         label,
-        meta: entryOfLabel(t, m.slug, entry?.number ?? m.position, content.total),
+        meta: entryOfLabel(t, m.slug, n, content.total),
+        // "28 de 107" y la barra: lo leído hasta acá sobre el total.
+        shortMeta: t('materialsToday.itemOf', { n, total: content.total }),
+        progress: Math.min(1, (m.position - 1) / content.total),
         question: entry?.question ?? null,
         done: false,
       }

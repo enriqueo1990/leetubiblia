@@ -6,8 +6,8 @@ import { BRAND_SERIF, ensureBrandFont } from '../lib/brandFont.js'
 // Tapa de un material, como un libro de una colección: su color, el lomo más
 // oscuro a la izquierda, el tipo arriba ("Catecismo") y el título en Newsreader.
 // La misma identidad que la imagen que se comparte, para que se reconozcan.
-// size: 'lg' (estante, con año y cantidad), 'sm' (para agregar), 'thumb' (la
-// portadita de Hoy: solo color y lomo).
+// size: 'lg' (estante, con año y cantidad), 'sm' (para agregar), 'xs' (la ficha
+// de Hoy: solo el título, chico), 'thumb' (solo color y lomo).
 export default function BookCover({ slug, size = 'lg', meta = null, className = '', style = null }) {
   const { t } = usePreferences()
   const th = materialTheme(slug)
@@ -26,7 +26,16 @@ export default function BookCover({ slug, size = 'lg', meta = null, className = 
     >
       <span className="h-full shrink-0" style={{ width: '9%', backgroundColor: th.spine }} />
       <span className="absolute inset-y-0" style={{ left: '9%', width: 1.5, backgroundColor: 'rgba(255,255,255,.12)' }} />
-      {size !== 'thumb' && (
+      {size === 'xs' && (
+        <span
+          lang="es"
+          className="flex min-w-0 flex-1 items-end px-[10%] pb-[12%]"
+          style={{ fontFamily: BRAND_SERIF, fontWeight: 500, fontSize: 8.5, lineHeight: 1.08, hyphens: 'auto', overflowWrap: 'break-word' }}
+        >
+          {th.title}
+        </span>
+      )}
+      {(size === 'lg' || size === 'sm') && (
         <span className={`flex min-w-0 flex-1 flex-col ${size === 'lg' ? 'px-[12%] pb-[11%] pt-[14%]' : 'px-[11%] pb-[12%] pt-[14%]'}`}>
           {th.kind && (
             <span

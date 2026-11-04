@@ -131,41 +131,44 @@ export default function TodayExtras() {
       </p>
       <div className="card divide-y divide-hairline">
         <TodayExtraRows rows={shown} />
-        {overflow && (
-          <Link
-            to="/lecturas"
-            className="flex min-h-11 w-full items-center justify-between gap-3 px-4 py-3 text-left"
-          >
-            <span className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
-              {t('hoy.extrasSeeAll', { count: rows.length })}
+        {overflow ? (
+          // Con más de las que entran: una sola fila con las portadas de las
+          // que quedan y la Biblioteca; Lecturas tiene todas y el estante.
+          <Link to="/lecturas" className="flex min-h-11 w-full items-center gap-3 px-4 py-3 text-left">
+            <span className="flex shrink-0" aria-hidden="true">
+              {rows.slice(PREVIEW_ROWS, PREVIEW_ROWS + 3).map((row, i) =>
+                row.type === 'group' ? null : (
+                  <BookCover key={row.key} slug={row.item.slug} size="thumb" className="w-[15px]" style={{ marginLeft: i ? -5 : 0 }} />
+                )
+              )}
+            </span>
+            <span className="min-w-0 flex-1 text-[15px] text-ink">
+              {t('hoy.extrasMoreToday', { count: rows.length - PREVIEW_ROWS })} · {t('library.title')}
             </span>
             <span className="text-ink-soft" style={{ opacity: 0.5 }}>
               <ChevronRight size={18} />
             </span>
           </Link>
+        ) : (
+          // B · La puerta fija a la Biblioteca: siempre a un toque, también para
+          // quien solo tiene lecturas de grupo.
+          <Link to="/materiales" state={{ from }} className="flex min-h-11 w-full items-center gap-3 px-4 py-3 text-left">
+            {suggested.length > 0 && (
+              <span className="flex shrink-0" aria-hidden="true">
+                {suggested.slice(0, 3).map((slug, i) => (
+                  <BookCover key={slug} slug={slug} size="thumb" className="w-[15px]" style={{ marginLeft: i ? -5 : 0 }} />
+                ))}
+              </span>
+            )}
+            <span className="min-w-0 flex-1 text-[16px] text-ink">{t('library.title')}</span>
+            <span className="flex shrink-0 items-center gap-1.5 text-[13px] text-ink-soft">
+              {toAdd.length > 0 && t('library.moreToAdd', { count: toAdd.length })}
+              <span style={{ opacity: 0.5 }}>
+                <ChevronRight size={18} />
+              </span>
+            </span>
+          </Link>
         )}
-        {/* B · La puerta fija a la Biblioteca: siempre a un toque, también para
-            quien solo tiene lecturas de grupo. */}
-        <Link
-          to="/materiales"
-          state={{ from }}
-          className="flex min-h-11 w-full items-center gap-3 px-4 py-3 text-left"
-        >
-          {suggested.length > 0 && (
-            <span className="flex shrink-0" aria-hidden="true">
-              {suggested.slice(0, 3).map((slug, i) => (
-                <BookCover key={slug} slug={slug} size="thumb" className="w-[15px]" style={{ marginLeft: i ? -5 : 0 }} />
-              ))}
-            </span>
-          )}
-          <span className="min-w-0 flex-1 text-[16px] text-ink">{t('library.title')}</span>
-          <span className="flex shrink-0 items-center gap-1.5 text-[13px] text-ink-soft">
-            {toAdd.length > 0 && t('library.moreToAdd', { count: toAdd.length })}
-            <span style={{ opacity: 0.5 }}>
-              <ChevronRight size={18} />
-            </span>
-          </span>
-        </Link>
       </div>
       {errorBlock}
     </div>
