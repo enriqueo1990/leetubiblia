@@ -492,6 +492,22 @@ export default function Hoy() {
             </Link>
           )}
         </div>
+        {/* Con "Mi tiempo" activo, su entrada vive en la cabecera: siempre a la
+            vista, haya marcado la lectura o no (la acción va en el header). */}
+        {myTime.enabled && !viewingAhead && dayShown != null && !readingUnavailable && (
+          <button
+            type="button"
+            onClick={() => setMyTimeOpen(true)}
+            className="-mt-1 flex min-h-11 shrink-0 items-center"
+          >
+            <span
+              className="flex items-center gap-1.5 rounded-pill px-3.5 py-2 text-[14px] font-semibold"
+              style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
+            >
+              <span aria-hidden="true">✦</span> {t('myTime.title')}
+            </span>
+          </button>
+        )}
         {/* En desktop Ajustes ya está visible en el sidebar; evitar duplicarlo. */}
         <Link
           to="/ajustes"
@@ -932,10 +948,7 @@ export default function Hoy() {
         const settled = doneShown && !breathing
         const invite = reflectionsEnabled && !note && noteEditable // sin nota: invitar
         const noteAccess = reflectionsEnabled && !!note // hay nota: editar/ver
-        // Con "Mi tiempo" activo y la lectura ya marcada, el recorrido sigue a un
-        // toque (la nota y la oración pueden quedar pendientes).
-        const myTimeAgain = myTime.enabled && !viewingAhead
-        const settledHasAction = invite || noteAccess || nextDay != null || myTimeAgain
+        const settledHasAction = invite || noteAccess || nextDay != null
         // Sin lectura disponible no hay nada que marcar: ni barra vacía.
         if (!doneShown && readingUnavailable) return null
         if (!(!doneShown || breathing || (settled && settledHasAction))) return null
@@ -1039,15 +1052,6 @@ export default function Hoy() {
                   {nextDay != null ? nextLink : noteAccess ? noteLink : null}
                   {nextDay != null && noteAccess && noteLink}
                 </div>
-              )}
-              {settled && myTimeAgain && (
-                <button
-                  type="button"
-                  onClick={() => setMyTimeOpen(true)}
-                  className={`block min-h-11 w-full py-2 text-center text-[15px] font-medium text-ink-soft ${justMarked ? 'moment-in' : ''}`}
-                >
-                  {t('myTime.openAgain')}
-                </button>
               )}
               {/* "Tu Biblia, hoy": la lectura marcada, con una foto de tu Biblia de
                   papel. Secundaria y callada: es una invitación, no un paso. */}
