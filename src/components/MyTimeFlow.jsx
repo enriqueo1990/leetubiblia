@@ -4,6 +4,7 @@ import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { addIntercession, getPrayerDeck, markPrayerReviewed } from '../lib/db.js'
 import { myTimeSteps } from '../lib/myTime.js'
+import { markPrayedToday } from '../lib/prayedToday.js'
 import { dayPeriod } from '../lib/dayLight.js'
 import { BRAND_SERIF } from '../lib/brandFont.js'
 import PassageList from './PassageList.jsx'
@@ -101,6 +102,7 @@ export default function MyTimeFlow({
   const amen = () => run(async () => {
     if (prayer.mine) await markPrayerReviewed(prayer.id)
     else await addIntercession(prayer.id, user.id)
+    markPrayedToday(user.id, prayer.title)
     setPrayedFor(prayer.title)
   })
 

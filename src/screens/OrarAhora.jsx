@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { fmtDate } from '../i18n/dates.js'
 import { getPrayerDeck, addIntercession, markPrayerReviewed } from '../lib/db.js'
+import { markPrayedToday } from '../lib/prayedToday.js'
 import { HeartIcon, XIcon } from '../components/icons.jsx'
 import { SkeletonDetail } from '../components/Skeleton.jsx'
 import RetryError from '../components/RetryError.jsx'
@@ -45,6 +46,8 @@ export default function OrarAhora() {
   const { user } = useAuth()
   const { t, locale } = usePreferences()
   const navigate = useNavigate()
+  // Desde Hoy ("Tu día") se vuelve a Hoy; si no, a Oración.
+  const backTo = useLocation().state?.from ?? '/oracion'
   const online = useOnlineStatus()
   const fmtD = (iso) => fmtDate(iso, locale, { day: 'numeric', month: 'short' })
   const fmtLongD = (iso) => fmtDate(iso, locale, { day: 'numeric', month: 'long' })
@@ -91,7 +94,7 @@ export default function OrarAhora() {
   }, [idx])
 
   function close() {
-    navigate('/oracion')
+    navigate(backTo)
   }
 
   if (error) {
@@ -163,6 +166,7 @@ export default function OrarAhora() {
     setActionError(false)
     try {
       await addIntercession(activeDeck[idx].id, user.id)
+      markPrayedToday(user.id, activeDeck[idx].title)
       setInterceded((c) => c + 1)
       advance(null, 'primary')
     } catch {
@@ -177,6 +181,7 @@ export default function OrarAhora() {
     setActionError(false)
     try {
       await markPrayerReviewed(activeDeck[idx].id)
+      markPrayedToday(user.id, activeDeck[idx].title)
       advance(null, 'primary')
     } catch {
       setActionError(true)

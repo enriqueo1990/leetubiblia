@@ -5,6 +5,7 @@ import { useInstallPrompt } from '../hooks/useInstallPrompt.js'
 import { useAuth } from '../lib/auth.jsx'
 import {
   getPlanDay,
+  getPrayerDeck,
   getReflection,
   getCachedReflection,
   upsertReflection,
@@ -29,6 +30,9 @@ import PassageList from '../components/PassageList.jsx'
 import { BookIcon, CameraIcon, CheckIcon, GearIcon, InstallIcon, ShareIcon } from '../components/icons.jsx'
 import BiblePhotoSheet from '../components/BiblePhotoSheet.jsx'
 import MyTimeFlow from '../components/MyTimeFlow.jsx'
+import TodayCard from '../components/TodayCard.jsx'
+import { PRAYED_EVENT, readPrayedToday } from '../lib/prayedToday.js'
+import { BRAND_SERIF } from '../lib/brandFont.js'
 import { useMyTime } from '../hooks/useMyTime.js'
 import { dismissMyTimeInvite, shouldInviteMyTime, wasMyTimeInviteDismissed } from '../lib/myTime.js'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
@@ -124,6 +128,13 @@ export default function Hoy() {
   const [reflectOpen, setReflectOpen] = useState(false)
   const [note, setNote] = useState(undefined)
   const [seededKey, setSeededKey] = useState(null)
+
+  // "Tu día": tras leer, los pasajes se pliegan a una línea (ya los leíste en tu
+  // Biblia) y aparece lo que sigue: la nota y la oración. prayerDeck null = sin
+  // cargar; prayed = "oré hoy" de este dispositivo (lib/prayedToday).
+  const [passagesOpen, setPassagesOpen] = useState(false)
+  const [prayerDeck, setPrayerDeck] = useState(null)
+  const [prayed, setPrayed] = useState(() => readPrayedToday(user?.id))
 
   const planId = r.plan?.id
   const duration = r.plan?.duration_days ?? null
@@ -235,6 +246,29 @@ export default function Hoy() {
       on = false
     }
   }, [noteKey, user, planId, shownDay, cycle])
+
+  // Oración de "Tu día": el mazo se trae cuando el día mostrado ya está leído
+  // (los propios primero, como en Mi tiempo). Sin red, la fila no aparece.
+  useEffect(() => {
+    if (!user || !shownDone || aheadDay != null || prayerDeck != null) return
+    let on = true
+    getPrayerDeck(user.id)
+      .then((d) => on && setPrayerDeck([...d.filter((p) => p.mine), ...d.filter((p) => !p.mine)]))
+      .catch(() => on && setPrayerDeck([]))
+    return () => {
+      on = false
+    }
+  }, [user, shownDone, aheadDay, prayerDeck])
+  useEffect(() => {
+    const sync = () => setPrayed(readPrayedToday(user?.id))
+    sync()
+    window.addEventListener(PRAYED_EVENT, sync)
+    return () => window.removeEventListener(PRAYED_EVENT, sync)
+  }, [user])
+  // Al cambiar de día mostrado, los pasajes vuelven a su estado plegado.
+  useEffect(() => {
+    setPassagesOpen(false)
+  }, [shownDay])
 
   function readNext(target) {
     if (target != null) setAheadDay(target)
@@ -445,6 +479,30 @@ export default function Hoy() {
     r.toggleDay(dayShown)
   }
 
+  // El respiro de la marca: ~2 s de ✓ dibujado antes de que la pantalla siga.
+  const breathing = doneShown && justMarked && !breathDone
+
+  // Filas de "Tu día". Cada una es una invitación: sin diario no hay nota; sin
+  // pedidos no hay oración; una nota de otro día no se reescribe (solo se ve).
+  const noteRow =
+    !reflectionsEnabled || note === undefined
+      ? null
+      : note
+        ? { key: 'note', done: true, serif: true, title: note.body, onClick: () => setReflectOpen(true) }
+        : noteEditable
+          ? { key: 'note', done: false, title: t('hoy.day.noteTodo'), sub: t('hoy.day.noteTodoSub'), onClick: () => setReflectOpen(true) }
+          : null
+  const prayerNext = prayerDeck?.[0] ?? null
+  const prayerRow = viewingAhead
+    ? null
+    : prayed
+      ? { key: 'pray', done: true, title: t('hoy.day.prayDone'), sub: prayed.title || undefined }
+      : prayerNext
+        ? { key: 'pray', done: false, title: t('hoy.day.prayTodo'), sub: prayerNext.title, onClick: () => navigate('/orar', { state: { from: '/' } }) }
+        : null
+  const dayRows = [{ key: 'read', done: true, title: t('hoy.day.read') }, noteRow, prayerRow].filter(Boolean)
+  const dayAllDone = dayRows.every((row) => row.done)
+
   // La invitación a probar "Mi tiempo": una sola vez, desde el segundo día.
   const showMyTimeInvite =
     !myTimeInviteClosed &&
@@ -492,22 +550,6 @@ export default function Hoy() {
             </Link>
           )}
         </div>
-        {/* Con "Mi tiempo" activo, su entrada vive en la cabecera: siempre a la
-            vista, haya marcado la lectura o no (la acción va en el header). */}
-        {myTime.enabled && !viewingAhead && dayShown != null && !readingUnavailable && (
-          <button
-            type="button"
-            onClick={() => setMyTimeOpen(true)}
-            className="-mt-1 flex min-h-11 shrink-0 items-center"
-          >
-            <span
-              className="flex items-center gap-1.5 rounded-pill px-3.5 py-2 text-[14px] font-semibold"
-              style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
-            >
-              <span aria-hidden="true">✦</span> {t('myTime.title')}
-            </span>
-          </button>
-        )}
         {/* En desktop Ajustes ya está visible en el sidebar; evitar duplicarlo. */}
         <Link
           to="/ajustes"
@@ -562,19 +604,6 @@ export default function Hoy() {
                     className="absolute right-0 top-full z-30 -mt-1 w-max divide-y divide-hairline overflow-hidden rounded-input"
                     style={{ backgroundColor: 'var(--surface)', boxShadow: 'var(--shadow-overlay)' }}
                   >
-                    {reflectionsEnabled && note && (
-                      <button
-                        type="button"
-                        role="menuitem"
-                        onClick={() => {
-                          setChipMenuOpen(false)
-                          setReflectOpen(true)
-                        }}
-                        className="block w-full px-4 py-3 text-left text-[15px] text-ink"
-                      >
-                        {noteEditable ? t('hoy.editNote') : t('hoy.viewNote')}
-                      </button>
-                    )}
                     <button
                       type="button"
                       role="menuitem"
@@ -737,6 +766,24 @@ export default function Hoy() {
               />
             </div>
           )}
+          {/* Tras leer, los pasajes se pliegan a una línea: ya los leíste en tu
+              Biblia. "Ver" los vuelve a abrir (cada referencia sigue abriendo su
+              capítulo). */}
+          {doneShown && !passagesOpen && refsShown?.length > 0 ? (
+            <div className="mt-4 flex items-center justify-between gap-3">
+              <p className="min-w-0 truncate text-[16px] text-ink-soft" style={{ fontFamily: BRAND_SERIF }}>
+                {passageLine(refsShown, locale)}
+              </p>
+              <button
+                type="button"
+                onClick={() => setPassagesOpen(true)}
+                className="min-h-11 shrink-0 text-[13px] font-semibold"
+                style={{ color: 'var(--accent-ink)' }}
+              >
+                {t('hoy.passagesShow')}
+              </button>
+            </div>
+          ) : (
           <div className="mt-5 space-y-1">
           {viewingAhead && aheadLoading ? (
             <SkeletonPassages />
@@ -764,13 +811,64 @@ export default function Hoy() {
             )
           )}
           </div>
+          )}
+          {doneShown && passagesOpen && (
+            <button
+              type="button"
+              onClick={() => setPassagesOpen(false)}
+              className="mt-1 min-h-11 text-[13px] font-semibold"
+              style={{ color: 'var(--accent-ink)' }}
+            >
+              {t('hoy.passagesHide')}
+            </button>
+          )}
           {/* Primer día: cómo se usa, una sola vez (hasta la primera marca). */}
           {r.completedCount === 0 && !viewingAhead && !readingUnavailable && (
             <p className="mt-4 text-[13px] leading-relaxed text-ink-soft">{t('hoy.firstDayHint')}</p>
           )}
+
+          {/* "Tu día": lo que sigue después de leer, en el recorrido de la pantalla.
+              Con todo hecho, un cierre arriba: el número de días y "nos vemos
+              mañana". Sin pedir más. */}
+          {doneShown && (
+            <section className={`mt-7 ${justMarked ? 'moment-in' : ''}`} aria-labelledby="tu-dia">
+              {dayAllDone && !viewingAhead && (
+                <div className="mb-6 text-center">
+                  <p className="text-[44px] font-medium leading-none tabular-nums" style={{ fontFamily: BRAND_SERIF, color: 'var(--accent-ink)' }}>
+                    {r.completedCount}
+                  </p>
+                  <p className="mt-1 text-[19px] text-ink" style={{ fontFamily: BRAND_SERIF }}>
+                    {t('myTime.done.days', { count: r.completedCount })}
+                  </p>
+                  <p className="mt-0.5 text-[14px] text-ink-soft">{t('myTime.done.bye')}</p>
+                </div>
+              )}
+              <h2 id="tu-dia" className="mb-2.5 text-[12px] font-semibold uppercase tracking-[0.1em] text-ink-soft">
+                {t('hoy.day.kicker')}
+              </h2>
+              <TodayCard rows={dayRows} />
+              {/* "Tu Biblia, hoy": secundaria y callada, una invitación. */}
+              {!viewingAhead && refsShown?.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setPhotoOpen(true)}
+                  className="mt-2 flex min-h-11 w-full items-center justify-center gap-2 py-2 text-center text-[15px] font-medium text-ink-soft"
+                >
+                  <CameraIcon size={17} /> {t('photo.cta')}
+                </button>
+              )}
+            </section>
+          )}
         </div>
       )}
 
+      {/* Lecturas secundarias del día. Una sola sección para no competir con la
+          lectura principal: si no hay grupos/materiales, no ocupa lugar. Con el
+          plan terminado sigue visible: ahí son justo lo que queda por leer. */}
+      <TodayExtras />
+
+      {/* Sugerencias (recordatorio, instalar, meta, Biblioteca, Mi tiempo): una
+          por vez y al final, sin cortar entre la lectura y lo tuyo. */}
       {showReminderOffer && (
         <ReminderOffer
           onStart={() => setReminderOfferSticky(true)}
@@ -926,57 +1024,28 @@ export default function Hoy() {
         </section>
       )}
 
-      {/* Lecturas secundarias del día. Una sola sección para no competir con la
-          lectura principal: si no hay grupos/materiales, no ocupa lugar. Con el
-          plan terminado sigue visible: ahí son justo lo que queda por leer. */}
-      <TodayExtras />
+      {/* Adelantarse es la excepción: al final, como enlace suave. */}
+      {!r.planFinished && doneShown && !breathing && nextDay != null && (
+        <button
+          type="button"
+          onClick={() => readNext(nextDay)}
+          className="mt-4 block min-h-11 w-full py-2 text-center text-[15px] font-semibold"
+          style={{ color: 'var(--accent-ink)' }}
+        >
+          {t('hoy.readNextDay')} →
+        </button>
+      )}
 
       <div className="flex-1 lg:hidden" />
 
-      {/* Zona de acción única: siempre en el mismo lugar, bajando de intensidad
-          a medida que el día se completa. (1) Marcar → (2) el momento: ✓ dibujado
-          con la línea cálida ARRIBA (el botón nunca se mueve) → (3) la nota, si
-          el Diario está activado y aún no hay → (4) un link quieto para seguir.
-          El estado "leído" vive en el chip del header, no acá. */}
-      {!r.planFinished && (() => {
-        const breathing = doneShown && justMarked && !breathDone
-        // Estado "cerrado" (marcado, pasado el respiro). La NOTA nunca se esconde:
-        // si el diario está activo, siempre hay una vía en la barra —"Anotá…"
-        // cuando no hay, "Editar/Ver tu nota" cuando ya existe—. "Leer el día
-        // siguiente" acompaña como secundaria. Antes, al existir una nota la barra
-        // saltaba solo a "leer siguiente" y anotar parecía imposible.
-        const settled = doneShown && !breathing
-        const invite = reflectionsEnabled && !note && noteEditable // sin nota: invitar
-        const noteAccess = reflectionsEnabled && !!note // hay nota: editar/ver
-        const settledHasAction = invite || noteAccess || nextDay != null
-        // Sin lectura disponible no hay nada que marcar: ni barra vacía.
-        if (!doneShown && readingUnavailable) return null
-        if (!(!doneShown || breathing || (settled && settledHasAction))) return null
-
-        const nextLink = (
-          <button
-            type="button"
-            onClick={() => readNext(nextDay)}
-            className="block min-h-11 w-full py-2 text-center text-[15px] font-semibold"
-            style={{ color: 'var(--accent-ink)' }}
-          >
-            {t('hoy.readNextDay')} →
-          </button>
-        )
-        const noteLink = (
-          <button
-            type="button"
-            onClick={() => setReflectOpen(true)}
-            className="block min-h-11 w-full py-2 text-center text-[15px] font-medium text-ink-soft"
-          >
-            {noteEditable ? t('hoy.editNote') : t('hoy.viewNote')}
-          </button>
-        )
-
-        return (
-          <div className="action-bar">
-            <div className="lg:mx-auto lg:max-w-[440px]">
-              {!doneShown && !readingUnavailable ? (
+      {/* Zona de acción: solo mientras el día mostrado no está leído (marcar) y
+          durante el respiro de la marca (el ✓ dibujado, con la línea cálida
+          ARRIBA: el botón nunca se mueve). Después, lo que sigue vive en "Tu
+          día", en el recorrido de la pantalla, no en una barra fija. */}
+      {!r.planFinished && (!doneShown ? !readingUnavailable : breathing) && (
+        <div className="action-bar">
+          <div className="lg:mx-auto lg:max-w-[440px]">
+            {!doneShown ? (
                 myTime.enabled && !viewingAhead ? (
                   // Con "Mi tiempo" activo: el recorrido es lo primario, y marcar
                   // directo queda a un toque para los días con prisa.
@@ -998,7 +1067,7 @@ export default function Hoy() {
                     {t('hoy.markRead')}
                   </button>
                 )
-              ) : !doneShown ? null : breathing ? (
+            ) : (
                 <>
                   <p className="moment-in pb-2.5 text-center text-[13px] font-medium text-ink-soft">
                     <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✦</span>{' '}
@@ -1032,42 +1101,10 @@ export default function Hoy() {
                     </span>
                   </button>
                 </>
-              ) : invite ? (
-                // Sin nota: la invitación a anotar es la acción primaria; seguir
-                // leyendo queda como enlace secundario.
-                <div className={justMarked ? 'moment-in' : undefined}>
-                  <button
-                    type="button"
-                    onClick={() => setReflectOpen(true)}
-                    className="btn btn-primary"
-                  >
-                    {t('hoy.writeNote')}
-                  </button>
-                  {nextDay != null && <div className="mt-1">{nextLink}</div>}
-                </div>
-              ) : (
-                // Ya hay nota (o diario apagado): seguir es lo primario, con la
-                // nota siempre a un toque de distancia como secundaria.
-                <div className={justMarked ? 'moment-in' : undefined}>
-                  {nextDay != null ? nextLink : noteAccess ? noteLink : null}
-                  {nextDay != null && noteAccess && noteLink}
-                </div>
-              )}
-              {/* "Tu Biblia, hoy": la lectura marcada, con una foto de tu Biblia de
-                  papel. Secundaria y callada: es una invitación, no un paso. */}
-              {doneShown && !breathing && !viewingAhead && refsShown?.length > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setPhotoOpen(true)}
-                  className={`flex min-h-11 w-full items-center justify-center gap-2 py-2 text-center text-[15px] font-medium text-ink-soft ${justMarked ? 'moment-in' : ''}`}
-                >
-                  <CameraIcon size={17} /> {t('photo.cta')}
-                </button>
-              )}
-            </div>
+            )}
           </div>
-        )
-      })()}
+        </div>
+      )}
 
       {myTimeOpen && dayShown != null && (
         <MyTimeFlow
