@@ -35,9 +35,9 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
   const [format, setFormat] = useState(() => {
     if (carousel) return 'carousel'
     try {
-      return localStorage.getItem(SHARE_FORMAT_KEY) === 'story' ? 'story' : 'square'
+      return localStorage.getItem(SHARE_FORMAT_KEY) === 'story' ? 'story' : 'post'
     } catch {
-      return 'square'
+      return 'post'
     }
   })
   const [previews, setPreviews] = useState([])
@@ -191,7 +191,7 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
           onChange={setFormat}
           options={[
             ...(carousel ? [{ key: 'carousel', label: t('materialReader.shareCarousel') }] : []),
-            { key: 'square', label: t('materialReader.shareSquare') },
+            { key: 'post', label: t('materialReader.sharePost') },
             { key: 'story', label: t('materialReader.shareStory') },
           ]}
         />

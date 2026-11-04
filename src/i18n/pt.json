@@ -750,8 +750,8 @@
   "materialReader.share": "Compartilhar a pergunta como imagem",
   "materialReader.shareError": "Não foi possível gerar a imagem. Tente de novo.",
   "materialReader.shareTitle": "Compartilhar como imagem",
-  "materialReader.shareSquare": "Quadrada",
-  "materialReader.shareSquareHint": "Conversas e publicações (1:1)",
+  "materialReader.sharePost": "Publicação",
+  "materialReader.sharePostHint": "Feed e conversas (4:5)",
   "materialReader.shareStory": "Story",
   "materialReader.shareStoryHint": "Status e stories (9:16)",
   "materialReader.shareCarousel": "Carrossel",
@@ -822,5 +822,6 @@
     "other": "dias de sequência máxima"
   },
   "shareImage.footer": "Um dia de cada vez, em Sua Palavra",
+  "shareImage.fromApp": "Do Lee Tu Biblia: {url}",
   "shareImage.shareText": "Terminei de ler {plan} no Lee Tu Biblia! 🙏"
 }

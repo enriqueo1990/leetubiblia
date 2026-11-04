@@ -750,8 +750,8 @@
   "materialReader.share": "Share this question as an image",
   "materialReader.shareError": "Couldn't create the image. Please try again.",
   "materialReader.shareTitle": "Share as an image",
-  "materialReader.shareSquare": "Square",
-  "materialReader.shareSquareHint": "Chats and posts (1:1)",
+  "materialReader.sharePost": "Post",
+  "materialReader.sharePostHint": "Feed and chats (4:5)",
   "materialReader.shareStory": "Story",
   "materialReader.shareStoryHint": "Stories and statuses (9:16)",
   "materialReader.shareCarousel": "Carousel",
@@ -822,5 +822,6 @@
     "other": "days longest streak"
   },
   "shareImage.footer": "One day at a time, in His Word",
+  "shareImage.fromApp": "From Lee Tu Biblia: {url}",
   "shareImage.shareText": "I finished reading {plan} on Lee Tu Biblia! 🙏"
 }

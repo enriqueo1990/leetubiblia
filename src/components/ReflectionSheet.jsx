@@ -3,7 +3,7 @@ import Sheet from './Sheet.jsx'
 import ShareImageSheet from './ShareImageSheet.jsx'
 import { ShareIcon } from './icons.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
-import { shareQuestion } from '../lib/shareImage.js'
+import { shareQuestion, shareUrl } from '../lib/shareImage.js'
 import InlineError from './InlineError.jsx'
 
 // Hoja para anotar/editar la reflexión del día ("¿Qué te habló hoy?"). Feature 1.
@@ -49,7 +49,7 @@ export default function ReflectionSheet({
     setSharing(true)
     setShareError(false)
     try {
-      await shareQuestion({ ...shareData, style, format })
+      await shareQuestion({ ...shareData, style, format, text: t('shareImage.fromApp', { url: shareUrl('nota') }) })
     } catch {
       setShareError(true)
     } finally {

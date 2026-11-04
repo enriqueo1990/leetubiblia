@@ -19,7 +19,7 @@ import {
 import { passageUrl } from '../lib/bible.js'
 import { usePreferences } from '../lib/preferences.jsx'
 import { bookLabel } from '../i18n/books.js'
-import { fitsInOneImage, shareCarousel, shareQuestion } from '../lib/shareImage.js'
+import { fitsInOneImage, shareCarousel, shareQuestion, shareUrl } from '../lib/shareImage.js'
 import { carouselSections } from '../lib/carousel.js'
 import { excerpt } from '../lib/excerpt.js'
 import { ListIcon, ShareIcon } from '../components/icons.jsx'
@@ -290,14 +290,16 @@ export default function MaterialReader() {
     setShareSnap(null)
     setSharing(true)
     setShareError(false)
+    const text = t('shareImage.fromApp', { url: shareUrl('material') })
     try {
       if (format === 'carousel' && carousel) {
-        await shareCarousel({ ...carousel, style, filename: `${slug}-${entry.number}` })
+        await shareCarousel({ ...carousel, style, text, filename: `${slug}-${entry.number}` })
       } else {
         await shareQuestion({
           ...data,
           style,
           format,
+          text,
           filename: `${slug}-${entry.number}${format === 'story' ? '-historia' : ''}.png`,
         })
       }

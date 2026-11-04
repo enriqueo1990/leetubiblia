@@ -171,7 +171,15 @@ export async function buildCompletionImage({
 // Comparte (o descarga) la imagen del logro. Devuelve 'shared' | 'downloaded'.
 export async function shareCompletion(data) {
   const blob = await buildCompletionImage(data)
-  return shareOrDownload(blob, 'lei-mi-plan.png', data.t('shareImage.shareText', { plan: data.planName }))
+  const text = `${data.t('shareImage.shareText', { plan: data.planName })}\n${shareUrl('plan')}`
+  return shareOrDownload(blob, 'lei-mi-plan.png', text)
+}
+
+// Enlace que viaja con cada imagen compartida (en WhatsApp va como texto del
+// mensaje; Instagram lo ignora). `ref` dice de dónde salió, para medir qué se
+// comparte: 'material', 'nota', 'plan'.
+export function shareUrl(ref) {
+  return `${window.location.origin}/?ref=${encodeURIComponent(ref)}`
 }
 
 // Flujo común: hoja nativa si el dispositivo comparte archivos (móvil);
@@ -591,16 +599,28 @@ function loadAppIcon() {
 // se centra en el espacio sobre ella. En los estilos con tarjeta, la tarjeta es
 // DINÁMICA —abraza su contenido, como en la app—; sin tarjeta el texto flota
 // directo sobre el fondo.
-function questionGeometry(H, spec) {
+function questionGeometry(H, spec, format = 'post') {
   const ICON = 48 // alto del ícono de la firma
   const CARD_TO_FIRMA = 26 // aire mínimo entre el contenido y la firma
-  // Base de la firma al borde: mismo margen que los costados.
-  const firmaMidY = H - Q_MARGIN - ICON / 2
+  const safe = SAFE_ZONES[format] ?? SAFE_ZONES.post
+  // Base de la firma: mismo margen que los costados, o por encima de la zona
+  // que tapa la interfaz en una historia.
+  const firmaMidY = H - Math.max(Q_MARGIN, safe.bottom) - ICON / 2
   const zoneBottom = firmaMidY - ICON / 2 - CARD_TO_FIRMA // techo de la firma
-  const zoneTop = spec.card ? Q_MARGIN : FREE_MARGIN
+  const zoneTop = Math.max(spec.card ? Q_MARGIN : FREE_MARGIN, safe.top)
   const innerH = zoneBottom - zoneTop - (spec.card ? Q_PAD * 2 : 0) // contenido máximo
   return { ICON, firmaMidY, zoneBottom, zoneTop, innerH }
 }
+
+// Formatos: publicación 4:5 (el formato del feed y del carrusel; también se ve
+// bien en WhatsApp) e historia 9:16. 'square' es el nombre viejo de la
+// publicación (quedó guardado en dispositivos): se lee como 'post'.
+const FORMAT_H = { post: 1350, story: 1920 }
+const formatOf = (format) => (format === 'story' ? 'story' : 'post')
+
+// Zonas que tapa la interfaz de Instagram y WhatsApp en una historia (barras,
+// nombre arriba; respuesta abajo). Nada importante se dibuja ahí.
+const SAFE_ZONES = { post: { top: 0, bottom: 0 }, story: { top: 250, bottom: 330 } }
 
 // Tipografía a escala fija de la app (ficha 13/20/17/15 escalada al lienzo):
 // el primer juego ES la proporción de pantalla. Los siguientes solo bajan
@@ -612,14 +632,23 @@ const QUOTE_SIZES = [
   { meta: 29, question: 41, answer: 34, refs: 32 },
   { meta: 28, question: 38, answer: 31, refs: 30 },
 ]
+// En una historia la pantalla es el lienzo entero: un texto corto se lee más
+// grande antes de caer en los cuerpos de la publicación.
+const STORY_SIZES = [
+  { meta: 40, question: 64, answer: 54, refs: 46 },
+  { meta: 38, question: 60, answer: 50, refs: 43 },
+  { meta: 36, question: 56, answer: 47, refs: 41 },
+  ...QUOTE_SIZES,
+]
 
 // Elige qué entra en la tarjeta y con qué cuerpo. `complete` = la respuesta
 // entró entera (con o sin citas).
-function fitQuestion(ctx, spec, pal, { meta, question, answer, refs }, H) {
-  const { innerH } = questionGeometry(H, spec)
+function fitQuestion(ctx, spec, pal, { meta, question, answer, refs }, format) {
+  const { innerH } = questionGeometry(FORMAT_H[format], spec, format)
+  const sizesList = format === 'story' ? STORY_SIZES : QUOTE_SIZES
   const fits = (c, s) => renderQuoteBlock(ctx, spec, pal, c, s, 0, false) <= innerH
   const tryFit = (content, complete) => {
-    const sizes = QUOTE_SIZES.find((s) => fits(content, s))
+    const sizes = sizesList.find((s) => fits(content, s))
     return sizes ? { content, sizes, complete } : null
   }
   // 1ª etapa: todo, bajando de cuerpo si hace falta.
@@ -642,21 +671,22 @@ function fitQuestion(ctx, spec, pal, { meta, question, answer, refs }, H) {
 
 // ¿Entra la respuesta entera en una sola tarjeta? (Medición pura, sin dibujar.)
 // Decide si la hoja de compartir ofrece el carrusel.
-export function fitsInOneImage({ meta, question, answer, refs = [], format = 'square', style = 'ficha' }) {
+export function fitsInOneImage({ meta, question, answer, refs = [], format = 'post', style = 'ficha' }) {
   const spec = styleSpec(style)
   const pal = spec.pal ?? resolveTheme()
   const ctx = document.createElement('canvas').getContext('2d')
-  return fitQuestion(ctx, spec, pal, { meta, question, answer, refs }, format === 'story' ? 1920 : QSIZE).complete
+  return fitQuestion(ctx, spec, pal, { meta, question, answer, refs }, formatOf(format)).complete
 }
 
 // Dibuja la tarjeta de una pregunta y devuelve un Blob PNG.
 // `meta` ya viene armada ("Catecismo de Heidelberg · Pregunta 1 de 129") y
 // `refs` son etiquetas resueltas por idioma ("Juan 1", …): la i18n es de quien llama.
-// `format`: 'square' (1080×1080, chats y feed) o 'story' (1080×1920, estados
-// e historias). El ancho no cambia — solo la columna vertical disponible.
+// `format`: 'post' (1080×1350, feed y chats) o 'story' (1080×1920, estados e
+// historias, con zonas seguras). El ancho no cambia: solo la columna vertical.
 // `style`: uno de QUOTE_STYLES ('ficha' | 'clasico' | 'noche').
-export async function buildQuestionImage({ meta, question, answer, refs = [], format = 'square', style = 'ficha' }) {
-  const H = format === 'story' ? 1920 : QSIZE
+export async function buildQuestionImage({ meta, question, answer, refs = [], format = 'post', style = 'ficha' }) {
+  format = formatOf(format)
+  const H = FORMAT_H[format]
   // Supersampling 2×: el lienzo físico duplica los 1080 lógicos y todo se
   // dibuja escalado. Las plataformas (WhatsApp/Instagram) recomprimen al
   // compartir; partir de 2160 deja el texto nítido después de esa pasada.
@@ -676,8 +706,8 @@ export async function buildQuestionImage({ meta, question, answer, refs = [], fo
   const ctx = canvas.getContext('2d')
   ctx.scale(SCALE, SCALE)
 
-  const { zoneTop, zoneBottom, firmaMidY, ICON } = questionGeometry(H, spec)
-  const { content, sizes } = fitQuestion(ctx, spec, pal, { meta, question, answer, refs }, H)
+  const { zoneTop, zoneBottom, firmaMidY, ICON } = questionGeometry(H, spec, format)
+  const { content, sizes } = fitQuestion(ctx, spec, pal, { meta, question, answer, refs }, format)
 
   // Fondo: plano (tokens de la app / noche), degradé vertical (clásico) o
   // diagonal (moderno).
@@ -697,12 +727,12 @@ export async function buildQuestionImage({ meta, question, answer, refs = [], fo
 
   if (spec.card) {
     // Ficha dinámica: alto = contenido + padding, centrada verticalmente en el
-    // espacio sobre la firma (sin subir del margen superior). Separación como
-    // .card en tokens.css: sombra apenas perceptible en claro; en oscuro un
-    // filete claro sutil — la sombra no existe sobre negro.
+    // espacio sobre la firma (sin subir del margen superior ni de la zona
+    // segura). Separación como .card en tokens.css: sombra apenas perceptible
+    // en claro; en oscuro un filete claro sutil — la sombra no existe sobre negro.
     const radius = spec.cardRadius ?? 38
-    const cardH = Math.min(blockH + Q_PAD * 2, zoneBottom - Q_MARGIN)
-    const cardY = Q_MARGIN + Math.max(0, (zoneBottom - Q_MARGIN - cardH) / 2)
+    const cardH = Math.min(blockH + Q_PAD * 2, zoneBottom - zoneTop)
+    const cardY = zoneTop + Math.max(0, (zoneBottom - zoneTop - cardH) / 2)
     ctx.save()
     if (!dark) {
       // shadowBlur/offset son en píxeles físicos (el transform no los escala):
@@ -759,9 +789,9 @@ export async function buildQuestionImage({ meta, question, answer, refs = [], fo
 
 // Comparte (o descarga) la tarjeta de una pregunta. Devuelve 'shared' | 'downloaded'.
 // `format` viaja dentro de `data` hacia buildQuestionImage.
-export async function shareQuestion({ filename, ...data }) {
+export async function shareQuestion({ filename, text, ...data }) {
   const blob = await buildQuestionImage(data)
-  return shareOrDownload(blob, filename)
+  return shareOrDownload(blob, filename, text)
 }
 
 /* ---- Carrusel (4:5) para lo que no entra en una tarjeta ----
@@ -991,9 +1021,10 @@ export async function buildCarousel({ meta, title, coverNote, sections, inviteTi
 
 // Comparte (o descarga) el carrusel entero. `filename` sin extensión: cada
 // lámina sale numerada ("bautista-1689-1-01.png") para que queden en orden.
-export async function shareCarousel({ filename, ...data }) {
+export async function shareCarousel({ filename, text, ...data }) {
   const blobs = await buildCarousel(data)
   return shareOrDownloadAll(
     blobs.map((blob, i) => ({ blob, filename: `${filename}-${String(i + 1).padStart(2, '0')}.png` })),
+    text,
   )
 }
