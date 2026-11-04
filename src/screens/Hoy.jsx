@@ -18,13 +18,15 @@ import {
 } from '../lib/db.js'
 import { usePreferences } from '../lib/preferences.jsx'
 import { fmtISODate } from '../i18n/dates.js'
+import { passageLine } from '../lib/passageLine.js'
 import { planName } from '../lib/planLabels.js'
 import { shareCompletion } from '../lib/shareImage.js'
 import { recordFunnel } from '../lib/diag.js'
 import { SkeletonHoy, SkeletonPassages } from '../components/Skeleton.jsx'
 import InlineError from '../components/InlineError.jsx'
 import PassageList from '../components/PassageList.jsx'
-import { BookIcon, CheckIcon, GearIcon, InstallIcon, ShareIcon } from '../components/icons.jsx'
+import { BookIcon, CameraIcon, CheckIcon, GearIcon, InstallIcon, ShareIcon } from '../components/icons.jsx'
+import BiblePhotoSheet from '../components/BiblePhotoSheet.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import { cycleOf, nextCyclePatch } from '../lib/planCycle.js'
 import EmptyState from '../components/EmptyState.jsx'
@@ -76,6 +78,7 @@ export default function Hoy() {
   const [showReprogramado, setShowReprogramado] = useState(false)
   const [sharing, setSharing] = useState(false)
   const [shareNote, setShareNote] = useState(null) // 'downloaded' | null
+  const [photoOpen, setPhotoOpen] = useState(false) // "Tu Biblia, hoy"
   const [recorded, setRecorded] = useState(false)
   const [installing, setInstalling] = useState(false)
   const [installCardDismissed, setInstallCardDismissed] = useState(wasInstallCardDismissed)
@@ -907,10 +910,34 @@ export default function Hoy() {
                   {nextDay != null && noteAccess && noteLink}
                 </div>
               )}
+              {/* "Tu Biblia, hoy": la lectura marcada, con una foto de tu Biblia de
+                  papel. Secundaria y callada: es una invitación, no un paso. */}
+              {doneShown && !breathing && !viewingAhead && refsShown?.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setPhotoOpen(true)}
+                  className={`flex min-h-11 w-full items-center justify-center gap-2 py-2 text-center text-[15px] font-medium text-ink-soft ${justMarked ? 'moment-in' : ''}`}
+                >
+                  <CameraIcon size={17} /> {t('photo.cta')}
+                </button>
+              )}
             </div>
           </div>
         )
       })()}
+
+      {photoOpen && (
+        <BiblePhotoSheet
+          data={{
+            passage: passageLine(refsShown, locale),
+            day: shownDay,
+            daysRead: r.completedCount,
+            streak: r.streak,
+            note: note?.body ?? null,
+          }}
+          onClose={() => setPhotoOpen(false)}
+        />
+      )}
 
       {reflectOpen && shownDay != null && (
         <ReflectionSheet

@@ -128,6 +128,13 @@ export const ShareIcon = (p) => (
   </Icon>
 )
 
+export const CameraIcon = (p) => (
+  <Icon {...p}>
+    <path d="M14.5 4h-5L7.5 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3.5z" />
+    <circle cx="12" cy="13" r="3.5" />
+  </Icon>
+)
+
 export const BellIcon = (p) => (
   <Icon {...p}>
     <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />

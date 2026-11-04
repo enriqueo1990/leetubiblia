@@ -186,13 +186,13 @@ export default defineConfig({
         // Hoy (el build los nombra por prefijo, el hash cambia). Si agregás un import
         // estático nuevo a Hoy y aparece un chunk nuevo, sumalo acá.
         globPatterns: [
-          '**/*.{html,css,svg,woff2}',
+          '**/*.{html,css,svg}',
           'registerSW.js',
           'manifest.webmanifest',
           'icons/*.png',
           'assets/index-*.js',
           'assets/vendor-*.js',
-          'assets/{PrivateRoot,Hoy,ConfirmDialog,EmptyState,InlineError,PassageList,ReflectionSheet,Segmented,ShareImageSheet,Sheet,Skeleton,TodayExtraRows,bible,books,dates,icons,materials,planCycle,planLabels,useInstallPrompt,useReading}-*.js',
+          'assets/{PrivateRoot,Hoy,BookCover,ConfirmDialog,DonateSheet,EmptyState,InlineError,PassageList,ReflectionSheet,Segmented,ShareImageSheet,Sheet,Skeleton,TodayExtraRows,bible,books,dates,icons,materialTheme,materials,planCycle,planLabels,useInstallPrompt,useReading}-*.js',
         ],
         runtimeCaching: [
           {
@@ -201,6 +201,17 @@ export default defineConfig({
             options: {
               cacheName: 'ltb-app-code',
               expiration: { maxEntries: 80, maxAgeSeconds: 30 * 24 * 60 * 60 },
+            },
+          },
+          // Newsreader (portadas e imágenes para compartir): no entra en la
+          // instalación (~460 KB); se baja la primera vez que se usa y queda
+          // guardada, así compartir funciona sin red desde entonces.
+          {
+            urlPattern: /\/assets\/newsreader-.*\.woff2$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'ltb-fonts',
+              expiration: { maxEntries: 8, maxAgeSeconds: 365 * 24 * 60 * 60 },
             },
           },
           {
