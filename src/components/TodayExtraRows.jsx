@@ -38,8 +38,23 @@ export default function TodayExtraRows({ rows, rowClassName = 'px-4 py-3', from 
           <BookCover slug={r.slug} size="xs" className="w-[50px] shrink-0" style={done ? { opacity: 0.6 } : undefined} />
           <span className="min-w-0 flex-1" style={done ? { opacity: 0.6 } : undefined}>
             <span className="sr-only">{t('hoy.extrasTypeMaterial')}: </span>
-            <span className="flex items-baseline justify-between gap-2">
-              <span className="min-w-0 truncate text-[15px] font-semibold text-ink">{r.label}</span>
+            {/* El nombre entero, hasta dos líneas: el avance va abajo, junto a la
+                barra, para no robarle lugar. */}
+            <span className="line-clamp-2 block text-[15px] font-semibold leading-snug text-ink">{r.label}</span>
+            {r.question && (
+              <span className="mt-1 line-clamp-3 block text-[15px] leading-snug text-ink" style={{ fontFamily: BRAND_SERIF }}>
+                {r.question}
+              </span>
+            )}
+            <span className="mt-2 flex items-center gap-2.5">
+              {r.progress != null && (
+                <span className="block h-[3px] flex-1 overflow-hidden rounded-full" style={{ backgroundColor: 'var(--hairline)' }} aria-hidden="true">
+                  <span
+                    className="block h-full rounded-full"
+                    style={{ width: `${Math.max(r.progress * 100, 2)}%`, backgroundColor: 'var(--accent)' }}
+                  />
+                </span>
+              )}
               <span className="shrink-0 text-[12px] tabular-nums text-ink-soft">
                 {done && (
                   <>
@@ -50,19 +65,6 @@ export default function TodayExtraRows({ rows, rowClassName = 'px-4 py-3', from 
                 {r.shortMeta ?? r.meta}
               </span>
             </span>
-            {r.question && (
-              <span className="mt-1 line-clamp-3 block text-[15px] leading-snug text-ink" style={{ fontFamily: BRAND_SERIF }}>
-                {r.question}
-              </span>
-            )}
-            {r.progress != null && (
-              <span className="mt-2.5 block h-[3px] overflow-hidden rounded-full" style={{ backgroundColor: 'var(--hairline)' }} aria-hidden="true">
-                <span
-                  className="block h-full rounded-full"
-                  style={{ width: `${Math.max(r.progress * 100, 2)}%`, backgroundColor: 'var(--accent)' }}
-                />
-              </span>
-            )}
           </span>
         </Link>
       )

@@ -23,7 +23,8 @@ export function buildExtraRows({ groupReadings, materials, contents, profile, t,
     .map((m) => {
       const content = contents?.[m.slug]
       if (!content) return null
-      const label = getMaterial(m.slug)?.shortName ?? content.name
+      // El nombre completo: la ficha tiene lugar (la portada ya da el corto).
+      const label = getMaterial(m.slug)?.name ?? content.name
       // Por fecha: siempre hay una lectura para hoy. Si ya se marcó, la fila queda
       // como hecha ("✓ Leído") y baja al final.
       if (isCalendarMaterial(m.slug)) {
