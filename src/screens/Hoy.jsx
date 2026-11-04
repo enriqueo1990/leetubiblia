@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useReading } from '../hooks/useReading.js'
 import { useInstallPrompt } from '../hooks/useInstallPrompt.js'
@@ -116,12 +116,10 @@ export default function Hoy() {
   // Momento de marcar: true solo en la sesión justo después de marcar el día
   // mostrado (dispara el check dibujado, el respiro del botón y la línea cálida).
   // breathDone: tras ~2s de respiro, la zona de acción cede el paso a la
-  // siguiente oferta (nota / seguir). chipMenuOpen: menú del chip "✓ Leído".
+  // siguiente oferta (nota / seguir). confirmUnmark: "¿Desmarcar este día?".
   const [justMarked, setJustMarked] = useState(false)
   const [breathDone, setBreathDone] = useState(false)
-  const [chipMenuOpen, setChipMenuOpen] = useState(false)
-  const chipRef = useRef(null)
-  const menuRef = useRef(null)
+  const [confirmUnmark, setConfirmUnmark] = useState(false)
 
   // Reflexión del día ("Mi camino"): hoja abierta + nota cargada del día mostrado.
   // note: undefined = aún no sabemos · null = no hay nota · objeto = hay nota.
@@ -164,7 +162,7 @@ export default function Hoy() {
   const shownDayForMoment = aheadDay != null ? aheadDay : r.displayDay
   useEffect(() => {
     setJustMarked(false)
-    setChipMenuOpen(false)
+    setConfirmUnmark(false)
   }, [planId, shownDayForMoment])
 
   // Respiro tras marcar: el botón confirma en su lugar (~2.4s) y recién después
@@ -177,28 +175,6 @@ export default function Hoy() {
     const id = setTimeout(() => setBreathDone(true), 2400)
     return () => clearTimeout(id)
   }, [justMarked])
-
-  // Menú del chip "✓ Leído": al abrir, el foco va al primer ítem (teclado y lector
-  // de pantalla), y Escape / flechas se manejan en el propio menú.
-  useEffect(() => {
-    if (chipMenuOpen) menuRef.current?.querySelector('[role="menuitem"]')?.focus()
-  }, [chipMenuOpen])
-
-  function onMenuKeyDown(e) {
-    if (e.key === 'Escape') {
-      e.preventDefault()
-      setChipMenuOpen(false)
-      chipRef.current?.focus()
-      return
-    }
-    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return
-    e.preventDefault()
-    const items = [...(menuRef.current?.querySelectorAll('[role="menuitem"]') ?? [])]
-    if (!items.length) return
-    const i = items.indexOf(document.activeElement)
-    const next = e.key === 'ArrowDown' ? (i + 1) % items.length : (i - 1 + items.length) % items.length
-    items[next].focus()
-  }
 
   // Mostrar "Listo, seguimos desde hoy" unos segundos al terminar de reprogramar.
   useEffect(() => {
@@ -490,7 +466,7 @@ export default function Hoy() {
       : note
         ? { key: 'note', done: true, serif: true, title: note.body, onClick: () => setReflectOpen(true) }
         : noteEditable
-          ? { key: 'note', done: false, title: t('hoy.day.noteTodo'), sub: t('hoy.day.noteTodoSub'), onClick: () => setReflectOpen(true) }
+          ? { key: 'note', done: false, title: t('hoy.day.noteTodo'), onClick: () => setReflectOpen(true) }
           : null
   const prayerNext = prayerDeck?.[0] ?? null
   const prayerRow = viewingAhead
@@ -500,8 +476,12 @@ export default function Hoy() {
       : prayerNext
         ? { key: 'pray', done: false, title: t('hoy.day.prayTodo'), sub: prayerNext.title, onClick: () => navigate('/orar', { state: { from: '/' } }) }
         : null
-  const dayRows = [{ key: 'read', done: true, title: t('hoy.day.read') }, noteRow, prayerRow].filter(Boolean)
-  const dayAllDone = dayRows.every((row) => row.done)
+  // "Leíste tu lectura" es también la puerta a desmarcar (antes, el menú del chip).
+  const daySteps = [{ key: 'read', done: true, title: t('hoy.day.read'), onClick: () => setConfirmUnmark(true) }, noteRow, prayerRow].filter(Boolean)
+  const dayAllDone = daySteps.every((row) => row.done)
+  // "Tu Biblia, hoy": una invitación más, como fila, no un botón suelto.
+  const photoRow = !viewingAhead && refsShown?.length > 0 ? { key: 'photo', icon: <CameraIcon size={20} />, title: t('photo.cta'), onClick: () => setPhotoOpen(true) } : null
+  const dayRows = [...daySteps, photoRow].filter(Boolean)
 
   // La invitación a probar "Mi tiempo": una sola vez, desde el segundo día.
   const showMyTimeInvite =
@@ -527,103 +507,17 @@ export default function Hoy() {
   return (
     <div className="relative isolate flex min-h-[calc(100dvh-120px)] flex-col pt-2 lg:min-h-0">
       <div aria-hidden="true" className={`day-light ${period}`} />
-      <p className="mb-1 text-[14px] font-medium text-ink-soft">{greeting}</p>
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0 flex-1">
-          {/* Sin "volver": el modelo es el señalador — leer adelantado mueve tu
-              "hoy", y el ancla (useReading) te espera donde dejaste el marcador. */}
-          {/* Cabecera del plan, una sola unidad con la lectura: el nombre como
-              título (tocable hacia Lecturas), debajo "Día N de M" con el chip
-              "✓ Leído" a la derecha, y una regla fina de avance que separa el
-              encabezado de los pasajes. Sin hueco ni etiqueta intermedia: los
-              pasajes se leen como el día del plan. */}
-          {r.plan && (
-            <Link to="/lecturas" className="block min-w-0 py-1">
-              <span className="flex items-center gap-1">
-                <span className="line-clamp-2 text-[17px] font-semibold leading-snug text-ink">
-                  {planName(t, r.plan)}
-                </span>
-                <span aria-hidden="true" className="shrink-0 text-ink-soft" style={{ opacity: 0.5 }}>
-                  ›
-                </span>
-              </span>
-            </Link>
-          )}
-        </div>
+      <div className="flex items-center justify-between gap-3">
+        <p className="min-w-0 truncate text-[14px] font-medium text-ink-soft">{greeting}</p>
         {/* En desktop Ajustes ya está visible en el sidebar; evitar duplicarlo. */}
         <Link
           to="/ajustes"
           aria-label={t('nav.ajustes')}
-          className="-mr-2 -mt-1 flex h-11 w-11 shrink-0 items-center justify-center text-ink-soft transition-colors hover:text-accent-ink lg:hidden"
+          className="-mr-2 flex h-11 w-11 shrink-0 items-center justify-center text-ink-soft transition-colors hover:text-accent-ink lg:hidden"
         >
           <GearIcon size={19} />
         </Link>
       </div>
-
-      {/* Día del plan + estado del día. Si se está leyendo adelantado, el día es
-          el adelantado (el ancla te espera donde dejaste el señalador). */}
-      {!r.planFinished && dayShown != null && (
-        <div className="flex min-h-7 items-center justify-between gap-2">
-          <p className="text-[14px] tabular-nums text-ink-soft">
-            {duration != null
-              ? t('hoy.dayOfTotal', { day: dayShown, total: duration })
-              : t('hoy.dayN', { day: dayShown })}
-          </p>
-          {!r.planFinished && doneShown && (breathDone || !justMarked) && (
-            <div className="relative shrink-0">
-              <button
-                ref={chipRef}
-                type="button"
-                onClick={() => setChipMenuOpen((v) => !v)}
-                aria-expanded={chipMenuOpen}
-                aria-haspopup="menu"
-                className="moment-in flex min-h-11 items-center"
-              >
-                <span
-                  className="flex items-center gap-1 rounded-pill px-2.5 py-1 text-[12px] font-semibold"
-                  style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
-                >
-                  ✓ {t('hoy.read')}
-                  <span aria-hidden="true" style={{ fontSize: 9, opacity: 0.65 }}>▾</span>
-                </span>
-              </button>
-              {chipMenuOpen && (
-                <>
-                  {/* Cerrar al tocar afuera */}
-                  <button
-                    type="button"
-                    aria-hidden="true"
-                    tabIndex={-1}
-                    className="fixed inset-0 z-20 cursor-default"
-                    onClick={() => setChipMenuOpen(false)}
-                  />
-                  <div
-                    ref={menuRef}
-                    role="menu"
-                    onKeyDown={onMenuKeyDown}
-                    className="absolute right-0 top-full z-30 -mt-1 w-max divide-y divide-hairline overflow-hidden rounded-input"
-                    style={{ backgroundColor: 'var(--surface)', boxShadow: 'var(--shadow-overlay)' }}
-                  >
-                    <button
-                      type="button"
-                      role="menuitem"
-                      onClick={() => {
-                        setChipMenuOpen(false)
-                        setJustMarked(false)
-                        if (dayShown != null) r.toggleDay(dayShown)
-                      }}
-                      className="block w-full px-4 py-3 text-left text-[15px]"
-                      style={{ color: 'var(--danger)' }}
-                    >
-                      {t('hoy.unmark')}
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          )}
-        </div>
-      )}
 
       {r.offline && (
         <p className="mt-2 text-[12px] text-ink-soft">
@@ -748,12 +642,32 @@ export default function Hoy() {
           )}
         </div>
       ) : (
-        // Regla fina de avance (ancho completo, 2px) como frontera entre el
-        // encabezado del plan y los pasajes; después, la Palabra.
-        <div className="mt-3">
+        // La lectura de hoy es una tarjeta: el plan (tocable hacia Lecturas),
+        // "Día N" una sola vez (el señalador: sirve para ponerse al día o ir a
+        // la par de un grupo; el total no suma, la barra ya dice cuánto falta),
+        // la regla de avance, los pasajes y, leído, el día siguiente en el pie.
+        // Sin "volver": leer adelantado mueve tu "hoy", y el ancla (useReading)
+        // te espera donde dejaste el marcador.
+        <>
+        <div className="card mt-3 px-4 pb-1 pt-3.5">
+          {r.plan && (
+            <Link to="/lecturas" className="block min-w-0">
+              <span className="flex items-center gap-1">
+                <span className="line-clamp-2 text-[17px] font-semibold leading-snug text-ink">
+                  {planName(t, r.plan)}
+                </span>
+                <span aria-hidden="true" className="shrink-0 text-ink-soft" style={{ opacity: 0.5 }}>
+                  ›
+                </span>
+              </span>
+            </Link>
+          )}
+          {dayShown != null && (
+            <p className="mt-0.5 text-[13px] tabular-nums text-ink-soft">{t('hoy.dayN', { day: dayShown })}</p>
+          )}
           {duration != null && (
             <div
-              className="h-[2px] w-full overflow-hidden rounded-full"
+              className="mt-3 h-[2px] w-full overflow-hidden rounded-full"
               style={{ backgroundColor: 'var(--hairline)' }}
               aria-hidden="true"
             >
@@ -770,21 +684,21 @@ export default function Hoy() {
               Biblia. "Ver" los vuelve a abrir (cada referencia sigue abriendo su
               capítulo). */}
           {doneShown && !passagesOpen && refsShown?.length > 0 ? (
-            <div className="mt-4 flex items-center justify-between gap-3">
-              <p className="min-w-0 truncate text-[16px] text-ink-soft" style={{ fontFamily: BRAND_SERIF }}>
+            <button
+              type="button"
+              onClick={() => setPassagesOpen(true)}
+              aria-expanded={false}
+              className="mt-1 flex min-h-12 w-full items-center justify-between gap-3 py-2 text-left"
+            >
+              <span className="min-w-0 text-[17px] leading-snug text-ink" style={{ fontFamily: BRAND_SERIF }}>
                 {passageLine(refsShown, locale)}
-              </p>
-              <button
-                type="button"
-                onClick={() => setPassagesOpen(true)}
-                className="min-h-11 shrink-0 text-[13px] font-semibold"
-                style={{ color: 'var(--accent-ink)' }}
-              >
-                {t('hoy.passagesShow')}
-              </button>
-            </div>
+              </span>
+              <span className="shrink-0 text-[13px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
+                {t('hoy.passagesShow')} <span aria-hidden="true" style={{ fontSize: 11 }}>▾</span>
+              </span>
+            </button>
           ) : (
-          <div className="mt-5 space-y-1">
+          <div className="mt-4 space-y-1 pb-2">
           {viewingAhead && aheadLoading ? (
             <SkeletonPassages />
           ) : (
@@ -816,12 +730,29 @@ export default function Hoy() {
             <button
               type="button"
               onClick={() => setPassagesOpen(false)}
-              className="mt-1 min-h-11 text-[13px] font-semibold"
+              aria-expanded={true}
+              className="-mt-1 min-h-11 text-[13px] font-semibold"
               style={{ color: 'var(--accent-ink)' }}
             >
-              {t('hoy.passagesHide')}
+              {t('hoy.passagesHide')} <span aria-hidden="true" style={{ fontSize: 11 }}>▴</span>
             </button>
           )}
+          {/* Adelantarse es la excepción: en el pie de la tarjeta del plan, al
+              que pertenece. */}
+          {doneShown && !breathing && nextDay != null && (
+            <div className="-mx-4 mt-1 border-t border-hairline px-4">
+              <button
+                type="button"
+                onClick={() => readNext(nextDay)}
+                className="flex min-h-12 w-full items-center justify-end text-[14px] font-semibold"
+                style={{ color: 'var(--accent-ink)' }}
+              >
+                {t('hoy.readNextDay')} →
+              </button>
+            </div>
+          )}
+        </div>
+        <div>
           {/* Primer día: cómo se usa, una sola vez (hasta la primera marca). */}
           {r.completedCount === 0 && !viewingAhead && !readingUnavailable && (
             <p className="mt-4 text-[13px] leading-relaxed text-ink-soft">{t('hoy.firstDayHint')}</p>
@@ -847,19 +778,10 @@ export default function Hoy() {
                 {t('hoy.day.kicker')}
               </h2>
               <TodayCard rows={dayRows} />
-              {/* "Tu Biblia, hoy": secundaria y callada, una invitación. */}
-              {!viewingAhead && refsShown?.length > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setPhotoOpen(true)}
-                  className="mt-2 flex min-h-11 w-full items-center justify-center gap-2 py-2 text-center text-[15px] font-medium text-ink-soft"
-                >
-                  <CameraIcon size={17} /> {t('photo.cta')}
-                </button>
-              )}
             </section>
           )}
         </div>
+        </>
       )}
 
       {/* Lecturas secundarias del día. Una sola sección para no competir con la
@@ -1024,18 +946,6 @@ export default function Hoy() {
         </section>
       )}
 
-      {/* Adelantarse es la excepción: al final, como enlace suave. */}
-      {!r.planFinished && doneShown && !breathing && nextDay != null && (
-        <button
-          type="button"
-          onClick={() => readNext(nextDay)}
-          className="mt-4 block min-h-11 w-full py-2 text-center text-[15px] font-semibold"
-          style={{ color: 'var(--accent-ink)' }}
-        >
-          {t('hoy.readNextDay')} →
-        </button>
-      )}
-
       <div className="flex-1 lg:hidden" />
 
       {/* Zona de acción: solo mientras el día mostrado no está leído (marcar) y
@@ -1175,6 +1085,20 @@ export default function Hoy() {
             setNote(null)
             setReflectOpen(false)
           }}
+        />
+      )}
+
+      {confirmUnmark && (
+        <ConfirmDialog
+          title={t('hoy.unmarkTitle')}
+          message={t('hoy.unmarkMessage')}
+          confirmLabel={t('hoy.unmark')}
+          onConfirm={() => {
+            setConfirmUnmark(false)
+            setJustMarked(false)
+            if (dayShown != null) r.toggleDay(dayShown)
+          }}
+          onCancel={() => setConfirmUnmark(false)}
         />
       )}
 

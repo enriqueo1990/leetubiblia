@@ -11,28 +11,36 @@ export default function TodayCard({ rows, className = '' }) {
       {rows.map((row) => {
         const inner = (
           <>
-            <span
-              aria-hidden="true"
-              className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
-              style={
-                row.done
-                  ? { backgroundColor: 'var(--accent-action)' }
-                  : { boxShadow: 'inset 0 0 0 1.6px var(--faint)' }
-              }
-            >
-              {row.done && (
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12l5 5L20 7" />
-                </svg>
-              )}
-            </span>
+            {row.icon ? (
+              // Una invitación sin "hecho/pendiente" (compartir): su ícono en
+              // lugar del círculo.
+              <span aria-hidden="true" className="flex h-6 w-6 shrink-0 items-center justify-center text-ink-soft">
+                {row.icon}
+              </span>
+            ) : (
+              <span
+                aria-hidden="true"
+                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
+                style={
+                  row.done
+                    ? { backgroundColor: 'var(--accent-action)' }
+                    : { boxShadow: 'inset 0 0 0 1.6px var(--faint)' }
+                }
+              >
+                {row.done && (
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12l5 5L20 7" />
+                  </svg>
+                )}
+              </span>
+            )}
             <span className="min-w-0 flex-1">
               {row.serif ? (
                 <span className="line-clamp-2 text-[16px] italic leading-snug text-ink" style={{ fontFamily: BRAND_SERIF }}>
                   {row.title}
                 </span>
               ) : (
-                <span className={`block text-[16px] leading-tight ${row.done ? 'font-medium text-ink-soft' : 'font-semibold text-ink'}`}>
+                <span className={`block text-[16px] leading-tight ${row.done ? 'font-medium text-ink-soft' : row.icon ? 'font-medium text-ink' : 'font-semibold text-ink'}`}>
                   {row.title}
                 </span>
               )}

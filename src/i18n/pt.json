@@ -355,8 +355,8 @@
   "hoy.dayN": "Dia {day}",
   "hoy.dayOfTotal": "Dia {day} de {total}",
   "hoy.unmark": "Desmarcar este dia",
-  "hoy.editNote": "Editar sua nota",
-  "hoy.viewNote": "Ver sua nota",
+  "hoy.unmarkTitle": "Desmarcar este dia?",
+  "hoy.unmarkMessage": "Sua leitura volta a ficar pendente. Sua nota, se você escreveu, fica guardada.",
   "hoy.writeNote": "Anote o que Deus falou com você hoje",
   "hoy.externalBibleHint": "Abre esta referência no seu app ou site da Bíblia.",
   "hoy.streakDays": {
@@ -370,10 +370,9 @@
   "hoy.day.kicker": "Seu dia",
   "hoy.day.read": "Você fez a sua leitura",
   "hoy.day.noteTodo": "O que te falou hoje?",
-  "hoy.day.noteTodoSub": "Uma linha para o seu diário",
   "hoy.day.prayTodo": "Orar por um pedido",
   "hoy.day.prayDone": "Você orou por um pedido",
-  "hoy.passagesShow": "Ver",
+  "hoy.passagesShow": "Passagens",
   "hoy.passagesHide": "Ocultar",
 
   "nav.planes": "Planos",
