@@ -801,18 +801,25 @@ export async function buildCarousel({ meta, title, coverNote, sections, inviteTi
   // invitación de los estilos con tarjeta (blanco sobre tarjeta blanca no se ve).
   const appIcon = !spec.firmaWhite || spec.card ? await loadAppIcon() : null
 
-  const metaText = spec.metaCaps ? meta.toUpperCase() : meta
   const metaFont = `${spec.metaCaps ? 600 : 500} ${CS.meta}px ${SANS}`
+  const metaSpacing = spec.metaCaps ? 3 : 0
   const bodyFont = `${spec.weightA} ${CS.body}px ${spec.fontA}`
   const refsFont = `500 ${CS.refs}px ${SANS}`
   const labelFont = `700 ${CS.label}px ${SANS}`
 
   const measure = document.createElement('canvas').getContext('2d')
-  const linesOf = (text, font) => {
+  const linesOf = (text, font, spacing = 0) => {
     measure.font = font
-    return wrapWords(measure, text, textW)
+    measure.letterSpacing = `${spacing}px`
+    const lines = wrapWords(measure, text, textW)
+    measure.letterSpacing = '0px'
+    return lines
   }
-  const headH = CS.meta * 1.42 + 34 // metadata + aire debajo
+  // La metadata se corta en líneas como la de la tarjeta: en mayúsculas
+  // espaciadas (moderno, vibrante) "LECTURAS MATUTINAS DE SPURGEON · 4 DE
+  // NOVIEMBRE" no entra en una.
+  const metaLines = linesOf(spec.metaCaps ? meta.toUpperCase() : meta, metaFont, metaSpacing)
+  const headH = metaLines.length * CS.meta * 1.42 + 34 // metadata + aire debajo
   const labelH = CS.label * 1.3 + 22
   const refsH = (refs) =>
     refs.length
@@ -888,7 +895,7 @@ export async function buildCarousel({ meta, title, coverNote, sections, inviteTi
       ctx.fillText(text, centered ? W / 2 : W - marginX, bottom - 8)
       ctx.textAlign = centered ? 'center' : 'left'
     }
-    const writeMeta = () => write([metaText], metaFont, CS.meta, 1.42, pal.soft, top, spec.metaCaps ? 3 : 0)
+    const writeMeta = () => write(metaLines, metaFont, CS.meta, 1.42, pal.soft, top, metaSpacing)
 
     if (page.kind === 'cover') {
       writeMeta()
