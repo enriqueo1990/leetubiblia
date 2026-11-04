@@ -26,8 +26,10 @@ const THEMES = {
 }
 
 // Tema neutro para lo que no es un material (una nota del día, el plan): la
-// paleta de la marca, con el sepia como lomo.
-const BRAND = { c: '#2A231C', spine: '#1E1914', ink: '#F4EFE6', soft: 'rgba(244,239,230,.64)', acc: '#D9BE97', papelAcc: '#705F4C', year: '', kind: null, papelSpine: '#A88B6A' }
+// paleta de la marca, en la línea "Cielo" de la app (azul vivo, no sepia): lo
+// que llega por WhatsApp o Instagram tiene que verse como la app que se abre
+// después. En papel, el lomo celeste y el acento en el azul de acción.
+const BRAND = { c: '#2B6CB0', spine: '#235A93', ink: '#FFFFFF', soft: 'rgba(255,255,255,.72)', acc: '#CFE4F8', papelAcc: '#2B6CB0', year: '', kind: null, papelSpine: '#5B9FDF' }
 
 export function materialTheme(slug) {
   return THEMES[slug] ?? BRAND
