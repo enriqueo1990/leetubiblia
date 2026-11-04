@@ -260,8 +260,9 @@ export default function Ayuda() {
           </h3>
           <p className="mt-4 max-w-[520px] text-[16px] leading-relaxed text-ink-soft">
             Credos, confesiones y catecismos históricos, cada uno con su breve introducción, y un
-            devocional para cada mañana del año. Al activar uno, aparece en Hoy junto a tu lectura, y
-            avanzás a tu ritmo.
+            devocional para cada mañana del año. En la Biblioteca cada uno tiene su portada: los que
+            sumás a tu estante aparecen en Hoy junto a tu lectura, y avanzás a tu ritmo. Una frase que
+            te marcó se comparte como imagen, con el color de su libro.
           </p>
           <div className="mt-7 space-y-6">
             {MATERIALES.map((g) => (
