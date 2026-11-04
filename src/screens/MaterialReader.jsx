@@ -245,16 +245,22 @@ export default function MaterialReader() {
   // completa, repartida en láminas; la tarjeta única sigue con su recorte.
   function carouselData() {
     if (!entry || fitsInOneImage({ ...shareData, answer: entry.answer })) return null
-    const sections = carouselSections(entry, (ref) => bookLabel(ref, locale))
+    const label = (ref) => bookLabel(ref, locale)
+    // Con headingRef (devocional), el título ES el versículo: su cita va en la
+    // portada, debajo, y no se repite al final del texto (como en el lector).
+    const sections = carouselSections({ ...entry, refs: footRefs }, label)
     const numbered = sections.some((s) => s.label)
+    // Pocas citas se nombran ("Romanos 1:20 · Salmo 19:1"); muchas, se cuentan.
+    const refsNote = headingRef
+      ? label(headingRef)
+      : entry.refs.length > 3
+        ? t('materialReader.carouselRefs', { count: entry.refs.length })
+        : entry.refs.map(label).join(' · ')
     return {
       meta: shareData.meta,
       // "De las Santas Escrituras (1–5)": el rango de párrafos sobra en la portada.
       title: entry.question.replace(/\s*\(\d+[–-]\d+\)\s*$/, ''),
-      coverNote: [
-        numbered && t('materialReader.carouselParagraphs', { count: sections.length }),
-        entry.refs.length > 0 && t('materialReader.carouselRefs', { count: entry.refs.length }),
-      ]
+      coverNote: [numbered && t('materialReader.carouselParagraphs', { count: sections.length }), refsNote]
         .filter(Boolean)
         .join(' · '),
       sections,
