@@ -160,8 +160,8 @@ export default defineConfig({
         orientation: 'portrait',
         start_url: '/',
         scope: '/',
-        background_color: '#F6F3EE',
-        theme_color: '#F6F3EE',
+        background_color: '#FAF8F4',
+        theme_color: '#FAF8F4',
         icons: [
           { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
           { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },

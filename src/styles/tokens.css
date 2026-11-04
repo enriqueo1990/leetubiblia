@@ -13,18 +13,19 @@
 
 :root {
   /* ---- Neutros: modo claro (default) — "Papel y luz" ----
-     Papel cálido en vez de hueso plano: el fondo es papel, las tarjetas crema
-     (no blanco puro) y los grises tiran a tierra, para que todo se sienta de la
-     misma familia que las portadas y la Biblia de papel. */
-  --bg-app: #F6F3EE;
-  --surface: #FFFDF9;
-  --surface-alt: #FAF7F2;
-  --segment-track: #EDE8E0;
-  --segment-active: #FFFDF9;
+     Papel claro: el fondo apenas cálido (una página con luz, no un papel viejo),
+     las tarjetas blancas y los grises tirando a tierra. La Palabra es viva: la
+     app tiene que verse fresca, no como un archivo antiguo. La calidez la ponen
+     el resplandor del día y las portadas, no un tinte sepia en todo. */
+  --bg-app: #FAF8F4;
+  --surface: #FFFFFF;
+  --surface-alt: #F6F3EE;
+  --segment-track: #EFEBE4;
+  --segment-active: #FFFFFF;
   --text-primary: #1F1B16;
   /* text-soft: ~6,5:1 sobre --bg-app (WCAG AA amplio en texto chico) */
   --text-soft: #5C564D;
-  --hairline: #DDD6CB;
+  --hairline: #E4DED5;
   /* Los divisores pueden ser sutiles; los límites de controles necesitan 3:1. */
   --control-border: #8A8378;
   --placeholder: #8A8378;
@@ -33,7 +34,7 @@
   --scrim: rgba(31, 27, 22, 0.32);
   /* Mismo tono que --bg-app: en reposo el cristal es invisible de verdad; solo
      se nota cuando hay contenido deslizándose debajo (blur). */
-  --tabbar-bg: rgba(246, 243, 238, 0.82);
+  --tabbar-bg: rgba(250, 248, 244, 0.82);
   --danger: #D1453B;
 
   /* Elevación — única escala de sombras de la app (card y overlays: sheet/dialog).
@@ -53,11 +54,13 @@
      barras y tintes se sigue usando --accent. */
   --accent-ink: color-mix(in srgb, var(--accent) 60%, var(--text-primary));
 
-  /* Tintes de acento (badges/pills y nav activo) */
-  --accent-tint-light: rgba(168, 139, 106, 0.13);
-  --accent-tint-dark: rgba(194, 165, 126, 0.16);
-  --accent-tint-nav-light: rgba(168, 139, 106, 0.12);
-  --accent-tint-nav-dark: rgba(194, 165, 126, 0.16);
+  /* Tintes de acento (badges/pills y nav activo): salen del acento elegido.
+     Antes eran un sepia fijo, y un chip quedaba marrón aunque el acento fuera
+     azul. */
+  --accent-tint-light: color-mix(in srgb, var(--accent) 15%, transparent);
+  --accent-tint-dark: color-mix(in srgb, var(--accent) 18%, transparent);
+  --accent-tint-nav-light: color-mix(in srgb, var(--accent) 13%, transparent);
+  --accent-tint-nav-dark: color-mix(in srgb, var(--accent) 18%, transparent);
   --accent-tint: var(--accent-tint-light);
   --accent-tint-nav: var(--accent-tint-nav-light);
 
@@ -65,29 +68,30 @@
   color-scheme: light;
 }
 
-/* ---- Neutros: modo oscuro — "noche cálida" ----
-   Casi negro marrón en vez del negro puro de iOS: de noche se lee con luz
-   tenue, y la app tiene que sentirse como una lámpara, no como una pantalla. */
+/* ---- Neutros: modo oscuro — "noche" ----
+   Gris muy oscuro, neutro y apenas frío, en vez del negro puro de iOS y del
+   marrón de antes: la noche no es sepia. La calidez la pone el resplandor del
+   día (ámbar) sobre este fondo, como una lámpara. */
 @media (prefers-color-scheme: dark) {
   :root:not(.light) {
-    --bg-app: #15120F;
-    --surface: #201C18;
-    --surface-alt: #2A251F;
-    --segment-track: #2A251F;
-    --segment-active: #3A332B;
-    --text-primary: #F3EEE6;
-    --text-soft: #A39A8C;
-    --hairline: #312B25;
-    --control-border: #6F665A;
-    --placeholder: #7A7164;
-    --faint: #3A332B;
-    --faint-2: #5C5348;
+    --bg-app: #131517;
+    --surface: #1C1F22;
+    --surface-alt: #262A2E;
+    --segment-track: #262A2E;
+    --segment-active: #353A40;
+    --text-primary: #F1F1EE;
+    --text-soft: #A4A8AD;
+    --hairline: #2C3136;
+    --control-border: #6B7177;
+    --placeholder: #767C83;
+    --faint: #363B41;
+    --faint-2: #565C63;
     --scrim: rgba(0, 0, 0, 0.6);
-    --tabbar-bg: rgba(21, 18, 15, 0.72);
+    --tabbar-bg: rgba(19, 21, 23, 0.72);
     --danger: #FF6B5E;
 
-    --shadow-card: 0 0 0 1px rgba(255, 240, 220, 0.06);
-    --shadow-overlay: 0 0 0 1px rgba(255, 240, 220, 0.08), 0 10px 40px rgba(0, 0, 0, 0.8);
+    --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.06);
+    --shadow-overlay: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 10px 40px rgba(0, 0, 0, 0.8);
 
     --on-accent: var(--on-accent-dark);
     --accent-action: var(--accent-action-dark);
@@ -99,24 +103,24 @@
 
 /* Override manual a oscuro (gana sobre prefers-color-scheme) */
 :root.dark {
-  --bg-app: #15120F;
-  --surface: #201C18;
-  --surface-alt: #2A251F;
-  --segment-track: #2A251F;
-  --segment-active: #3A332B;
-  --text-primary: #F3EEE6;
-  --text-soft: #A39A8C;
-  --hairline: #312B25;
-  --control-border: #6F665A;
-  --placeholder: #7A7164;
-  --faint: #3A332B;
-  --faint-2: #5C5348;
+  --bg-app: #131517;
+  --surface: #1C1F22;
+  --surface-alt: #262A2E;
+  --segment-track: #262A2E;
+  --segment-active: #353A40;
+  --text-primary: #F1F1EE;
+  --text-soft: #A4A8AD;
+  --hairline: #2C3136;
+  --control-border: #6B7177;
+  --placeholder: #767C83;
+  --faint: #363B41;
+  --faint-2: #565C63;
   --scrim: rgba(0, 0, 0, 0.6);
-  --tabbar-bg: rgba(21, 18, 15, 0.72);
+  --tabbar-bg: rgba(19, 21, 23, 0.72);
   --danger: #FF6B5E;
 
-  --shadow-card: 0 0 0 1px rgba(255, 240, 220, 0.06);
-  --shadow-overlay: 0 0 0 1px rgba(255, 240, 220, 0.08), 0 10px 40px rgba(0, 0, 0, 0.8);
+  --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-overlay: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 10px 40px rgba(0, 0, 0, 0.8);
 
   --on-accent: var(--on-accent-dark);
   --accent-action: var(--accent-action-dark);
@@ -126,12 +130,12 @@
 }
 
 /*
- * ---- Acentos sepia (6 tonos) ----
+ * ---- Acentos ----
  * Cada acento publica su par claro/oscuro. La var final --accent toma el claro por
  * defecto; los bloques de modo oscuro de abajo la repintan con el valor -dark.
+ * De fábrica, Cielo; los sepias quedan como elección.
  */
-:root[data-accent='sepia_base'],
-:root:not([data-accent]) {
+:root[data-accent='sepia_base'] {
   --accent-light: #A88B6A;
   --accent-dark: #C2A57E;
   --accent-action-light: #765A3D;
@@ -143,7 +147,9 @@
 :root[data-accent='pastel_lavender'] { --accent-light: #9F8BD4; --accent-dark: #BCA9E6; --accent-action-light: #6650A4; --accent-action-dark: #6650A4; }
 :root[data-accent='pastel_pink']     { --accent-light: #D585A8; --accent-dark: #ECA9C6; --accent-action-light: #A63D70; --accent-action-dark: #A63D70; }
 :root[data-accent='pastel_mint']     { --accent-light: #57B795; --accent-dark: #82D0B1; --accent-action-light: #227A5B; --accent-action-dark: #227A5B; }
-:root[data-accent='pastel_sky']      { --accent-light: #6FA4D8; --accent-dark: #9BC5EC; --accent-action-light: #2F6EA8; --accent-action-dark: #2F6EA8; }
+/* Cielo es el acento de fábrica (luz de mañana sobre papel claro). */
+:root[data-accent='pastel_sky'],
+:root:not([data-accent])             { --accent-light: #5B9FDF; --accent-dark: #8FBFEC; --accent-action-light: #2B6CB0; --accent-action-dark: #2B6CB0; }
 :root[data-accent='pastel_coral']    { --accent-light: #E2906C; --accent-dark: #F1B095; --accent-action-light: #A84E32; --accent-action-dark: #A84E32; }
 :root[data-accent='pastel_aqua']     { --accent-light: #49B0B8; --accent-dark: #79CFD5; --accent-action-light: #1F747C; --accent-action-dark: #1F747C; }
 

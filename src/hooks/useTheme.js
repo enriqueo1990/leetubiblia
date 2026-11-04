@@ -5,7 +5,7 @@ import { useEffect, useState, useCallback } from 'react'
 const STORAGE_KEY = 'ltb.theme_pref'
 
 // Colores de fondo por modo, para mantener <meta name="theme-color"> en sync.
-const THEME_COLOR = { light: '#F6F3EE', dark: '#15120F' }
+const THEME_COLOR = { light: '#FAF8F4', dark: '#131517' }
 
 function systemPrefersDark() {
   return window.matchMedia('(prefers-color-scheme: dark)').matches

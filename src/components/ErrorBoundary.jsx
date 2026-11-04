@@ -62,7 +62,7 @@ export default class ErrorBoundary extends Component {
           gap: 20,
           padding: '0 32px',
           textAlign: 'center',
-          background: 'var(--bg-app, #F6F3EE)',
+          background: 'var(--bg-app, #FAF8F4)',
           fontFamily: "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif",
         }}
       >
