@@ -780,6 +780,22 @@
   "share.refsLabel": "Para tu Biblia",
   "share.nextUp": "Lo que sigue",
   "share.noteSub": "{plan} · Día {day}",
+  "library.cardLabel": "Para sumar a tu día",
+  "library.cardTitle": "Una lectura breve, además de tu plan",
+  "library.cardText": "Una pregunta de catecismo, un devocional de la mañana, los credos de la iglesia. Cinco minutos.",
+  "library.cardCta": "Ver la Biblioteca",
+  "library.notNow": "Ahora no",
+  "library.moreToAdd": {
+    "one": "{count} más para sumar",
+    "other": "{count} más para sumar"
+  },
+  "library.momentKicker": {
+    "one": "{count} día seguido",
+    "other": "{count} días seguidos"
+  },
+  "library.momentTitle": "¿Le sumás una lectura breve por día?",
+  "library.momentAdded": "Listo: ya está en tu estante y aparece en Hoy.",
+  "library.momentOk": "Entendido",
   "share.animated": "Animada",
   "share.animatedHelp": "Un video corto: la frase aparece palabra por palabra.",
   "share.prepareVideo": "Preparar el video",

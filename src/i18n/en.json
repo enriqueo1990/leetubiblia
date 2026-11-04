@@ -780,6 +780,22 @@
   "share.refsLabel": "For your Bible",
   "share.nextUp": "Up next",
   "share.noteSub": "{plan} · Day {day}",
+  "library.cardLabel": "To add to your day",
+  "library.cardTitle": "A short reading, alongside your plan",
+  "library.cardText": "A catechism question, a morning devotional, the creeds of the church. Five minutes.",
+  "library.cardCta": "See the Library",
+  "library.notNow": "Not now",
+  "library.moreToAdd": {
+    "one": "{count} more to add",
+    "other": "{count} more to add"
+  },
+  "library.momentKicker": {
+    "one": "{count} day in a row",
+    "other": "{count} days in a row"
+  },
+  "library.momentTitle": "Add a short reading each day?",
+  "library.momentAdded": "Done: it's on your shelf and shows up in Today.",
+  "library.momentOk": "Got it",
   "share.animated": "Animated",
   "share.animatedHelp": "A short video: the phrase appears word by word.",
   "share.prepareVideo": "Prepare the video",

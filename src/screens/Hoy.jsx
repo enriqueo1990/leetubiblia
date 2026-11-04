@@ -35,6 +35,8 @@ import TodayExtras from '../components/TodayExtras.jsx'
 import ReminderOffer from '../components/ReminderOffer.jsx'
 import { canOfferReminder, wasReminderOfferDismissed } from '../lib/reminderOffer.js'
 import GoalOffer from '../components/GoalOffer.jsx'
+import LibraryMoment from '../components/LibraryMoment.jsx'
+import { shouldOfferLibraryMoment, suggestedMaterials, wasLibraryMomentSeen } from '../lib/libraryOffer.js'
 import { goalMoment, wasGoalMomentSeen } from '../lib/goalOffer.js'
 import { useDonationGoal } from '../hooks/useDonationGoal.js'
 import { isIOSBrowser } from '../lib/platform.js'
@@ -89,6 +91,9 @@ export default function Hoy() {
   // Meta de donación (tiendas): se pide en un momento de gratitud, una vez por momento.
   const donationGoal = useDonationGoal()
   const [goalOfferClosed, setGoalOfferClosed] = useState(false)
+  const [libraryMomentClosed, setLibraryMomentClosed] = useState(false)
+  const [libraryMomentSticky, setLibraryMomentSticky] = useState(false) // agregado: queda el "Listo"
+  const [libraryMomentSlug, setLibraryMomentSlug] = useState(null)
 
   // Lectura adelantada ("seguir leyendo"): sin mover el calendario, mostramos el
   // contenido de un día futuro y dejamos marcarlo. aheadDay = null → viendo hoy.
@@ -386,6 +391,27 @@ export default function Hoy() {
     !showReminderOffer &&
     !showInstallCard &&
     !showIOSInstallCard
+  // Biblioteca: al tercer día seguido, a quien todavía no tiene ningún material,
+  // una sugerencia con nombre propio (una sola vez). Va después del recordatorio,
+  // la instalación y la meta: una sola sugerencia por vez.
+  const librarySuggestion = suggestedMaterials(profile, 1)[0] ?? null
+  const showLibraryMoment =
+    !libraryMomentClosed &&
+    (libraryMomentSticky ||
+      (librarySuggestion != null &&
+    shouldOfferLibraryMoment({
+      streak: r.streak,
+      activeCount: Array.isArray(profile?.active_materials) ? profile.active_materials.length : 0,
+      seen: wasLibraryMomentSeen(user?.id),
+    }) &&
+    doneShown &&
+    !viewingAhead &&
+    !r.planFinished &&
+    (!justMarked || breathDone) &&
+    !showReminderOffer &&
+    !showInstallCard &&
+    !showIOSInstallCard &&
+    !showGoalOffer))
   // ¿El día mostrado va por delante de la fecha de hoy? (ancla adelantada o sesión)
   const aheadOfToday = dayShown != null && r.todayDay != null && dayShown > r.todayDay
 
@@ -694,6 +720,18 @@ export default function Hoy() {
             setReminderOfferSticky(false)
             setReminderOfferClosed(true)
           }}
+        />
+      )}
+
+      {showLibraryMoment && (
+        <LibraryMoment
+          slug={libraryMomentSlug ?? librarySuggestion}
+          streak={r.streak}
+          onAdded={(slug) => {
+            setLibraryMomentSlug(slug)
+            setLibraryMomentSticky(true)
+          }}
+          onClose={() => setLibraryMomentClosed(true)}
         />
       )}
 

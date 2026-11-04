@@ -8,7 +8,7 @@ import { BRAND_SERIF, ensureBrandFont } from '../lib/brandFont.js'
 // La misma identidad que la imagen que se comparte, para que se reconozcan.
 // size: 'lg' (estante, con año y cantidad), 'sm' (para agregar), 'thumb' (la
 // portadita de Hoy: solo color y lomo).
-export default function BookCover({ slug, size = 'lg', meta = null, className = '' }) {
+export default function BookCover({ slug, size = 'lg', meta = null, className = '', style = null }) {
   const { t } = usePreferences()
   const th = materialTheme(slug)
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function BookCover({ slug, size = 'lg', meta = null, className = 
   return (
     <div
       className={`relative flex overflow-hidden ${className}`}
-      style={{ aspectRatio: '3 / 4', borderRadius: radius, backgroundColor: th.c, color: th.ink, boxShadow: shadow }}
+      style={{ aspectRatio: '3 / 4', borderRadius: radius, backgroundColor: th.c, color: th.ink, boxShadow: shadow, ...style }}
       aria-hidden={size === 'thumb' ? 'true' : undefined}
     >
       <span className="h-full shrink-0" style={{ width: '9%', backgroundColor: th.spine }} />

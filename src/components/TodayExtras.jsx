@@ -7,11 +7,12 @@ import TodayExtraRows from './TodayExtraRows.jsx'
 import { SkeletonRows } from './Skeleton.jsx'
 import RetryError from './RetryError.jsx'
 import { ChevronRight } from './icons.jsx'
+import BookCover from './BookCover.jsx'
+import { MATERIALS } from '../lib/materials.js'
+import { isLibraryCardSnoozed, snoozeLibraryCard, suggestedMaterials } from '../lib/libraryOffer.js'
 
 // La pista se descarta por usuario. La clave vieja (por dispositivo) se sigue
 // leyendo para no volver a mostrarla a quien ya la cerró.
-const LEGACY_HINT_KEY = 'ltb.materialsHint.dismissed'
-const hintKey = (userId) => `${LEGACY_HINT_KEY}.${userId}`
 const INLINE_LIMIT = 4 // hasta acá se ven todas las filas
 const PREVIEW_ROWS = 3 // con más, se ven estas y un "Ver todas"
 
@@ -31,24 +32,13 @@ export default function TodayExtras() {
   const { t } = usePreferences()
   const { user } = useAuth()
   const { loading, profile, rows, error, retry } = useTodayExtras()
-  const [hintDismissed, setHintDismissed] = useState(() => {
-    try {
-      return (
-        localStorage.getItem(LEGACY_HINT_KEY) === '1' ||
-        (!!user && localStorage.getItem(hintKey(user.id)) === '1')
-      )
-    } catch {
-      return true
-    }
-  })
-
-  function dismissHint() {
-    setHintDismissed(true)
-    try {
-      if (user) localStorage.setItem(hintKey(user.id), '1')
-    } catch {
-      /* queda descartado en esta sesión */
-    }
+  // La tarjeta de la Biblioteca (para quien no tiene materiales): "Ahora no" la
+  // duerme unas semanas. Reemplaza a la pista gris de antes, que se descartaba
+  // para siempre y casi nadie veía.
+  const [cardSnoozed, setCardSnoozed] = useState(() => isLibraryCardSnoozed(user?.id))
+  function snoozeCard() {
+    snoozeLibraryCard(user?.id)
+    setCardSnoozed(true)
   }
 
   const userId = user?.id
@@ -93,29 +83,40 @@ export default function TodayExtras() {
     )
   }
 
+  const from = { to: '/', label: t('nav.hoy') }
+  const toAdd = suggestedMaterials(profile, MATERIALS.length) // los que no están en el estante
+  const suggested = toAdd.slice(0, 4)
+
+  // A · Sin otras lecturas: la Biblioteca se presenta con sus portadas.
   if (rows.length === 0) {
-    if (!profile || hintDismissed) return null
+    if (!profile || cardSnoozed || suggested.length === 0) return null
     return (
-      <div className="mt-8 flex items-center">
-        <Link
-          to="/materiales"
-          state={{ from: { to: '/', label: t('nav.hoy') } }}
-          className="block min-w-0 py-3 text-[13px] leading-snug text-ink-soft"
-        >
-          {t('materialsToday.hint')}{' '}
-          <span className="font-semibold" style={{ color: 'var(--accent-ink)' }}>
-            {t('materialsToday.hintCta')} ›
-          </span>
-        </Link>
-        <button
-          type="button"
-          onClick={dismissHint}
-          aria-label={t('materialsToday.hintDismiss')}
-          className="ml-auto flex h-11 w-11 shrink-0 items-center justify-center text-[15px] leading-none text-ink-soft"
-          style={{ opacity: 0.5 }}
-        >
-          ✕
-        </button>
+      <div className="mt-8">
+        <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">{t('library.cardLabel')}</p>
+        <div className="card p-4">
+          <Link to="/materiales" state={{ from }} className="block" aria-label={t('library.cardCta')}>
+            <div className="grid grid-cols-4 gap-2.5" aria-hidden="true">
+              {suggested.map((slug) => (
+                <BookCover key={slug} slug={slug} size="sm" />
+              ))}
+            </div>
+            <p className="mt-3.5 text-[16px] font-semibold leading-snug text-ink">{t('library.cardTitle')}</p>
+            <p className="mt-1 text-[14px] leading-snug text-ink-soft">{t('library.cardText')}</p>
+          </Link>
+          <div className="mt-2 flex items-center justify-between">
+            <Link
+              to="/materiales"
+              state={{ from }}
+              className="-ml-1 flex min-h-11 items-center px-1 text-[15px] font-semibold"
+              style={{ color: 'var(--accent-ink)' }}
+            >
+              {t('library.cardCta')} ›
+            </Link>
+            <button type="button" onClick={snoozeCard} className="flex min-h-11 items-center px-1 text-[14px] font-medium text-ink-soft">
+              {t('library.notNow')}
+            </button>
+          </div>
+        </div>
       </div>
     )
   }
@@ -143,6 +144,28 @@ export default function TodayExtras() {
             </span>
           </Link>
         )}
+        {/* B · La puerta fija a la Biblioteca: siempre a un toque, también para
+            quien solo tiene lecturas de grupo. */}
+        <Link
+          to="/materiales"
+          state={{ from }}
+          className="flex min-h-11 w-full items-center gap-3 px-4 py-3 text-left"
+        >
+          {suggested.length > 0 && (
+            <span className="flex shrink-0" aria-hidden="true">
+              {suggested.slice(0, 3).map((slug, i) => (
+                <BookCover key={slug} slug={slug} size="thumb" className="w-[15px]" style={{ marginLeft: i ? -5 : 0 }} />
+              ))}
+            </span>
+          )}
+          <span className="min-w-0 flex-1 text-[16px] text-ink">{t('library.title')}</span>
+          <span className="flex shrink-0 items-center gap-1.5 text-[13px] text-ink-soft">
+            {toAdd.length > 0 && t('library.moreToAdd', { count: toAdd.length })}
+            <span style={{ opacity: 0.5 }}>
+              <ChevronRight size={18} />
+            </span>
+          </span>
+        </Link>
       </div>
       {errorBlock}
     </div>
