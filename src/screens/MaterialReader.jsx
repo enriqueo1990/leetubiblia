@@ -22,7 +22,7 @@ import { usePreferences } from '../lib/preferences.jsx'
 import { bookLabel } from '../i18n/books.js'
 import { coverFits, shareCover } from '../lib/coverImage.js'
 import { shareCarousel } from '../lib/carouselImage.js'
-import { shareUrl } from '../lib/canvasKit.js'
+import { shareOrDownload, shareUrl } from '../lib/canvasKit.js'
 import { carouselSections } from '../lib/carousel.js'
 import { joinSentences, splitSentences } from '../lib/sentences.js'
 import { excerpt } from '../lib/excerpt.js'
@@ -324,6 +324,20 @@ export default function MaterialReader() {
       if (joinSentences(sentences, start, end).length > PHRASE_MAX) return p
       return { start, end }
     })
+  }
+
+  // La historia animada ya grabada en la hoja: se comparte con el toque nuevo.
+  async function shareVideo(blob) {
+    setShareSnap(null)
+    setShareError(false)
+    try {
+      await shareOrDownload(
+        [{ blob, filename: `${slug}-${entry.number}-historia.mp4` }],
+        t('shareImage.fromApp', { url: shareUrl('material') }),
+      )
+    } catch {
+      setShareError(true)
+    }
   }
 
   // Compartir con el estilo y formato elegidos en la hoja (la hoja misma los
@@ -684,6 +698,7 @@ export default function MaterialReader() {
           onShare={handleShare}
           onCancel={() => setShareSnap(null)}
           onPickPhrase={entry && splitSentences(entry.answer).length > 1 ? startPicking : null}
+          onShareVideo={shareVideo}
         />
       )}
 

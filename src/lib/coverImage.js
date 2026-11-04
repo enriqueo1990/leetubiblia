@@ -76,17 +76,17 @@ export async function coverFits(data, format = 'post') {
   return fit(ctx, data, formatOf(format)).complete
 }
 
-// data: { slug, spine, number, sub, quote, personal }. `spine` es el nombre del
-// lomo; `personal` ("Día 23") es opcional. Devuelve un Blob PNG.
-export async function buildCoverImage({ slug, spine, number, sub, quote, personal, format = 'post', variant = 'color', scale }) {
-  format = formatOf(format)
-  await ensureBrandFont()
-  const pal = coverPalette(slug, variant)
-  const H = FORMAT_H[format]
-  const { canvas, ctx } = makeCanvas(W, H, scale)
-  const f = fit(ctx, { number, sub, quote }, format)
+// Pinta la portada en `ctx`. `reveal` (para el video) controla qué se ve:
+// `head`/`foot` son opacidades (0–1) de la cabecera y el pie, y `words` cuántas
+// palabras de la frase ya aparecieron (con la última entrando a medias). Sin
+// `reveal`, la portada completa.
+function paint(ctx, f, pal, { spine, number, personal }, reveal = null) {
   const { L } = f
+  const H = L.H
+  const head = reveal?.head ?? 1
+  const foot = reveal?.foot ?? 1
 
+  ctx.globalAlpha = 1
   ctx.fillStyle = pal.c
   ctx.fillRect(0, 0, W, H)
   ctx.fillStyle = pal.spine
@@ -112,6 +112,7 @@ export async function buildCoverImage({ slug, spine, number, sub, quote, persona
   ctx.drawImage(makeLogo(LOGO * 2, pal.spineInk), (SPINE - LOGO) / 2, L.bottom - LOGO + 6, LOGO, LOGO)
 
   // Cabecera: número en cursiva y la línea de contexto.
+  ctx.globalAlpha = head
   let y = L.top
   if (number) {
     ctx.font = `italic 400 ${NUMBER}px ${BRAND_SERIF}`
@@ -128,7 +129,8 @@ export async function buildCoverImage({ slug, spine, number, sub, quote, persona
     y += SUB * 1.3
   }
 
-  // La frase, centrada en el espacio que queda entre la cabecera y el pie.
+  // La frase, centrada en el espacio que queda entre la cabecera y el pie. En
+  // el video aparece palabra por palabra, a ritmo de lectura.
   const blockH = f.lines.length * f.size * QUOTE_LH
   const zoneTop = L.top + f.headH + GAP
   const zoneBottom = L.bottom - FOOT - GAP
@@ -136,13 +138,29 @@ export async function buildCoverImage({ slug, spine, number, sub, quote, persona
   ctx.font = quoteFont(f.size)
   ctx.letterSpacing = `${(-0.012 * f.size).toFixed(2)}px`
   ctx.fillStyle = pal.ink
+  let shown = 0
   for (const line of f.lines) {
-    ctx.fillText(line, L.x, qy + f.size * 0.82)
+    if (!reveal) {
+      ctx.globalAlpha = 1
+      ctx.fillText(line, L.x, qy + f.size * 0.82)
+    } else {
+      let x = L.x
+      for (const word of line.split(' ')) {
+        const a = Math.max(0, Math.min(1, reveal.words - shown))
+        if (a > 0) {
+          ctx.globalAlpha = a
+          ctx.fillText(word, x, qy + f.size * 0.82 + (1 - a) * 10)
+        }
+        x += ctx.measureText(`${word} `).width
+        shown++
+      }
+    }
     qy += f.size * QUOTE_LH
   }
   ctx.letterSpacing = '0px'
 
   // Pie: el dato personal a la izquierda, la firma a la derecha.
+  ctx.globalAlpha = foot
   ctx.font = `500 ${FOOT}px ${SANS}`
   ctx.fillStyle = pal.soft
   ctx.textAlign = 'right'
@@ -153,11 +171,94 @@ export async function buildCoverImage({ slug, spine, number, sub, quote, persona
     ctx.fillStyle = pal.acc
     ctx.fillText(personal, L.x, L.bottom)
   }
+  ctx.globalAlpha = 1
+}
 
+// data: { slug, spine, number, sub, quote, personal }. `spine` es el nombre del
+// lomo; `personal` ("Día 23") es opcional. Devuelve un Blob PNG.
+export async function buildCoverImage({ slug, spine, number, sub, quote, personal, format = 'post', variant = 'color', scale }) {
+  format = formatOf(format)
+  await ensureBrandFont()
+  const pal = coverPalette(slug, variant)
+  const { canvas, ctx } = makeCanvas(W, FORMAT_H[format], scale)
+  const f = fit(ctx, { number, sub, quote }, format)
+  paint(ctx, f, pal, { spine, number, personal })
   return toBlob(canvas)
 }
 
 export async function shareCover({ filename, text, ...data }) {
   const blob = await buildCoverImage(data)
+  return shareOrDownload([{ blob, filename }], text)
+}
+
+/* ---- Historia animada (video) ----
+ * La misma portada, en movimiento: la cabecera entra, la frase aparece palabra
+ * por palabra a ritmo de lectura y al final asoman el dato y la firma. Sobria,
+ * sin efectos: para Reels y estados, donde el video rinde más que la foto.
+ * Se graba en el teléfono (canvas + MediaRecorder) en MP4, el formato que
+ * aceptan Instagram y WhatsApp; donde el navegador no graba MP4, no se ofrece. */
+
+const VIDEO_TYPES = ['video/mp4;codecs=avc1.42E01E', 'video/mp4;codecs=avc1', 'video/mp4']
+
+export function videoMimeType() {
+  if (typeof MediaRecorder === 'undefined' || typeof HTMLCanvasElement === 'undefined') return null
+  if (!HTMLCanvasElement.prototype.captureStream) return null
+  return VIDEO_TYPES.find((t) => MediaRecorder.isTypeSupported?.(t)) ?? null
+}
+
+// Tiempos (segundos): cabecera, palabras (~3,5 por segundo), pausa con todo.
+export function videoTimeline(wordCount) {
+  const intro = 0.7
+  const perWord = 0.28
+  const words = wordCount * perWord
+  const hold = 2.2
+  return { intro, perWord, words, hold, total: Math.min(14, intro + words + hold) }
+}
+
+// Graba la historia animada y devuelve un Blob de video. `onProgress(0–1)`.
+export async function recordCoverVideo(data, { onProgress } = {}) {
+  const mime = videoMimeType()
+  if (!mime) throw new Error('no-video')
+  await ensureBrandFont()
+  const format = 'story'
+  const pal = coverPalette(data.slug, data.variant ?? 'color')
+  // A 1×: grabar 2160×3840 en tiempo real es demasiado para un teléfono.
+  const { canvas, ctx } = makeCanvas(W, FORMAT_H[format], 1)
+  const f = fit(ctx, data, format)
+  const wordCount = f.lines.reduce((n, l) => n + l.split(' ').length, 0)
+  const tl = videoTimeline(wordCount)
+
+  const stream = canvas.captureStream(30)
+  const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 6_000_000 })
+  const chunks = []
+  rec.ondataavailable = (e) => e.data.size && chunks.push(e.data)
+  const done = new Promise((resolve) => (rec.onstop = resolve))
+
+  const ease = (x) => 1 - Math.pow(1 - Math.max(0, Math.min(1, x)), 3)
+  paint(ctx, f, pal, data, { head: 0, foot: 0, words: 0 })
+  rec.start(250)
+  const t0 = performance.now()
+  await new Promise((resolve) => {
+    const frame = () => {
+      const s = (performance.now() - t0) / 1000
+      paint(ctx, f, pal, data, {
+        head: ease(s / tl.intro),
+        words: (s - tl.intro) / tl.perWord,
+        foot: ease((s - tl.intro - tl.words) / 0.6),
+      })
+      onProgress?.(Math.min(1, s / tl.total))
+      if (s < tl.total) requestAnimationFrame(frame)
+      else resolve()
+    }
+    requestAnimationFrame(frame)
+  })
+  rec.stop()
+  await done
+  stream.getTracks().forEach((track) => track.stop())
+  return new Blob(chunks, { type: mime.split(';')[0] })
+}
+
+export async function shareCoverVideo({ filename, text, onProgress, ...data }) {
+  const blob = await recordCoverVideo(data, { onProgress })
   return shareOrDownload([{ blob, filename }], text)
 }

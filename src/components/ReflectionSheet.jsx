@@ -4,7 +4,7 @@ import ShareImageSheet from './ShareImageSheet.jsx'
 import { ShareIcon } from './icons.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { shareCover } from '../lib/coverImage.js'
-import { shareUrl } from '../lib/canvasKit.js'
+import { shareOrDownload, shareUrl } from '../lib/canvasKit.js'
 import InlineError from './InlineError.jsx'
 
 // Hoja para anotar/editar la reflexión del día ("¿Qué te habló hoy?"). Feature 1.
@@ -58,6 +58,19 @@ export default function ReflectionSheet({
     }
   }
 
+  async function handleShareVideo(blob) {
+    setShareOpen(false)
+    setShareError(false)
+    try {
+      await shareOrDownload(
+        [{ blob, filename: (shareData.filename ?? 'mi-nota.png').replace(/\.png$/, '-historia.mp4') }],
+        t('shareImage.fromApp', { url: shareUrl('nota') }),
+      )
+    } catch {
+      setShareError(true)
+    }
+  }
+
   async function handleSave() {
     if (!canSave || !onSave) return
     setSaving(true)
@@ -91,6 +104,7 @@ export default function ReflectionSheet({
       <ShareImageSheet
         data={shareData}
         onShare={handleShare}
+        onShareVideo={handleShareVideo}
         onCancel={() => setShareOpen(false)}
       />
     )

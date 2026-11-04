@@ -3,7 +3,7 @@ import Sheet from './Sheet.jsx'
 import Segmented from './Segmented.jsx'
 import Switch from './Switch.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
-import { buildCoverImage } from '../lib/coverImage.js'
+import { buildCoverImage, recordCoverVideo, videoMimeType } from '../lib/coverImage.js'
 import { buildCarouselImages } from '../lib/carouselImage.js'
 import { materialTheme } from '../lib/materialTheme.js'
 
@@ -28,7 +28,11 @@ const revokeAll = (urls) => urls.forEach((u) => URL.revokeObjectURL(u))
 // se perdería el texto. No se recuerda: depende de cada entrada.
 // `onPickPhrase` (opcional): suma "Elegir una frase" (el lector entra en modo
 // selección y vuelve a esta hoja con la frase elegida).
-export default function ShareImageSheet({ data, carousel = null, onShare, onCancel, onPickPhrase = null }) {
+// `onShareVideo(blob)` (opcional): en Historia, "Animada" graba un video de la
+// portada (la frase aparece palabra por palabra). Va en dos pasos — preparar y
+// después compartir — porque el navegador solo deja abrir la hoja de compartir
+// justo después de un toque, y grabar tarda unos segundos.
+export default function ShareImageSheet({ data, carousel = null, onShare, onCancel, onPickPhrase = null, onShareVideo = null }) {
   const { t } = usePreferences()
   const [variant, setVariant] = useState(() => {
     try {
@@ -48,6 +52,36 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
   const [withPersonal, setWithPersonal] = useState(true)
   const [previews, setPreviews] = useState([])
   const personal = withPersonal ? data.personal : null
+  const [animated, setAnimated] = useState(false)
+  const [video, setVideo] = useState(null) // { blob, url } ya grabado
+  const [recording, setRecording] = useState(null) // progreso 0–1 mientras graba
+  const [videoError, setVideoError] = useState(false)
+  const canVideo = !!onShareVideo && format === 'story' && !!videoMimeType()
+  const wantsVideo = canVideo && animated
+
+  // Cualquier cambio invalida el video ya grabado.
+  useEffect(
+    () => () =>
+      setVideo((v) => {
+        if (v) URL.revokeObjectURL(v.url)
+        return null
+      }),
+    [data, personal, variant, format, animated]
+  )
+
+  async function prepareVideo() {
+    if (recording != null) return
+    setVideoError(false)
+    setRecording(0)
+    try {
+      const blob = await recordCoverVideo({ ...data, personal, variant }, { onProgress: setRecording })
+      setVideo({ blob, url: URL.createObjectURL(blob) })
+    } catch {
+      setVideoError(true)
+    } finally {
+      setRecording(null)
+    }
+  }
 
   // Regenerar la vista previa al cambiar algo; las URLs anteriores se revocan al
   // reemplazarlas y las últimas al desmontar (efecto de abajo). El carrusel se
@@ -107,9 +141,27 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
       title={t('materialReader.shareTitle')}
       onCancel={onCancel}
       footer={
-        <button type="button" onClick={share} className="btn btn-primary">
-          {t('materialReader.shareAction')}
-        </button>
+        wantsVideo ? (
+          video ? (
+            <button type="button" onClick={() => onShareVideo(video.blob)} className="btn btn-primary">
+              {t('share.shareVideo')}
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={prepareVideo}
+              disabled={recording != null}
+              className="btn btn-primary"
+              style={{ opacity: recording != null ? 0.7 : 1 }}
+            >
+              {recording != null ? t('share.recording', { percent: Math.round(recording * 100) }) : t('share.prepareVideo')}
+            </button>
+          )
+        ) : (
+          <button type="button" onClick={share} className="btn btn-primary">
+            {t('materialReader.shareAction')}
+          </button>
+        )
       }
     >
       <div className="space-y-4 pb-1">
@@ -134,7 +186,17 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
           </div>
         ) : (
           <div className="flex h-[38dvh] items-center justify-center">
-            {previews[0] && (
+            {video ? (
+              <video
+                src={video.url}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="max-h-full max-w-full rounded-[10px]"
+                style={{ boxShadow: 'var(--shadow-overlay)' }}
+              />
+            ) : previews[0] && (
               <img
                 src={previews[0]}
                 alt=""
@@ -185,6 +247,17 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
             { key: 'story', label: t('materialReader.shareStory') },
           ]}
         />
+
+        {canVideo && (
+          <div className="flex items-center justify-between gap-3 px-1">
+            <div className="min-w-0">
+              <p className="text-[15px] text-ink">{t('share.animated')}</p>
+              <p className="text-[13px] text-ink-soft">{t('share.animatedHelp')}</p>
+            </div>
+            <Switch on={animated} onChange={() => setAnimated((v) => !v)} label={t('share.animated')} />
+          </div>
+        )}
+        {videoError && <p className="px-1 text-[13px]" style={{ color: 'var(--danger)' }}>{t('share.videoError')}</p>}
 
         {data.personal && (
           <div className="flex items-center justify-between gap-3 px-1">
