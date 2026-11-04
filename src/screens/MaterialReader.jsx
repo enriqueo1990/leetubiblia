@@ -15,6 +15,7 @@ import {
   isReadToday,
   localDateKey,
   withMaterialReadOn,
+  withMaterialDeactivated,
 } from '../lib/materials.js'
 import { passageUrl } from '../lib/bible.js'
 import { usePreferences } from '../lib/preferences.jsx'
@@ -96,6 +97,7 @@ export default function MaterialReader() {
   const [n, setN] = useState(null) // pregunta que se está viendo
   const [indexOpen, setIndexOpen] = useState(false) // hoja de índice
   const [confirmRestart, setConfirmRestart] = useState(false)
+  const [confirmRemove, setConfirmRemove] = useState(false) // "Quitar del estante"
   const [saveError, setSaveError] = useState(false) // falló guardar el avance
   const [shareSnap, setShareSnap] = useState(null) // hoja de compartir abierta: { data, carousel }
   const [pick, setPick] = useState(null) // "Elegir una frase": { start, end } (índices de oración) o null
@@ -696,6 +698,26 @@ export default function MaterialReader() {
             setIndexOpen(false)
           }}
           onClose={() => setIndexOpen(false)}
+          onRemove={() => {
+            setIndexOpen(false)
+            setConfirmRemove(true)
+          }}
+        />
+      )}
+      {/* Quitar del estante borra el marcador (al volver a agregarlo empieza de
+          nuevo): se confirma. Al quitarlo, el lector vuelve solo a la Biblioteca. */}
+      {confirmRemove && (
+        <ConfirmDialog
+          title={content.name}
+          message={t('materiales.confirmOff')}
+          confirmLabel={t('library.removeConfirm')}
+          danger
+          onConfirm={async () => {
+            setConfirmRemove(false)
+            const { error } = await updateProfile({ active_materials: withMaterialDeactivated(profile, slug) })
+            if (error) setSaveError(true)
+          }}
+          onCancel={() => setConfirmRemove(false)}
         />
       )}
 

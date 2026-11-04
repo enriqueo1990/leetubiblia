@@ -725,7 +725,7 @@
   "join.askLeader": "Pedile a quien te invitó un código nuevo — se genera en un segundo.",
   "join.errorHint": "Puede ser la conexión. Probá de nuevo en un momento.",
 
-  "nav.materiales": "Materiales",
+  "nav.materiales": "Biblioteca",
   "nav.lecturas": "Lecturas",
   "lecturas.section.plan": "Tu plan",
   "lecturas.planMeta": "Día {day} de {total} · {percent}%",
@@ -780,6 +780,43 @@
   "share.refsLabel": "Para tu Biblia",
   "share.nextUp": "Lo que sigue",
   "share.noteSub": "{plan} · Día {day}",
+  "library.title": "Biblioteca",
+  "library.subtitle": "Lecturas que acompañan tu Biblia. Las de tu estante aparecen en Hoy, y avanzás a tu ritmo.",
+  "library.shelf": "En tu estante",
+  "library.toAdd": "Para agregar",
+  "library.startHere": "Elegí por dónde empezar",
+  "library.tapToSee": "Tocá para ver",
+  "library.add": "Agregar",
+  "library.addToShelf": "Agregar a mi estante",
+  "library.sample": "Para que te des una idea",
+  "library.remove": "Quitar del estante",
+  "library.removeConfirm": "Quitar",
+  "library.onShelf": {
+    "one": "{count} en tu estante",
+    "other": "{count} en tu estante"
+  },
+  "library.kind.catechism": "Catecismo",
+  "library.kind.confession": "Confesión",
+  "library.kind.canons": "Cánones",
+  "library.kind.creeds": "Credos",
+  "library.kind.devotional": "Devocional",
+  "library.kind.children": "Para niños",
+  "library.count.question": {
+    "one": "{count} pregunta",
+    "other": "{count} preguntas"
+  },
+  "library.count.article": {
+    "one": "{count} artículo",
+    "other": "{count} artículos"
+  },
+  "library.count.item": {
+    "one": "{count} lectura",
+    "other": "{count} lecturas"
+  },
+  "library.count.day": {
+    "one": "{count} lectura, una por día",
+    "other": "{count} lecturas, una por día"
+  },
   "materialReader.shareAction": "Compartir",
   "materialReader.start": "Comenzar",
   "materialReader.previous": "Anterior",

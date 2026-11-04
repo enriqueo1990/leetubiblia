@@ -725,7 +725,7 @@
   "join.askLeader": "Ask the person who invited you for a new code — it only takes a moment to create.",
   "join.errorHint": "It might be your connection. Try again in a moment.",
 
-  "nav.materiales": "Materials",
+  "nav.materiales": "Library",
   "nav.lecturas": "Readings",
   "lecturas.section.plan": "Your plan",
   "lecturas.planMeta": "Day {day} of {total} · {percent}%",
@@ -780,6 +780,43 @@
   "share.refsLabel": "For your Bible",
   "share.nextUp": "Up next",
   "share.noteSub": "{plan} · Day {day}",
+  "library.title": "Library",
+  "library.subtitle": "Readings that go with your Bible. The ones on your shelf show up in Today, at your own pace.",
+  "library.shelf": "On your shelf",
+  "library.toAdd": "To add",
+  "library.startHere": "Pick where to start",
+  "library.tapToSee": "Tap to see",
+  "library.add": "Add",
+  "library.addToShelf": "Add to my shelf",
+  "library.sample": "A taste",
+  "library.remove": "Remove from shelf",
+  "library.removeConfirm": "Remove",
+  "library.onShelf": {
+    "one": "{count} on your shelf",
+    "other": "{count} on your shelf"
+  },
+  "library.kind.catechism": "Catechism",
+  "library.kind.confession": "Confession",
+  "library.kind.canons": "Canons",
+  "library.kind.creeds": "Creeds",
+  "library.kind.devotional": "Devotional",
+  "library.kind.children": "For children",
+  "library.count.question": {
+    "one": "{count} question",
+    "other": "{count} questions"
+  },
+  "library.count.article": {
+    "one": "{count} article",
+    "other": "{count} articles"
+  },
+  "library.count.item": {
+    "one": "{count} reading",
+    "other": "{count} readings"
+  },
+  "library.count.day": {
+    "one": "{count} reading, one a day",
+    "other": "{count} readings, one a day"
+  },
   "materialReader.shareAction": "Share",
   "materialReader.start": "Begin",
   "materialReader.previous": "Previous",

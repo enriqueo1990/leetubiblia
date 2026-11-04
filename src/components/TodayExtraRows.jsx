@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import { usePreferences } from '../lib/preferences.jsx'
 import { bookLabel } from '../i18n/books.js'
-import { BookIcon, ChevronRight, PeopleIcon } from './icons.jsx'
+import { ChevronRight, PeopleIcon } from './icons.jsx'
+import BookCover from './BookCover.jsx'
 
 // Hasta 2 referencias en la línea; el resto se resume como "+N".
 function refsLine(refs, locale) {
@@ -11,7 +12,7 @@ function refsLine(refs, locale) {
   return labels.join(' · ') + (extra > 0 ? ` +${extra}` : '')
 }
 
-// Filas de "También hoy": dos líneas. Arriba, ícono del tipo + nombre; abajo, QUÉ
+// Filas de "También hoy": dos líneas. Arriba, ícono o portadita + nombre; abajo, QUÉ
 // leer (pasajes del grupo o pregunta del material). A la derecha, el avance. El
 // ícono distingue grupo de material sin depender solo del texto de la meta.
 export default function TodayExtraRows({ rows, rowClassName = 'px-4 py-3', from }) {
@@ -27,7 +28,6 @@ export default function TodayExtraRows({ rows, rowClassName = 'px-4 py-3', from 
     const meta = isGroup
       ? `${t('planes.dayN', { n: r.day })} ${t('ajustes.ofTotal', { total: r.totalDays })}`
       : r.meta
-    const Icon = isGroup ? PeopleIcon : BookIcon
     const done = !row.pending
 
     return (
@@ -39,9 +39,15 @@ export default function TodayExtraRows({ rows, rowClassName = 'px-4 py-3', from 
       >
         <span className="min-w-0 flex-1" style={done ? { opacity: 0.6 } : undefined}>
           <span className="flex items-center gap-2">
-            <span className="shrink-0 text-ink-soft">
-              <Icon size={16} />
-            </span>
+            {/* Grupo: su ícono. Material: su portadita, el color de su tapa en la
+                Biblioteca (la misma identidad que lo que se comparte). */}
+            {isGroup ? (
+              <span className="shrink-0 text-ink-soft">
+                <PeopleIcon size={16} />
+              </span>
+            ) : (
+              <BookCover slug={r.slug} size="thumb" className="w-[13px] shrink-0" />
+            )}
             <span className="sr-only">
               {isGroup ? t('hoy.extrasTypeGroup') : t('hoy.extrasTypeMaterial')}:{' '}
             </span>

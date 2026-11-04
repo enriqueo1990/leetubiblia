@@ -13,7 +13,9 @@ import { usePreferences } from '../lib/preferences.jsx'
 // `numberOf` cambia el número de la columna izquierda (p. ej. el día del mes en
 // un devocional agrupado por mes); por defecto, el número propio de la entrada
 // dentro de su bloque si lo trae (`label`), o su número corrido.
-export default function MaterialIndexSheet({ content, frontier, current, numberOf = (e) => e.label ?? e.number, onPick, onClose }) {
+// `onRemove` (opcional): "Quitar del estante" al pie — sacarlo de la Biblioteca
+// vive acá, junto al material, y no en la grilla de portadas.
+export default function MaterialIndexSheet({ content, frontier, current, numberOf = (e) => e.label ?? e.number, onPick, onClose, onRemove = null }) {
   const { t } = usePreferences()
   // Las entradas vienen aplanadas y en orden: re-agrupar por bloque para los títulos.
   const blocks = []
@@ -90,6 +92,16 @@ export default function MaterialIndexSheet({ content, frontier, current, numberO
           </div>
         </div>
       ))}
+      {onRemove && (
+        <button
+          type="button"
+          onClick={onRemove}
+          className="mb-2 flex min-h-11 w-full items-center justify-center text-[15px] font-medium"
+          style={{ color: 'var(--danger)' }}
+        >
+          {t('library.remove')}
+        </button>
+      )}
     </Sheet>
   )
 }

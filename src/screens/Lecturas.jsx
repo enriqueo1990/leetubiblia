@@ -154,7 +154,7 @@ export default function Lecturas() {
               title={t('ajustes.materialesDeLectura')}
               detail={
                 materialsCount > 0
-                  ? t('ajustes.materialsActive', { count: materialsCount })
+                  ? t('library.onShelf', { count: materialsCount })
                   : t('ajustes.ninguno')
               }
             />
