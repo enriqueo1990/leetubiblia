@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { addIntercession, getPrayerDeck, markPrayerReviewed } from '../lib/db.js'
@@ -231,7 +232,9 @@ export default function MyTimeFlow({
     )
   }
 
-  return (
+  // Va al body (como Sheet): dentro de Hoy quedaría atrapado en su contexto de
+  // apilamiento, debajo de la barra lateral y de las pestañas.
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
@@ -265,6 +268,7 @@ export default function MyTimeFlow({
         )}
         <div className="space-y-1.5">{foot}</div>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }
