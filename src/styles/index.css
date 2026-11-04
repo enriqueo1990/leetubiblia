@@ -240,6 +240,24 @@
 :root.dark .day-light.afternoon { --glow-warm: rgba(214, 170, 110, 0.15); --glow-cool: rgba(150, 120, 90, 0.12); }
 :root.dark .day-light.night { --glow-warm: rgba(201, 152, 92, 0.2); --glow-cool: rgba(70, 82, 110, 0.24); }
 
+/* "Mi tiempo" · prepararse: un círculo que respira lento (4 s entrar, 4 s
+   salir), para acompañar una respiración honda. Quieto con reduced-motion. */
+.breathe {
+  width: 132px;
+  height: 132px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, var(--accent-tint) 0%, var(--accent-tint) 45%, transparent 70%);
+  box-shadow: 0 0 0 18px color-mix(in srgb, var(--accent) 6%, transparent);
+  animation: breathe 8s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(0.82); opacity: 0.7; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .breathe { animation: none; }
+}
+
 @layer components {
   /* Tipografía protagonista: referencia del día, en la serif de la marca
      (Newsreader, la de las portadas): el corazón de la app con voz de libro.

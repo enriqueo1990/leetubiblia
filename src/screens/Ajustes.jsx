@@ -13,6 +13,7 @@ import {
 } from '../lib/db.js'
 import Segmented from '../components/Segmented.jsx'
 import Switch from '../components/Switch.jsx'
+import { useMyTime } from '../hooks/useMyTime.js'
 import BackLink from '../components/BackLink.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import InlineError from '../components/InlineError.jsx'
@@ -117,6 +118,7 @@ export default function Ajustes() {
   const reminderOn = !!profile?.reminder_enabled
   const reminderTime = profile?.reminder_time?.slice(0, 5) || '07:00'
   const reflectionsOn = !!profile?.reflections_enabled
+  const [myTime, setMyTime] = useMyTime(user?.id)
   const shareReadingOn = !!profile?.share_reading
   const prayerFollowupOn = profile?.prayer_followup_enabled !== false // default true
 
@@ -451,6 +453,40 @@ export default function Ajustes() {
           }
         />
       </div>
+
+      {/* Tu manera de leer: "Mi tiempo" es opcional. Apagado, Hoy queda como
+          siempre; prendido, Hoy ofrece el recorrido guiado y mantiene "Solo
+          marcar como leído" para los días con prisa. */}
+      <SectionLabel>{t('myTime.section')}</SectionLabel>
+      <div className="card divide-y divide-hairline">
+        <Row
+          title={t('myTime.title')}
+          subtitle={t('myTime.settingHelp')}
+          control={<Switch on={myTime.enabled} onChange={() => setMyTime({ enabled: !myTime.enabled })} label={t('myTime.title')} />}
+        />
+        {myTime.enabled && (
+          <>
+            <Row
+              title={t('myTime.includeNote')}
+              subtitle={reflectionsOn ? t('myTime.includeNoteHelp') : t('myTime.includeNoteOff')}
+              control={
+                <Switch
+                  on={myTime.note && reflectionsOn}
+                  onChange={() => setMyTime({ note: !myTime.note })}
+                  label={t('myTime.includeNote')}
+                  disabled={!reflectionsOn}
+                />
+              }
+            />
+            <Row
+              title={t('myTime.includePrayer')}
+              subtitle={t('myTime.includePrayerHelp')}
+              control={<Switch on={myTime.prayer} onChange={() => setMyTime({ prayer: !myTime.prayer })} label={t('myTime.includePrayer')} />}
+            />
+          </>
+        )}
+      </div>
+      <p className="mt-2 px-1 text-[13px] leading-snug text-ink-soft">{t('myTime.settingNote')}</p>
       <SectionLabel>{t('ajustes.section.avisos')}</SectionLabel>
       <div className="card divide-y divide-hairline">
         <Row

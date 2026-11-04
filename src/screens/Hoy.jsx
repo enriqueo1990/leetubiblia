@@ -28,6 +28,9 @@ import InlineError from '../components/InlineError.jsx'
 import PassageList from '../components/PassageList.jsx'
 import { BookIcon, CameraIcon, CheckIcon, GearIcon, InstallIcon, ShareIcon } from '../components/icons.jsx'
 import BiblePhotoSheet from '../components/BiblePhotoSheet.jsx'
+import MyTimeFlow from '../components/MyTimeFlow.jsx'
+import { useMyTime } from '../hooks/useMyTime.js'
+import { dismissMyTimeInvite, shouldInviteMyTime, wasMyTimeInviteDismissed } from '../lib/myTime.js'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import { cycleOf, nextCyclePatch } from '../lib/planCycle.js'
 import EmptyState from '../components/EmptyState.jsx'
@@ -82,6 +85,10 @@ export default function Hoy() {
   const [sharing, setSharing] = useState(false)
   const [shareNote, setShareNote] = useState(null) // 'downloaded' | null
   const [photoOpen, setPhotoOpen] = useState(false) // "Tu Biblia, hoy"
+  // "Mi tiempo" (opcional): la preferencia, el recorrido abierto y la invitación.
+  const [myTime, setMyTime] = useMyTime(user?.id)
+  const [myTimeOpen, setMyTimeOpen] = useState(false)
+  const [myTimeInviteClosed, setMyTimeInviteClosed] = useState(() => wasMyTimeInviteDismissed(user?.id))
   const [recorded, setRecorded] = useState(false)
   const [installing, setInstalling] = useState(false)
   const [installCardDismissed, setInstallCardDismissed] = useState(wasInstallCardDismissed)
@@ -426,6 +433,30 @@ export default function Hoy() {
       }
     }
   }
+
+  // Marcar el día mostrado (el botón de Hoy, y "Solo marcar como leído").
+  function markShownDay() {
+    if (dayShown == null) return
+    setJustMarked(true)
+    navigator.vibrate?.(12)
+    // Embudo: la primera lectura de una cuenta nueva (no la de quien solo
+    // empieza otro plan).
+    if (r.completedCount === 0 && isRecentAccount(profile)) recordFunnel('ob_first_mark')
+    r.toggleDay(dayShown)
+  }
+
+  // La invitación a probar "Mi tiempo": una sola vez, desde el segundo día.
+  const showMyTimeInvite =
+    !myTimeInviteClosed &&
+    !viewingAhead &&
+    !readingUnavailable &&
+    dayShown != null &&
+    shouldInviteMyTime({
+      enabled: myTime.enabled,
+      dismissed: false,
+      completedCount: r.completedCount,
+      doneToday: doneShown,
+    })
 
   // Saludo y luz según la hora: "Buen día, Enrique" con el resplandor de la
   // mañana; a la noche, "Buenas noches" y un ámbar tenue.
@@ -838,6 +869,47 @@ export default function Hoy() {
         </section>
       )}
 
+      {showMyTimeInvite && (
+        <section className="card moment-in mt-6 flex items-start gap-3.5 p-4" aria-labelledby="mytime-invite">
+          <span
+            aria-hidden="true"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] text-[20px]"
+            style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
+          >
+            ✦
+          </span>
+          <div className="min-w-0 flex-1">
+            <h3 id="mytime-invite" className="text-[15px] font-semibold text-ink">{t('myTime.inviteTitle')}</h3>
+            <p className="mt-0.5 text-[13px] leading-snug text-ink-soft">{t('myTime.inviteText')}</p>
+            <div className="mt-1 flex items-center gap-4">
+              <button
+                type="button"
+                onClick={() => {
+                  dismissMyTimeInvite(user?.id)
+                  setMyTimeInviteClosed(true)
+                  setMyTime({ enabled: true })
+                  setMyTimeOpen(true)
+                }}
+                className="-ml-1 flex min-h-11 items-center px-1 text-[14px] font-semibold"
+                style={{ color: 'var(--accent-ink)' }}
+              >
+                {t('myTime.inviteTry')}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  dismissMyTimeInvite(user?.id)
+                  setMyTimeInviteClosed(true)
+                }}
+                className="flex min-h-11 items-center px-1 text-[14px] font-medium text-ink-soft"
+              >
+                {t('myTime.inviteNo')}
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Lecturas secundarias del día. Una sola sección para no competir con la
           lectura principal: si no hay grupos/materiales, no ocupa lugar. Con el
           plan terminado sigue visible: ahí son justo lo que queda por leer. */}
@@ -889,21 +961,27 @@ export default function Hoy() {
           <div className="action-bar">
             <div className="lg:mx-auto lg:max-w-[440px]">
               {!doneShown && !readingUnavailable ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (dayShown == null) return
-                    setJustMarked(true)
-                    navigator.vibrate?.(12)
-                    // Embudo: la primera lectura de una cuenta nueva (no la de
-                    // quien solo empieza otro plan).
-                    if (r.completedCount === 0 && isRecentAccount(profile)) recordFunnel('ob_first_mark')
-                    r.toggleDay(dayShown)
-                  }}
-                  className="btn btn-primary"
-                >
-                  {t('hoy.markRead')}
-                </button>
+                myTime.enabled && !viewingAhead ? (
+                  // Con "Mi tiempo" activo: el recorrido es lo primario, y marcar
+                  // directo queda a un toque para los días con prisa.
+                  <>
+                    <button type="button" onClick={() => setMyTimeOpen(true)} className="btn btn-primary">
+                      {t('myTime.start')}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={markShownDay}
+                      className="mt-1 block min-h-11 w-full text-center text-[15px] font-medium"
+                      style={{ color: 'var(--accent-ink)' }}
+                    >
+                      {t('myTime.justMark')}
+                    </button>
+                  </>
+                ) : (
+                  <button type="button" onClick={markShownDay} className="btn btn-primary">
+                    {t('hoy.markRead')}
+                  </button>
+                )
               ) : !doneShown ? null : breathing ? (
                 <>
                   <p className="moment-in pb-2.5 text-center text-[13px] font-medium text-ink-soft">
@@ -974,6 +1052,31 @@ export default function Hoy() {
           </div>
         )
       })()}
+
+      {myTimeOpen && dayShown != null && (
+        <MyTimeFlow
+          refs={refsShown ?? []}
+          doneToday={doneShown}
+          onMarkRead={async () => {
+            if (r.completedCount === 0 && isRecentAccount(profile)) recordFunnel('ob_first_mark')
+            r.toggleDay(dayShown)
+          }}
+          note={note}
+          noteEditable={noteEditable}
+          onSaveNote={async (body) => {
+            const row = await upsertReflection(user.id, planId, shownDay, body, cycle)
+            setNote(row)
+          }}
+          prefs={myTime}
+          reflectionsEnabled={reflectionsEnabled}
+          daysRead={r.completedCount}
+          onPhoto={() => {
+            setMyTimeOpen(false)
+            setPhotoOpen(true)
+          }}
+          onClose={() => setMyTimeOpen(false)}
+        />
+      )}
 
       {photoOpen && (
         <BiblePhotoSheet

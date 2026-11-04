@@ -192,7 +192,7 @@ export default defineConfig({
           'icons/*.png',
           'assets/index-*.js',
           'assets/vendor-*.js',
-          'assets/{PrivateRoot,Hoy,BookCover,ConfirmDialog,DonateSheet,EmptyState,InlineError,PassageList,ReflectionSheet,Segmented,ShareImageSheet,Sheet,Skeleton,TodayExtraRows,bible,books,dates,icons,materialTheme,materials,planCycle,planLabels,useInstallPrompt,useReading}-*.js',
+          'assets/{PrivateRoot,Hoy,BookCover,ConfirmDialog,DonateSheet,EmptyState,InlineError,PassageList,ReflectionSheet,Segmented,ShareImageSheet,Sheet,Skeleton,TodayExtraRows,bible,books,dates,icons,materialTheme,materials,planCycle,planLabels,useInstallPrompt,useMyTime,useReading}-*.js',
         ],
         runtimeCaching: [
           {
