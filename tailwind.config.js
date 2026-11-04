@@ -38,7 +38,7 @@ export default {
       borderRadius: {
         pill: '8px',
         input: '14px',
-        card: '16px',
+        card: '20px',
         container: '24px',
       },
       maxWidth: {

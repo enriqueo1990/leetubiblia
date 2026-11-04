@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Lee Tu Biblia" />
     <!-- theme_color inicial; useTheme lo actualiza en vivo según el modo -->
-    <meta name="theme-color" content="#F8F7F4" />
+    <meta name="theme-color" content="#F6F3EE" />
     <!-- Único splash de arranque: completa libro, versículo y referencia mientras
          React prepara la pantalla real detrás. Se retira cuando la pantalla está
          lista; la transición CSS evita mostrar contenido incompleto. -->
@@ -17,10 +17,10 @@
       /* Fondo en html/body para que no haya flash blanco mientras React monta */
       html, body {
         margin: 0;
-        background: #F8F7F4;
+        background: #F6F3EE;
       }
       @media (prefers-color-scheme: dark) {
-        html, body { background: #000000; }
+        html, body { background: #15120F; }
       }
       #ltb-splash {
         position: fixed;
@@ -31,7 +31,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        background: #F8F7F4;
+        background: #F6F3EE;
         font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
         opacity: 1;
         transition: opacity 0.35s ease;
@@ -96,7 +96,7 @@
         to   { opacity: 1; transform: translateY(0); }
       }
       @media (prefers-color-scheme: dark) {
-        #ltb-splash { background: #000000; }
+        #ltb-splash { background: #15120F; }
         #ltb-splash svg g { stroke: #C2A57E; }
         #ltb-splash-verse { color: #F2F2F7; }
         #ltb-splash-rule { background: #C2A57E; }

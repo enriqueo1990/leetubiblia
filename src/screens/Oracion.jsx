@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { BRAND_SERIF } from '../lib/brandFont.js'
 import { PlusIcon, LockIcon, PeopleIcon, HeartIcon } from '../components/icons.jsx'
 import Segmented from '../components/Segmented.jsx'
 import RetryError from '../components/RetryError.jsx'
@@ -159,17 +160,28 @@ export default function Oracion() {
         </button>
       </div>
 
-      {/* Orar ahora: el flujo principal de esta pantalla. Una acción calma, no una
-          tarjeta promocional, para que Oración no se vuelva un inbox. */}
+      {/* Orar ahora: el flujo principal de esta pantalla, y la única acción fuerte.
+          Una tarjeta calma en el tinte del acento (no un botón más entre botones),
+          con el título en la serif de la marca: para que Oración no se vuelva un
+          inbox. */}
       {activeToPray > 0 && (
         <Link
           to="/orar"
-          className="btn btn-primary mt-5 flex items-center justify-center gap-2"
+          className="card mt-5 flex items-center justify-between gap-4 p-5 transition-transform active:scale-[0.99]"
+          style={{ backgroundColor: 'var(--accent-tint)', boxShadow: 'none' }}
         >
-          <HeartIcon size={18} aria-hidden="true" />
-          <span>{t('orar.cta')}</span>
-          <span className="text-[14px] font-medium" style={{ opacity: 0.75 }}>
-            · {t('orar.ctaCount', { count: activeToPray })}
+          <span className="min-w-0">
+            <span className="block text-[24px] font-medium leading-tight text-ink" style={{ fontFamily: BRAND_SERIF }}>
+              {t('orar.cta')}
+            </span>
+            <span className="mt-1 block text-[14px] text-ink-soft">{t('orar.ctaOneByOne', { count: activeToPray })}</span>
+          </span>
+          <span
+            aria-hidden="true"
+            className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-on-accent"
+            style={{ backgroundColor: 'var(--accent-action)' }}
+          >
+            <HeartIcon size={22} />
           </span>
         </Link>
       )}
@@ -196,19 +208,22 @@ export default function Oracion() {
                       <p className="mt-0.5 text-[13px] text-ink-soft">
                         {t('oracion.activeFor', { count: dias })}
                       </p>
-                      <div className="mt-3 flex gap-2">
+                      {/* Acciones como texto dentro de su tarjeta: la acción fuerte de la
+                          pantalla es "Orar ahora"; acá no compiten botones rellenos. */}
+                      <div className="mt-1 flex gap-5">
                         <button
                           type="button"
                           onClick={() => sigueIgual(p)}
                           disabled={!online || reviewAction.busyId === p.id}
-                          className="btn btn-secondary flex-1 py-2 text-[14px]"
+                          className="-ml-1 flex min-h-11 items-center px-1 text-[15px] font-semibold disabled:opacity-50"
+                          style={{ color: 'var(--accent-ink)' }}
                         >
                           {reviewAction.busyId === p.id ? '…' : t('oracion.stillSame')}
                         </button>
                         <button
                           type="button"
                           onClick={() => openPrayer(p, { openUpdate: p.status === 'active' })}
-                          className="btn btn-primary flex-1 py-2 text-[14px]"
+                          className="flex min-h-11 items-center px-1 text-[15px] font-medium text-ink-soft"
                         >
                           {t('oracion.review')}
                         </button>

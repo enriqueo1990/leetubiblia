@@ -588,6 +588,14 @@
 
   "hoy.alsoToday": "Also today",
   "hoy.extrasSeeAll": "See all ({count})",
+  "orar.ctaOneByOne": {
+    "one": "{count} request",
+    "other": "{count} requests, one at a time"
+  },
+  "hoy.greet.morning": "Good morning",
+  "hoy.greet.afternoon": "Good afternoon",
+  "hoy.greet.night": "Good evening",
+  "hoy.greetName": "{greet}, {name}",
   "hoy.extrasMoreToday": {
     "one": "{count} more today",
     "other": "{count} more today"

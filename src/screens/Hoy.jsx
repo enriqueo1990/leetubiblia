@@ -19,6 +19,7 @@ import {
 import { usePreferences } from '../lib/preferences.jsx'
 import { fmtISODate } from '../i18n/dates.js'
 import { passageLine } from '../lib/passageLine.js'
+import { dayPeriod, firstName } from '../lib/dayLight.js'
 import { planName } from '../lib/planLabels.js'
 import { shareCompletion } from '../lib/shareImage.js'
 import { recordFunnel } from '../lib/diag.js'
@@ -426,8 +427,18 @@ export default function Hoy() {
     }
   }
 
+  // Saludo y luz según la hora: "Buen día, Enrique" con el resplandor de la
+  // mañana; a la noche, "Buenas noches" y un ámbar tenue.
+  const period = dayPeriod()
+  const name = firstName(profile?.display_name)
+  const greeting = name
+    ? t('hoy.greetName', { greet: t(`hoy.greet.${period}`), name })
+    : t(`hoy.greet.${period}`)
+
   return (
-    <div className="flex min-h-[calc(100dvh-120px)] flex-col pt-2 lg:min-h-0">
+    <div className="relative isolate flex min-h-[calc(100dvh-120px)] flex-col pt-2 lg:min-h-0">
+      <div aria-hidden="true" className={`day-light ${period}`} />
+      <p className="mb-1 text-[14px] font-medium text-ink-soft">{greeting}</p>
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
           {/* Sin "volver": el modelo es el señalador — leer adelantado mueve tu

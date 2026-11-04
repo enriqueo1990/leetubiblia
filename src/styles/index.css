@@ -213,23 +213,54 @@
   animation: moment-in 0.5s 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
 }
 
+/* La luz de Hoy según la hora (ver lib/dayLight.js): un resplandor apenas
+   perceptible arriba de la pantalla, cálido a la mañana, dorado a la tarde,
+   ámbar tenue a la noche. Detrás del contenido y sin interacción. */
+.day-light {
+  position: absolute;
+  left: -24px;
+  right: -24px;
+  top: -140px;
+  height: 440px;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(110% 80% at 88% 0%, var(--glow-warm), transparent 62%),
+    radial-gradient(80% 60% at 0% 0%, var(--glow-cool), transparent 58%);
+}
+.day-light.morning { --glow-warm: rgba(236, 198, 150, 0.5); --glow-cool: rgba(206, 222, 232, 0.45); }
+.day-light.afternoon { --glow-warm: rgba(234, 206, 160, 0.36); --glow-cool: rgba(232, 214, 190, 0.24); }
+.day-light.night { --glow-warm: rgba(196, 150, 110, 0.22); --glow-cool: rgba(150, 160, 190, 0.18); }
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .day-light.morning { --glow-warm: rgba(214, 160, 100, 0.18); --glow-cool: rgba(110, 130, 150, 0.16); }
+  :root:not(.light) .day-light.afternoon { --glow-warm: rgba(214, 170, 110, 0.15); --glow-cool: rgba(150, 120, 90, 0.12); }
+  :root:not(.light) .day-light.night { --glow-warm: rgba(201, 152, 92, 0.2); --glow-cool: rgba(70, 82, 110, 0.24); }
+}
+:root.dark .day-light.morning { --glow-warm: rgba(214, 160, 100, 0.18); --glow-cool: rgba(110, 130, 150, 0.16); }
+:root.dark .day-light.afternoon { --glow-warm: rgba(214, 170, 110, 0.15); --glow-cool: rgba(150, 120, 90, 0.12); }
+:root.dark .day-light.night { --glow-warm: rgba(201, 152, 92, 0.2); --glow-cool: rgba(70, 82, 110, 0.24); }
+
 @layer components {
-  /* Tipografía protagonista: referencia del día */
+  /* Tipografía protagonista: referencia del día, en la serif de la marca
+     (Newsreader, la de las portadas): el corazón de la app con voz de libro.
+     Hasta que carga, Georgia ocupa su lugar sin saltos grandes. */
   .text-display {
+    font-family: "Newsreader", Georgia, "Times New Roman", serif;
     font-size: 38px;
     font-weight: 500;
-    letter-spacing: -0.6px;
-    line-height: 1.24;
+    letter-spacing: -0.4px;
+    line-height: 1.2;
   }
   /* Variante para días de muchos pasajes (≥4): sigue siendo lo más grande de
      la pantalla, pero cinco líneas ya no comen un tercio del viewport — clave
      para que Hoy entre en una pantalla (como el título grande de iOS, que se
      achica cuando es largo). */
   .text-display-sm {
-    font-size: 30px;
+    font-family: "Newsreader", Georgia, "Times New Roman", serif;
+    font-size: 31px;
     font-weight: 500;
-    letter-spacing: -0.5px;
-    line-height: 1.22;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
   }
 
   /* Botones base — el sistema visual (§4.4 / Design Tokens) */
