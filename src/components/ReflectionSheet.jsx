@@ -3,7 +3,8 @@ import Sheet from './Sheet.jsx'
 import ShareImageSheet from './ShareImageSheet.jsx'
 import { ShareIcon } from './icons.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
-import { shareQuestion, shareUrl } from '../lib/shareImage.js'
+import { shareCover } from '../lib/coverImage.js'
+import { shareUrl } from '../lib/canvasKit.js'
 import InlineError from './InlineError.jsx'
 
 // Hoja para anotar/editar la reflexión del día ("¿Qué te habló hoy?"). Feature 1.
@@ -13,9 +14,9 @@ import InlineError from './InlineError.jsx'
 // Mismo lenguaje que las tarjetas de Mi camino: la nota primero, la metadata
 // (fecha opcional · día · plan) como pie en gris, sin mayúsculas ni acento.
 //
-// shareData ({ meta, question, answer, refs, filename }, opcional): habilita
-// compartir la nota como imagen con el mismo compositor del catecismo (estilos +
-// formato + firma leetubiblia.com). Solo cuando la nota mostrada está guardada
+// shareData ({ spine, number, sub, quote, filename }, opcional): habilita
+// compartir la nota como imagen con el mismo compositor de los materiales (la
+// portada en la paleta de la marca, o Papel; formato; firma leetubiblia.com). Solo cuando la nota mostrada está guardada
 // tal cual (nunca se comparte texto que no quedó en el diario).
 export default function ReflectionSheet({
   planName,
@@ -43,13 +44,13 @@ export default function ReflectionSheet({
   const canShare = !!shareData && !!initialBody && !dirty
   const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s)
 
-  async function handleShare(style, format) {
+  async function handleShare(variant, format) {
     if (sharing || !shareData) return
     setShareOpen(false)
     setSharing(true)
     setShareError(false)
     try {
-      await shareQuestion({ ...shareData, style, format, text: t('shareImage.fromApp', { url: shareUrl('nota') }) })
+      await shareCover({ ...shareData, variant, format, text: t('shareImage.fromApp', { url: shareUrl('nota') }) })
     } catch {
       setShareError(true)
     } finally {

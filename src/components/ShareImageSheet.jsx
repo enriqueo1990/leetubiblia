@@ -1,35 +1,40 @@
 import { useEffect, useState } from 'react'
 import Sheet from './Sheet.jsx'
 import Segmented from './Segmented.jsx'
+import Switch from './Switch.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
-import { buildCarousel, buildQuestionImage, QUOTE_STYLES } from '../lib/shareImage.js'
+import { buildCoverImage } from '../lib/coverImage.js'
+import { buildCarouselImages } from '../lib/carouselImage.js'
+import { materialTheme } from '../lib/materialTheme.js'
 
 // Último estilo y formato de imagen compartida. Es memoria de flujo, no una
 // preferencia del perfil: vive en el dispositivo. Claves compartidas entre todo
-// lo que se comparte como imagen (catecismo, reflexiones): una sola memoria.
+// lo que se comparte como imagen (materiales, notas): una sola memoria. Los
+// estilos viejos (ficha, clásico, noche, moderno, vibrante) pasan a 'color'.
 const SHARE_FORMAT_KEY = 'ltb:shareFormat'
 const SHARE_STYLE_KEY = 'ltb:shareStyle'
 
 const revokeAll = (urls) => urls.forEach((u) => URL.revokeObjectURL(u))
 
-// Hoja de compartir como imagen: mini-compositor de dos decisiones (estilo y
-// formato) con vista previa REAL (generar la imagen tarda ~50ms, así que lo que
-// ves es exactamente lo que sale). `data` es el contenido ya resuelto en i18n
-// ({ meta, question, answer, refs }); `onShare(style, format)` dispara el share
-// en el contenedor. Nació en el lector de catecismos y lo comparten las
-// reflexiones de Mi camino.
+// Hoja de compartir como imagen, con vista previa REAL (lo que ves es lo que
+// sale). Dos decisiones: estilo (la portada en el color del material, o Papel)
+// y formato; y un interruptor para el dato personal ("Día 23"), que viene puesto.
+// `data` es la portada ya resuelta en i18n: { slug, spine, number, sub, quote,
+// personal, filename }. `onShare(variant, format, { personal })` comparte en el
+// contenedor.
 //
-// `carousel` (opcional): los datos de buildCarousel cuando la respuesta NO entra
-// entera en una imagen. Suma el formato "Carrusel" y arranca en él — en una
-// sola imagen se perdería el texto. No se recuerda: depende de cada entrada.
-export default function ShareImageSheet({ data, carousel = null, onShare, onCancel }) {
+// `carousel` (opcional): los datos del carrusel cuando la frase NO entra entera
+// en una imagen. Suma el formato "Carrusel" y arranca en él — en una sola imagen
+// se perdería el texto. No se recuerda: depende de cada entrada.
+// `onPickPhrase` (opcional): suma "Elegir una frase" (el lector entra en modo
+// selección y vuelve a esta hoja con la frase elegida).
+export default function ShareImageSheet({ data, carousel = null, onShare, onCancel, onPickPhrase = null }) {
   const { t } = usePreferences()
-  const [style, setStyle] = useState(() => {
+  const [variant, setVariant] = useState(() => {
     try {
-      const s = localStorage.getItem(SHARE_STYLE_KEY)
-      return QUOTE_STYLES.includes(s) ? s : QUOTE_STYLES[0]
+      return localStorage.getItem(SHARE_STYLE_KEY) === 'papel' ? 'papel' : 'color'
     } catch {
-      return QUOTE_STYLES[0]
+      return 'color'
     }
   })
   const [format, setFormat] = useState(() => {
@@ -40,17 +45,19 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
       return 'post'
     }
   })
+  const [withPersonal, setWithPersonal] = useState(true)
   const [previews, setPreviews] = useState([])
+  const personal = withPersonal ? data.personal : null
 
-  // Regenerar la vista previa al cambiar estilo/formato; las URLs anteriores se
-  // revocan al reemplazarlas y las últimas al desmontar (efecto de abajo). El
-  // carrusel se previsualiza a 1× (es una tira de miniaturas).
+  // Regenerar la vista previa al cambiar algo; las URLs anteriores se revocan al
+  // reemplazarlas y las últimas al desmontar (efecto de abajo). El carrusel se
+  // previsualiza a 1× (es una tira de miniaturas).
   useEffect(() => {
     let on = true
     const build =
       format === 'carousel' && carousel
-        ? buildCarousel({ ...carousel, style, scale: 1 })
-        : buildQuestionImage({ ...data, style, format }).then((blob) => [blob])
+        ? buildCarouselImages({ ...carousel, personal, variant, scale: 1 })
+        : buildCoverImage({ ...data, personal, variant, format, scale: 1 }).then((blob) => [blob])
     build
       .then((blobs) => {
         if (!on) return
@@ -66,7 +73,7 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
     return () => {
       on = false
     }
-  }, [data, carousel, style, format])
+  }, [data, carousel, personal, variant, format])
   useEffect(
     () => () =>
       setPreviews((prev) => {
@@ -80,33 +87,19 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
   function share() {
     try {
       if (format !== 'carousel') localStorage.setItem(SHARE_FORMAT_KEY, format)
-      localStorage.setItem(SHARE_STYLE_KEY, style)
+      localStorage.setItem(SHARE_STYLE_KEY, variant)
     } catch {
       /* almacenamiento bloqueado: se comparte igual, sin recordar */
     }
-    onShare(style, format)
+    onShare(variant, format, { personal: withPersonal })
   }
 
-  // Swatch = el fondo real de cada estilo; el de "ficha" es vivo (tema actual)
-  // y los degradés llevan su gradiente real.
+  // Muestra = el fondo real de cada estilo: el color del material, o el hueso
+  // de Papel con el lomo del material.
+  const th = materialTheme(data.slug)
   const styles = [
-    { id: 'ficha', label: t('materialReader.styleFicha'), swatch: 'var(--surface)', ring: 'var(--hairline)' },
-    { id: 'clasico', label: t('materialReader.styleClasico'), swatch: '#F5F0E6', ring: '#A88B6A' },
-    { id: 'noche', label: t('materialReader.styleNoche'), swatch: '#12100D', ring: '#C2A57E' },
-    {
-      id: 'moderno',
-      label: t('materialReader.styleModerno'),
-      swatch: 'linear-gradient(135deg, #C3B2EA, #9BC5EC)',
-      ring: '#7C6BB8',
-      gradient: true,
-    },
-    {
-      id: 'vibrante',
-      label: t('materialReader.styleVibrante'),
-      swatch: 'linear-gradient(135deg, #D97E63, #BE6C9C)',
-      ring: '#BE6C9C',
-      gradient: true,
-    },
+    { id: 'color', label: t('share.styleColor'), swatch: th.c, ring: th.spine },
+    { id: 'papel', label: t('share.stylePapel'), swatch: '#F8F7F4', ring: th.papelSpine ?? th.c },
   ]
 
   return (
@@ -120,7 +113,7 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
       }
     >
       <div className="space-y-4 pb-1">
-        {/* Vista previa con altura fija: la hoja no salta al pasar de 1:1 a 9:16.
+        {/* Vista previa con altura fija: la hoja no salta al pasar de 4:5 a 9:16.
             El carrusel es una tira que se desliza, como en Instagram. */}
         {format === 'carousel' ? (
           <div
@@ -159,12 +152,12 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
 
         <div className="grid grid-cols-2 gap-2">
           {styles.map((s) => {
-            const active = s.id === style
+            const active = s.id === variant
             return (
               <button
                 key={s.id}
                 type="button"
-                onClick={() => setStyle(s.id)}
+                onClick={() => setVariant(s.id)}
                 aria-pressed={active}
                 className="flex items-center justify-center gap-2 rounded-input border py-2.5 text-[14px] font-medium text-ink transition-colors"
                 style={{
@@ -174,11 +167,8 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
               >
                 <span
                   aria-hidden="true"
-                  className="h-4 w-4 rounded-full border"
-                  style={{
-                    [s.gradient ? 'backgroundImage' : 'backgroundColor']: s.swatch,
-                    borderColor: s.ring,
-                  }}
+                  className="h-4 w-4 rounded-full border-2"
+                  style={{ backgroundColor: s.swatch, borderColor: s.ring }}
                 />
                 {s.label}
               </button>
@@ -195,6 +185,27 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
             { key: 'story', label: t('materialReader.shareStory') },
           ]}
         />
+
+        {data.personal && (
+          <div className="flex items-center justify-between gap-3 px-1">
+            <div className="min-w-0">
+              <p className="text-[15px] text-ink">{t('share.showProgress')}</p>
+              <p className="text-[13px] text-ink-soft">{data.personal}</p>
+            </div>
+            <Switch on={withPersonal} onChange={() => setWithPersonal((v) => !v)} label={t('share.showProgress')} />
+          </div>
+        )}
+
+        {onPickPhrase && (
+          <button
+            type="button"
+            onClick={onPickPhrase}
+            className="flex min-h-11 w-full items-center justify-center text-[15px] font-semibold"
+            style={{ color: 'var(--accent-ink)' }}
+          >
+            {t('share.pickPhrase')}
+          </button>
+        )}
       </div>
     </Sheet>
   )

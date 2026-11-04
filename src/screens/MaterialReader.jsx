@@ -19,8 +19,11 @@ import {
 import { passageUrl } from '../lib/bible.js'
 import { usePreferences } from '../lib/preferences.jsx'
 import { bookLabel } from '../i18n/books.js'
-import { fitsInOneImage, shareCarousel, shareQuestion, shareUrl } from '../lib/shareImage.js'
+import { coverFits, shareCover } from '../lib/coverImage.js'
+import { shareCarousel } from '../lib/carouselImage.js'
+import { shareUrl } from '../lib/canvasKit.js'
 import { carouselSections } from '../lib/carousel.js'
+import { joinSentences, splitSentences } from '../lib/sentences.js'
 import { excerpt } from '../lib/excerpt.js'
 import { ListIcon, ShareIcon } from '../components/icons.jsx'
 import BackLink from '../components/BackLink.jsx'
@@ -77,6 +80,9 @@ function refGroups(refs) {
   return groups
 }
 
+// Una frase para compartir, no un párrafo: hasta ~3 oraciones.
+const PHRASE_MAX = 320
+
 export default function MaterialReader() {
   const { slug } = useParams()
   const { profile, updateProfile } = useAuth()
@@ -92,8 +98,10 @@ export default function MaterialReader() {
   const [confirmRestart, setConfirmRestart] = useState(false)
   const [saveError, setSaveError] = useState(false) // falló guardar el avance
   const [shareSnap, setShareSnap] = useState(null) // hoja de compartir abierta: { data, carousel }
+  const [pick, setPick] = useState(null) // "Elegir una frase": { start, end } (índices de oración) o null
   const [sharing, setSharing] = useState(false) // generando la imagen para compartir
   const [shareError, setShareError] = useState(false)
+  useEffect(() => setPick(null), [n])
   const calendar = isCalendarMaterial(slug)
   const today = calendarEntryNumber()
   const [readToday, setReadToday] = useState(null) // por fecha: ¿ya se marcó hoy? (optimista)
@@ -174,6 +182,7 @@ export default function MaterialReader() {
   const headingRef = content.headingRef && entry?.refs.length ? entry.refs[0] : null
   const footRefs = entry ? (headingRef ? entry.refs.slice(1) : entry.refs) : []
   const completed = !calendar && pos > total
+  const sentences = pick && entry ? splitSentences(entry.answer) : []
   const atFrontier = calendar ? n === today && !readToday : !completed && n === pos // lista para marcar
   const maxN = calendar ? total : Math.min(pos, total) // no se avanza más allá de lo leído (+ la del frente)
   const canPrev = n > (hasIntro ? 0 : 1)
@@ -223,28 +232,29 @@ export default function MaterialReader() {
     persist(1, revertPos, revertN)
   }
 
-  // Datos de la tarjeta (la i18n se resuelve acá: el módulo de dibujo recibe
-  // textos ya armados). "Pregunta N de M" con espacios duros: no debe partirse.
-  const shareData = entry
-    ? {
-        meta: [
-          content.name,
-          entryOfLabel(t, slug, entry.number, total, locale).replace(/ /g, '\u00A0'),
-        ].join(' · '),
-        question: entry.question,
-        // Un devocional por fecha tiene una meditación larga que nunca entra en la
-        // tarjeta: se comparte su primer párrafo en vez de dejar solo el versículo.
-        // Los catecismos no se recortan (la doctrina no se trunca).
-        answer: getMaterial(slug)?.unit === 'day' ? excerpt(entry.answer) : entry.answer,
-        refs: entry.refs.map((ref) => bookLabel(ref, locale)),
-      }
-    : null
+  // La portada de esta entrada (la i18n se resuelve acá: el módulo de dibujo
+  // recibe textos ya armados). `quote` = la frase elegida; sin ella, la respuesta
+  // entera (un devocional por fecha comparte su primer párrafo: la meditación
+  // completa va en el carrusel). Los catecismos no se recortan.
+  const isDay = getMaterial(slug)?.unit === 'day'
+  const stripRange = (q) => q.replace(/\s*\(\d+[–-]\d+\)\s*$/, '') // "(1–5)" sobra en la tapa
+  function coverData(quote = null) {
+    const read = pos - 1 // entradas ya leídas: el dato personal ("Llevo 42 de 129")
+    return {
+      slug,
+      spine: content.name,
+      number: isDay ? entryOfLabel(t, slug, entry.number, total, locale) : String(entry.label ?? entry.number),
+      sub: isDay ? (headingRef ? bookLabel(headingRef, locale) : null) : stripRange(entry.question),
+      quote: quote ?? (isDay ? excerpt(entry.answer) : entry.answer),
+      personal: !calendar && read > 0 ? t('share.personalMaterial', { n: Math.min(read, total), total }) : null,
+    }
+  }
 
-  // Carrusel: solo cuando la respuesta COMPLETA no entra en una imagen (1689,
+  // Carrusel: solo cuando la respuesta COMPLETA no entra en una portada (1689,
   // artículos largos de la Belga, la meditación entera de un devocional). Va
-  // completa, repartida en láminas; la tarjeta única sigue con su recorte.
-  function carouselData() {
-    if (!entry || fitsInOneImage({ ...shareData, answer: entry.answer })) return null
+  // completa, repartida en láminas; la portada única sigue con su recorte.
+  async function carouselData(data) {
+    if (await coverFits({ ...data, quote: entry.answer })) return null
     const label = (ref) => bookLabel(ref, locale)
     // Con headingRef (devocional), el título ES el versículo: su cita va en la
     // portada, debajo, y no se repite al final del texto (como en el lector).
@@ -256,35 +266,67 @@ export default function MaterialReader() {
       : entry.refs.length > 3
         ? t('materialReader.carouselRefs', { count: entry.refs.length })
         : entry.refs.map(label).join(' · ')
+    const nextEntry = !calendar ? content.entries[n] : null
     return {
-      meta: shareData.meta,
-      // "De las Santas Escrituras (1–5)": el rango de párrafos sobra en la portada.
-      title: entry.question.replace(/\s*\(\d+[–-]\d+\)\s*$/, ''),
+      slug,
+      spine: content.name,
+      number: data.number,
+      title: isDay ? entry.question : stripRange(entry.question),
       coverNote: [numbered && t('materialReader.carouselParagraphs', { count: sections.length }), refsNote]
         .filter(Boolean)
         .join(' · '),
       sections,
-      inviteTitle: content.name,
+      next: nextEntry ? stripRange(nextEntry.question) : null,
+      inviteTitle: t('share.inviteTitle', { name: getMaterial(slug)?.shortName ?? content.name }),
+      personal: data.personal,
       labels: {
         swipe: t('materialReader.carouselSwipe'),
         more: t('materialReader.carouselMore'),
         cont: t('materialReader.carouselCont'),
-        inviteKicker: t('materialReader.carouselInviteKicker'),
-        inviteText: t('materialReader.carouselInviteText'),
-        inviteFree: t('materialReader.carouselInviteFree'),
+        refsLabel: t('share.refsLabel'),
+        next: t('share.nextUp'),
+        markRead: t('hoy.markRead'),
+        free: t('materialReader.carouselInviteFree'),
       },
     }
   }
 
   // La hoja recibe una foto fija de los datos al abrirse: así la vista previa
   // no se regenera con cada render del lector (el carrusel son varias láminas).
-  function openShare() {
-    setShareSnap({ data: shareData, carousel: carouselData() })
+  async function openShare() {
+    const data = coverData()
+    setShareSnap({ data, carousel: await carouselData(data) })
+  }
+
+  // "Elegir una frase": la hoja se cierra y la ficha entra en modo selección;
+  // al confirmar, la hoja vuelve con la frase elegida como protagonista.
+  function startPicking() {
+    setShareSnap(null)
+    setPick({ start: null, end: null })
+  }
+  function sharePhrase() {
+    const quote = joinSentences(sentences, pick.start, pick.end)
+    setPick(null)
+    setShareSnap({ data: coverData(quote), carousel: null })
+  }
+  // Tocar una oración la elige; tocar otra extiende el rango hasta ella (las
+  // frases van seguidas). Tocar dentro de un rango ya armado vuelve a empezar.
+  function tapSentence(i) {
+    setPick((p) => {
+      const lo = Math.min(p.start ?? i, p.end ?? i)
+      const hi = Math.max(p.start ?? i, p.end ?? i)
+      if (p.start == null || (i >= lo && i <= hi && lo !== hi)) return { start: i, end: i }
+      const start = Math.min(lo, i)
+      const end = Math.max(hi, i)
+      // Una frase, no un párrafo.
+      if (joinSentences(sentences, start, end).length > PHRASE_MAX) return p
+      return { start, end }
+    })
   }
 
   // Compartir con el estilo y formato elegidos en la hoja (la hoja misma los
   // recuerda en el dispositivo).
-  async function handleShare(style, format) {
+  async function handleShare(variant, format, { personal }) {
     if (sharing || !shareSnap) return
     const { data, carousel } = shareSnap
     setShareSnap(null)
@@ -293,11 +335,18 @@ export default function MaterialReader() {
     const text = t('shareImage.fromApp', { url: shareUrl('material') })
     try {
       if (format === 'carousel' && carousel) {
-        await shareCarousel({ ...carousel, style, text, filename: `${slug}-${entry.number}` })
+        await shareCarousel({
+          ...carousel,
+          personal: personal ? carousel.personal : null,
+          variant,
+          text,
+          filename: `${slug}-${entry.number}`,
+        })
       } else {
-        await shareQuestion({
+        await shareCover({
           ...data,
-          style,
+          personal: personal ? data.personal : null,
+          variant,
           format,
           text,
           filename: `${slug}-${entry.number}${format === 'story' ? '-historia' : ''}.png`,
@@ -393,7 +442,51 @@ export default function MaterialReader() {
 
         {/* pre-line: los artículos largos (p. ej. Confesión Belga) traen párrafos
             separados por línea en blanco en el JSON. */}
-        <p className="mt-3.5 whitespace-pre-line text-[17px] leading-relaxed text-ink">{entry.answer}</p>
+        {pick ? (
+          // Modo "Elegir una frase": cada oración se toca; el rango elegido se
+          // resalta con el tinte del acento. Los párrafos conservan su aire.
+          <div className="mt-3.5 space-y-3 text-[17px] leading-relaxed text-ink">
+            {[...new Set(sentences.map((x) => x.para))].map((para) => (
+              <p key={para}>
+                {sentences.map((x, i) => {
+                  if (x.para !== para) return null
+                  const lo = Math.min(pick.start ?? -1, pick.end ?? -1)
+                  const hi = Math.max(pick.start ?? -1, pick.end ?? -1)
+                  const on = pick.start != null && i >= lo && i <= hi
+                  return (
+                    // En línea (no <button>, que corta el renglón): el texto fluye
+                    // como al leer; el resaltado sigue los renglones.
+                    <span key={i}>
+                      <span
+                        role="button"
+                        tabIndex={0}
+                        aria-pressed={on}
+                        onClick={() => tapSentence(i)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault()
+                            tapSentence(i)
+                          }
+                        }}
+                        className="cursor-pointer rounded-[4px] transition-colors"
+                        style={{
+                          backgroundColor: on ? 'var(--accent-tint)' : 'transparent',
+                          boxDecorationBreak: 'clone',
+                          WebkitBoxDecorationBreak: 'clone',
+                          padding: '2px 0',
+                        }}
+                      >
+                        {x.text}
+                      </span>{' '}
+                    </span>
+                  )
+                })}
+              </p>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-3.5 whitespace-pre-line text-[17px] leading-relaxed text-ink">{entry.answer}</p>
+        )}
 
         {content.author && (
           <p className="mt-4 text-right text-[15px] italic text-ink-soft">— {content.author}</p>
@@ -483,7 +576,27 @@ export default function MaterialReader() {
             {t('materialReader.shareError')}
           </p>
         )}
-        {isIntro && pos === 1 ? (
+        {pick ? (
+          <>
+            <p className="pb-1 text-center text-[13px] text-ink-soft">{t('share.pickHint')}</p>
+            <button
+              type="button"
+              onClick={sharePhrase}
+              disabled={pick.start == null}
+              className="btn btn-primary"
+              style={{ opacity: pick.start == null ? 0.5 : 1 }}
+            >
+              {t('share.sharePhrase')}
+            </button>
+            <button
+              type="button"
+              onClick={() => setPick(null)}
+              className="block w-full py-2 text-center text-[15px] font-medium text-ink-soft"
+            >
+              {t('common.cancel')}
+            </button>
+          </>
+        ) : isIntro && pos === 1 ? (
           /* Primera visita (nada leído): la portada invita a arrancar. */
           <button type="button" onClick={() => setN(calendar ? today : 1)} className="btn btn-primary">
             {t('materialReader.start')}
@@ -568,6 +681,7 @@ export default function MaterialReader() {
           carousel={shareSnap.carousel}
           onShare={handleShare}
           onCancel={() => setShareSnap(null)}
+          onPickPhrase={entry && splitSentences(entry.answer).length > 1 ? startPicking : null}
         />
       )}
 

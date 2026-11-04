@@ -138,14 +138,13 @@ export default function Diario() {
           initialBody={sheet.body}
           editable={isEditable(sheet)}
           shareData={{
-            meta: `${t('progreso.view.camino')} · ${fmtISODate(
-              localDateISO(sheet.created_at),
-              locale,
-              { day: 'numeric', month: 'long', year: 'numeric' }
-            ).replace(/ /g, '\u00A0')}`,
-            question: sheet.body,
-            answer: null,
-            refs: [],
+            spine: t('progreso.view.camino'),
+            number: fmtISODate(localDateISO(sheet.created_at), locale, { day: 'numeric', month: 'long' }),
+            sub: t('share.noteSub', {
+              plan: planName(t, { slug: sheet.plan_slug, name: sheet.plan_name }),
+              day: sheet.day_number,
+            }),
+            quote: sheet.body,
             filename: `mi-camino-${localDateISO(sheet.created_at)}.png`,
           }}
           onClose={() => setSheet(null)}

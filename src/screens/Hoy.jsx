@@ -921,14 +921,13 @@ export default function Hoy() {
           shareData={
             note
               ? {
-                  meta: `${t('progreso.view.camino')} · ${fmtISODate(
-                    localDateISO(note.created_at),
-                    locale,
-                    { day: 'numeric', month: 'long', year: 'numeric' }
-                  ).replace(/ /g, '\u00A0')}`,
-                  question: note.body,
-                  answer: null,
-                  refs: [],
+                  spine: t('progreso.view.camino'),
+                  number: fmtISODate(localDateISO(note.created_at), locale, { day: 'numeric', month: 'long' }),
+                  sub: t('share.noteSub', {
+                    plan: r.plan ? planName(t, r.plan) : t('common.plan'),
+                    day: shownDay,
+                  }),
+                  quote: note.body,
                   filename: `mi-camino-${localDateISO(note.created_at)}.png`,
                 }
               : null
