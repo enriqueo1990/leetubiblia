@@ -127,10 +127,8 @@ export default function Hoy() {
   const [note, setNote] = useState(undefined)
   const [seededKey, setSeededKey] = useState(null)
 
-  // "Tu día": tras leer, los pasajes se pliegan a una línea (ya los leíste en tu
-  // Biblia) y aparece lo que sigue: la nota y la oración. prayerDeck null = sin
-  // cargar; prayed = "oré hoy" de este dispositivo (lib/prayedToday).
-  const [passagesOpen, setPassagesOpen] = useState(false)
+  // "Tu día": tras leer aparece lo que sigue: la nota y la oración. prayerDeck
+  // null = sin cargar; prayed = "oré hoy" de este dispositivo (lib/prayedToday).
   const [prayerDeck, setPrayerDeck] = useState(null)
   const [prayed, setPrayed] = useState(() => readPrayedToday(user?.id))
 
@@ -241,10 +239,6 @@ export default function Hoy() {
     window.addEventListener(PRAYED_EVENT, sync)
     return () => window.removeEventListener(PRAYED_EVENT, sync)
   }, [user])
-  // Al cambiar de día mostrado, los pasajes vuelven a su estado plegado.
-  useEffect(() => {
-    setPassagesOpen(false)
-  }, [shownDay])
 
   function readNext(target) {
     if (target != null) setAheadDay(target)
@@ -680,24 +674,8 @@ export default function Hoy() {
               />
             </div>
           )}
-          {/* Tras leer, los pasajes se pliegan a una línea: ya los leíste en tu
-              Biblia. "Ver" los vuelve a abrir (cada referencia sigue abriendo su
-              capítulo). */}
-          {doneShown && !passagesOpen && refsShown?.length > 0 ? (
-            <button
-              type="button"
-              onClick={() => setPassagesOpen(true)}
-              aria-expanded={false}
-              className="mt-1 flex min-h-12 w-full items-center justify-between gap-3 py-2 text-left"
-            >
-              <span className="min-w-0 text-[17px] leading-snug text-ink" style={{ fontFamily: BRAND_SERIF }}>
-                {passageLine(refsShown, locale)}
-              </span>
-              <span className="shrink-0 text-[13px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
-                {t('hoy.passagesShow')} <span aria-hidden="true" style={{ fontSize: 11 }}>▾</span>
-              </span>
-            </button>
-          ) : (
+          {/* Los pasajes siempre a la vista, leídos o no: son la Palabra del día
+              y abrirlos de nuevo no debería costar un toque. */}
           <div className="mt-4 space-y-1 pb-2">
           {viewingAhead && aheadLoading ? (
             <SkeletonPassages />
@@ -725,18 +703,6 @@ export default function Hoy() {
             )
           )}
           </div>
-          )}
-          {doneShown && passagesOpen && (
-            <button
-              type="button"
-              onClick={() => setPassagesOpen(false)}
-              aria-expanded={true}
-              className="-mt-1 min-h-11 text-[13px] font-semibold"
-              style={{ color: 'var(--accent-ink)' }}
-            >
-              {t('hoy.passagesHide')} <span aria-hidden="true" style={{ fontSize: 11 }}>▴</span>
-            </button>
-          )}
           {/* Adelantarse es la excepción: en el pie de la tarjeta del plan, al
               que pertenece. */}
           {doneShown && !breathing && nextDay != null && (
