@@ -740,9 +740,24 @@ export default function Hoy() {
                   <p className="mt-0.5 text-[14px] text-ink-soft">{t('myTime.done.bye')}</p>
                 </div>
               )}
-              <h2 id="tu-dia" className="mb-2.5 text-[12px] font-semibold uppercase tracking-[0.1em] text-ink-soft">
-                {t('hoy.day.kicker')}
-              </h2>
+              {/* La acción va en el encabezado: con Mi tiempo activo y algo
+                  pendiente, el recorrido guiado se abre desde acá (la lectura
+                  ya marcada no lo deja sin puerta). */}
+              <div className="mb-2.5 flex min-h-7 items-center justify-between gap-3">
+                <h2 id="tu-dia" className="text-[12px] font-semibold uppercase tracking-[0.1em] text-ink-soft">
+                  {t('hoy.day.kicker')}
+                </h2>
+                {myTime.enabled && !viewingAhead && !dayAllDone && (
+                  <button
+                    type="button"
+                    onClick={() => setMyTimeOpen(true)}
+                    className="-mr-1 flex min-h-11 items-center gap-1 px-1 text-[13px] font-semibold"
+                    style={{ color: 'var(--accent-ink)' }}
+                  >
+                    <span aria-hidden="true">✦</span> {t('myTime.title')}
+                  </button>
+                )}
+              </div>
               <TodayCard rows={dayRows} />
             </section>
           )}
