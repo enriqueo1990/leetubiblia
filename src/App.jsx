@@ -88,6 +88,7 @@ export default function App() {
               <Route path="grupos/:id/lectura" element={<GroupReading />} />
               <Route path="join" element={<Join />} />
               <Route path="ajustes" element={<Ajustes />} />
+              <Route path="ajustes/:section" element={<Ajustes />} />
               <Route path="materiales" element={<Materiales />} />
               <Route path="materiales/:slug" element={<MaterialReader />} />
               <Route

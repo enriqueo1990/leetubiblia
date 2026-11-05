@@ -22,6 +22,7 @@ export default function Layout() {
     pathname.startsWith('/grupos/')
   const managementWide =
     pathname === '/ajustes' ||
+    pathname.startsWith('/ajustes/') ||
     pathname === '/progreso' ||
     pathname === '/recorrido' ||
     /^\/grupos\/[^/]+$/.test(pathname)

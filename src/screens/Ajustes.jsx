@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useParams } from 'react-router-dom'
 import { usePreferences } from '../lib/preferences.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import { useInstallPrompt } from '../hooks/useInstallPrompt.js'
@@ -20,7 +20,7 @@ import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import InlineError from '../components/InlineError.jsx'
 import DeveloperSection from './DeveloperSection.jsx'
 import { saveOrRevert } from '../lib/saveWithRevert.js'
-import { ChevronRight, InstallIcon, ShareIcon } from '../components/icons.jsx'
+import { BellIcon, BookIcon, ChevronRight, InfoIcon, InstallIcon, PencilIcon, ShareIcon, SunIcon } from '../components/icons.jsx'
 import { subscribeToPush, unsubscribeFromPush, getTimezone } from '../lib/push.js'
 import { exportJournal } from '../lib/exportJournal.js'
 import { flushQueue, pendingCount } from '../lib/offline.js'
@@ -37,6 +37,32 @@ function SectionLabel({ children }) {
     </h2>
   )
 }
+
+// Fila del índice de Ajustes: ícono en su baldosa, el nombre de la sección y,
+// debajo, lo que hoy tenés elegido ahí (para saber sin entrar).
+function IndexRow({ to, icon, title, summary }) {
+  return (
+    <Link to={to} className="flex min-h-[64px] items-center gap-3.5 px-4 py-3">
+      <span
+        aria-hidden="true"
+        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px]"
+        style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
+      >
+        {icon}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-[16px] text-ink">{title}</span>
+        {summary && <span className="mt-0.5 block truncate text-[13px] text-ink-soft">{summary}</span>}
+      </span>
+      <span className="text-ink-soft" style={{ opacity: 0.5 }}>
+        <ChevronRight size={18} />
+      </span>
+    </Link>
+  )
+}
+
+// Las secciones de Ajustes, en el orden del índice.
+const SECTIONS = ['lectura', 'manera', 'avisos', 'apariencia', 'app', 'cuenta']
 
 // Sub-etiqueta dentro de una sección (p. ej. cada control de "Apariencia e idioma").
 function SubLabel({ children }) {
@@ -91,6 +117,7 @@ export default function Ajustes() {
   } = usePreferences()
   const { user, profile, updateProfile, signOut } = useAuth()
   const { canInstall, promptInstall } = useInstallPrompt()
+  const { section } = useParams()
 
   const [plan, setPlan] = useState(null)
   const [shared, setShared] = useState(false)
@@ -369,16 +396,82 @@ export default function Ajustes() {
     )
   }
 
-  return (
-    <div className="pt-2">
-      {/* Ajustes cuelga de Hoy (engranaje en su header) desde que Progreso tomó
-          el 4º slot de la nav primaria. */}
-      <BackLink to="/" label={t('nav.hoy')} />
-      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">{t('nav.ajustes')}</h1>
+  // Resúmenes del índice: lo que hoy tenés elegido en cada sección.
+  const themeLabel = THEMES.find((x) => x.key === themePref)?.label
+  const localeLabel = locales.find((x) => x.key === locale)?.label
+  const summaries = {
+    lectura: [plan?.name || t('ajustes.elegir'), currentDay != null ? t('hoy.dayN', { day: currentDay }) : null].filter(Boolean).join(' · '),
+    manera: [myTime.enabled ? t('myTime.title') : null, reflectionsOn ? t('ajustes.section.diario') : null].filter(Boolean).join(' · ') || t('ajustes.idx.mannerPlain'),
+    avisos: reminderOn ? `${t('ajustes.section.recordatorio')} · ${reminderTime}` : t('ajustes.idx.reminderOff'),
+    apariencia: [t(`accent.${accent}`), themeLabel, localeLabel].filter(Boolean).join(' · '),
+    app: t('ajustes.idx.appSummary'),
+  }
+  const titles = {
+    lectura: t('ajustes.section.lectura'),
+    manera: t('myTime.section'),
+    avisos: t('ajustes.section.avisos'),
+    apariencia: t('ajustes.section.apariencia'),
+    app: t('ajustes.section.laApp'),
+    cuenta: t('ajustes.section.cuenta'),
+  }
+  const icons = {
+    lectura: <BookIcon size={20} />,
+    manera: <PencilIcon size={19} />,
+    avisos: <BellIcon size={20} />,
+    apariencia: <SunIcon size={20} />,
+    app: <InfoIcon size={20} />,
+  }
 
-      <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-6">
-      <div>
-      <SectionLabel>{t('ajustes.section.lectura')}</SectionLabel>
+  if (section && !SECTIONS.includes(section)) return <Navigate to="/ajustes" replace />
+
+  const initial = (profile?.display_name || user?.email || '?').trim().charAt(0).toUpperCase()
+
+  return (
+    <div className="pt-2 lg:mx-auto lg:max-w-content">
+      {/* Ajustes cuelga de Hoy (engranaje en su header). Es un índice: cada
+          sección abre su propia pantalla, con "‹ Ajustes" para volver. */}
+      {section ? (
+        <>
+          <BackLink to="/ajustes" label={t('nav.ajustes')} />
+          <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">{titles[section]}</h1>
+        </>
+      ) : (
+        <>
+          <BackLink to="/" label={t('nav.hoy')} />
+          <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">{t('nav.ajustes')}</h1>
+        </>
+      )}
+
+      {!section && (
+        <>
+          {/* Tu perfil, arriba: quién sos y la puerta a tu cuenta. */}
+          <Link to="/ajustes/cuenta" className="card mt-5 flex items-center gap-3.5 px-4 py-3.5">
+            <span
+              aria-hidden="true"
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-[19px] font-semibold"
+              style={{ backgroundColor: 'var(--accent-action)', color: 'var(--on-accent)' }}
+            >
+              {initial}
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-[17px] font-semibold text-ink">{profile?.display_name || t('ajustes.tuNombre')}</span>
+              <span className="block truncate text-[13px] text-ink-soft">{user?.email}</span>
+            </span>
+            <span className="text-ink-soft" style={{ opacity: 0.5 }}>
+              <ChevronRight size={18} />
+            </span>
+          </Link>
+
+          <div className="card mt-4 divide-y divide-hairline">
+            {SECTIONS.filter((k) => k !== 'cuenta').map((k) => (
+              <IndexRow key={k} to={`/ajustes/${k}`} icon={icons[k]} title={titles[k]} summary={summaries[k]} />
+            ))}
+          </div>
+        </>
+      )}
+
+      {section === 'lectura' && (
+        <div className="mt-5">
       <div className="card divide-y divide-hairline">
         {/* Plan y materiales viven en Lecturas (colgada de Hoy): acá queda solo
             una puerta, para quien venga a buscarlos a Ajustes por costumbre. */}
@@ -396,51 +489,6 @@ export default function Ajustes() {
           </span>
         </Link>
         <Row
-          title={t('ajustes.section.diario')}
-          subtitle={t('ajustes.diarioHelp')}
-          error={errorFor('diario')}
-          control={
-            <Switch
-              on={reflectionsOn}
-              onChange={() => persist('diario', { reflections_enabled: !reflectionsOn })}
-              label={t('ajustes.section.diario')}
-              disabled={savingKey === 'diario'}
-            />
-          }
-        />
-        <button
-          type="button"
-          onClick={handleExportJournal}
-          disabled={exporting}
-          className="flex w-full items-center justify-between gap-4 px-4 py-3 text-left"
-        >
-          <span className="min-w-0 flex-1">
-            <span className="block text-[16px] text-ink">{t('ajustes.exportDiario')}</span>
-            <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">
-              {t('ajustes.exportDiarioHelp')}
-            </span>
-          </span>
-          <span
-            className="flex shrink-0 items-center text-[15px] font-medium"
-            style={{ color: 'var(--accent-ink)', opacity: exporting ? 0.5 : 1 }}
-          >
-            {exporting ? t('ajustes.exporting') : <ShareIcon size={18} />}
-          </span>
-        </button>
-        {exportNote && (
-          <p
-            className="px-4 pb-3 text-[13px]"
-            role="status"
-            style={{ color: exportNote === 'error' ? 'var(--danger)' : 'var(--text-soft)' }}
-          >
-            {exportNote === 'empty'
-              ? t('ajustes.exportEmpty')
-              : exportNote === 'error'
-                ? t('ajustes.exportError')
-                : t('ajustes.exportDownloaded')}
-          </p>
-        )}
-        <Row
           title={t('ajustes.compartirLectura')}
           subtitle={t('ajustes.compartirLecturaHelp')}
           error={errorFor('share')}
@@ -450,101 +498,6 @@ export default function Ajustes() {
               onChange={toggleShareReading}
               label={t('ajustes.compartirLecturaLabel')}
               disabled={savingKey === 'share'}
-            />
-          }
-        />
-      </div>
-
-      {/* Tu manera de leer: "Mi tiempo" es opcional. Apagado, Hoy queda como
-          siempre; prendido, Hoy ofrece el recorrido guiado y mantiene "Solo
-          marcar como leído" para los días con prisa. */}
-      <SectionLabel>{t('myTime.section')}</SectionLabel>
-      <div className="card divide-y divide-hairline">
-        <Row
-          title={t('myTime.title')}
-          subtitle={t('myTime.settingHelp')}
-          control={<Switch on={myTime.enabled} onChange={() => setMyTime({ enabled: !myTime.enabled })} label={t('myTime.title')} />}
-        />
-        {myTime.enabled && (
-          <>
-            <Row
-              title={t('myTime.includeNote')}
-              subtitle={reflectionsOn ? t('myTime.includeNoteHelp') : t('myTime.includeNoteOff')}
-              control={
-                <Switch
-                  on={myTime.note && reflectionsOn}
-                  onChange={() => setMyTime({ note: !myTime.note })}
-                  label={t('myTime.includeNote')}
-                  disabled={!reflectionsOn}
-                />
-              }
-            />
-            <Row
-              title={t('myTime.includePrayer')}
-              subtitle={t('myTime.includePrayerHelp')}
-              control={<Switch on={myTime.prayer} onChange={() => setMyTime({ prayer: !myTime.prayer })} label={t('myTime.includePrayer')} />}
-            />
-          </>
-        )}
-      </div>
-      <p className="mt-2 px-1 text-[13px] leading-snug text-ink-soft">{t('myTime.settingNote')}</p>
-      <SectionLabel>{t('ajustes.section.avisos')}</SectionLabel>
-      <div className="card divide-y divide-hairline">
-        <Row
-          title={t('ajustes.section.recordatorio')}
-          subtitle={showReminderIOSNote ? t('ajustes.reminderIOSNote') : t('ajustes.reminderHelp')}
-          note={pushNoteFor('reminder')}
-          error={errorFor('reminder')}
-          control={
-            <Switch
-              on={reminderOn}
-              onChange={toggleReminder}
-              label={t('ajustes.section.recordatorio')}
-              disabled={savingKey === 'reminder'}
-            />
-          }
-        />
-        {reminderOn && (
-          <div className="px-4 py-3">
-            <div className="flex items-center justify-between">
-              <span className="text-[16px] text-ink">{t('ajustes.hora')}</span>
-              <input
-                type="time"
-                value={reminderTime}
-                onChange={(e) => changeTime(e.target.value)}
-                disabled={savingKey === 'time'}
-                aria-label={t('ajustes.hora')}
-                className="min-h-11 rounded-input px-3 text-[16px] outline-none"
-                style={{ backgroundColor: 'var(--surface-alt)', border: '1px solid var(--control-border)', color: 'var(--text-primary)' }}
-              />
-            </div>
-            <InlineError message={errorFor('time')} />
-          </div>
-        )}
-        <Row
-          title={t('ajustes.pedidosNuevos')}
-          subtitle={t('ajustes.avisosGrupoHelp')}
-          note={pushNoteFor('group')}
-          error={errorFor('group')}
-          control={
-            <Switch
-              on={groupNotifOn}
-              onChange={toggleGroupNotif}
-              label={t('ajustes.avisosGrupoLabel')}
-              disabled={savingKey === 'group'}
-            />
-          }
-        />
-        <Row
-          title={t('ajustes.recordarRevisar')}
-          subtitle={t('ajustes.seguimientoHelp')}
-          error={errorFor('followup')}
-          control={
-            <Switch
-              on={prayerFollowupOn}
-              onChange={() => persist('followup', { prayer_followup_enabled: !prayerFollowupOn })}
-              label={t('ajustes.recordarRevisarLabel')}
-              disabled={savingKey === 'followup'}
             />
           }
         />
@@ -606,11 +559,172 @@ export default function Ajustes() {
           </div>
         </>
       )}
+      <SectionLabel>{t('ajustes.proveedorBiblia')}</SectionLabel>
+      <Segmented
+        label={t('ajustes.proveedorBiblia')}
+        options={bibleProviders}
+        value={bibleProvider}
+        onChange={pickBibleProvider}
+      />
+      <InlineError message={errorFor('provider')} className="mt-2 px-1" />
+      <p className="mt-2 px-1 text-[13px] leading-snug text-ink-soft">
+        {t('ajustes.proveedorBibliaHelp')}
+      </p>
+
+        </div>
+      )}
+
+      {section === 'manera' && (
+        <div>
+      <SectionLabel>{t('myTime.title')}</SectionLabel>
+      <div className="card divide-y divide-hairline">
+        <Row
+          title={t('myTime.title')}
+          subtitle={t('myTime.settingHelp')}
+          control={<Switch on={myTime.enabled} onChange={() => setMyTime({ enabled: !myTime.enabled })} label={t('myTime.title')} />}
+        />
+        {myTime.enabled && (
+          <>
+            <Row
+              title={t('myTime.includeNote')}
+              subtitle={reflectionsOn ? t('myTime.includeNoteHelp') : t('myTime.includeNoteOff')}
+              control={
+                <Switch
+                  on={myTime.note && reflectionsOn}
+                  onChange={() => setMyTime({ note: !myTime.note })}
+                  label={t('myTime.includeNote')}
+                  disabled={!reflectionsOn}
+                />
+              }
+            />
+            <Row
+              title={t('myTime.includePrayer')}
+              subtitle={t('myTime.includePrayerHelp')}
+              control={<Switch on={myTime.prayer} onChange={() => setMyTime({ prayer: !myTime.prayer })} label={t('myTime.includePrayer')} />}
+            />
+          </>
+        )}
+      </div>
+      <p className="mt-2 px-1 text-[13px] leading-snug text-ink-soft">{t('myTime.settingNote')}</p>
+      <SectionLabel>{t('ajustes.section.diario')}</SectionLabel>
+      <div className="card divide-y divide-hairline">
+        <Row
+          title={t('ajustes.section.diario')}
+          subtitle={t('ajustes.diarioHelp')}
+          error={errorFor('diario')}
+          control={
+            <Switch
+              on={reflectionsOn}
+              onChange={() => persist('diario', { reflections_enabled: !reflectionsOn })}
+              label={t('ajustes.section.diario')}
+              disabled={savingKey === 'diario'}
+            />
+          }
+        />
+        <button
+          type="button"
+          onClick={handleExportJournal}
+          disabled={exporting}
+          className="flex w-full items-center justify-between gap-4 px-4 py-3 text-left"
+        >
+          <span className="min-w-0 flex-1">
+            <span className="block text-[16px] text-ink">{t('ajustes.exportDiario')}</span>
+            <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">
+              {t('ajustes.exportDiarioHelp')}
+            </span>
+          </span>
+          <span
+            className="flex shrink-0 items-center text-[15px] font-medium"
+            style={{ color: 'var(--accent-ink)', opacity: exporting ? 0.5 : 1 }}
+          >
+            {exporting ? t('ajustes.exporting') : <ShareIcon size={18} />}
+          </span>
+        </button>
+        {exportNote && (
+          <p
+            className="px-4 pb-3 text-[13px]"
+            role="status"
+            style={{ color: exportNote === 'error' ? 'var(--danger)' : 'var(--text-soft)' }}
+          >
+            {exportNote === 'empty'
+              ? t('ajustes.exportEmpty')
+              : exportNote === 'error'
+                ? t('ajustes.exportError')
+                : t('ajustes.exportDownloaded')}
+          </p>
+        )}
+      </div>
+        </div>
+      )}
+
+      {section === 'avisos' && (
+        <div className="mt-5">
+      <div className="card divide-y divide-hairline">
+        <Row
+          title={t('ajustes.section.recordatorio')}
+          subtitle={showReminderIOSNote ? t('ajustes.reminderIOSNote') : t('ajustes.reminderHelp')}
+          note={pushNoteFor('reminder')}
+          error={errorFor('reminder')}
+          control={
+            <Switch
+              on={reminderOn}
+              onChange={toggleReminder}
+              label={t('ajustes.section.recordatorio')}
+              disabled={savingKey === 'reminder'}
+            />
+          }
+        />
+        {reminderOn && (
+          <div className="px-4 py-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[16px] text-ink">{t('ajustes.hora')}</span>
+              <input
+                type="time"
+                value={reminderTime}
+                onChange={(e) => changeTime(e.target.value)}
+                disabled={savingKey === 'time'}
+                aria-label={t('ajustes.hora')}
+                className="min-h-11 rounded-input px-3 text-[16px] outline-none"
+                style={{ backgroundColor: 'var(--surface-alt)', border: '1px solid var(--control-border)', color: 'var(--text-primary)' }}
+              />
+            </div>
+            <InlineError message={errorFor('time')} />
+          </div>
+        )}
+        <Row
+          title={t('ajustes.pedidosNuevos')}
+          subtitle={t('ajustes.avisosGrupoHelp')}
+          note={pushNoteFor('group')}
+          error={errorFor('group')}
+          control={
+            <Switch
+              on={groupNotifOn}
+              onChange={toggleGroupNotif}
+              label={t('ajustes.avisosGrupoLabel')}
+              disabled={savingKey === 'group'}
+            />
+          }
+        />
+        <Row
+          title={t('ajustes.recordarRevisar')}
+          subtitle={t('ajustes.seguimientoHelp')}
+          error={errorFor('followup')}
+          control={
+            <Switch
+              on={prayerFollowupOn}
+              onChange={() => persist('followup', { prayer_followup_enabled: !prayerFollowupOn })}
+              label={t('ajustes.recordarRevisarLabel')}
+              disabled={savingKey === 'followup'}
+            />
+          }
+        />
       </div>
 
-      <div>
+        </div>
+      )}
 
-      <SectionLabel>{t('ajustes.section.apariencia')}</SectionLabel>
+      {section === 'apariencia' && (
+        <div className="mt-1">
       <SubLabel>{t('ajustes.section.acento')}</SubLabel>
       {/* Swatch chico (28px) centrado en un área táctil de 44px: neto como en
           iOS, no círculos enormes que llenan la celda. */}
@@ -652,19 +766,11 @@ export default function Ajustes() {
       <Segmented label={t('ajustes.idioma')} options={locales} value={locale} onChange={pickLocale} />
       <InlineError message={errorFor('locale')} className="mt-2 px-1" />
 
-      <SubLabel>{t('ajustes.proveedorBiblia')}</SubLabel>
-      <Segmented
-        label={t('ajustes.proveedorBiblia')}
-        options={bibleProviders}
-        value={bibleProvider}
-        onChange={pickBibleProvider}
-      />
-      <InlineError message={errorFor('provider')} className="mt-2 px-1" />
-      <p className="mt-2 px-1 text-[13px] leading-snug text-ink-soft">
-        {t('ajustes.proveedorBibliaHelp')}
-      </p>
+        </div>
+      )}
 
-      <SectionLabel>{t('ajustes.section.laApp')}</SectionLabel>
+      {section === 'app' && (
+        <div className="mt-5">
       <div className="card divide-y divide-hairline">
         <button
           type="button"
@@ -740,7 +846,11 @@ export default function Ajustes() {
       <SectionLabel>{t('ajustes.section.dev')}</SectionLabel>
       <DeveloperSection />
 
-      <SectionLabel>{t('ajustes.section.cuenta')}</SectionLabel>
+        </div>
+      )}
+
+      {section === 'cuenta' && (
+        <div className="mt-5">
       <div className="card divide-y divide-hairline">
         <div className="px-4 py-3">
           <p className="text-[16px] text-ink">{profile?.display_name || t('ajustes.tuNombre')}</p>
@@ -772,10 +882,10 @@ export default function Ajustes() {
           {t('ajustes.deleteError')}
         </p>
       )}
-      </div>
-      </div>
+        </div>
+      )}
 
-      <p className="mt-8 text-center text-[13px] text-ink-soft">{t('ajustes.version', { version: APP_VERSION })}</p>
+      {!section && <p className="mt-8 text-center text-[13px] text-ink-soft">{t('ajustes.version', { version: APP_VERSION })}</p>}
 
       {confirmSignOut && (
         <ConfirmDialog
