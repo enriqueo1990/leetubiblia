@@ -4,12 +4,13 @@ import { isStoreApp } from '../lib/platform.js'
 import { recordFunnel } from '../lib/diag.js'
 import { useDonationGoal } from '../hooks/useDonationGoal.js'
 import { BRAND_SERIF } from '../lib/brandFont.js'
-import DonateSheet, { GoalProgress } from './DonateSheet.jsx'
+import DonateSheet from './DonateSheet.jsx'
 import { HeartIcon } from './icons.jsx'
 
 // "¿Te sirvió Lee Tu Biblia?": la invitación a donar, a la vista en Ajustes (antes
 // vivía escondida dentro de La app › Quién hace la app). Agradecida, no insistente:
-// una tarjeta con tinte, una frase y un botón. Si hay una meta activa, su avance.
+// una tarjeta con tinte, una frase y un botón (sin el avance de la meta: acá no
+// suma; la hoja de donación lo sigue mostrando).
 // En la app de tienda no se piden donaciones (ver isStoreApp).
 export default function ThanksCard({ className = '' }) {
   const { t } = usePreferences()
@@ -44,11 +45,6 @@ export default function ThanksCard({ className = '' }) {
             <p className="mt-1.5 text-[14px] leading-relaxed text-ink-soft">{t('thanks.text')}</p>
           </div>
         </div>
-        {goal && (
-          <div className="mt-4">
-            <GoalProgress goal={goal} />
-          </div>
-        )}
         <button type="button" onClick={donate} className="btn btn-primary mt-4">
           {t('thanks.cta')}
         </button>
