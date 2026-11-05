@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { execSync } from 'node:child_process'
 import { dirname, resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -124,9 +125,25 @@ function landingHtmlPlugin() {
   }
 }
 
+// Código del build: el commit corto. Cloudflare Pages lo pasa en
+// CF_PAGES_COMMIT_SHA; en local sale de git. Se muestra junto a la versión
+// ("Versión 2.0.0 · 34b4e4b") para saber qué tiene cada aparato.
+function buildId() {
+  const sha = process.env.CF_PAGES_COMMIT_SHA
+  if (sha) return sha.slice(0, 7)
+  try {
+    return execSync('git rev-parse --short=7 HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim()
+  } catch {
+    return 'dev'
+  }
+}
+
 // Manifest de la PWA. theme_color usa el fondo claro por defecto; el color real
 // se sincroniza en runtime con el modo activo (ver src/hooks/useTheme.js).
 export default defineConfig({
+  define: {
+    'import.meta.env.VITE_APP_BUILD': JSON.stringify(buildId()),
+  },
   build: {
     rollupOptions: {
       output: {

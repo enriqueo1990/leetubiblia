@@ -30,7 +30,7 @@ import { BellIcon, BookIcon, ChevronRight, InfoIcon, InstallIcon, PencilIcon, Sh
 import { subscribeToPush, unsubscribeFromPush, getTimezone } from '../lib/push.js'
 import { exportJournal } from '../lib/exportJournal.js'
 import { flushQueue, pendingCount } from '../lib/offline.js'
-import { version as APP_VERSION } from '../../package.json'
+import { APP_VERSION_LABEL } from '../lib/appVersion.js'
 
 // Ajustes (documento maestro §5.7, README pantalla 7). Acento y tema persisten en
 // profiles (vía updateProfile) además de aplicarse en vivo. Recordatorio: mejor
@@ -1020,7 +1020,7 @@ export default function Ajustes() {
         </div>
       )}
 
-      {!section && <p className="mt-8 text-center text-[13px] text-ink-soft">{t('ajustes.version', { version: APP_VERSION })}</p>}
+      {!section && <p className="mt-8 text-center text-[13px] text-ink-soft">{t('ajustes.version', { version: APP_VERSION_LABEL })}</p>}
 
       {cropFile && (
         <AvatarCropper file={cropFile} busy={avatarBusy} onCancel={() => !avatarBusy && setCropFile(null)} onConfirm={savePhoto} />

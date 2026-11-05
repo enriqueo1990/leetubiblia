@@ -1,7 +1,7 @@
 {
   "name": "lee-tu-biblia",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
   "description": "PWA de lectura bíblica y oración — estilo Apple, minimalista.",
   "scripts": {

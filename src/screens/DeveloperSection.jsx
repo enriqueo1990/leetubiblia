@@ -13,7 +13,7 @@ import Segmented from '../components/Segmented.jsx'
 import InlineError from '../components/InlineError.jsx'
 import { ChevronRight, CheckIcon } from '../components/icons.jsx'
 import { inputStyle } from '../components/formStyles.js'
-import { version as APP_VERSION } from '../../package.json'
+import { APP_VERSION_LABEL as APP_VERSION } from '../lib/appVersion.js'
 
 // Ajustes › "Quién hace la app". Una sola tarjeta: quién está detrás (con la
 // misión), y debajo las tres puertas en su contexto —apoyar, sugerir, avisar un
