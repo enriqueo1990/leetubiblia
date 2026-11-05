@@ -21,6 +21,9 @@ import InlineError from '../components/InlineError.jsx'
 import DeveloperSection from './DeveloperSection.jsx'
 import UserAvatar from '../components/UserAvatar.jsx'
 import AvatarCropper from '../components/AvatarCropper.jsx'
+import BookCover from '../components/BookCover.jsx'
+import { activeMaterials, getMaterial } from '../lib/materials.js'
+import { planName } from '../lib/planLabels.js'
 import { avatarBlob, removeAvatarFile, uploadAvatar } from '../lib/avatar.js'
 import { saveOrRevert } from '../lib/saveWithRevert.js'
 import { BellIcon, BookIcon, ChevronRight, InfoIcon, InstallIcon, PencilIcon, ShareIcon, SunIcon } from '../components/icons.jsx'
@@ -448,11 +451,14 @@ export default function Ajustes() {
     )
   }
 
+  const fromAjustes = { to: '/ajustes/lectura', label: t('ajustes.section.lectura') }
+  const shelf = activeMaterials(profile)
+
   // Resúmenes del índice: lo que hoy tenés elegido en cada sección.
   const themeLabel = THEMES.find((x) => x.key === themePref)?.label
   const localeLabel = locales.find((x) => x.key === locale)?.label
   const summaries = {
-    lectura: [plan?.name || t('ajustes.elegir'), currentDay != null ? t('hoy.dayN', { day: currentDay }) : null].filter(Boolean).join(' · '),
+    lectura: [plan ? planName(t, plan) : t('ajustes.elegir'), shelf.length ? t('library.onShelf', { count: shelf.length }) : null].filter(Boolean).join(' · '),
     manera: [myTime.enabled ? t('myTime.title') : null, reflectionsOn ? t('ajustes.section.diario') : null].filter(Boolean).join(' · ') || t('ajustes.idx.mannerPlain'),
     avisos: reminderOn ? `${t('ajustes.section.recordatorio')} · ${reminderTime}` : t('ajustes.idx.reminderOff'),
     apariencia: [t(`accent.${accent}`), themeLabel, localeLabel].filter(Boolean).join(' · '),
@@ -515,23 +521,86 @@ export default function Ajustes() {
       )}
 
       {section === 'lectura' && (
-        <div className="mt-5">
+        <div>
+      {/* Lectura bíblica: tu plan, grande, con su avance; cambiarlo a un toque. */}
+      <SectionLabel>{t('ajustes.lectura.bible')}</SectionLabel>
       <div className="card divide-y divide-hairline">
-        {/* Plan y materiales viven en Lecturas (colgada de Hoy): acá queda solo
-            una puerta, para quien venga a buscarlos a Ajustes por costumbre. */}
-        <Link
-          to="/lecturas"
-          state={{ from: { to: '/ajustes', label: t('nav.ajustes') } }}
-          className="flex flex-col items-start gap-1 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
-        >
-          <span className="shrink-0 text-[16px] text-ink">{t('nav.lecturas')}</span>
-          <span className="flex w-full min-w-0 items-center justify-between gap-1.5 sm:w-auto sm:justify-start">
-            <span className="truncate text-[15px] text-ink-soft">{plan?.name || t('ajustes.elegir')}</span>
-            <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-              <ChevronRight size={18} />
+        {plan ? (
+          <Link to={`/planes/${plan.id}`} state={{ from: fromAjustes }} className="block px-4 py-4">
+            <span className="flex items-center justify-between gap-3">
+              <span className="min-w-0 text-[19px] font-semibold leading-snug text-ink">{planName(t, plan)}</span>
+              <span className="shrink-0 text-ink-soft" style={{ opacity: 0.5 }}>
+                <ChevronRight size={18} />
+              </span>
             </span>
+            {currentDay != null && duration != null && (
+              <>
+                <span className="mt-1 block text-[13px] tabular-nums text-ink-soft">
+                  {t('lecturas.planMeta', { day: currentDay, total: duration, percent: Math.ceil(((currentDay - 1) / duration) * 100) })}
+                </span>
+                <span className="mt-2.5 block h-1 overflow-hidden rounded-full" style={{ backgroundColor: 'var(--hairline)' }}>
+                  <span
+                    className="block h-full rounded-full"
+                    style={{ width: `${Math.max(2, ((currentDay - 1) / duration) * 100)}%`, backgroundColor: 'var(--accent)' }}
+                  />
+                </span>
+              </>
+            )}
+          </Link>
+        ) : (
+          <p className="px-4 py-4 text-[15px] text-ink-soft">{t('lecturas.noPlan')}</p>
+        )}
+        <Link
+          to="/planes"
+          state={{ from: fromAjustes }}
+          className="flex min-h-11 items-center justify-between px-4 py-3 text-[16px] font-medium"
+          style={{ color: 'var(--accent-ink)' }}
+        >
+          {plan ? t('lecturas.changePlan') : t('lecturas.choosePlan')}
+          <ChevronRight size={18} />
+        </Link>
+      </div>
+
+      {/* Lecturas adicionales: tus materiales como un estante de portadas, y la
+          Biblioteca para sumar más. */}
+      <SectionLabel>{t('ajustes.lectura.extras')}</SectionLabel>
+      <div className="card overflow-hidden">
+        {shelf.length > 0 ? (
+          <div className="flex gap-3 overflow-x-auto px-4 pb-3 pt-4" style={{ scrollbarWidth: 'none' }}>
+            {shelf.map((m) => (
+              <Link
+                key={m.slug}
+                to={`/materiales/${m.slug}`}
+                state={{ from: fromAjustes }}
+                className="w-[104px] shrink-0"
+                aria-label={getMaterial(m.slug)?.name ?? m.slug}
+              >
+                <BookCover slug={m.slug} size="sm" style={{ width: 104 }} />
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <p className="px-4 pb-1 pt-4 text-[15px] leading-snug text-ink-soft">{t('ajustes.lectura.extrasEmpty')}</p>
+        )}
+        <Link
+          to="/materiales"
+          state={{ from: fromAjustes }}
+          className="flex min-h-11 items-center justify-between gap-3 border-t border-hairline px-4 py-3"
+        >
+          <span className="min-w-0">
+            <span className="block text-[16px] font-medium" style={{ color: 'var(--accent-ink)' }}>
+              {shelf.length > 0 ? t('ajustes.lectura.library') : t('ajustes.lectura.libraryEmpty')}
+            </span>
+            {shelf.length > 0 && <span className="block text-[13px] text-ink-soft">{t('library.onShelf', { count: shelf.length })}</span>}
+          </span>
+          <span style={{ color: 'var(--accent-ink)' }}>
+            <ChevronRight size={18} />
           </span>
         </Link>
+      </div>
+
+      <SectionLabel>{t('ajustes.lectura.sharing')}</SectionLabel>
+      <div className="card divide-y divide-hairline">
         <Row
           title={t('ajustes.compartirLectura')}
           subtitle={t('ajustes.compartirLecturaHelp')}
