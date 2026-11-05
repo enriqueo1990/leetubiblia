@@ -34,7 +34,7 @@ import TodayCard from '../components/TodayCard.jsx'
 import { PRAYED_EVENT, readPrayedToday } from '../lib/prayedToday.js'
 import { BRAND_SERIF } from '../lib/brandFont.js'
 import { useMyTime } from '../hooks/useMyTime.js'
-import { dismissMyTimeInvite, shouldInviteMyTime, wasMyTimeInviteDismissed } from '../lib/myTime.js'
+import { shouldInviteMyTime } from '../lib/myTime.js'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import { cycleOf, nextCyclePatch } from '../lib/planCycle.js'
 import EmptyState from '../components/EmptyState.jsx'
@@ -92,7 +92,6 @@ export default function Hoy() {
   // "Mi tiempo" (opcional): la preferencia, el recorrido abierto y la invitación.
   const [myTime, setMyTime] = useMyTime(user?.id)
   const [myTimeOpen, setMyTimeOpen] = useState(false)
-  const [myTimeInviteClosed, setMyTimeInviteClosed] = useState(() => wasMyTimeInviteDismissed(user?.id))
   const [recorded, setRecorded] = useState(false)
   const [installing, setInstalling] = useState(false)
   const [installCardDismissed, setInstallCardDismissed] = useState(wasInstallCardDismissed)
@@ -479,7 +478,7 @@ export default function Hoy() {
 
   // La invitación a probar "Mi tiempo": una sola vez, desde el segundo día.
   const showMyTimeInvite =
-    !myTimeInviteClosed &&
+    !myTime.inviteDismissed &&
     !viewingAhead &&
     !readingUnavailable &&
     dayShown != null &&
@@ -902,9 +901,7 @@ export default function Hoy() {
               <button
                 type="button"
                 onClick={() => {
-                  dismissMyTimeInvite(user?.id)
-                  setMyTimeInviteClosed(true)
-                  setMyTime({ enabled: true })
+                  setMyTime({ enabled: true, inviteDismissed: true })
                   setMyTimeOpen(true)
                 }}
                 className="-ml-1 flex min-h-11 items-center px-1 text-[14px] font-semibold"
@@ -915,8 +912,7 @@ export default function Hoy() {
               <button
                 type="button"
                 onClick={() => {
-                  dismissMyTimeInvite(user?.id)
-                  setMyTimeInviteClosed(true)
+                  setMyTime({ inviteDismissed: true })
                 }}
                 className="flex min-h-11 items-center px-1 text-[14px] font-medium text-ink-soft"
               >
