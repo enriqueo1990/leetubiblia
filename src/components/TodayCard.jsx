@@ -5,7 +5,7 @@ import { BRAND_SERIF } from '../lib/brandFont.js'
 // hecha lleva el círculo lleno; una pendiente, el círculo vacío y un chevron.
 // `rows`: [{ key, done, title, sub, serif, onClick }]. Sin onClick la fila es
 // solo lectura (por ejemplo "Leíste tu lectura").
-export default function TodayCard({ rows, className = '' }) {
+export default function TodayCard({ rows, footer = null, className = '' }) {
   return (
     <div className={`card overflow-hidden ${className}`}>
       {rows.map((row) => {
@@ -64,6 +64,12 @@ export default function TodayCard({ rows, className = '' }) {
           </div>
         )
       })}
+      {/* Pie: el cierre del día, adentro de la tarjeta (no flota suelto). */}
+      {footer && (
+        <div className="border-t border-hairline px-4 py-3.5 text-[15px] leading-snug" style={{ backgroundColor: 'var(--accent-tint)' }}>
+          {footer}
+        </div>
+      )}
     </div>
   )
 }

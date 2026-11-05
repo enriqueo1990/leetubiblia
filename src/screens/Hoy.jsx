@@ -728,17 +728,6 @@ export default function Hoy() {
               mañana". Sin pedir más. */}
           {doneShown && (
             <section className={`mt-7 ${justMarked ? 'moment-in' : ''}`} aria-labelledby="tu-dia">
-              {dayAllDone && !viewingAhead && (
-                <div className="mb-6 text-center">
-                  <p className="text-[44px] font-medium leading-none tabular-nums" style={{ fontFamily: BRAND_SERIF, color: 'var(--accent-ink)' }}>
-                    {r.completedCount}
-                  </p>
-                  <p className="mt-1 text-[19px] text-ink" style={{ fontFamily: BRAND_SERIF }}>
-                    {t('myTime.done.days', { count: r.completedCount })}
-                  </p>
-                  <p className="mt-0.5 text-[14px] text-ink-soft">{t('myTime.done.bye')}</p>
-                </div>
-              )}
               {/* La acción va en el encabezado: con Mi tiempo activo y algo
                   pendiente, el recorrido guiado se abre desde acá (la lectura
                   ya marcada no lo deja sin puerta). */}
@@ -757,7 +746,19 @@ export default function Hoy() {
                   </button>
                 )}
               </div>
-              <TodayCard rows={dayRows} />
+              <TodayCard
+                rows={dayRows}
+                footer={
+                  dayAllDone && !viewingAhead ? (
+                    <>
+                      <span className="font-medium" style={{ fontFamily: BRAND_SERIF, color: 'var(--accent-ink)' }}>
+                        ✦ {r.completedCount} {t('myTime.done.days', { count: r.completedCount })}
+                      </span>
+                      <span className="text-ink-soft"> · {t('myTime.done.bye')}</span>
+                    </>
+                  ) : null
+                }
+              />
             </section>
           )}
         </div>
