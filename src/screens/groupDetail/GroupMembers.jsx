@@ -1,5 +1,5 @@
 import { CheckIcon, MinusIcon } from '../../components/icons.jsx'
-import { initials } from '../../components/Avatars.jsx'
+import UserAvatar from '../../components/UserAvatar.jsx'
 import { useAuth } from '../../lib/auth.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
 
@@ -26,12 +26,7 @@ export default function GroupMembers({ members, isOwner, iShare, readMap, onKick
           const readToday = readMap.get(m.user_id)
           return (
             <li key={m.user_id} className="flex items-center gap-3 px-4 py-3">
-              <div
-                className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-[15px] font-semibold"
-                style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
-              >
-                {initials(memberName)}
-              </div>
+              <UserAvatar name={memberName} url={m.avatar_url} size={40} />
               <div className="min-w-0 flex-1">
                 <p className="text-[16px] text-ink">
                   {memberName}

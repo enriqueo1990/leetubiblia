@@ -19,10 +19,10 @@ export default function Avatars({ people = [], count, size = 30, surface = 'var(
   const shown = people.slice(0, total > 4 ? 3 : 4)
   const extra = total - shown.length
 
-  const bubble = (key, content, first) => (
+  const bubble = (key, content, first, url = null) => (
     <div
       key={key}
-      className="flex items-center justify-center rounded-full font-semibold"
+      className="flex items-center justify-center overflow-hidden rounded-full font-semibold"
       style={{
         width: size,
         height: size,
@@ -33,7 +33,7 @@ export default function Avatars({ people = [], count, size = 30, surface = 'var(
         marginLeft: first ? 0 : -9,
       }}
     >
-      {content}
+      {url ? <img src={url} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" /> : content}
     </div>
   )
 
@@ -41,7 +41,7 @@ export default function Avatars({ people = [], count, size = 30, surface = 'var(
   // accesible, así que ocultamos las iniciales para no leerlas como ruido.
   return (
     <div className="flex items-center" aria-hidden="true">
-      {shown.map((p, i) => bubble(p.user_id ?? i, initials(p.display_name ?? t('common.member')), i === 0))}
+      {shown.map((p, i) => bubble(p.user_id ?? i, initials(p.display_name ?? t('common.member')), i === 0, p.avatar_url))}
       {extra > 0 && bubble('extra', `+${extra}`, false)}
     </div>
   )

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { usePreferences } from '../lib/preferences.jsx'
 import { useAuth } from '../lib/auth.jsx'
@@ -19,6 +19,8 @@ import BackLink from '../components/BackLink.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import InlineError from '../components/InlineError.jsx'
 import DeveloperSection from './DeveloperSection.jsx'
+import UserAvatar from '../components/UserAvatar.jsx'
+import { avatarBlob, removeAvatarFile, uploadAvatar } from '../lib/avatar.js'
 import { saveOrRevert } from '../lib/saveWithRevert.js'
 import { BellIcon, BookIcon, ChevronRight, InfoIcon, InstallIcon, PencilIcon, ShareIcon, SunIcon } from '../components/icons.jsx'
 import { subscribeToPush, unsubscribeFromPush, getTimezone } from '../lib/push.js'
@@ -141,6 +143,10 @@ export default function Ajustes() {
   const [savingKey, setSavingKey] = useState(null)
   const [failedKey, setFailedKey] = useState(null)
   const [dayError, setDayError] = useState(null) // null | 'save' | 'marks'
+  // Foto de perfil: subiendo/quitando y si falló.
+  const [avatarBusy, setAvatarBusy] = useState(false)
+  const [avatarError, setAvatarError] = useState(false)
+  const photoInput = useRef(null)
 
   // Recordatorio (best-effort) — refleja el perfil.
   const reminderOn = !!profile?.reminder_enabled
@@ -362,10 +368,46 @@ export default function Ajustes() {
     }
   }
 
+  // Foto de perfil: se recorta y achica acá mismo (≈20 KB) y se sube a tu
+  // carpeta; el perfil guarda la URL. Quitarla vuelve a la inicial.
+  async function pickPhoto(e) {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file || !user) return
+    setAvatarBusy(true)
+    setAvatarError(false)
+    try {
+      const blob = await avatarBlob(file)
+      const url = await uploadAvatar(user.id, blob)
+      const { error } = await updateProfile({ avatar_url: url })
+      if (error) throw error
+    } catch {
+      setAvatarError(true)
+    } finally {
+      setAvatarBusy(false)
+    }
+  }
+  async function removePhoto() {
+    if (!user) return
+    setAvatarBusy(true)
+    setAvatarError(false)
+    try {
+      await removeAvatarFile(user.id)
+      const { error } = await updateProfile({ avatar_url: null })
+      if (error) throw error
+    } catch {
+      setAvatarError(true)
+    } finally {
+      setAvatarBusy(false)
+    }
+  }
+
   async function handleDelete() {
     setDeleteError(false)
     setDeleting(true)
     try {
+      // La foto no queda huérfana en el almacenamiento.
+      if (profile?.avatar_url) await removeAvatarFile(user.id).catch(() => {})
       await deleteAccount()
       await signOut()
       // El Gate vuelve a Bienvenida al quedar sin sesión.
@@ -424,8 +466,6 @@ export default function Ajustes() {
 
   if (section && !SECTIONS.includes(section)) return <Navigate to="/ajustes" replace />
 
-  const initial = (profile?.display_name || user?.email || '?').trim().charAt(0).toUpperCase()
-
   return (
     <div className="pt-2 lg:mx-auto lg:max-w-content">
       {/* Ajustes cuelga de Hoy (engranaje en su header). Es un índice: cada
@@ -446,13 +486,7 @@ export default function Ajustes() {
         <>
           {/* Tu perfil, arriba: quién sos y la puerta a tu cuenta. */}
           <Link to="/ajustes/cuenta" className="card mt-5 flex items-center gap-3.5 px-4 py-3.5">
-            <span
-              aria-hidden="true"
-              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-[19px] font-semibold"
-              style={{ backgroundColor: 'var(--accent-action)', color: 'var(--on-accent)' }}
-            >
-              {initial}
-            </span>
+            <UserAvatar name={profile?.display_name || user?.email} url={profile?.avatar_url} size={48} tone="solid" />
             <span className="min-w-0 flex-1">
               <span className="block truncate text-[17px] font-semibold text-ink">{profile?.display_name || t('ajustes.tuNombre')}</span>
               <span className="block truncate text-[13px] text-ink-soft">{user?.email}</span>
@@ -852,9 +886,31 @@ export default function Ajustes() {
       {section === 'cuenta' && (
         <div className="mt-5">
       <div className="card divide-y divide-hairline">
-        <div className="px-4 py-3">
-          <p className="text-[16px] text-ink">{profile?.display_name || t('ajustes.tuNombre')}</p>
-          <p className="text-[13px] text-ink-soft">{user?.email}</p>
+        <div className="flex items-center gap-4 px-4 py-4">
+          <UserAvatar name={profile?.display_name || user?.email} url={profile?.avatar_url} size={64} tone="solid" />
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[17px] font-semibold text-ink">{profile?.display_name || t('ajustes.tuNombre')}</p>
+            <p className="truncate text-[13px] text-ink-soft">{user?.email}</p>
+            <div className="mt-1 flex flex-wrap items-center gap-x-4">
+              <button
+                type="button"
+                onClick={() => photoInput.current?.click()}
+                disabled={avatarBusy}
+                className="min-h-11 text-[15px] font-semibold"
+                style={{ color: 'var(--accent-ink)', opacity: avatarBusy ? 0.5 : 1 }}
+              >
+                {avatarBusy ? t('ajustes.photo.saving') : profile?.avatar_url ? t('ajustes.photo.change') : t('ajustes.photo.add')}
+              </button>
+              {profile?.avatar_url && !avatarBusy && (
+                <button type="button" onClick={removePhoto} className="min-h-11 text-[15px] font-medium text-ink-soft">
+                  {t('ajustes.photo.remove')}
+                </button>
+              )}
+            </div>
+            <p className="text-[12px] leading-snug text-ink-soft">{t('ajustes.photo.help')}</p>
+            <input ref={photoInput} type="file" accept="image/*" className="hidden" onChange={pickPhoto} aria-label={t('ajustes.photo.add')} />
+            <InlineError message={avatarError ? t('ajustes.photo.error') : null} />
+          </div>
         </div>
         <button
           type="button"

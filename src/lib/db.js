@@ -331,14 +331,15 @@ export async function getGroupDetail(groupId) {
   if (ids.length) {
     const { data: profs, error: pe } = await supabase
       .from('profiles')
-      .select('id, display_name')
+      .select('id, display_name, avatar_url')
       .in('id', ids)
     if (pe) throw pe
     names = Object.fromEntries(profs.map((p) => [p.id, p.display_name]))
+    for (const p of profs) profileAvatars.set(p.id, p.avatar_url ?? null)
   }
   return {
     group,
-    members: members.map((m) => ({ ...m, display_name: names[m.user_id] || null })),
+    members: members.map((m) => ({ ...m, display_name: names[m.user_id] || null, avatar_url: avatarOf(m.user_id) })),
   }
 }
 
@@ -539,11 +540,17 @@ async function namesFor(userIds) {
   if (!ids.length) return {}
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, display_name')
+    .select('id, display_name, avatar_url')
     .in('id', ids)
   if (error) throw dbError(error)
+  for (const p of data) profileAvatars.set(p.id, p.avatar_url ?? null)
   return Object.fromEntries(data.map((p) => [p.id, p.display_name]))
 }
+
+// Foto de perfil (migración 0037) de quien ya pasó por namesFor / el detalle de
+// un grupo: las listas la adjuntan junto al nombre.
+const profileAvatars = new Map()
+export const avatarOf = (userId) => profileAvatars.get(userId) ?? null
 
 // Quiénes están orando por un pedido (orden de adhesión). Devuelve [{user_id, display_name}].
 export async function getIntercessors(prayerId) {
@@ -554,7 +561,7 @@ export async function getIntercessors(prayerId) {
     .order('created_at', { ascending: true })
   if (error) throw dbError(error)
   const names = await namesFor(data.map((r) => r.user_id))
-  return data.map((r) => ({ user_id: r.user_id, display_name: names[r.user_id] || null }))
+  return data.map((r) => ({ user_id: r.user_id, display_name: names[r.user_id] || null, avatar_url: avatarOf(r.user_id) }))
 }
 
 // Detalle de un pedido compartido (vista "estoy orando"): el pedido + grupo +
@@ -903,6 +910,7 @@ export async function getGroupPrayersWithIntercessors(groupId) {
     interByPrayer[i.prayer_id].push({
       user_id: i.user_id,
       display_name: names[i.user_id] || null,
+      avatar_url: avatarOf(i.user_id),
     })
   }
 
@@ -1112,6 +1120,7 @@ export async function getGroupActivePrayers(groupId) {
       ;(interByPrayer[i.prayer_id] ??= []).push({
         user_id: i.user_id,
         display_name: interNames[i.user_id] || null,
+        avatar_url: avatarOf(i.user_id),
       })
     }
   }
