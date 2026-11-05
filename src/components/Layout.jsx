@@ -2,6 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import TabBar from './TabBar.jsx'
 import Sidebar from './Sidebar.jsx'
 import OfflineNotice from './OfflineNotice.jsx'
+import WhatsNewGate from './WhatsNewGate.jsx'
 import { useOnlineStatus } from '../hooks/useOnlineStatus.js'
 
 // Cascarón responsive (documento maestro §4.7 / README — Responsive):
@@ -46,6 +47,7 @@ export default function Layout() {
       </div>
 
       {!focusMode && <TabBar />}
+      <WhatsNewGate />
     </div>
   )
 }

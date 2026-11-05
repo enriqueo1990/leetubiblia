@@ -14,6 +14,7 @@ import {
 import Segmented from '../components/Segmented.jsx'
 import Switch from '../components/Switch.jsx'
 import { useMyTime } from '../hooks/useMyTime.js'
+import { OPEN_WHATS_NEW_EVENT } from '../lib/whatsNew.js'
 import BackLink from '../components/BackLink.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import InlineError from '../components/InlineError.jsx'
@@ -702,6 +703,20 @@ export default function Ajustes() {
             </span>
           </button>
         )}
+        {/* Las novedades de la versión, para volver a verlas cuando quieras. */}
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new Event(OPEN_WHATS_NEW_EVENT))}
+          className="flex w-full items-center justify-between gap-4 px-4 py-3 text-left"
+        >
+          <span className="min-w-0 flex-1">
+            <span className="block text-[16px] text-ink">{t('whatsNew.settingsRow')}</span>
+            <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">{t('whatsNew.settingsHelp')}</span>
+          </span>
+          <span className="text-ink-soft" style={{ opacity: 0.5 }}>
+            <ChevronRight size={18} />
+          </span>
+        </button>
         {/* /ayuda es pública (vive fuera del Gate) pero antes no tenía ninguna
             puerta desde adentro de la app. */}
         <Link to="/ayuda" className="flex items-center justify-between gap-4 px-4 py-3">
