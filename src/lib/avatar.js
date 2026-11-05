@@ -9,13 +9,15 @@ const BUCKET = 'avatars'
 const pathFor = (uid) => `${uid}/avatar.webp`
 
 
-// Recorta y achica en el navegador. WebP si el navegador lo genera; si no, JPEG.
-export async function avatarBlob(file) {
+// Recorta y achica en el navegador. `rect` es el cuadrado elegido en la hoja de
+// recorte (en píxeles de la imagen); sin él, el cuadrado del centro. WebP si el
+// navegador lo genera; si no, JPEG.
+export async function avatarBlob(file, rect = null) {
   const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' }).catch(() => null)
   const img = bitmap ?? (await loadImage(file))
   const w = img.width
   const h = img.height
-  const { sx, sy, side } = centerSquare(w, h)
+  const { sx, sy, side } = rect ?? centerSquare(w, h)
   const canvas = document.createElement('canvas')
   canvas.width = AVATAR_SIZE
   canvas.height = AVATAR_SIZE

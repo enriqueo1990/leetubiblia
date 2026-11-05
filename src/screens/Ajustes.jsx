@@ -20,6 +20,7 @@ import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import InlineError from '../components/InlineError.jsx'
 import DeveloperSection from './DeveloperSection.jsx'
 import UserAvatar from '../components/UserAvatar.jsx'
+import AvatarCropper from '../components/AvatarCropper.jsx'
 import { avatarBlob, removeAvatarFile, uploadAvatar } from '../lib/avatar.js'
 import { saveOrRevert } from '../lib/saveWithRevert.js'
 import { BellIcon, BookIcon, ChevronRight, InfoIcon, InstallIcon, PencilIcon, ShareIcon, SunIcon } from '../components/icons.jsx'
@@ -147,6 +148,7 @@ export default function Ajustes() {
   const [avatarBusy, setAvatarBusy] = useState(false)
   const [avatarError, setAvatarError] = useState(false)
   const photoInput = useRef(null)
+  const [cropFile, setCropFile] = useState(null) // la foto elegida, en la hoja de recorte
 
   // Recordatorio (best-effort) — refleja el perfil.
   const reminderOn = !!profile?.reminder_enabled
@@ -370,19 +372,27 @@ export default function Ajustes() {
 
   // Foto de perfil: se recorta y achica acá mismo (≈20 KB) y se sube a tu
   // carpeta; el perfil guarda la URL. Quitarla vuelve a la inicial.
-  async function pickPhoto(e) {
+  function pickPhoto(e) {
     const file = e.target.files?.[0]
     e.target.value = ''
     if (!file || !user) return
+    setAvatarError(false)
+    setCropFile(file)
+  }
+  // "Usar foto" en la hoja de recorte: el cuadrado elegido, achicado y subido.
+  async function savePhoto(rect) {
+    if (!cropFile || !user) return
     setAvatarBusy(true)
     setAvatarError(false)
     try {
-      const blob = await avatarBlob(file)
+      const blob = await avatarBlob(cropFile, rect)
       const url = await uploadAvatar(user.id, blob)
       const { error } = await updateProfile({ avatar_url: url })
       if (error) throw error
+      setCropFile(null)
     } catch {
       setAvatarError(true)
+      setCropFile(null)
     } finally {
       setAvatarBusy(false)
     }
@@ -942,6 +952,10 @@ export default function Ajustes() {
       )}
 
       {!section && <p className="mt-8 text-center text-[13px] text-ink-soft">{t('ajustes.version', { version: APP_VERSION })}</p>}
+
+      {cropFile && (
+        <AvatarCropper file={cropFile} busy={avatarBusy} onCancel={() => !avatarBusy && setCropFile(null)} onConfirm={savePhoto} />
+      )}
 
       {confirmSignOut && (
         <ConfirmDialog
