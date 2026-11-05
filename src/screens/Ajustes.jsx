@@ -22,6 +22,7 @@ import DeveloperSection from './DeveloperSection.jsx'
 import UserAvatar from '../components/UserAvatar.jsx'
 import AvatarCropper from '../components/AvatarCropper.jsx'
 import BookCover from '../components/BookCover.jsx'
+import ThanksCard from '../components/ThanksCard.jsx'
 import { activeMaterials, getMaterial } from '../lib/materials.js'
 import { planName } from '../lib/planLabels.js'
 import { avatarBlob, removeAvatarFile, uploadAvatar } from '../lib/avatar.js'
@@ -517,6 +518,9 @@ export default function Ajustes() {
               <IndexRow key={k} to={`/ajustes/${k}`} icon={icons[k]} title={titles[k]} summary={summaries[k]} />
             ))}
           </div>
+
+          {/* La invitación a donar, a la vista y agradecida (debajo de las secciones). */}
+          <ThanksCard className="mt-6" />
         </>
       )}
 
