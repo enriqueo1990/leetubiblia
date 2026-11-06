@@ -395,6 +395,7 @@
   "hoy.unmark": "Unmark this day",
   "hoy.unmarkTitle": "Unmark this day?",
   "hoy.unmarkMessage": "Your reading goes back to pending. Your note, if you wrote one, is kept.",
+  "hoy.unmarked": "Done — Day {day} is pending again.",
   "hoy.externalBibleHint": "Opens this reference in your Bible app or website.",
   "hoy.streakDays": {
     "one": "{count} day in a row",

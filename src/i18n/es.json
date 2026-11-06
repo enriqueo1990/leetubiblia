@@ -395,6 +395,7 @@
   "hoy.unmark": "Desmarcar este día",
   "hoy.unmarkTitle": "¿Desmarcar este día?",
   "hoy.unmarkMessage": "Tu lectura vuelve a quedar pendiente. Tu nota, si la escribiste, se conserva.",
+  "hoy.unmarked": "Listo: el Día {day} volvió a quedar pendiente.",
   "hoy.externalBibleHint": "Abre esta referencia en tu app o sitio de Biblia.",
   "hoy.streakDays": {
     "one": "{count} día seguido",

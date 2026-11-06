@@ -122,6 +122,9 @@ export default function Hoy() {
   const [justMarked, setJustMarked] = useState(false)
   const [breathDone, setBreathDone] = useState(false)
   const [confirmUnmark, setConfirmUnmark] = useState(false)
+  // Día recién desmarcado: se anuncia y el foco pasa a la acción de marcar (el
+  // botón de «Tu día» donde estaba el foco ya no existe).
+  const [unmarkedDay, setUnmarkedDay] = useState(null)
 
   // Reflexión del día ("Mi camino"): hoja abierta + nota cargada del día mostrado.
   // note: undefined = aún no sabemos · null = no hay nota · objeto = hay nota.
@@ -163,6 +166,7 @@ export default function Hoy() {
   useEffect(() => {
     setJustMarked(false)
     setConfirmUnmark(false)
+    setUnmarkedDay(null)
   }, [planId, shownDayForMoment])
 
   // Respiro tras marcar: el botón confirma en su lugar (~2.4s) y recién después
@@ -182,6 +186,12 @@ export default function Hoy() {
   useEffect(() => {
     if (justMarked && !breathDone) actionBarRef.current?.focus({ preventScroll: true })
   }, [justMarked, breathDone])
+  // Tras desmarcar, la barra de marcar vuelve a aparecer: el foco va a su acción.
+  const unmarkedDone = unmarkedDay != null && r.completed.has(unmarkedDay)
+  useEffect(() => {
+    if (unmarkedDay == null || unmarkedDone) return
+    actionBarRef.current?.querySelector('button')?.focus({ preventScroll: true })
+  }, [unmarkedDay, unmarkedDone])
   useEffect(() => {
     if (!breathDone) return
     const h = document.getElementById('tu-dia')
@@ -459,6 +469,7 @@ export default function Hoy() {
   function markShownDay() {
     if (dayShown == null) return
     setJustMarked(true)
+    setUnmarkedDay(null)
     navigator.vibrate?.(12)
     // Embudo: la primera lectura de una cuenta nueva (no la de quien solo
     // empieza otro plan).
@@ -478,7 +489,9 @@ export default function Hoy() {
       ? !viewingAhead && r.streak >= 2
         ? t('hoy.streakDays', { count: r.streak })
         : t('hoy.markedNote')
-      : ''
+      : unmarkedDay != null && !doneShown
+        ? t('hoy.unmarked', { day: unmarkedDay })
+        : ''
 
   // Filas de "Tu día". Cada una es una invitación: sin diario no hay nota; sin
   // pedidos no hay oración; una nota de otro día no se reescribe (solo se ve).
@@ -1120,7 +1133,10 @@ export default function Hoy() {
           onConfirm={() => {
             setConfirmUnmark(false)
             setJustMarked(false)
-            if (dayShown != null) r.toggleDay(dayShown)
+            if (dayShown != null) {
+              setUnmarkedDay(dayShown)
+              r.toggleDay(dayShown)
+            }
           }}
           onCancel={() => setConfirmUnmark(false)}
         />
