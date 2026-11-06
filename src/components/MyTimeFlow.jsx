@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
@@ -8,6 +8,7 @@ import { markPrayedToday } from '../lib/prayedToday.js'
 import { dayPeriod } from '../lib/dayLight.js'
 import { BRAND_SERIF } from '../lib/brandFont.js'
 import PassageList from './PassageList.jsx'
+import useDialogFocus from '../hooks/useDialogFocus.js'
 
 // "Mi tiempo": el recorrido guiado y opcional del tiempo diario, a pantalla
 // completa y sin apuro. Prepararse → leer en tu Biblia (la app muestra los
@@ -43,6 +44,18 @@ export default function MyTimeFlow({
   const [prayedFor, setPrayedFor] = useState(null)
   const [time] = useState(() => new Date().toLocaleTimeString(locale, { hour: 'numeric', minute: '2-digit' }))
   const period = dayPeriod()
+  const panelRef = useRef(null)
+  useDialogFocus(panelRef)
+  // Cada paso lleva el foco a su título (tabIndex -1), así el lector de pantalla
+  // anuncia el paso nuevo. El primer paso no: lo anuncia el diálogo al abrirse.
+  useEffect(() => {
+    if (i === 0) return
+    const h = panelRef.current?.querySelector('[data-step-title]')
+    if (h) {
+      h.tabIndex = -1
+      h.focus({ preventScroll: true })
+    }
+  }, [i, step])
 
   // La pantalla de abajo no se desliza mientras dura el recorrido; Escape cierra.
   useEffect(() => {
@@ -118,7 +131,7 @@ export default function MyTimeFlow({
   )
   const serif = { fontFamily: BRAND_SERIF }
   const title = (text) => (
-    <h2 className="mt-3.5 text-[36px] font-medium leading-[1.12] tracking-[-0.02em] text-ink" style={serif}>
+    <h2 data-step-title className="mt-3.5 text-[36px] font-medium leading-[1.12] tracking-[-0.02em] text-ink outline-none" style={serif}>
       {text}
     </h2>
   )
@@ -238,10 +251,12 @@ export default function MyTimeFlow({
   // apilamiento, debajo de la barra lateral y de las pestañas.
   return createPortal(
     <div
+      ref={panelRef}
+      tabIndex={-1}
       role="dialog"
       aria-modal="true"
       aria-label={t('myTime.title')}
-      className="fixed inset-0 z-50 isolate flex flex-col overflow-y-auto"
+      className="fixed inset-0 z-50 isolate flex flex-col overflow-y-auto outline-none"
       style={{ backgroundColor: 'var(--bg-app)', paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       <div aria-hidden="true" className={`day-light ${period}`} style={{ left: 0, right: 0 }} />
@@ -254,7 +269,7 @@ export default function MyTimeFlow({
           ) : (
             <span />
           )}
-          <span className="flex gap-1.5" aria-label={t('myTime.progress', { n: i + 1, total: steps.length })}>
+          <span className="flex gap-1.5" role="img" aria-label={t('myTime.progress', { n: i + 1, total: steps.length })}>
             {steps.slice(0, -1).map((s, k) => (
               <i key={s} className="block h-1 w-5 rounded-full" style={{ backgroundColor: k <= i ? 'var(--accent)' : 'var(--hairline)' }} />
             ))}

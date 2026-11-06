@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { usePreferences } from '../lib/preferences.jsx'
 import { BRAND_SERIF, ensureBrandFont } from '../lib/brandFont.js'
 import BookCover from './BookCover.jsx'
+import useDialogFocus from '../hooks/useDialogFocus.js'
 
 // "Novedades": las pantallas de una versión grande, una por vez. Se pasa con
 // "Siguiente", deslizando o con las flechas; "Saltar" cierra en cualquier
@@ -13,6 +14,7 @@ export default function WhatsNew({ myTimeEnabled, onEnableMyTime, onClose }) {
   const [i, setI] = useState(0)
   const touch = useRef(null)
   const panelRef = useRef(null)
+  useDialogFocus(panelRef)
 
   const pages = [
     { key: 'light', art: <ArtLight />, title: t('whatsNew.light.title'), text: t('whatsNew.light.text') },
@@ -28,7 +30,6 @@ export default function WhatsNew({ myTimeEnabled, onEnableMyTime, onClose }) {
     ensureBrandFont()
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
-    panelRef.current?.focus()
     const onKey = (e) => {
       if (e.key === 'Escape') onClose()
       if (e.key === 'ArrowRight') go(1)
