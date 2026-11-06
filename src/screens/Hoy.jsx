@@ -791,6 +791,10 @@ export default function Hoy() {
         </>
       )}
 
+      {/* En escritorio la barra de acción deja de ser fija y, como va después en el DOM
+          (en el celular el sticky necesita quedar al final), se pasa ARRIBA de lo
+          extra con order: «Marcar como leído» no queda debajo de «También hoy». */}
+      <div className="lg:order-last">
       {/* Lecturas secundarias del día. Una sola sección para no competir con la
           lectura principal: si no hay grupos/materiales, no ocupa lugar. Con el
           plan terminado sigue visible: ahí son justo lo que queda por leer. */}
@@ -950,6 +954,8 @@ export default function Hoy() {
         </section>
       )}
 
+      </div>
+
       <div className="flex-1 lg:hidden" />
 
       {/* Zona de acción: solo mientras el día mostrado no está leído (marcar) y
@@ -958,7 +964,7 @@ export default function Hoy() {
           día", en el recorrido de la pantalla, no en una barra fija. */}
       {!r.planFinished && (!doneShown ? !readingUnavailable : breathing) && (
         <div className="action-bar outline-none" ref={actionBarRef} tabIndex={-1}>
-          <div className="lg:mx-auto lg:max-w-[440px]">
+          <div>
             {!doneShown ? (
                 myTime.enabled && !viewingAhead ? (
                   // Con "Mi tiempo" activo: el recorrido es lo primario, y marcar
