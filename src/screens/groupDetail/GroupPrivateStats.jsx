@@ -43,10 +43,11 @@ export default function GroupPrivateStats({ stats, weekRows, answeredPct }) {
 
       {weekRows.length > 0 && (
         <div className="p-5">
+          {/* «Solo vos lo ves» una sola vez por tarjeta: el primer bloque lo dice. */}
           <div className="flex items-center gap-1.5 text-ink-soft">
-            <LockIcon size={13} />
+            {!stats && <LockIcon size={13} />}
             <span className="text-[12px] font-semibold uppercase tracking-wide">
-              {t('groupDetail.weekPrivate')}
+              {stats ? t('groupDetail.weekLabel') : t('groupDetail.weekPrivate')}
             </span>
           </div>
           <div className="mt-4 space-y-2.5">
