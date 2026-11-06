@@ -144,6 +144,7 @@
   "goal.momentStreak": "{count} days in a row",
   "ajustes.section.cuenta": "Account",
   "ajustes.tuNombre": "Your name",
+  "ajustes.nameChange": "Change name",
   "ajustes.cerrarSesion": "Sign out",
   "ajustes.signOutTitle": "Sign out?",
   "ajustes.signOutConfirm": "To get back in you'll need a code we send you by email.",

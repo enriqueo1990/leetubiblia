@@ -144,6 +144,7 @@
   "goal.momentStreak": "{count} días seguidos",
   "ajustes.section.cuenta": "Cuenta",
   "ajustes.tuNombre": "Tu nombre",
+  "ajustes.nameChange": "Cambiar nombre",
   "ajustes.cerrarSesion": "Cerrar sesión",
   "ajustes.signOutTitle": "¿Cerrar sesión?",
   "ajustes.signOutConfirm": "Para volver a entrar vas a necesitar un código que te mandamos por correo.",

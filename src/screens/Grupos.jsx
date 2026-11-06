@@ -11,32 +11,12 @@ import { getMyGroups, createGroup, joinGroupByCode } from '../lib/db.js'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 import { inputStyle } from '../components/formStyles.js'
 import { useOnlineStatus } from '../hooks/useOnlineStatus.js'
+import MyNameField from '../components/MyNameField.jsx'
 
 // Grupos (documento maestro §5.6, README pantalla 6).
 
 // El nombre ya no se pide en el onboarding de quien lee solo: se pide acá, al
-// crear o unirse a un grupo, que es donde los demás lo van a ver.
-function MyNameField({ value, onChange }) {
-  const { t } = usePreferences()
-  return (
-    <div className="mb-5">
-      <label htmlFor="my-name" className="mb-2 block text-[14px] font-medium text-ink">
-        {t('onboarding.askName.label')}
-      </label>
-      <input
-        id="my-name"
-        type="text"
-        autoComplete="name"
-        placeholder={t('ajustes.tuNombre')}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-input px-4 py-3 text-[16px] outline-none"
-        style={inputStyle}
-      />
-      <p className="mt-2 text-[13px] text-ink-soft">{t('onboarding.askName.subtitle')}</p>
-    </div>
-  )
-}
+// crear o unirse a un grupo, que es donde los demás lo van a ver (MyNameField).
 
 // Guarda el nombre si hace falta. Devuelve true si se puede seguir.
 function useMyName() {

@@ -32,6 +32,7 @@ import { subscribeToPush, unsubscribeFromPush, getTimezone, isPushSupported } fr
 import { exportJournal } from '../lib/exportJournal.js'
 import { flushQueue, pendingCount } from '../lib/offline.js'
 import { APP_VERSION_LABEL } from '../lib/appVersion.js'
+import NameSheet from '../components/NameSheet.jsx'
 
 // Ajustes (documento maestro §5.7, README pantalla 7). Acento y tema persisten en
 // profiles (vía updateProfile) además de aplicarse en vivo. Recordatorio: mejor
@@ -135,6 +136,7 @@ export default function Ajustes() {
   // Cerrar sesión: null | { pending } — cuántos marcados sin sincronizar se perderían.
   const [confirmSignOut, setConfirmSignOut] = useState(null)
   const [confirmBack, setConfirmBack] = useState(false)
+  const [nameOpen, setNameOpen] = useState(false)
   const [signingOut, setSigningOut] = useState(false)
   const [dayInput, setDayInput] = useState('')
   const [savingDay, setSavingDay] = useState(false)
@@ -1036,6 +1038,14 @@ export default function Ajustes() {
               >
                 {avatarBusy ? t('ajustes.photo.saving') : profile?.avatar_url ? t('ajustes.photo.change') : t('ajustes.photo.add')}
               </button>
+              <button
+                type="button"
+                onClick={() => setNameOpen(true)}
+                className="min-h-11 text-[15px] font-semibold"
+                style={{ color: 'var(--accent-ink)' }}
+              >
+                {t('ajustes.nameChange')}
+              </button>
               {profile?.avatar_url && !avatarBusy && (
                 <button type="button" onClick={removePhoto} className="min-h-11 text-[15px] font-medium text-ink-soft">
                   {t('ajustes.photo.remove')}
@@ -1080,6 +1090,14 @@ export default function Ajustes() {
 
       {cropFile && (
         <AvatarCropper file={cropFile} busy={avatarBusy} onCancel={() => !avatarBusy && setCropFile(null)} onConfirm={savePhoto} />
+      )}
+
+      {nameOpen && (
+        <NameSheet
+          initial={profile?.display_name ?? ''}
+          onSave={(display_name) => persist('name', { display_name })}
+          onClose={() => setNameOpen(false)}
+        />
       )}
 
       {confirmBack && (
