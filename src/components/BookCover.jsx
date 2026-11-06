@@ -21,7 +21,7 @@ export default function BookCover({ slug, size = 'lg', meta = null, className = 
   return (
     <div
       className={`relative flex overflow-hidden ${className}`}
-      style={{ aspectRatio: '3 / 4', borderRadius: radius, backgroundColor: th.c, color: th.ink, boxShadow: shadow, ...style }}
+      style={{ aspectRatio: '3 / 4', borderRadius: radius, backgroundColor: th.c, color: th.ink, boxShadow: `${shadow}, var(--cover-ring)`, ...style }}
       aria-hidden={size === 'thumb' ? 'true' : undefined}
     >
       <span className="h-full shrink-0" style={{ width: '9%', backgroundColor: th.spine }} />
