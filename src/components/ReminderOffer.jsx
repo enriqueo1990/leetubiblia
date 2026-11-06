@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
+import { inputStyleOnCard } from './formStyles.js'
 import { subscribeToPush } from '../lib/push.js'
 import { dismissReminderOffer } from '../lib/reminderOffer.js'
 import { BellIcon } from './icons.jsx'
@@ -108,11 +109,7 @@ export default function ReminderOffer({ onStart, onClose }) {
           value={time}
           onChange={(e) => setTime(e.target.value || time)}
           className="min-h-11 rounded-input px-3 text-[16px] outline-none"
-          style={{
-            backgroundColor: 'var(--surface-alt)',
-            border: '1px solid var(--control-border)',
-            color: 'var(--text-primary)',
-          }}
+          style={inputStyleOnCard}
         />
       </div>
 

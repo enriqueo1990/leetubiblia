@@ -33,6 +33,7 @@ import { exportJournal } from '../lib/exportJournal.js'
 import { flushQueue, pendingCount } from '../lib/offline.js'
 import { APP_VERSION_LABEL } from '../lib/appVersion.js'
 import NameSheet from '../components/NameSheet.jsx'
+import { inputStyleOnCard } from '../components/formStyles.js'
 
 // Ajustes (documento maestro §5.7, README pantalla 7). Acento y tema persisten en
 // profiles (vía updateProfile) además de aplicarse en vivo. Recordatorio: mejor
@@ -698,7 +699,7 @@ export default function Ajustes() {
               }}
               placeholder={t('ajustes.dayPlaceholder', { day: currentDay })}
               className="mt-3 w-full rounded-input px-4 py-3 text-[16px] outline-none"
-              style={{ backgroundColor: 'var(--surface-alt)', border: '1px solid var(--control-border)', color: 'var(--text-primary)' }}
+              style={inputStyleOnCard}
             />
             {canUpdateDay && (
               <p className="mt-3 text-[13px] text-ink-soft">
@@ -856,7 +857,7 @@ export default function Ajustes() {
                 disabled={savingKey === 'time'}
                 aria-label={t('ajustes.hora')}
                 className="min-h-11 rounded-input px-3 text-[16px] outline-none"
-                style={{ backgroundColor: 'var(--surface-alt)', border: '1px solid var(--control-border)', color: 'var(--text-primary)' }}
+                style={inputStyleOnCard}
               />
             </div>
             <InlineError message={errorFor('time')} />

@@ -1,6 +1,7 @@
 import { PencilIcon, ShareIcon } from '../../components/icons.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
 import InlineError from '../../components/InlineError.jsx'
+import { inputStyleOnCard } from '../../components/formStyles.js'
 
 // Nombre del grupo (+ editar, owner), acción primaria de invitar en el header
 // (mismo patrón que Grupos/Oración) y la línea de metadata de miembros.
@@ -34,7 +35,7 @@ export default function GroupHeader({
               if (e.key === 'Escape') onCancelEdit()
             }}
             className="w-full rounded-input px-4 py-3 text-[18px] font-bold outline-none"
-            style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--text-primary)' }}
+            style={inputStyleOnCard}
             maxLength={60}
           />
           <InlineError message={nameError} />

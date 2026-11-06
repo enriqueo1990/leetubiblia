@@ -10,6 +10,7 @@ import { ShareIcon } from '../../components/icons.jsx'
 import { isIOS, isIOSBrowser, isInAppBrowser, isStandalone } from '../../lib/platform.js'
 import { recordFunnel } from '../../lib/diag.js'
 import BrandMark from '../../components/BrandMark.jsx'
+import { inputStyle } from '../../components/formStyles.js'
 
 // Bienvenida + auth por código de email (documento maestro §5.8, README pantalla 8).
 // Pasos locales: 'welcome' → ('install', solo iPhone en el navegador) →
@@ -366,12 +367,7 @@ export default function AuthFlow() {
             value={code}
             onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 10))}
             className="w-full rounded-input px-4 py-3.5 text-center text-[26px] font-bold outline-none"
-            style={{
-              backgroundColor: 'var(--surface)',
-              border: '1px solid var(--control-border)',
-              color: 'var(--text-primary)',
-              letterSpacing: '6px',
-            }}
+            style={{ ...inputStyle, letterSpacing: '6px' }}
           />
           {error && <p className="mt-2 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
 
@@ -459,11 +455,7 @@ export default function AuthFlow() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full rounded-input px-4 py-3.5 text-[16px] outline-none"
-          style={{
-            backgroundColor: 'var(--surface)',
-            border: '1px solid var(--control-border)',
-            color: 'var(--text-primary)',
-          }}
+          style={inputStyle}
         />
         {error && <p className="mt-2 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
 

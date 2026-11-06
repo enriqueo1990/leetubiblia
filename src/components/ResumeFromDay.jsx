@@ -6,12 +6,7 @@
 import { useState } from 'react'
 import { usePreferences } from '../lib/preferences.jsx'
 import Switch from './Switch.jsx'
-
-const inputStyle = {
-  backgroundColor: 'var(--surface)',
-  border: '1px solid var(--control-border)',
-  color: 'var(--text-primary)',
-}
+import { inputStyle } from './formStyles.js'
 
 export default function ResumeFromDay({ durationDays, day, onChange }) {
   const { t } = usePreferences()

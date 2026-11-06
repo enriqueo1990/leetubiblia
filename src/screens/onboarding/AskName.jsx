@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../../lib/auth.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
 import { recordFunnel } from '../../lib/diag.js'
+import { inputStyle } from '../../components/formStyles.js'
 
 // "¿Cómo te llamás?" — en el onboarding solo para quien llega por invitación a
 // un grupo (Gate.jsx). Quien lee solo lo pone al crear o unirse a un grupo
@@ -55,11 +56,7 @@ export default function AskName() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="w-full rounded-input px-4 py-3.5 text-[16px] outline-none"
-          style={{
-            backgroundColor: 'var(--surface)',
-            border: '1px solid var(--control-border)',
-            color: 'var(--text-primary)',
-          }}
+          style={inputStyle}
         />
         <button
           type="submit"

@@ -8,6 +8,7 @@ import { markPrayedToday } from '../lib/prayedToday.js'
 import { dayPeriod } from '../lib/dayLight.js'
 import { BRAND_SERIF } from '../lib/brandFont.js'
 import PassageList from './PassageList.jsx'
+import { inputStyle } from './formStyles.js'
 import useDialogFocus from '../hooks/useDialogFocus.js'
 
 // "Mi tiempo": el recorrido guiado y opcional del tiempo diario, a pantalla
@@ -178,7 +179,7 @@ export default function MyTimeFlow({
           placeholder={t('myTime.note.placeholder')}
           aria-label={t('myTime.note.title')}
           className="mt-6 w-full resize-none rounded-[18px] p-4 text-[18px] leading-relaxed text-ink outline-none"
-          style={{ ...serif, backgroundColor: 'var(--surface)', boxShadow: 'inset 0 0 0 1px var(--hairline)' }}
+          style={{ ...serif, ...inputStyle }}
         />
       </>
     )

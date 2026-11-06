@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Sheet from './Sheet.jsx'
 import ShareImageSheet from './ShareImageSheet.jsx'
 import { ShareIcon } from './icons.jsx'
+import { inputStyle } from './formStyles.js'
 import { usePreferences } from '../lib/preferences.jsx'
 import { shareCover } from '../lib/coverImage.js'
 import { shareOrDownload, shareUrl } from '../lib/canvasKit.js'
@@ -176,11 +177,7 @@ export default function ReflectionSheet({
             placeholder={t('reflectionSheet.placeholder')}
             aria-label={t('reflectionSheet.titleEdit')}
             className="mt-3 w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
-            style={{
-              backgroundColor: 'var(--surface)',
-              border: '1px solid var(--hairline)',
-              color: 'var(--text-primary)',
-            }}
+            style={inputStyle}
           />
           <div className="mt-2 flex items-center justify-between gap-3">
             <p className="text-[12px] text-ink-soft">
