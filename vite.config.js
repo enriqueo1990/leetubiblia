@@ -1,7 +1,8 @@
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdirSync, existsSync, rmSync } from 'node:fs'
 import { execSync } from 'node:child_process'
 import { dirname, resolve } from 'node:path'
-import { defineConfig } from 'vite'
+import { pathToFileURL } from 'node:url'
+import { defineConfig, build as viteBuild } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
@@ -28,6 +29,8 @@ import { VitePWA } from 'vite-plugin-pwa'
 const LANDING_PAGES = [
   {
     file: 'info/index.html',
+    route: '/info',
+    screen: 'Info',
     title: 'Lee Tu Biblia — el hábito de abrir tu Biblia, sostenido',
     description:
       'Plan, racha, diario y oraciones —solo o con tu grupo— para acompañar tu Biblia de papel. Una herramienta para discipular, no otro lector de Escritura.',
@@ -37,6 +40,8 @@ const LANDING_PAGES = [
   },
   {
     file: 'lideres/index.html',
+    route: '/lideres',
+    screen: 'Lideres',
     title: 'Lee Tu Biblia — Para líderes de grupos de discipulado',
     description:
       'Cómo usar la app con tu grupo pequeño: armalo en 3 pasos, lean el mismo plan, vean quién leyó y oren unos por otros. Gratis y sin publicidad.',
@@ -46,6 +51,8 @@ const LANDING_PAGES = [
   },
   {
     file: 'ayuda/index.html',
+    route: '/ayuda',
+    screen: 'Ayuda',
     title: 'Lee Tu Biblia — Guía completa de la app',
     description:
       'El manual completo, pestaña por pestaña: tu lectura y los 13 planes, la oración, los grupos de discipulado y los materiales. Acompaña tu Biblia de papel, no la reemplaza.',
@@ -55,6 +62,8 @@ const LANDING_PAGES = [
   },
   {
     file: 'privacidad/index.html',
+    route: '/privacidad',
+    screen: 'Privacidad',
     title: 'Lee Tu Biblia — Privacidad',
     description:
       'Qué guardamos y qué no, en simple: privado por defecto, sin publicidad, no vendemos tus datos, y podés borrar tu cuenta y todo lo tuyo cuando quieras.',
@@ -92,37 +101,161 @@ function seoBlock({ title, description, url, image, alt }) {
     <meta name="twitter:image:alt" content="${alt}" />`
 }
 
+// PRERENDER REAL de las landings. Además de cambiar el bloque SEO, cada página se
+// emite con su contenido DENTRO de <div id="root"> (HTML estático del componente
+// React) y SIN el splash de arranque (que es de la app privada y trae el
+// versículo): los rastreadores que no ejecutan JS —incluidos los bots de IA que
+// robots.txt invita— ven el h1, los textos y los enlaces internos, y el visitante
+// en frío ve la página en el primer pintado en vez del splash. Al cargar, main.jsx
+// la HIDRATA (data-prerendered) sin reemplazarla.
+//
+// Cómo (react-dom/server, sin navegador): se compila src/prerender.jsx con
+// `build.ssr` de Vite a un directorio temporal, se importa y se llama una vez por
+// ruta. Se eligió sobre puppeteer-core porque no necesita Chrome en la máquina de
+// build (Cloudflare Pages no lo trae), no tiene servidor ni puertos ni esperas, y
+// da el mismo HTML siempre. Las landings no tocan Supabase ni localStorage al
+// renderizar (lo que depende del navegador se resuelve post-hidratación; ver
+// src/screens/landingHydration.js), así que no hace falta ejecutar el cliente.
+//
+// Orden: el closeBundle va `pre` y `sequential` para que los HTML finales existan
+// ANTES de que vite-plugin-pwa calcule el precache (su revision hash sale de ellos).
+const SPLASH_DIV_START = '<div id="ltb-splash">'
+const ROOT_DIV = '<div id="root"></div>'
+const SPLASH_CSS_START = '      #ltb-splash {'
+
 function landingHtmlPlugin() {
+  let resolved
+  let clientBundle = null
   return {
     name: 'ltb-landing-html',
     apply: 'build',
-    closeBundle() {
-      const outDir = resolve(process.cwd(), 'dist')
-      const html = readFileSync(resolve(outDir, 'index.html'), 'utf8')
+    configResolved(config) {
+      resolved = config
+    },
+    generateBundle(_options, bundle) {
+      clientBundle = bundle
+    },
+    closeBundle: {
+      sequential: true,
+      order: 'pre',
+      async handler() {
+        const root = resolved.root
+        const outDir = resolve(root, resolved.build.outDir)
+        const html = readFileSync(resolve(outDir, 'index.html'), 'utf8')
 
-      // Reemplazamos SOLO el bloque entre los marcadores SEO:start/SEO:end (el
-      // JSON-LD y el resto del <head> se conservan). Si faltan, fallamos ruidoso.
-      const open = '<!-- SEO:start'
-      const close = '<!-- SEO:end -->'
-      const openAt = html.indexOf(open)
-      const startBody = html.indexOf('-->', openAt)
-      const closeAt = html.indexOf(close)
-      if (openAt === -1 || startBody === -1 || closeAt === -1) {
-        throw new Error(
-          '[ltb-landing-html] No encuentro los marcadores SEO:start/SEO:end en dist/index.html.'
+        // Plantilla sin splash: se le quita el div y las reglas CSS del splash (se
+        // conservan las del fondo de html/body, que evitan el fogonazo blanco).
+        const splashAt = html.indexOf(SPLASH_DIV_START)
+        const rootAt = html.indexOf(ROOT_DIV)
+        const cssAt = html.indexOf(SPLASH_CSS_START)
+        const cssEnd = html.indexOf('</style>', cssAt)
+        if (splashAt === -1 || rootAt === -1 || rootAt < splashAt || cssAt === -1 || cssEnd === -1) {
+          throw new Error(
+            '[ltb-landing-html] No encuentro el splash (#ltb-splash) / #root / sus estilos en dist/index.html: ¿cambió index.html?'
+          )
+        }
+        const template = html.slice(0, cssAt) + html.slice(cssEnd, splashAt) + html.slice(rootAt)
+
+        // Reemplazamos SOLO el bloque entre los marcadores SEO:start/SEO:end (el
+        // JSON-LD y el resto del <head> se conservan). Si faltan, fallamos ruidoso.
+        const open = '<!-- SEO:start'
+        const close = '<!-- SEO:end -->'
+        const openAt = template.indexOf(open)
+        const startBody = template.indexOf('-->', openAt)
+        const closeAt = template.indexOf(close)
+        if (openAt === -1 || startBody === -1 || closeAt === -1) {
+          throw new Error(
+            '[ltb-landing-html] No encuentro los marcadores SEO:start/SEO:end en dist/index.html.'
+          )
+        }
+        const head = template.slice(0, startBody + 3)
+        const tail = template.slice(closeAt + close.length)
+
+        const render = await loadPrerender(root)
+
+        // Chunks que el entry ya precarga: no se repiten.
+        const alreadyLoaded = new Set(
+          [...html.matchAll(/(?:href|src)="(\/assets\/[^"]+\.js)"/g)].map((m) => m[1].slice(1))
         )
-      }
-      const start = startBody + 3
-      const end = closeAt + close.length
 
-      for (const page of LANDING_PAGES) {
-        const block = `\n    ${seoBlock(page)}\n    <!-- SEO:end -->`
-        const outFile = resolve(outDir, page.file)
-        mkdirSync(dirname(outFile), { recursive: true })
-        writeFileSync(outFile, html.slice(0, start) + block + html.slice(end))
-      }
+        for (const page of LANDING_PAGES) {
+          const markup = await render(page.route)
+          if (!/<h1[\s>]/.test(markup) || markup.includes('ltb-splash')) {
+            throw new Error(`[ltb-landing-html] El prerender de ${page.route} no trae un <h1> o trae el splash.`)
+          }
+          assertAssetsExist(markup, outDir, page.route)
+
+          const seo = `\n    ${seoBlock(page)}\n    ${preloadLinks(page.screen, clientBundle, alreadyLoaded)}\n    ${close}`
+          const pageHtml = (head + seo + tail).replace(
+            ROOT_DIV,
+            () => `<div id="root" data-prerendered>${markup}</div>`
+          )
+          const outFile = resolve(outDir, page.file)
+          mkdirSync(dirname(outFile), { recursive: true })
+          writeFileSync(outFile, pageHtml)
+        }
+      },
     },
   }
+}
+
+// <link rel="modulepreload"> del chunk de la página y de sus imports estáticos
+// (landingKit…): el navegador los baja en paralelo con el entry en vez de
+// descubrirlos en cascada (HTML → entry → chunk → kit).
+function preloadLinks(screen, bundle, skip) {
+  if (!bundle) return ''
+  const page = Object.values(bundle).find(
+    (chunk) => chunk.type === 'chunk' && chunk.facadeModuleId?.endsWith(`/src/screens/${screen}.jsx`)
+  )
+  if (!page) return ''
+  const files = new Set()
+  const visit = (fileName) => {
+    if (files.has(fileName) || skip.has(fileName)) return
+    const chunk = bundle[fileName]
+    if (!chunk || chunk.type !== 'chunk') return
+    files.add(fileName)
+    chunk.imports.forEach(visit)
+  }
+  visit(page.fileName)
+  return [...files].map((f) => `<link rel="modulepreload" crossorigin href="/${f}" />`).join('\n    ')
+}
+
+// Los assets que el SSR referencia (capturas PNG) deben ser los MISMOS archivos con
+// hash que emitió el build del cliente; si no, la landing mostraría imágenes rotas.
+function assertAssetsExist(markup, outDir, route) {
+  for (const [, url] of markup.matchAll(/(?:src|href|srcSet)="(\/assets\/[^"?#]+)"/g)) {
+    if (!existsSync(resolve(outDir, url.slice(1)))) {
+      throw new Error(`[ltb-landing-html] ${route} referencia ${url}, que no existe en dist/.`)
+    }
+  }
+}
+
+// Compila src/prerender.jsx (SSR) y devuelve renderRoute(url) → HTML.
+async function loadPrerender(root) {
+  const ssrDir = resolve(root, 'node_modules/.ltb-prerender')
+  rmSync(ssrDir, { recursive: true, force: true })
+  await viteBuild({
+    root,
+    configFile: false,
+    logLevel: 'warn',
+    plugins: [react()],
+    define: { 'import.meta.env.VITE_APP_BUILD': JSON.stringify(buildId()) },
+    // react-router-dom@6 no declara "exports": Node no resuelve su /server como ESM,
+    // así que se empaqueta junto al resto (react y react-dom quedan externos).
+    ssr: { noExternal: ['react-router-dom', 'react-router', '@remix-run/router'] },
+    build: {
+      ssr: resolve(root, 'src/prerender.jsx'),
+      outDir: ssrDir,
+      emptyOutDir: true,
+      copyPublicDir: false,
+      minify: false,
+      rollupOptions: {
+        output: { format: 'es', entryFileNames: 'prerender.mjs', chunkFileNames: '[name]-[hash].mjs' },
+      },
+    },
+  })
+  const mod = await import(pathToFileURL(resolve(ssrDir, 'prerender.mjs')).href)
+  return mod.renderRoute
 }
 
 // Código del build: el commit corto. Cloudflare Pages lo pasa en

@@ -1,5 +1,3 @@
-import { supabase } from './supabase.js'
-
 // Telemetría de arranque (ver migración 0015/0021 e index.html). Ahora PERMANENTE
 // (dejó de ser temporal): captura tanto eventos de salud de boot ('boot_reload',
 // 'profile_retry', 'getsession_slow') como 'app_open' (una vez por día por
@@ -126,9 +124,20 @@ export function flushDiag() {
   return flushing
 }
 
+// El cliente de Supabase (≈53 KB gz) se carga recién al volcar la cola, no al
+// importar este módulo: diag.js lo importa el entry vía ErrorBoundary y las
+// landings públicas, que no necesitan Supabase para leerse.
+const loadSupabase = () => import('./supabase.js').then((m) => m.supabase)
+
 async function doFlush() {
   const queue = readQueue()
   if (!queue.length) return
+  let supabase
+  try {
+    supabase = await loadSupabase()
+  } catch {
+    return // sin red para bajar el chunk: la cola queda para el próximo arranque
+  }
 
   const standalone = isStandalone()
   const ua = navigator.userAgent

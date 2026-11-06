@@ -24,6 +24,7 @@ import {
   WifiOffIcon,
   AwardIcon,
 } from './landingKit.jsx'
+import { scrollTopOnEnter } from './landingHydration.js'
 
 // Landing pública /info — página fuera del Gate (ver App.jsx). Le habla a quien
 // llega en frío (redes, un pastor pasando el link) antes de decidir crear cuenta.
@@ -116,7 +117,7 @@ function Steps({ title, steps }) {
 export default function Info() {
   useEffect(() => {
     document.title = 'Lee Tu Biblia — el hábito de abrir tu Biblia, sostenido'
-    window.scrollTo(0, 0)
+    scrollTopOnEnter()
   }, [])
 
   return (

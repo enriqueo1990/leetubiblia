@@ -9,6 +9,7 @@ import {
   SectionTitle,
   SubTitle,
 } from './landingKit.jsx'
+import { scrollTopOnEnter } from './landingHydration.js'
 import shotHoy from '../assets/guia-lideres/hoy-con-grupos.png'
 import shotSala from '../assets/guia-lideres/sala-grupo.png'
 import shotOrar from '../assets/guia-lideres/orar-ahora.png'
@@ -119,7 +120,7 @@ const FAQ = [
 export default function Lideres() {
   useEffect(() => {
     document.title = 'Lee Tu Biblia — Para líderes de grupos de discipulado'
-    window.scrollTo(0, 0)
+    scrollTopOnEnter()
   }, [])
 
   return (

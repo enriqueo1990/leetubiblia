@@ -10,6 +10,7 @@ import {
   SectionTitle,
   SubTitle,
 } from './landingKit.jsx'
+import { scrollTopOnEnter } from './landingHydration.js'
 import { CONTACT_EMAIL as CONTACTO } from '../lib/developer.js'
 
 // Página pública /privacidad — la capa de confianza del sitio (ver App.jsx, fuera
@@ -79,7 +80,7 @@ const DATOS = [
 export default function Privacidad() {
   useEffect(() => {
     document.title = 'Lee Tu Biblia — Privacidad'
-    window.scrollTo(0, 0)
+    scrollTopOnEnter()
   }, [])
 
   return (

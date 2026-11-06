@@ -1,9 +1,7 @@
-import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useClientSide, useAppOrigin } from './landingHydration.js'
 import { isStoreApp } from '../lib/platform.js'
-import { recordFunnel } from '../lib/diag.js'
-import { useDonationGoal } from '../hooks/useDonationGoal.js'
-import DonateSheet from '../components/DonateSheet.jsx'
 import { HeartIcon } from '../components/icons.jsx'
 import shotHoy from '../assets/mocks/hoy-lectura.png'
 import shotGrupo from '../assets/mocks/sala-grupo.png'
@@ -17,6 +15,10 @@ import BrandMark from '../components/BrandMark.jsx'
 import BackLink from '../components/BackLink.jsx'
 import { isInAppBrowser } from '../lib/platform.js'
 
+// La hoja de donación (con Supabase para la meta, Sheet, etc.) se baja recién al
+// tocar «Apoyar el proyecto»: leer una landing no la necesita.
+const DonateFlow = lazy(() => import('./DonateFlow.jsx'))
+
 // Kit compartido por las páginas públicas (/info, /lideres, /ayuda, /privacidad):
 // primitivos de marca, íconos, mocks de producto y el footer global. Vive fuera
 // del Gate. Concepto transversal:
@@ -28,9 +30,7 @@ import { isInAppBrowser } from '../lib/platform.js'
 // chico), CTAs que responden al cursor, y la atmósfera fresca compartida (resplandor
 // y bandas). Los números de paso usan bg-accent-action + text-on-accent, como los
 // pasos de instalar en Hoy. Idéntico en todas las páginas.
-export function LandingStyle() {
-  return (
-    <style>{`
+const LANDING_CSS = `
       .info-eyebrow { color: var(--accent); }
       @supports (color: color-mix(in srgb, red 50%, blue)) {
         .info-eyebrow { color: color-mix(in srgb, var(--accent) 68%, var(--text-primary)); }
@@ -111,8 +111,12 @@ export function LandingStyle() {
         :root:not(.light) .hs-oracion { color: #1C1C1E; }
       }
       :root.dark .hs-oracion { color: #1C1C1E; }
-    `}</style>
-  )
+`
+
+// dangerouslySetInnerHTML: como hijo de <style>, React escaparía las comillas del CSS
+// (&quot;) al prerenderizar y el texto no coincidiría al hidratar.
+export function LandingStyle() {
+  return <style dangerouslySetInnerHTML={{ __html: LANDING_CSS }} />
 }
 
 // Resplandor superior de página. Colocarlo como PRIMER hijo del wrapper
@@ -296,7 +300,8 @@ function appHref(current) {
 // Dentro del navegador de Instagram/Facebook/TikTok no se puede instalar la app:
 // se avisa ARRIBA, donde llega el tráfico frío, y no al fondo de la página.
 function InAppBrowserBand() {
-  if (!isInAppBrowser()) return null
+  const inApp = useClientSide(isInAppBrowser)
+  if (!inApp) return null
   return (
     <div role="note" className="bg-accent-tint px-6 py-3 text-center text-[0.875rem] leading-snug text-ink">
       Estás en el navegador de otra app. Para instalar Lee Tu Biblia, tocá el menú{' '}
@@ -308,7 +313,7 @@ function InAppBrowserBand() {
 export function LandingHeader({ current, width = 'max-w-[880px]' }) {
   // Si llegaste desde adentro de la app (state.from, p. ej. Ajustes › Guía), la
   // salida es el «‹ Ajustes» de siempre, no «Abrir la app»: la PWA no tiene atrás.
-  const from = useLocation().state?.from
+  const from = useAppOrigin()
   return (
     <>
     <a
@@ -370,23 +375,45 @@ export function LandingHeader({ current, width = 'max-w-[880px]' }) {
 // donación que la app, con la meta de las tiendas si está vigente. No aparece
 // dentro de una app de tienda (ver isStoreApp).
 function FooterDonate() {
-  const goal = useDonationGoal()
+  const storeApp = useClientSide(isStoreApp)
   const [open, setOpen] = useState(false)
-  if (isStoreApp()) return null
+  const buttonRef = useRef(null)
+
+  // Al acercarse el pie a la pantalla se adelanta la descarga de la hoja (y de la
+  // meta): para cuando alguien toca el botón, ya está lista. Quien no llega al
+  // final de la página no gasta esos datos.
+  useEffect(() => {
+    const el = buttonRef.current
+    if (!el || typeof IntersectionObserver === 'undefined') return undefined
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return
+        io.disconnect()
+        import('./DonateFlow.jsx').then((m) => m.default.warm()).catch(() => {})
+      },
+      { rootMargin: '300px' }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [storeApp])
+
+  if (storeApp) return null
   return (
     <>
       <button
+        ref={buttonRef}
         type="button"
-        onClick={() => {
-          if (goal) recordFunnel('goal_open')
-          setOpen(true)
-        }}
+        onClick={() => setOpen(true)}
         className={`inline-flex min-h-11 items-center gap-1.5 text-[0.875rem] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
       >
         <HeartIcon size={16} />
         Apoyar el proyecto
       </button>
-      {open && <DonateSheet goal={goal} fromGoal={Boolean(goal)} onClose={() => setOpen(false)} />}
+      {open && (
+        <Suspense fallback={null}>
+          <DonateFlow onClose={() => setOpen(false)} />
+        </Suspense>
+      )}
     </>
   )
 }

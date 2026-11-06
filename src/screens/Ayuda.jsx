@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
   BookIcon,
   HeartIcon,
@@ -30,6 +30,7 @@ import {
   SectionTitle,
   SubTitle,
 } from './landingKit.jsx'
+import { scrollTopOnEnter, useAppOrigin } from './landingHydration.js'
 
 // Página pública /ayuda — la REFERENCIA de la app (ver App.jsx, fuera del Gate).
 // No es captación: es el manual al que se entra desde Ajustes → Guía de la app,
@@ -147,10 +148,10 @@ function TabHead({ eyebrow, title, intro, tone }) {
 }
 
 export default function Ayuda() {
-  const from = useLocation().state?.from
+  const from = useAppOrigin()
   useEffect(() => {
     document.title = 'Lee Tu Biblia — Guía completa de la app'
-    window.scrollTo(0, 0)
+    scrollTopOnEnter()
   }, [])
 
   return (

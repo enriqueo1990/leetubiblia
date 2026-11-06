@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import Root from './Root.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
@@ -21,7 +21,7 @@ isStoreApp()
 // PreferencesProvider va por fuera de Auth: aplica tema/acento al instante y
 // también sin sesión (onboarding). La sincronización con profiles ocurre dentro
 // vía ProfilePrefSync (necesita ambos contextos).
-ReactDOM.createRoot(document.getElementById('root')).render(
+const app = (
   <React.StrictMode>
     <BrowserRouter>
       <ErrorBoundary>
@@ -33,6 +33,21 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </BrowserRouter>
   </React.StrictMode>
 )
+
+// Las landings públicas (/info, /lideres, /ayuda, /privacidad) se emiten con su
+// HTML ya dentro de #root (data-prerendered, ver vite.config.js): React lo
+// hidrata en lugar de reemplazarlo, así no hay parpadeo. El resto de rutas —y
+// cualquier carga que llegue con el #root vacío, p. ej. el index.html de respaldo
+// del service worker— monta de cero, con el splash.
+const container = document.getElementById('root')
+if (container.hasAttribute('data-prerendered')) {
+  // scrollTopOnEnter (landingHydration.js) consume esta marca: en la carga en frío
+  // no se fuerza el scroll arriba.
+  window.__ltbHydrating = true
+  hydrateRoot(container, app)
+} else {
+  createRoot(container).render(app)
+}
 window.__ltbReactMounted = true
 
 // React montó: liberamos el flag del watchdog de arranque (ver index.html) para

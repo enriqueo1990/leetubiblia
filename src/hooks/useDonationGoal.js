@@ -23,6 +23,13 @@ function visible(goal) {
   return goal && goal.active && goal.raised < goal.target ? goal : null
 }
 
+// Para quien necesita la meta una sola vez y sin hook (la hoja de donación de las
+// landings, que se carga bajo demanda): la meta visible o null. Nunca rechaza.
+export function fetchVisibleDonationGoal() {
+  if (isStoreApp()) return Promise.resolve(null)
+  return load().then(visible)
+}
+
 // Para que /admin refleje al instante lo que el dueño acaba de guardar.
 export function setCachedDonationGoal(goal) {
   cached = goal
