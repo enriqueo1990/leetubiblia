@@ -1,5 +1,5 @@
 // Genera public/og-grupos.png: la imagen Open Graph propia de /grupos-de-discipulado.
-// Misma familia visual que og-info.mjs (papel, marca del libro en sepia, misma
+// Misma familia visual que og-info.mjs (papel, marca del libro en Cielo, misma
 // sans, un solo acento, marca de agua sangrando) pero le habla al LÍDER de grupo
 // de discipulado — no "célula". La marca de agua es el ícono de personas/grupo
 // (no el libro) para diferenciar de un vistazo este OG del general.
@@ -10,10 +10,12 @@ import { fileURLToPath } from 'node:url'
 
 const W = 1200,
   H = 630
-const paper = '#F8F7F4' // --bg-app (claro)
-const ink = '#1C1C1E' // --text-primary
-const soft = '#56565C' // --text-soft
-const accent = '#A88B6A' // --accent-light (sepia)
+const paper = '#FAF8F4' // --bg-app (claro, Cielo)
+const ink = '#1F1B16' // --text-primary
+const soft = '#5C564D' // --text-soft
+const accent = '#436A8F' // --accent-ink de Cielo (texto de acento)
+const tile = '#2B6CB0' // --accent-action de Cielo (cuadrado de la marca, como favicon.svg)
+const deco = '#5B9FDF' // --accent de Cielo (trazo decorativo, opacidad baja)
 
 const font = `-apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif`
 
@@ -41,14 +43,14 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" 
 
   <!-- Marca de agua de personas/grupo, sangrando por la derecha, apenas perceptible -->
   <g transform="translate(795,250)">
-    <g fill="none" stroke="${accent}" stroke-opacity="0.09" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" transform="scale(7)">
+    <g fill="none" stroke="${deco}" stroke-opacity="0.09" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" transform="scale(7)">
       ${people}
     </g>
   </g>
 
   <!-- Lockup de marca, arriba a la izquierda -->
   <g transform="translate(80,74)">
-    <rect x="0" y="0" width="60" height="60" rx="15" fill="${accent}"/>
+    <rect x="0" y="0" width="60" height="60" rx="15" fill="${tile}"/>
     ${book(6, 6, 48)}
     <text x="78" y="40" font-family="${font}" font-size="27" font-weight="700" letter-spacing="-0.5" fill="${ink}">Lee Tu Biblia</text>
   </g>
