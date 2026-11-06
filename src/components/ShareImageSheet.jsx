@@ -228,7 +228,7 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
                   type="button"
                   onClick={() => setVariant(s.id)}
                   aria-pressed={active}
-                  className="flex items-center justify-center gap-2 rounded-input border py-2.5 text-[14px] font-medium text-ink transition-colors"
+                  className="flex min-h-11 items-center justify-center gap-2 rounded-input border py-2.5 text-[14px] font-medium text-ink transition-colors"
                   style={{
                     borderColor: active ? 'var(--accent)' : 'var(--hairline)',
                     backgroundColor: active ? 'var(--accent-tint)' : 'transparent',
@@ -236,7 +236,7 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
                 >
                   <span
                     aria-hidden="true"
-                    className="h-4 w-4 rounded-full border-2"
+                    className="h-4 w-4 rounded-sm border-2"
                     style={{ backgroundColor: s.swatch, borderColor: s.ring }}
                   />
                   {s.label}
