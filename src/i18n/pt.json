@@ -393,6 +393,7 @@
   "hoy.dayN": "Dia {day}",
   "hoy.dayOnN": "Dia {day} · o Dia {done} já foi lido",
   "hoy.unmark": "Desmarcar este dia",
+  "hoy.unmarkConfirm": "Desmarcar",
   "hoy.unmarkTitle": "Desmarcar este dia?",
   "hoy.unmarkMessage": "Sua leitura volta a ficar pendente. Sua nota, se você escreveu, fica guardada.",
   "hoy.unmarked": "Pronto: o Dia {day} voltou a ficar pendente.",

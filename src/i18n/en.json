@@ -393,6 +393,7 @@
   "hoy.dayN": "Day {day}",
   "hoy.dayOnN": "Day {day} · Day {done} is done",
   "hoy.unmark": "Unmark this day",
+  "hoy.unmarkConfirm": "Unmark",
   "hoy.unmarkTitle": "Unmark this day?",
   "hoy.unmarkMessage": "Your reading goes back to pending. Your note, if you wrote one, is kept.",
   "hoy.unmarked": "Done — Day {day} is pending again.",

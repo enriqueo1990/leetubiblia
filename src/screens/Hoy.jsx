@@ -1129,7 +1129,7 @@ export default function Hoy() {
         <ConfirmDialog
           title={t('hoy.unmarkTitle')}
           message={t('hoy.unmarkMessage')}
-          confirmLabel={t('hoy.unmark')}
+          confirmLabel={t('hoy.unmarkConfirm')}
           onConfirm={() => {
             setConfirmUnmark(false)
             setJustMarked(false)
