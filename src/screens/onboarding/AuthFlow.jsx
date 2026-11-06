@@ -202,15 +202,18 @@ export default function AuthFlow() {
             className="btn btn-primary"
             onClick={() => {
               // Invitación: derecho al registro (el plan se resuelve con el grupo).
+              // La ruta y la etiqueta salen del código en la URL, no de la vista
+              // previa: esa llega después (o falla) y el botón no puede cambiar
+              // de destino bajo el dedo.
               // Sin invitación: primero explorar los planes, la cuenta después.
               // En iPhone, antes que nada, instalar: la app de inicio no comparte
               // sesión con el navegador y la cuenta se crearía dos veces. (No con
               // invitación: instalar desde /join podría perder el código.)
-              if (invite) goToForm('signup', 'welcome')
+              if (inviteCode) goToForm('signup', 'welcome')
               else setStep(isIOSBrowser() ? 'install' : 'explore')
             }}
           >
-            {invite ? t('onboarding.auth.inviteCta') : t('onboarding.auth.start')}
+            {inviteCode ? t('onboarding.auth.inviteCta') : t('onboarding.auth.start')}
           </button>
           <button
             type="button"
