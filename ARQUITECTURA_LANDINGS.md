@@ -115,6 +115,17 @@ real + borde/sombra, alto natural, sin bisel) con 3 capturas nuevas:
 `src/assets/mocks/{hoy-lectura,sala-grupo,oracion-lista}.png`, mismo pipeline
 (`scripts/capture-guia-lideres.mjs`, extendido). `PhoneFrame` fue eliminado.
 
+## Capturas → demos vivos (7ª pasada, 2027)
+
+Las capturas PNG (5ª y 6ª pasada) eran de la app vieja y de una cuenta real. Se
+reemplazaron por demos en HTML/CSS con datos de ejemplo rotulados
+(`src/screens/landingDemos.jsx` + `demoStyles.js`, el mismo teléfono que el
+`TodayDemo` de `/info`): Hoy con grupos, Hoy sin grupos, sala del grupo, pulso del
+líder, Orar ahora y la lista de Oración. Se borraron `src/assets/mocks`,
+`src/assets/guia-lideres` y `scripts/capture-guia-lideres.mjs`; `PhoneMock`,
+`GroupMock`, `PrayerMock` y `Shot` ya no existen. Las dos pasadas de arriba quedan
+como historia. Si la app cambia una de esas pantallas, se actualiza el demo.
+
 ## Pendiente opcional (no bloqueante)
 
 - OG dedicada para `/privacidad` (hoy hereda la genérica). `og-grupos.mjs` y
