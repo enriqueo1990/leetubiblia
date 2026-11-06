@@ -749,6 +749,8 @@
   "groupDetail.readingWithGroup": "You're reading it with the group",
   "groupDetail.joinPlan": "Read this plan with the group",
   "groupDetail.planFinished": "The group reached the end of this plan",
+  "groupDetail.pickNextPlan": "Pick the next plan",
+  "groupDetail.nextPlanSoon": "When the group picks another plan, it'll show up here.",
   "groupReading.samePlanNote": "This group is reading your same plan. Marking here also marks that day in your plan.",
   "groupDetail.adoptTitle": "Read {name} with the group?",
   "groupDetail.adoptMsgDay1": "It becomes your active plan starting from day 1, today. Your previous progress is saved separately.",

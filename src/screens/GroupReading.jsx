@@ -110,7 +110,10 @@ export default function GroupReading() {
       </Link>
 
       {data.finished ? (
-        <p className="mt-8 text-[15px] text-ink-soft">{t('groupDetail.planFinished')}</p>
+        <>
+          <p className="mt-8 text-[15px] text-ink-soft">{t('groupDetail.planFinished')}</p>
+          <p className="mt-1 text-[13px] leading-snug text-ink-soft">{t('groupDetail.nextPlanSoon')}</p>
+        </>
       ) : (
         // Los pasajes son la página, como en Hoy: cada referencia abre su capítulo.
         <div className="mt-9">

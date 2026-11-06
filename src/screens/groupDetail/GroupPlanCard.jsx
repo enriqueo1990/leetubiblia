@@ -44,7 +44,7 @@ export default function GroupPlanCard({
       <SectionLabel
         className="mt-7 mb-0"
         action={
-          isOwner && planInfo ? (
+          isOwner && planInfo && !groupPlanFinished ? (
             <button
               type="button"
               onClick={onChangePlan}
@@ -101,6 +101,15 @@ export default function GroupPlanCard({
               </button>
             </>
           ) : null}
+          {/* Terminado: el paso siguiente es elegir otro plan (líder) o esperar (miembro). */}
+          {groupPlanFinished &&
+            (isOwner ? (
+              <button type="button" onClick={onOpenPicker} className="btn btn-secondary mt-3">
+                {t('groupDetail.pickNextPlan')}
+              </button>
+            ) : (
+              <p className="mt-3 text-[13px] leading-snug text-ink-soft">{t('groupDetail.nextPlanSoon')}</p>
+            ))}
           {adoptError && <InlineError message={t('groupDetail.adoptError')} className="mt-2" />}
           {followError && <InlineError message={t('groupDetail.followError')} className="mt-2" />}
         </div>
