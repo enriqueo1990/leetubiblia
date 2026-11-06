@@ -582,6 +582,9 @@
   "prayerDetail.testimonyPrompt.later": "Ahora no",
   "prayerDetail.updatePlaceholder": "¿Cómo sigue este pedido? Contale al grupo…",
   "prayerDetail.updatePlaceholderPrivate": "¿Cómo sigue este pedido? Queda solo para vos…",
+  "prayerDetail.testimonyHeading": "Testimonio",
+  "prayerDetail.testimonySharedWith": "Lo ve {group}",
+  "prayerDetail.testimonyPrivate": "Solo lo ves vos",
   "prayerDetail.deleteUpdateTitle": "¿Eliminar esta actualización?",
 
   "common.optional": "opcional",

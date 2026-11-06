@@ -223,6 +223,22 @@ export default function PrayerDetail() {
         )}
       </article>
 
+      {data.testimony && (isAuthor || data.testimony_shared) && (
+        <section className="card mt-4 px-5 py-5" aria-labelledby="testimony-title">
+          <h2 id="testimony-title" className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+            {t('prayerDetail.testimonyHeading')}
+          </h2>
+          <p className="mt-2.5 whitespace-pre-line text-[16px] leading-[1.6] text-ink">{data.testimony}</p>
+          {isAuthor && (
+            <p className="mt-3 text-[13px] text-ink-soft">
+              {data.testimony_shared
+                ? t('prayerDetail.testimonySharedWith', { group: data.group?.name ?? t('common.grupo') })
+                : t('prayerDetail.testimonyPrivate')}
+            </p>
+          )}
+        </section>
+      )}
+
       {/* Interacción del pedido: quién ora + gesto de oración. Un pedido privado no
           la tiene: nadie más lo ve. */}
       {data.visibility !== 'private' && (
@@ -292,6 +308,7 @@ export default function PrayerDetail() {
         data.status === 'answered' &&
         data.visibility === 'shared' &&
         !data.testimony_shared &&
+        !data.testimony &&
         !testimonyPromptDismissed && (
           <section className="card mt-7 p-4" aria-labelledby="testimony-prompt-title">
             <div className="flex items-start gap-3">

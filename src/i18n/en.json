@@ -582,6 +582,9 @@
   "prayerDetail.testimonyPrompt.later": "Not now",
   "prayerDetail.updatePlaceholder": "How is this request going? Tell the group…",
   "prayerDetail.updatePlaceholderPrivate": "How is this request going? It stays just for you…",
+  "prayerDetail.testimonyHeading": "Testimony",
+  "prayerDetail.testimonySharedWith": "{group} can see it",
+  "prayerDetail.testimonyPrivate": "Only you can see it",
   "prayerDetail.deleteUpdateTitle": "Delete this update?",
 
   "common.optional": "optional",
