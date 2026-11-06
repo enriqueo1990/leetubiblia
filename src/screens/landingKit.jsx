@@ -353,22 +353,19 @@ export function LandingHeader({ current }) {
   )
 }
 
-// "Apoyar el proyecto" del footer: discreto, al pie, para quien llega hasta el
-// final (a menudo un líder mirando la app para su grupo). Abre la misma hoja de
-// donación que la app, con la meta de las tiendas si está vigente. No aparece
-// dentro de una app de tienda (ver isStoreApp).
-// "Apoyar el proyecto" del footer: discreto, al pie, para quien llega hasta el
-// final (a menudo un líder mirando la app para su grupo). Abre la misma hoja de
-// donación que la app, con la meta de las tiendas si está vigente. No aparece
-// dentro de una app de tienda (ver isStoreApp).
-function FooterDonate() {
+// «Apoyar el proyecto»: discreto, para quien llega hasta el final (a menudo un líder
+// mirando la app para su grupo). Abre la misma hoja de donación que la app, con la
+// meta de las tiendas si está vigente. No aparece dentro de una app de tienda (ver
+// isStoreApp). Va en el pie de todas las páginas y en el bloque «Quién hace Lee Tu
+// Biblia» de /info; `className` viste el botón donde no es el del pie.
+export function DonateLink({ className }) {
   const storeApp = useClientSide(isStoreApp)
   const [open, setOpen] = useState(false)
   const buttonRef = useRef(null)
 
-  // Al acercarse el pie a la pantalla se adelanta la descarga de la hoja (y de la
-  // meta): para cuando alguien toca el botón, ya está lista. Quien no llega al
-  // final de la página no gasta esos datos.
+  // Al acercarse el botón a la pantalla se adelanta la descarga de la hoja (y de la
+  // meta): para cuando alguien lo toca, ya está lista. Quien no llega hasta ahí no
+  // gasta esos datos.
   useEffect(() => {
     const el = buttonRef.current
     if (!el || typeof IntersectionObserver === 'undefined') return undefined
@@ -386,8 +383,8 @@ function FooterDonate() {
 
   if (storeApp) return null
   return (
-    <li>
-      <button ref={buttonRef} type="button" onClick={() => setOpen(true)}>
+    <>
+      <button ref={buttonRef} type="button" className={className} onClick={() => setOpen(true)}>
         <HeartIcon size={16} />
         Apoyar el proyecto
       </button>
@@ -396,6 +393,16 @@ function FooterDonate() {
           <DonateFlow onClose={() => setOpen(false)} />
         </Suspense>
       )}
+    </>
+  )
+}
+
+function FooterDonate() {
+  const storeApp = useClientSide(isStoreApp)
+  if (storeApp) return null
+  return (
+    <li>
+      <DonateLink />
     </li>
   )
 }

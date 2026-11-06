@@ -24,6 +24,20 @@ export function isStandalone() {
   }
 }
 
+export function isAndroid() {
+  if (typeof navigator === 'undefined') return false
+  return /android/i.test(navigator.userAgent)
+}
+
+// ¿Desde qué aparato se está mirando una página pública? Para marcar el paso a
+// paso de instalación que le toca ('installed' = ya corre como app instalada).
+export function getInstallPlatform() {
+  if (isStandalone()) return 'installed'
+  if (isIOS()) return 'ios'
+  if (isAndroid()) return 'android'
+  return 'desktop'
+}
+
 // iPhone en el navegador (Safari u otro), todavía sin instalar.
 export function isIOSBrowser() {
   return isIOS() && !isStandalone()

@@ -1,327 +1,478 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  BookIcon,
-  HeartIcon,
-  PeopleIcon,
-  ChartIcon,
-  PencilIcon,
-  LockIcon,
-  CheckIcon,
-  BellIcon,
-} from '../components/icons.jsx'
-import {
   LandingStyle,
   LandingGlow,
   LandingHeader,
   LandingFooter,
-  IconBadge,
   Eyebrow,
   SectionTitle,
-  PhoneMock,
-  GroupMock,
-  PaletteIcon,
-  WifiOffIcon,
-  AwardIcon,
+  DonateLink,
 } from './landingKit.jsx'
 import { scrollTopOnEnter } from './landingHydration.js'
+import { CONTACT_EMAIL, MISSION_URL } from '../lib/developer.js'
+import { INFO_CSS } from './infoStyles.js'
+import { INFO_META, INFO_URL } from './infoCopy.js'
+import TodayDemo from './TodayDemo.jsx'
+import { InfoSprite, Ico, PaperBible, InstallGuide, InstallArt, FaqList } from './infoParts.jsx'
 
 // Landing pública /info — página fuera del Gate (ver App.jsx). Le habla a quien
 // llega en frío (redes, un pastor pasando el link) antes de decidir crear cuenta.
 // Concepto: la app acompaña la Biblia FÍSICA, no la reemplaza
-// (product-principle-physical-bible). Los primitivos de marca y los mocks viven
-// en landingKit.jsx, compartidos con /lideres. Un solo acento (Cielo), la
-// MISMA sans del sistema, ancho de lectura acotado, aire en vez de tarjetas.
+// (product-principle-physical-bible): NUNCA texto bíblico, solo referencias.
+// Dirección «Marcapáginas · Luz de mañana» (landings-2027/E-direccion-creativa.md).
+//
+// Prerender: esto se renderiza en Node (react-dom/server), así que nada de
+// window/localStorage al renderizar; lo que depende del aparato va tras hidratar
+// (landingHydration.js). Título y descripción salen de infoCopy.js, la misma fuente
+// que usa el build para las meta tags.
 
-// Funcionalidades agrupadas: tres clusters con jerarquía en vez de una grilla
-// plana de nueve ítems idénticos (chunking ≤4 por grupo).
-// El matiz de cada ítem es SEMÁNTICO (ver paleta en landingKit): lectura = el acento (Cielo),
-// oración = coral, grupos = menta, ajustes/extras = neutro. Nada alterna porque sí.
-const CLUSTERS = [
-  {
-    label: 'Tu lectura',
-    items: [
-      { icon: <BookIcon size={22} />, name: '13 planes de lectura', desc: 'M’Cheyne, Cronológico, Marcos, Adviento y más. Uno a la vez, a tu ritmo.' },
-      { icon: <ChartIcon size={22} />, name: 'Racha sin culpa', desc: 'Progreso visual y mapa de tus semanas. Sin presión si te atrasás.' },
-      { icon: <PencilIcon size={22} />, name: 'Diario “Mi camino”', desc: 'Una línea de reflexión por día. Privado, solo tuyo.' },
-      { icon: <BellIcon size={22} />, name: 'Recordatorio diario', desc: 'Una notificación a tu hora, para no perder el ritmo.' },
-    ],
-  },
-  {
-    label: 'Oración y grupo',
-    items: [
-      { icon: <HeartIcon size={22} />, name: 'Oración', desc: 'Pedidos propios o compartidos, con testimonios cuando Dios responde.', tone: 'oracion' },
-      { icon: <PeopleIcon size={22} />, name: 'Grupos', desc: 'Vean quién leyó hoy, oren juntos y celebren lo que Dios hace.', tone: 'grupos' },
-    ],
-  },
-  {
-    label: 'Además',
-    items: [
-      { icon: <AwardIcon size={22} />, name: 'Tu recorrido', desc: 'Tus días, planes terminados y una imagen sencilla para compartir al cerrar un plan.', tone: 'ajustes' },
-      { icon: <PaletteIcon size={22} />, name: 'A tu gusto', desc: '8 colores de acento y modo claro u oscuro automático.', tone: 'ajustes' },
-      { icon: <WifiOffIcon size={22} />, name: 'Funciona sin conexión', desc: 'Se instala como app y muestra tu lectura de hoy aún sin internet.', tone: 'ajustes' },
-    ],
-  },
+// Mensaje para pasarle la página a un pastor por WhatsApp (enlace normal, sin JS).
+const SHARE_HREF = `https://wa.me/?text=${encodeURIComponent(
+  `Mirá esta app gratis para leer la Biblia cada día y acompañar a un grupo: ${INFO_URL}`
+)}`
+
+const PLANS = [
+  'Marcos en 16 días',
+  'Primeros pasos con Jesús',
+  'M’Cheyne',
+  'Cronológico',
+  'Proverbios en 31 días',
+  'Semana Santa',
+  'Adviento',
 ]
 
-const DISCIPULADO = [
-  {
-    icon: <LockIcon size={22} />,
-    title: 'Grupos cerrados por código',
-    desc: 'Creás un grupo privado y compartís un código corto. Nadie entra sin él.',
-    tone: 'grupos',
-  },
-  {
-    icon: <BookIcon size={22} />,
-    title: 'El pulso del grupo',
-    desc: 'Quién marcó su lectura hoy y, solo para el líder, la semana de cada uno —con respeto por quien prefiere no compartir.',
-    tone: 'grupos',
-  },
-  {
-    icon: <HeartIcon size={22} />,
-    title: 'Oración que se acompaña',
-    desc: 'Pedidos compartidos, gente orando por cada uno, y testimonios cuando llega la respuesta.',
-    tone: 'oracion',
-  },
-  {
-    icon: <CheckIcon size={22} strokeWidth={2} />,
-    title: 'Resumen para el líder',
-    desc: 'Un panorama del grupo para saber por quién preguntar y a quién animar esta semana.',
-    tone: 'grupos',
-  },
+const GESTOS = [
+  ['Te dice qué toca', 'Abrís la app y ves la lectura de hoy: solo referencias, nada más.'],
+  ['Abrís tu Biblia', 'La de papel, con su cinta. Ahí está el texto.'],
+  ['Leés', 'Sin pantalla de por medio. Cuando termines, volvés.'],
+  ['Marcás y seguís', 'Un toque en «Marcar como leído». Si hoy no pudiste, mañana seguimos.'],
 ]
 
-function Steps({ title, steps }) {
-  return (
-    <div className="flex-1">
-      <h3 className="mb-5 text-[0.9375rem] font-bold uppercase tracking-[0.08em] text-ink">
-        {title}
-      </h3>
-      <ol className="flex flex-col gap-3">
-        {steps.map((s, i) => (
-          <li key={i} className="flex items-start gap-4">
-            <span className="mt-[1px] inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-action text-[0.9375rem] font-bold text-on-accent">
-              {i + 1}
-            </span>
-            <span
-              className="pt-1 text-[1rem] leading-snug text-ink [&_b]:font-semibold [&_b]:text-ink"
-              dangerouslySetInnerHTML={{ __html: s }}
-            />
-          </li>
-        ))}
-      </ol>
-    </div>
-  )
-}
+// Las promesas se pueden comprobar en la app y en /privacidad.
+const NOS = [
+  ['No te mostramos la Biblia.', 'No hay texto bíblico en la app. La Biblia es la tuya, la de papel; la app solo es el marcapáginas.'],
+  ['No hay anuncios.', 'Nadie paga por mirarte: la app no vive de tu atención.'],
+  ['No te cobramos.', 'Es gratis: sin pruebas, sin suscripción, sin letra chica.'],
+  ['No castigamos.', 'Si un día no leés, no se enciende nada rojo. Mañana seguimos.'],
+  ['No te comparamos.', 'Sin rankings. Entre miembros de un grupo nadie ve quién no leyó, y cada uno decide qué comparte.'],
+  ['No vendemos lo tuyo.', 'Tu diario es solo tuyo, tus oraciones son privadas hasta que las compartís, y podés borrar todo desde la app.'],
+]
+
+const LEADER_STEPS = [
+  ['Creá el grupo', 'Le ponés un nombre y listo.'],
+  ['Elegí el plan', 'Uno de los 13, el mismo para todos.'],
+  ['Mandá el link', 'Cada quien se suma desde el link o con el código.'],
+]
 
 export default function Info() {
   useEffect(() => {
-    document.title = 'Lee Tu Biblia — el hábito de abrir tu Biblia, sostenido'
+    document.title = INFO_META.title
     scrollTopOnEnter()
   }, [])
 
   return (
-    <div className="relative isolate min-h-[100dvh] bg-app text-ink">
+    <div className="in-page relative isolate min-h-[100dvh] bg-app text-ink">
       <LandingStyle />
-      {/* Lámina cálida de página: nace en el borde superior, detrás del header,
-          y baña también el hero — header y hero son UNA pieza. */}
+      <style dangerouslySetInnerHTML={{ __html: INFO_CSS }} />
+      <InfoSprite />
+      {/* Resplandor «luz de mañana»: nace detrás del header y baña también el hero. */}
       <LandingGlow />
 
       <LandingHeader current="/info" />
 
-      <main id="contenido" tabIndex={-1} className="outline-none">
+      <main id="contenido" tabIndex={-1} className="in-main outline-none">
+        {/* ── HERO + DEMO VIVO ──────────────────────────────────── */}
+        <section className="in-hero" id="inicio">
+          <div className="lk-wrap in-hero-grid">
+            <div>
+              <Eyebrow>Compañero de lectura</Eyebrow>
+              <h1 className="lk-display in-hero-h1 in-enter">
+                Tu Biblia de papel, <em>cada mañana</em>.
+              </h1>
+              <p className="lk-lede in-hero-lede in-enter in-enter-2">
+                Lee Tu Biblia te dice qué toca leer hoy, cuida tu hábito sin culpa y se hace a un lado: el texto lo leés
+                vos, en tu Biblia.
+              </p>
+              <div className="in-hero-cta in-enter in-enter-3">
+                <Link to="/?from=info" className="lk-btn lk-btn-primary">
+                  Empezar gratis
+                </Link>
+                <a href="#app" className="lk-textlink inline-flex min-h-11 items-center gap-1">
+                  Cómo funciona <Ico name="down" />
+                </a>
+              </div>
+              <p className="in-micro in-enter in-enter-4">
+                <b>Gratis</b> · entrás con tu correo, sin contraseña · sin publicidad
+              </p>
+              <p className="in-trust in-enter in-enter-5">
+                <span>Hecha por un pastor misionero</span>
+                <span>En español, inglés y portugués</span>
+                <span>Se instala sin tiendas</span>
+              </p>
+            </div>
 
-      {/* ── HERO ─────────────────────────────────────────────── */}
-      <section>
-        <div className="screen-enter relative mx-auto w-full max-w-[880px] px-6 pb-16 pt-10 text-center sm:pt-14">
-          <Eyebrow>Compañero de lectura bíblica</Eyebrow>
-          <h1 className="lk-display mx-auto mt-5 max-w-[15em]">
-            El hábito de abrir <em className="whitespace-nowrap">tu Biblia</em>, sostenido día a día.
-          </h1>
-          <p className="mx-auto mt-6 max-w-[480px] text-[1.125rem] leading-relaxed text-ink-soft">
-            Tu plan, tu racha, tu diario y tus oraciones —solo o con tu grupo—
-            para sostener la lectura en tu Biblia de papel. No es otro lector
-            para la pantalla.
-          </p>
-          <div className="mx-auto mt-9 max-w-[300px]">
-            <Link to="/?from=info" className="lk-btn lk-btn-primary w-full">
-              Empezar gratis
-            </Link>
+            <TodayDemo />
           </div>
-          <p className="mt-5 text-[0.9375rem] font-medium text-ink-soft">
-            Más de 100 lectores ya sostienen su hábito acá.
-          </p>
-          <p className="mt-1.5 text-[0.8125rem] text-ink-soft">
-            Gratis · solo tu correo, sin contraseña · sin publicidad
-          </p>
-        </div>
-      </section>
+        </section>
 
-      {/* ── LA IDEA + PRODUCTO ───────────────────────────────── */}
-      {/* El manifiesto al lado de la pantalla que lo demuestra: referencias sí,
-          texto bíblico no. Único momento asimétrico de la página, a propósito. */}
-      <section className="mx-auto w-full max-w-[880px] px-6 py-16">
-        <div className="border-t border-hairline pt-12 lg:flex lg:items-center lg:gap-16">
-          <div className="lg:flex-1">
-            <Eyebrow>La idea</Eyebrow>
-            <p className="mt-5 max-w-[560px] text-[1.375rem] font-medium leading-[1.5] tracking-[-0.02em] text-ink sm:text-[1.5625rem]">
-              «Lee Tu Biblia» significa leé <span className="text-accent-ink">tu</span>{' '}
-              Biblia: la de papel, la que subrayás. La app no compite con ese
-              momento —lo cuida. El texto vive en tus páginas; acá vive el hábito.
-            </p>
-            <p className="mt-6 max-w-[520px] text-[1rem] leading-relaxed text-ink-soft">
-              ¿Preferís leer en el teléfono? También. Con un toque te abrimos el
-              pasaje del día en tu app de Biblia —la app no reemplaza ese momento,
-              te acompaña hasta él.
-            </p>
-          </div>
-          <div className="mt-12 shrink-0 lg:mt-0">
-            <PhoneMock />
-          </div>
-        </div>
-      </section>
-
-      {/* ── FUNCIONALIDADES ──────────────────────────────────── */}
-      <section className="mx-auto w-full max-w-[880px] px-6 py-8">
-        <Eyebrow>Qué incluye</Eyebrow>
-        <SectionTitle className="mt-4">Todo lo que sostiene el hábito</SectionTitle>
-        <div className="mt-10 flex flex-col gap-12">
-          {CLUSTERS.map((c) => (
-            <div key={c.label}>
-              <h3 className="mb-6 border-b border-hairline pb-3 text-[0.8125rem] font-semibold uppercase tracking-[0.12em] text-ink-soft">
-                {c.label}
-              </h3>
-              <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
-                {c.items.map((f) => (
-                  <div key={f.name} className="flex items-start gap-4">
-                    <IconBadge tone={f.tone}>{f.icon}</IconBadge>
-                    <div>
-                      <p className="text-[1.0625rem] font-semibold text-ink">{f.name}</p>
-                      <p className="mt-1 text-[0.9375rem] leading-snug text-ink-soft">{f.desc}</p>
-                    </div>
-                  </div>
-                ))}
+        {/* ── LA IDEA + CUATRO GESTOS ───────────────────────────── */}
+        <section className="in-sec" id="app">
+          <div className="lk-wrap">
+            <div className="in-idea">
+              <PaperBible />
+              <div className="in-rv in-rv-2">
+                <Eyebrow>La idea</Eyebrow>
+                <h2 className="lk-h2">
+                  El texto vive en tus páginas. <em>Acá vive el hábito.</em>
+                </h2>
+                <p className="in-lede">
+                  Lee Tu Biblia no es otro lector para la pantalla. Es el marcapáginas que te recuerda por dónde ibas,
+                  te dice qué toca hoy y te deja seguir con tu día.
+                </p>
+                <p className="in-lede">
+                  ¿Preferís leer en el teléfono? Con un toque abrís el pasaje en YouVersion o BibleGateway.
+                </p>
               </div>
             </div>
-          ))}
-        </div>
-      </section>
 
-      {/* ── DISCIPULADO (sección propia, destacada) ──────────── */}
-      <section className="band-grupos mt-16 py-20">
-        <div className="mx-auto w-full max-w-[880px] px-6">
-          <Eyebrow tone="grupos">Para líderes y pastores</Eyebrow>
-          <SectionTitle className="mt-4 max-w-[560px]">
-            Una herramienta para discipular, no solo una app personal
-          </SectionTitle>
-          <p className="mt-6 max-w-[560px] text-[1.125rem] leading-relaxed text-ink-soft">
-            Rinde de verdad en comunidad. Si guiás un grupo de discipulado o
-            una congregación, tenés lo necesario para caminar con
-            tu gente en la Palabra —sin grupos de chat desbordados—, con la
-            privacidad de cada uno como punto de partida.
-          </p>
-
-          {/* Espejo de "La idea": acá el teléfono va a la IZQUIERDA (desktop).
-              En mobile el DOM manda: primero los puntos, después la pantalla. */}
-          <div className="mt-12 lg:flex lg:items-center lg:gap-16">
-            <div className="lg:order-2 lg:flex-1">
-              <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-1">
-                {DISCIPULADO.map((d) => (
-                  <div key={d.title} className="flex items-start gap-4">
-                    <IconBadge tone={d.tone}>{d.icon}</IconBadge>
-                    <div>
-                      <h3 className="text-[1.0625rem] font-semibold text-ink">{d.title}</h3>
-                      <p className="mt-1 text-[0.9375rem] leading-snug text-ink-soft">{d.desc}</p>
-                    </div>
-                  </div>
+            <div className="in-gestos">
+              <h3 className="lk-h3 in-rv">Tu mañana, en cuatro gestos.</h3>
+              <ol className="in-steps">
+                {GESTOS.map(([title, desc], i) => (
+                  <li key={title} className={`in-rv ${i > 0 ? `in-rv-${Math.min(i + 1, 3)}` : ''}`}>
+                    <b>{title}</b>
+                    <span>{desc}</span>
+                  </li>
                 ))}
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        {/* ── QUÉ INCLUYE (bento) ───────────────────────────────── */}
+        <section className="in-sec in-bento-sec" id="incluye">
+          <div className="lk-wrap">
+            <div className="in-sec-head">
+              <Eyebrow>Qué incluye</Eyebrow>
+              <SectionTitle>
+                Qué hace por vos, <em>cada día</em>.
+              </SectionTitle>
+              <p className="in-lede">Todo en la misma app, y todo gratis.</p>
+            </div>
+
+            <div className="in-bento" role="region" aria-label="Lo que incluye Lee Tu Biblia" tabIndex={0}>
+              <article className="in-tile in-t-plan in-rv">
+                <span className="in-big" aria-hidden="true">
+                  13
+                </span>
+                <div>
+                  <div className="in-k">
+                    <Ico name="book" />
+                    Planes
+                  </div>
+                  <h3>13 planes, uno a la vez</h3>
+                  <p>
+                    Desde Marcos en 16 días hasta toda la Biblia en un año. Elegís uno y lo leés a tu ritmo, en tu
+                    Biblia.
+                  </p>
+                </div>
+                <ul className="in-chips in-viz" aria-label="Algunos planes">
+                  {PLANS.map((p) => (
+                    <li key={p} className="in-chip">
+                      {p}
+                    </li>
+                  ))}
+                  <li className="in-chip in-n">+6 más</li>
+                </ul>
+              </article>
+
+              <article className="in-tile in-t-racha in-rv in-rv-2">
+                <div>
+                  <div className="in-k">
+                    <Ico name="chart" />
+                    Racha
+                  </div>
+                  <h3>Un día en blanco no es una derrota</h3>
+                  <p>Si te atrasás, te ofrece seguir desde donde quedaste. Sin avisos rojos.</p>
+                </div>
+                <div className="in-week in-viz" role="img" aria-label="Una semana de ejemplo: un solo día en blanco entre los leídos">
+                  <span><i />L</span>
+                  <span><i />M</span>
+                  <span><i />M</span>
+                  <span><i className="in-gap" />J</span>
+                  <span><i />V</span>
+                  <span><i />S</span>
+                  <span><i className="in-today" />D</span>
+                </div>
+              </article>
+
+              <article className="in-tile in-t-camino in-rv">
+                <div>
+                  <div className="in-k">
+                    <Ico name="pencil" />
+                    Mi camino
+                  </div>
+                  <h3>Una línea por día</h3>
+                  <p>Anotá lo que te habló. Es privado: solo tuyo.</p>
+                </div>
+                <div className="in-note in-viz">
+                  <small>Día 14 · tu nota</small>
+                  <q>Me quedé pensando en esperar sin apurarme.</q>
+                </div>
+              </article>
+
+              <article className="in-tile in-t-oracion in-rv in-rv-2">
+                <div>
+                  <div className="in-k in-oracion">
+                    <Ico name="heart" />
+                    Oración
+                  </div>
+                  <h3>Orar, acompañado</h3>
+                  <p>Pedidos propios o compartidos, y testimonios cuando Dios responde.</p>
+                </div>
+                <div className="in-req in-viz">
+                  <b>Por la operación de mi tío Raúl</b>
+                  <div className="in-row">
+                    <span className="in-pill hs-oracion">Estoy orando</span>
+                    <span className="in-hands">
+                      <i aria-hidden="true" style={{ background: '#57B795' }}>A</i>
+                      <i aria-hidden="true" style={{ background: '#5B9FDF' }}>M</i>
+                      <i aria-hidden="true" style={{ background: '#E2906C' }}>L</i>
+                      <span>3 oran con vos</span>
+                    </span>
+                  </div>
+                </div>
+              </article>
+
+              <article className="in-tile in-t-mat in-rv in-rv-3">
+                <div>
+                  <div className="in-k">
+                    <Ico name="book" />
+                    Materiales
+                  </div>
+                  <h3>Para leer despacio</h3>
+                  <p>Catecismos, confesiones y las lecturas matutinas de Spurgeon.</p>
+                </div>
+                <div className="in-covers in-viz" aria-hidden="true">
+                  <div className="in-cover in-a"><small>Catecismo</small>Heidelberg</div>
+                  <div className="in-cover in-b"><small>Catecismo</small>Westminster</div>
+                  <div className="in-cover in-c"><small>Devocional</small>Spurgeon</div>
+                </div>
+              </article>
+
+              <article className="in-tile in-t-medida in-rv">
+                <div>
+                  <div className="in-k">
+                    <Ico name="text" />
+                    A tu medida
+                  </div>
+                  <h3>Letra grande, si la necesitás</h3>
+                  <p>Probalo: el tamaño llega hasta el 125 %.</p>
+                </div>
+                <div className="in-size in-viz">
+                  <div className="in-seg" role="radiogroup" aria-label="Tamaño de letra del ejemplo">
+                    <label><input type="radio" name="in-size" className="in-sz1" defaultChecked /><span>Normal</span></label>
+                    <label><input type="radio" name="in-size" className="in-sz2" /><span>Grande</span></label>
+                    <label><input type="radio" name="in-size" className="in-sz3" /><span>Más</span></label>
+                  </div>
+                  <p className="in-size-sample">
+                    Hoy: Génesis <b>8 · 9 · 10 · 11</b>
+                  </p>
+                  <ul>
+                    <li><Ico name="wifi" />La lectura de hoy se ve aun sin conexión</li>
+                    <li><Ico name="bell" />Recordatorio a tu hora</li>
+                  </ul>
+                </div>
+              </article>
+
+              <article className="in-tile in-t-grupo in-rv in-rv-2">
+                <div className="in-split">
+                  <div>
+                    <div className="in-k in-grupos">
+                      <Ico name="people" />
+                      Grupos
+                    </div>
+                    <h3>Un grupo, una misma lectura</h3>
+                    <p>
+                      Todos leen el mismo plan. Entre miembros solo se ve lo bueno: nunca dice quién no leyó. Cada uno
+                      decide qué comparte.
+                    </p>
+                  </div>
+                  <div className="in-pulse">
+                    <div className="in-avatars" aria-hidden="true">
+                      <i style={{ background: '#57B795' }}>A</i>
+                      <i style={{ background: '#5B9FDF' }}>M</i>
+                      <i style={{ background: '#E2906C' }}>L</i>
+                      <i style={{ background: '#9F8BD4' }}>S</i>
+                      <i style={{ background: '#49B0B8' }}>J</i>
+                      <i className="in-more">+7</i>
+                    </div>
+                    <div className="in-head">
+                      <b>Jóvenes</b>
+                      <span>9 de 12 leyeron esta semana</span>
+                    </div>
+                    <div className="in-bar" role="img" aria-label="9 de 12, un 75 por ciento">
+                      <i />
+                    </div>
+                    <ul className="in-mini">
+                      <li>
+                        <Ico name="book" />
+                        <span>
+                          Lectura del grupo<small>Marcos 4</small>
+                        </span>
+                      </li>
+                      <li>
+                        <Ico name="heart" />
+                        <span>
+                          Pedidos compartidos<small>3 activos · 1 testimonio</small>
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <p className="in-micro" style={{ marginTop: 4 }}>
+              Los nombres y los datos de las tarjetas son de ejemplo.
+            </p>
+          </div>
+        </section>
+
+        {/* ── LO QUE NO HACEMOS + QUIÉN HACE LEE TU BIBLIA ──────── */}
+        <section className="in-sec in-nots" id="no-hacemos">
+          <div className="lk-wrap">
+            <div className="in-nots-grid">
+              <div className="in-nots-head in-rv">
+                <Eyebrow>Nuestras reglas</Eyebrow>
+                <SectionTitle>
+                  Lo que no hacemos, <em>a propósito</em>.
+                </SectionTitle>
+                <p className="in-lede in-sub">
+                  Una app para la mañana tiene que ser tranquila. Estas son las reglas que nos pusimos.
+                </p>
+              </div>
+              <ul className="in-nolist">
+                {NOS.map(([title, desc]) => (
+                  <li key={title} className="in-rv">
+                    <span className="in-no" aria-hidden="true">No</span>
+                    <div>
+                      <h3>{title}</h3>
+                      <p>{desc}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <aside className="in-who in-rv" aria-labelledby="quien">
+              <div className="in-face" aria-hidden="true">
+                <i>E</i>
+                <i>T</i>
+              </div>
+              <div>
+                <h3 id="quien">Quién hace Lee Tu Biblia</h3>
+                <p>
+                  <b>Somos Enrique y Tamara, misioneros.</b> Enrique, pastor, hizo esta app para que leer la Biblia cada
+                  día sea más fácil, y la seguimos mejorando con lo que nos escriben. Es gratis porque vivimos de los
+                  aportes de quienes sostienen nuestra misión; si querés dar una mano, hay una donación discreta, y si
+                  no, usala tranquilo. Lo que nos escribas, lo leemos nosotros.
+                </p>
+                <p className="in-sign">Enrique y Tamara</p>
+                <p className="in-links">
+                  <a className="lk-textlink" href={MISSION_URL} target="_blank" rel="noopener noreferrer">
+                    Conocé nuestra misión
+                  </a>
+                  <DonateLink className="in-linkbtn lk-textlink" />
+                  <a className="lk-textlink" href={`mailto:${CONTACT_EMAIL}`}>
+                    Escribinos
+                  </a>
+                </p>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        {/* ── PARA LÍDERES (resumen; el detalle vive en /lideres) ─ */}
+        <section className="in-sec in-leaders" id="lideres">
+          <div className="lk-wrap in-lead-grid">
+            <div className="in-rv">
+              <Eyebrow tone="grupos">Para líderes</Eyebrow>
+              <h2 className="lk-h2">
+                Si guiás un grupo, <em>no lo dejes solo entre reuniones</em>.
+              </h2>
+              <p className="in-lede">
+                Todos leen el mismo plan en su Biblia. Vos ves a quién animar esta semana y los pedidos de oración dejan
+                de perderse en el chat.
+              </p>
+              <div className="in-lead-cta">
+                <Link to="/lideres" className="lk-btn in-btn-grupos">
+                  Ver la guía para líderes
+                </Link>
+                <a className="lk-textlink in-textlink-grupos in-lead-link" href={SHARE_HREF} target="_blank" rel="noopener noreferrer">
+                  Mandale esta página a tu pastor
+                </a>
               </div>
             </div>
-            <div className="mt-12 shrink-0 lg:order-1 lg:mt-0">
-              <GroupMock />
+            <div className="in-lcard in-rv in-rv-2">
+              <p className="in-lcard-h">Se arma en tres pasos</p>
+              <ol className="in-lsteps">
+                {LEADER_STEPS.map(([title, desc]) => (
+                  <li key={title}>
+                    <b>{title}</b>
+                    <span>{desc}</span>
+                  </li>
+                ))}
+              </ol>
+              <p className="in-lcard-f">
+                <Ico name="lock" />
+                <span>Cada persona decide qué comparte con el grupo.</span>
+              </p>
             </div>
           </div>
+        </section>
 
-          {/* El camino del líder: empezar cuesta un minuto. */}
-          <div className="mt-12">
-            <p className="text-[0.875rem] font-medium text-ink-soft">
-              Empezar con tu grupo lleva un minuto:
-            </p>
-            <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[1.0625rem] font-semibold text-ink">
-              <span>Creá el grupo</span>
-              <span aria-hidden="true" className="text-accent-ink">→</span>
-              <span>Compartí el código</span>
-              <span aria-hidden="true" className="text-accent-ink">→</span>
-              <span>Caminen juntos</span>
-            </p>
+        {/* ── INSTALAR ──────────────────────────────────────────── */}
+        <section className="in-sec" id="instalar">
+          <div className="lk-wrap in-install-grid">
+            <div className="in-rv">
+              <Eyebrow>Sin tiendas</Eyebrow>
+              <SectionTitle>
+                Instalala <em>en tu teléfono</em>.
+              </SectionTitle>
+              <p className="in-lede">No pasa por ninguna tienda: se instala desde esta página, en 3 pasos.</p>
+              <InstallGuide />
+            </div>
+            <InstallArt />
           </div>
+        </section>
 
-          <p className="mt-9 text-[0.9375rem] italic leading-relaxed text-ink-soft">
-            Todo es opt-in: cada persona elige qué comparte con el grupo. Nadie
-            queda expuesto.
-          </p>
+        {/* ── PREGUNTAS ─────────────────────────────────────────── */}
+        <section className="in-sec" id="preguntas" style={{ paddingTop: 0 }}>
+          <div className="lk-wrap">
+            <div className="in-sec-head in-center in-rv">
+              <Eyebrow>Preguntas</Eyebrow>
+              <SectionTitle>Lo que más nos preguntan.</SectionTitle>
+            </div>
+            <FaqList />
+          </div>
+        </section>
 
-          <p className="mt-8 text-[1rem] text-ink-soft">
-            ¿Guiás un grupo?{' '}
-            <Link to="/lideres" className="font-semibold text-accent-ink hover:underline">
-              Mirá la guía para líderes, con capturas reales →
-            </Link>
-          </p>
-        </div>
-      </section>
-
-      {/* ── INSTALACIÓN ──────────────────────────────────────── */}
-      <section className="mx-auto w-full max-w-[880px] px-6 py-20">
-        <Eyebrow>En 2 minutos</Eyebrow>
-        <SectionTitle className="mt-4">Instalala como app</SectionTitle>
-        <p className="mt-4 max-w-[520px] text-[1rem] leading-relaxed text-ink-soft">
-          No hace falta ninguna tienda: ya estás en el lugar. En Android,
-          agregala a tu pantalla de inicio cuando quieras. En iPhone,
-          instalala primero y recién después creá tu cuenta: la app instalada
-          no comparte la sesión con Safari.
-        </p>
-        <div className="mt-11 flex flex-col gap-12 sm:flex-row sm:gap-14">
-          <Steps
-            title="Android"
-            steps={[
-              'En Chrome, tocá el menú <b>⋮</b> arriba a la derecha',
-              'Elegí <b>«Instalar app»</b>',
-              'Confirmá — listo',
-            ]}
-          />
-          <Steps
-            title="iPhone"
-            steps={[
-              'En Safari, tocá el ícono de <b>«Compartir»</b>',
-              'Elegí <b>«Agregar a pantalla de inicio»</b>',
-              'Tocá <b>«Agregar»</b> — listo',
-            ]}
-          />
-        </div>
-        <p className="mt-9 max-w-[560px] text-[0.875rem] leading-relaxed text-ink-soft">
-          ¿Llegaste desde Instagram o Facebook? Tocá el menú del navegador
-          interno y elegí «Abrir en Safari» (o Chrome) antes de instalar.
-        </p>
-      </section>
-
-      {/* ── CTA FINAL ────────────────────────────────────────── */}
-      <section className="lk-closing border-t border-hairline">
-        <div className="mx-auto w-full max-w-[680px] px-6 py-20 text-center">
-          <h2 className="lk-display mx-auto max-w-[14ch]">
-            Empezá hoy
-          </h2>
-          <p className="mx-auto mt-4 max-w-[380px] text-[1.125rem] leading-relaxed text-ink-soft">
-            Sumate gratis y sostené tu lectura, un día a la vez.
-          </p>
-          <div className="mx-auto mt-8 max-w-[300px]">
-            <Link to="/?from=info" className="lk-btn lk-btn-primary w-full">
+        {/* ── CIERRE ────────────────────────────────────────────── */}
+        <section className="lk-closing" aria-labelledby="cierre">
+          <div className="lk-wrap in-closing-in">
+            <h2 className="lk-display" id="cierre">
+              Esta mañana, <em>abrí tu Biblia</em>.
+            </h2>
+            <p className="in-lede">Nosotros te decimos por dónde seguir.</p>
+            <Link to="/?from=info" className="lk-btn lk-btn-primary lk-btn-lg">
               Empezar gratis
             </Link>
+            <p className="in-micro">
+              <b>Gratis</b> · entrás con tu correo, sin contraseña · sin publicidad
+            </p>
           </div>
-
-        </div>
-      </section>
-
+        </section>
       </main>
 
       {/* ── FOOTER GLOBAL ────────────────────────────────────── */}

@@ -40,7 +40,7 @@ Personas que quieren leer su Biblia con constancia, y líderes de grupos de disc
 
 ## Páginas
 
-- [Qué es la app](https://leetubiblia.com/info): la puerta principal —presentación corta, funcionalidades y sección de discipulado—.
+- [Qué es la app](https://leetubiblia.com/info): la puerta principal —qué es y cómo es un día con la app, qué incluye (planes, racha, diario, oración, materiales, grupos), lo que la app no hace, cómo instalarla y preguntas frecuentes—.
 - [Para líderes de grupos de discipulado](https://leetubiblia.com/lideres): por qué y para qué usar la app con un grupo, con capturas reales —paso a paso: un plan común (como plan principal o lectura adicional), la lectura en el Hoy de cada uno, el pulso del grupo, la oración compartida y las vistas del líder—.
 - [Guía completa](https://leetubiblia.com/ayuda): manual/referencia detallado, función por función, con los trece planes y los materiales.
 - [Privacidad](https://leetubiblia.com/privacidad): qué datos se guardan y para qué, privado por defecto, opt-in en grupos, sin publicidad ni venta de datos, y borrado total de la cuenta desde la app.
