@@ -2,7 +2,10 @@
 // "Quién hace la app", Privacidad › Contacto). Si cambia un link, cambia acá.
 
 export const DEVELOPER_NAME = 'Enrique Oriolo'
-export const CONTACT_EMAIL = 'enrique.o1990@gmail.com'
+// Alias del dominio (reenvío de Porkbun → bandeja de Enrique): el correo personal
+// no va en páginas públicas. IMPORTANTE: el alias hola@ tiene que existir en
+// Porkbun antes de publicar, o los mensajes de la app y de /privacidad rebotan.
+export const CONTACT_EMAIL = 'hola@leetubiblia.com'
 export const MISSION_URL =
   'https://dentonbible.org/missions/view-detail/smallgroup/oriolo-enrique-and-tamara/'
 
