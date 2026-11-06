@@ -193,8 +193,7 @@ export default function Progreso() {
                   style={{
                     aspectRatio: '1',
                     backgroundColor: read ? 'var(--accent)' : 'transparent',
-                    border: read ? 'none' : `1px ${isFuture ? 'dashed' : 'solid'} var(--hairline)`,
-                    opacity: isFuture ? 0.5 : 1,
+                    border: read ? 'none' : `1px ${isFuture ? 'dashed' : 'solid'} var(--control-border)`,
                   }}
                 />
               )
@@ -206,7 +205,7 @@ export default function Progreso() {
           <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-[13px] text-ink-soft">
             <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm bg-accent" />{t('progreso.state.read')}</span>
             <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-control-border" />{t('progreso.state.unread')}</span>
-            <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-dashed border-control-border opacity-50" />{t('progreso.state.future')}</span>
+            <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-dashed border-control-border" />{t('progreso.state.future')}</span>
           </div>
 
           <p className="mt-3 text-[13px] leading-snug text-ink-soft">{t('progreso.heatmapHint')}</p>
