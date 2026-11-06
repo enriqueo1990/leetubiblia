@@ -1021,8 +1021,8 @@
     "other": "days in the Word"
   },
   "shareImage.dayMaxStreak": {
-    "one": "day longest streak",
-    "other": "days longest streak"
+    "one": "day best streak",
+    "other": "days best streak"
   },
   "shareImage.footer": "One day at a time, in His Word",
   "shareImage.fromApp": "From Lee Tu Biblia: {url}",

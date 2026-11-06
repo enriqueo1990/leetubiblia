@@ -384,8 +384,8 @@
     "other": "dias lidos"
   },
   "hoy.maxStreak": {
-    "one": "dia de sequência máx.",
-    "other": "dias de sequência máx."
+    "one": "dia de melhor sequência",
+    "other": "dias de melhor sequência"
   },
   "hoy.generatingImage": "Gerando imagem…",
   "hoy.shareAchievement": "Compartilhar",
@@ -486,7 +486,7 @@
     "other": "orações respondidas"
   },
   "recorrido.plansYouFinished": "Planos que você terminou",
-  "recorrido.planStats": "{read} de {total} dias · sequência máx. {streak}",
+  "recorrido.planStats": "{read} de {total} dias · melhor sequência {streak}",
   "recorrido.noPlansYet": "Você ainda não terminou um plano, mas está a caminho. Quando concluir um, ele vai ficar aqui.",
 
   "planes.subtitle": "Um plano ativo por vez.",
@@ -1021,8 +1021,8 @@
     "other": "dias na Palavra"
   },
   "shareImage.dayMaxStreak": {
-    "one": "dia de sequência máxima",
-    "other": "dias de sequência máxima"
+    "one": "dia de melhor sequência",
+    "other": "dias de melhor sequência"
   },
   "shareImage.footer": "Um dia de cada vez, em Sua Palavra",
   "shareImage.fromApp": "Do Lee Tu Biblia: {url}",

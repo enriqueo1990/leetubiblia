@@ -384,8 +384,8 @@
     "other": "días leídos"
   },
   "hoy.maxStreak": {
-    "one": "día de racha máx.",
-    "other": "días de racha máx."
+    "one": "día de mejor racha",
+    "other": "días de mejor racha"
   },
   "hoy.generatingImage": "Generando imagen…",
   "hoy.shareAchievement": "Compartir",
@@ -486,7 +486,7 @@
     "other": "oraciones respondidas"
   },
   "recorrido.plansYouFinished": "Planes que terminaste",
-  "recorrido.planStats": "{read} de {total} días · racha máx. {streak}",
+  "recorrido.planStats": "{read} de {total} días · mejor racha {streak}",
   "recorrido.noPlansYet": "Todavía no terminaste un plan, pero vas en camino. Cuando completes uno, va a quedar acá.",
 
   "planes.subtitle": "Un plan activo a la vez.",
@@ -1021,8 +1021,8 @@
     "other": "días en la Palabra"
   },
   "shareImage.dayMaxStreak": {
-    "one": "día de racha máxima",
-    "other": "días de racha máxima"
+    "one": "día de mejor racha",
+    "other": "días de mejor racha"
   },
   "shareImage.footer": "Un día a la vez, en su Palabra",
   "shareImage.fromApp": "Desde Lee Tu Biblia: {url}",
