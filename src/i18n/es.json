@@ -816,7 +816,6 @@
   "groupDetail.deleteGroupTitle": "¿Eliminar \"{name}\"?",
   "groupDetail.deleteGroupConfirm": "Se elimina para todos los miembros, junto con los pedidos de oración que se compartieron en él. No se puede deshacer.",
   "groupDetail.inviteDesc": "Mandá la invitación a quien quieras sumar: con el enlace entra directo al grupo. También puede escribir el código en Grupos.",
-  "groupDetail.copied": "Copiado",
   "groupDetail.shareInvite": "Compartir invitación",
   "groupDetail.copyCode": "Copiar código",
   "groupDetail.regenCode": "Regenerar código",

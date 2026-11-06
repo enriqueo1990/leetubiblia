@@ -816,7 +816,6 @@
   "groupDetail.deleteGroupTitle": "Excluir \"{name}\"?",
   "groupDetail.deleteGroupConfirm": "Será excluído para todos os membros, junto com os pedidos de oração compartilhados nele. Não é possível desfazer.",
   "groupDetail.inviteDesc": "Envie o convite para quem você quiser adicionar: o link leva direto ao grupo. Também dá para digitar o código em Grupos.",
-  "groupDetail.copied": "Copiado",
   "groupDetail.shareInvite": "Compartilhar convite",
   "groupDetail.copyCode": "Copiar código",
   "groupDetail.regenCode": "Regenerar código",

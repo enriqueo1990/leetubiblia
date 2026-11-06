@@ -816,7 +816,6 @@
   "groupDetail.deleteGroupTitle": "Delete \"{name}\"?",
   "groupDetail.deleteGroupConfirm": "It'll be removed for every member, along with the prayer requests shared in it. This can't be undone.",
   "groupDetail.inviteDesc": "Send the invitation to whoever you want to add: the link takes them straight to the group. They can also type the code in Groups.",
-  "groupDetail.copied": "Copied",
   "groupDetail.shareInvite": "Share invitation",
   "groupDetail.copyCode": "Copy code",
   "groupDetail.regenCode": "Regenerate code",

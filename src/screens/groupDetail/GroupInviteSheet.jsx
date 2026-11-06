@@ -24,10 +24,10 @@ export default function GroupInviteSheet({
         </p>
         <div className="mt-7 space-y-3">
           <button type="button" onClick={onShare} className="btn btn-primary flex items-center justify-center gap-2">
-            <ShareIcon size={18} /> {inviteShared ? t('groupDetail.copied') : t('groupDetail.shareInvite')}
+            <ShareIcon size={18} /> {inviteShared ? t('groupDetail.srInviteCopied') : t('groupDetail.shareInvite')}
           </button>
           <button type="button" onClick={onCopyCode} className="btn btn-secondary flex items-center justify-center gap-2">
-            <CopyIcon size={18} /> {copied ? t('groupDetail.copied') : t('groupDetail.copyCode')}
+            <CopyIcon size={18} /> {copied ? t('groupDetail.srCodeCopied') : t('groupDetail.copyCode')}
           </button>
           {isOwner && (
             <button
@@ -39,7 +39,7 @@ export default function GroupInviteSheet({
             </button>
           )}
         </div>
-        {/* El cambio de texto a "Copiado" es solo visual; lo anunciamos para lectores. */}
+        {/* El botón dice qué se copió; además lo anunciamos para lectores. */}
         <span className="sr-only" role="status" aria-live="polite">
           {copied ? t('groupDetail.srCodeCopied') : inviteShared ? t('groupDetail.srInviteCopied') : ''}
         </span>
