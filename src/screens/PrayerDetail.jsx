@@ -54,6 +54,10 @@ export default function PrayerDetail() {
   const [confirmDeleteUpdate, setConfirmDeleteUpdate] = useState(null) // update | null
   const [markingAnswered, setMarkingAnswered] = useState(false)
   const [markAnsweredError, setMarkAnsweredError] = useState(false)
+  // "Deshacer" solo se ofrece justo después de marcar: es la vuelta a mano del toque.
+  const [justAnswered, setJustAnswered] = useState(false)
+  const [undoing, setUndoing] = useState(false)
+  const [undoError, setUndoError] = useState(false)
   const [intercessionError, setIntercessionError] = useState(false)
   const [deleteUpdateError, setDeleteUpdateError] = useState(false)
   const [testimonyPromptDismissed, setTestimonyPromptDismissed] = useState(false)
@@ -178,10 +182,26 @@ export default function PrayerDetail() {
     try {
       await updatePrayer(data.id, { status: 'answered', answered_at: answeredAt })
       setData((d) => ({ ...d, status: 'answered', answered_at: answeredAt }))
+      setJustAnswered(true)
     } catch {
       setMarkAnsweredError(true)
     } finally {
       setMarkingAnswered(false)
+    }
+  }
+
+  async function undoAnswered() {
+    if (!isAuthor || data.status !== 'answered' || undoing) return
+    setUndoing(true)
+    setUndoError(false)
+    try {
+      await updatePrayer(data.id, { status: 'active', answered_at: null })
+      setData((d) => ({ ...d, status: 'active', answered_at: null }))
+      setJustAnswered(false)
+    } catch {
+      setUndoError(true)
+    } finally {
+      setUndoing(false)
     }
   }
 
@@ -218,9 +238,25 @@ export default function PrayerDetail() {
         </p>
 
         {data.status === 'answered' && (
-          <p className="mt-2 text-[13px] font-medium text-accent-ink">
-            {t('oracion.answeredOn', { date: fmtLongD(data.answered_at || data.created_at) })}
-          </p>
+          <div className="mt-2 flex items-center justify-between gap-3">
+            <p className="text-[13px] font-medium text-accent-ink">
+              {t('oracion.answeredOn', { date: fmtLongD(data.answered_at || data.created_at) })}
+            </p>
+            {isAuthor && justAnswered && (
+              <button
+                type="button"
+                onClick={undoAnswered}
+                disabled={undoing || !online}
+                className="inline-flex min-h-11 shrink-0 items-center px-1 text-[14px] font-medium"
+                style={{ color: 'var(--accent-ink)', opacity: undoing || !online ? 0.55 : 1 }}
+              >
+                {t('prayerDetail.undoAnswered')}
+              </button>
+            )}
+          </div>
+        )}
+        {isAuthor && data.status === 'answered' && undoError && (
+          <InlineError message={t('common.saveError')} className="mt-1" />
         )}
 
         {isAuthor && data.status === 'active' && (
@@ -241,7 +277,7 @@ export default function PrayerDetail() {
         )}
       </article>
 
-      {data.testimony && (isAuthor || data.testimony_shared) && (
+      {data.status === 'answered' && data.testimony && (isAuthor || data.testimony_shared) && (
         <section className="card mt-4 px-5 py-5" aria-labelledby="testimony-title">
           <SectionLabel id="testimony-title" inside className="mb-0">
             {t('prayerDetail.testimonyHeading')}

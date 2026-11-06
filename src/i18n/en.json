@@ -570,6 +570,7 @@
   "prayerDetail.markAnswered": "Mark as answered",
   "prayerDetail.markingAnswered": "Marking…",
   "prayerDetail.markAnsweredError": "We couldn't mark it as answered. Check your connection and try again.",
+  "prayerDetail.undoAnswered": "Undo",
   "prayerDetail.intercessionError": "We couldn't save your prayer.",
   "prayerDetail.deleteUpdateError": "We couldn't delete the update. Try again.",
   "prayerDetail.testimonyPrompt.title": "Would you like to share how God answered?",

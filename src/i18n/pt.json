@@ -570,6 +570,7 @@
   "prayerDetail.markAnswered": "Marcar como respondido",
   "prayerDetail.markingAnswered": "Marcando…",
   "prayerDetail.markAnsweredError": "Não foi possível marcá-la como respondida. Verifique sua conexão e tente novamente.",
+  "prayerDetail.undoAnswered": "Desfazer",
   "prayerDetail.intercessionError": "Não foi possível salvar sua oração.",
   "prayerDetail.deleteUpdateError": "Não foi possível excluir a atualização. Tente novamente.",
   "prayerDetail.testimonyPrompt.title": "Quer contar como Deus respondeu?",
