@@ -760,27 +760,25 @@ export default function Ajustes() {
           subtitle={t('myTime.settingHelp')}
           control={<Switch on={myTime.enabled} onChange={() => setMyTime({ enabled: !myTime.enabled })} label={t('myTime.title')} />}
         />
-        {myTime.enabled && (
-          <>
-            <Row
-              title={t('myTime.includeNote')}
-              subtitle={reflectionsOn ? t('myTime.includeNoteHelp') : t('myTime.includeNoteOff')}
-              control={
-                <Switch
-                  on={myTime.note && reflectionsOn}
-                  onChange={() => setMyTime({ note: !myTime.note })}
-                  label={t('myTime.includeNote')}
-                  disabled={!reflectionsOn}
-                />
-              }
+        {/* Siempre visibles, atenuadas si Mi tiempo está apagado: así la tarjeta no
+            salta de alto al encender o apagar. */}
+        <Row
+          title={t('myTime.includeNote')}
+          subtitle={reflectionsOn ? t('myTime.includeNoteHelp') : t('myTime.includeNoteOff')}
+          control={
+            <Switch
+              on={myTime.note && reflectionsOn}
+              onChange={() => setMyTime({ note: !myTime.note })}
+              label={t('myTime.includeNote')}
+              disabled={!myTime.enabled || !reflectionsOn}
             />
-            <Row
-              title={t('myTime.includePrayer')}
-              subtitle={t('myTime.includePrayerHelp')}
-              control={<Switch on={myTime.prayer} onChange={() => setMyTime({ prayer: !myTime.prayer })} label={t('myTime.includePrayer')} />}
-            />
-          </>
-        )}
+          }
+        />
+        <Row
+          title={t('myTime.includePrayer')}
+          subtitle={t('myTime.includePrayerHelp')}
+          control={<Switch on={myTime.prayer} onChange={() => setMyTime({ prayer: !myTime.prayer })} label={t('myTime.includePrayer')} disabled={!myTime.enabled} />}
+        />
       </div>
       <p className="mt-2 px-1 text-[13px] leading-snug text-ink-soft">{t('myTime.settingNote')}</p>
       <SectionLabel className="mt-7">{t('ajustes.section.diario')}</SectionLabel>
