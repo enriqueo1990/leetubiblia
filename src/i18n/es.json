@@ -616,6 +616,7 @@
   "prayerSheet.visibilityPrivateHelp": "Solo vos podés ver este pedido.",
   "prayerSheet.visibilitySharedHelp": "Todos los miembros de {group} podrán verlo.",
   "prayerSheet.visibilitySharedNoGroup": "Necesitás un grupo para compartir este pedido.",
+  "prayerSheet.visibilityPickGroup": "Elegí con qué grupo compartirlo.",
   "prayerSheet.noGroups": "No estás en ningún grupo todavía. Unite a uno desde Grupos para compartir.",
   "prayerSheet.fieldStatus": "Estado",
   "prayerSheet.answeredOn": "Respondido el {date}",

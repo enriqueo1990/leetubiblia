@@ -616,6 +616,7 @@
   "prayerSheet.visibilityPrivateHelp": "Only you can see this request.",
   "prayerSheet.visibilitySharedHelp": "Every member of {group} will be able to see it.",
   "prayerSheet.visibilitySharedNoGroup": "You need a group to share this request.",
+  "prayerSheet.visibilityPickGroup": "Pick which group to share it with.",
   "prayerSheet.noGroups": "You're not in any group yet. Join one from Groups to share.",
   "prayerSheet.fieldStatus": "Status",
   "prayerSheet.answeredOn": "Answered on {date}",

@@ -263,7 +263,9 @@ export default function PrayerSheet({
           ? t('prayerSheet.visibilityPrivateHelp')
           : groupId
             ? t('prayerSheet.visibilitySharedHelp', { group: groupName })
-            : t('prayerSheet.visibilitySharedNoGroup')}
+            : groups?.length
+              ? t('prayerSheet.visibilityPickGroup')
+              : t('prayerSheet.visibilitySharedNoGroup')}
       </p>
 
       {needsGroup && (
