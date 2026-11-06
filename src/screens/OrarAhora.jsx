@@ -148,7 +148,7 @@ export default function OrarAhora() {
   const askGroups = completedMine && groupDeck.length > 0
   const done = (phase === 'groups' && idx >= groupDeck.length) || (completedMine && groupDeck.length === 0)
   const completedCount = phase === 'groups'
-    ? mineDeck.length + Math.min(idx, groupDeck.length)
+    ? mineDeck.length + Math.min(interceded, groupDeck.length)
     : Math.min(idx, mineDeck.length)
 
   function advance(afterAction, action = 'next') {
