@@ -56,6 +56,13 @@
   select:focus-visible {
     box-shadow: 0 0 0 2px var(--accent-ink);
   }
+
+  /* Pista de qué escribir: token del sistema (no el gris frío del preflight). */
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--placeholder);
+    opacity: 1;
+  }
 }
 
 /* ── Tab bar icon animations ─────────────────────────────────────── */
