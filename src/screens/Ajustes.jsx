@@ -275,8 +275,24 @@ export default function Ajustes() {
       if (ok && !groupNotifOn) await unsubscribeFromPush(user.id)
     }
   }
+  // La hora se edita en un borrador local: en el selector de escritorio cada
+  // dígito dispara un `change`, y guardar (y deshabilitar el campo) a cada uno
+  // cortaba la edición. Se guarda al salir del campo o 600 ms después del último
+  // cambio, y solo si difiere de lo guardado.
+  const [timeDraft, setTimeDraft] = useState(null)
+  const timeTimer = useRef(null)
+  function commitTime(value) {
+    clearTimeout(timeTimer.current)
+    if (!value || value === reminderTime) {
+      setTimeDraft(null)
+      return
+    }
+    persist('time', { reminder_enabled: reminderOn, reminder_time: value + ':00' }).then(() => setTimeDraft(null))
+  }
   function changeTime(value) {
-    persist('time', { reminder_enabled: reminderOn, reminder_time: value + ':00' })
+    setTimeDraft(value)
+    clearTimeout(timeTimer.current)
+    timeTimer.current = setTimeout(() => commitTime(value), 600)
   }
 
   // Avisos de pedidos del grupo (opt-out; default true). Al activar, aseguramos la
@@ -833,9 +849,9 @@ export default function Ajustes() {
               <span className="text-[16px] text-ink">{t('ajustes.hora')}</span>
               <input
                 type="time"
-                value={reminderTime}
+                value={timeDraft ?? reminderTime}
                 onChange={(e) => changeTime(e.target.value)}
-                disabled={savingKey === 'time'}
+                onBlur={(e) => commitTime(e.target.value)}
                 aria-label={t('ajustes.hora')}
                 className="min-h-11 rounded-input px-3 text-[16px] outline-none"
                 style={inputStyleOnCard}
