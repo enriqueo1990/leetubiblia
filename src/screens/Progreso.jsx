@@ -91,6 +91,8 @@ export default function Progreso() {
       {/* Pantalla top-level (4º ítem de la nav primaria desde 2026-07): sin miga. */}
       <h1 className="text-[26px] font-bold tracking-tight text-ink">{t('nav.progreso')}</h1>
 
+      {/* Mientras carga se reserva la línea del subtítulo: el selector no salta al llegar. */}
+      {r.loading && <div className="mt-1 min-h-[21px]" aria-hidden="true" />}
       {!r.loading && r.hasPlan && r.displayDay != null && (
         <p className="mt-1 text-[14px] text-ink-soft">
           {t('progreso.position', { day: r.displayDay })}
