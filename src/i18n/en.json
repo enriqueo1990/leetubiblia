@@ -599,7 +599,7 @@
   "prayerSheet.newTitle": "New request",
   "prayerSheet.saving": "Saving…",
   "prayerSheet.save": "Save request",
-  "prayerSheet.saveError": "Couldn't save. Check the details and try again.",
+  "prayerSheet.saveError": "Couldn't save the request. What you wrote is still here — check your connection and try again.",
   "prayerSheet.deleteError": "Couldn't delete.",
   "prayerSheet.prayingForThis": {
     "one": "{count} person is praying for this",

@@ -599,7 +599,7 @@
   "prayerSheet.newTitle": "Novo pedido",
   "prayerSheet.saving": "Salvando…",
   "prayerSheet.save": "Salvar pedido",
-  "prayerSheet.saveError": "Não foi possível salvar. Verifique os dados e tente de novo.",
+  "prayerSheet.saveError": "Não foi possível salvar o pedido. O que você escreveu continua aqui: confira sua conexão e tente de novo.",
   "prayerSheet.deleteError": "Não foi possível excluir.",
   "prayerSheet.prayingForThis": {
     "one": "{count} pessoa está orando por isto",
