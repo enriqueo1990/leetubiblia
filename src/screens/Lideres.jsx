@@ -85,7 +85,7 @@ const FAQ = [
   ],
   [
     '¿Se ve quién no leyó?',
-    'No. Solo se ve quién sí leyó, y solo de quienes tienen activado «Compartir mi lectura». Nadie queda señalado por atrasarse.',
+    'Entre los miembros, no: solo se ve quién sí leyó. Vos, como líder, ves los últimos 7 días de quienes comparten su lectura, para saber a quién escribirle. Ellos lo saben: la app se lo dice al activarlo.',
   ],
   [
     '¿Y si alguien ya tiene su propio plan?',
@@ -186,7 +186,7 @@ export default function Lideres() {
             'Toca «Compartir mi lectura»',
             <>
               Al entrar al grupo la app se lo pregunta. Así el grupo ve que leyó (no qué leyó) y
-              puede ver la lectura de los demás. Si lo saltea, lo activa después desde el grupo.
+              puede ver la lectura de los demás. Quien lidera ve además sus últimos 7 días, y la app se lo avisa. Si lo saltea, lo activa después desde el grupo.
             </>,
           ],
           [
@@ -230,8 +230,8 @@ export default function Lideres() {
             alt="Pantalla del grupo: cuántos leyeron hoy y los pedidos de oración activos."
             side="left"
           >
-            Al entrar al grupo ves, por ejemplo, «Vos y 4 más leyeron hoy». Nunca dice quién
-            no leyó: es para alegrarse juntos, no para controlar.
+            Al entrar al grupo ves, por ejemplo, «Vos y 4 más leyeron hoy». Entre los miembros nunca
+            dice quién no leyó: es para alegrarse juntos, no para controlar.
           </Week>
         </div>
 
