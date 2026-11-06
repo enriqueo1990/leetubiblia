@@ -582,6 +582,7 @@ export async function getPrayerDetail(prayerId, userId) {
     // en vez de romperse entero.
     getPrayerUpdates(prayerId).catch(() => []),
   ])
+  const rx = p.testimony && p.testimony_shared ? await getTestimonyReactions([p.id], userId) : null
   return {
     ...p,
     author_name: names[p.user_id] || null,
@@ -589,6 +590,7 @@ export async function getPrayerDetail(prayerId, userId) {
     intercessor_count: intercessors.length,
     i_intercede: intercessors.some((x) => x.user_id === userId),
     updates,
+    reactions: rx ? rx.get(p.id) : null,
   }
 }
 
@@ -722,7 +724,37 @@ export async function markPrayerReviewed(id) {
 
 // Testimonios de un grupo: pedidos compartidos, respondidos y marcados para
 // compartir, más recientes primero. Incluye el nombre del autor.
-export async function getGroupTestimonies(groupId) {
+// Reacciones a testimonios (migración 0040): una por persona y testimonio. Devuelve
+// un Map prayerId → { counts: {amen, gloria, alegria}, mine: kind|null }, o null si
+// la tabla todavía no existe (la vista entonces no ofrece reacciones).
+export const TESTIMONY_REACTIONS = ['amen', 'gloria', 'alegria']
+export async function getTestimonyReactions(prayerIds, userId) {
+  if (!prayerIds.length) return new Map()
+  const { data, error } = await supabase
+    .from('testimony_reactions')
+    .select('prayer_id, user_id, kind')
+    .in('prayer_id', prayerIds)
+  if (error) return null
+  const out = new Map(prayerIds.map((id) => [id, { counts: { amen: 0, gloria: 0, alegria: 0 }, mine: null }]))
+  for (const r of data) {
+    const e = out.get(r.prayer_id)
+    if (!e || !(r.kind in e.counts)) continue
+    e.counts[r.kind] += 1
+    if (r.user_id === userId) e.mine = r.kind
+  }
+  return out
+}
+
+// Reaccionar (kind) o quitar la propia reacción (kind = null).
+export async function setTestimonyReaction(prayerId, userId, kind) {
+  const q = supabase.from('testimony_reactions')
+  const { error } = kind
+    ? await q.upsert({ prayer_id: prayerId, user_id: userId, kind }, { onConflict: 'prayer_id,user_id' })
+    : await q.delete().eq('prayer_id', prayerId).eq('user_id', userId)
+  if (error) throw dbError(error)
+}
+
+export async function getGroupTestimonies(groupId, userId) {
   const { data, error } = await supabase
     .from('prayer_requests')
     .select('*')
@@ -733,7 +765,8 @@ export async function getGroupTestimonies(groupId) {
     .order('answered_at', { ascending: false })
   if (error) throw dbError(error)
   const names = await namesFor(data.map((p) => p.user_id))
-  return data.map((p) => ({ ...p, author_name: names[p.user_id] || null }))
+  const rx = await getTestimonyReactions(data.map((p) => p.id), userId)
+  return data.map((p) => ({ ...p, author_name: names[p.user_id] || null, reactions: rx ? rx.get(p.id) : null }))
 }
 
 // Datos mínimos de un grupo (para encabezados; RLS permite ver mis grupos).

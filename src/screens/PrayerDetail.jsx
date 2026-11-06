@@ -25,6 +25,7 @@ import { useOnlineStatus } from '../hooks/useOnlineStatus.js'
 import { inputStyle } from '../components/formStyles.js'
 import InlineError from '../components/InlineError.jsx'
 import SectionLabel from '../components/SectionLabel.jsx'
+import TestimonyReactions from '../components/TestimonyReactions.jsx'
 
 // Detalle de un pedido compartido con "Estoy orando por esto" (Fase 2, F2-A).
 // Lo abren los miembros desde "De mis grupos"; el autor lo ve sin el botón pero
@@ -284,6 +285,9 @@ export default function PrayerDetail() {
             {t('prayerDetail.testimonyHeading')}
           </SectionLabel>
           <p className="mt-2.5 whitespace-pre-line text-[1rem] leading-[1.6] text-ink">{data.testimony}</p>
+          {data.testimony_shared && data.reactions && (
+            <TestimonyReactions key={data.id} prayerId={data.id} initial={data.reactions} isAuthor={isAuthor} />
+          )}
           {isAuthor && (
             <p className="mt-3 text-[0.8125rem] text-ink-soft">
               {data.testimony_shared

@@ -838,6 +838,11 @@
   "groupDetail.kick": "Remove",
 
   "groupTestimonies.subtitle": "Prayers the group saw answered.",
+  "testimonyReactions.group": "React to the testimony",
+  "testimonyReactions.amen": "Amen",
+  "testimonyReactions.gloria": "Praise God",
+  "testimonyReactions.alegria": "So glad",
+  "testimonyReactions.error": "We couldn't save your reaction. Try again.",
   "groupTestimonies.loadError": "Couldn't load the testimonies.",
   "groupTestimonies.empty": "No testimonies yet. When someone marks a prayer answered and shares it, it shows up here.",
 

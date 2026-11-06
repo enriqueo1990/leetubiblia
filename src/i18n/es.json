@@ -838,6 +838,11 @@
   "groupDetail.kick": "Quitar",
 
   "groupTestimonies.subtitle": "Oraciones que el grupo vio responder.",
+  "testimonyReactions.group": "Reaccionar al testimonio",
+  "testimonyReactions.amen": "Amén",
+  "testimonyReactions.gloria": "Gloria a Dios",
+  "testimonyReactions.alegria": "Me alegra",
+  "testimonyReactions.error": "No pudimos guardar tu reacción. Probá de nuevo.",
   "groupTestimonies.loadError": "No se pudieron cargar los testimonios.",
   "groupTestimonies.empty": "Todavía no hay testimonios. Cuando alguien marque una oración respondida y la comparta, aparece acá.",
 

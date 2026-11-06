@@ -8,6 +8,8 @@ import RetryError from '../components/RetryError.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
+import { useAuth } from '../lib/auth.jsx'
+import TestimonyReactions from '../components/TestimonyReactions.jsx'
 import { fmtDate } from '../i18n/dates.js'
 
 // Testimonios del grupo (Fase 2, F2-C): oraciones respondidas que el autor
@@ -16,6 +18,7 @@ import { fmtDate } from '../i18n/dates.js'
 export default function GroupTestimonies() {
   const { id } = useParams()
   const { t, locale } = usePreferences()
+  const { user } = useAuth()
   const fmtD = (iso) => (iso ? fmtDate(iso, locale, { day: 'numeric', month: 'short' }) : '')
   const [group, setGroup] = useState(null)
   const [items, setItems] = useState(null)
@@ -24,13 +27,13 @@ export default function GroupTestimonies() {
   const load = useCallback(async () => {
     setError(null)
     try {
-      const [g, list] = await Promise.all([getGroup(Number(id)), getGroupTestimonies(Number(id))])
+      const [g, list] = await Promise.all([getGroup(Number(id)), getGroupTestimonies(Number(id), user?.id)])
       setGroup(g)
       setItems(list)
     } catch {
       setError(t('groupTestimonies.loadError'))
     }
-  }, [id, t])
+  }, [id, t, user?.id])
 
   useEffect(() => {
     load()
@@ -64,6 +67,7 @@ export default function GroupTestimonies() {
               <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-ink">«{item.testimony}»</p>
             )}
             <p className="mt-3 text-[0.8125rem] font-medium text-ink-soft">{item.author_name ?? t('common.someone')}</p>
+            <TestimonyReactions prayerId={item.id} initial={item.reactions} isAuthor={item.user_id === user?.id} />
           </li>
         ))}
       </ul>
