@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import BackLink from '../components/BackLink.jsx'
@@ -16,6 +17,7 @@ import SectionLabel from '../components/SectionLabel.jsx'
 export default function Planes() {
   const { profile } = useAuth()
   const { t } = usePreferences()
+  const location = useLocation()
   const [plans, setPlans] = useState(null)
   const [error, setError] = useState(false)
 
@@ -48,7 +50,7 @@ export default function Planes() {
         key={p.id}
         plan={p}
         to={`/planes/${p.id}`}
-        state={{ from: { to: '/planes', label: t('nav.planes') } }}
+        state={{ from: { to: '/planes', label: t('nav.planes'), back: location.state?.from } }}
         active={active}
       />
     )

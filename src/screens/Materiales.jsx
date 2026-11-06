@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import {
   MATERIALS,
@@ -27,6 +27,10 @@ import { BRAND_SERIF } from '../lib/brandFont.js'
 export default function Materiales() {
   const { profile } = useAuth()
   const { t } = usePreferences()
+  const location = useLocation()
+  // El lector vuelve acá con la miga «‹ Biblioteca», y esta pantalla conserva su
+  // propio origen (`back`) para que su miga no cambie según por dónde pasaste.
+  const from = { to: '/materiales', label: t('nav.materiales'), back: location.state?.from }
   const [preview, setPreview] = useState(null) // slug del libro en vista previa
   // Total por slug (avance y "Completado" cuando el marcador pasó el final).
   const [totals, setTotals] = useState({})
@@ -75,7 +79,7 @@ export default function Materiales() {
                 <Link
                   key={m.slug}
                   to={`/materiales/${m.slug}`}
-                  state={{ from: { to: '/materiales', label: t('nav.materiales') } }}
+                  state={{ from }}
                   className="block transition-transform active:scale-[0.98]"
                   aria-label={m.name}
                 >
@@ -112,7 +116,7 @@ export default function Materiales() {
         </section>
       )}
 
-      {preview && <PreviewSheet slug={preview} onClose={() => setPreview(null)} />}
+      {preview && <PreviewSheet slug={preview} from={from} onClose={() => setPreview(null)} />}
     </div>
   )
 }
@@ -126,7 +130,7 @@ function coverMeta(t, slug, th, total) {
 
 // Vista previa de un libro que no está en el estante: la tapa, los datos, de qué
 // trata, una muestra del texto, y "Agregar a mi estante" (que lo suma a Hoy).
-function PreviewSheet({ slug, onClose }) {
+function PreviewSheet({ slug, from, onClose }) {
   const { profile, updateProfile } = useAuth()
   const { t, locale } = usePreferences()
   const m = getMaterial(slug)
@@ -172,7 +176,7 @@ function PreviewSheet({ slug, onClose }) {
             {/* Es un enlace al lector: el material ya quedó activo en el perfil. */}
             <Link
               to={`/materiales/${slug}`}
-              state={{ from: { to: '/materiales', label: t('nav.materiales') } }}
+              state={{ from }}
               className="btn btn-primary block text-center"
               autoFocus
             >
