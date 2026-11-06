@@ -52,7 +52,7 @@ export default function GroupPrayers({
           <span className="min-w-0">
             <span className="block text-[15px] text-ink">{t('groupDetail.noPrayers')}</span>
             <span className="mt-0.5 block text-[13px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
-              {t('groupDetail.shareFirst')} →
+              {t('groupDetail.shareFirst')} ›
             </span>
           </span>
         </button>

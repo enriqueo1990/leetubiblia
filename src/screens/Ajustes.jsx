@@ -27,7 +27,7 @@ import { activeMaterials, getMaterial } from '../lib/materials.js'
 import { planName } from '../lib/planLabels.js'
 import { avatarBlob, removeAvatarFile, uploadAvatar } from '../lib/avatar.js'
 import { saveOrRevert } from '../lib/saveWithRevert.js'
-import { BellIcon, BookIcon, ChevronRight, InfoIcon, InstallIcon, PencilIcon, ShareIcon, SunIcon } from '../components/icons.jsx'
+import { BellIcon, BookIcon, InfoIcon, RowChevron, InstallIcon, PencilIcon, ShareIcon, SunIcon } from '../components/icons.jsx'
 import { subscribeToPush, unsubscribeFromPush, getTimezone, isPushSupported } from '../lib/push.js'
 import { exportJournal } from '../lib/exportJournal.js'
 import { flushQueue, pendingCount } from '../lib/offline.js'
@@ -63,9 +63,7 @@ function IndexRow({ to, icon, title, summary }) {
         <span className="block text-[16px] text-ink">{title}</span>
         {summary && <span className="mt-0.5 block truncate text-[13px] text-ink-soft">{summary}</span>}
       </span>
-      <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-        <ChevronRight size={18} />
-      </span>
+      <RowChevron />
     </Link>
   )
 }
@@ -563,9 +561,7 @@ export default function Ajustes() {
               <span className="block truncate text-[17px] font-semibold text-ink">{profile?.display_name || t('ajustes.tuNombre')}</span>
               <span className="block truncate text-[13px] text-ink-soft">{user?.email}</span>
             </span>
-            <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-              <ChevronRight size={18} />
-            </span>
+            <RowChevron />
           </Link>
 
           <div className="card mt-4 divide-y divide-hairline">
@@ -588,9 +584,7 @@ export default function Ajustes() {
           <Link to={`/planes/${plan.id}`} state={{ from: fromAjustes }} className="block px-4 py-4">
             <span className="flex items-center justify-between gap-3">
               <span className="min-w-0 text-[19px] font-semibold leading-snug text-ink">{planName(t, plan)}</span>
-              <span className="shrink-0 text-ink-soft" style={{ opacity: 0.5 }}>
-                <ChevronRight size={18} />
-              </span>
+              <RowChevron />
             </span>
             {currentDay != null && duration != null && (
               <>
@@ -616,7 +610,7 @@ export default function Ajustes() {
           style={{ color: 'var(--accent-ink)' }}
         >
           {plan ? t('lecturas.changePlan') : t('lecturas.choosePlan')}
-          <ChevronRight size={18} />
+          <span aria-hidden="true">›</span>
         </Link>
       </div>
 
@@ -652,9 +646,7 @@ export default function Ajustes() {
             </span>
             {shelf.length > 0 && <span className="block text-[13px] text-ink-soft">{t('library.onShelf', { count: shelf.length })}</span>}
           </span>
-          <span style={{ color: 'var(--accent-ink)' }}>
-            <ChevronRight size={18} />
-          </span>
+          <RowChevron />
         </Link>
       </div>
 
@@ -991,9 +983,7 @@ export default function Ajustes() {
             <span className="block text-[16px] text-ink">{t('whatsNew.settingsRow')}</span>
             <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">{t('whatsNew.settingsHelp')}</span>
           </span>
-          <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-            <ChevronRight size={18} />
-          </span>
+          <RowChevron />
         </button>
         {/* /ayuda es pública (vive fuera del Gate) pero antes no tenía ninguna
             puerta desde adentro de la app. */}
@@ -1007,9 +997,7 @@ export default function Ajustes() {
               {t('ajustes.ayudaHelp')}
             </span>
           </span>
-          <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-            <ChevronRight size={18} />
-          </span>
+          <RowChevron />
         </Link>
       </div>
 

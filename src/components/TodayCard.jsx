@@ -1,5 +1,5 @@
 import { BRAND_SERIF } from '../lib/brandFont.js'
-import { CheckIcon } from './icons.jsx'
+import { CheckIcon, RowChevron } from './icons.jsx'
 
 // "Tu día": lo que sigue después de leer, en una sola tarjeta con filas. Cada
 // fila es una invitación, no una obligación: sin marcas de "te faltó". Una fila
@@ -46,9 +46,7 @@ export default function TodayCard({ rows, footer = null, className = '' }) {
               {row.sub && <span className="mt-0.5 line-clamp-1 text-[13px] leading-snug text-ink-soft">{row.sub}</span>}
             </span>
             {row.onClick && (
-              <span aria-hidden="true" className="text-[20px] leading-none" style={{ color: 'var(--faint)' }}>
-                ›
-              </span>
+              <RowChevron />
             )}
           </>
         )

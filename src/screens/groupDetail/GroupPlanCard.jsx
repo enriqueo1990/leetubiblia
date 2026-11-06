@@ -115,7 +115,7 @@ export default function GroupPlanCard({
           <span className="min-w-0">
             <span className="block text-[15px] text-ink">{t('groupDetail.noPlanYet')}</span>
             <span className="mt-0.5 block text-[13px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
-              {t('groupDetail.choosePlanCta')} →
+              {t('groupDetail.choosePlanCta')} ›
             </span>
           </span>
         </button>

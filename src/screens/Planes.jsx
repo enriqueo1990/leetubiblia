@@ -6,7 +6,7 @@ import BackLink from '../components/BackLink.jsx'
 import { getPlans } from '../lib/db.js'
 import { planName, planDescription } from '../lib/planLabels.js'
 import { DOOR_ORDER, planDoor } from '../lib/planCatalog.js'
-import { ChevronRight } from '../components/icons.jsx'
+import { RowChevron } from '../components/icons.jsx'
 import RetryError from '../components/RetryError.jsx'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 
@@ -65,9 +65,7 @@ export default function Planes() {
           {p.description && <p className="mt-1 text-[15px] text-ink-soft">{planDescription(t, p)}</p>}
           <p className="mt-1 text-[13px] text-ink-soft">{durationLabel(p.duration_days)}</p>
         </div>
-        <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-          <ChevronRight size={20} />
-        </span>
+        <RowChevron />
       </Link>
     )
   }

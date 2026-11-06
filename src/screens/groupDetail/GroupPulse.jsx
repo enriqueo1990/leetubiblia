@@ -40,7 +40,7 @@ export default function GroupPulse({ iShare, onAskShare, iRead = false, readCoun
           style={{ color: 'var(--accent-ink)' }}
         >
           <BookIcon size={18} />
-          <span className="text-[14px] font-medium">{t('groupDetail.shareToSee')} →</span>
+          <span className="text-[14px] font-medium">{t('groupDetail.shareToSee')} ›</span>
         </button>
       )}
       <div className="mt-2 flex items-center gap-2.5 text-ink">

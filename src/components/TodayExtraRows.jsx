@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { usePreferences } from '../lib/preferences.jsx'
 import { bookLabel } from '../i18n/books.js'
 import { BRAND_SERIF } from '../lib/brandFont.js'
-import { ChevronRight, PeopleIcon } from './icons.jsx'
+import { RowChevron, PeopleIcon } from './icons.jsx'
 import BookCover from './BookCover.jsx'
 
 // Hasta 2 referencias en la línea; el resto se resume como "+N".
@@ -100,9 +100,7 @@ export default function TodayExtraRows({ rows, rowClassName = 'px-4 py-3', from 
             )}
             {meta}
           </span>
-          <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-            <ChevronRight size={18} />
-          </span>
+          <RowChevron />
         </span>
       </Link>
     )

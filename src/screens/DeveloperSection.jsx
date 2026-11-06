@@ -11,7 +11,7 @@ import { initials } from '../components/Avatars.jsx'
 import Sheet from '../components/Sheet.jsx'
 import Segmented from '../components/Segmented.jsx'
 import InlineError from '../components/InlineError.jsx'
-import { ChevronRight, CheckIcon } from '../components/icons.jsx'
+import { RowChevron, CheckIcon } from '../components/icons.jsx'
 import { inputStyle } from '../components/formStyles.js'
 import { APP_VERSION_LABEL as APP_VERSION } from '../lib/appVersion.js'
 
@@ -31,9 +31,7 @@ function ActionRow({ title, subtitle, onClick }) {
         <span className="block text-[16px] text-ink">{title}</span>
         <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">{subtitle}</span>
       </span>
-      <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-        <ChevronRight size={18} />
-      </span>
+      <RowChevron />
     </button>
   )
 }

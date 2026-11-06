@@ -74,6 +74,12 @@ export const ChevronRight = (p) => (
   </Icon>
 )
 
+// Flecha de "esto lleva a otro lado" al borde de una fila de lista: una sola forma,
+// tamaño y tinte en toda la app (los enlaces de texto en acento usan «›» en currentColor).
+export const RowChevron = ({ className = '', ...p }) => (
+  <ChevronRight size={18} className={`shrink-0 text-ink-soft opacity-50 ${className}`} {...p} />
+)
+
 export const PlusIcon = (p) => (
   <Icon {...p}>
     <path d="M12 5v14M5 12h14" />

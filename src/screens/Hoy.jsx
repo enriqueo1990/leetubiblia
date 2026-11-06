@@ -27,7 +27,7 @@ import { recordFunnel } from '../lib/diag.js'
 import { SkeletonHoy, SkeletonPassages } from '../components/Skeleton.jsx'
 import InlineError from '../components/InlineError.jsx'
 import PassageList from '../components/PassageList.jsx'
-import { BookIcon, CameraIcon, CheckIcon, GearIcon, InstallIcon, ShareIcon, XIcon } from '../components/icons.jsx'
+import { BookIcon, CameraIcon, CheckIcon, GearIcon, InstallIcon, RowChevron, ShareIcon, XIcon } from '../components/icons.jsx'
 import BiblePhotoSheet from '../components/BiblePhotoSheet.jsx'
 import MyTimeFlow from '../components/MyTimeFlow.jsx'
 import TodayCard from '../components/TodayCard.jsx'
@@ -664,9 +664,7 @@ export default function Hoy() {
                 <span className="line-clamp-2 text-[17px] font-semibold leading-snug text-ink">
                   {planName(t, r.plan)}
                 </span>
-                <span aria-hidden="true" className="shrink-0 text-ink-soft" style={{ opacity: 0.5 }}>
-                  ›
-                </span>
+                <RowChevron />
               </span>
             </Link>
           )}
@@ -727,7 +725,7 @@ export default function Hoy() {
                 className="flex min-h-12 w-full items-center justify-end text-[14px] font-semibold"
                 style={{ color: 'var(--accent-ink)' }}
               >
-                {t('hoy.readNextDay')} →
+                {t('hoy.readNextDay')} ›
               </button>
             </div>
           )}

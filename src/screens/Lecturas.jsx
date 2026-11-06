@@ -10,7 +10,7 @@ import EmptyState from '../components/EmptyState.jsx'
 import RetryError from '../components/RetryError.jsx'
 import TodayExtraRows from '../components/TodayExtraRows.jsx'
 import { SkeletonRows } from '../components/Skeleton.jsx'
-import { BookIcon, ChevronRight } from '../components/icons.jsx'
+import { BookIcon, RowChevron } from '../components/icons.jsx'
 
 // Lecturas — hub de segundo anillo colgado de Hoy. Reúne en un solo lugar todo
 // lo que se LEE: el plan activo (y cambiarlo), las otras lecturas de hoy (grupos
@@ -42,9 +42,7 @@ function Row({ to, state, title, detail, accent = false }) {
       </span>
       <span className="flex shrink-0 items-center gap-1.5">
         {detail && <span className="text-[15px] text-ink-soft">{detail}</span>}
-        <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-          <ChevronRight size={18} />
-        </span>
+        <RowChevron />
       </span>
     </Link>
   )
@@ -96,9 +94,7 @@ export default function Lecturas() {
                         : null}
                   </span>
                 </span>
-                <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-                  <ChevronRight size={18} />
-                </span>
+                <RowChevron />
               </Link>
               <Row to="/planes" state={{ from }} title={t('lecturas.changePlan')} accent />
             </div>

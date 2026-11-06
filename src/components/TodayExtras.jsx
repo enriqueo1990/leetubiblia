@@ -6,7 +6,7 @@ import { useTodayExtras } from '../lib/todayExtras.js'
 import TodayExtraRows from './TodayExtraRows.jsx'
 import { SkeletonRows } from './Skeleton.jsx'
 import RetryError from './RetryError.jsx'
-import { ChevronRight } from './icons.jsx'
+import { RowChevron } from './icons.jsx'
 import BookCover from './BookCover.jsx'
 import { MATERIALS } from '../lib/materials.js'
 import { isLibraryCardSnoozed, snoozeLibraryCard, suggestedMaterials } from '../lib/libraryOffer.js'
@@ -145,9 +145,7 @@ export default function TodayExtras() {
             <span className="min-w-0 flex-1 text-[15px] text-ink">
               {t('hoy.extrasMoreToday', { count: rows.length - PREVIEW_ROWS })} · {t('library.title')}
             </span>
-            <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-              <ChevronRight size={18} />
-            </span>
+            <RowChevron />
           </Link>
         ) : (
           // B · La puerta fija a la Biblioteca: siempre a un toque, también para
@@ -163,9 +161,7 @@ export default function TodayExtras() {
             <span className="min-w-0 flex-1 text-[16px] text-ink">{t('library.title')}</span>
             <span className="flex shrink-0 items-center gap-1.5 text-[13px] text-ink-soft">
               {toAdd.length > 0 && t('library.moreToAdd', { count: toAdd.length })}
-              <span style={{ opacity: 0.5 }}>
-                <ChevronRight size={18} />
-              </span>
+              <RowChevron />
             </span>
           </Link>
         )}

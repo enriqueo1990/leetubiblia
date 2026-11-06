@@ -9,6 +9,7 @@ import Segmented from '../components/Segmented.jsx'
 import Diario from './Diario.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import InlineError from '../components/InlineError.jsx'
+import { RowChevron } from '../components/icons.jsx'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 import StatTile from '../components/StatTile.jsx'
 
@@ -219,9 +220,7 @@ export default function Progreso() {
               <span className="block text-[15px] font-semibold text-ink">{t('progreso.recorrido.title')}</span>
               <span className="block text-[13px] text-ink-soft">{t('progreso.recorrido.subtitle')}</span>
             </span>
-            <span aria-hidden="true" className="text-[18px]" style={{ color: 'var(--accent-ink)' }}>
-              ›
-            </span>
+            <RowChevron />
           </Link>
           </div>
           </div>

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { PeopleIcon, ChevronRight, PlusIcon } from '../components/icons.jsx'
+import { PeopleIcon, RowChevron, PlusIcon } from '../components/icons.jsx'
 import Sheet from '../components/Sheet.jsx'
 import RetryError from '../components/RetryError.jsx'
 import EmptyState from '../components/EmptyState.jsx'
@@ -276,9 +276,7 @@ export default function Grupos() {
                   {g.role === 'owner' && ` · ${t('grupos.admin')}`}
                 </p>
               </div>
-              <span className="text-ink-soft" style={{ opacity: 0.5 }}>
-                <ChevronRight size={20} />
-              </span>
+              <RowChevron />
             </Link>
           </li>
         ))}
