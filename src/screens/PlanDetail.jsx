@@ -86,7 +86,11 @@ export default function PlanDetail() {
   useEffect(() => {
     if (scrolled.current || !days || currentDay == null) return
     if (todayRef.current) {
-      todayRef.current.scrollIntoView({ block: 'center' })
+      // Si tu día ya se ve entero (arriba de la tab bar), no mover la página: el
+      // centrado le cortaba el título a quien va en los primeros días.
+      const rect = todayRef.current.getBoundingClientRect()
+      const visible = rect.top >= 0 && rect.bottom <= window.innerHeight - 96
+      if (!visible) todayRef.current.scrollIntoView({ block: 'center' })
       scrolled.current = true
     }
   }, [days, currentDay, windowStart])
