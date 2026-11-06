@@ -160,7 +160,9 @@
     <!-- SEO:end -->
 
     <!-- Datos estructurados: describen la app (constantes en todas las páginas,
-         fuera del bloque por-página; ayudan a Google y a motores de IA). -->
+         fuera del bloque por-página; ayudan a Google y a motores de IA). El FAQPage
+         NO va acá: solo se marca donde el FAQ está visible (/info; ver
+         vite.config.js › LANDING_PAGES y src/screens/infoCopy.js). -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -202,60 +204,6 @@
             ],
             "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
             "publisher": { "@id": "https://leetubiblia.com/#org" }
-          },
-          {
-            "@type": "FAQPage",
-            "@id": "https://leetubiblia.com/#faq",
-            "mainEntity": [
-              {
-                "@type": "Question",
-                "name": "¿Qué es Lee Tu Biblia?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Es una app gratuita en español para sostener el hábito de leer la Biblia cada día: elegís un plan de lectura, cuidás tu racha, llevás un diario de reflexiones y gestionás tus pedidos de oración, solo o con tu grupo de discipulado."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "¿Muestra el texto bíblico dentro de la app?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "No, y es una decisión de producto. Lee Tu Biblia acompaña la lectura en tu Biblia de papel: te dice qué leer y lleva tu avance, pero el texto lo leés en tu propia Biblia. No es un lector de Escritura."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "¿Es gratis?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Sí, es completamente gratuita."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "¿Qué planes de lectura ofrece?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Trece planes, desde 8 días hasta dos años: M'Cheyne, Cronológico, Marcos, Primeros pasos con Jesús, los cuatro Evangelios, Proverbios, Semana Santa, Adviento, Antiguo y Nuevo Testamento, De Génesis a Apocalipsis, Nuevo Testamento en 24 semanas, 40 días con Dios y el Oficio Diario del Libro de Oración Común. Un plan activo a la vez."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "¿Sirve para grupos de discipulado?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Sí. Podés crear o unirte a grupos cerrados y privados donde leen al mismo ritmo, comparten pedidos de oración y testimonios, y el líder ve el pulso de lectura de los últimos siete días de cada miembro."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "¿Funciona sin conexión?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Sí. Es una PWA que podés instalar en tu pantalla de inicio y usar con o sin conexión."
-                }
-              }
-            ]
           }
         ]
       }

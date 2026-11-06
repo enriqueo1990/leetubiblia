@@ -6,6 +6,7 @@ import { defineConfig, build as viteBuild } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import { LANDING_FONT_ROMAN } from './src/screens/landingSystem.js'
+import { INFO_META, faqJsonLd } from './src/screens/infoCopy.js'
 
 // Meta social propia de cada landing pública (ver src/screens/Info.jsx y
 // GruposDiscipulado.jsx). El sitio es un SPA con las meta OG estáticas en index.html;
@@ -32,12 +33,15 @@ const LANDING_PAGES = [
     file: 'info/index.html',
     route: '/info',
     screen: 'Info',
-    title: 'Lee Tu Biblia — el hábito de abrir tu Biblia, sostenido',
-    description:
-      'Plan, racha, diario y oraciones —solo o con tu grupo— para acompañar tu Biblia de papel. Una herramienta para discipular, no otro lector de Escritura.',
+    // Título y descripción vienen de infoCopy.js: la misma fuente que usa Info.jsx.
+    title: INFO_META.title,
+    description: INFO_META.description,
     url: 'https://leetubiblia.com/info',
     image: 'https://leetubiblia.com/og-info.png',
-    alt: 'Lee Tu Biblia — compañero de lectura bíblica',
+    alt: 'Lee Tu Biblia — Tu Biblia de papel, cada mañana',
+    // FAQPage SOLO acá: el FAQ visible de /info es la fuente (infoCopy.js), así el
+    // marcado y el texto en pantalla coinciden palabra por palabra.
+    jsonLd: faqJsonLd,
   },
   {
     file: 'lideres/index.html',
@@ -74,8 +78,23 @@ const LANDING_PAGES = [
   },
 ]
 
+// Escapa texto para HTML / atributos (los títulos y descripciones son texto plano).
+const esc = (str) =>
+  String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+// JSON-LD por página, dentro del bloque SEO (no se repite en las demás). `<` va
+// escapado para que ningún texto cierre el <script>.
+function jsonLdBlock(build) {
+  if (!build) return ''
+  const json = JSON.stringify(build(), null, 2).replace(/</g, '\\u003c')
+  return `\n\n    <script type="application/ld+json">\n${json}\n    </script>`
+}
+
 // Genera el bloque SEO/social por página (mismo orden de tags que index.html).
-function seoBlock({ title, description, url, image, alt }) {
+function seoBlock({ title: rawTitle, description: rawDescription, url, image, alt: rawAlt, jsonLd }) {
+  const title = esc(rawTitle)
+  const description = esc(rawDescription)
+  const alt = esc(rawAlt)
   return `<title>${title}</title>
     <meta name="description" content="${description}" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -99,7 +118,7 @@ function seoBlock({ title, description, url, image, alt }) {
     <meta name="twitter:title" content="${title}" />
     <meta name="twitter:description" content="${description}" />
     <meta name="twitter:image" content="${image}" />
-    <meta name="twitter:image:alt" content="${alt}" />`
+    <meta name="twitter:image:alt" content="${alt}" />${jsonLdBlock(jsonLd)}`
 }
 
 // PRERENDER REAL de las landings. Además de cambiar el bloque SEO, cada página se
