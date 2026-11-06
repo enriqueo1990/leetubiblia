@@ -64,7 +64,7 @@ export default function Diario() {
 
   if (entries === null && !error) {
     return (
-      <div className="mt-5">
+      <div className="mt-5 lg:max-w-content">
         <SkeletonCards count={3} />
       </div>
     )
@@ -85,7 +85,8 @@ export default function Diario() {
   }
 
   return (
-    <div className="mt-5">
+    // En escritorio Progreso es ancha (grilla); las notas se leen en renglones de ~600 px.
+    <div className="mt-5 lg:max-w-content">
       <ul className="space-y-3">
         {entries.map((e) => {
           const editable = isEditable(e)

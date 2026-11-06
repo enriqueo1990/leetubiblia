@@ -101,7 +101,7 @@ export default function Progreso() {
       )}
 
       {showCamino && (
-        <Segmented className="mt-4" options={PROG_VIEWS} value={seg} onChange={changeSeg} />
+        <Segmented className="mt-4 lg:max-w-content" options={PROG_VIEWS} value={seg} onChange={changeSeg} />
       )}
 
       {showCamino && seg === 'camino' ? (
