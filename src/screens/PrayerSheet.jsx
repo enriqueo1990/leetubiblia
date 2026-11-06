@@ -229,7 +229,7 @@ export default function PrayerSheet({
       )}
 
       <FieldLabel htmlFor="prayer-title">
-        {t('prayerSheet.fieldTitle')} <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>•</span>
+        {t('prayerSheet.fieldTitle')}
       </FieldLabel>
       <input
         id="prayer-title"
