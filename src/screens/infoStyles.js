@@ -1,3 +1,5 @@
+import { dark } from './demoStyles.js'
+
 // CSS propio de /info («Marcapáginas · Luz de mañana»). Se suma al sistema común de
 // landingSystem.js (tokens --lk-*, tipografía, botones, header/footer). Todo lo de
 // esta página lleva el prefijo `in-`. Valores y estructura: prototipo-info.html.
@@ -11,25 +13,17 @@
 // página está completa. Todo lo interactivo (demo, pestañas, FAQ, selector de
 // letra) funciona con checkboxes/radios/<details> nativos, sin JS.
 
-const dark = (sel, decl) => {
-  const sels = [].concat(sel)
-  const auto = sels.map((x) => `:root:not(.light) ${x}`).join(', ')
-  const forced = sels.map((x) => `:root.dark ${x}`).join(', ')
-  return `@media (prefers-color-scheme: dark){${auto}{${decl}}}\n${forced}{${decl}}`
-}
-
 export const INFO_CSS = `
 /* ── Tokens propios de /info ── */
 .in-page{
   --in-sans:-apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
-  --in-faint:#DAD3C8; --in-bezel:#1B1D20;
+  --in-faint:#DAD3C8;
   --in-tint-strong:color-mix(in srgb, var(--accent) 26%, transparent);
   --in-oracion-ink:color-mix(in srgb, var(--hue-oracion) 55%, var(--text-primary));
   --in-grupos-ink:color-mix(in srgb, var(--hue-grupos) 55%, var(--text-primary));
-  --in-shadow-lift:0 2px 4px rgba(28,28,30,.06), 0 18px 44px -12px rgba(43,108,176,.28);
   overflow-x:clip;
 }
-${dark('.in-page', '--in-faint:#363B41; --in-bezel:#26292D; --in-tint-strong:color-mix(in srgb, var(--accent) 30%, transparent); --in-shadow-lift:0 0 0 1px rgba(255,255,255,.07), 0 24px 60px -16px rgba(0,0,0,.7)')}
+${dark('.in-page', '--in-faint:#363B41; --in-tint-strong:color-mix(in srgb, var(--accent) 30%, transparent)')}
 .in-main{font-size:var(--lk-fs-body); line-height:1.6}
 .in-main p{text-wrap:pretty}
 .in-main :where(h1,h2,h3){text-wrap:balance}
@@ -54,100 +48,7 @@ ${dark('.in-page', '--in-faint:#363B41; --in-bezel:#26292D; --in-tint-strong:col
   .in-trust{display:flex}
 }
 
-/* ── TodayDemo: el teléfono, todo en unidades --u (1 = 1 px de una pantalla de 390) ── */
-.in-demo{position:relative; justify-self:center; width:min(100%, 326px);
-  --p-bg:var(--bg-app); --p-surface:var(--surface); --p-alt:var(--surface-alt); --p-ink:var(--text-primary); --p-soft:var(--text-soft);
-  --p-hair:var(--hairline); --p-control:var(--control-border); --p-accent:var(--accent); --p-shadow:var(--shadow-card); --p-sun:38%}
-${dark('.in-demo', '--p-sun:12%')}
-/* «Ver en noche / en claro»: el demo toma la paleta contraria a la de la página. */
-.in-demo:has(.in-flipbox:checked){--p-bg:#131517; --p-surface:#1C1F22; --p-alt:#262A2E; --p-ink:#F1F1EE; --p-soft:#A4A8AD; --p-hair:#2C3136; --p-control:#6B7177; --p-accent:#8FBFEC; --p-sun:12%; --p-shadow:0 0 0 1px rgba(255,255,255,.06)}
-${dark('.in-demo:has(.in-flipbox:checked)', '--p-bg:#FAF8F4; --p-surface:#FFFFFF; --p-alt:#F6F3EE; --p-ink:#1F1B16; --p-soft:#5C564D; --p-hair:#E4DED5; --p-control:#8A8378; --p-accent:#5B9FDF; --p-sun:38%; --p-shadow:0 1px 2px rgba(28,28,30,.05), 0 6px 20px rgba(28,28,30,.06)')}
-.in-phone{position:relative; border-radius:46px; padding:9px; background:var(--in-bezel);
-  box-shadow:var(--in-shadow-lift), 0 0 0 1px rgba(255,255,255,.04) inset; transform:rotate(1.4deg)}
-.in-phone::before{content:""; position:absolute; z-index:3; top:19px; left:50%; width:27%; height:24px; transform:translateX(-50%); border-radius:20px; background:#000}
-.in-screen{container-type:inline-size; border-radius:38px; overflow:hidden; background:var(--p-bg); color:var(--p-ink); aspect-ratio:390/772; position:relative}
-.in-sc{--u:calc(100cqw / 390); --p-ink-accent:color-mix(in srgb, var(--p-accent) 60%, var(--p-ink));
-  height:100%; display:flex; flex-direction:column; font-family:var(--in-sans); font-size:calc(15*var(--u)); line-height:1.4; position:relative; isolation:isolate}
-.in-sc::before{content:""; position:absolute; inset:0 0 auto 0; height:calc(300*var(--u)); z-index:-1;
-  background:radial-gradient(90% 80% at 90% 0%, color-mix(in srgb, #FFDDA0 var(--p-sun), transparent), transparent 62%), radial-gradient(70% 60% at 0% 0%, color-mix(in srgb, var(--p-accent) 22%, transparent), transparent 62%)}
-.in-sc p{margin:0}
-.in-sc-status{height:calc(52*var(--u)); padding:calc(17*var(--u)) calc(30*var(--u)) 0; display:flex; justify-content:space-between; font-size:calc(14*var(--u)); font-weight:600; font-variant-numeric:tabular-nums}
-.in-sc-status i{display:inline-block; width:calc(24*var(--u)); height:calc(11*var(--u)); border-radius:calc(3.5*var(--u)); border:calc(1.4*var(--u)) solid var(--p-ink); opacity:.8; position:relative; margin-top:calc(3*var(--u))}
-.in-sc-status i::after{content:""; position:absolute; inset:calc(1.5*var(--u)); right:calc(5*var(--u)); background:var(--p-ink); border-radius:calc(1.5*var(--u))}
-.in-sc-body{flex:1; padding:0 calc(16*var(--u)); display:flex; flex-direction:column; min-height:0}
-.in-sc-greet{display:flex; justify-content:space-between; align-items:center; height:calc(36*var(--u)); font-size:calc(14*var(--u)); font-weight:500; color:var(--p-soft)}
-.in-sc-greet svg{width:calc(19*var(--u)); height:calc(19*var(--u)); fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round}
-.in-sc-card{background:var(--p-surface); border-radius:calc(18*var(--u)); box-shadow:var(--p-shadow); padding:calc(15*var(--u)) calc(16*var(--u)) calc(14*var(--u)); margin-top:calc(8*var(--u))}
-.in-sc-plan{display:flex; align-items:center; gap:calc(4*var(--u)); font-size:calc(17*var(--u)); font-weight:600; line-height:1.25}
-.in-sc-plan svg{width:calc(14*var(--u)); height:calc(14*var(--u)); fill:none; stroke:var(--p-soft); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; opacity:.8}
-.in-sc-dayrow{display:flex; justify-content:space-between; align-items:baseline; margin-top:calc(3*var(--u)); font-size:calc(13*var(--u)); color:var(--p-soft); font-variant-numeric:tabular-nums}
-.in-sc-streak{font-weight:600; color:var(--p-soft); transition:color .4s}
-.in-sc-streak .in-s-after{display:none}
-.in-sc-prog{margin-top:calc(11*var(--u)); height:calc(2*var(--u)); border-radius:2px; background:var(--p-hair); overflow:hidden}
-.in-sc-prog i{display:block; height:100%; width:3.8%; background:var(--p-accent); border-radius:2px; transition:width .7s var(--lk-ease)}
-.in-sc-ref{margin-top:calc(14*var(--u)); font:450 calc(34*var(--u))/1.15 var(--lk-serif); letter-spacing:-.012em}
-.in-sc-chips{display:flex; gap:calc(8*var(--u)); margin-top:calc(8*var(--u))}
-.in-sc-chips b{min-width:calc(52*var(--u)); height:calc(46*var(--u)); display:grid; place-items:center; padding-inline:calc(8*var(--u)); border-radius:calc(14*var(--u));
-  background:color-mix(in srgb, var(--p-accent) 15%, transparent); color:var(--p-ink-accent); font:450 calc(24*var(--u))/1 var(--lk-serif); font-variant-numeric:lining-nums}
-.in-sc-hint{margin-top:calc(12*var(--u)); font-size:calc(12.5*var(--u)); line-height:1.5; color:var(--p-soft)}
-.in-sc-swap{flex:1; min-height:0; display:grid; margin-top:calc(14*var(--u))}
-.in-sc-swap > *{grid-area:1/1; min-height:0}
-.in-sc-label{font-size:calc(11.5*var(--u)); font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--p-soft); padding-left:calc(2*var(--u)); margin-bottom:calc(7*var(--u))}
-.in-sc-rows{background:var(--p-surface); border-radius:calc(16*var(--u)); box-shadow:var(--p-shadow); overflow:hidden}
-.in-sc-row{display:flex; align-items:center; gap:calc(12*var(--u)); padding:calc(11*var(--u)) calc(14*var(--u)); min-height:calc(50*var(--u)); border-top:1px solid var(--p-hair); font-size:calc(15*var(--u)); line-height:1.25}
-.in-sc-row:first-child{border-top:0}
-.in-sc-row b{display:block; font-weight:600}
-.in-sc-row small{display:block; margin-top:calc(1*var(--u)); font-size:calc(12.5*var(--u)); color:var(--p-soft)}
-.in-sc-row .in-dot{width:calc(24*var(--u)); height:calc(24*var(--u)); border-radius:50%; flex:none; box-shadow:inset 0 0 0 calc(1.6*var(--u)) var(--p-control); display:grid; place-items:center}
-.in-sc-row .in-dot.in-on{background:var(--accent-action); box-shadow:none}
-.in-sc-row .in-dot svg{width:calc(13*var(--u)); height:calc(13*var(--u)); fill:none; stroke:#fff; stroke-width:3; stroke-linecap:round; stroke-linejoin:round}
-.in-sc-row .in-chev{margin-left:auto; width:calc(14*var(--u)); height:calc(14*var(--u)); fill:none; stroke:var(--p-soft); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; opacity:.7}
-.in-sc-foot{text-align:center; margin-top:calc(11*var(--u)); font-size:calc(13.5*var(--u)); color:var(--p-soft)}
-.in-sc-foot em{font:italic 450 calc(15*var(--u)) var(--lk-serif); color:var(--p-ink-accent)}
-.in-sc-also .in-sc-row .in-ic{width:calc(32*var(--u)); height:calc(32*var(--u)); border-radius:calc(10*var(--u)); background:color-mix(in srgb, var(--hue-grupos) 20%, transparent); color:color-mix(in srgb, var(--hue-grupos) 60%, var(--p-ink)); display:grid; place-items:center; flex:none}
-.in-sc-also .in-sc-row .in-ic.in-m{background:color-mix(in srgb, var(--p-accent) 18%, transparent); color:var(--p-ink-accent)}
-.in-sc-also .in-sc-row .in-ic svg{width:calc(18*var(--u)); height:calc(18*var(--u)); fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round}
-.in-sc-bar{padding:calc(10*var(--u)) calc(16*var(--u)); position:relative}
-.in-sc-bar::before{content:""; position:absolute; inset:calc(-24*var(--u)) 0 0 0; z-index:-1; background:linear-gradient(transparent, var(--p-bg) 55%)}
-.in-btn-mark{display:grid; place-items:center; height:calc(54*var(--u)); border-radius:calc(16*var(--u)); font-size:calc(17*var(--u)); font-weight:600; cursor:pointer; user-select:none; -webkit-tap-highlight-color:transparent;
-  background:var(--accent-action); color:#fff; transition:background-color .35s, color .35s, transform .15s var(--lk-ease)}
-.in-btn-mark:active{transform:scale(.985)}
-.in-btn-mark > span{grid-area:1/1; display:flex; align-items:center; gap:calc(8*var(--u))}
-.in-btn-mark svg{width:calc(18*var(--u)); height:calc(18*var(--u)); fill:none; stroke:currentColor; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round}
-.in-btn-mark .in-b-after path{stroke-dasharray:1; stroke-dashoffset:1}
-.in-sc-tabs{display:flex; border-top:1px solid var(--p-hair); background:color-mix(in srgb, var(--p-bg) 88%, transparent); padding:calc(8*var(--u)) 0 calc(18*var(--u))}
-.in-sc-tabs span{flex:1; display:flex; flex-direction:column; align-items:center; gap:calc(3*var(--u)); font-size:calc(10.5*var(--u)); font-weight:500; color:var(--p-soft)}
-.in-sc-tabs svg{width:calc(24*var(--u)); height:calc(24*var(--u)); fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round}
-.in-sc-tabs .in-on{color:var(--p-ink-accent); font-weight:600}
-.in-read{position:absolute; opacity:0; width:1px; height:1px; margin:0}
-
-/* Los dos estados (antes / después de marcar) están siempre en el DOM; el inactivo
-   se oculta con visibility para que ni el lector de pantalla lo lea. */
-.in-sc-swap > *{transition:opacity .45s var(--lk-ease), transform .55s var(--lk-ease), visibility 0s linear 0s}
-.in-sc-day{opacity:0; visibility:hidden; transform:translateY(calc(14*var(--u))); transition-delay:0s, 0s, .55s; pointer-events:none}
-.in-btn-mark .in-b-before, .in-btn-mark .in-b-after{transition:opacity .25s, visibility 0s linear 0s}
-.in-btn-mark .in-b-after{opacity:0; visibility:hidden; transition-delay:0s, .25s}
-.in-screen:has(.in-read:checked) .in-s-before{display:none}
-.in-screen:has(.in-read:checked) .in-s-after{display:inline}
-.in-screen:has(.in-read:checked) .in-sc-streak{color:var(--p-ink-accent)}
-.in-screen:has(.in-read:checked) .in-sc-prog i{width:7.7%}
-.in-screen:has(.in-read:checked) .in-sc-day{opacity:1; visibility:visible; transform:none; transition-delay:0s; pointer-events:auto}
-.in-screen:has(.in-read:checked) .in-sc-also{opacity:0; visibility:hidden; transform:translateY(calc(-8*var(--u))); transition-delay:0s, 0s, .55s; pointer-events:none}
-.in-screen:has(.in-read:checked) .in-btn-mark{background:color-mix(in srgb, var(--p-accent) 18%, var(--p-surface)); color:var(--p-ink-accent)}
-.in-screen:has(.in-read:checked) .in-b-before{opacity:0; visibility:hidden; transition-delay:0s, .25s}
-.in-screen:has(.in-read:checked) .in-b-after{opacity:1; visibility:visible; transition-delay:0s, 0s}
-.in-screen:has(.in-read:checked) .in-b-after path{animation:in-draw .5s .12s var(--lk-ease) forwards}
-.in-screen:has(.in-read:focus-visible) .in-btn-mark{outline:2px solid var(--p-ink-accent); outline-offset:3px}
-@keyframes in-draw{to{stroke-dashoffset:0}}
-
-.in-demo-cap{margin-top:20px; display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:8px 14px; font-size:var(--lk-fs-micro); line-height:1.4; color:var(--text-soft); text-align:center}
-.in-flip{position:relative; display:inline-flex; align-items:center; gap:7px; min-height:44px; cursor:pointer; padding:0 14px; border-radius:99px; background:var(--surface); box-shadow:var(--shadow-card); font-weight:600; color:var(--text-primary)}
-.in-flipbox{position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:pointer}
-.in-flip:has(.in-flipbox:focus-visible){outline:2px solid var(--accent-ink); outline-offset:2px}
-.in-flip .in-ico{width:16px; height:16px}
-.in-flip .in-l-dark, .in-flip .in-i-sun{display:none}
-${dark(['.in-flip .in-l-dark', '.in-flip .in-i-sun'], 'display:inline')}
-${dark(['.in-flip .in-l-light', '.in-flip .in-i-moon'], 'display:none')}
+/* TodayDemo (el teléfono) y los demos de /lideres y /ayuda: demoStyles.js, que Info monta aparte. */
 
 /* ── Secciones ── */
 .in-sec{padding-block:clamp(64px, 9vw, 120px)}
@@ -402,8 +303,6 @@ ${dark('.in-lsteps li::before', 'color:#10231b')}
     .in-rv-3{animation-range:entry 12% entry 54%}
     .in-ribbon-sway{animation:in-sway linear both; animation-timeline:view(); animation-range:entry 10% cover 55%}
     @keyframes in-sway{from{transform:translateY(-34px) scaleY(.7); opacity:0} to{transform:none; opacity:1}}
-    .in-phone{animation:in-tilt linear both; animation-timeline:view(); animation-range:entry 0% exit 100%}
-    @keyframes in-tilt{from{transform:translateY(24px) rotate(2.4deg)} 50%{transform:none rotate(1deg)} to{transform:translateY(-14px) rotate(-.2deg)}}
   }
   .in-enter{animation:in-enter .8s var(--lk-ease) both}
   .in-enter-2{animation-delay:.08s}
@@ -411,11 +310,8 @@ ${dark('.in-lsteps li::before', 'color:#10231b')}
   .in-enter-4{animation-delay:.22s}
   .in-enter-5{animation-delay:.3s}
   @keyframes in-enter{from{opacity:0; transform:translateY(14px)}}
-  .in-demo{animation:in-enter 1s .12s var(--lk-ease) both}
 }
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
-  .in-btn-mark .in-b-after path{stroke-dashoffset:0}
-  .in-sc-swap > *, .in-btn-mark .in-b-before, .in-btn-mark .in-b-after{transition-duration:.01ms; transition-delay:0s}
 }
 `

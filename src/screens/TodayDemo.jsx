@@ -1,7 +1,9 @@
 import { useId } from 'react'
+import { IconPeople, IconBook, IconHeart, IconChart } from './landingDemos.jsx'
 
 // Demo vivo de la pantalla Hoy para las landings: el teléfono dibujado en HTML/CSS
-// (estilos en infoStyles.js, clases `in-*`), con datos de EJEMPLO y SOLO
+// (estilos en demoStyles.js, clases `in-*`; los íconos y el teléfono son los de
+// landingDemos.jsx, que usan también /lideres y /ayuda), con datos de EJEMPLO y SOLO
 // referencias de capítulos —nunca texto bíblico—. Sin estado de React ni JS:
 //  - «Marcar como leído» es un <label> de un checkbox real (operable con teclado);
 //    al marcarlo, el CSS (:has) dibuja el check, pasa la barra a «Leído hoy», sube la
@@ -16,30 +18,6 @@ import { useId } from 'react'
 const Chev = () => (
   <svg className="in-chev" viewBox="0 0 24 24" aria-hidden="true">
     <path d="M9 5l7 7-7 7" />
-  </svg>
-)
-
-const IconPeople = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <circle cx="9" cy="8.5" r="3" />
-    <path d="M3.5 19c.4-3 2.6-4.6 5.5-4.6s5.1 1.6 5.5 4.6" />
-    <circle cx="17" cy="9.5" r="2.3" />
-    <path d="M16.5 14.6c2.4-.2 3.8 1 4.2 3.4" />
-  </svg>
-)
-const IconBook = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M12 6.5C10.2 5.2 7.8 4.7 4 5v12c3.8-.3 6.2.2 8 1.5m0-12c1.8-1.3 4.2-1.8 8-1.5v12c-3.8-.3-6.2.2-8 1.5m0-12v12" />
-  </svg>
-)
-const IconHeart = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z" />
-  </svg>
-)
-const IconChart = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M5 20V11M12 20V5M19 20v-6" />
   </svg>
 )
 

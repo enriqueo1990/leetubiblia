@@ -15,6 +15,7 @@ import { CONTACT_EMAIL, MISSION_URL } from '../lib/developer.js'
 import { INFO_CSS } from './infoStyles.js'
 import { INFO_META, INFO_URL } from './infoCopy.js'
 import TodayDemo from './TodayDemo.jsx'
+import { DemoStyle } from './landingDemos.jsx'
 import { InfoSprite, Ico, PaperBible, InstallGuide, InstallArt, FaqList } from './infoParts.jsx'
 
 // Landing pública /info — página fuera del Gate (ver App.jsx). Le habla a quien
@@ -76,6 +77,7 @@ export default function Info() {
   return (
     <div className="in-page relative isolate min-h-[100dvh] bg-app text-ink">
       <LandingStyle />
+      <DemoStyle />
       <style dangerouslySetInnerHTML={{ __html: INFO_CSS }} />
       <InfoSprite />
       {/* Resplandor «luz de mañana»: nace detrás del header y baña también el hero. */}
