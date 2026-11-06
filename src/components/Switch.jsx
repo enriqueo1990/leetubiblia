@@ -1,4 +1,4 @@
-// Toggle accesible estilo iOS (track 48×29, knob 24). On = acento.
+// Toggle accesible estilo iOS (track 48×29, knob 24). On = acento de acción (contraste con la perilla blanca).
 // Único origen del switch en la app: expone role="switch" + aria-checked para
 // que el estado se anuncie. Acepta `label` (aria-label) cuando no hay texto visible.
 //   busy → guardando: ignora toques y avisa con aria-busy, SIN bajar la opacidad (el
@@ -22,7 +22,7 @@ export default function Switch({ on, onChange, label, disabled = false, busy = f
         aria-hidden="true"
         className="relative block h-[29px] w-12 rounded-full"
         style={{
-          backgroundColor: on ? 'var(--accent)' : 'var(--surface-alt)',
+          backgroundColor: on ? 'var(--accent-action)' : 'var(--surface-alt)',
           border: on ? '1px solid transparent' : '1px solid var(--control-border)',
           transition: 'background-color 0.2s ease',
         }}
