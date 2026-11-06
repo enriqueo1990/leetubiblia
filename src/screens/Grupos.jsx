@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { PeopleIcon, RowChevron, PlusIcon } from '../components/icons.jsx'
 import Sheet from '../components/Sheet.jsx'
 import RetryError from '../components/RetryError.jsx'
+import InlineError from '../components/InlineError.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import { initials } from '../components/Avatars.jsx'
 import { useAuth } from '../lib/auth.jsx'
@@ -177,14 +178,22 @@ function JoinGroupSheet({ onClose, onJoined, online = true }) {
         spellCheck={false}
         placeholder={t('grupos.codePlaceholder')}
         value={code}
-        onChange={(e) => setCode(e.target.value.toUpperCase())}
+        onChange={(e) => {
+          setCode(e.target.value.toUpperCase())
+          // Corregir el código es la respuesta al error: el aviso no se queda a la vista.
+          if (error) setError(null)
+        }}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? 'group-code-error' : undefined}
         className="w-full rounded-input px-4 py-3 text-center text-[24px] font-bold outline-none"
         style={{ ...inputStyle, letterSpacing: '3px' }}
       />
       <p className="mt-3 text-center text-[13px] text-ink-soft">
         {t('grupos.joinHelp')}
       </p>
-      {error && <p className="mt-3 text-center text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
+      <div id="group-code-error">
+        <InlineError message={error} className="mt-3 text-center" />
+      </div>
     </Sheet>
   )
 }
