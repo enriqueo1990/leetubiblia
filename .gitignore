@@ -8,3 +8,4 @@ dist-ssr
 .vite
 .vapid-keys.txt
 supabase/.temp/
+.shots-raw/
