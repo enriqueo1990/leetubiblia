@@ -1,6 +1,14 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { LandingStyle, LandingGlow, LandingHeader, LandingFooter, Eyebrow } from './landingKit.jsx'
+import {
+  LandingStyle,
+  LandingGlow,
+  LandingHeader,
+  LandingFooter,
+  Eyebrow,
+  SectionTitle,
+  SubTitle,
+} from './landingKit.jsx'
 import shotHoy from '../assets/guia-lideres/hoy-con-grupos.png'
 import shotSala from '../assets/guia-lideres/sala-grupo.png'
 import shotOrar from '../assets/guia-lideres/orar-ahora.png'
@@ -42,7 +50,7 @@ function Steps({ eyebrow, title, steps, children }) {
     <section className="mx-auto w-full max-w-[880px] px-6 py-8">
       <div className="border-t border-hairline pt-12">
         <Eyebrow>{eyebrow}</Eyebrow>
-        <h2 className="mt-4 text-[24px] font-bold tracking-[-0.02em] text-ink sm:text-[27px]">{title}</h2>
+        <SectionTitle className="mt-4">{title}</SectionTitle>
         <ol className="mt-8 flex max-w-[600px] flex-col gap-5">
           {steps.map(([head, body], i) => (
             <li key={i} className="flex items-start gap-4">
@@ -65,14 +73,13 @@ function Steps({ eyebrow, title, steps, children }) {
 }
 
 // Lo que se ve durante la semana: texto corto + captura.
-function Week({ title, children, shot, alt, side = 'right' }) {
+function Week({ title, children, shot, alt, side = 'right', first = false }) {
   const left = side === 'left'
   return (
-    <div className="border-t border-hairline pt-12 lg:flex lg:items-center lg:gap-16">
+    // El primero va sin regla: la sección ya trae la suya arriba del título.
+    <div className={`${first ? '' : 'border-t border-hairline pt-12'} lg:flex lg:items-center lg:gap-16`}>
       <div className={`lg:flex-1 ${left ? 'lg:order-2' : ''}`}>
-        <h3 className="max-w-[480px] text-[22px] font-bold leading-[1.2] tracking-[-0.02em] text-ink sm:text-[24px]">
-          {title}
-        </h3>
+        <SubTitle className="max-w-[480px]">{title}</SubTitle>
         <p className="mt-4 max-w-[480px] text-[16.5px] leading-relaxed text-ink-soft [&_b]:font-semibold [&_b]:text-accent-ink">
           {children}
         </p>
@@ -213,9 +220,7 @@ export default function Lideres() {
       <section className="mx-auto w-full max-w-[880px] px-6 py-8">
         <div className="border-t border-hairline pt-12">
           <Eyebrow>Durante la semana</Eyebrow>
-          <h2 className="mt-4 text-[24px] font-bold tracking-[-0.02em] text-ink sm:text-[27px]">
-            Lo que van a ver
-          </h2>
+          <SectionTitle className="mt-4">Lo que van a ver</SectionTitle>
         </div>
 
         <div className="mt-10">
@@ -224,6 +229,7 @@ export default function Lideres() {
             shot={shotHoy}
             alt="Pantalla Hoy con la lectura del grupo debajo de la lectura personal."
             side="right"
+            first
           >
             Cada uno ve la lectura del grupo en <b>Hoy</b>, junto a la suya. No tiene que
             buscarla en otro lado.
@@ -272,9 +278,7 @@ export default function Lideres() {
       <section className="mx-auto w-full max-w-[880px] px-6 py-14">
         <div className="band-grupos rounded-card px-7 py-8">
           <Eyebrow tone="grupos">En la reunión</Eyebrow>
-          <h2 className="mt-4 text-[22px] font-bold tracking-[-0.02em] text-ink sm:text-[24px]">
-            Una idea para usarla cuando se juntan
-          </h2>
+          <SectionTitle className="mt-4">Una idea para usarla cuando se juntan</SectionTitle>
           <ul className="mt-6 flex max-w-[600px] flex-col gap-3 text-[16px] leading-snug text-ink">
             <li>
               <b className="font-semibold">Abran la semana:</b> ¿qué les habló Dios en la lectura?
@@ -307,7 +311,7 @@ export default function Lideres() {
       {/* ── CIERRE ───────────────────────────────────────────── */}
       <section className="border-t border-hairline">
         <div className="mx-auto w-full max-w-[680px] px-6 py-20 text-center">
-          <h2 className="text-[30px] font-bold tracking-[-0.025em] text-ink sm:text-[34px]">
+          <h2 className="text-[32px] font-bold tracking-[-0.025em] text-ink sm:text-[38px]">
             Empezá hoy con tu grupo
           </h2>
           <p className="mx-auto mt-4 max-w-[420px] text-[18px] leading-relaxed text-ink-soft">

@@ -229,6 +229,26 @@ export function Eyebrow({ children, tone }) {
   )
 }
 
+// Escala de títulos de las páginas públicas: SectionTitle (h2) para cada sección y
+// SubTitle (h3) para el detalle dentro de ella. Los cierres de página van en 32/38.
+// `className` suma lo propio del sitio (margen, ancho máximo).
+export function SectionTitle({ children, className = '' }) {
+  return (
+    <h2
+      className={`text-[28px] font-bold leading-[1.14] tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[32px] ${className}`}
+    >
+      {children}
+    </h2>
+  )
+}
+export function SubTitle({ children, className = '' }) {
+  return (
+    <h3 className={`text-[20px] font-bold leading-[1.25] tracking-[-0.02em] text-ink sm:text-[22px] ${className}`}>
+      {children}
+    </h3>
+  )
+}
+
 // Navegación del sitio: las 4 páginas hermanas, en orden. Compartida por header
 // y footer para que sean UNA sola fuente de verdad.
 const SITE_NAV = [

@@ -17,6 +17,7 @@ import {
   LandingFooter,
   IconBadge,
   Eyebrow,
+  SectionTitle,
   PhoneMock,
   GroupMock,
   PaletteIcon,
@@ -180,9 +181,7 @@ export default function Info() {
       {/* ── FUNCIONALIDADES ──────────────────────────────────── */}
       <section className="mx-auto w-full max-w-[880px] px-6 py-8">
         <Eyebrow>Qué incluye</Eyebrow>
-        <h2 className="mt-4 text-[28px] font-bold tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[32px]">
-          Todo lo que sostiene el hábito
-        </h2>
+        <SectionTitle className="mt-4">Todo lo que sostiene el hábito</SectionTitle>
         <div className="mt-10 flex flex-col gap-12">
           {CLUSTERS.map((c) => (
             <div key={c.label}>
@@ -209,9 +208,9 @@ export default function Info() {
       <section className="band-grupos mt-16 py-20">
         <div className="mx-auto w-full max-w-[880px] px-6">
           <Eyebrow tone="grupos">Para líderes y pastores</Eyebrow>
-          <h2 className="mt-4 max-w-[560px] text-[28px] font-bold leading-[1.14] tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[34px]">
+          <SectionTitle className="mt-4 max-w-[560px]">
             Una herramienta para discipular, no solo una app personal
-          </h2>
+          </SectionTitle>
           <p className="mt-6 max-w-[560px] text-[18px] leading-relaxed text-ink-soft">
             Rinde de verdad en comunidad. Si guiás un grupo de discipulado o
             una congregación, tenés lo necesario para caminar con
@@ -271,9 +270,7 @@ export default function Info() {
       {/* ── INSTALACIÓN ──────────────────────────────────────── */}
       <section className="mx-auto w-full max-w-[880px] px-6 py-20">
         <Eyebrow>En 2 minutos</Eyebrow>
-        <h2 className="mt-4 text-[28px] font-bold tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[32px]">
-          Instalala como app
-        </h2>
+        <SectionTitle className="mt-4">Instalala como app</SectionTitle>
         <p className="mt-4 max-w-[520px] text-[16px] leading-relaxed text-ink-soft">
           No hace falta ninguna tienda: ya estás en el lugar. Creá tu cuenta y
           agregala a tu pantalla de inicio.

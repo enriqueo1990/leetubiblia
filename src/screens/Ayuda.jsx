@@ -27,6 +27,8 @@ import {
   AwardIcon,
   HandsIcon,
   BackToIndex,
+  SectionTitle,
+  SubTitle,
 } from './landingKit.jsx'
 
 // Página pública /ayuda — la REFERENCIA de la app (ver App.jsx, fuera del Gate).
@@ -136,9 +138,7 @@ function TabHead({ eyebrow, title, intro, tone }) {
   return (
     <>
       <Eyebrow tone={tone}>{eyebrow}</Eyebrow>
-      <h2 className="mt-4 max-w-[560px] text-[28px] font-bold leading-[1.14] tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[32px]">
-        {title}
-      </h2>
+      <SectionTitle className="mt-4 max-w-[560px]">{title}</SectionTitle>
       {intro && (
         <p className="mt-5 max-w-[560px] text-[17px] leading-relaxed text-ink-soft">{intro}</p>
       )}
@@ -221,9 +221,7 @@ export default function Ayuda() {
         {/* Los 13 planes. */}
         <div className="mt-16 border-t border-hairline pt-12">
           <Eyebrow>Planes de lectura</Eyebrow>
-          <h3 className="mt-4 text-[22px] font-bold tracking-[-0.02em] text-ink sm:text-[25px]">
-            Trece planes, uno para cada temporada
-          </h3>
+          <SubTitle className="mt-4">Trece planes, uno para cada temporada</SubTitle>
           <p className="mt-4 max-w-[520px] text-[16px] leading-relaxed text-ink-soft">
             Desde 8 días hasta dos años. Un plan activo a la vez, para no dispersarte.
           </p>
@@ -248,9 +246,7 @@ export default function Ayuda() {
         {/* Materiales. */}
         <div className="mt-16 border-t border-hairline pt-12">
           <Eyebrow>Materiales opcionales</Eyebrow>
-          <h3 className="mt-4 text-[22px] font-bold tracking-[-0.02em] text-ink sm:text-[25px]">
-            Para enriquecer tu tiempo
-          </h3>
+          <SubTitle className="mt-4">Para enriquecer tu tiempo</SubTitle>
           <p className="mt-4 max-w-[520px] text-[16px] leading-relaxed text-ink-soft">
             Credos, confesiones y catecismos históricos, cada uno con su breve introducción, y un
             devocional para cada mañana del año. En la Biblioteca cada uno tiene su portada: los que

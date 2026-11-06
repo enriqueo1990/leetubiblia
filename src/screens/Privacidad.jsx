@@ -1,6 +1,15 @@
 import { useEffect } from 'react'
 import { BellIcon, BookIcon, HeartIcon, PeopleIcon, LockIcon, PencilIcon } from '../components/icons.jsx'
-import { LandingStyle, LandingGlow, LandingHeader, LandingFooter, Eyebrow, IconBadge } from './landingKit.jsx'
+import {
+  LandingStyle,
+  LandingGlow,
+  LandingHeader,
+  LandingFooter,
+  Eyebrow,
+  IconBadge,
+  SectionTitle,
+  SubTitle,
+} from './landingKit.jsx'
 import { CONTACT_EMAIL as CONTACTO } from '../lib/developer.js'
 
 // Página pública /privacidad — la capa de confianza del sitio (ver App.jsx, fuera
@@ -128,9 +137,9 @@ export default function Privacidad() {
       <section className="mx-auto w-full max-w-[880px] px-6 py-12">
         <div className="border-t border-hairline pt-12">
           <Eyebrow>Qué guardamos y para qué</Eyebrow>
-          <h2 className="mt-4 max-w-[560px] text-[26px] font-bold leading-[1.16] tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[30px]">
+          <SectionTitle className="mt-4 max-w-[560px]">
             Solo lo necesario para que la app funcione
-          </h2>
+          </SectionTitle>
           <p className="mt-5 max-w-[560px] text-[16px] leading-relaxed text-ink-soft">
             Guardamos lo justo para sostener tu hábito de lectura y tu vida de
             oración —nada más—. Esto es todo:
@@ -157,9 +166,7 @@ export default function Privacidad() {
               <LockIcon size={22} />
             </IconBadge>
             <div>
-              <h2 className="text-[22px] font-bold tracking-[-0.02em] text-ink sm:text-[25px]">
-                Qué es privado y qué se comparte
-              </h2>
+              <SectionTitle>Qué es privado y qué se comparte</SectionTitle>
               <div className="mt-5 flex flex-col gap-4 text-[16px] leading-relaxed text-ink-soft">
                 <p>
                   Por defecto, <b className="font-semibold text-accent-ink">nada de lo tuyo es visible para otros</b>.
@@ -189,9 +196,7 @@ export default function Privacidad() {
         <div className="grid gap-10 sm:grid-cols-2">
           <div>
             <Eyebrow>Cómo entrás</Eyebrow>
-            <h3 className="mt-4 text-[19px] font-bold tracking-[-0.02em] text-ink">
-              Con tu correo, sin contraseña
-            </h3>
+            <SubTitle className="mt-4">Con tu correo, sin contraseña</SubTitle>
             <p className="mt-3 text-[15.5px] leading-relaxed text-ink-soft">
               Te enviamos un código a tu correo. No manejamos ni
               guardamos contraseñas, así que no hay una que se pueda filtrar.
@@ -199,9 +204,7 @@ export default function Privacidad() {
           </div>
           <div>
             <Eyebrow>Dónde viven tus datos</Eyebrow>
-            <h3 className="mt-4 text-[19px] font-bold tracking-[-0.02em] text-ink">
-              En un servidor seguro
-            </h3>
+            <SubTitle className="mt-4">En un servidor seguro</SubTitle>
             <p className="mt-3 text-[15.5px] leading-relaxed text-ink-soft">
               Tus datos se guardan de forma segura en nuestro proveedor de
               infraestructura (Supabase). La app se instala en tu teléfono y
@@ -215,9 +218,7 @@ export default function Privacidad() {
       <section className="border-t border-hairline">
         <div className="mx-auto w-full max-w-[880px] px-6 py-16">
           <Eyebrow>Tu control</Eyebrow>
-          <h2 className="mt-4 text-[26px] font-bold tracking-[-0.025em] text-ink sm:text-[30px]">
-            Podés irte con todo lo tuyo
-          </h2>
+          <SectionTitle className="mt-4">Podés irte con todo lo tuyo</SectionTitle>
           <p className="mt-5 max-w-[560px] text-[16px] leading-relaxed text-ink-soft">
             En <b className="font-semibold text-accent-ink">Ajustes → Eliminar cuenta</b> borrás tu
             cuenta y con ella todos tus datos —tu lectura, tus reflexiones, tus
@@ -232,7 +233,7 @@ export default function Privacidad() {
       {/* ── CONTACTO ─────────────────────────────────────────── */}
       <section className="border-t border-hairline">
         <div className="mx-auto w-full max-w-[680px] px-6 py-20 text-center">
-          <h2 className="text-[28px] font-bold tracking-[-0.025em] text-ink sm:text-[32px]">
+          <h2 className="text-[32px] font-bold tracking-[-0.025em] text-ink sm:text-[38px]">
             ¿Alguna duda?
           </h2>
           <p className="mx-auto mt-4 max-w-[440px] text-[17px] leading-relaxed text-ink-soft">
