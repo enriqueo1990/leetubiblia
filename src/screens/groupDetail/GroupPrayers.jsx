@@ -16,6 +16,7 @@ export default function GroupPrayers({
   onPray,
   onUnpray,
   prayerAction,
+  newPrayerId = null,
   defaultExpanded = false,
   onLeave,
   online = true,
@@ -71,7 +72,7 @@ export default function GroupPrayers({
         <>
           <ul className="card mt-3 divide-y divide-hairline">
             {(expanded ? prayers : prayers.slice(0, LIMIT)).map((p) => (
-              <li key={p.id}>
+              <li key={p.id} className={p.id === newPrayerId ? 'prayer-card-enter' : undefined}>
                 <button
                   type="button"
                   onClick={() => {

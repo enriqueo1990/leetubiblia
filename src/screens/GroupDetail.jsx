@@ -101,6 +101,7 @@ export default function GroupDetail() {
   const [nameInput, setNameInput] = useState('')
   const [savingName, setSavingName] = useState(false)
   const [nameError, setNameError] = useState(null)
+  const [newPrayerId, setNewPrayerId] = useState(null) // el pedido recién compartido entra con un fade
   const [prayerAction, setPrayerAction] = useState({ busyId: null, errorId: null })
   const [partialLoadError, setPartialLoadError] = useState(false)
   const [resume] = useState(() => readResume(id))
@@ -144,10 +145,13 @@ export default function GroupDetail() {
   // deriva de ella), así que no vale recargar el grupo entero.
   const loadPrayers = useCallback(async () => {
     try {
-      setPrayers(await getGroupActivePrayers(Number(id)))
+      const list = await getGroupActivePrayers(Number(id))
+      setPrayers(list)
+      return list
     } catch {
       // El pulso queda como estaba, pero no mostramos ese estado como completo.
       setPartialLoadError(true)
+      return null
     }
   }, [id])
 
@@ -553,6 +557,7 @@ export default function GroupDetail() {
             onAddPrayer={() => setSheetOpen(true)}
             onPray={orar}
             onUnpray={dejarDeOrar}
+            newPrayerId={newPrayerId}
             defaultExpanded={!!resume?.expanded}
             onLeave={(expanded) => rememberPlace({ expanded })}
             prayerAction={prayerAction}
@@ -592,9 +597,13 @@ export default function GroupDetail() {
           groups={[{ id: group.id, name: group.name }]}
           presetGroupId={group.id}
           onClose={() => setSheetOpen(false)}
-          onSaved={() => {
+          // La hoja se cierra cuando el pedido ya está en la lista: así se ve
+          // dónde quedó, en vez de cerrar y que aparezca después.
+          onSaved={async () => {
+            const before = new Set(prayers.map((p) => p.id))
+            const list = await loadPrayers()
+            setNewPrayerId(list?.find((p) => !before.has(p.id))?.id ?? null)
             setSheetOpen(false)
-            loadPrayers()
           }}
         />
       )}
