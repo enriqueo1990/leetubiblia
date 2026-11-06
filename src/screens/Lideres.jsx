@@ -40,7 +40,7 @@ function Steps({ eyebrow, title, steps, children }) {
         <ol className="mt-8 flex max-w-[600px] flex-col gap-5">
           {steps.map(([head, body], i) => (
             <li key={i} className="flex items-start gap-4">
-              <span className="info-num mt-[1px] inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[15px] font-bold text-white">
+              <span className="mt-[1px] inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-action text-[15px] font-bold text-on-accent">
                 {i + 1}
               </span>
               <span className="pt-1">

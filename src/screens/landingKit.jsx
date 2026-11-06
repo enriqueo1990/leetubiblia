@@ -17,17 +17,16 @@ import BrandMark from '../components/BrandMark.jsx'
 // Un solo acento (Cielo), la MISMA sans del sistema, aire en vez de tarjetas flotantes
 // (design-canon). Toda landing debe montar <LandingStyle/> para las clases info-*.
 
-// CSS local de las landings: eyebrows y números de paso en un tono de acento más profundo
-// (AA en texto chico), CTAs que responden al cursor, y la atmósfera cálida
-// compartida (resplandor y bandas). Idéntico en todas las páginas.
+// CSS local de las landings: eyebrows en un tono de acento más profundo (AA en texto
+// chico), CTAs que responden al cursor, y la atmósfera fresca compartida (resplandor
+// y bandas). Los números de paso usan bg-accent-action + text-on-accent, como los
+// pasos de instalar en Hoy. Idéntico en todas las páginas.
 export function LandingStyle() {
   return (
     <style>{`
       .info-eyebrow { color: var(--accent); }
-      .info-num { background: var(--accent); }
       @supports (color: color-mix(in srgb, red 50%, blue)) {
         .info-eyebrow { color: color-mix(in srgb, var(--accent) 68%, var(--text-primary)); }
-        .info-num { background: color-mix(in srgb, var(--accent) 72%, var(--text-primary)); }
       }
       .info-cta { transition: filter 0.15s ease, transform 0.15s ease; }
       .info-cta:hover { filter: brightness(0.94); }

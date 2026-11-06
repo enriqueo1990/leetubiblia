@@ -98,7 +98,7 @@ function Steps({ title, steps }) {
       <ol className="flex flex-col gap-3">
         {steps.map((s, i) => (
           <li key={i} className="flex items-start gap-4">
-            <span className="info-num mt-[1px] inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[15px] font-bold text-white">
+            <span className="mt-[1px] inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-action text-[15px] font-bold text-on-accent">
               {i + 1}
             </span>
             <span
