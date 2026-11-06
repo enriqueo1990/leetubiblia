@@ -34,7 +34,7 @@ export default function ShareReadingSheet({ isOwner, onShare, onLater }) {
             type="button"
             className="btn btn-primary"
             disabled={saving}
-            style={{ opacity: saving ? 0.6 : 1 }}
+            aria-busy={saving}
             onClick={share}
           >
             {saving ? t('groupDetail.shareAsk.saving') : t('groupDetail.shareAsk.cta')}

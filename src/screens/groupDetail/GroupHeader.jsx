@@ -43,8 +43,8 @@ export default function GroupHeader({
               type="button"
               onClick={onSaveName}
               disabled={savingName || !nameInput.trim()}
+              aria-busy={savingName}
               className="btn btn-primary"
-              style={{ opacity: savingName || !nameInput.trim() ? 0.5 : 1 }}
             >
               {savingName ? '…' : t('common.save')}
             </button>

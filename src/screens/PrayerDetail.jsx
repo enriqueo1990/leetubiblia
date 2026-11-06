@@ -429,8 +429,8 @@ export default function PrayerDetail() {
                   type="button"
                   onClick={saveUpdate}
                   disabled={!updateBody.trim() || savingUpdate}
+                  aria-busy={savingUpdate}
                   className="btn btn-primary"
-                  style={{ opacity: !updateBody.trim() || savingUpdate ? 0.5 : 1 }}
                 >
                   {savingUpdate ? t('common.saving') : t('common.save')}
                 </button>

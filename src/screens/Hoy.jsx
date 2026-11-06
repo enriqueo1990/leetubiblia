@@ -634,8 +634,8 @@ export default function Hoy() {
               type="button"
               onClick={handleShare}
               disabled={sharing}
+              aria-busy={sharing}
               className="btn btn-primary flex items-center justify-center gap-2"
-              style={{ opacity: sharing ? 0.6 : 1 }}
             >
               <ShareIcon size={18} /> {sharing ? t('hoy.generatingImage') : t('hoy.shareAchievement')}
             </button>
@@ -902,7 +902,7 @@ export default function Hoy() {
             className="btn btn-primary mt-4"
             onClick={handleInstall}
             disabled={installing}
-            style={{ opacity: installing ? 0.6 : 1 }}
+            aria-busy={installing}
           >
             {installing ? t('hoy.install.opening') : t('hoy.install.cta')}
           </button>

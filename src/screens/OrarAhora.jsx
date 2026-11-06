@@ -375,6 +375,7 @@ export default function OrarAhora() {
               type="button"
               onClick={stillSame}
               disabled={!online || leaving}
+              aria-busy={leaving}
               aria-label={pressedAction === 'primary' ? t('orar.keepPraying') : currentActionLabel}
               className={`btn btn-primary flex items-center justify-center ${
                 pressedAction === 'primary' ? 'prayer-action-breathe' : ''
@@ -389,6 +390,7 @@ export default function OrarAhora() {
               type="button"
               onClick={pray}
               disabled={!online || leaving}
+              aria-busy={leaving}
               aria-label={pressedAction === 'primary' ? t('orar.keepPraying') : currentActionLabel}
               className={`btn btn-primary flex items-center justify-center gap-2 ${
                 pressedAction === 'primary' ? 'prayer-action-breathe' : ''

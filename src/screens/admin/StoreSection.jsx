@@ -201,7 +201,7 @@ export function GoalEditor({ goal, funnel, error, onRetry, onSaved }) {
         type="button"
         className="btn btn-primary mt-3"
         disabled={!dirty || saving}
-        style={{ opacity: !dirty || saving ? 0.5 : 1 }}
+        aria-busy={saving}
         onClick={save}
       >
         {saving ? 'Guardando…' : 'Guardar'}

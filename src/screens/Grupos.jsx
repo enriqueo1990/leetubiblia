@@ -77,7 +77,7 @@ function CreateGroupSheet({ onClose, onCreated, online = true }) {
           type="button"
           className="btn btn-primary"
           disabled={!online || name.trim().length < 2 || !nameOk || busy}
-          style={{ opacity: !online || name.trim().length < 2 || !nameOk || busy ? 0.5 : 1 }}
+          aria-busy={busy}
           onClick={submit}
         >
           {busy ? t('grupos.creating') : t('grupos.createTitle')}
@@ -157,7 +157,7 @@ function JoinGroupSheet({ onClose, onJoined, online = true }) {
           type="button"
           className="btn btn-primary"
           disabled={!online || code.trim().length < 4 || !nameOk || busy}
-          style={{ opacity: !online || code.trim().length < 4 || !nameOk || busy ? 0.5 : 1 }}
+          aria-busy={busy}
           onClick={submit}
         >
           {busy ? t('grupos.joining') : t('grupos.joinButton')}

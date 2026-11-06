@@ -166,7 +166,7 @@ function PreviewSheet({ slug, onClose }) {
       title={m?.name ?? ''}
       onCancel={onClose}
       footer={
-        <button type="button" onClick={add} disabled={saving} className="btn btn-primary" style={{ opacity: saving ? 0.6 : 1 }}>
+        <button type="button" onClick={add} disabled={saving} aria-busy={saving} className="btn btn-primary">
           {saving ? t('common.saving') : t('library.addToShelf')}
         </button>
       }

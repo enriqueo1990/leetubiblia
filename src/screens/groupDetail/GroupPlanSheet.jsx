@@ -39,7 +39,6 @@ export default function GroupPlanSheet({ currentPlanId, saving, error, onSet, on
           onClick={() => onSet(sel)}
           disabled={!canSet}
           className="btn btn-primary"
-          style={{ opacity: canSet ? 1 : 0.5 }}
         >
           {saving ? t('common.saving') : t('groupDetail.planPickerSet')}
         </button>

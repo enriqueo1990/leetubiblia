@@ -106,7 +106,7 @@ function FeedbackSheet({ initialKind, onClose }) {
           type="button"
           className="btn btn-primary"
           disabled={!canSend}
-          style={{ opacity: canSend ? 1 : 0.5 }}
+          aria-busy={sending}
           onClick={submit}
         >
           {sending ? t('dev.sending') : t('dev.send')}

@@ -210,7 +210,7 @@ export default function PrayerSheet({
           type="button"
           className="btn btn-primary"
           disabled={!canSave}
-          style={{ opacity: canSave ? 1 : 0.5 }}
+          aria-busy={busy}
           onClick={requestSave}
         >
           {busy ? t('prayerSheet.saving') : t('prayerSheet.save')}

@@ -175,6 +175,7 @@ export default function PlanDetail() {
         type="button"
         onClick={onActivateClick}
         disabled={saving}
+        aria-busy={saving}
         className={`btn mt-5 ${isActive ? 'btn-secondary' : 'btn-primary'}`}
       >
         {isActive ? t('planes.goToday') : saving ? t('planes.activating') : t('planes.useThisPlan')}

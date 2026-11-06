@@ -605,7 +605,6 @@ export default function MaterialReader() {
               onClick={sharePhrase}
               disabled={pick.start == null}
               className="btn btn-primary"
-              style={{ opacity: pick.start == null ? 0.5 : 1 }}
             >
               {t('share.sharePhrase')}
             </button>

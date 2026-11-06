@@ -711,8 +711,8 @@ export default function Ajustes() {
               type="button"
               onClick={() => (targetDay < currentDay ? setConfirmBack(true) : updatePlanDay())}
               disabled={!canUpdateDay || savingDay}
+              aria-busy={savingDay}
               className="btn btn-primary mt-3"
-              style={{ opacity: !canUpdateDay || savingDay ? 0.5 : 1 }}
             >
               {savingDay ? '…' : t('ajustes.actualizar')}
             </button>

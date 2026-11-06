@@ -378,8 +378,8 @@ export default function AuthFlow() {
           <button
             type="submit"
             disabled={!codeValid || verifying}
+            aria-busy={verifying}
             className="btn btn-primary mt-4"
-            style={{ opacity: !codeValid || verifying ? 0.5 : 1 }}
           >
             {verifying ? t('onboarding.auth.verifying') : t('onboarding.auth.enter')}
           </button>
@@ -470,8 +470,8 @@ export default function AuthFlow() {
         <button
           type="submit"
           disabled={!valid || sending}
+          aria-busy={sending}
           className="btn btn-primary mt-4"
-          style={{ opacity: !valid || sending ? 0.5 : 1 }}
         >
           {sending ? t('onboarding.auth.sending') : t('onboarding.auth.sendCode')}
         </button>

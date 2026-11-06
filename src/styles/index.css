@@ -325,6 +325,14 @@
     border: 1px solid var(--control-border);
     opacity: 1 !important;
   }
+  /* Trabajando (guardando, enviando): sigue viéndose como botón primario, un
+     poco más tenue. El gris queda para «todavía no podés». */
+  .btn-primary[aria-busy='true']:disabled {
+    background-color: var(--accent-action);
+    color: var(--on-accent);
+    border: 0;
+    opacity: 0.8 !important;
+  }
 
   /* Zona de acción sticky (móvil/tablet) — mismo cristal que la tab bar:
      translúcida con blur y pegada justo encima de ella (57px = 56 de ítems +

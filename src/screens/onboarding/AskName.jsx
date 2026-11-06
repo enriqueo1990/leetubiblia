@@ -64,8 +64,8 @@ export default function AskName() {
         <button
           type="submit"
           disabled={!valid || saving}
+          aria-busy={saving}
           className="btn btn-primary mt-4"
-          style={{ opacity: !valid || saving ? 0.5 : 1 }}
         >
           {saving ? t('common.saving') : t('common.continue')}
         </button>

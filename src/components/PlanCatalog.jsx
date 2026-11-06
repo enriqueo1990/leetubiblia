@@ -132,8 +132,8 @@ export default function PlanCatalog({
       <button
         type="button"
         disabled={!selectedPlan || saving}
+        aria-busy={saving}
         className="btn btn-primary mt-4"
-        style={{ opacity: !selectedPlan || saving ? 0.5 : 1 }}
         onClick={() => selectedPlan && !saving && onStart(selectedPlan, resumeDay)}
       >
         {saving ? savingLabel : selectedPlan ? startLabel : t('onboarding.choosePlan.pickFirst')}
