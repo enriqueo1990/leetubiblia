@@ -15,6 +15,7 @@
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import webpush from 'npm:web-push@3.6.7'
 import { requireServiceRole } from '../_shared/require-service-role.ts'
+import { groupPrayer, pickLocale } from '../_shared/push-i18n.ts'
 
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
 const SERVICE_ROLE = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
@@ -67,8 +68,8 @@ Deno.serve(async (req) => {
     supabase.from('profiles').select('display_name').eq('id', authorId).maybeSingle(),
     supabase.from('groups').select('name').eq('id', groupId).maybeSingle(),
   ])
-  const authorName = author?.display_name || 'Alguien'
-  const groupName = group?.name || 'tu grupo'
+  const authorName = (author?.display_name as string | null) || null
+  const groupName = (group?.name as string | null) || null
 
   // Miembros del grupo, menos el autor.
   const { data: members } = await supabase
@@ -82,23 +83,26 @@ Deno.serve(async (req) => {
   // De esos, los que tienen el aviso activado.
   const { data: optedIn } = await supabase
     .from('profiles')
-    .select('id')
+    .select('id, locale')
     .in('id', memberIds)
     .eq('group_prayer_notifications_enabled', true)
   const recipientIds = (optedIn ?? []).map((p) => p.id as string)
+  const localeById = new Map((optedIn ?? []).map((p) => [p.id as string, pickLocale(p.locale)]))
   if (!recipientIds.length) return json({ recipients: 0, sent: 0, removed: 0 })
 
   const { data: subs } = await supabase
     .from('push_subscriptions')
-    .select('endpoint, p256dh, auth')
+    .select('endpoint, p256dh, auth, user_id')
     .in('user_id', recipientIds)
 
-  const payload = JSON.stringify({
-    title: 'Nuevo pedido de oración',
-    body: `${authorName} pidió oración en ${groupName}.`,
-    url: '/oracion',
-    tag: `prayer-${prayerId}`,
-  })
+  // Un payload por idioma de quien recibe (el texto y los respaldos dependen de él).
+  const payloads = new Map<string, string>()
+  for (const l of new Set(localeById.values())) {
+    payloads.set(
+      l,
+      JSON.stringify({ ...groupPrayer(l, authorName, groupName), url: '/oracion', tag: `prayer-${prayerId}` })
+    )
+  }
 
   let sent = 0
   let removed = 0
@@ -106,7 +110,7 @@ Deno.serve(async (req) => {
     try {
       await webpush.sendNotification(
         { endpoint: s.endpoint, keys: { p256dh: s.p256dh, auth: s.auth } },
-        payload
+        payloads.get(localeById.get(s.user_id as string) ?? 'es')!
       )
       sent++
     } catch (e) {

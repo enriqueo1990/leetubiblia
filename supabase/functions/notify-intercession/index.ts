@@ -17,6 +17,7 @@
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import webpush from 'npm:web-push@3.6.7'
 import { requireServiceRole } from '../_shared/require-service-role.ts'
+import { intercession, pickLocale } from '../_shared/push-i18n.ts'
 
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
 const SERVICE_ROLE = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
@@ -81,7 +82,7 @@ Deno.serve(async (req) => {
   // El autor debe tener los avisos activados.
   const { data: author } = await supabase
     .from('profiles')
-    .select('group_prayer_notifications_enabled')
+    .select('group_prayer_notifications_enabled, locale')
     .eq('id', authorId)
     .maybeSingle()
   if (!author?.group_prayer_notifications_enabled) return json({ recipients: 0, sent: 0, removed: 0 })
@@ -99,13 +100,8 @@ Deno.serve(async (req) => {
     .eq('user_id', authorId)
   if (!subs?.length) return json({ recipients: 1, sent: 0, removed: 0 })
 
-  const bodyText =
-    n <= 1
-      ? 'Alguien empezó a orar por tu pedido.'
-      : `Ya son ${n} personas orando por tu pedido.`
   const payload = JSON.stringify({
-    title: 'Están orando por vos 🙏',
-    body: bodyText,
+    ...intercession(pickLocale(author?.locale), n),
     url: `/oracion/${prayerId}`,
     tag: `intercession-${prayerId}`,
   })

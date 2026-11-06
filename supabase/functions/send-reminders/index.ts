@@ -14,6 +14,7 @@
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import webpush from 'npm:web-push@3.6.7'
 import { requireServiceRole } from '../_shared/require-service-role.ts'
+import { pickLocale, REMINDER } from '../_shared/push-i18n.ts'
 
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
 const SERVICE_ROLE = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
@@ -58,7 +59,7 @@ Deno.serve(async (req) => {
 
   const { data: profiles, error } = await supabase
     .from('profiles')
-    .select('id, reminder_time, timezone, reminder_last_sent')
+    .select('id, reminder_time, timezone, reminder_last_sent, locale')
     .eq('reminder_enabled', true)
     .not('reminder_time', 'is', null)
     .not('timezone', 'is', null)
@@ -71,7 +72,7 @@ Deno.serve(async (req) => {
   }
 
   // A quién le toca: su hora local ya llegó hoy y todavía no se le envió hoy.
-  const due = (profiles ?? []).filter((p) => {
+  const dueByTime = (profiles ?? []).filter((p) => {
     try {
       const { date, minutes } = localNow(p.timezone as string, now)
       return minutes >= toMinutes(p.reminder_time as string) && p.reminder_last_sent !== date
@@ -80,17 +81,45 @@ Deno.serve(async (req) => {
     }
   })
 
-  const payload = JSON.stringify({
-    title: 'Tu lectura de hoy te espera 📖',
-    body: 'Tomate un momento para tu pasaje de hoy.',
-    url: '/',
-    tag: 'daily-reminder',
-  })
+  // Quien ya marcó algo hoy (en su fecha local) no necesita el recordatorio: una
+  // sola consulta en lote a reading_progress. Se mira las últimas ~40 h para cubrir
+  // cualquier zona horaria. Igual se sella reminder_last_sent a quienes se saltean.
+  const alreadyRead = new Set<string>()
+  if (dueByTime.length) {
+    const since = new Date(now.getTime() - 40 * 3600 * 1000).toISOString()
+    const { data: marks } = await supabase
+      .from('reading_progress')
+      .select('user_id, completed_at')
+      .in('user_id', dueByTime.map((p) => p.id as string))
+      .gte('completed_at', since)
+    const tzById = new Map(dueByTime.map((p) => [p.id as string, p.timezone as string]))
+    for (const m of marks ?? []) {
+      const tz = tzById.get(m.user_id as string)
+      if (!tz) continue
+      try {
+        const today = localNow(tz, now).date
+        if (localNow(tz, new Date(m.completed_at as string)).date === today) alreadyRead.add(m.user_id as string)
+      } catch {
+        /* timezone inválida: se trata como que no leyó */
+      }
+    }
+  }
+  const due = dueByTime.filter((p) => !alreadyRead.has(p.id as string))
+  const skipped = dueByTime.filter((p) => alreadyRead.has(p.id as string))
+  for (const p of skipped) {
+    const { date } = localNow(p.timezone as string, now)
+    await supabase.from('profiles').update({ reminder_last_sent: date }).eq('id', p.id)
+  }
 
   let sent = 0
   let removed = 0
 
   for (const p of due) {
+    const payload = JSON.stringify({
+      ...REMINDER[pickLocale(p.locale)],
+      url: '/',
+      tag: 'daily-reminder',
+    })
     const { data: subs } = await supabase
       .from('push_subscriptions')
       .select('endpoint, p256dh, auth')
@@ -119,7 +148,7 @@ Deno.serve(async (req) => {
     await supabase.from('profiles').update({ reminder_last_sent: date }).eq('id', p.id)
   }
 
-  return new Response(JSON.stringify({ due: due.length, sent, removed }), {
+  return new Response(JSON.stringify({ due: due.length, skippedAlreadyRead: skipped.length, sent, removed }), {
     headers: { 'Content-Type': 'application/json' },
   })
 })
