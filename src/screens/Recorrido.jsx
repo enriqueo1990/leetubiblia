@@ -8,21 +8,11 @@ import { planName } from '../lib/planLabels.js'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import RetryError from '../components/RetryError.jsx'
+import StatTile from '../components/StatTile.jsx'
 
 // "Tu recorrido en la Palabra" (Feature 5, parte 2): números acumulados + planes
 // terminados. Se nutre de plan_completions (logros permanentes) y de los datos
 // existentes (lectura, oración). No trae Escritura adentro: resume el hábito.
-
-function Stat({ value, label, accent }) {
-  return (
-    <div className="card flex-1 p-4 text-center">
-      <p className={`stat-num text-[30px] font-bold ${accent ? 'text-accent-ink' : 'text-ink'}`}>
-        {value}
-      </p>
-      <p className="mt-0.5 text-[13px] leading-tight text-ink-soft">{label}</p>
-    </div>
-  )
-}
 
 export default function Recorrido() {
   const { user } = useAuth()
@@ -81,22 +71,22 @@ export default function Recorrido() {
             {t('recorrido.sectionNumbers')}
           </h2>
           <div className="mt-3 flex gap-3">
-            <Stat
+            <StatTile
               value={stats.plansCompleted}
               label={t('recorrido.plansCompleted', { count: stats.plansCompleted })}
               accent
             />
-            <Stat
+            <StatTile
               value={stats.longestStreak}
               label={t('hoy.maxStreak', { count: stats.longestStreak })}
             />
           </div>
           <div className="mt-3 flex gap-3">
-            <Stat
+            <StatTile
               value={stats.totalDaysRead}
               label={t('recorrido.daysInWord', { count: stats.totalDaysRead })}
             />
-            <Stat
+            <StatTile
               value={stats.prayersAnswered}
               label={t('recorrido.prayersAnswered', { count: stats.prayersAnswered })}
             />

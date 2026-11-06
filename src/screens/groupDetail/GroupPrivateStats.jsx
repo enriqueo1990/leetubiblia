@@ -1,7 +1,7 @@
 import { LockIcon } from '../../components/icons.jsx'
 import { useAuth } from '../../lib/auth.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
-import Stat from './Stat.jsx'
+import StatTile from '../../components/StatTile.jsx'
 
 // Lo privado del líder en UNA sola card con separador interno (resumen +
 // semana): dos cajas gemelas apiladas eran ritmo monótono. Los miembros nunca
@@ -30,9 +30,9 @@ export default function GroupPrivateStats({ stats, weekRows, answeredPct }) {
             </span>
           </div>
           <div className="mt-4 flex">
-            <Stat n={stats.active} label={t('groupDetail.statActive')} />
-            <Stat n={stats.answered} label={t('groupDetail.statAnswered')} />
-            <Stat n={stats.praying_week} label={t('groupDetail.statPrayingWeek')} />
+            <StatTile bare accent value={stats.active} label={t('groupDetail.statActive')} />
+            <StatTile bare accent value={stats.answered} label={t('groupDetail.statAnswered')} />
+            <StatTile bare accent value={stats.praying_week} label={t('groupDetail.statPrayingWeek')} />
           </div>
           <div className="mt-4 h-2 overflow-hidden rounded-full" style={{ backgroundColor: 'var(--surface-alt)' }}>
             <div className="h-full" style={{ width: `${answeredPct}%`, backgroundColor: 'var(--accent)' }} />

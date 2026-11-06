@@ -10,6 +10,7 @@ import Diario from './Diario.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import InlineError from '../components/InlineError.jsx'
 import { SkeletonCards } from '../components/Skeleton.jsx'
+import StatTile from '../components/StatTile.jsx'
 
 // Progreso — sub-vista de Hoy (documento maestro §5.2, README pantalla 2).
 // Racha, % y CALENDARIO DE CONSTANCIA de las últimas 5 semanas: cada cuadrado se
@@ -135,12 +136,12 @@ export default function Progreso() {
           <div className="mt-3 flex gap-3">
             <div className="card flex-1 p-4">
               {r.streak > 0 ? (
-                <>
-                  <p className="stat-num text-[30px] font-bold text-accent-ink">{r.streak}</p>
-                  <p className="text-[13px] text-ink-soft">
-                    {t('progreso.streakDays', { count: r.streak })}
-                  </p>
-                </>
+                <StatTile
+                  bare
+                  accent
+                  value={r.streak}
+                  label={t('progreso.streakDays', { count: r.streak })}
+                />
               ) : (
                 // Sin racha viva no se abre con un "0" héroe: el atraso es un dato,
                 // no un reto.
@@ -152,14 +153,10 @@ export default function Progreso() {
                 </>
               )}
             </div>
-            <div className="card flex-1 p-4">
-              <p className="stat-num text-[30px] font-bold text-ink">
-                {r.percent}%
-              </p>
-              <p className="text-[13px] text-ink-soft">
-                {t('progreso.ofDays', { done: r.completedCount, total: duration })}
-              </p>
-            </div>
+            <StatTile
+              value={`${r.percent}%`}
+              label={t('progreso.ofDays', { done: r.completedCount, total: duration })}
+            />
           </div>
           </div>
 

@@ -48,6 +48,7 @@ import { shouldOfferLibraryMoment, suggestedMaterials, wasLibraryMomentSeen } fr
 import { goalMoment, wasGoalMomentSeen } from '../lib/goalOffer.js'
 import { useDonationGoal } from '../hooks/useDonationGoal.js'
 import { isIOSBrowser } from '../lib/platform.js'
+import StatTile from '../components/StatTile.jsx'
 
 // Pantalla Hoy — la cara de la app (documento maestro §5.1, README pantalla 1).
 // Se ancla en el día que dicta useReading (displayDay): si vas atrasado, el día
@@ -608,18 +609,8 @@ export default function Hoy() {
             </div>
             {/* Stats ajustados al plan real */}
             <div className="grid grid-cols-2 divide-x divide-hairline border-t border-hairline">
-              <div className="py-5 text-center">
-                <p className="stat-num text-[30px] font-bold text-ink">{r.completedCount}</p>
-                <p className="text-[13px] text-ink-soft">
-                  {t('hoy.daysRead', { count: r.completedCount })}
-                </p>
-              </div>
-              <div className="py-5 text-center">
-                <p className="stat-num text-[30px] font-bold text-ink">{maxStreak}</p>
-                <p className="text-[13px] text-ink-soft">
-                  {t('hoy.maxStreak', { count: maxStreak })}
-                </p>
-              </div>
+              <StatTile bare center className="py-5" value={r.completedCount} label={t('hoy.daysRead', { count: r.completedCount })} />
+              <StatTile bare center className="py-5" value={maxStreak} label={t('hoy.maxStreak', { count: maxStreak })} />
             </div>
             {dateRange && (
               <p className="border-t border-hairline py-3 text-center text-[13px] text-ink-soft">
