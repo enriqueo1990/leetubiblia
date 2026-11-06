@@ -178,6 +178,7 @@ export default function Progreso() {
             {grid.map((iso) => {
               const isFuture = iso > todayISO
               const read = r.readDates.has(iso)
+              const isToday = iso === todayISO
               const state = isFuture
                 ? t('progreso.state.future')
                 : read
@@ -188,11 +189,15 @@ export default function Progreso() {
                 <div
                   key={iso}
                   role="img"
-                  aria-label={`${longDate(iso)} · ${state}`}
+                  aria-label={`${longDate(iso)} · ${state}${isToday ? ` · ${t('nav.hoy')}` : ''}`}
                   className="flex items-center justify-center rounded-pill"
                   style={{
                     aspectRatio: '1',
                     backgroundColor: read ? 'var(--accent)' : 'transparent',
+                    // Hoy: anillo interior (pinta o no), dice "estás acá" sin decir "te falta".
+                    boxShadow: isToday
+                      ? `inset 0 0 0 2px ${read ? 'var(--text-primary)' : 'var(--accent-ink)'}`
+                      : undefined,
                     border: read ? 'none' : `1px ${isFuture ? 'dashed' : 'solid'} var(--control-border)`,
                   }}
                 />
