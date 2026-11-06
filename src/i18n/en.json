@@ -149,8 +149,8 @@
   "ajustes.signOutTitle": "Sign out?",
   "ajustes.signOutConfirm": "To get back in you'll need a code we send you by email.",
   "ajustes.signOutPending": {
-    "one": "You have {count} reading not saved yet. If you sign out now, it is lost.",
-    "other": "You have {count} readings not saved yet. If you sign out now, they are lost."
+    "one": "You have {count} reading not saved yet. If you sign out now, it'll be lost.",
+    "other": "You have {count} readings not saved yet. If you sign out now, they'll be lost."
   },
   "ajustes.eliminando": "Deleting…",
   "ajustes.eliminarCuenta": "Delete account",
@@ -252,7 +252,7 @@
   "onboarding.auth.loginNotFound": "We couldn't find an account with that email. Check the spelling or create an account.",
   "onboarding.auth.sendError": "We couldn't send the code. Try again.",
   "onboarding.auth.rateLimited": "You asked for several codes in a row. Wait a moment before asking for another.",
-  "onboarding.auth.offline": "No connection. Try again when you are back online.",
+  "onboarding.auth.offline": "No connection. Try again when you're back online.",
   "onboarding.auth.resent": "We sent you another code.",
   "onboarding.auth.resendIn": "You can ask for another in {n} s",
   "onboarding.auth.sessionExpired": "Your session expired. Please sign in again.",
@@ -432,7 +432,7 @@
   "progreso.noPlanPre": "Choose a plan in ",
   "progreso.noPlanPost": " to see your progress.",
   "progreso.offline": "Offline · this may be out of date.",
-  "progreso.offlineNoData": "No connection. Your progress will show up when you are back online.",
+  "progreso.offlineNoData": "No connection. Your progress will show up when you're back online.",
   "progreso.streakDays": {
     "one": "day streak",
     "other": "day streak"
@@ -814,7 +814,7 @@
   "groupDetail.leaveGroup": "Leave the group",
   "groupDetail.deleteGroup": "Delete the group",
   "groupDetail.deleteGroupTitle": "Delete \"{name}\"?",
-  "groupDetail.deleteGroupConfirm": "It is removed for every member, along with the prayer requests shared in it. This cannot be undone.",
+  "groupDetail.deleteGroupConfirm": "It'll be removed for every member, along with the prayer requests shared in it. This can't be undone.",
   "groupDetail.inviteDesc": "Send the invitation to whoever you want to add: the link takes them straight to the group. They can also type the code in Groups.",
   "groupDetail.copied": "Copied",
   "groupDetail.shareInvite": "Share invitation",
