@@ -13,6 +13,7 @@ export default function GroupPrayers({
   groupName,
   onAddPrayer,
   onPray,
+  onUnpray,
   prayerAction,
   online = true,
 }) {
@@ -95,17 +96,25 @@ export default function GroupPrayers({
                   {p.user_id === user?.id ? (
                     <span className="shrink-0 text-[12px] text-ink-soft">{t('groupDetail.yourPrayer')}</span>
                   ) : interceding(p) ? (
-                    <span
-                      className="flex shrink-0 items-center gap-1 text-[13px] font-semibold"
-                      style={{ color: 'var(--accent-ink)' }}
+                    <button
+                      type="button"
+                      onClick={() => onUnpray(p)}
+                      disabled={!online || prayerAction?.busyId === p.id}
+                      aria-pressed="true"
+                      className="inline-flex min-h-11 shrink-0 items-center gap-1 text-[13px] font-semibold"
+                      style={{
+                        color: 'var(--accent-ink)',
+                        opacity: !online || prayerAction?.busyId === p.id ? 0.55 : 1,
+                      }}
                     >
                       <CheckIcon size={15} strokeWidth={2.2} /> {t('groupDetail.prayingStatus')}
-                    </span>
+                    </button>
                   ) : (
                     <button
                       type="button"
                       onClick={() => onPray(p)}
                       disabled={!online || prayerAction?.busyId === p.id}
+                      aria-pressed="false"
                       className="min-h-11 shrink-0 rounded-pill px-4 text-[13px] font-semibold"
                       style={{
                         backgroundColor: 'var(--accent-tint)',
@@ -122,7 +131,7 @@ export default function GroupPrayers({
                     {t('groupDetail.prayError')}{' '}
                     <button
                       type="button"
-                      onClick={() => onPray(p)}
+                      onClick={() => (interceding(p) ? onUnpray(p) : onPray(p))}
                       className="inline-flex min-h-11 items-center px-1 font-semibold underline underline-offset-2"
                     >
                       {t('common.retry')}

@@ -16,6 +16,7 @@ import {
   getGroupReadingWeek,
   getGroupTestimonies,
   addIntercession,
+  removeIntercession,
   getPlan,
   setGroupPlan,
   followGroupPlan,
@@ -310,6 +311,33 @@ export default function GroupDetail() {
     setPrayerAction({ busyId: null, errorId: null })
   }
 
+  // Deshacer el «Estoy orando»: el mismo gesto que en el detalle del pedido.
+  async function dejarDeOrar(p) {
+    if (
+      !user ||
+      !online ||
+      prayerAction.busyId != null ||
+      !p.intercessors.some((x) => x.user_id === user.id)
+    ) return
+    setPrayerAction({ busyId: p.id, errorId: null })
+    const mine = p.intercessors.find((x) => x.user_id === user.id)
+    setPrayers((list) =>
+      list.map((x) =>
+        x.id === p.id ? { ...x, intercessors: x.intercessors.filter((i) => i.user_id !== user.id) } : x
+      )
+    )
+    try {
+      await removeIntercession(p.id, user.id)
+    } catch {
+      setPrayers((list) =>
+        list.map((x) => (x.id === p.id ? { ...x, intercessors: [...x.intercessors, mine] } : x))
+      )
+      setPrayerAction({ busyId: null, errorId: p.id })
+      return
+    }
+    setPrayerAction({ busyId: null, errorId: null })
+  }
+
   async function copyCode() {
     try {
       await navigator.clipboard.writeText(group.invite_code)
@@ -483,6 +511,7 @@ export default function GroupDetail() {
             groupName={group.name}
             onAddPrayer={() => setSheetOpen(true)}
             onPray={orar}
+            onUnpray={dejarDeOrar}
             prayerAction={prayerAction}
             online={online}
           />
