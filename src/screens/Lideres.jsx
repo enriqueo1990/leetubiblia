@@ -8,8 +8,9 @@ import {
   Eyebrow,
   SectionTitle,
   SubTitle,
+  AppLink,
 } from './landingKit.jsx'
-import { scrollTopOnEnter } from './landingHydration.js'
+import { scrollTopOnEnter, useLandingView } from './landingHydration.js'
 import shotHoy from '../assets/guia-lideres/hoy-con-grupos.png'
 import shotSala from '../assets/guia-lideres/sala-grupo.png'
 import shotOrar from '../assets/guia-lideres/orar-ahora.png'
@@ -118,6 +119,7 @@ const FAQ = [
 ]
 
 export default function Lideres() {
+  useLandingView('lideres')
   useEffect(() => {
     document.title = 'Lee Tu Biblia — Para líderes de grupos de discipulado'
     scrollTopOnEnter()
@@ -145,9 +147,9 @@ export default function Lideres() {
             quién va leyendo y a orar unos por otros. Se arma en cinco minutos.
           </p>
           <div className="mx-auto mt-8 max-w-[300px]">
-            <Link to="/?from=lideres" className="lk-btn lk-btn-primary w-full">
+            <AppLink page="lideres" where="hero" className="lk-btn lk-btn-primary w-full">
               Empezar gratis
-            </Link>
+            </AppLink>
           </div>
         </div>
       </section>
@@ -323,9 +325,9 @@ export default function Lideres() {
             Creá el grupo, elegí el plan y mandá el link. El resto lo van caminando juntos.
           </p>
           <div className="mx-auto mt-8 max-w-[300px]">
-            <Link to="/?from=lideres" className="lk-btn lk-btn-primary w-full">
+            <AppLink page="lideres" where="cierre" className="lk-btn lk-btn-primary w-full">
               Empezar gratis
-            </Link>
+            </AppLink>
           </div>
           <p className="mt-4 text-[0.875rem] text-ink-soft">
             ¿Querés ver todo lo que hace la app?{' '}

@@ -1,5 +1,6 @@
-import { useSyncExternalStore } from 'react'
+import { useEffect, useSyncExternalStore } from 'react'
 import { useLocation } from 'react-router-dom'
+import { recordLandingView } from '../lib/landingTrack.js'
 
 // Las landings se emiten prerenderizadas (ver vite.config.js › ltb-landing-html) y
 // React las hidrata. Lo que depende del navegador o de la historia (¿navegador
@@ -27,4 +28,15 @@ export function scrollTopOnEnter() {
     return
   }
   window.scrollTo(0, 0)
+}
+
+// Apertura de una landing para la medición (landing_view, una vez por dispositivo y
+// página; ver lib/landingTrack.js). Es un efecto: corre recién tras hidratar, nunca
+// al prerenderizar ni antes de pintar. Quien llegó desde adentro de la app
+// (state.from, p. ej. Ajustes › Guía) ya es usuaria: no cuenta como visita.
+export function useLandingView(page) {
+  const fromApp = Boolean(useLocation().state?.from)
+  useEffect(() => {
+    recordLandingView(page, { fromApp })
+  }, [page, fromApp])
 }

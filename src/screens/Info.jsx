@@ -8,8 +8,9 @@ import {
   Eyebrow,
   SectionTitle,
   DonateLink,
+  AppLink,
 } from './landingKit.jsx'
-import { scrollTopOnEnter } from './landingHydration.js'
+import { scrollTopOnEnter, useLandingView } from './landingHydration.js'
 import { CONTACT_EMAIL, MISSION_URL } from '../lib/developer.js'
 import { INFO_CSS } from './infoStyles.js'
 import { INFO_META, INFO_URL } from './infoCopy.js'
@@ -66,6 +67,7 @@ const LEADER_STEPS = [
 ]
 
 export default function Info() {
+  useLandingView('info')
   useEffect(() => {
     document.title = INFO_META.title
     scrollTopOnEnter()
@@ -95,9 +97,9 @@ export default function Info() {
                 vos, en tu Biblia.
               </p>
               <div className="in-hero-cta in-enter in-enter-3">
-                <Link to="/?from=info" className="lk-btn lk-btn-primary">
+                <AppLink page="info" where="hero" className="lk-btn lk-btn-primary">
                   Empezar gratis
-                </Link>
+                </AppLink>
                 <a href="#app" className="lk-textlink inline-flex min-h-11 items-center gap-1">
                   Cómo funciona <Ico name="down" />
                 </a>
@@ -465,9 +467,9 @@ export default function Info() {
               Esta mañana, <em>abrí tu Biblia</em>.
             </h2>
             <p className="in-lede">Nosotros te decimos por dónde seguir.</p>
-            <Link to="/?from=info" className="lk-btn lk-btn-primary lk-btn-lg">
+            <AppLink page="info" where="cierre" className="lk-btn lk-btn-primary lk-btn-lg">
               Empezar gratis
-            </Link>
+            </AppLink>
             <p className="in-micro">
               <b>Gratis</b> · entrás con tu correo, sin contraseña · sin publicidad
             </p>

@@ -9,6 +9,7 @@
 const LEGACY_KEY = 'ltb.onboarded_extras'
 const PENDING_PLAN_KEY = 'ltb.pendingPlan'
 const PENDING_CODE_KEY = 'ltb.pendingCode' // lib/pendingCode.js
+const LEADER_INTENT_KEY = 'ltb.leaderIntent' // lib/landingEntry.js
 const TWO_DAYS = 2 * 24 * 60 * 60 * 1000
 
 const keyFor = (uid) => `${LEGACY_KEY}.${uid}`
@@ -58,6 +59,7 @@ export function clearSessionFlags(uid, store = defaultStore()) {
     if (uid) store.removeItem(keyFor(uid))
     store.removeItem(PENDING_PLAN_KEY)
     store.removeItem(PENDING_CODE_KEY)
+    store.removeItem(LEADER_INTENT_KEY)
   } catch {
     /* no-op */
   }

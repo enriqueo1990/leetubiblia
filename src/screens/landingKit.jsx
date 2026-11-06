@@ -15,6 +15,7 @@ const SIZE_ORACION = { width: 780, height: 1688 }
 import BrandMark from '../components/BrandMark.jsx'
 import BackLink from '../components/BackLink.jsx'
 import { isIOS, isInAppBrowser } from '../lib/platform.js'
+import { recordLandingCta } from '../lib/landingTrack.js'
 import { useInstallPrompt } from '../hooks/useInstallPrompt.js'
 import { CONTACT_EMAIL } from '../lib/developer.js'
 
@@ -237,10 +238,29 @@ export function BackToIndex() {
 
 // Destino de los botones «entrar / empezar» de las landings: la raíz de la app con
 // `?from=<página>` para saber desde qué landing llegó cada persona (se suma al
-// evento ob_welcome del embudo; ver AuthFlow). Sin datos personales.
-function appHref(current) {
-  const key = String(current || '').replace(/^\//, '')
-  return key ? `/?from=${key}` : '/'
+// evento ob_welcome del embudo; ver AuthFlow y lib/landingEntry.js). «Entrar» (ya
+// tengo cuenta) suma `login=1` para ir directo al ingreso. Sin datos personales.
+const pageKey = (current) => String(current || '').replace(/^\//, '')
+function appHref(current, { login = false } = {}) {
+  const key = pageKey(current)
+  if (!key) return '/'
+  return `/?from=${key}${login ? '&login=1' : ''}`
+}
+
+// Enlace de entrada a la app que además cuenta el toque (landing_cta, ver
+// lib/landingTrack.js): `page` es la landing ('info'), `where` la ubicación del
+// botón (texto corto y fijo). El conteo no demora ni cambia la navegación.
+export function AppLink({ page, where, login = false, className, children, ...rest }) {
+  return (
+    <Link
+      to={appHref(page, { login })}
+      className={className}
+      onClick={() => recordLandingCta(pageKey(page), where)}
+      {...rest}
+    >
+      {children}
+    </Link>
+  )
 }
 
 // Dentro del navegador de Instagram/Facebook/TikTok no se puede instalar la app:
@@ -336,7 +356,6 @@ const Chevron = () => (
 export function LandingHeader({ current }) {
   const from = useAppOrigin()
   const menuRef = useRef(null)
-  const href = appHref(current)
 
   const closeMenu = (refocus) => {
     const el = menuRef.current
@@ -368,12 +387,12 @@ export function LandingHeader({ current }) {
               <BackLink to="/" label="la app" />
             ) : (
               <>
-                <Link to={href} className="lk-login">
+                <AppLink page={current} where="header-entrar" login className="lk-login">
                   Entrar
-                </Link>
-                <Link to={href} className="lk-btn lk-btn-primary lk-btn-sm">
+                </AppLink>
+                <AppLink page={current} where="header-empezar" className="lk-btn lk-btn-primary lk-btn-sm">
                   Empezar gratis
-                </Link>
+                </AppLink>
               </>
             )}
             <details
@@ -398,9 +417,9 @@ export function LandingHeader({ current }) {
                   </Link>
                 ))}
                 {!from?.to && (
-                  <Link to={href} className="lk-menu-small">
+                  <AppLink page={current} where="menu-entrar" login className="lk-menu-small">
                     Ya tengo cuenta · Entrar
-                  </Link>
+                  </AppLink>
                 )}
               </nav>
             </details>
@@ -498,7 +517,9 @@ export function LandingFooter({ current }) {
                 {link('/info', 'Inicio')}
                 {link('/ayuda', 'Ayuda')}
                 <li>
-                  <Link to={appHref(current)}>Entrar a la app</Link>
+                  <AppLink page={current} where="pie-entrar">
+                    Entrar a la app
+                  </AppLink>
                 </li>
               </ul>
             </div>

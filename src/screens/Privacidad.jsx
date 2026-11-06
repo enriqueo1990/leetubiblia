@@ -10,7 +10,7 @@ import {
   SectionTitle,
   SubTitle,
 } from './landingKit.jsx'
-import { scrollTopOnEnter } from './landingHydration.js'
+import { scrollTopOnEnter, useLandingView } from './landingHydration.js'
 import { CONTACT_EMAIL as CONTACTO } from '../lib/developer.js'
 
 // Página pública /privacidad — la capa de confianza del sitio (ver App.jsx, fuera
@@ -67,7 +67,7 @@ const DATOS = [
   {
     icon: <LockIcon size={22} />,
     title: 'Cómo se usa la app',
-    desc: 'Contamos aperturas y en qué paso del inicio se traba la gente (por ejemplo, qué plan elegiste al empezar o desde qué página pública llegaste), con un identificador del teléfono y el tipo de navegador, unido a tu cuenta si entraste. Nunca lo que anotás ni por qué orás.',
+    desc: 'Contamos aperturas y en qué paso del inicio se traba la gente (por ejemplo, qué plan elegiste al empezar), con un identificador del teléfono y el tipo de navegador, unido a tu cuenta si entraste. En las páginas públicas (esta, la presentación, la guía para líderes y la ayuda) contamos cuándo se abren y cuándo se toca «Empezar gratis» o «Entrar», para saber desde cuál llega la gente: ahí solo guardamos un identificador del navegador, sin nombre ni correo. Nunca lo que anotás ni por qué orás.',
   },
   {
     icon: <PencilIcon size={22} />,
@@ -78,6 +78,7 @@ const DATOS = [
 ]
 
 export default function Privacidad() {
+  useLandingView('privacidad')
   useEffect(() => {
     document.title = 'Lee Tu Biblia — Privacidad'
     scrollTopOnEnter()

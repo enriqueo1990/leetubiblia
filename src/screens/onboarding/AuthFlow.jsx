@@ -10,6 +10,7 @@ import { classifySendError } from '../../lib/authErrors.js'
 import { ShareIcon } from '../../components/icons.jsx'
 import { isIOS, isIOSBrowser, isInAppBrowser, isStandalone } from '../../lib/platform.js'
 import { recordFunnel } from '../../lib/diag.js'
+import { parseLandingEntry, initialAuthStep, initialMode, saveLeaderIntent } from '../../lib/landingEntry.js'
 import BrandMark from '../../components/BrandMark.jsx'
 import { inputStyle } from '../../components/formStyles.js'
 
@@ -47,11 +48,23 @@ export default function AuthFlow() {
   const { signInWithEmail, verifyEmailCode, sessionExpired } = useAuth()
   const { t } = usePreferences()
   const { pathname, search } = useLocation()
+  // Llegada desde una landing pública (/?from=info|lideres|ayuda) y/o invitación
+  // (/join?code): ver lib/landingEntry.js.
+  const entry = parseLandingEntry(search)
+  const landingFrom = entry.from
+  const inviteCode =
+    pathname === '/join' ? (new URLSearchParams(search).get('code') || '').trim() : ''
   // Si la app se recargó mientras la persona buscaba el código en Mail, se
   // reabre en el paso del código (ver lib/pendingCode.js).
   const [restored] = useState(() => readPendingCode())
-  const [step, setStep] = useState(restored ? 'code' : 'welcome')
-  const [mode, setMode] = useState(restored ? restored.mode : 'signup') // 'signup' | 'login'
+  // Quien viene de una landing ya decidió empezar: se saltea la bienvenida genérica
+  // y va al siguiente paso útil (en iPhone, instalar primero; si no, los planes).
+  const [firstStep] = useState(() =>
+    initialAuthStep({ restored, inviteCode, sessionExpired, entry, iosBrowser: isIOSBrowser() })
+  )
+  const skippedWelcome = !restored && firstStep !== 'welcome'
+  const [step, setStep] = useState(firstStep)
+  const [mode, setMode] = useState(restored ? restored.mode : initialMode(firstStep, entry)) // 'signup' | 'login'
   const [formOrigin, setFormOrigin] = useState('welcome') // adónde vuelve el ‹ del form
   // plan elegido antes de la cuenta (al recargar, sale del plan pendiente guardado)
   const [pendingName, setPendingName] = useState(() => (restored ? readPendingPlan()?.name ?? null : null))
@@ -74,10 +87,6 @@ export default function AuthFlow() {
   // Invitación a grupo (/join?code=X): vista previa sin sesión — solo nombre y
   // cantidad de miembros (RPC anónima, migración 0032). Si falla o el código no
   // existe, la bienvenida queda genérica y Join.jsx da el error real tras entrar.
-  // Landing de la que llegó (/?from=info|lideres|ayuda), para medir qué página convierte.
-  const landingFrom = ['info', 'lideres', 'ayuda', 'privacidad'].find((k) => new URLSearchParams(search).get('from') === k) ?? null
-  const inviteCode =
-    pathname === '/join' ? (new URLSearchParams(search).get('code') || '').trim() : ''
   const [invite, setInvite] = useState(null)
 
   useEffect(() => {
@@ -98,12 +107,32 @@ export default function AuthFlow() {
   // La app instalada en iPhone tampoco cuenta la bienvenida: para instalarla hubo
   // que pasar por el navegador, que ya la contó (con otro id, porque no
   // comparten almacenamiento) y la persona aparecería dos veces.
+  // Saltear la bienvenida no saca a la persona del embudo: «llegó» igual (con su
+  // `from`), para que los porcentajes de /admin sigan comparando lo mismo.
   useEffect(() => {
     const countWelcome = !sessionExpired && !(isIOS() && isStandalone())
-    if (step === 'welcome' && countWelcome) recordFunnel('ob_welcome', { invite: Boolean(inviteCode), from: landingFrom })
-    if (step === 'install') recordFunnel('ob_install_step', { in_app: isInAppBrowser() })
-    if (step === 'explore') recordFunnel('ob_explore')
-  }, [step, sessionExpired, inviteCode, landingFrom])
+    if ((step === 'welcome' || skippedWelcome) && countWelcome) {
+      recordFunnel('ob_welcome', {
+        invite: Boolean(inviteCode),
+        from: landingFrom,
+        ...(skippedWelcome ? { skipped_welcome: true } : {}),
+      })
+    }
+    if (step === 'install') recordFunnel('ob_install_step', { in_app: isInAppBrowser(), from: landingFrom })
+    if (step === 'explore') recordFunnel('ob_explore', { from: landingFrom })
+  }, [step, sessionExpired, inviteCode, landingFrom, skippedWelcome])
+
+  // «Crear mi grupo» desde /lideres (o ?intent=lider): se recuerda hasta terminar el
+  // alta; entonces la app lleva a Grupos con la hoja de crear abierta (ver
+  // components/LeaderIntentRedirect.jsx). Con «Entrar» (ya tiene cuenta) no aplica.
+  useEffect(() => {
+    if (!entry.leader || entry.login || inviteCode) return
+    try {
+      saveLeaderIntent(localStorage)
+    } catch {
+      /* sin localStorage: simplemente cae en Hoy */
+    }
+  }, [entry.leader, entry.login, inviteCode])
 
   const valid = EMAIL_RE.test(email.trim())
 

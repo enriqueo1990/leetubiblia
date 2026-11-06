@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { Routes, Route, Link, Navigate } from 'react-router-dom'
 import Gate from './components/Gate.jsx'
 import ProfilePrefSync from './components/ProfilePrefSync.jsx'
+import LeaderIntentRedirect from './components/LeaderIntentRedirect.jsx'
 import Layout from './components/Layout.jsx'
 import { usePreferences } from './lib/preferences.jsx'
 
@@ -66,6 +67,7 @@ export default function App() {
   return (
     <Gate>
       <ProfilePrefSync />
+      <LeaderIntentRedirect />
       <Suspense fallback={<RouteFallback />}>
         <Routes>
             {/* Panel privado del dueño: fuera del Layout (sin tab bar), por URL directa. */}

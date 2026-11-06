@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { PeopleIcon, RowChevron, PlusIcon } from '../components/icons.jsx'
 import Sheet from '../components/Sheet.jsx'
 import RetryError from '../components/RetryError.jsx'
@@ -202,10 +202,18 @@ export default function Grupos() {
   const { user } = useAuth()
   const { t } = usePreferences()
   const navigate = useNavigate()
+  const location = useLocation()
   const online = useOnlineStatus()
   const [groups, setGroups] = useState(null)
   const [error, setError] = useState(false)
-  const [sheet, setSheet] = useState(null) // 'menu' | 'create' | 'join' | null
+  // Quien llegó desde /lideres aterriza con la hoja de crear grupo abierta
+  // (components/LeaderIntentRedirect.jsx). La marca se borra del historial para que
+  // recargar o volver atrás no la reabra.
+  const openCreate = location.state?.createGroup === true
+  const [sheet, setSheet] = useState(openCreate ? 'create' : null) // 'menu' | 'create' | 'join' | null
+  useEffect(() => {
+    if (openCreate) navigate(location.pathname, { replace: true, state: null })
+  }, [openCreate, navigate, location.pathname])
 
   const load = useCallback(async () => {
     if (!user) return

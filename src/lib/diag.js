@@ -71,7 +71,9 @@ export function recordAppOpen() {
   recordDiag('app_open', {})
 }
 
-function deviceId() {
+// Id anónimo del navegador; lo comparte lib/landingTrack.js para unir las aperturas
+// de las landings con el embudo.
+export function deviceId() {
   try {
     let id = localStorage.getItem(DEVICE_KEY)
     if (!id) {

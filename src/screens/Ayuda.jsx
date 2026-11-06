@@ -29,8 +29,9 @@ import {
   BackToIndex,
   SectionTitle,
   SubTitle,
+  AppLink,
 } from './landingKit.jsx'
-import { scrollTopOnEnter, useAppOrigin } from './landingHydration.js'
+import { scrollTopOnEnter, useAppOrigin, useLandingView } from './landingHydration.js'
 
 // Página pública /ayuda — la REFERENCIA de la app (ver App.jsx, fuera del Gate).
 // No es captación: es el manual al que se entra desde Ajustes → Guía de la app,
@@ -149,6 +150,7 @@ function TabHead({ eyebrow, title, intro, tone }) {
 
 export default function Ayuda() {
   const from = useAppOrigin()
+  useLandingView('ayuda')
   useEffect(() => {
     document.title = 'Lee Tu Biblia — Guía completa de la app'
     scrollTopOnEnter()
@@ -348,9 +350,15 @@ export default function Ayuda() {
           </p>
           <div className="mx-auto mt-8 max-w-[300px]">
             {/* Quien llega desde Ajustes ya empezó: vuelve a donde estaba. */}
-            <Link to={from?.to ?? '/?from=ayuda'} className="lk-btn lk-btn-primary w-full">
-              {from?.to ? 'Volver a la app' : 'Empezar gratis'}
-            </Link>
+            {from?.to ? (
+              <Link to={from.to} className="lk-btn lk-btn-primary w-full">
+                Volver a la app
+              </Link>
+            ) : (
+              <AppLink page="ayuda" where="cierre" className="lk-btn lk-btn-primary w-full">
+                Empezar gratis
+              </AppLink>
+            )}
           </div>
           <p className="mt-5 text-[0.875rem] text-ink-soft">
             ¿Querés la versión corta?{' '}
