@@ -32,16 +32,19 @@ export default function GroupPrayers({
       <SectionLabel
         className="mt-7 mb-0"
         action={
-          <button
-            type="button"
-            onClick={onAddPrayer}
-            disabled={!online}
-            aria-label={t('groupDetail.sharePrayerAria')}
-            className="-mr-1 flex h-11 w-11 items-center justify-center rounded-full text-on-accent"
-            style={{ backgroundColor: 'var(--accent-action)', opacity: online ? 1 : 0.45 }}
-          >
-            <PlusIcon size={18} />
-          </button>
+          // Enlace de sección: el relleno de acento queda para «Invitar» (una sola
+          // acción primaria por pantalla). Sin pedidos, la tarjeta vacía ya invita.
+          prayers.length > 0 ? (
+            <button
+              type="button"
+              onClick={onAddPrayer}
+              disabled={!online}
+              className="-mr-2 inline-flex min-h-11 items-center gap-1 px-2 text-[13px] font-medium disabled:opacity-45"
+              style={{ color: 'var(--accent-ink)' }}
+            >
+              <PlusIcon size={16} /> {t('groupDetail.sharePrayerAria')}
+            </button>
+          ) : null
         }
       >
         {t('nav.oracion')}
