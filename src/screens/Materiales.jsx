@@ -134,6 +134,7 @@ function PreviewSheet({ slug, onClose }) {
   const [content, setContent] = useState(null)
   const [saving, setSaving] = useState(false)
   const [failed, setFailed] = useState(false)
+  const [added, setAdded] = useState(false) // ya está en el estante: ofrecer el paso siguiente
 
   useEffect(() => {
     let on = true
@@ -158,7 +159,7 @@ function PreviewSheet({ slug, onClose }) {
     const { error } = await updateProfile({ active_materials: withMaterialActivated(profile, slug) })
     setSaving(false)
     if (error) setFailed(true)
-    else onClose()
+    else setAdded(true)
   }
 
   return (
@@ -166,11 +167,38 @@ function PreviewSheet({ slug, onClose }) {
       title={m?.name ?? ''}
       onCancel={onClose}
       footer={
-        <button type="button" onClick={add} disabled={saving} aria-busy={saving} className="btn btn-primary">
-          {saving ? t('common.saving') : t('library.addToShelf')}
-        </button>
+        added ? (
+          <div className="space-y-1">
+            {/* Es un enlace al lector: el material ya quedó activo en el perfil. */}
+            <Link
+              to={`/materiales/${slug}`}
+              state={{ from: { to: '/materiales', label: t('nav.materiales') } }}
+              className="btn btn-primary block text-center"
+              autoFocus
+            >
+              {t('materialReader.start')}
+            </Link>
+            <button
+              type="button"
+              onClick={onClose}
+              className="block w-full py-2 text-center text-[15px] font-medium text-ink-soft"
+            >
+              {t('library.momentOk')}
+            </button>
+          </div>
+        ) : (
+          <button type="button" onClick={add} disabled={saving} aria-busy={saving} className="btn btn-primary">
+            {saving ? t('common.saving') : t('library.addToShelf')}
+          </button>
+        )
       }
     >
+      {added && (
+        <p role="status" className="mb-4 text-[15px] font-semibold leading-snug text-ink">
+          <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✓ </span>
+          {t('library.momentAdded')}
+        </p>
+      )}
       <div className="flex items-end gap-4">
         <div className="w-[120px] shrink-0">
           <BookCover slug={slug} meta={coverMeta(t, slug, th, content?.total)} />
