@@ -1,6 +1,8 @@
-// Newsreader: la serif editorial de la marca, solo para lo que se comparte como
-// imagen y para los títulos de las portadas de la Biblioteca. El resto de la app
-// sigue en la sans del sistema. Se registra con FontFace (no con CSS global) para
+// Newsreader: la serif editorial de la marca, la «voz del libro». Se usa solo en
+// momentos de lectura: la referencia del día, los títulos de momentos (Mi tiempo,
+// gracias, Novedades), las portadas de la Biblioteca y lo que se comparte como
+// imagen. Todo lo funcional (listas, botones, formularios, Ajustes) sigue en la
+// sans del sistema. Se registra con FontFace (no con CSS global) para
 // que solo se descargue cuando hace falta; los .woff2 quedan en el precache del
 // service worker, así funciona sin red. Solo latín y latín extendido: alcanza
 // para es/en/pt.
