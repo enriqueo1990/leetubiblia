@@ -356,10 +356,6 @@ export default function Ayuda() {
             </Link>
           </p>
 
-          <p className="mx-auto mt-16 max-w-[420px] text-[1.0625rem] italic leading-relaxed text-ink-soft">
-            «Santifícalos en la verdad; Tu palabra es verdad.»
-          </p>
-          <p className="mt-2 text-[0.8125rem] text-ink-soft">Juan 17:17 · NBLA</p>
         </div>
       </section>
 

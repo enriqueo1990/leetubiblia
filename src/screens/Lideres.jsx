@@ -330,11 +330,6 @@ export default function Lideres() {
             </Link>
           </p>
 
-          <p className="mx-auto mt-16 max-w-[460px] text-[1.0625rem] italic leading-relaxed text-ink-soft">
-            «Y considerémonos unos a otros para estimularnos al amor y a las
-            buenas obras.»
-          </p>
-          <p className="mt-2 text-[0.8125rem] text-ink-soft">Hebreos 10:24 · NBLA</p>
         </div>
       </section>
 
