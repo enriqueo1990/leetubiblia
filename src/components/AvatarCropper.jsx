@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import Sheet from './Sheet.jsx'
+import InlineError from './InlineError.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { clampOffset, clampZoom, cropRect, displayBox, MAX_ZOOM, MIN_ZOOM } from '../lib/avatarMath.js'
 
@@ -9,7 +10,7 @@ const VIEW = 280 // lado del visor, en px
 // se arrastra para moverla y se acerca con dos dedos, la rueda o la barra.
 // Nunca queda hueco (ver avatarMath). "Usar foto" devuelve el cuadrado elegido
 // en píxeles de la imagen original.
-export default function AvatarCropper({ file, busy, onCancel, onConfirm }) {
+export default function AvatarCropper({ file, busy, error = null, onCancel, onConfirm }) {
   const { t } = usePreferences()
   const [url, setUrl] = useState(null)
   const [dims, setDims] = useState(null) // { w, h } de la imagen
@@ -70,15 +71,18 @@ export default function AvatarCropper({ file, busy, onCancel, onConfirm }) {
       title={t('ajustes.photo.cropTitle')}
       onCancel={onCancel}
       footer={
-        <button
-          type="button"
-          className="btn btn-primary"
-          disabled={!dims || busy}
-          style={{ opacity: !dims || busy ? 0.6 : 1 }}
-          onClick={() => onConfirm(cropRect(dims.w, dims.h, VIEW, zoom, off.x, off.y))}
-        >
-          {busy ? t('ajustes.photo.saving') : t('ajustes.photo.use')}
-        </button>
+        <>
+          <InlineError message={error} className="mb-2 text-center" />
+          <button
+            type="button"
+            className="btn btn-primary"
+            disabled={!dims || busy}
+            style={{ opacity: !dims || busy ? 0.6 : 1 }}
+            onClick={() => onConfirm(cropRect(dims.w, dims.h, VIEW, zoom, off.x, off.y))}
+          >
+            {busy ? t('ajustes.photo.saving') : t('ajustes.photo.use')}
+          </button>
+        </>
       }
     >
       <div className="flex flex-col items-center">

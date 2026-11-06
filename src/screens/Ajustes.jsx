@@ -429,8 +429,8 @@ export default function Ajustes() {
       if (error) throw error
       setCropFile(null)
     } catch {
+      // La hoja queda abierta, con el encuadre: se puede reintentar sin rehacerlo.
       setAvatarError(true)
-      setCropFile(null)
     } finally {
       setAvatarBusy(false)
     }
@@ -1060,7 +1060,7 @@ export default function Ajustes() {
             </div>
             <p className="text-[12px] leading-snug text-ink-soft">{t('ajustes.photo.help')}</p>
             <input ref={photoInput} type="file" accept="image/*" className="hidden" onChange={pickPhoto} aria-label={t('ajustes.photo.add')} />
-            <InlineError message={avatarError ? t('ajustes.photo.error') : null} />
+            <InlineError message={avatarError && !cropFile ? t('ajustes.photo.error') : null} />
           </div>
         </div>
         <button
@@ -1095,7 +1095,17 @@ export default function Ajustes() {
       {!section && <p className="mt-8 text-center text-[13px] text-ink-soft">{t('ajustes.version', { version: APP_VERSION_LABEL })}</p>}
 
       {cropFile && (
-        <AvatarCropper file={cropFile} busy={avatarBusy} onCancel={() => !avatarBusy && setCropFile(null)} onConfirm={savePhoto} />
+        <AvatarCropper
+          file={cropFile}
+          busy={avatarBusy}
+          error={avatarError ? t('ajustes.photo.error') : null}
+          onCancel={() => {
+            if (avatarBusy) return
+            setCropFile(null)
+            setAvatarError(false)
+          }}
+          onConfirm={savePhoto}
+        />
       )}
 
       {nameOpen && (
