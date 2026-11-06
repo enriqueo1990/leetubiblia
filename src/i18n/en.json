@@ -627,6 +627,7 @@
   "reflectionSheet.titleEdit": "What spoke to you today?",
   "reflectionSheet.titleView": "Your reflection",
   "reflectionSheet.placeholder": "An idea, a phrase… whatever stayed with you",
+  "reflectionSheet.confirmDeleteTitle": "Delete this note?",
   "reflectionSheet.editHint": "You can edit it today. Tomorrow it's saved as is.",
   "reflectionSheet.shareImage": "Share as an image",
 

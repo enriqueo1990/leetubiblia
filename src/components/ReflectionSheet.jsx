@@ -6,6 +6,7 @@ import { usePreferences } from '../lib/preferences.jsx'
 import { shareCover } from '../lib/coverImage.js'
 import { shareOrDownload, shareUrl } from '../lib/canvasKit.js'
 import InlineError from './InlineError.jsx'
+import ConfirmDialog from './ConfirmDialog.jsx'
 
 // Hoja para anotar/editar la reflexión del día ("¿Qué te habló hoy?"). Feature 1.
 // Componente presentacional: la persistencia (db.js) la cablea el contenedor.
@@ -38,6 +39,7 @@ export default function ReflectionSheet({
   const [saveError, setSaveError] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const dirty = editable && body.trim() !== initialBody.trim()
   const canSave = editable && body.trim().length > 0 && dirty && !saving && !deleting
   // Compartible = hay nota guardada y lo que se ve es exactamente eso.
@@ -90,6 +92,7 @@ export default function ReflectionSheet({
     setDeleteError(false)
     try {
       await onDelete()
+      setConfirmDelete(false)
     } catch {
       setDeleteError(true)
     } finally {
@@ -123,6 +126,7 @@ export default function ReflectionSheet({
   )
 
   return (
+    <>
     <Sheet
       title={editable ? t('reflectionSheet.titleEdit') : t('reflectionSheet.titleView')}
       plain={!editable}
@@ -178,7 +182,7 @@ export default function ReflectionSheet({
             {initialBody && onDelete && (
               <button
                 type="button"
-                onClick={handleDelete}
+                onClick={() => setConfirmDelete(true)}
                 disabled={deleting || saving}
                 className="inline-flex min-h-11 shrink-0 items-center px-2 text-[13px] font-medium disabled:opacity-50"
                 style={{ color: 'var(--danger)' }}
@@ -190,11 +194,6 @@ export default function ReflectionSheet({
           {saveError && (
             <p className="mt-2 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
               {t('common.saveError')}
-            </p>
-          )}
-          {deleteError && (
-            <p className="mt-2 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
-              {t('common.deleteError')}
             </p>
           )}
           {shareError && (
@@ -219,5 +218,22 @@ export default function ReflectionSheet({
         </div>
       )}
     </Sheet>
+    {confirmDelete && (
+      <ConfirmDialog
+        danger
+        title={t('reflectionSheet.confirmDeleteTitle')}
+        message={t('prayerSheet.confirmDeleteMsg')}
+        confirmLabel={t('ajustes.eliminar')}
+        busy={deleting}
+        error={deleteError ? t('common.deleteError') : null}
+        onConfirm={handleDelete}
+        onCancel={() => {
+          if (deleting) return
+          setConfirmDelete(false)
+          setDeleteError(false)
+        }}
+      />
+    )}
+    </>
   )
 }
