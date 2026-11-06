@@ -368,11 +368,11 @@
   "hoy.unavailable.text": "Connect to load it before marking this day as read.",
   "hoy.readWriteError": "Couldn't save the reading mark. Try again in a moment.",
   "hoy.behind": {
-    "one": "You're {count} day behind",
-    "other": "You're {count} days behind"
+    "one": "{count} day left unmarked",
+    "other": "{count} days left unmarked"
   },
-  "hoy.reprogramando": "Rescheduling…",
-  "hoy.reprogramar": "Reschedule",
+  "hoy.reprogramando": "Updating…",
+  "hoy.reprogramar": "Pick up where I left off",
   "hoy.dismissBehind": "Dismiss notice",
   "hoy.reprogramarError": "Couldn't reschedule. Check your connection and try again.",
   "hoy.reprogramado": "Done, we'll keep going from today.",
@@ -446,12 +446,12 @@
   "progreso.recorrido.title": "Your journey",
   "progreso.recorrido.subtitle": "Your days, plans, and answered prayers in the Word",
   "progreso.behindPre": {
-    "one": "You're {count} day behind. No rush — ",
-    "other": "You're {count} days behind. No rush — "
+    "one": "{count} day left unmarked. No rush — ",
+    "other": "{count} days left unmarked. No rush — "
   },
-  "progreso.behindReprogramar": "you can reschedule",
-  "progreso.behindReprogramando": "rescheduling…",
-  "progreso.behindPost": " and keep going.",
+  "progreso.behindReprogramar": "you can pick up where you left off",
+  "progreso.behindReprogramando": "updating…",
+  "progreso.behindPost": ".",
   "progreso.reprogramado": "Done, we'll keep going from today.",
   "progreso.position": "You're on day {day} of the plan.",
   "progreso.positionAhead": "The calendar is on day {day}.",

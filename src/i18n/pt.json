@@ -368,11 +368,11 @@
   "hoy.unavailable.text": "Conecte-se para carregá-la antes de marcar este dia como lido.",
   "hoy.readWriteError": "Não foi possível salvar a marcação. Tente de novo em um momento.",
   "hoy.behind": {
-    "one": "Você está {count} dia atrás no plano",
-    "other": "Você está {count} dias atrás no plano"
+    "one": "Ficou {count} dia sem marcar",
+    "other": "Ficaram {count} dias sem marcar"
   },
-  "hoy.reprogramando": "Reprogramando…",
-  "hoy.reprogramar": "Reprogramar",
+  "hoy.reprogramando": "Ajustando…",
+  "hoy.reprogramar": "Continuar de onde parei",
   "hoy.dismissBehind": "Dispensar aviso",
   "hoy.reprogramarError": "Não foi possível reprogramar. Verifique sua conexão e tente de novo.",
   "hoy.reprogramado": "Pronto, vamos continuar a partir de hoje.",
@@ -446,12 +446,12 @@
   "progreso.recorrido.title": "Sua caminhada",
   "progreso.recorrido.subtitle": "Seus dias, planos e respostas na Palavra",
   "progreso.behindPre": {
-    "one": "Você está {count} dia atrás no plano. Sem pressa — ",
-    "other": "Você está {count} dias atrás no plano. Sem pressa — "
+    "one": "Ficou {count} dia sem marcar. Sem pressa — ",
+    "other": "Ficaram {count} dias sem marcar. Sem pressa — "
   },
-  "progreso.behindReprogramar": "você pode reprogramar",
-  "progreso.behindReprogramando": "reprogramando…",
-  "progreso.behindPost": " e seguir.",
+  "progreso.behindReprogramar": "você pode continuar de onde parou",
+  "progreso.behindReprogramando": "ajustando…",
+  "progreso.behindPost": ".",
   "progreso.reprogramado": "Pronto, vamos continuar a partir de hoje.",
   "progreso.position": "Você está no dia {day} do plano.",
   "progreso.positionAhead": "O calendário está no dia {day}.",

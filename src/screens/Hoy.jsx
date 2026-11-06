@@ -552,7 +552,7 @@ export default function Hoy() {
           del texto, con la acción en acento y el descarte apenas presente. */}
       {r.showBehind && !r.planFinished && !viewingAhead && (
         <>
-          <div className="mt-4 flex items-center">
+          <div className="mt-4 flex flex-wrap items-center">
             <p className="text-[14px] text-ink-soft">
               {t('hoy.behind', { count: r.behind })}
             </p>
