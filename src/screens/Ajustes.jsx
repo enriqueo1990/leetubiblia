@@ -64,11 +64,6 @@ function IndexRow({ to, icon, title, summary }) {
 // Las secciones de Ajustes, en el orden del índice.
 const SECTIONS = ['lectura', 'manera', 'avisos', 'apariencia', 'app', 'cuenta']
 
-// Sub-etiqueta dentro de una sección (p. ej. cada control de "Apariencia e idioma").
-function SubLabel({ children }) {
-  return <h3 className="mb-2 mt-4 px-1 text-[13px] font-medium text-ink-soft">{children}</h3>
-}
-
 // Fila de lista agrupada (estilo iOS Settings): título + subtítulo explicativo
 // dentro de la fila, control a la derecha. Reemplaza al patrón "una card por
 // switch + ayuda suelta debajo" que apilaba cajas monótonas.
@@ -815,7 +810,8 @@ export default function Ajustes() {
       )}
 
       {section === 'avisos' && (
-        <div className="mt-5">
+        <div>
+      <SectionLabel className="mt-7">{t('ajustes.section.tuLectura')}</SectionLabel>
       <div className="card divide-y divide-hairline">
         <Row
           title={t('ajustes.section.recordatorio')}
@@ -848,6 +844,10 @@ export default function Ajustes() {
             <InlineError message={errorFor('time')} />
           </div>
         )}
+      </div>
+
+      <SectionLabel className="mt-7">{t('nav.oracion')}</SectionLabel>
+      <div className="card divide-y divide-hairline">
         <Row
           title={t('ajustes.pedidosNuevos')}
           subtitle={t('ajustes.avisosGrupoHelp')}
@@ -881,8 +881,8 @@ export default function Ajustes() {
       )}
 
       {section === 'apariencia' && (
-        <div className="mt-1">
-      <SubLabel>{t('ajustes.section.acento')}</SubLabel>
+        <div>
+      <SectionLabel className="mt-7">{t('ajustes.section.acento')}</SectionLabel>
       {/* Swatch chico (28px) centrado en un área táctil de 44px: neto como en
           iOS, no círculos enormes que llenan la celda. */}
       <div className="card grid grid-cols-4 gap-1 p-3 sm:grid-cols-8">
@@ -915,11 +915,11 @@ export default function Ajustes() {
 
       <InlineError message={errorFor('accent')} className="mt-2 px-1" />
 
-      <SubLabel>{t('ajustes.section.tema')}</SubLabel>
+      <SectionLabel className="mt-7">{t('ajustes.section.tema')}</SectionLabel>
       <Segmented label={t('ajustes.section.tema')} options={THEMES} value={themePref} onChange={pickTheme} />
       <InlineError message={errorFor('theme')} className="mt-2 px-1" />
 
-      <SubLabel>{t('ajustes.idioma')}</SubLabel>
+      <SectionLabel className="mt-7">{t('ajustes.idioma')}</SectionLabel>
       <Segmented label={t('ajustes.idioma')} options={locales} value={locale} onChange={pickLocale} />
       <InlineError message={errorFor('locale')} className="mt-2 px-1" />
 
@@ -927,7 +927,8 @@ export default function Ajustes() {
       )}
 
       {section === 'app' && (
-        <div className="mt-5">
+        <div>
+      <SectionLabel className="mt-7">{t('ajustes.section.compartirAyuda')}</SectionLabel>
       <div className="card divide-y divide-hairline">
         <button
           type="button"
