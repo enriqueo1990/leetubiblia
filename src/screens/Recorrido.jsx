@@ -71,8 +71,8 @@ export default function Recorrido() {
           <SectionLabel className="mt-6 mb-0">{t('recorrido.sectionNumbers')}</SectionLabel>
           <div className="mt-3 flex gap-3">
             <StatTile
-              value={stats.plansCompleted}
-              label={t('recorrido.plansCompleted', { count: stats.plansCompleted })}
+              value={stats.totalDaysRead}
+              label={t('recorrido.daysInWord', { count: stats.totalDaysRead })}
               accent
             />
             <StatTile
@@ -82,8 +82,8 @@ export default function Recorrido() {
           </div>
           <div className="mt-3 flex gap-3">
             <StatTile
-              value={stats.totalDaysRead}
-              label={t('recorrido.daysInWord', { count: stats.totalDaysRead })}
+              value={stats.plansCompleted}
+              label={t('recorrido.plansCompleted', { count: stats.plansCompleted })}
             />
             <StatTile
               value={stats.prayersAnswered}
