@@ -194,16 +194,12 @@ export function bibliotecaFaqJsonLd() {
   }
 }
 
-// Pregunta 4 del Catecismo Menor de Westminster (1647, dominio público; traducción
-// de esta edición, ver src/data/materials/westminster-menor.json), tal como la
-// muestra el lector. Es texto del catecismo, no de la Escritura: los pasajes de
-// apoyo van solo como referencias, igual que en la app.
+// Lo que muestra el lector en la captura real de /biblioteca (src/assets/shots/lector-*):
+// la pregunta 44 del Catecismo de Heidelberg (1563, dominio público; traducción de esta
+// edición). Acá van solo la posición, el bloque y los pasajes de apoyo, que la página
+// repite en su leyenda como referencias: nunca el texto de la respuesta.
 export const LECTOR_DEMO = {
-  position: 'Pregunta 4 de 107',
-  block: 'Dios, sus decretos y la creación',
-  question: '¿Qué es Dios?',
-  answer:
-    'Dios es Espíritu, y es infinito, eterno e inmutable en su ser, en sabiduría y en poder, en santidad, en justicia, en bondad y en verdad.',
-  refs: ['Juan 4:24', 'Job 11:7-9', 'Salmo 90:2', 'Santiago 1:17', 'Éxodo 3:14', 'Salmo 147:5', 'Apocalipsis 4:8', 'Éxodo 34:6-7'],
+  position: 'Pregunta 44 de 129',
+  block: 'Día del Señor 17: El descenso a los infiernos',
+  refs: ['Salmo 18:5', 'Salmo 116:3', 'Mateo 26:38', 'Hebreos 5:7', 'Isaías 53:10', 'Mateo 27:46'],
 }
-

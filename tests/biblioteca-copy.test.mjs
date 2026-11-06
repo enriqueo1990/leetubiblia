@@ -53,13 +53,11 @@ test('ninguna cadena de la landing cita texto bíblico: solo referencias', () =>
   for (const q of quoted) assert.equal(q, 'También hoy', `cita no prevista: ${q}`)
 })
 
-test('el demo del lector es la pregunta 4 del Catecismo Menor de Westminster, tal cual', () => {
-  const data = json('westminster-menor')
-  const block = data.entries.find((b) => b.questions.some((q) => q.number === 4))
-  const q = block.questions.find((x) => x.number === 4)
-  assert.equal(LECTOR_DEMO.position, `Pregunta 4 de ${BOOKS['westminster-menor'].total}`)
+test('lo que muestra el lector (captura real) es la pregunta 44 del Catecismo de Heidelberg, tal cual', () => {
+  const data = json('heidelberg')
+  const block = data.entries.find((b) => b.questions.some((q) => q.number === 44))
+  const q = block.questions.find((x) => x.number === 44)
+  assert.equal(LECTOR_DEMO.position, `Pregunta 44 de ${BOOKS.heidelberg.total}`)
   assert.equal(LECTOR_DEMO.block, block.title)
-  assert.equal(LECTOR_DEMO.question, q.question)
-  assert.equal(LECTOR_DEMO.answer, q.answer)
   assert.deepEqual(LECTOR_DEMO.refs, q.refs.map((r) => r.label))
 })

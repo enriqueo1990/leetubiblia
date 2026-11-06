@@ -15,9 +15,9 @@ import {
   DemoStyle,
   HoyConGruposDemo,
   SalaGrupoDemo,
-  OrarAhoraDemo,
   PulsoLiderDemo,
 } from './landingDemos.jsx'
+import PhoneShot from './PhoneShot.jsx'
 
 // Landing pública /lideres — cómo usar la app con un grupo pequeño (ver App.jsx,
 // fuera del Gate). Es una guía práctica, no una pieza de venta: lo que arma el
@@ -57,7 +57,7 @@ function Steps({ eyebrow, title, steps, children }) {
 }
 
 // Lo que se ve durante la semana: texto corto + la pantalla (un demo con datos de
-// ejemplo, no una captura: ver landingDemos.jsx). En escritorio van de a dos.
+// ejemplo o una captura real: ver landingDemos.jsx y PhoneShot.jsx). En escritorio van de a dos.
 function Week({ title, children, demo }) {
   return (
     <div className="in-duo-item">
@@ -231,7 +231,14 @@ export default function Lideres() {
             dice quién no leyó: es para alegrarse juntos, no para controlar.
           </Week>
 
-          <Week title="Orar unos por otros" demo={<OrarAhoraDemo width={380} />}>
+          <Week title="Orar unos por otros" demo={
+              <PhoneShot
+                shot="orar"
+                width={350}
+                caption="Orar ahora: un pedido por vez, sin apuro."
+                alt="Pantalla Orar ahora de la app: una sola ficha con el título de un pedido de oración y una línea de detalle, el avance «1 de 4» arriba y el botón Siguiente pedido abajo."
+              />
+            }>
             Cualquiera puede compartir un pedido con el grupo y los demás tocan <b>«Orar»</b>.
             Quien lo pidió va contando cómo sigue, y cuando Dios responde, el pedido se
             vuelve un testimonio del grupo.

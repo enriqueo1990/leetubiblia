@@ -22,19 +22,10 @@ export const BIBLIOTECA_CSS = `
   .bb-cover-title{font-size:13.1cqw}
 }
 
-/* ── Hero: cuatro tapas sobre una repisa ── */
+/* ── Hero: la captura de la Biblioteca ── */
 .bb-h1{max-width:13ch}
-.bb-hero-shelf{position:relative; display:flex; align-items:flex-end; justify-content:center; padding:24px 4px 24px; max-width:560px; justify-self:center; width:100%}
-.bb-hero-shelf .bb-cover{flex:1 1 0; min-width:0; max-width:190px}
-.bb-hero-shelf .bb-cover + .bb-cover{margin-left:clamp(-12px, -1.4vw, -4px)}
-.bb-hero-shelf .bb-cover:nth-child(1){transform:rotate(-3deg) translateY(8px)}
-.bb-hero-shelf .bb-cover:nth-child(2){transform:translateY(-14px)}
-.bb-hero-shelf .bb-cover:nth-child(3){transform:rotate(1.6deg) translateY(2px)}
-.bb-hero-shelf .bb-cover:nth-child(4){transform:rotate(-1.4deg) translateY(-6px)}
-.bb-hero-shelf::after{content:""; position:absolute; left:0; right:0; bottom:8px; height:12px; border-radius:6px;
-  background:linear-gradient(var(--surface), var(--surface-alt)); box-shadow:var(--shadow-card); z-index:-1}
-@media (max-width:639px){ .bb-hero-shelf .bb-cover:nth-child(4){display:none} .bb-hero-shelf{margin-top:12px} }
-@media (min-width:960px){ .bb-hero-shelf{justify-self:end; max-width:none; margin-right:calc(var(--lk-gutter) * -.5)} }
+.bb-hero-shot{justify-self:center; width:100%}
+@media (min-width:960px){ .bb-hero-shot{justify-self:end; width:auto; margin-right:calc(var(--lk-gutter) * -.5)} }
 
 /* ── Para quién ── */
 .bb-who{display:grid; gap:14px; margin-top:clamp(32px, 4vw, 52px)}
@@ -57,7 +48,6 @@ export const BIBLIOTECA_CSS = `
 .bb-chips{margin-top:8px}
 .bb-chips .in-chip{white-space:normal; line-height:1.25}
 .bb-reader-demo{justify-self:center; width:100%}
-.bb-demo-note{margin-top:14px; text-align:center; font-size:var(--lk-fs-micro); line-height:1.5; color:var(--text-soft)}
 .bb-reader-demo .in-demo-cap{margin-top:18px}
 @media (min-width:960px){ .bb-reader{grid-template-columns:1.05fr .95fr; gap:80px} }
 
@@ -108,9 +98,5 @@ export const BIBLIOTECA_CSS = `
 @media (min-width:960px){ .bb-use{grid-template-columns:1fr auto; gap:96px} .bb-use-demo{width:auto} }
 
 ${dark('.bb-cover', 'box-shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 18px rgba(0,0,0,.4), var(--cover-ring)')}
-${dark('.bb-hero-shelf::after', 'background:linear-gradient(var(--surface-alt), var(--surface))')}
 
-@media (prefers-reduced-motion: reduce){
-  .bb-hero-shelf .bb-cover{transition:none}
-}
 `

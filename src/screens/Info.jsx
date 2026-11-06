@@ -14,8 +14,7 @@ import { scrollTopOnEnter, useLandingView } from './landingHydration.js'
 import { CONTACT_EMAIL, MISSION_URL } from '../lib/developer.js'
 import { INFO_CSS } from './infoStyles.js'
 import { INFO_META, INFO_URL } from './infoCopy.js'
-import TodayDemo from './TodayDemo.jsx'
-import { DemoStyle } from './landingDemos.jsx'
+import PhoneShot, { PhoneShotStyle } from './PhoneShot.jsx'
 import { InfoSprite, Ico, PaperBible, InstallGuide, InstallArt, FaqList } from './infoParts.jsx'
 
 // Landing pública /info — página fuera del Gate (ver App.jsx). Le habla a quien
@@ -77,7 +76,7 @@ export default function Info() {
   return (
     <div className="in-page relative isolate min-h-[100dvh] bg-app text-ink">
       <LandingStyle />
-      <DemoStyle />
+      <PhoneShotStyle />
       <style dangerouslySetInnerHTML={{ __html: INFO_CSS }} />
       <InfoSprite />
       {/* Resplandor «luz de mañana»: nace detrás del header y baña también el hero. */}
@@ -86,7 +85,7 @@ export default function Info() {
       <LandingHeader current="/info" />
 
       <main id="contenido" tabIndex={-1} className="in-main outline-none">
-        {/* ── HERO + DEMO VIVO ──────────────────────────────────── */}
+        {/* ── HERO + CAPTURA ──────────────────────────────────── */}
         <section className="in-hero" id="inicio">
           <div className="lk-wrap in-hero-grid">
             <div>
@@ -116,7 +115,16 @@ export default function Info() {
               </p>
             </div>
 
-            <TodayDemo />
+            <PhoneShot
+              shot="hoy"
+              priority
+              flip
+              tilt
+              width={310}
+              className="in-enter in-enter-2"
+              caption="Hoy: lo que toca leer, solo en referencias."
+              alt="Pantalla Hoy de la app: el plan Cronológico en el día 14, con las referencias Job 38 y Job 39 en letra grande, dos catecismos de la Biblioteca en «También hoy» y el botón Marcar como leído."
+            />
           </div>
         </section>
 
@@ -150,6 +158,33 @@ export default function Info() {
                   </li>
                 ))}
               </ol>
+            </div>
+          </div>
+        </section>
+
+        {/* ── PROGRESO (captura) ────────────────────────────────── */}
+        <section className="in-sec in-progress" id="constancia">
+          <div className="lk-wrap in-idea">
+            <div className="in-rv">
+              <Eyebrow>Tu constancia</Eyebrow>
+              <h2 className="lk-h2">
+                Tu constancia, <em>sin reproches</em>.
+              </h2>
+              <p className="in-lede">
+                Cada cuadrado pintado es un día que marcaste tu lectura. Los días sin lectura quedan en blanco: no se
+                ponen rojos ni te regañan, y si te atrasás, seguís desde donde quedaste.
+              </p>
+              <p className="in-lede">
+                Y en «Mi camino» podés anotar, si querés, una línea de lo que te habló. Es solo tuyo.
+              </p>
+            </div>
+            <div className="in-rv in-rv-2 in-shotcol">
+              <PhoneShot
+                shot="progreso"
+                width={300}
+                caption="Progreso: tu racha y las últimas cinco semanas."
+                alt="Pantalla Progreso de la app: 13 días de racha, 3 % del plan completado y un calendario de las últimas cinco semanas con los días leídos pintados y los demás en blanco."
+              />
             </div>
           </div>
         </section>
@@ -341,7 +376,7 @@ export default function Info() {
               </article>
             </div>
             <p className="in-micro" style={{ marginTop: 4 }}>
-              Los nombres y los datos de las tarjetas son de ejemplo.
+              Los nombres y los datos de las tarjetas, y los de las capturas de pantalla, son de ejemplo.
             </p>
           </div>
         </section>

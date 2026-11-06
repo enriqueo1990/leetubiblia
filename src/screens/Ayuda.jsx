@@ -28,7 +28,8 @@ import {
   SubTitle,
   AppLink,
 } from './landingKit.jsx'
-import { DemoStyle, HoyDemo, SalaGrupoDemo, OracionListaDemo } from './landingDemos.jsx'
+import { DemoStyle, SalaGrupoDemo } from './landingDemos.jsx'
+import PhoneShot from './PhoneShot.jsx'
 import { scrollTopOnEnter, useAppOrigin, useLandingView } from './landingHydration.js'
 
 // Página pública /ayuda — la REFERENCIA de la app (ver App.jsx, fuera del Gate).
@@ -218,7 +219,31 @@ export default function Ayuda() {
             </div>
           </div>
           <div className="mt-12 shrink-0 lg:mt-0">
-            <HoyDemo />
+            <PhoneShot
+              shot="hoy"
+              caption="Hoy: tu lectura del día, solo en referencias."
+              alt="Pantalla Hoy de la app: el plan Cronológico en el día 14, con las referencias Job 38 y Job 39 en letra grande, dos catecismos de la Biblioteca en «También hoy» y el botón Marcar como leído."
+            />
+          </div>
+        </div>
+
+        {/* Progreso: la captura de la pestaña. */}
+        <div className="mt-16 border-t border-hairline pt-12 lg:flex lg:items-center lg:gap-16">
+          <div className="lg:flex-1">
+            <Eyebrow>Pestaña · Progreso</Eyebrow>
+            <SubTitle className="mt-4">Tu constancia, sin reproches</SubTitle>
+            <p className="mt-4 max-w-[520px] text-[1rem] leading-relaxed text-ink-soft">
+              Tu racha, el porcentaje del plan y un mapa de las últimas cinco semanas: cada cuadrado pintado es un día
+              que marcaste tu lectura. Los días en blanco quedan en blanco, sin avisos rojos. Desde ahí también entrás a
+              «Tu recorrido» y a «Mi camino».
+            </p>
+          </div>
+          <div className="mt-10 shrink-0 lg:mt-0">
+            <PhoneShot
+              shot="progreso"
+              caption="Progreso: tu racha y las últimas cinco semanas."
+              alt="Pantalla Progreso de la app: 13 días de racha, 3 % del plan completado y un calendario de las últimas cinco semanas con los días leídos pintados y los demás en blanco."
+            />
           </div>
         </div>
 
@@ -296,7 +321,11 @@ export default function Ayuda() {
             </div>
           </div>
           <div className="mt-12 shrink-0 lg:order-1 lg:mt-0">
-            <OracionListaDemo />
+            <PhoneShot
+              shot="oracion"
+              caption="Oración: tus pedidos y los ya respondidos."
+              alt="Pantalla Oración de la app: la tarjeta Orar ahora con cuatro pedidos de a uno por vez, las pestañas Míos y De mis grupos, cuatro pedidos con un candado de privados y, debajo, uno respondido."
+            />
           </div>
         </div>
         <div className="mx-auto w-full max-w-[1120px] px-6">

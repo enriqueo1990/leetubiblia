@@ -48,7 +48,7 @@ ${dark('.in-page', '--in-faint:#363B41; --in-tint-strong:color-mix(in srgb, var(
   .in-trust{display:flex}
 }
 
-/* TodayDemo (el teléfono) y los demos de /lideres y /ayuda: demoStyles.js, que Info monta aparte. */
+/* Las capturas en teléfono (PhoneShot) y los demos de /lideres y /ayuda: demoStyles.js y phoneShotStyles.js. */
 
 /* ── Secciones ── */
 .in-sec{padding-block:clamp(64px, 9vw, 120px)}

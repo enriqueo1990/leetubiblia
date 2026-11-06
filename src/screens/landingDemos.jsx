@@ -1,25 +1,27 @@
 import { DEMO_CSS } from './demoStyles.js'
-import { LECTOR_DEMO } from './bibliotecaCopy.js'
+import { PS_CSS } from './phoneShotStyles.js'
 import { materialTheme } from '../lib/materialTheme.js'
 
-// Demos de pantalla para las landings (/lideres, /ayuda): la app dibujada en
-// HTML/CSS —el mismo teléfono y los mismos tokens que TodayDemo— con datos de
+// Demos de pantalla para las landings: la app dibujada en HTML/CSS con datos de
 // EJEMPLO y SOLO referencias de capítulos (nunca texto bíblico: la Biblia es la de
-// papel). Reemplazan a las capturas PNG, que mostraban la cuenta real y la app
-// vieja: estos son estáticos, acompañan el modo claro/noche de la página y no
-// necesitan JS ni se mueven (no hay nada que silenciar con prefers-reduced-motion).
+// papel). Quedan SOLO las pantallas de las que no hay captura real, porque hacen
+// falta otros usuarios: Hoy con la lectura de un grupo, la sala del grupo y el pulso
+// del líder. El resto de las pantallas (Hoy, Orar ahora, Oración, Progreso,
+// Biblioteca y el lector) son capturas reales: ver PhoneShot.jsx. Cada demo lleva el
+// rótulo «Demo con datos de ejemplo», que lo distingue de una captura.
 //
-// Fidelidad: cada pantalla sigue a la de la app (Hoy.jsx, GroupDetail y
-// groupDetail/*, OrarAhora.jsx, Oracion.jsx) y repite sus cadenas de es.json
-// (groupDetail.*, orar.*, oracion.*, hoy.*). Si la app cambia, se actualiza acá.
-// Los nombres son inventados. Cada demo es un role="img" con su descripción: el
-// lector de pantalla recibe el resumen, no la maqueta.
+// Son estáticos, acompañan el modo claro/noche de la página, no necesitan JS ni se
+// mueven. Cada pantalla sigue a la de la app (Hoy.jsx, GroupDetail y groupDetail/*)
+// y repite sus cadenas de es.json (groupDetail.*, hoy.*). Si la app cambia, se
+// actualiza acá. Los nombres son inventados. Cada demo es un role="img" con su
+// descripción: el lector de pantalla recibe el resumen, no la maqueta.
 //
 // Se renderiza en Node al prerenderizar: nada de window/localStorage acá. La
-// página que use un demo monta <DemoStyle /> una vez.
+// página que use un demo monta <DemoStyle /> una vez (incluye el marco y los estilos
+// de PhoneShot, así que no hace falta montar PhoneShotStyle además).
 
 export function DemoStyle() {
-  return <style dangerouslySetInnerHTML={{ __html: DEMO_CSS }} />
+  return <style dangerouslySetInnerHTML={{ __html: DEMO_CSS + PS_CSS }} />
 }
 
 // ── Íconos (mismo trazo que la app; el tamaño lo pone el CSS de cada contenedor) ──
@@ -87,11 +89,6 @@ const IconLock = () => (
   <Svg>
     <rect x="5" y="11" width="14" height="9" rx="2.5" />
     <path d="M8 11V8a4 4 0 018 0v3" />
-  </Svg>
-)
-const IconClose = () => (
-  <Svg>
-    <path d="M6 6l12 12M18 6L6 18" />
   </Svg>
 )
 
@@ -261,38 +258,6 @@ export function HoyConGruposDemo({ width }) {
             <GroupRow name="Grupo de los martes" refs="Proverbios 3" meta="Día 3 de 31" />
             <GroupRow name="Jóvenes" refs="Marcos 4" meta="Día 4 de 16" />
             <MaterialRow slug="heidelberg" name="Catecismo de Heidelberg" pct={22} meta="28 de 129" />
-          </div>
-        </div>
-      </div>
-      <MarkBar />
-    </DemoFrame>
-  )
-}
-
-// Hoy sin grupos: el primer día de un plan, con la pista de «buscá estos pasajes
-// en tu Biblia» y un material de la Biblioteca como lectura extra.
-export function HoyDemo({ width }) {
-  return (
-    <DemoFrame
-      width={width}
-      tab={0}
-      caption="Así se ve Hoy: tus pasajes del día. El texto queda en tu Biblia."
-      alt="Pantalla Hoy, primer día del plan Conocer a Jesús: los pasajes son Mateo 1 y Mateo 2, con la pista de buscarlos en tu Biblia, dos materiales de la Biblioteca como lectura extra y el botón Marcar como leído."
-    >
-      <div className="in-sc-body">
-        <Greeting />
-        <ReadingCard
-          plan="Conocer a Jesús"
-          day={1}
-          pct={2}
-          refs={[['Mateo', 1], ['Mateo', 2]]}
-          hint="Buscá estos pasajes en tu Biblia (o tocalos para abrirlos en tu app). Cuando termines, marcá el día."
-        />
-        <div className="in-sc-extras">
-          <p className="in-sc-label">También hoy</p>
-          <div className="in-sc-rows">
-            <MaterialRow slug="heidelberg" name="Catecismo de Heidelberg" pct={22} meta="28 de 129" />
-            <MaterialRow slug="westminster-menor" name="Catecismo Menor de Westminster" pct={10} meta="11 de 107" />
           </div>
         </div>
       </div>
@@ -509,194 +474,6 @@ export function PulsoLiderDemo({ width }) {
             </p>
           </div>
         </div>
-      </div>
-    </DemoFrame>
-  )
-}
-
-// ── Oración ────────────────────────────────────────────────────────────
-
-// «Orar ahora»: una ficha por pedido, en modo foco (sin barra de pestañas). El botón
-// de un pedido de grupo es una oración registrada: «Oré por esto».
-export function OrarAhoraDemo({ width }) {
-  return (
-    <DemoFrame
-      width={width}
-      time="7:40"
-      caption="Orar ahora: los pedidos de a uno, con calma."
-      alt="Modo Orar ahora, pedido 2 de 4: «Sabiduría para una decisión importante», del Grupo de los martes, con las novedades del autor y los botones Oré por esto y Pasar."
-    >
-      <div className="in-sc-body">
-        <div className="in-sc-ftop">
-          <IconClose />
-          <span>2 de 4</span>
-        </div>
-        <div className="in-sc-prog2" aria-hidden="true">
-          <i style={{ width: '50%' }} />
-        </div>
-        <div className="in-sc-focus">
-          <p className="in-sc-eb">Grupo de los martes</p>
-          <article className="in-sc-ficha">
-            <h4>Sabiduría para una decisión importante</h4>
-            <p className="in-fd">Se viene un cambio en el trabajo y no sé qué camino tomar.</p>
-            <div className="in-sc-news">
-              <b>Novedades</b>
-              <p>Hoy tuvo la primera entrevista. Gracias por orar.</p>
-              <small>4 nov</small>
-            </div>
-          </article>
-          <p className="in-sc-fmeta">Pedido de Mateo del 28 oct</p>
-        </div>
-      </div>
-      <div className="in-sc-bar in-end">
-        <div className="in-btn-mark">
-          <span className="in-b-before">Oré por esto</span>
-        </div>
-        <div className="in-sc-skip">Pasar</div>
-      </div>
-    </DemoFrame>
-  )
-}
-
-// La pestaña Oración: «Orar ahora», pedidos propios (privados o compartidos) y los
-// respondidos, atenuados y con su marca.
-export function OracionListaDemo({ width }) {
-  return (
-    <DemoFrame
-      width={width}
-      tab={1}
-      time="7:35"
-      caption="Tu oración: pedidos propios y respondidos, con testimonio cuando Dios contesta."
-      alt="Pestaña Oración: el acceso Orar ahora con cuatro pedidos, la pestaña Míos con tres pedidos activos, uno privado, y debajo los respondidos, atenuados."
-    >
-      <div className="in-sc-body in-fade">
-        <div className="in-sc-ohd">
-          <h2 className="in-sc-title">Oración</h2>
-          <i>
-            <IconPlus />
-          </i>
-        </div>
-        <div className="in-sc-orar">
-          <span>
-            <b>Orar ahora</b>
-            <small>4 pedidos, uno por vez</small>
-          </span>
-          <i>
-            <IconHeart />
-          </i>
-        </div>
-        <div className="in-sc-seg" aria-hidden="true">
-          <span className="in-on">Míos</span>
-          <span>De mis grupos</span>
-        </div>
-        <div className="in-sc-list">
-          <div className="in-sc-it">
-            <span>
-              <b>Sabiduría para una decisión importante</b>
-              <small>4 nov</small>
-              <em>2 personas orando</em>
-            </span>
-            <span className="in-side">
-              <IconPeople />
-            </span>
-          </div>
-          <div className="in-sc-it">
-            <span>
-              <b>Salud de mi mamá</b>
-              <small>2 nov</small>
-            </span>
-            <span className="in-side">
-              <IconPeople />
-            </span>
-          </div>
-          <div className="in-sc-it">
-            <span>
-              <b>Mi tiempo a solas con Dios</b>
-              <small>30 oct</small>
-            </span>
-            <span className="in-side">
-              <IconLock />
-            </span>
-          </div>
-        </div>
-        <div className="in-sc-sec" style={{ marginTop: 'calc(20*var(--u))' }}>
-          <p className="in-sc-sl">Respondidos</p>
-        </div>
-        <div className="in-sc-list" style={{ marginTop: 'calc(8*var(--u))' }}>
-          <div className="in-sc-it in-dim">
-            <span>
-              <b>Trabajo para mi hermano</b>
-              <small>Respondido · 28 oct</small>
-            </span>
-            <span className="in-side">
-              <IconPeople />
-              <span className="in-tag">Respondido</span>
-            </span>
-          </div>
-        </div>
-      </div>
-    </DemoFrame>
-  )
-}
-
-// ── Biblioteca ─────────────────────────────────────────────────────────
-
-const IconList = () => (
-  <Svg>
-    <path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01" />
-  </Svg>
-)
-
-// El lector de un material (MaterialReader; el contenido, LECTOR_DEMO, vive en
-// bibliotecaCopy.js): miga «‹ Hoy», compartir e Índice
-// arriba; la pregunta como ficha (posición y bloque, pregunta, respuesta, pasajes
-// de apoyo con filete) y, abajo, «Marcar como leído» y ‹ Anterior.
-export function LectorMaterialDemo({ width }) {
-  const d = LECTOR_DEMO
-  return (
-    <DemoFrame
-      width={width}
-      tab={0}
-      caption="Una pregunta por vez, con sus pasajes para buscar en tu Biblia."
-      alt={`Lector del Catecismo Menor de Westminster, ${d.position}, ${d.block}: la pregunta «${d.question}», su respuesta de una oración y ${d.refs.length} pasajes de apoyo como referencias, con el botón Marcar como leído.`}
-    >
-      <div className="in-sc-body">
-        <div className="in-sc-rbar">
-          <span className="in-sc-back" style={{ height: 'auto' }}>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M9 5l7 7-7 7" />
-            </svg>
-            Hoy
-          </span>
-          <span className="in-sc-ract">
-            <IconShare />
-            <span>
-              <IconList />
-              Índice
-            </span>
-          </span>
-        </div>
-        <div className="in-sc-card in-sc-rd">
-          <p className="in-sc-rmeta">
-            {d.position} · {d.block}
-          </p>
-          <h4 className="in-sc-rq">{d.question}</h4>
-          <p className="in-sc-ra">{d.answer}</p>
-          <p className="in-sc-rrefs">
-            {d.refs.map((r, i) => (
-              <span key={r}>
-                <span className="in-sc-rref">{r}</span>
-                {i < d.refs.length - 1 && <span className="in-sc-rsep"> · </span>}
-              </span>
-            ))}
-          </p>
-        </div>
-      </div>
-      <div className="in-sc-bar">
-        <div className="in-btn-mark">
-          <span className="in-b-before">Marcar como leído</span>
-        </div>
-        <div className="in-sc-rnav">‹ Anterior</div>
       </div>
     </DemoFrame>
   )

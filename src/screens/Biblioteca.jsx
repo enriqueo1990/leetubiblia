@@ -13,7 +13,7 @@ import { scrollTopOnEnter, useLandingView } from './landingHydration.js'
 import { INFO_CSS } from './infoStyles.js'
 import { BIBLIOTECA_CSS } from './bibliotecaStyles.js'
 import { BIBLIOTECA_META, BIBLIOTECA_FAQ, BOOKS, SHELVES, KIND_LABEL, LECTOR_DEMO } from './bibliotecaCopy.js'
-import { DemoStyle, LectorMaterialDemo, HoyDemo } from './landingDemos.jsx'
+import PhoneShot, { PhoneShotStyle } from './PhoneShot.jsx'
 import { InfoSprite, Ico, FaqList } from './infoParts.jsx'
 import { getMaterial } from '../lib/materials.js'
 import { materialTheme } from '../lib/materialTheme.js'
@@ -24,9 +24,10 @@ import { materialTheme } from '../lib/materialTheme.js'
 // landingSystem.js, estilos in-* de infoStyles.js) y estilos propios bb-*.
 //
 // Principios: la app acompaña la Biblia FÍSICA. Los pasajes de apoyo se muestran
-// SOLO como referencias; el demo del lector usa la pregunta 4 del Catecismo Menor de
-// Westminster (texto de catecismo de dominio público, traducción de esta edición, que
-// no es Escritura). De los demás libros se muestran nombre, año, cantidad y una
+// SOLO como referencias; las pantallas son capturas reales (PhoneShot) y la del
+// lector muestra la pregunta 44 del Catecismo de Heidelberg (texto de catecismo de
+// dominio público, traducción de esta edición, que no es Escritura; sus pasajes de
+// apoyo, solo como referencias). De los demás libros se muestran nombre, año, cantidad y una
 // línea de qué son: nunca su texto (las Lecturas matutinas llevan un versículo de
 // encabezado, y los catecismos citan los mandamientos y el Padrenuestro).
 //
@@ -54,8 +55,6 @@ function Cover({ slug, className = '' }) {
     </span>
   )
 }
-
-const HERO_COVERS = ['heidelberg', 'westminster-menor', 'spurgeon-matutinas', 'bautista-1689']
 
 const WHO = [
   {
@@ -133,7 +132,7 @@ export default function Biblioteca() {
   return (
     <div className="in-page bb-page relative isolate min-h-[100dvh] bg-app text-ink">
       <LandingStyle />
-      <DemoStyle />
+      <PhoneShotStyle />
       <style dangerouslySetInnerHTML={{ __html: INFO_CSS + BIBLIOTECA_CSS }} />
       <InfoSprite />
       <LandingGlow />
@@ -171,10 +170,15 @@ export default function Biblioteca() {
               </p>
             </div>
 
-            <div className="bb-hero-shelf in-enter in-enter-2" aria-hidden="true">
-              {HERO_COVERS.map((slug) => (
-                <Cover key={slug} slug={slug} />
-              ))}
+            <div className="bb-hero-shot in-enter in-enter-2">
+              <PhoneShot
+                shot="biblioteca"
+                priority
+                tilt
+                width={310}
+                caption="La Biblioteca: tu estante y los libros para agregar."
+                alt="Pantalla Biblioteca de la app: «En tu estante», con las portadas del Catecismo de Heidelberg y del Catecismo Menor de Westminster y su avance, y debajo «Para agregar», con las portadas de los Credos de la iglesia antigua, la Confesión Belga y los Cánones de Dort."
+              />
             </div>
           </div>
         </section>
@@ -245,10 +249,12 @@ export default function Biblioteca() {
               </ul>
             </div>
             <div className="bb-reader-demo in-rv in-rv-2">
-              <LectorMaterialDemo width={330} />
-              <p className="bb-demo-note">
-                Pregunta 4 del Catecismo Menor de Westminster (1647), como se ve en la app.
-              </p>
+              <PhoneShot
+                shot="lector"
+                width={320}
+                caption="Una pregunta del Catecismo de Heidelberg, como se lee en la app."
+                alt="Lector de la Biblioteca: la ficha de la pregunta 44 del Catecismo de Heidelberg, con su número, el bloque al que pertenece, la pregunta y la respuesta, una fila de pasajes de apoyo como referencias, y debajo los botones Marcar como leído y Anterior."
+              />
             </div>
           </div>
         </section>
@@ -329,7 +335,12 @@ export default function Biblioteca() {
               </ul>
             </div>
             <div className="bb-use-demo in-rv in-rv-2">
-              <HoyDemo width={310} />
+              <PhoneShot
+                shot="hoy"
+                width={310}
+                caption="Los libros de tu estante aparecen en Hoy, bajo tu lectura."
+                alt="Pantalla Hoy de la app: el plan Cronológico en el día 14 y, en «También hoy», el Catecismo de Heidelberg y el Catecismo Menor de Westminster con su portada y su avance, y un acceso a la Biblioteca."
+              />
             </div>
           </div>
         </section>
