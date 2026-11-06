@@ -32,8 +32,8 @@ export default function GroupMembers({ members, isOwner, iShare, readMap, onKick
                 <p className="text-[16px] text-ink">
                   {memberName}
                   {isMe && <span className="text-ink-soft"> {t('groupDetail.youParen')}</span>}
-                  {isMemberOwner && <span className="text-[13px] text-ink-soft"> · {t('groupDetail.adminShort')}</span>}
                 </p>
+                {isMemberOwner && <p className="text-[13px] text-ink-soft">{t('groupDetail.adminShort')}</p>}
               </div>
               <div className="flex shrink-0 items-center gap-2">
                 {iShare && shares && readToday && (
