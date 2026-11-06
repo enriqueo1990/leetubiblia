@@ -486,7 +486,7 @@ export default function Hoy() {
     !reflectionsEnabled || note === undefined
       ? null
       : note
-        ? { key: 'note', done: true, serif: true, title: note.body, onClick: () => setReflectOpen(true) }
+        ? { key: 'note', done: true, serif: true, title: note.body, a11yLabel: t('hoy.day.noteA11y'), describeTitle: true, onClick: () => setReflectOpen(true) }
         : noteEditable
           ? { key: 'note', done: false, title: t('hoy.day.noteTodo'), onClick: () => setReflectOpen(true) }
           : null
@@ -499,7 +499,7 @@ export default function Hoy() {
         ? { key: 'pray', done: false, title: t('hoy.day.prayTodo'), sub: prayerNext.title, onClick: () => navigate('/orar', { state: { from: '/' } }) }
         : null
   // "Leíste tu lectura" es también la puerta a desmarcar (antes, el menú del chip).
-  const daySteps = [{ key: 'read', done: true, title: t('hoy.day.read'), onClick: () => setConfirmUnmark(true) }, noteRow, prayerRow].filter(Boolean)
+  const daySteps = [{ key: 'read', done: true, title: t('hoy.day.read'), a11yLabel: t('hoy.day.readA11y'), onClick: () => setConfirmUnmark(true) }, noteRow, prayerRow].filter(Boolean)
   const dayAllDone = daySteps.every((row) => row.done)
   // "Tu Biblia, hoy": una invitación más, como fila, no un botón suelto.
   const photoRow = !viewingAhead && refsShown?.length > 0 ? { key: 'photo', icon: <CameraIcon size={20} />, title: t('photo.cta'), onClick: () => setPhotoOpen(true) } : null

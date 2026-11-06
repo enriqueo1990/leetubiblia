@@ -406,6 +406,8 @@
   "hoy.renewConfirm": "Empezar de nuevo",
   "hoy.day.kicker": "Tu día",
   "hoy.day.read": "Leíste tu lectura",
+  "hoy.day.readA11y": "Leíste tu lectura. Tocá para desmarcar",
+  "hoy.day.noteA11y": "Tu nota del día",
   "hoy.day.noteTodo": "¿Qué te habló hoy?",
   "hoy.day.prayTodo": "Orar por un pedido",
   "hoy.day.prayDone": "Oraste por un pedido",

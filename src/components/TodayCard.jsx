@@ -4,7 +4,10 @@ import { CheckIcon, RowChevron } from './icons.jsx'
 // "Tu día": lo que sigue después de leer, en una sola tarjeta con filas. Cada
 // fila es una invitación, no una obligación: sin marcas de "te faltó". Una fila
 // hecha lleva el círculo lleno; una pendiente, el círculo vacío y un chevron.
-// `rows`: [{ key, done, title, sub, serif, onClick }]. Sin onClick la fila es
+// `rows`: [{ key, done, title, sub, serif, onClick, a11yLabel, describeTitle }].
+// `a11yLabel` es lo que dice el lector de pantalla de una fila tocable (qué
+// hace al tocarla); con `describeTitle` el texto visible queda como descripción
+// (útil cuando es largo, como una nota). Sin onClick la fila es
 // solo lectura (por ejemplo la oración ya hecha). «Leíste tu lectura» sí lleva
 // onClick: es la puerta a desmarcar.
 export default function TodayCard({ rows, footer = null, className = '' }) {
@@ -36,7 +39,11 @@ export default function TodayCard({ rows, footer = null, className = '' }) {
             )}
             <span className="min-w-0 flex-1">
               {row.serif ? (
-                <span className="line-clamp-2 text-[16px] italic leading-snug text-ink" style={{ fontFamily: BRAND_SERIF }}>
+                <span
+                  id={row.describeTitle ? `today-row-${row.key}-title` : undefined}
+                  className="line-clamp-2 text-[16px] italic leading-snug text-ink"
+                  style={{ fontFamily: BRAND_SERIF }}
+                >
                   {row.title}
                 </span>
               ) : (
@@ -53,7 +60,14 @@ export default function TodayCard({ rows, footer = null, className = '' }) {
         )
         const cls = 'flex w-full items-center gap-3.5 px-4 py-3.5 text-left border-t border-hairline first:border-t-0'
         return row.onClick ? (
-          <button key={row.key} type="button" onClick={row.onClick} className={`${cls} min-h-[60px]`}>
+          <button
+            key={row.key}
+            type="button"
+            onClick={row.onClick}
+            aria-label={row.a11yLabel}
+            aria-describedby={row.a11yLabel && row.describeTitle ? `today-row-${row.key}-title` : undefined}
+            className={`${cls} min-h-[60px]`}
+          >
             {inner}
           </button>
         ) : (
