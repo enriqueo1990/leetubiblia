@@ -38,10 +38,11 @@
   --danger: #D1453B;
 
   /* Elevación — única escala de sombras de la app (card y overlays: sheet/dialog).
-     En oscuro la sombra negra desaparece sobre #000: la separación la da un
+     Grises NEUTROS (la dirección Cielo no usa marrón ni siquiera en las sombras).
+     En oscuro la sombra negra desaparece sobre #131517: la separación la da un
      filete claro sutil (ver bloques de modo oscuro). */
-  --shadow-card: 0 1px 2px rgba(60, 40, 20, 0.05), 0 6px 20px rgba(60, 40, 20, 0.06);
-  --shadow-overlay: 0 10px 40px rgba(40, 26, 12, 0.22);
+  --shadow-card: 0 1px 2px rgba(28, 28, 30, 0.05), 0 6px 20px rgba(28, 28, 30, 0.06);
+  --shadow-overlay: 0 10px 40px rgba(28, 28, 30, 0.22);
 
   --on-accent-light: #FFFFFF;
   --on-accent-dark: #FFFFFF;
