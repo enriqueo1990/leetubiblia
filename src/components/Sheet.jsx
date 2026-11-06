@@ -6,16 +6,19 @@ import { usePreferences } from '../lib/preferences.jsx'
 
 // Sheet / modal (README — estructura común): grabber arriba + barra de nav
 // (Cancelar / título / acción opcional) → contenido scroll → footer fijo.
-// En móvil sube desde abajo; en desktop queda centrado y acotado.
+// Flota centrada en horizontal y anclada arriba (no centrada en vertical): así,
+// cuando el contenido crece o se achica (elegir una opción que muestra otra
+// parte, un error), el borde de arriba no se mueve bajo el dedo; solo crece
+// hacia abajo.
 //
 // A11y: cierra con Escape, atrapa el foco (Tab no se va al fondo) y devuelve el
 // foco al elemento previo al cerrar. Si `dirty`, cerrar por scrim/Escape pide
 // confirmación para no perder lo escrito (el footer/Guardar no pasa por acá).
 //
-// Teclado en iOS: el scrim y el panel son dos elementos fixed independientes.
-// El panel tiene fixed bottom-0 propio, lo que hace que iOS Safari lo ancle
-// al visual viewport (encima del teclado) sin necesidad de JS.
-// `plain`: sin barra de nav (Cancelar/título) — solo una ✕ flotante. Para
+// Teclado en iOS: el scrim y el panel son dos elementos fixed independientes;
+// el panel, anclado arriba, no se esconde detrás del teclado.
+// `plain`: sin barra de nav (Cancelar/título) — solo una ✕ flotante, del mismo
+// lado (izquierda) y tamaño que la ✕ de la barra normal. Para
 // contenido tipo estampita (ver una nota) donde el cromo arruina la captura.
 export default function Sheet({ title, onCancel, action, children, footer, dirty = false, plain = false }) {
   const { t } = usePreferences()
@@ -84,14 +87,14 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
       />
 
       {/* Wrapper: pointer-events-none para que clicks fuera del panel traspasen
-          al scrim. Centrado en todos los tamaños con margen lateral. */}
-      <div className="pointer-events-none fixed inset-0 z-40 flex items-center justify-center px-5">
+          al scrim. Anclado arriba (padding superior fijo) y centrado en horizontal. */}
+      <div className="pointer-events-none fixed inset-0 z-40 flex items-start justify-center px-5 pb-5 pt-[max(env(safe-area-inset-top),48px)]">
         <div
           ref={panelRef}
           role="dialog"
           aria-modal="true"
           aria-label={title}
-          className="pointer-events-auto relative flex max-h-[92dvh] w-full max-w-content flex-col rounded-container"
+          className="pointer-events-auto relative flex max-h-full w-full max-w-content flex-col rounded-container"
           style={{ backgroundColor: 'var(--bg-app)', boxShadow: 'var(--shadow-overlay)' }}
         >
           {/* Nav — o solo la ✕ en la variante plain */}
@@ -100,9 +103,9 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
               type="button"
               onClick={requestClose}
               aria-label={t('common.close')}
-              className="absolute right-1.5 top-1.5 z-10 flex h-11 w-11 items-center justify-center text-[16px] leading-none text-ink-soft"
+              className="absolute left-3 top-2.5 z-10 flex h-11 w-11 items-center justify-center rounded-full text-ink-soft"
             >
-              ✕
+              <XIcon size={22} />
             </button>
           ) : (
             <div className="flex items-center justify-between px-3 py-2.5">
