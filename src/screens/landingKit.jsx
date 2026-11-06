@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { isStoreApp } from '../lib/platform.js'
 import { recordFunnel } from '../lib/diag.js'
 import { useDonationGoal } from '../hooks/useDonationGoal.js'
@@ -9,6 +9,7 @@ import shotHoy from '../assets/mocks/hoy-lectura.png'
 import shotGrupo from '../assets/mocks/sala-grupo.png'
 import shotOracion from '../assets/mocks/oracion-lista.png'
 import BrandMark from '../components/BrandMark.jsx'
+import BackLink from '../components/BackLink.jsx'
 
 // Kit compartido por las páginas públicas (/info, /lideres, /ayuda, /privacidad):
 // primitivos de marca, íconos, mocks de producto y el footer global. Vive fuera
@@ -247,18 +248,25 @@ const FOCUS =
 // contenido compartan gutter. La CTA "Abrir la app" es SECUNDARIA (ghost): la
 // CTA sólida de cada página es la protagonista, no compite con el header.
 export function LandingHeader({ current, width = 'max-w-[880px]' }) {
+  // Si llegaste desde adentro de la app (state.from, p. ej. Ajustes › Guía), la
+  // salida es el «‹ Ajustes» de siempre, no «Abrir la app»: la PWA no tiene atrás.
+  const from = useLocation().state?.from
   return (
     <header className={`relative mx-auto w-full ${width} px-6 pt-6`}>
       <div className="flex items-center justify-between gap-4">
         <Link to="/info" aria-label="Lee Tu Biblia" className={FOCUS}>
           <Wordmark />
         </Link>
-        <Link
-          to="/"
-          className={`shrink-0 rounded-pill bg-accent-tint px-4 py-2 text-[14.5px] font-semibold text-accent-ink transition-[filter] hover:brightness-95 ${FOCUS}`}
-        >
-          Abrir la app
-        </Link>
+        {from?.to ? (
+          <BackLink to="/" label="la app" />
+        ) : (
+          <Link
+            to="/"
+            className={`inline-flex min-h-11 shrink-0 items-center rounded-pill bg-accent-tint px-4 text-[14.5px] font-semibold text-accent-ink transition-[filter] hover:brightness-95 ${FOCUS}`}
+          >
+            Abrir la app
+          </Link>
+        )}
       </div>
       {/* Sin divisor: la separación la dan el aire y el resplandor de página.
           El activo es una píldora con tinte, con outdent (-mx) para que su TEXTO

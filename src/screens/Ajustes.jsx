@@ -1004,7 +1004,11 @@ export default function Ajustes() {
         </button>
         {/* /ayuda es pública (vive fuera del Gate) pero antes no tenía ninguna
             puerta desde adentro de la app. */}
-        <Link to="/ayuda" className="flex items-center justify-between gap-4 px-4 py-3">
+        <Link
+          to="/ayuda"
+          state={{ from: { to: '/ajustes/app', label: t('nav.ajustes') } }}
+          className="flex items-center justify-between gap-4 px-4 py-3"
+        >
           <span className="min-w-0 flex-1">
             <span className="block text-[16px] text-ink">
               {t('ajustes.guiaApp')}

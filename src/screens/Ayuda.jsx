@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import {
   BookIcon,
   HeartIcon,
@@ -146,6 +146,7 @@ function TabHead({ eyebrow, title, intro, tone }) {
 }
 
 export default function Ayuda() {
+  const from = useLocation().state?.from
   useEffect(() => {
     document.title = 'Lee Tu Biblia — Guía completa de la app'
     window.scrollTo(0, 0)
@@ -340,8 +341,9 @@ export default function Ayuda() {
             Lee Tu Biblia te acompaña el resto: el plan, la racha, la oración y tu gente.
           </p>
           <div className="mx-auto mt-8 max-w-[300px]">
-            <Link to="/" className="btn btn-primary info-cta block">
-              Empezá gratis
+            {/* Quien llega desde Ajustes ya empezó: vuelve a donde estaba. */}
+            <Link to={from?.to ?? '/'} className="btn btn-primary info-cta block">
+              {from?.to ? 'Volver a la app' : 'Empezá gratis'}
             </Link>
           </div>
           <p className="mt-5 text-[14px] text-ink-soft">
