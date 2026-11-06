@@ -670,7 +670,11 @@ export default function Hoy() {
             </Link>
           )}
           {dayShown != null && (
-            <p className="mt-0.5 text-[13px] tabular-nums text-ink-soft">{t('hoy.dayN', { day: dayShown })}</p>
+            <p className="mt-0.5 text-[13px] tabular-nums text-ink-soft">
+              {viewingAhead && r.displayDay != null
+                ? t('hoy.dayOnN', { day: dayShown, done: r.displayDay })
+                : t('hoy.dayN', { day: dayShown })}
+            </p>
           )}
           {duration != null && (
             <div

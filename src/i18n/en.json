@@ -390,6 +390,7 @@
   "hoy.readToday": "Read today",
   "hoy.markedNote": "Done for today. See you tomorrow.",
   "hoy.dayN": "Day {day}",
+  "hoy.dayOnN": "Day {day} · Day {done} is done",
   "hoy.unmark": "Unmark this day",
   "hoy.unmarkTitle": "Unmark this day?",
   "hoy.unmarkMessage": "Your reading goes back to pending. Your note, if you wrote one, is kept.",

@@ -390,6 +390,7 @@
   "hoy.readToday": "Lido hoje",
   "hoy.markedNote": "Por hoje é isso. Até amanhã.",
   "hoy.dayN": "Dia {day}",
+  "hoy.dayOnN": "Dia {day} · o Dia {done} já foi lido",
   "hoy.unmark": "Desmarcar este dia",
   "hoy.unmarkTitle": "Desmarcar este dia?",
   "hoy.unmarkMessage": "Sua leitura volta a ficar pendente. Sua nota, se você escreveu, fica guardada.",
