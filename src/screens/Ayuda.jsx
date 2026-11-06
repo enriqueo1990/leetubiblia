@@ -19,9 +19,6 @@ import {
   LandingFooter,
   IconBadge,
   Eyebrow,
-  PhoneMock,
-  GroupMock,
-  PrayerMock,
   PaletteIcon,
   WifiOffIcon,
   AwardIcon,
@@ -31,6 +28,7 @@ import {
   SubTitle,
   AppLink,
 } from './landingKit.jsx'
+import { DemoStyle, HoyDemo, SalaGrupoDemo, OracionListaDemo } from './landingDemos.jsx'
 import { scrollTopOnEnter, useAppOrigin, useLandingView } from './landingHydration.js'
 
 // Página pública /ayuda — la REFERENCIA de la app (ver App.jsx, fuera del Gate).
@@ -119,9 +117,9 @@ const AJUSTES = [
 ]
 
 // Rejilla de funciones: badge + nombre + descripción. Aire, sin tarjetas flotantes.
-function FeatureGrid({ items, tone }) {
+function FeatureGrid({ items, tone, wide = false }) {
   return (
-    <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
+    <div className={`grid gap-x-10 gap-y-8 sm:grid-cols-2 ${wide ? 'lg:grid-cols-3' : ''}`}>
       {items.map((f) => (
         <div key={f.name} className="flex items-start gap-4">
           <IconBadge tone={tone}>{f.icon}</IconBadge>
@@ -159,6 +157,7 @@ export default function Ayuda() {
   return (
     <div className="relative isolate min-h-[100dvh] bg-app text-ink">
       <LandingStyle />
+      <DemoStyle />
       {/* Resplandor suave: presencia cálida detrás del header, sin marketing. */}
       <LandingGlow soft />
 
@@ -171,7 +170,7 @@ export default function Ayuda() {
           título gigante centrado): esta página es referencia, no captación, y
           debe leerse como documentación —compacta, alineada a la izquierda, con
           su índice— para no confundirse con /info. */}
-      <section className="screen-enter relative mx-auto w-full max-w-[880px] px-6 pt-10">
+      <section className="screen-enter relative mx-auto w-full max-w-[1120px] px-6 pt-10">
         <div className="border-b border-hairline pb-9">
           <Eyebrow>Manual · referencia</Eyebrow>
           <h1 className="lk-h2 mt-4 max-w-[620px]">
@@ -206,7 +205,7 @@ export default function Ayuda() {
       {/* ── HOY / LECTURA ────────────────────────────────────── */}
       {/* Sin border-t: el border-b del encabezado de manual ya es el divisor
           (evita la doble línea al inicio). */}
-      <section id="hoy" className="mx-auto w-full max-w-[880px] scroll-mt-6 px-6 pb-16 pt-14">
+      <section id="hoy" className="mx-auto w-full max-w-[1120px] scroll-mt-6 px-6 pb-16 pt-14">
         <div className="lg:flex lg:items-start lg:gap-16">
           <div className="lg:flex-1">
             <TabHead
@@ -219,7 +218,7 @@ export default function Ayuda() {
             </div>
           </div>
           <div className="mt-12 shrink-0 lg:mt-0">
-            <PhoneMock />
+            <HoyDemo />
           </div>
         </div>
 
@@ -230,7 +229,7 @@ export default function Ayuda() {
           <p className="mt-4 max-w-[520px] text-[1rem] leading-relaxed text-ink-soft">
             Desde 8 días hasta dos años. Un plan activo a la vez, para no dispersarte.
           </p>
-          <ul className="mt-8 flex flex-col">
+          <ul className="mt-8 flex max-w-[760px] flex-col">
             {PLANES.map((p) => (
               <li
                 key={p.name}
@@ -258,7 +257,7 @@ export default function Ayuda() {
             sumás a tu estante aparecen en Hoy junto a tu lectura, y avanzás a tu ritmo. Una frase que
             te marcó se comparte como imagen, con el color de su libro.
           </p>
-          <div className="mt-7 space-y-6">
+          <div className="mt-7 max-w-[760px] space-y-6">
             {MATERIALES.map((g) => (
               <div key={g.group}>
                 <p className="text-[0.8125rem] font-semibold text-ink-soft">{g.group}</p>
@@ -281,7 +280,7 @@ export default function Ayuda() {
 
       {/* ── ORACIÓN ──────────────────────────────────────────── */}
       <section id="oracion" className="band-oracion scroll-mt-6 py-20">
-        <div className="mx-auto w-full max-w-[880px] px-6 lg:flex lg:items-start lg:gap-16">
+        <div className="mx-auto w-full max-w-[1120px] px-6 lg:flex lg:items-start lg:gap-16">
           <div className="lg:order-2 lg:flex-1">
             <TabHead
               eyebrow="Pestaña · Oración"
@@ -294,16 +293,16 @@ export default function Ayuda() {
             </div>
           </div>
           <div className="mt-12 shrink-0 lg:order-1 lg:mt-0">
-            <PrayerMock />
+            <OracionListaDemo />
           </div>
         </div>
-        <div className="mx-auto w-full max-w-[880px] px-6">
+        <div className="mx-auto w-full max-w-[1120px] px-6">
           <BackToIndex />
         </div>
       </section>
 
       {/* ── GRUPOS ───────────────────────────────────────────── */}
-      <section id="grupos" className="mx-auto w-full max-w-[880px] scroll-mt-6 px-6 py-20">
+      <section id="grupos" className="mx-auto w-full max-w-[1120px] scroll-mt-6 px-6 py-20">
         <div className="lg:flex lg:items-start lg:gap-16">
           <div className="lg:flex-1">
             <TabHead
@@ -317,7 +316,7 @@ export default function Ayuda() {
             </div>
           </div>
           <div className="mt-12 shrink-0 lg:mt-0">
-            <GroupMock />
+            <SalaGrupoDemo />
           </div>
         </div>
         <BackToIndex />
@@ -325,7 +324,7 @@ export default function Ayuda() {
 
       {/* ── AJUSTES ──────────────────────────────────────────── */}
       <section id="ajustes" className="scroll-mt-6 border-t border-hairline">
-        <div className="mx-auto w-full max-w-[880px] px-6 py-20">
+        <div className="mx-auto w-full max-w-[1120px] px-6 py-20">
           <TabHead
             eyebrow="El engranaje · Ajustes"
             tone="ajustes"
@@ -333,7 +332,7 @@ export default function Ayuda() {
             intro="Pequeños detalles para que la app se sienta propia y descanse la vista."
           />
           <div className="mt-10">
-            <FeatureGrid items={AJUSTES} tone="ajustes" />
+            <FeatureGrid items={AJUSTES} tone="ajustes" wide />
           </div>
           <BackToIndex />
         </div>

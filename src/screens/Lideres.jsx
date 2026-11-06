@@ -11,14 +11,13 @@ import {
   AppLink,
 } from './landingKit.jsx'
 import { scrollTopOnEnter, useLandingView } from './landingHydration.js'
-import shotHoy from '../assets/guia-lideres/hoy-con-grupos.png'
-import shotSala from '../assets/guia-lideres/sala-grupo.png'
-import shotOrar from '../assets/guia-lideres/orar-ahora.png'
-import shotLider from '../assets/guia-lideres/pulso-lider.png'
-
-// Tamaño real (px) de las capturas, junto a sus imports: reservan el lugar antes de
-// que carguen. Si se rehacen las capturas, se actualizan acá.
-const SIZE_PHONE = { width: 780, height: 1688 }
+import {
+  DemoStyle,
+  HoyConGruposDemo,
+  SalaGrupoDemo,
+  OrarAhoraDemo,
+  PulsoLiderDemo,
+} from './landingDemos.jsx'
 
 // Landing pública /lideres — cómo usar la app con un grupo pequeño (ver App.jsx,
 // fuera del Gate). Es una guía práctica, no una pieza de venta: lo que arma el
@@ -27,24 +26,6 @@ const SIZE_PHONE = { width: 780, height: 1688 }
 // botones de la app, para que se pueda seguir con el teléfono en la mano.
 // El principio sigue: cada uno lee en su Biblia FÍSICA
 // (product-principle-physical-bible); solo se muestra lo positivo.
-
-// Una captura real, enmarcada como pantalla de teléfono (borde + sombra neutra,
-// la misma de landingKit: nunca marrón).
-function Shot({ src, alt, width, height }) {
-  return (
-    <div className="mx-auto w-[220px] shrink-0 sm:w-[240px]">
-      <img
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        loading="lazy"
-        className="h-auto w-full rounded-[24px] border border-hairline"
-        style={{ boxShadow: '0 24px 60px -24px rgba(28, 28, 30, 0.25)' }}
-      />
-    </div>
-  )
-}
 
 // Bloque de pasos numerados. Los nombres de botones van en <b>, en tinta y entre «comillas»
 // (el acento queda para lo tocable: acá no hay nada que tocar).
@@ -75,21 +56,16 @@ function Steps({ eyebrow, title, steps, children }) {
   )
 }
 
-// Lo que se ve durante la semana: texto corto + captura.
-function Week({ title, children, shot, alt, side = 'right', first = false }) {
-  const left = side === 'left'
+// Lo que se ve durante la semana: texto corto + la pantalla (un demo con datos de
+// ejemplo, no una captura: ver landingDemos.jsx). En escritorio van de a dos.
+function Week({ title, children, demo }) {
   return (
-    // El primero va sin regla: la sección ya trae la suya arriba del título.
-    <div className={`${first ? '' : 'border-t border-hairline pt-12'} lg:flex lg:items-center lg:gap-16`}>
-      <div className={`lg:flex-1 ${left ? 'lg:order-2' : ''}`}>
-        <SubTitle className="max-w-[480px]">{title}</SubTitle>
-        <p className="mt-4 max-w-[480px] text-[1.0312rem] leading-relaxed text-ink-soft [&_b]:font-semibold [&_b]:text-ink">
-          {children}
-        </p>
+    <div className="in-duo-item">
+      <div className="in-duo-text">
+        <SubTitle>{title}</SubTitle>
+        <p className="text-[1.0312rem] leading-relaxed text-ink-soft [&_b]:font-semibold [&_b]:text-ink">{children}</p>
       </div>
-      <div className={`mt-9 shrink-0 lg:mt-0 ${left ? 'lg:order-1' : ''}`}>
-        <Shot src={shot} alt={alt} {...SIZE_PHONE} />
-      </div>
+      {demo}
     </div>
   )
 }
@@ -128,6 +104,7 @@ export default function Lideres() {
   return (
     <div className="relative isolate min-h-[100dvh] bg-app text-ink">
       <LandingStyle />
+      <DemoStyle />
       {/* Lámina cálida de página: detrás del header y del hero (una sola pieza). */}
       <LandingGlow />
 
@@ -142,7 +119,7 @@ export default function Lideres() {
           <h1 className="lk-display mx-auto mt-5 max-w-[13em]">
             Cómo usar Lee Tu Biblia <em>con tu grupo</em>
           </h1>
-          <p className="mx-auto mt-6 max-w-[500px] text-[1.125rem] leading-relaxed text-ink-soft">
+          <p className="lk-lede mx-auto mt-6 max-w-[520px]">
             Cada uno lee en su Biblia. La app les ayuda a leer lo mismo, a ver
             quién va leyendo y a orar unos por otros. Se arma en cinco minutos.
           </p>
@@ -223,62 +200,39 @@ export default function Lideres() {
       </Steps>
 
       {/* ── DURANTE LA SEMANA ────────────────────────────────── */}
-      <section className="mx-auto w-full max-w-[880px] px-6 py-8">
+      <section className="mx-auto w-full max-w-[880px] px-6 pb-4 pt-8">
         <div className="border-t border-hairline pt-12">
           <Eyebrow>Durante la semana</Eyebrow>
           <SectionTitle className="mt-4">Lo que van a ver</SectionTitle>
         </div>
-
-        <div className="mt-10">
+      </section>
+      <div className="mx-auto w-full max-w-[1040px] px-6 pb-16 pt-6">
+        <div className="in-duo">
           <Week
             title="La lectura del grupo, en su pantalla de siempre"
-            shot={shotHoy}
-            alt="Pantalla Hoy con la lectura del grupo debajo de la lectura personal."
-            side="right"
-            first
+            demo={<HoyConGruposDemo width={380} />}
           >
             Cada uno ve la lectura del grupo en <b>«Hoy»</b>, junto a la suya. No tiene que
             buscarla en otro lado.
           </Week>
-        </div>
 
-        <div className="mt-14">
-          <Week
-            title="Quién leyó hoy"
-            shot={shotSala}
-            alt="Pantalla del grupo: cuántos leyeron hoy y los pedidos de oración activos."
-            side="left"
-          >
+          <Week title="Quién leyó hoy" demo={<SalaGrupoDemo width={380} />}>
             Al entrar al grupo ves, por ejemplo, «Vos y 4 más leyeron hoy». Entre los miembros nunca
             dice quién no leyó: es para alegrarse juntos, no para controlar.
           </Week>
-        </div>
 
-        <div className="mt-14">
-          <Week
-            title="Orar unos por otros"
-            shot={shotOrar}
-            alt="Modo «Orar ahora», que recorre los pedidos de oración uno por uno."
-            side="right"
-          >
+          <Week title="Orar unos por otros" demo={<OrarAhoraDemo width={380} />}>
             Cualquiera puede compartir un pedido con el grupo y los demás tocan <b>«Orar»</b>.
             Quien lo pidió va contando cómo sigue, y cuando Dios responde, el pedido se
             vuelve un testimonio del grupo.
           </Week>
-        </div>
 
-        <div className="mt-14">
-          <Week
-            title="Solo para vos: a quién escribirle"
-            shot={shotLider}
-            alt="Vistas del líder: resumen de oración y la lectura de los últimos siete días de cada miembro."
-            side="left"
-          >
+          <Week title="Solo para vos: a quién escribirle" demo={<PulsoLiderDemo width={380} />}>
             Al final del grupo, con un candado, ves los últimos 7 días de lectura de cada
             uno. Sirve para mandarle un mensaje de ánimo a quien lo necesite esta semana.
           </Week>
         </div>
-      </section>
+      </div>
 
       {/* ── EN LA REUNIÓN ────────────────────────────────────── */}
       <section className="mx-auto w-full max-w-[880px] px-6 py-14">
@@ -321,7 +275,7 @@ export default function Lideres() {
           <h2 className="lk-display mx-auto max-w-[14ch]">
             Empezá hoy con tu grupo
           </h2>
-          <p className="mx-auto mt-4 max-w-[420px] text-[1.125rem] leading-relaxed text-ink-soft">
+          <p className="lk-lede mx-auto mt-4 max-w-[440px]">
             Creá el grupo, elegí el plan y mandá el link. El resto lo van caminando juntos.
           </p>
           <div className="mx-auto mt-8 max-w-[300px]">

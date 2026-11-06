@@ -4,14 +4,6 @@ import { useClientSide, useAppOrigin } from './landingHydration.js'
 import { SYSTEM_CSS } from './landingSystem.js'
 import { isStoreApp } from '../lib/platform.js'
 import { HeartIcon } from '../components/icons.jsx'
-import shotHoy from '../assets/mocks/hoy-lectura.png'
-import shotGrupo from '../assets/mocks/sala-grupo.png'
-import shotOracion from '../assets/mocks/oracion-lista.png'
-// Tamaño real (px) de cada PNG, junto a su import: reservan el lugar de la imagen
-// antes de que cargue. Si se rehacen las capturas, se actualizan acá.
-const SIZE_HOY = { width: 780, height: 800 }
-const SIZE_GRUPO = { width: 780, height: 1688 }
-const SIZE_ORACION = { width: 780, height: 1688 }
 import BrandMark from '../components/BrandMark.jsx'
 import BackLink from '../components/BackLink.jsx'
 import { isIOS, isInAppBrowser } from '../lib/platform.js'
@@ -24,7 +16,8 @@ import { CONTACT_EMAIL } from '../lib/developer.js'
 const DonateFlow = lazy(() => import('./DonateFlow.jsx'))
 
 // Kit compartido por las páginas públicas (/info, /lideres, /ayuda, /privacidad):
-// primitivos de marca, íconos, mocks de producto, header y footer globales. Vive
+// primitivos de marca, íconos, header y footer globales. Las pantallas de la app
+// (demos con datos de ejemplo) viven en landingDemos.jsx. Vive
 // fuera del Gate. Concepto transversal: la app acompaña la Biblia FÍSICA, no la
 // reemplaza (product-principle-physical-bible). Un solo acento (Cielo), serif
 // Newsreader para los títulos y la sans del sistema para lo funcional.
@@ -548,64 +541,5 @@ export function LandingFooter({ current }) {
         </div>
       </div>
     </footer>
-  )
-}
-
-// ── Mocks de producto ────────────────────────────────────────────────
-// CAPTURAS REALES de la app (no ilustraciones): mismo tratamiento visual que
-// /lideres — imagen con borde + sombra, alto natural (Shot). Se retoman con
-// scripts/capture-guia-lideres.mjs cuando cambia la UI. El texto bíblico NUNCA
-// aparece: se ven referencias, estado y oración, nunca la Escritura (que vive
-// en la Biblia física) — las capturas ya respetan eso por diseño de la app.
-function Shot({ src, alt, width, height }) {
-  return (
-    <figure className="mx-auto w-[248px] shrink-0 sm:w-[268px]">
-      <img
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        loading="lazy"
-        className="h-auto w-full rounded-[26px] border border-hairline"
-        style={{ boxShadow: '0 30px 60px -30px rgba(28, 28, 30, 0.25)' }}
-      />
-      <figcaption className="mx-auto mt-5 max-w-[250px] text-center text-[0.8438rem] leading-snug text-ink-soft">
-        {alt}
-      </figcaption>
-    </figure>
-  )
-}
-
-// Pantalla Hoy: se ven las REFERENCIAS del día, nunca el texto bíblico.
-export function PhoneMock() {
-  return (
-    <Shot
-      src={shotHoy}
-      {...SIZE_HOY}
-      alt="Así se ve Hoy: tus pasajes del día. El texto queda en tu Biblia."
-    />
-  )
-}
-
-// Pantalla de grupo, vista del líder: el pulso de hoy, el plan en común y la
-// oración compartida — vuelve tangibles las afirmaciones de discipulado.
-export function GroupMock() {
-  return (
-    <Shot
-      src={shotGrupo}
-      {...SIZE_GRUPO}
-      alt="La sala del grupo: el pulso de hoy, el plan en común y la oración compartida."
-    />
-  )
-}
-
-// Pantalla de Oración: pedidos propios y respondidos, con testimonio.
-export function PrayerMock() {
-  return (
-    <Shot
-      src={shotOracion}
-      {...SIZE_ORACION}
-      alt="Tu oración: pedidos propios y respondidos, con testimonio cuando Dios contesta."
-    />
   )
 }
