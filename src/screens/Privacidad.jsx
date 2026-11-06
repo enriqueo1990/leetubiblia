@@ -84,7 +84,7 @@ export default function Privacidad() {
   }, [])
 
   return (
-    <div className="relative min-h-[100dvh] bg-app text-ink">
+    <div className="relative isolate min-h-[100dvh] bg-app text-ink">
       <LandingStyle />
       {/* Resplandor suave: presencia cálida detrás del header, sin marketing. */}
       <LandingGlow soft />
@@ -99,8 +99,8 @@ export default function Privacidad() {
       <section className="screen-enter relative mx-auto w-full max-w-[880px] px-6 pt-10">
         <div className="border-b border-hairline pb-9">
           <Eyebrow>Privacidad</Eyebrow>
-          <h1 className="mt-3 max-w-[560px] text-[1.75rem] font-bold leading-[1.15] tracking-[-0.025em] text-ink sm:text-[2.125rem]">
-            Tu vida con Dios es <span className="text-accent-ink">tuya</span>
+          <h1 className="lk-h2 mt-4 max-w-[560px]">
+            Tu vida con Dios es <em>tuya</em>
           </h1>
           <p className="mt-2 text-[0.8125rem] text-ink-soft">Última actualización: {ACTUALIZADO}</p>
           <p className="mt-5 max-w-[600px] text-[1.0312rem] leading-relaxed text-ink-soft">
@@ -234,9 +234,9 @@ export default function Privacidad() {
       </section>
 
       {/* ── CONTACTO ─────────────────────────────────────────── */}
-      <section className="border-t border-hairline">
+      <section className="lk-closing border-t border-hairline">
         <div className="mx-auto w-full max-w-[680px] px-6 py-20 text-center">
-          <h2 className="text-[2rem] font-bold tracking-[-0.025em] text-ink sm:text-[2.375rem]">
+          <h2 className="lk-display mx-auto max-w-[14ch]">
             ¿Alguna duda?
           </h2>
           <p className="mx-auto mt-4 max-w-[440px] text-[1.0625rem] leading-relaxed text-ink-soft">

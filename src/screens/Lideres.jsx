@@ -124,7 +124,7 @@ export default function Lideres() {
   }, [])
 
   return (
-    <div className="relative min-h-[100dvh] bg-app text-ink">
+    <div className="relative isolate min-h-[100dvh] bg-app text-ink">
       <LandingStyle />
       {/* Lámina cálida de página: detrás del header y del hero (una sola pieza). */}
       <LandingGlow />
@@ -135,17 +135,17 @@ export default function Lideres() {
 
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section>
-        <div className="screen-enter relative mx-auto w-full max-w-[680px] px-6 pb-12 pt-10 text-center sm:pt-14">
+        <div className="screen-enter relative mx-auto w-full max-w-[880px] px-6 pb-12 pt-10 text-center sm:pt-14">
           <Eyebrow>Para líderes de grupo</Eyebrow>
-          <h1 className="mx-auto mt-5 max-w-[580px] text-[2.125rem] font-bold leading-[1.13] tracking-[-0.03em] text-ink [text-wrap:balance] sm:text-[2.625rem]">
-            Cómo usar Lee Tu Biblia <span className="text-accent-ink">con tu grupo</span>
+          <h1 className="lk-display mx-auto mt-5 max-w-[13em]">
+            Cómo usar Lee Tu Biblia <em>con tu grupo</em>
           </h1>
           <p className="mx-auto mt-6 max-w-[500px] text-[1.125rem] leading-relaxed text-ink-soft">
             Cada uno lee en su Biblia. La app les ayuda a leer lo mismo, a ver
             quién va leyendo y a orar unos por otros. Se arma en cinco minutos.
           </p>
           <div className="mx-auto mt-8 max-w-[300px]">
-            <Link to="/?from=lideres" className="btn btn-primary info-cta block">
+            <Link to="/?from=lideres" className="lk-btn lk-btn-primary w-full">
               Empezar gratis
             </Link>
           </div>
@@ -314,16 +314,16 @@ export default function Lideres() {
       </section>
 
       {/* ── CIERRE ───────────────────────────────────────────── */}
-      <section className="border-t border-hairline">
+      <section className="lk-closing border-t border-hairline">
         <div className="mx-auto w-full max-w-[680px] px-6 py-20 text-center">
-          <h2 className="text-[2rem] font-bold tracking-[-0.025em] text-ink sm:text-[2.375rem]">
+          <h2 className="lk-display mx-auto max-w-[14ch]">
             Empezá hoy con tu grupo
           </h2>
           <p className="mx-auto mt-4 max-w-[420px] text-[1.125rem] leading-relaxed text-ink-soft">
             Creá el grupo, elegí el plan y mandá el link. El resto lo van caminando juntos.
           </p>
           <div className="mx-auto mt-8 max-w-[300px]">
-            <Link to="/?from=lideres" className="btn btn-primary info-cta block">
+            <Link to="/?from=lideres" className="lk-btn lk-btn-primary w-full">
               Empezar gratis
             </Link>
           </div>

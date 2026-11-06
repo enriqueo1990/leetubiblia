@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useClientSide, useAppOrigin } from './landingHydration.js'
+import { SYSTEM_CSS } from './landingSystem.js'
 import { isStoreApp } from '../lib/platform.js'
 import { HeartIcon } from '../components/icons.jsx'
 import shotHoy from '../assets/mocks/hoy-lectura.png'
@@ -14,27 +15,29 @@ const SIZE_ORACION = { width: 780, height: 1688 }
 import BrandMark from '../components/BrandMark.jsx'
 import BackLink from '../components/BackLink.jsx'
 import { isInAppBrowser } from '../lib/platform.js'
+import { CONTACT_EMAIL } from '../lib/developer.js'
 
 // La hoja de donación (con Supabase para la meta, Sheet, etc.) se baja recién al
 // tocar «Apoyar el proyecto»: leer una landing no la necesita.
 const DonateFlow = lazy(() => import('./DonateFlow.jsx'))
 
 // Kit compartido por las páginas públicas (/info, /lideres, /ayuda, /privacidad):
-// primitivos de marca, íconos, mocks de producto y el footer global. Vive fuera
-// del Gate. Concepto transversal:
-// la app acompaña la Biblia FÍSICA, no la reemplaza (product-principle-physical-bible).
-// Un solo acento (Cielo), la MISMA sans del sistema, aire en vez de tarjetas flotantes
-// (design-canon). Toda landing debe montar <LandingStyle/> para las clases info-*.
+// primitivos de marca, íconos, mocks de producto, header y footer globales. Vive
+// fuera del Gate. Concepto transversal: la app acompaña la Biblia FÍSICA, no la
+// reemplaza (product-principle-physical-bible). Un solo acento (Cielo), serif
+// Newsreader para los títulos y la sans del sistema para lo funcional.
+// Toda landing debe montar <LandingStyle/> (clases lk-* e info-*).
+//
+// IMPORTANTE (prerender): estos componentes se renderizan en Node con react-dom/server
+// (ver src/prerender.jsx). Nada de window/localStorage/usePreferences al renderizar;
+// lo que depende del navegador se lee tras hidratar (landingHydration.js).
 
-// CSS local de las landings: eyebrows en un tono de acento más profundo (AA en texto
-// chico), CTAs que responden al cursor, y la atmósfera fresca compartida (resplandor
-// y bandas). Los números de paso usan bg-accent-action + text-on-accent, como los
-// pasos de instalar en Hoy. Idéntico en todas las páginas.
+// El sistema nuevo (tokens, tipografía, botones, header/footer) vive en
+// landingSystem.js. Acá queda lo que ya existía: la paleta SEMÁNTICA por contenido
+// (oración = coral, grupos = menta), las bandas y los CTAs con respuesta al cursor.
+// Los números de paso usan bg-accent-action + text-on-accent, como los pasos de
+// instalar en Hoy. Idéntico en todas las páginas.
 const LANDING_CSS = `
-      .info-eyebrow { color: var(--accent); }
-      @supports (color: color-mix(in srgb, red 50%, blue)) {
-        .info-eyebrow { color: color-mix(in srgb, var(--accent) 68%, var(--text-primary)); }
-      }
       .info-cta { transition: filter 0.15s ease, transform 0.15s ease; }
       .info-cta:hover { filter: brightness(0.94); }
       .info-cta:active { transform: translateY(1px); filter: brightness(0.9); }
@@ -49,32 +52,6 @@ const LANDING_CSS = `
         --land-cool: #57B795; /* alias histórico = grupos */
         --hue-oracion: #E2906C;
         --hue-grupos: #57B795;
-      }
-
-      /* Resplandor de página BITONAL: lámina del acento a la izquierda y un
-         respiro fresco (salvia) a la derecha. Nace en el borde superior, DETRÁS
-         del header: header y hero son una sola pieza con profundidad de cielo. */
-      .landing-glow {
-        background:
-          radial-gradient(ellipse 700px 500px at 26% -12%, var(--accent-tint), transparent 70%),
-          radial-gradient(ellipse 620px 440px at 82% -16%, rgba(87, 183, 149, 0.10), transparent 70%);
-      }
-      .landing-glow-soft {
-        background:
-          radial-gradient(ellipse 640px 360px at 30% -18%, var(--accent-tint), transparent 70%),
-          radial-gradient(ellipse 540px 320px at 84% -20%, rgba(87, 183, 149, 0.07), transparent 68%);
-      }
-      @supports (color: color-mix(in srgb, red 50%, blue)) {
-        .landing-glow {
-          background:
-            radial-gradient(ellipse 700px 500px at 26% -12%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 70%),
-            radial-gradient(ellipse 620px 440px at 82% -16%, color-mix(in srgb, var(--land-cool) 13%, transparent), transparent 70%);
-        }
-        .landing-glow-soft {
-          background:
-            radial-gradient(ellipse 640px 360px at 30% -18%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%),
-            radial-gradient(ellipse 540px 320px at 84% -20%, color-mix(in srgb, var(--land-cool) 8%, transparent), transparent 68%);
-        }
       }
 
       /* Bandas de sección: cada matiz lava el fondo con compromiso (no un 7%
@@ -116,19 +93,16 @@ const LANDING_CSS = `
 // dangerouslySetInnerHTML: como hijo de <style>, React escaparía las comillas del CSS
 // (&quot;) al prerenderizar y el texto no coincidiría al hidratar.
 export function LandingStyle() {
-  return <style dangerouslySetInnerHTML={{ __html: LANDING_CSS }} />
+  // SYSTEM_CSS va primero: los matices .ht-*/.hb-* de abajo ganan a igual especificidad.
+  return <style dangerouslySetInnerHTML={{ __html: SYSTEM_CSS + LANDING_CSS }} />
 }
 
-// Resplandor superior de página. Colocarlo como PRIMER hijo del wrapper
-// (que debe ser \`relative\`): pinta detrás del header y del hero, unificándolos.
-// \`soft\` para páginas-documento (/ayuda, /privacidad): presencia, sin marketing.
+// Resplandor «luz de mañana» (cielo + un hilo de sol cálido, enmascarado para que
+// se funda con el papel). Colocarlo como PRIMER hijo del wrapper de la página, que
+// debe ser `relative isolate`: pinta detrás de todo (z -1), también del header
+// de vidrio y del hero. `soft` para páginas-documento (/ayuda, /privacidad).
 export function LandingGlow({ soft = false }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={`pointer-events-none absolute inset-x-0 top-0 ${soft ? 'landing-glow-soft h-[300px]' : 'landing-glow h-[620px]'}`}
-    />
-  )
+  return <div aria-hidden="true" className={`lk-glow ${soft ? 'lk-glow-soft' : ''}`} />
 }
 
 // Íconos que la app aún no tiene, en el mismo trazo (1.7, currentColor).
@@ -204,54 +178,34 @@ export function IconBadge({ children, tone }) {
   )
 }
 
-// Wordmark reutilizable (sans bold, como el onboarding de la app + marca libro).
+// Marca: el librito (azul fijo de la marca) + «Lee Tu Biblia». Va dentro de un
+// <Link> en el header y el footer.
 export function Wordmark({ size = 'sm' }) {
-  const s = size === 'lg'
+  const lg = size === 'lg'
   return (
-    <span className="inline-flex items-center gap-3">
-      <BrandMark size={s ? 56 : 36} />
-      <span
-        className={`font-bold tracking-[-0.02em] text-ink ${s ? 'text-[1.5rem]' : 'text-[1.125rem]'}`}
-      >
-        Lee Tu Biblia
-      </span>
+    <span className={`lk-brand ${lg ? 'lk-brand-lg' : ''}`}>
+      <BrandMark size={lg ? 44 : 34} />
+      Lee Tu Biblia
     </span>
   )
 }
 
-// Eyebrow en un tono de acento más profundo (mismo tono, mezclado con la tinta) para
-// cumplir AA en texto chico; cae al acento puro donde no hay color-mix.
-// tone lo viste con el matiz semántico de su sección (oracion/grupos/ajustes).
+// Eyebrow con la cinta marcapáginas delante (firma del sistema) y el acento
+// entintado para cumplir AA en texto chico. `tone` lo viste con el matiz semántico
+// de su sección (oracion/grupos/ajustes). Una por sección, de ≤ 3 palabras.
 export function Eyebrow({ children, tone }) {
-  return (
-    <p
-      className={`info-eyebrow text-[0.8125rem] font-semibold uppercase tracking-[0.16em] ${
-        tone ? `ht-${tone}` : ''
-      }`}
-    >
-      {children}
-    </p>
-  )
+  return <p className={`lk-eyebrow ${tone ? `ht-${tone}` : ''}`}>{children}</p>
 }
 
-// Escala de títulos de las páginas públicas: SectionTitle (h2) para cada sección y
-// SubTitle (h3) para el detalle dentro de ella. Los cierres de página van en 32/38.
-// `className` suma lo propio del sitio (margen, ancho máximo).
+// Escala de títulos de las páginas públicas (E › b.1), en la «voz del libro»:
+// SectionTitle (h2, 32 → 56 px) para cada sección y SubTitle (h3 semántico, 20 → 24 px)
+// para el detalle dentro de ella. Los hero y cierres usan `lk-display` directo en su
+// h1/h2. `className` suma lo propio del sitio (margen, ancho máximo). Énfasis: <em>.
 export function SectionTitle({ children, className = '' }) {
-  return (
-    <h2
-      className={`text-[1.75rem] font-bold leading-[1.14] tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[2rem] ${className}`}
-    >
-      {children}
-    </h2>
-  )
+  return <h2 className={`lk-h2 ${className}`}>{children}</h2>
 }
 export function SubTitle({ children, className = '' }) {
-  return (
-    <h3 className={`text-[1.25rem] font-bold leading-[1.25] tracking-[-0.02em] text-ink sm:text-[1.375rem] ${className}`}>
-      {children}
-    </h3>
-  )
+  return <h3 className={`lk-h4 ${className}`}>{children}</h3>
 }
 
 // Navegación del sitio: las 4 páginas hermanas, en orden. Compartida por header
@@ -263,7 +217,7 @@ const SITE_NAV = [
   ['/privacidad', 'Privacidad'],
 ]
 
-// Anillo de foco accesible (teclado): mismo en todos los enlaces/CTA públicos.
+// Anillo de foco accesible (teclado) para los enlaces sueltos del contenido.
 const FOCUS =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-app rounded'
 
@@ -279,16 +233,7 @@ export function BackToIndex() {
   )
 }
 
-// Header GLOBAL de las páginas públicas. Dos filas: (1) wordmark + acción, y
-// (2) la navegación entre hermanas, VISIBLE arriba —no oculta tras un menú— para
-// que quien no baje al footer igual pueda saltar de página. El enlace activo
-// marca "estás acá" (doble función: orientación + navegación). En móvil la fila
-// de navegación hace scroll horizontal si no entran todos.
-//
-// `width` alinea el borde izquierdo del header con el ancho de contenido de la
-// página (mismo valor que su encabezado superior), para que wordmark, nav y
-// contenido compartan gutter. La CTA "Abrir la app" es SECUNDARIA (ghost): la
-// CTA sólida de cada página es la protagonista, no compite con el header.
+
 // Destino de los botones «entrar / empezar» de las landings: la raíz de la app con
 // `?from=<página>` para saber desde qué landing llegó cada persona (se suma al
 // evento ob_welcome del embudo; ver AuthFlow). Sin datos personales.
@@ -310,66 +255,108 @@ function InAppBrowserBand() {
   )
 }
 
-export function LandingHeader({ current, width = 'max-w-[880px]' }) {
-  // Si llegaste desde adentro de la app (state.from, p. ej. Ajustes › Guía), la
-  // salida es el «‹ Ajustes» de siempre, no «Abrir la app»: la PWA no tiene atrás.
+const Chevron = () => (
+  <svg className="lk-ico" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M9 5l7 7-7 7" />
+  </svg>
+)
+
+// Header GLOBAL de las páginas públicas: UNA fila sticky de vidrio —marca · nav ·
+// «Entrar» · CTA sólida «Empezar gratis»—, con una cinta de progreso de 2 px que
+// avanza con el scroll (CSS puro, donde hay soporte). La navegación entre hermanas
+// queda siempre visible en escritorio; en móvil (< 900 px) es un <details> nativo
+// (abre y cierra sin JS; el JS de abajo solo lo cierra al elegir un enlace y con
+// Escape). Un único CTA con un único verbo en todo el sitio.
+//
+// Si llegaste desde adentro de la app (state.from, p. ej. Ajustes › Guía), la
+// salida es el «‹ Ajustes» de siempre en lugar de «Entrar / Empezar»: la PWA no
+// tiene atrás. useAppOrigin lo lee tras hidratar, así que el HTML prerenderizado
+// siempre trae el CTA y el cliente lo cambia sin desajuste.
+export function LandingHeader({ current }) {
   const from = useAppOrigin()
+  const menuRef = useRef(null)
+  const href = appHref(current)
+
+  const closeMenu = (refocus) => {
+    const el = menuRef.current
+    if (!el?.open) return
+    el.open = false
+    if (refocus) el.querySelector('summary')?.focus()
+  }
+
   return (
     <>
-    <a
-      href="#contenido"
-      className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-pill focus:bg-surface focus:px-4 focus:py-2 focus:text-[0.9375rem] focus:font-semibold focus:text-accent-ink"
-    >
-      Saltar al contenido
-    </a>
-    <InAppBrowserBand />
-    <header className={`relative mx-auto w-full ${width} px-6 pt-6`}>
-      <div className="flex items-center justify-between gap-4">
-        <Link to="/info" aria-label="Lee Tu Biblia" className={FOCUS}>
-          <Wordmark />
-        </Link>
-        {from?.to ? (
-          <BackLink to="/" label="la app" />
-        ) : (
-          <Link
-            to={appHref(current)}
-            className={`inline-flex min-h-11 shrink-0 items-center rounded-pill bg-accent-tint px-4 text-[0.9062rem] font-semibold text-accent-ink transition-[filter] hover:brightness-95 ${FOCUS}`}
-          >
-            Entrar
+      <a href="#contenido" className="lk-skip">
+        Saltar al contenido
+      </a>
+      <InAppBrowserBand />
+      <header className="lk-hdr">
+        <div className="lk-wrap lk-hdr-in">
+          <Link to="/info" aria-label="Lee Tu Biblia, inicio" className="inline-flex">
+            <Wordmark />
           </Link>
-        )}
-      </div>
-      {/* Sin divisor: la separación la dan el aire y el resplandor de página.
-          El activo es una píldora con tinte, con outdent (-mx) para que su TEXTO
-          conserve el borde izquierdo alineado con el contenido. El contenedor
-          scrolleable compensa con -mx-3/px-3: espacio de sangrado DENTRO del
-          scrollport para que el fondo de la píldora no se recorte. */}
-      <nav aria-label="Principal" className="-mx-3 mt-3.5 flex items-center gap-x-5 overflow-x-auto whitespace-nowrap px-3 py-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {SITE_NAV.map(([to, label]) =>
-          to === current ? (
-            <span
-              key={to}
-              aria-current="page"
-              className="-mx-3 inline-flex min-h-11 items-center rounded-pill bg-accent-tint px-3 text-[0.9062rem] font-semibold text-accent-ink"
+          <nav aria-label="Principal" className="lk-nav">
+            {SITE_NAV.map(([to, label]) => (
+              <Link key={to} to={to} aria-current={to === current ? 'page' : undefined}>
+                {label}
+              </Link>
+            ))}
+          </nav>
+          <div className="lk-actions">
+            {from?.to ? (
+              <BackLink to="/" label="la app" />
+            ) : (
+              <>
+                <Link to={href} className="lk-login">
+                  Entrar
+                </Link>
+                <Link to={href} className="lk-btn lk-btn-primary lk-btn-sm">
+                  Empezar gratis
+                </Link>
+              </>
+            )}
+            <details
+              ref={menuRef}
+              className="lk-burger"
+              onKeyDown={(e) => e.key === 'Escape' && closeMenu(true)}
             >
-              {label}
-            </span>
-          ) : (
-            <Link
-              key={to}
-              to={to}
-              className={`inline-flex min-h-11 items-center text-[0.9062rem] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
-            >
-              {label}
-            </Link>
-          )
-        )}
-      </nav>
-    </header>
+              <summary aria-label="Menú">
+                <svg className="lk-ico lk-bars" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 8h16M4 16h16" />
+                </svg>
+                <svg className="lk-ico lk-x" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+              </summary>
+              {/* El panel cierra el menú al elegir un enlace (también el de la página actual). */}
+              <nav aria-label="Menú principal" className="lk-burger-panel" onClick={(e) => e.target.closest('a') && closeMenu(false)}>
+                {SITE_NAV.map(([to, label]) => (
+                  <Link key={to} to={to} aria-current={to === current ? 'page' : undefined}>
+                    {label}
+                    <Chevron />
+                  </Link>
+                ))}
+                {!from?.to && (
+                  <Link to={href} className="lk-menu-small">
+                    Ya tengo cuenta · Entrar
+                  </Link>
+                )}
+              </nav>
+            </details>
+          </div>
+        </div>
+        <div className="lk-progress" aria-hidden="true">
+          <i />
+        </div>
+      </header>
     </>
   )
 }
 
+// "Apoyar el proyecto" del footer: discreto, al pie, para quien llega hasta el
+// final (a menudo un líder mirando la app para su grupo). Abre la misma hoja de
+// donación que la app, con la meta de las tiendas si está vigente. No aparece
+// dentro de una app de tienda (ver isStoreApp).
 // "Apoyar el proyecto" del footer: discreto, al pie, para quien llega hasta el
 // final (a menudo un líder mirando la app para su grupo). Abre la misma hoja de
 // donación que la app, con la meta de las tiendas si está vigente. No aparece
@@ -399,13 +386,8 @@ function FooterDonate() {
 
   if (storeApp) return null
   return (
-    <>
-      <button
-        ref={buttonRef}
-        type="button"
-        onClick={() => setOpen(true)}
-        className={`inline-flex min-h-11 items-center gap-1.5 text-[0.875rem] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
-      >
+    <li>
+      <button ref={buttonRef} type="button" onClick={() => setOpen(true)}>
         <HeartIcon size={16} />
         Apoyar el proyecto
       </button>
@@ -414,48 +396,67 @@ function FooterDonate() {
           <DonateFlow onClose={() => setOpen(false)} />
         </Suspense>
       )}
-    </>
+    </li>
   )
 }
 
+
 // Footer GLOBAL de las páginas públicas: el tejido conectivo del sitio. Idéntico
 // en /info, /lideres, /ayuda y /privacidad, para que desde cualquier página se
-// alcance cualquier otra en un clic (arquitectura hub-y-radios, plano). Espeja la
-// navegación del header para quien llega hasta el final de la página.
-export function LandingFooter({ current, width = 'max-w-[880px]' }) {
+// alcance cualquier otra en un clic (arquitectura hub-y-radios, plano). En
+// columnas —App · Líderes · Proyecto · Legal— dentro de UN solo <nav>.
+export function LandingFooter({ current }) {
+  const link = (to, label) => (
+    <li>
+      <Link to={to} aria-current={to === current ? 'page' : undefined}>
+        {label}
+      </Link>
+    </li>
+  )
   return (
-    <footer className="border-t border-hairline">
-      <div className={`mx-auto flex w-full ${width} flex-col items-center gap-6 px-6 py-12 text-center`}>
-        <Link to="/info" aria-label="Lee Tu Biblia" className={FOCUS}>
-          <Wordmark />
-        </Link>
-        <nav aria-label="Pie de página" className="flex flex-wrap items-center justify-center gap-x-6 gap-y-0">
-          {SITE_NAV.map(([to, label]) =>
-            to === current ? (
-              <span key={to} className="inline-flex min-h-11 items-center text-[0.875rem] font-semibold text-ink" aria-current="page">
-                {label}
-              </span>
-            ) : (
-              <Link
-                key={to}
-                to={to}
-                className={`inline-flex min-h-11 items-center text-[0.875rem] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
-              >
-                {label}
-              </Link>
-            )
-          )}
-          <Link
-            to={appHref(current)}
-            className={`inline-flex min-h-11 items-center text-[0.875rem] font-semibold text-accent-ink transition-colors hover:underline ${FOCUS}`}
-          >
-            Entrar a la app →
-          </Link>
-        </nav>
-        <p className="text-[0.8125rem] leading-relaxed text-ink-soft">
-          Gratis · sin publicidad · hecho para acompañar tu lectura en la Palabra.
-        </p>
-        <FooterDonate />
+    <footer className="lk-foot">
+      <div className="lk-wrap">
+        <div className="lk-foot-grid">
+          <div className="lk-foot-brand">
+            <Link to="/info" aria-label="Lee Tu Biblia, inicio" className="inline-flex">
+              <Wordmark />
+            </Link>
+            <p>Gratis · sin publicidad · hecho para acompañar tu lectura en la Palabra.</p>
+          </div>
+          <nav aria-label="Pie de página" className="lk-foot-nav">
+            <div>
+              <p className="lk-foot-h" id="lkf-app">La app</p>
+              <ul className="lk-foot-list" aria-labelledby="lkf-app">
+                {link('/info', 'Inicio')}
+                {link('/ayuda', 'Ayuda')}
+                <li>
+                  <Link to={appHref(current)}>Entrar a la app</Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <p className="lk-foot-h" id="lkf-lideres">Líderes</p>
+              <ul className="lk-foot-list" aria-labelledby="lkf-lideres">
+                {link('/lideres', 'Para líderes')}
+              </ul>
+            </div>
+            <div>
+              <p className="lk-foot-h" id="lkf-proyecto">Proyecto</p>
+              <ul className="lk-foot-list" aria-labelledby="lkf-proyecto">
+                <FooterDonate />
+                <li>
+                  <a href={`mailto:${CONTACT_EMAIL}`}>Contacto</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <p className="lk-foot-h" id="lkf-legal">Legal</p>
+              <ul className="lk-foot-list" aria-labelledby="lkf-legal">
+                {link('/privacidad', 'Privacidad')}
+              </ul>
+            </div>
+          </nav>
+        </div>
       </div>
     </footer>
   )

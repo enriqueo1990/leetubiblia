@@ -155,7 +155,7 @@ export default function Ayuda() {
   }, [])
 
   return (
-    <div className="relative min-h-[100dvh] bg-app text-ink">
+    <div className="relative isolate min-h-[100dvh] bg-app text-ink">
       <LandingStyle />
       {/* Resplandor suave: presencia cálida detrás del header, sin marketing. */}
       <LandingGlow soft />
@@ -172,7 +172,7 @@ export default function Ayuda() {
       <section className="screen-enter relative mx-auto w-full max-w-[880px] px-6 pt-10">
         <div className="border-b border-hairline pb-9">
           <Eyebrow>Manual · referencia</Eyebrow>
-          <h1 className="mt-3 max-w-[620px] text-[1.75rem] font-bold leading-[1.15] tracking-[-0.025em] text-ink sm:text-[2.125rem]">
+          <h1 className="lk-h2 mt-4 max-w-[620px]">
             Guía completa de la app
           </h1>
           <p className="mt-3 max-w-[600px] text-[1.0312rem] leading-relaxed text-ink-soft">
@@ -338,9 +338,9 @@ export default function Ayuda() {
       </section>
 
       {/* ── CTA FINAL ────────────────────────────────────────── */}
-      <section className="border-t border-hairline">
+      <section className="lk-closing border-t border-hairline">
         <div className="mx-auto w-full max-w-[680px] px-6 py-20 text-center">
-          <h2 className="text-[2rem] font-bold tracking-[-0.025em] text-ink sm:text-[2.375rem]">
+          <h2 className="lk-display mx-auto max-w-[14ch]">
             Esta mañana, abrí tu Biblia
           </h2>
           <p className="mx-auto mt-4 max-w-[400px] text-[1.125rem] leading-relaxed text-ink-soft">
@@ -348,7 +348,7 @@ export default function Ayuda() {
           </p>
           <div className="mx-auto mt-8 max-w-[300px]">
             {/* Quien llega desde Ajustes ya empezó: vuelve a donde estaba. */}
-            <Link to={from?.to ?? '/?from=ayuda'} className="btn btn-primary info-cta block">
+            <Link to={from?.to ?? '/?from=ayuda'} className="lk-btn lk-btn-primary w-full">
               {from?.to ? 'Volver a la app' : 'Empezar gratis'}
             </Link>
           </div>

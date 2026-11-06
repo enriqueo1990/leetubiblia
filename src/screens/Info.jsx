@@ -121,7 +121,7 @@ export default function Info() {
   }, [])
 
   return (
-    <div className="relative min-h-[100dvh] bg-app text-ink">
+    <div className="relative isolate min-h-[100dvh] bg-app text-ink">
       <LandingStyle />
       {/* Lámina cálida de página: nace en el borde superior, detrás del header,
           y baña también el hero — header y hero son UNA pieza. */}
@@ -133,10 +133,10 @@ export default function Info() {
 
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section>
-        <div className="screen-enter relative mx-auto w-full max-w-[680px] px-6 pb-16 pt-10 text-center sm:pt-14">
+        <div className="screen-enter relative mx-auto w-full max-w-[880px] px-6 pb-16 pt-10 text-center sm:pt-14">
           <Eyebrow>Compañero de lectura bíblica</Eyebrow>
-          <h1 className="mx-auto mt-5 max-w-[560px] text-[2.375rem] font-bold leading-[1.12] tracking-[-0.03em] text-ink [text-wrap:balance] sm:text-[3rem]">
-            El hábito de abrir <span className="whitespace-nowrap text-accent-ink">tu Biblia</span>, sostenido día a día.
+          <h1 className="lk-display mx-auto mt-5 max-w-[15em]">
+            El hábito de abrir <em className="whitespace-nowrap">tu Biblia</em>, sostenido día a día.
           </h1>
           <p className="mx-auto mt-6 max-w-[480px] text-[1.125rem] leading-relaxed text-ink-soft">
             Tu plan, tu racha, tu diario y tus oraciones —solo o con tu grupo—
@@ -144,7 +144,7 @@ export default function Info() {
             para la pantalla.
           </p>
           <div className="mx-auto mt-9 max-w-[300px]">
-            <Link to="/?from=info" className="btn btn-primary info-cta block">
+            <Link to="/?from=info" className="lk-btn lk-btn-primary w-full">
               Empezar gratis
             </Link>
           </div>
@@ -305,16 +305,16 @@ export default function Info() {
       </section>
 
       {/* ── CTA FINAL ────────────────────────────────────────── */}
-      <section className="border-t border-hairline">
+      <section className="lk-closing border-t border-hairline">
         <div className="mx-auto w-full max-w-[680px] px-6 py-20 text-center">
-          <h2 className="text-[2rem] font-bold tracking-[-0.025em] text-ink sm:text-[2.375rem]">
+          <h2 className="lk-display mx-auto max-w-[14ch]">
             Empezá hoy
           </h2>
           <p className="mx-auto mt-4 max-w-[380px] text-[1.125rem] leading-relaxed text-ink-soft">
             Sumate gratis y sostené tu lectura, un día a la vez.
           </p>
           <div className="mx-auto mt-8 max-w-[300px]">
-            <Link to="/?from=info" className="btn btn-primary info-cta block">
+            <Link to="/?from=info" className="lk-btn lk-btn-primary w-full">
               Empezar gratis
             </Link>
           </div>
