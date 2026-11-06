@@ -264,7 +264,7 @@ export default function Ayuda() {
                   {g.items.map((m) => (
                     <span
                       key={m}
-                      className="rounded-pill bg-accent-tint px-4 py-2 text-[14px] font-semibold text-accent-ink"
+                      className="rounded-pill border border-hairline px-4 py-2 text-[14px] font-medium text-ink-soft"
                     >
                       {m}
                     </span>
