@@ -3,7 +3,8 @@ import { useLocation } from 'react-router-dom'
 import { useAuth } from '../../lib/auth.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
 import { peekGroupByCode } from '../../lib/db.js'
-import { savePendingPlan } from '../../lib/pendingPlan.js'
+import { readPendingPlan, savePendingPlan } from '../../lib/pendingPlan.js'
+import { clearPendingCode, readPendingCode, savePendingCode } from '../../lib/pendingCode.js'
 import PlanCatalog from '../../components/PlanCatalog.jsx'
 import { classifySendError } from '../../lib/authErrors.js'
 import { ShareIcon } from '../../components/icons.jsx'
@@ -40,17 +41,23 @@ export default function AuthFlow() {
   const { signInWithEmail, verifyEmailCode, sessionExpired } = useAuth()
   const { t } = usePreferences()
   const { pathname, search } = useLocation()
-  const [step, setStep] = useState('welcome')
-  const [mode, setMode] = useState('signup') // 'signup' | 'login'
+  // Si la app se recargó mientras la persona buscaba el código en Mail, se
+  // reabre en el paso del código (ver lib/pendingCode.js).
+  const [restored] = useState(() => readPendingCode())
+  const [step, setStep] = useState(restored ? 'code' : 'welcome')
+  const [mode, setMode] = useState(restored ? restored.mode : 'signup') // 'signup' | 'login'
   const [formOrigin, setFormOrigin] = useState('welcome') // adónde vuelve el ‹ del form
-  const [pendingName, setPendingName] = useState(null) // plan elegido antes de la cuenta
-  const [email, setEmail] = useState('')
+  // plan elegido antes de la cuenta (al recargar, sale del plan pendiente guardado)
+  const [pendingName, setPendingName] = useState(() => (restored ? readPendingPlan()?.name ?? null : null))
+  const [email, setEmail] = useState(restored ? restored.email : '')
   const [code, setCode] = useState('')
   const [sending, setSending] = useState(false)
   const [verifying, setVerifying] = useState(false)
   const [error, setError] = useState(null)
   const [resent, setResent] = useState(false)
-  const [cooldown, setCooldown] = useState(0)
+  const [cooldown, setCooldown] = useState(() =>
+    restored ? Math.max(0, RESEND_COOLDOWN - Math.floor((Date.now() - restored.sentAt) / 1000)) : 0
+  )
 
   useEffect(() => {
     if (cooldown <= 0) return
@@ -116,6 +123,7 @@ export default function AuthFlow() {
       return
     }
     if (mode === 'signup') recordFunnel('ob_code_sent', { invite: Boolean(invite) })
+    savePendingCode({ email: email.trim(), mode })
     setCode('')
     setCooldown(RESEND_COOLDOWN)
     setResent(resend)
@@ -136,8 +144,15 @@ export default function AuthFlow() {
       setError(t('onboarding.auth.codeError'))
       return
     }
+    clearPendingCode()
     if (mode === 'signup') recordFunnel('ob_code_verified')
     // onAuthStateChange detecta la sesión y el Gate avanza solo.
+  }
+
+  // Volver al formulario (‹ o «usá otro correo»): ese código ya no se espera.
+  function backToForm() {
+    clearPendingCode()
+    setStep('form')
   }
 
   function goToForm(nextMode, origin) {
@@ -324,7 +339,7 @@ export default function AuthFlow() {
           type="button"
           className={BACK_CLASS}
           style={{ color: 'var(--accent-ink)' }}
-          onClick={() => setStep('form')}
+          onClick={backToForm}
         >
           ‹ {t('common.back')}
         </button>
@@ -337,7 +352,7 @@ export default function AuthFlow() {
           {t('onboarding.auth.spamHintPre')}
           <button
             type="button"
-            onClick={() => setStep('form')}
+            onClick={backToForm}
             className="inline-flex min-h-11 items-center px-1 font-medium"
             style={{ color: 'var(--accent-ink)' }}
           >
