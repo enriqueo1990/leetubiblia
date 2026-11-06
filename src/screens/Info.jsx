@@ -28,13 +28,13 @@ import {
 // llega en frío (redes, un pastor pasando el link) antes de decidir crear cuenta.
 // Concepto: la app acompaña la Biblia FÍSICA, no la reemplaza
 // (product-principle-physical-bible). Los primitivos de marca y los mocks viven
-// en landingKit.jsx, compartidos con /lideres. Un solo acento sepia, la
+// en landingKit.jsx, compartidos con /lideres. Un solo acento (Cielo), la
 // MISMA sans del sistema, ancho de lectura acotado, aire en vez de tarjetas.
 
 // Funcionalidades agrupadas: tres clusters con jerarquía en vez de una grilla
 // plana de nueve ítems idénticos (chunking ≤4 por grupo).
-// El matiz de cada ítem es SEMÁNTICO (ver paleta en landingKit): lectura = sepia,
-// oración = coral, grupos = menta, ajustes/extras = cielo. Nada alterna porque sí.
+// El matiz de cada ítem es SEMÁNTICO (ver paleta en landingKit): lectura = el acento (Cielo),
+// oración = coral, grupos = menta, ajustes/extras = neutro. Nada alterna porque sí.
 const CLUSTERS = [
   {
     label: 'Tu lectura',

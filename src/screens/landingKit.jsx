@@ -13,10 +13,10 @@ import shotOracion from '../assets/mocks/oracion-lista.png'
 // primitivos de marca, íconos, mocks de producto y el footer global. Vive fuera
 // del Gate. Concepto transversal:
 // la app acompaña la Biblia FÍSICA, no la reemplaza (product-principle-physical-bible).
-// Un solo acento sepia, la MISMA sans del sistema, aire en vez de tarjetas flotantes
+// Un solo acento (Cielo), la MISMA sans del sistema, aire en vez de tarjetas flotantes
 // (design-canon). Toda landing debe montar <LandingStyle/> para las clases info-*.
 
-// CSS local de las landings: eyebrows y números de paso en un sepia más profundo
+// CSS local de las landings: eyebrows y números de paso en un tono de acento más profundo
 // (AA en texto chico), CTAs que responden al cursor, y la atmósfera cálida
 // compartida (resplandor y bandas). Idéntico en todas las páginas.
 export function LandingStyle() {
@@ -34,17 +34,17 @@ export function LandingStyle() {
 
       /* Paleta SEMÁNTICA de las landings — sale de los 8 acentos de la app
          (2 sepias + 6 pasteles). El color no es decoración alternada: comunica
-         de qué habla cada bloque. lectura = sepia (la marca, --accent);
-         oración = coral; grupos = menta; ajustes = cielo. Los textos de cada
-         matiz se mezclan con la tinta del modo (como accent-ink) para AA. */
+         de qué habla cada bloque. lectura = el acento de fábrica (Cielo,
+         --accent); oración = coral; grupos = menta; ajustes = neutro (el
+         engranaje no es una pestaña: se señala solo la excepción). Los textos
+         de cada matiz se mezclan con la tinta del modo (como accent-ink) para AA. */
       :root {
         --land-cool: #57B795; /* alias histórico = grupos */
         --hue-oracion: #E2906C;
         --hue-grupos: #57B795;
-        --hue-ajustes: #6FA4D8;
       }
 
-      /* Resplandor de página BITONAL: lámina cálida (sepia) a la izquierda y un
+      /* Resplandor de página BITONAL: lámina del acento a la izquierda y un
          respiro fresco (salvia) a la derecha. Nace en el borde superior, DETRÁS
          del header: header y hero son una sola pieza con profundidad de cielo. */
       .landing-glow {
@@ -75,14 +75,14 @@ export function LandingStyle() {
       .landing-band { background: var(--accent-tint); }
       .band-oracion { background: rgba(226, 144, 108, 0.10); }
       .band-grupos { background: rgba(87, 183, 149, 0.10); }
-      /* Badges por matiz (tinte + ícono/texto del matiz, espejo del sepia). */
+      /* Badges por matiz (tinte + ícono/texto del matiz, espejo del acento). */
       .hb-oracion { background: rgba(226, 144, 108, 0.17); color: #A65F41; }
       .hb-grupos { background: rgba(87, 183, 149, 0.17); color: #37826A; }
-      .hb-ajustes { background: rgba(111, 164, 216, 0.17); color: #4A76A8; }
+      .hb-ajustes { background: var(--segment-track); color: var(--text-soft); }
       /* Texto/eyebrow por matiz (AA vía mezcla con la tinta del modo). */
       .ht-oracion { color: #A65F41; }
       .ht-grupos { color: #37826A; }
-      .ht-ajustes { color: #4A76A8; }
+      .ht-ajustes { color: var(--text-soft); }
       /* Relleno sólido coral (pill "Estoy orando" del mock de oración). */
       .hs-oracion { background: var(--hue-oracion); color: #FFFFFF; }
       @supports (color: color-mix(in srgb, red 50%, blue)) {
@@ -97,13 +97,8 @@ export function LandingStyle() {
           background: color-mix(in srgb, var(--hue-grupos) 17%, transparent);
           color: color-mix(in srgb, var(--hue-grupos) 55%, var(--text-primary));
         }
-        .hb-ajustes {
-          background: color-mix(in srgb, var(--hue-ajustes) 17%, transparent);
-          color: color-mix(in srgb, var(--hue-ajustes) 55%, var(--text-primary));
-        }
         .ht-oracion { color: color-mix(in srgb, var(--hue-oracion) 55%, var(--text-primary)); }
         .ht-grupos { color: color-mix(in srgb, var(--hue-grupos) 55%, var(--text-primary)); }
-        .ht-ajustes { color: color-mix(in srgb, var(--hue-ajustes) 55%, var(--text-primary)); }
       }
       @media (prefers-color-scheme: dark) {
         :root:not(.light) .hs-oracion { color: #1C1C1E; }
@@ -183,9 +178,9 @@ export const HandsIcon = (p) => (
   </MiniIcon>
 )
 
-// Badge de ícono: cuadrado con tinte. Sepia (lectura/marca) por defecto; tone
+// Badge de ícono: cuadrado con tinte. El acento de fábrica (lectura/marca) por defecto; tone
 // elige el matiz SEMÁNTICO del bloque: 'oracion' (coral), 'grupos' (menta),
-// 'ajustes' (cielo). El color comunica el tema, nunca alterna porque sí.
+// 'ajustes' (neutro). El color comunica el tema, nunca alterna porque sí.
 const BADGE_TONES = {
   oracion: 'hb-oracion',
   grupos: 'hb-grupos',
@@ -237,7 +232,7 @@ export function Wordmark({ size = 'sm' }) {
   )
 }
 
-// Eyebrow en un sepia más profundo (mismo tono, mezclado con la tinta) para
+// Eyebrow en un tono de acento más profundo (mismo tono, mezclado con la tinta) para
 // cumplir AA en texto chico; cae al acento puro donde no hay color-mix.
 // tone lo viste con el matiz semántico de su sección (oracion/grupos/ajustes).
 export function Eyebrow({ children, tone }) {

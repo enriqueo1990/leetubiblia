@@ -31,7 +31,7 @@ import {
 // No es captación: es el manual al que se entra desde Ajustes → Guía de la app,
 // pestaña por pestaña, con los 13 planes y los materiales. /info engancha en frío
 // y es corta; /ayuda es exhaustiva. Mismo canon que toda página pública: un solo
-// acento sepia, la MISMA sans del sistema, ancho de lectura acotado, aire en vez
+// acento (Cielo), la MISMA sans del sistema, ancho de lectura acotado, aire en vez
 // de tarjetas flotantes (design-canon). El texto bíblico NUNCA se muestra: la app
 // acompaña la Biblia física, no la reemplaza (product-principle-physical-bible).
 
@@ -96,13 +96,13 @@ const GRUPOS = [
   { icon: <LockIcon size={22} />, name: 'Uníte con un código', desc: 'Los grupos son privados. Se entra con un código corto; solo los miembros ven lo de adentro.' },
   { icon: <BookIcon size={22} />, name: 'Un plan en común', desc: 'El líder elige un plan para todo el grupo. Cada uno decide cómo sumarse: hacerlo su plan principal, o seguirlo en Hoy como lectura adicional sin soltar el propio. Así leen lo mismo, el mismo día.' },
   { icon: <HeartIcon size={22} />, name: 'Pedidos del grupo', desc: 'Vean y oren juntos por los pedidos que cada uno decide compartir, con testimonios cuando llega la respuesta.' },
-  { icon: <ChartIcon size={22} />, name: 'Pulso de lectura', desc: 'Si lideras, ves quién viene leyendo, con el historial de los últimos siete días de cada miembro. Para acompañar, no vigilar.' },
+  { icon: <ChartIcon size={22} />, name: 'Pulso de lectura', desc: 'Si liderás, ves quién viene leyendo, con el historial de los últimos siete días de cada miembro. Para acompañar, no vigilar.' },
   { icon: <CheckIcon size={22} strokeWidth={2} />, name: 'Resumen para el líder', desc: 'Un panorama del grupo para saber por quién preguntar y a quién animar esta semana.' },
 ]
 
 const AJUSTES = [
-  { icon: <PaletteIcon size={22} />, name: 'Tu color de acento', desc: 'El acento es el único color de la app. Elegí entre 8 tonos: 2 sepia y 6 pastel.' },
-  { icon: <SunIcon size={22} />, name: 'Claro y oscuro', desc: 'Sigue el modo de tu teléfono. En oscuro, negro puro que descansa la vista.' },
+  { icon: <PaletteIcon size={22} />, name: 'Tu color de acento', desc: 'De fábrica es Cielo, la luz de la mañana. Si preferís otro, elegí entre 8 tonos.' },
+  { icon: <SunIcon size={22} />, name: 'Claro y oscuro', desc: 'Sigue el modo de tu teléfono. De noche, un gris profundo que descansa la vista.' },
   { icon: <BookIcon size={22} />, name: 'Idioma', desc: 'Español, inglés o portugués. La app y sus avisos siguen el idioma que elijas; los materiales de lectura están en español.' },
   { icon: <BookIcon size={22} />, name: 'Tu Biblia', desc: 'Elegí si el botón de la lectura abre YouVersion o BibleGateway. La versión depende del idioma.' },
   { icon: <CheckIcon size={22} strokeWidth={2} />, name: '¿En qué día vas?', desc: 'Si ya venías leyendo un plan, fijá el día en que vas y la app acomoda tus marcas de lectura.' },
@@ -169,7 +169,7 @@ export default function Ayuda() {
       <LandingHeader current="/ayuda" />
 
       {/* ── ENCABEZADO DE MANUAL ─────────────────────────────── */}
-      {/* Deliberadamente NO es un hero de landing (sin resplandor sepia, sin
+      {/* Deliberadamente NO es un hero de landing (sin resplandor de acento, sin
           título gigante centrado): esta página es referencia, no captación, y
           debe leerse como documentación —compacta, alineada a la izquierda, con
           su índice— para no confundirse con /info. */}
@@ -196,7 +196,7 @@ export default function Ayuda() {
               <a
                 key={href}
                 href={href}
-                className={`info-cta rounded-pill px-4 py-2 text-[14px] font-semibold ${hue}`}
+                className={`info-cta rounded-pill px-4 py-2 text-[14px] font-semibold ${hue} ${hue === 'hb-ajustes' ? 'border border-hairline' : ''}`}
               >
                 {label}
               </a>
