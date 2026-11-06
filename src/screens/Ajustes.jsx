@@ -1020,6 +1020,23 @@ export default function Ajustes() {
           </span>
           <RowChevron />
         </Link>
+        {/* /privacidad también es pública: antes había que pasar por la guía (dos toques). */}
+        <Link
+          to="/privacidad"
+          state={{ from: { to: '/ajustes/app', label: t('nav.ajustes') } }}
+          className="flex items-center justify-between gap-4 px-4 py-3"
+        >
+          <span className="min-w-0 flex-1">
+            <span className="block text-[16px] text-ink">
+              {t('ajustes.privacidad')}
+              {locale !== 'es' && t('ajustes.guideInSpanish')}
+            </span>
+            <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">
+              {t('ajustes.privacidadHelp')}
+            </span>
+          </span>
+          <RowChevron />
+        </Link>
       </div>
 
       {/* Quién hace la app: donar, sugerir, avisar un error. Vive en su propio
