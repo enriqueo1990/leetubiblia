@@ -1,45 +1,83 @@
 <!--
   Plantilla de email — Magic Link / OTP (Supabase → Authentication → Emails → Magic Link)
-  Variable obligatoria: {{ .Token }} (código de 6 dígitos para ingresar EN la app).
   Usamos código en vez de enlace porque el link abre el navegador, no la PWA instalada.
-  Diseño email-safe: estilos inline, una columna, acento sepia. Texto en es, con
-  en/pt debajo: Supabase manda una sola plantilla para todos los idiomas.
+  Variable obligatoria: {{ .Token }} (código de 6 dígitos para ingresar EN la app).
+  Diseño «Marcapáginas · Luz de mañana», igual que la app y las landings: papel cálido,
+  tinta cálida, acento azul cielo (#2B6CB0 en botones/texto, #5B9FDF en relleno), cinta
+  marcapáginas y serif para la voz del libro. Es email-safe: tablas, estilos inline, sin
+  variables CSS ni fuentes web (Georgia como serif; Newsreader no llega a los clientes de
+  correo). Modo noche con prefers-color-scheme (Apple Mail, iOS, Outlook.com, Gmail app
+  según versión); donde no se aplica, queda la versión clara, que es legible sola.
+  Texto en es, con en/pt debajo: Supabase manda una sola plantilla para todos los idiomas.
+  Ícono: https://leetubiblia.com/icons/icon-192.png (el mismo de la app).
 -->
-<table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-  style="background:#FBFBFA;padding:32px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
+<style>
+  @media (prefers-color-scheme: dark) {
+    .ltb-bg { background:#131517 !important; }
+    .ltb-card { background:#1C1F22 !important; border-color:#2C3136 !important; }
+    .ltb-ink { color:#F1F1EE !important; }
+    .ltb-soft { color:#A4A8AD !important; }
+    .ltb-faint { color:#767C83 !important; }
+    .ltb-code { background:#262A2E !important; color:#F1F1EE !important; }
+    .ltb-rule { border-top-color:#2C3136 !important; }
+    .ltb-em { color:#8FBFEC !important; }
+    .ltb-eyebrow { color:#8FBFEC !important; }
+    .ltb-ribbon { background:#8FBFEC !important; }
+    .ltb-ribbon-tip { border-left-color:#8FBFEC !important; border-right-color:#8FBFEC !important; }
+  }
+</style>
+<table class="ltb-bg" width="100%" cellpadding="0" cellspacing="0" role="presentation"
+  style="background:#FAF8F4;padding:32px 12px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
   <tr>
     <td align="center">
-      <table width="440" cellpadding="0" cellspacing="0" role="presentation"
-        style="max-width:440px;width:100%;background:#FFFFFF;border:1px solid #EAE8E3;border-radius:16px;padding:36px 32px;">
+      <table class="ltb-card" width="440" cellpadding="0" cellspacing="0" role="presentation"
+        style="max-width:440px;width:100%;background:#FFFFFF;border:1px solid #E4DED5;border-radius:20px;padding:0 32px 36px;">
         <tr>
-          <td align="center" style="padding-bottom:8px;">
-            <div style="width:56px;height:56px;border-radius:16px;background:#A88B6A;color:#FFFFFF;font-size:28px;line-height:56px;text-align:center;">📖</div>
+          <td align="center" style="padding:0;line-height:0;font-size:0;">
+            <!-- Cinta marcapáginas que cuelga del borde superior de la tarjeta -->
+            <table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 auto;">
+              <tr><td class="ltb-ribbon" width="16" height="26" style="width:16px;height:26px;background:#5B9FDF;line-height:26px;font-size:0;">&nbsp;</td></tr>
+              <tr><td style="line-height:0;font-size:0;"><div class="ltb-ribbon-tip" style="width:0;height:0;border-left:8px solid #5B9FDF;border-right:8px solid #5B9FDF;border-bottom:7px solid transparent;font-size:0;line-height:0;"></div></td></tr>
+            </table>
           </td>
         </tr>
         <tr>
-          <td align="center" style="font-size:20px;font-weight:700;color:#1C1C1E;padding-bottom:6px;">
-            Lee Tu Biblia
+          <td align="center" style="padding:22px 0 18px;">
+            <img src="https://leetubiblia.com/icons/icon-192.png" width="56" height="56" alt="Lee Tu Biblia"
+              style="display:block;width:56px;height:56px;border:0;border-radius:14px;">
           </td>
         </tr>
         <tr>
-          <td align="center" style="font-size:16px;color:#8A8A8E;line-height:1.5;padding-bottom:28px;">
+          <td class="ltb-eyebrow" align="center" style="font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#2B6CB0;padding-bottom:10px;">
+            Ingresar
+          </td>
+        </tr>
+        <tr>
+          <td class="ltb-ink" align="center" style="font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.15;font-weight:400;letter-spacing:-0.3px;color:#1F1B16;padding-bottom:12px;">
+            Entrá a <em class="ltb-em" style="font-style:italic;color:#2B6CB0;">Lee Tu Biblia</em>
+          </td>
+        </tr>
+        <tr>
+          <td class="ltb-soft" align="center" style="font-size:16px;color:#5C564D;line-height:1.55;padding-bottom:28px;">
             Ingresá este código en la app para entrar. No necesitás contraseña.
           </td>
         </tr>
         <tr>
-          <td align="center" style="padding-bottom:24px;">
-            <div style="display:inline-block;background:#F2F1EE;border-radius:14px;padding:16px 28px;font-size:34px;font-weight:700;letter-spacing:8px;color:#1C1C1E;">
+          <td align="center" style="padding-bottom:26px;">
+            <div class="ltb-code" style="display:inline-block;background:#F6F3EE;border-radius:14px;padding:16px 26px;font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:34px;font-weight:700;letter-spacing:8px;color:#1F1B16;">
               {{ .Token }}
             </div>
           </td>
         </tr>
         <tr>
-          <td align="center" style="font-size:13px;color:#8A8A8E;line-height:1.5;">
+          <td class="ltb-soft" align="center" style="font-size:14px;color:#5C564D;line-height:1.5;padding-bottom:22px;">
             El código vence en una hora. Si no lo pediste, ignorá este correo.
           </td>
         </tr>
         <tr>
-          <td align="center" style="font-size:12px;color:#B9B7B2;line-height:1.5;padding-top:20px;border-top:1px solid #EAE8E3;">
+          <td class="ltb-rule ltb-faint" align="center" style="font-size:12px;color:#8A8378;line-height:1.55;padding-top:22px;border-top:1px solid #E4DED5;">
             <span lang="en">Enter this code in the app to sign in. No password needed. The code expires in one hour. If you didn’t request it, ignore this email.</span><br><br>
             <span lang="pt">Digite este código no app para entrar. Não precisa de senha. O código vence em uma hora. Se você não pediu, ignore este e-mail.</span>
           </td>
@@ -47,7 +85,7 @@
       </table>
       <table width="440" cellpadding="0" cellspacing="0" role="presentation" style="max-width:440px;width:100%;">
         <tr>
-          <td align="center" style="font-size:12px;color:#B9B7B2;padding-top:16px;">
+          <td class="ltb-faint" align="center" style="font-size:12px;color:#8A8378;padding-top:16px;">
             leetubiblia.com
           </td>
         </tr>
