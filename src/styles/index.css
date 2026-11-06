@@ -176,19 +176,21 @@
 
 @keyframes prayer-button-breathe {
   0% {
-    background-color: var(--accent);
+    background-color: var(--accent-action);
     box-shadow: none;
   }
   48% {
-    background-color: color-mix(in srgb, var(--accent) 86%, var(--accent-ink));
+    background-color: color-mix(in srgb, var(--accent-action) 86%, var(--accent-ink));
     box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 13%, transparent);
   }
   100% {
-    background-color: var(--accent);
+    background-color: var(--accent-action);
     box-shadow: none;
   }
 }
 .prayer-action-breathe {
+  color: var(--on-accent);
+  border-color: transparent;
   animation: prayer-button-breathe 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
