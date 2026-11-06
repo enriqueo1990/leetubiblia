@@ -567,6 +567,7 @@
   "prayerDetail.iAmPraying": "Estoy orando por esto",
   "prayerDetail.updates": "Novedades",
   "prayerDetail.addUpdate": "Contar cómo sigue",
+  "prayerDetail.addAnsweredUpdate": "Contar cómo se respondió",
   "prayerDetail.markAnswered": "Marcar como respondido",
   "prayerDetail.markingAnswered": "Marcando…",
   "prayerDetail.markAnsweredError": "No pudimos marcarla como respondida. Revisá tu conexión e intentá de nuevo.",

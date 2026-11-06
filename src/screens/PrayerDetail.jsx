@@ -119,6 +119,7 @@ export default function PrayerDetail() {
   const { intercessors, intercessor_count: count, i_intercede } = data
   const isAuthor = data.user_id === user?.id
   const updates = data.updates ?? []
+  const addUpdateLabel = t(data.status === 'answered' ? 'prayerDetail.addAnsweredUpdate' : 'prayerDetail.addUpdate')
   const displayAuthor = isAuthor ? t('common.you') : data.author_name ?? t('common.someone')
 
   let countLabel
@@ -152,7 +153,7 @@ export default function PrayerDetail() {
       setData((d) => ({ ...d, updates: [...d.updates, row] }))
       setUpdateBody('')
       setAdding(false)
-      markPrayerReviewed(data.id).catch(() => {})
+      if (data.status === 'active') markPrayerReviewed(data.id).catch(() => {})
     } catch {
       setUpdateError(true)
     } finally {
@@ -405,7 +406,7 @@ export default function PrayerDetail() {
           </section>
         )}
 
-      {(updates.length > 0 || (isAuthor && data.status === 'active')) && (
+      {(updates.length > 0 || isAuthor) && (
         <section className="card mt-4 p-4" aria-labelledby="updates-title">
           <SectionLabel id="updates-title" inside className="mb-0">
             {t('prayerDetail.updates')}
@@ -447,7 +448,7 @@ export default function PrayerDetail() {
           )}
           {deleteUpdateError && <InlineError message={t('prayerDetail.deleteUpdateError')} className="mt-3" />}
 
-          {isAuthor && data.status === 'active' && adding && (
+          {isAuthor && adding && (
             <div className="mt-4">
               <textarea
                 autoFocus
@@ -456,7 +457,7 @@ export default function PrayerDetail() {
                 maxLength={1000}
                 rows={3}
                 placeholder={t(data.visibility === 'private' ? 'prayerDetail.updatePlaceholderPrivate' : 'prayerDetail.updatePlaceholder')}
-                aria-label={t('prayerDetail.addUpdate')}
+                aria-label={addUpdateLabel}
                 className="w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
                 style={inputStyle}
               />
@@ -486,14 +487,14 @@ export default function PrayerDetail() {
             </div>
           )}
 
-          {isAuthor && data.status === 'active' && !adding && (
+          {isAuthor && !adding && (
             <button
               type="button"
               onClick={() => setAdding(true)}
               className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 text-[15px] font-semibold"
               style={{ color: 'var(--accent-ink)' }}
             >
-              <PlusIcon size={17} /> {t('prayerDetail.addUpdate')}
+              <PlusIcon size={17} /> {addUpdateLabel}
             </button>
           )}
         </section>
