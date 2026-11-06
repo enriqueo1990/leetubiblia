@@ -45,7 +45,9 @@ export function GoalProgress({ goal }) {
   )
 }
 
-export default function DonateSheet({ goal, fromGoal = false, onClose }) {
+// `title` reemplaza al título por defecto: la puerta que dice «Agradecer con una
+// donación» abre una hoja con ese mismo nombre.
+export default function DonateSheet({ goal, fromGoal = false, title = null, onClose }) {
   const { t, locale } = usePreferences()
   const goalBlock = goal ? (
     <section className="rounded-card p-4" style={{ backgroundColor: 'var(--surface)' }}>
@@ -61,7 +63,7 @@ export default function DonateSheet({ goal, fromGoal = false, onClose }) {
   ) : null
 
   return (
-    <Sheet title={fromGoal ? t('goal.sheetTitle') : t('dev.donate')} onCancel={onClose}>
+    <Sheet title={title ?? (fromGoal ? t('goal.sheetTitle') : t('dev.donate'))} onCancel={onClose}>
       {fromGoal ? goalBlock : <p className="text-[15px] leading-snug text-ink">{t('ajustes.misionText')}</p>}
       {!fromGoal && goalBlock ? <div className="mt-4">{goalBlock}</div> : null}
       <p className="mt-4 text-[13px] leading-snug text-ink-soft">{t('dev.donateIntro')}</p>

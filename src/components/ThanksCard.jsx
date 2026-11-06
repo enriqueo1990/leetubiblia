@@ -50,7 +50,7 @@ export default function ThanksCard({ className = '' }) {
           {t('thanks.cta')}
         </button>
       </section>
-      {open && <DonateSheet goal={goal} onClose={() => setOpen(false)} />}
+      {open && <DonateSheet goal={goal} title={t('thanks.cta')} onClose={() => setOpen(false)} />}
     </>
   )
 }
