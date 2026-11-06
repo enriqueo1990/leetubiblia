@@ -439,7 +439,7 @@
   "progreso.sectionConstancy": "Sua constância",
   "progreso.heatmapSummary": "{read} dos últimos {total} dias com leitura",
   "progreso.bestStreak": "Sua melhor sequência: {count}",
-  "progreso.recorrido.title": "Sua caminhada",
+  "progreso.recorrido.title": "Sua trajetória",
   "progreso.recorrido.subtitle": "Seus dias, planos e respostas na Palavra",
   "progreso.behindPre": {
     "one": "Ficou {count} dia sem marcar. Sem pressa — ",
@@ -462,11 +462,11 @@
   },
   "exportJournal.exportedOn": "Exportado em {date}",
 
-  "recorrido.loadError": "Não foi possível carregar sua caminhada.",
-  "recorrido.title": "Sua caminhada",
+  "recorrido.loadError": "Não foi possível carregar sua trajetória.",
+  "recorrido.title": "Sua trajetória",
   "recorrido.subtitle": "O quanto você caminhou na Palavra.",
   "recorrido.sectionNumbers": "Seus números",
-  "recorrido.empty.title": "Sua caminhada começa hoje",
+  "recorrido.empty.title": "Sua trajetória começa hoje",
   "recorrido.empty.text": "Cada dia que você marca sua leitura fica guardado aqui, junto com os planos que for terminando.",
   "recorrido.plansCompleted": {
     "one": "plano concluído",

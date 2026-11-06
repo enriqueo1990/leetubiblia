@@ -439,7 +439,7 @@
   "progreso.sectionConstancy": "Your consistency",
   "progreso.heatmapSummary": "{read} of the last {total} days with reading",
   "progreso.bestStreak": "Your best streak: {count}",
-  "progreso.recorrido.title": "Your journey",
+  "progreso.recorrido.title": "Your milestones",
   "progreso.recorrido.subtitle": "Your days, plans, and answered prayers in the Word",
   "progreso.behindPre": {
     "one": "{count} day left unmarked. No rush — ",
@@ -462,11 +462,11 @@
   },
   "exportJournal.exportedOn": "Exported on {date}",
 
-  "recorrido.loadError": "Couldn't load your journey.",
-  "recorrido.title": "Your journey",
+  "recorrido.loadError": "Couldn't load your milestones.",
+  "recorrido.title": "Your milestones",
   "recorrido.subtitle": "How far you've walked in the Word.",
   "recorrido.sectionNumbers": "Your numbers",
-  "recorrido.empty.title": "Your journey starts today",
+  "recorrido.empty.title": "Your milestones start today",
   "recorrido.empty.text": "Every day you mark your reading is saved here, alongside the plans you finish.",
   "recorrido.plansCompleted": {
     "one": "plan finished",
