@@ -57,7 +57,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" 
   <text x="80" y="418" font-family="${font}" font-size="62" font-weight="700" letter-spacing="-2" fill="${accent}">Lee Tu Biblia.</text>
 
   <!-- Subtítulo -->
-  <text x="82" y="482" font-family="${font}" font-size="25" font-weight="400" fill="${soft}">Función por función: tu lectura y los 8 planes, la oración,</text>
+  <text x="82" y="482" font-family="${font}" font-size="25" font-weight="400" fill="${soft}">Función por función: tu lectura y los 13 planes, la oración,</text>
   <text x="82" y="516" font-family="${font}" font-size="25" font-weight="400" fill="${soft}">los grupos de discipulado y los materiales.</text>
 
   <!-- URL -->

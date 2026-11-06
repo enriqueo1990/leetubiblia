@@ -6,13 +6,13 @@ Lee Tu Biblia es una PWA (aplicación web instalable) que funciona con o sin con
 
 ## Qué hace
 
-- **Lectura del día**: muestra solo las referencias que toca leer hoy, según tu plan. Un toque para marcarlas como leídas; un botón abre el capítulo exacto en tu app de Biblia (versión NBLA), pero la lectura la hacés en tu Biblia de papel.
+- **Lectura del día**: muestra solo las referencias que toca leer hoy, según tu plan. Un toque para marcarlas como leídas; un botón abre el capítulo exacto en YouVersion o BibleGateway (la versión depende del idioma), pero la lectura la hacés en tu Biblia de papel. Con «Mi tiempo» activado, la app guía un recorrido corto y opcional: leer, una línea de nota y orar por un pedido.
 - **Progreso sin culpa**: racha de días, porcentaje completado y un mapa de las últimas cinco semanas. Si te atrasás, podés reprogramar sin regaños.
 - **Diario "Mi camino"**: notas de reflexión sobre lo que Dios te habla en la lectura.
 - **Tu recorrido**: resumen de logros y números; al terminar un plan, festejo y un logro para compartir.
 - **Oración**: pedidos privados o compartidos con tu grupo, con duración configurable (un día, una semana, un mes o siempre).
 - **Grupos de discipulado**: grupos cerrados y privados; leen al mismo ritmo, comparten pedidos y testimonios, y el líder ve el pulso de lectura de los últimos siete días de cada miembro.
-- **Personalización**: modo claro/oscuro automático y ocho colores de acento (dos sepia y seis pastel).
+- **Personalización**: modo claro/oscuro automático, ocho colores de acento (de fábrica, azul cielo) y tamaño de letra ajustable.
 
 ## Planes de lectura (trece, uno activo a la vez)
 
@@ -40,15 +40,15 @@ Personas que quieren leer su Biblia con constancia, y líderes de grupos de disc
 
 ## Páginas
 
-- [Qué es la app](https://leetubiblia.com/info): la puerta —presentación corta, funcionalidades y sección de discipulado—.
+- [Qué es la app](https://leetubiblia.com/info): la puerta principal —presentación corta, funcionalidades y sección de discipulado—.
 - [Para líderes de grupos de discipulado](https://leetubiblia.com/lideres): por qué y para qué usar la app con un grupo, con capturas reales —paso a paso: un plan común (como plan principal o lectura adicional), la lectura en el Hoy de cada uno, el pulso del grupo, la oración compartida y las vistas del líder—.
 - [Guía completa](https://leetubiblia.com/ayuda): manual/referencia detallado, función por función, con los trece planes y los materiales.
 - [Privacidad](https://leetubiblia.com/privacidad): qué datos se guardan y para qué, privado por defecto, opt-in en grupos, sin publicidad ni venta de datos, y borrado total de la cuenta desde la app.
-- [Abrir la app](https://leetubiblia.com/): entrar y empezar a leer.
+- [Empezar gratis](https://leetubiblia.com/): entrar a la app (con tu correo, sin contraseña) y empezar a leer.
 
 ## Datos
 
-- Idioma: español.
+- Idioma: la app está en español, inglés y portugués; los materiales de lectura (catecismos y confesiones) están solo en español; estas páginas públicas están en español.
 - Precio: gratis.
 - Plataforma: web / PWA instalable (funciona sin conexión).
 - Privacidad: los pedidos de oración pueden ser privados; los grupos son cerrados.

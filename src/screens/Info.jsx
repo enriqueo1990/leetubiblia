@@ -115,7 +115,7 @@ function Steps({ title, steps }) {
 
 export default function Info() {
   useEffect(() => {
-    document.title = 'Lee Tu Biblia — Compañero de lectura bíblica y oración'
+    document.title = 'Lee Tu Biblia — el hábito de abrir tu Biblia, sostenido'
     window.scrollTo(0, 0)
   }, [])
 
