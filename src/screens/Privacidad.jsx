@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { BookIcon, HeartIcon, PeopleIcon, LockIcon, PencilIcon } from '../components/icons.jsx'
-import { LandingStyle, LandingGlow, LandingHeader, LandingFooter, Eyebrow, IconBadge, BellIcon } from './landingKit.jsx'
+import { BellIcon, BookIcon, HeartIcon, PeopleIcon, LockIcon, PencilIcon } from '../components/icons.jsx'
+import { LandingStyle, LandingGlow, LandingHeader, LandingFooter, Eyebrow, IconBadge } from './landingKit.jsx'
 import { CONTACT_EMAIL as CONTACTO } from '../lib/developer.js'
 
 // Página pública /privacidad — la capa de confianza del sitio (ver App.jsx, fuera

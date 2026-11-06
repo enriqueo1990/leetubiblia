@@ -27,7 +27,7 @@ import { recordFunnel } from '../lib/diag.js'
 import { SkeletonHoy, SkeletonPassages } from '../components/Skeleton.jsx'
 import InlineError from '../components/InlineError.jsx'
 import PassageList from '../components/PassageList.jsx'
-import { BookIcon, CameraIcon, CheckIcon, GearIcon, InstallIcon, ShareIcon } from '../components/icons.jsx'
+import { BookIcon, CameraIcon, CheckIcon, GearIcon, InstallIcon, ShareIcon, XIcon } from '../components/icons.jsx'
 import BiblePhotoSheet from '../components/BiblePhotoSheet.jsx'
 import MyTimeFlow from '../components/MyTimeFlow.jsx'
 import TodayCard from '../components/TodayCard.jsx'
@@ -570,9 +570,9 @@ export default function Hoy() {
               type="button"
               onClick={r.dismissBehind}
               aria-label={t('hoy.dismissBehind')}
-              className="ml-auto flex h-11 w-11 items-center justify-center text-[15px] leading-none text-ink-soft"
+              className="ml-auto flex h-11 w-11 items-center justify-center text-ink-soft"
             >
-              ✕
+              <XIcon size={18} />
             </button>
           </div>
           {r.reprogramarError && <InlineError message={t('hoy.reprogramarError')} />}

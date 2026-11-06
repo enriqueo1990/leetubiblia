@@ -139,12 +139,6 @@ export function MiniIcon({ children, size = 22 }) {
     </svg>
   )
 }
-export const BellIcon = (p) => (
-  <MiniIcon {...p}>
-    <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
-    <path d="M13.7 21a2 2 0 0 1-3.4 0" />
-  </MiniIcon>
-)
 export const PaletteIcon = (p) => (
   <MiniIcon {...p}>
     <path d="M12 21a9 9 0 1 1 9-9c0 2-1 3-3 3h-1.5a1.5 1.5 0 0 0-1 2.6c.3.3.5.7.5 1.2 0 1.2-1 2.2-2 2.2z" />

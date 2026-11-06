@@ -8,6 +8,7 @@ import {
   PencilIcon,
   LockIcon,
   CheckIcon,
+  BellIcon,
 } from '../components/icons.jsx'
 import {
   LandingStyle,
@@ -18,7 +19,6 @@ import {
   Eyebrow,
   PhoneMock,
   GroupMock,
-  BellIcon,
   PaletteIcon,
   WifiOffIcon,
   AwardIcon,

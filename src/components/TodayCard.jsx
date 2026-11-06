@@ -1,4 +1,5 @@
 import { BRAND_SERIF } from '../lib/brandFont.js'
+import { CheckIcon } from './icons.jsx'
 
 // "Tu día": lo que sigue después de leer, en una sola tarjeta con filas. Cada
 // fila es una invitación, no una obligación: sin marcas de "te faltó". Una fila
@@ -28,9 +29,7 @@ export default function TodayCard({ rows, footer = null, className = '' }) {
                 }
               >
                 {row.done && (
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12l5 5L20 7" />
-                  </svg>
+                  <CheckIcon size={13} stroke="#fff" strokeWidth={3} />
                 )}
               </span>
             )}

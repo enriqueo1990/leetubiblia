@@ -9,6 +9,8 @@ import {
   LockIcon,
   CheckIcon,
   RefreshIcon,
+  BellIcon,
+  SunIcon,
 } from '../components/icons.jsx'
 import {
   LandingStyle,
@@ -20,7 +22,6 @@ import {
   PhoneMock,
   GroupMock,
   PrayerMock,
-  BellIcon,
   PaletteIcon,
   WifiOffIcon,
   AwardIcon,
@@ -111,16 +112,6 @@ const AJUSTES = [
   { icon: <PencilIcon size={22} />, name: 'Descargar tu camino', desc: 'Llevate las notas de tu diario en un archivo de texto cuando quieras.' },
   { icon: <WifiOffIcon size={22} />, name: 'Funciona sin conexión', desc: 'Se instala como app y muestra tu lectura de hoy aún sin internet.' },
 ]
-
-// Ícono de sol/luna (claro-oscuro) en el mismo trazo del kit; local a esta página.
-function SunIcon({ size = 22 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="12" cy="12" r="4" />
-      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
-    </svg>
-  )
-}
 
 // Rejilla de funciones: badge + nombre + descripción. Aire, sin tarjetas flotantes.
 function FeatureGrid({ items, tone }) {

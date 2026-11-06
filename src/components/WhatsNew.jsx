@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { usePreferences } from '../lib/preferences.jsx'
 import { BRAND_SERIF, ensureBrandFont } from '../lib/brandFont.js'
 import BookCover from './BookCover.jsx'
+import { CheckIcon } from './icons.jsx'
 import useDialogFocus from '../hooks/useDialogFocus.js'
 
 // "Novedades": las pantallas de una versión grande, una por vez. Se pasa con
@@ -158,9 +159,7 @@ function Dot({ done }) {
       style={done ? { backgroundColor: 'var(--accent-action)' } : { boxShadow: 'inset 0 0 0 1.5px var(--faint)' }}
     >
       {done && (
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M5 12l5 5L20 7" />
-        </svg>
+        <CheckIcon size={11} stroke="#fff" strokeWidth={3.2} />
       )}
     </span>
   )
