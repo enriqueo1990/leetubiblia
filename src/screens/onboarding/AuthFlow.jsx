@@ -6,9 +6,10 @@ import { peekGroupByCode } from '../../lib/db.js'
 import { savePendingPlan } from '../../lib/pendingPlan.js'
 import PlanCatalog from '../../components/PlanCatalog.jsx'
 import { classifySendError } from '../../lib/authErrors.js'
-import { BookIcon, ShareIcon } from '../../components/icons.jsx'
+import { ShareIcon } from '../../components/icons.jsx'
 import { isIOS, isIOSBrowser, isInAppBrowser, isStandalone } from '../../lib/platform.js'
 import { recordFunnel } from '../../lib/diag.js'
+import BrandMark from '../../components/BrandMark.jsx'
 
 // Bienvenida + auth por código de email (documento maestro §5.8, README pantalla 8).
 // Pasos locales: 'welcome' → ('install', solo iPhone en el navegador) →
@@ -149,12 +150,7 @@ export default function AuthFlow() {
     return (
       <Centered>
         <div className="flex flex-1 flex-col items-center justify-center text-center">
-          <div
-            className="flex h-[88px] w-[88px] items-center justify-center rounded-container text-on-accent"
-            style={{ backgroundColor: 'var(--accent-action)' }}
-          >
-            <BookIcon size={44} />
-          </div>
+          <BrandMark size={88} />
           <h1 className="mt-7 text-[24px] font-bold tracking-tight text-ink">
             Lee Tu Biblia
           </h1>

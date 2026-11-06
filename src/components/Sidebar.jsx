@@ -2,6 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { NAV_ITEMS, matchesExtra } from './nav.js'
 import { usePreferences } from '../lib/preferences.jsx'
 import { GearIcon } from './icons.jsx'
+import BrandMark from './BrandMark.jsx'
 
 // Sidebar de navegación (desktop ≥1024px) — reemplaza la tab bar inferior.
 // ~250px, superficie con borde derecho hairline, marca + nav vertical.
@@ -14,7 +15,8 @@ export default function Sidebar() {
       className="hidden lg:flex fixed inset-y-0 left-0 w-[250px] flex-col border-r border-hairline bg-surface px-4 py-7"
       aria-label={t('nav.main')}
     >
-      <div className="px-3 pb-6">
+      <div className="flex items-center gap-2.5 px-3 pb-6">
+        <BrandMark size={28} />
         <span className="text-[18px] font-bold tracking-tight text-ink">
           Lee Tu Biblia
         </span>

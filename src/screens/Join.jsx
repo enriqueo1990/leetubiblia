@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { joinGroupByCode } from '../lib/db.js'
+import BrandMark from '../components/BrandMark.jsx'
 
 // Aterrizaje del enlace de invitación: app/join?code=XXXX (documento maestro §5.6).
 // Si el usuario ya está logueado, lo une al grupo y lo manda al detalle. Si llega
@@ -16,13 +17,7 @@ import { joinGroupByCode } from '../lib/db.js'
 function Wordmark() {
   return (
     <>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true">
-        <rect width="64" height="64" rx="14" fill="#2B6CB0" />
-        <g fill="none" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z" />
-          <path d="M32 20v28" />
-        </g>
-      </svg>
+      <BrandMark size={64} />
       <p className="mt-4 text-[17px] font-semibold tracking-tight text-ink">Lee Tu Biblia</p>
     </>
   )

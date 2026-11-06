@@ -8,6 +8,7 @@ import { HeartIcon } from '../components/icons.jsx'
 import shotHoy from '../assets/mocks/hoy-lectura.png'
 import shotGrupo from '../assets/mocks/sala-grupo.png'
 import shotOracion from '../assets/mocks/oracion-lista.png'
+import BrandMark from '../components/BrandMark.jsx'
 
 // Kit compartido por las páginas públicas (/info, /lideres, /ayuda, /privacidad):
 // primitivos de marca, íconos, mocks de producto y el footer global. Vive fuera
@@ -204,25 +205,7 @@ export function Wordmark({ size = 'sm' }) {
   const s = size === 'lg'
   return (
     <span className="inline-flex items-center gap-3">
-      <span
-        className={`inline-flex items-center justify-center rounded-[12px] bg-accent-action ${
-          s ? 'h-14 w-14' : 'h-9 w-9'
-        }`}
-        aria-hidden="true"
-      >
-        <svg viewBox="0 0 64 64" width={s ? 34 : 22} height={s ? 34 : 22}>
-          <g
-            fill="none"
-            stroke="var(--on-accent)"
-            strokeWidth="3.4"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M32 20C28 16.7 22.2 16 12 16v28c10.2 0 16 .7 20 4 4-3.3 9.8-4 20-4V16c-10.2 0-16 .7-20 4Z" />
-            <path d="M32 20v28" />
-          </g>
-        </svg>
-      </span>
+      <BrandMark size={s ? 56 : 36} />
       <span
         className={`font-bold tracking-[-0.02em] text-ink ${s ? 'text-[24px]' : 'text-[18px]'}`}
       >
