@@ -33,11 +33,23 @@ export function SkeletonPassages() {
   )
 }
 
-export function SkeletonRows({ count = 5, twoLine = false }) {
+// `cover`: filas de ficha con portada (50 px, 3:4) y tres líneas, como los
+// materiales de «También hoy»; `libraryRow` suma al final la fila fija de la
+// Biblioteca, para que el esqueleto mida lo mismo que lo que reemplaza.
+export function SkeletonRows({ count = 5, twoLine = false, cover = false, libraryRow = false }) {
   return (
     <div className="card animate-pulse divide-y divide-hairline" aria-hidden="true">
       {Array.from({ length: count }).map((_, i) =>
-        twoLine ? (
+        cover ? (
+          <div key={i} className="flex items-start gap-3.5 p-3.5">
+            <div className="shrink-0 rounded-[6px]" style={{ width: 50, aspectRatio: '3 / 4', backgroundColor: 'var(--surface-alt)' }} />
+            <div className="min-w-0 flex-1">
+              {bar('55%', 14)}
+              <div className="mt-2.5">{bar('85%', 13)}</div>
+              <div className="mt-3">{bar('100%', 3)}</div>
+            </div>
+          </div>
+        ) : twoLine ? (
           <div key={i} className="px-4 py-3" style={{ minHeight: 60 }}>
             {bar('45%', 14)}
             <div className="mt-2">{bar('70%', 11)}</div>
@@ -48,6 +60,12 @@ export function SkeletonRows({ count = 5, twoLine = false }) {
             <div className="flex-1">{bar('65%', 12)}</div>
           </div>
         )
+      )}
+      {libraryRow && (
+        <div className="flex items-center gap-3 px-4 py-3" style={{ minHeight: 44 }}>
+          {bar(34, 20, { flexShrink: 0 })}
+          <div className="flex-1">{bar('30%', 13)}</div>
+        </div>
       )}
     </div>
   )

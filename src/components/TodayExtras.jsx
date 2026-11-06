@@ -61,7 +61,7 @@ export default function TodayExtras() {
     return (
       <div className="mt-8" aria-hidden="true">
         <SectionLabel inside>{t('hoy.alsoToday')}</SectionLabel>
-        <SkeletonRows count={Math.min(expected, INLINE_LIMIT)} twoLine />
+        <SkeletonRows count={Math.min(expected, INLINE_LIMIT)} cover libraryRow />
       </div>
     )
   }
