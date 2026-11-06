@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useId, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { usePreferences } from '../lib/preferences.jsx'
 import InlineError from './InlineError.jsx'
@@ -22,6 +22,8 @@ export default function ConfirmDialog({
   onCancel,
 }) {
   const { t } = usePreferences()
+  const titleId = useId()
+  const messageId = useId()
   const confirm = confirmLabel ?? t('common.confirm')
   const cancel = cancelLabel ?? t('common.cancel')
   const confirmRef = useRef(null)
@@ -72,18 +74,19 @@ export default function ConfirmDialog({
       className="fixed inset-0 z-50 flex items-center justify-center px-8 backdrop-blur-sm"
       style={{ backgroundColor: 'var(--scrim)' }}
       onClick={() => !busy && onCancel()}
-      role="alertdialog"
-      aria-modal="true"
-      aria-label={title}
     >
       <div
         ref={panelRef}
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        aria-describedby={message ? messageId : undefined}
         className="w-full max-w-[320px] rounded-container p-5 text-center"
         style={{ backgroundColor: 'var(--surface)', boxShadow: 'var(--shadow-overlay)' }}
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-[18px] font-bold text-ink">{title}</h2>
-        {message && <p className="mt-2 text-[15px] text-ink-soft">{message}</p>}
+        <h2 id={titleId} className="text-[18px] font-bold text-ink">{title}</h2>
+        {message && <p id={messageId} className="mt-2 text-[15px] text-ink-soft">{message}</p>}
         <InlineError message={error} className="mt-2" />
         <div className="mt-5 flex gap-3">
           <button
