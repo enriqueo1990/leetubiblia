@@ -14,7 +14,8 @@ import shotLider from '../assets/guia-lideres/pulso-lider.png'
 // El principio sigue: cada uno lee en su Biblia FÍSICA
 // (product-principle-physical-bible); solo se muestra lo positivo.
 
-// Una captura real, enmarcada como pantalla de teléfono (borde + sombra suave).
+// Una captura real, enmarcada como pantalla de teléfono (borde + sombra neutra,
+// la misma de landingKit: nunca marrón).
 function Shot({ src, alt }) {
   return (
     <div className="mx-auto w-[220px] shrink-0 sm:w-[240px]">
@@ -23,7 +24,7 @@ function Shot({ src, alt }) {
         alt={alt}
         loading="lazy"
         className="w-full rounded-[24px] border border-hairline"
-        style={{ boxShadow: '0 24px 60px -24px rgba(60,44,28,0.35)' }}
+        style={{ boxShadow: '0 24px 60px -24px rgba(28, 28, 30, 0.25)' }}
       />
     </div>
   )

@@ -8,7 +8,7 @@
 //   1. Dev server corriendo (npm run dev) — pasar el puerto vía BASE_URL si no
 //      es 5173:  BASE_URL=http://localhost:5181 node scripts/capture-guia-lideres.mjs
 //   2. Cuenta dev con datos demo: node scripts/seed-testdata.mjs
-//      (la cuenta VITE_DEV_EMAIL debe tener nombre demo, acento sepia_base,
+//      (la cuenta VITE_DEV_EMAIL debe tener nombre demo, acento pastel_sky (Cielo, de fábrica),
 //       grupo "Grupo de los martes" con plan de grupo Proverbios seguido en Hoy)
 //   3. GROUP_ID del grupo demo (default 12).
 //
