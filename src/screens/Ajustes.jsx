@@ -134,6 +134,7 @@ export default function Ajustes() {
   const [deleteError, setDeleteError] = useState(false)
   // Cerrar sesión: null | { pending } — cuántos marcados sin sincronizar se perderían.
   const [confirmSignOut, setConfirmSignOut] = useState(null)
+  const [confirmBack, setConfirmBack] = useState(false)
   const [signingOut, setSigningOut] = useState(false)
   const [dayInput, setDayInput] = useState('')
   const [savingDay, setSavingDay] = useState(false)
@@ -646,22 +647,22 @@ export default function Ajustes() {
               className="mt-3 w-full rounded-input px-4 py-3 text-[16px] outline-none"
               style={{ backgroundColor: 'var(--surface-alt)', border: '1px solid var(--control-border)', color: 'var(--text-primary)' }}
             />
+            {canUpdateDay && (
+              <p className="mt-3 text-[13px] text-ink-soft">
+                {targetDay < currentDay
+                  ? t('ajustes.dayChangeBack', { day: targetDay })
+                  : t('ajustes.dayChangeForward', { day: targetDay })}
+              </p>
+            )}
             <button
               type="button"
-              onClick={updatePlanDay}
+              onClick={() => (targetDay < currentDay ? setConfirmBack(true) : updatePlanDay())}
               disabled={!canUpdateDay || savingDay}
               className="btn btn-primary mt-3"
               style={{ opacity: !canUpdateDay || savingDay ? 0.5 : 1 }}
             >
               {savingDay ? '…' : t('ajustes.actualizar')}
             </button>
-            {canUpdateDay && (
-              <p className="mt-2 text-[13px] text-ink-soft">
-                {targetDay < currentDay
-                  ? t('ajustes.dayChangeBack', { day: targetDay })
-                  : t('ajustes.dayChangeForward', { day: targetDay })}
-              </p>
-            )}
             {dayError && (
               <InlineError
                 message={dayError === 'save' ? t('common.saveError') : t('ajustes.dayMarkError')}
@@ -1028,6 +1029,20 @@ export default function Ajustes() {
 
       {cropFile && (
         <AvatarCropper file={cropFile} busy={avatarBusy} onCancel={() => !avatarBusy && setCropFile(null)} onConfirm={savePhoto} />
+      )}
+
+      {confirmBack && (
+        <ConfirmDialog
+          danger
+          title={t('ajustes.dayBackTitle', { day: targetDay })}
+          message={`${t('ajustes.dayChangeBack', { day: targetDay })} ${t('ajustes.dayBackNoUndo')}`}
+          confirmLabel={t('ajustes.dayBackConfirm', { day: targetDay })}
+          onConfirm={() => {
+            setConfirmBack(false)
+            updatePlanDay()
+          }}
+          onCancel={() => setConfirmBack(false)}
+        />
       )}
 
       {confirmSignOut && (
