@@ -29,6 +29,8 @@
   "ajustes.push.unsupported": "Tu navegador no admite notificaciones.",
   "ajustes.push.noKey": "Las notificaciones no están configuradas todavía.",
   "ajustes.push.generic": "No se pudieron activar las notificaciones. Probá de nuevo.",
+  "ajustes.push.notOnHere": "En este dispositivo todavía no están activadas las notificaciones.",
+  "ajustes.push.turnOn": "Activarlas",
   "ajustes.section.lectura": "Lectura",
   "ajustes.planDeLectura": "Plan de lectura",
   "ajustes.elegir": "Elegir",

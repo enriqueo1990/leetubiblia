@@ -29,6 +29,8 @@
   "ajustes.push.unsupported": "Your browser doesn't support notifications.",
   "ajustes.push.noKey": "Notifications aren't set up yet.",
   "ajustes.push.generic": "Couldn't turn on notifications. Try again.",
+  "ajustes.push.notOnHere": "Notifications aren't on for this device yet.",
+  "ajustes.push.turnOn": "Turn them on",
   "ajustes.section.lectura": "Reading",
   "ajustes.planDeLectura": "Reading plan",
   "ajustes.elegir": "Choose",

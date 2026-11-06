@@ -28,7 +28,7 @@ import { planName } from '../lib/planLabels.js'
 import { avatarBlob, removeAvatarFile, uploadAvatar } from '../lib/avatar.js'
 import { saveOrRevert } from '../lib/saveWithRevert.js'
 import { BellIcon, BookIcon, ChevronRight, InfoIcon, InstallIcon, PencilIcon, ShareIcon, SunIcon } from '../components/icons.jsx'
-import { subscribeToPush, unsubscribeFromPush, getTimezone } from '../lib/push.js'
+import { subscribeToPush, unsubscribeFromPush, getTimezone, isPushSupported } from '../lib/push.js'
 import { exportJournal } from '../lib/exportJournal.js'
 import { flushQueue, pendingCount } from '../lib/offline.js'
 import { APP_VERSION_LABEL } from '../lib/appVersion.js'
@@ -240,6 +240,22 @@ export default function Ajustes() {
   // los avisos de grupo. Solo la borramos cuando se apagan AMBAS features; así
   // apagar el recordatorio no mata los avisos de grupo (ni al revés).
   const groupNotifOn = profile?.group_prayer_notifications_enabled ?? true
+  // Con el switch en ON pero sin notificaciones en ESTE aparato, la fila lo dice
+  // (el valor viene del perfil, no del aparato). `permTick` fuerza releer el permiso.
+  const [permTick, setPermTick] = useState(0)
+  function groupPushIssue() {
+    void permTick
+    if (!groupNotifOn) return null
+    if (!isPushSupported()) return 'unsupported'
+    if (Notification.permission === 'denied') return 'denied'
+    if (Notification.permission === 'default') return 'default'
+    return null
+  }
+  async function turnOnPushHere() {
+    const res = await subscribeToPush(user.id)
+    setPermTick((n) => n + 1)
+    if (!res.ok) setPushNote({ target: 'group', msg: pushReasonMessage(res.reason, t), reason: res.reason })
+  }
 
   async function toggleReminder() {
     const next = !reminderOn
@@ -438,7 +454,29 @@ export default function Ajustes() {
   // Aviso de por qué no se pudo activar el push, en la fila que lo pidió. En iOS
   // sin instalar, además, los pasos para agregar la app a la pantalla de inicio.
   function pushNoteFor(target) {
-    if (pushNote?.target !== target) return null
+    if (pushNote?.target !== target) {
+      const issue = target === 'group' ? groupPushIssue() : null
+      if (!issue) return null
+      return (
+        <div role="status" className="mt-1 text-[13px] leading-snug text-ink-soft">
+          <p>
+            {issue === 'default'
+              ? t('ajustes.push.notOnHere')
+              : pushReasonMessage(issue, t)}
+          </p>
+          {issue === 'default' && (
+            <button
+              type="button"
+              onClick={turnOnPushHere}
+              className="mt-1 inline-flex min-h-11 items-center font-medium"
+              style={{ color: 'var(--accent-ink)' }}
+            >
+              {t('ajustes.push.turnOn')}
+            </button>
+          )}
+        </div>
+      )
+    }
     const needsInstall = pushNote.reason === 'unsupported' && isIOS() && !isStandalone()
     return (
       <div role="status" className="mt-1 text-[13px] leading-snug text-ink-soft">

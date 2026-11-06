@@ -40,11 +40,14 @@ export default function ProfilePrefSync() {
 
   // Si el recordatorio está activo y el permiso ya fue concedido, asegura que
   // este dispositivo tenga su subscription Web Push (re-suscribe en silencio).
+  // Lo mismo si están encendidos los avisos de pedidos de grupo (opt-out): si el
+  // permiso ya está dado pero este aparato no tiene suscripción, se crea sola.
+  const wantsPush = !!profile && (profile.reminder_enabled || profile.group_prayer_notifications_enabled !== false)
   useEffect(() => {
-    if (profile?.reminder_enabled && user?.id) {
+    if (wantsPush && user?.id) {
       ensureSubscribed(user.id)
     }
-  }, [profile?.reminder_enabled, user?.id])
+  }, [wantsPush, user?.id])
 
   return null
 }
