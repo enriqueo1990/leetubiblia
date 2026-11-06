@@ -851,6 +851,7 @@
   "materialReader.indexLockedHint": "The next ones open as you mark the ones you read.",
   "materialReader.intro": "Introduction",
   "materialReader.completed": "You finished this material. You can review it or start over.",
+  "materialReader.markedNote": "Done. Your bookmark moved ahead.",
   "materialReader.saveError": "Couldn't save your progress. Check your connection and try again.",
   "materialReader.share": "Share this question as an image",
   "materialReader.shareError": "Couldn't create the image. Please try again.",

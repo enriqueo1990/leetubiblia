@@ -105,6 +105,12 @@ export default function MaterialReader() {
   const [sharing, setSharing] = useState(false) // generando la imagen para compartir
   const [shareError, setShareError] = useState(false)
   useEffect(() => setPick(null), [n])
+  // Ficha a la que se llegó al marcar leída: mientras estés en ella, una línea
+  // confirma que el marcador avanzó. Al navegar a otra ficha se va sola.
+  const [markedFor, setMarkedFor] = useState(null)
+  useEffect(() => {
+    setMarkedFor((m) => (m === n ? m : null))
+  }, [n])
   const calendar = isCalendarMaterial(slug)
   const today = calendarEntryNumber()
   const [readToday, setReadToday] = useState(null) // por fecha: ¿ya se marcó hoy? (optimista)
@@ -190,6 +196,7 @@ export default function MaterialReader() {
   const maxN = calendar ? total : Math.min(pos, total) // no se avanza más allá de lo leído (+ la del frente)
   const canPrev = n > (hasIntro ? 0 : 1)
   const canNext = n < maxN
+  const justMarked = !calendar && markedFor === n // acaba de marcar y sigue en esta ficha
 
   // Avance optimista PERO honesto: la UI avanza ya, y si el guardado falla se
   // revierte y se avisa (canon: nunca mostrar un estado que no quedó guardado).
@@ -201,6 +208,7 @@ export default function MaterialReader() {
     if (error) {
       setPos(revertPos)
       setN(revertN)
+      setMarkedFor(null)
       setSaveError(true)
     }
   }
@@ -210,6 +218,7 @@ export default function MaterialReader() {
     const revertPos = pos
     const revertN = n
     setPos(next)
+    setMarkedFor(n < total ? n + 1 : n)
     if (n < total) setN(n + 1) // avanza a la siguiente; si era la última, queda completado
     persist(next, revertPos, revertN)
   }
@@ -419,7 +428,7 @@ export default function MaterialReader() {
           de la ficha con key: esa se remonta y un aviso recién montado no se lee. */}
       <p role="status" className="sr-only">
         {!isIntro && entry
-          ? `${entryOfLabel(t, slug, entry.number, total, locale)}${entry.question ? ` · ${entry.question}` : ''}`
+          ? `${justMarked ? `${t('materialReader.markedNote')} ` : ''}${entryOfLabel(t, slug, entry.number, total, locale)}${entry.question ? ` · ${entry.question}` : ''}`
           : ''}
       </p>
 
@@ -623,6 +632,12 @@ export default function MaterialReader() {
           </button>
         ) : (
           <>
+            {justMarked && atFrontier && (
+              <p className="moment-in pb-1.5 text-center text-[13px] font-medium text-ink-soft">
+                <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✓ </span>
+                {t('materialReader.markedNote')}
+              </p>
+            )}
             {atFrontier && (
               <button
                 type="button"
