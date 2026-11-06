@@ -1,4 +1,6 @@
 import { DEMO_CSS } from './demoStyles.js'
+import { LECTOR_DEMO } from './bibliotecaCopy.js'
+import { materialTheme } from '../lib/materialTheme.js'
 
 // Demos de pantalla para las landings (/lideres, /ayuda): la app dibujada en
 // HTML/CSS —el mismo teléfono y los mismos tokens que TodayDemo— con datos de
@@ -220,10 +222,10 @@ function GroupRow({ name, refs, meta }) {
 }
 
 // Fila de un material de la Biblioteca: su portada, el nombre y una barra de avance.
-function MaterialRow({ name, pct, meta, color }) {
+function MaterialRow({ name, pct, meta, slug }) {
   return (
     <div className="in-sc-row in-sc-mrow">
-      <span className="in-sc-cover" aria-hidden="true" style={color ? { background: color } : undefined} />
+      <span className="in-sc-cover" aria-hidden="true" style={{ background: materialTheme(slug).c }} />
       <span>
         <b>{name}</b>
         <span className="in-sc-mbar" style={{ '--w': `${pct}%` }}>
@@ -258,7 +260,7 @@ export function HoyConGruposDemo({ width }) {
           <div className="in-sc-rows">
             <GroupRow name="Grupo de los martes" refs="Proverbios 3" meta="Día 3 de 31" />
             <GroupRow name="Jóvenes" refs="Marcos 4" meta="Día 4 de 16" />
-            <MaterialRow name="Catecismo de Heidelberg" pct={22} meta="28 de 129" />
+            <MaterialRow slug="heidelberg" name="Catecismo de Heidelberg" pct={22} meta="28 de 129" />
           </div>
         </div>
       </div>
@@ -289,8 +291,8 @@ export function HoyDemo({ width }) {
         <div className="in-sc-extras">
           <p className="in-sc-label">También hoy</p>
           <div className="in-sc-rows">
-            <MaterialRow name="Catecismo de Heidelberg" pct={22} meta="28 de 129" />
-            <MaterialRow name="Catecismo Menor de Westminster" pct={10} meta="11 de 107" color="#8A5A6E" />
+            <MaterialRow slug="heidelberg" name="Catecismo de Heidelberg" pct={22} meta="28 de 129" />
+            <MaterialRow slug="westminster-menor" name="Catecismo Menor de Westminster" pct={10} meta="11 de 107" />
           </div>
         </div>
       </div>
@@ -632,6 +634,69 @@ export function OracionListaDemo({ width }) {
             </span>
           </div>
         </div>
+      </div>
+    </DemoFrame>
+  )
+}
+
+// ── Biblioteca ─────────────────────────────────────────────────────────
+
+const IconList = () => (
+  <Svg>
+    <path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01" />
+  </Svg>
+)
+
+// El lector de un material (MaterialReader; el contenido, LECTOR_DEMO, vive en
+// bibliotecaCopy.js): miga «‹ Hoy», compartir e Índice
+// arriba; la pregunta como ficha (posición y bloque, pregunta, respuesta, pasajes
+// de apoyo con filete) y, abajo, «Marcar como leído» y ‹ Anterior.
+export function LectorMaterialDemo({ width }) {
+  const d = LECTOR_DEMO
+  return (
+    <DemoFrame
+      width={width}
+      tab={0}
+      caption="Una pregunta por vez, con sus pasajes para buscar en tu Biblia."
+      alt={`Lector del Catecismo Menor de Westminster, ${d.position}, ${d.block}: la pregunta «${d.question}», su respuesta de una oración y ${d.refs.length} pasajes de apoyo como referencias, con el botón Marcar como leído.`}
+    >
+      <div className="in-sc-body">
+        <div className="in-sc-rbar">
+          <span className="in-sc-back" style={{ height: 'auto' }}>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 5l7 7-7 7" />
+            </svg>
+            Hoy
+          </span>
+          <span className="in-sc-ract">
+            <IconShare />
+            <span>
+              <IconList />
+              Índice
+            </span>
+          </span>
+        </div>
+        <div className="in-sc-card in-sc-rd">
+          <p className="in-sc-rmeta">
+            {d.position} · {d.block}
+          </p>
+          <h4 className="in-sc-rq">{d.question}</h4>
+          <p className="in-sc-ra">{d.answer}</p>
+          <p className="in-sc-rrefs">
+            {d.refs.map((r, i) => (
+              <span key={r}>
+                <span className="in-sc-rref">{r}</span>
+                {i < d.refs.length - 1 && <span className="in-sc-rsep"> · </span>}
+              </span>
+            ))}
+          </p>
+        </div>
+      </div>
+      <div className="in-sc-bar">
+        <div className="in-btn-mark">
+          <span className="in-b-before">Marcar como leído</span>
+        </div>
+        <div className="in-sc-rnav">‹ Anterior</div>
       </div>
     </DemoFrame>
   )

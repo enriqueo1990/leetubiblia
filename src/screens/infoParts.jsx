@@ -247,11 +247,12 @@ export function InstallArt() {
 }
 
 // ── FAQ ──────────────────────────────────────────────────────────────────────
-// <details> nativos. El mismo texto se publica como FAQPage en el <head> (infoCopy).
-export function FaqList() {
+// <details> nativos. El mismo texto se publica como FAQPage en el <head> (infoCopy,
+// bibliotecaCopy). `items` por defecto es el de /info; otras landings pasan el suyo.
+export function FaqList({ items = INFO_FAQ }) {
   return (
     <div className="in-faq in-rv">
-      {INFO_FAQ.map((item) => (
+      {items.map((item) => (
         <details key={item.q} open={item.open || undefined}>
           <summary>
             {item.q}
