@@ -963,14 +963,9 @@ export default function Hoy() {
                       ? t('hoy.streakDays', { count: r.streak })
                       : t('hoy.markedNote')}
                   </p>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setJustMarked(false)
-                      if (dayShown != null) r.toggleDay(dayShown)
-                    }}
-                    className="btn btn-done btn-just-marked"
-                  >
+                  {/* Solo confirma: no es tocable, así un doble toque en «Marcar como
+                      leído» no desmarca el día. Desmarcar vive en «Tu día». */}
+                  <div className="btn btn-done btn-just-marked">
                     <span className="flex items-center justify-center gap-2">
                       <svg
                         width="17"
@@ -987,7 +982,7 @@ export default function Hoy() {
                       </svg>
                       {aheadOfToday ? t('hoy.read') : t('hoy.readToday')}
                     </span>
-                  </button>
+                  </div>
                 </>
             )}
           </div>
