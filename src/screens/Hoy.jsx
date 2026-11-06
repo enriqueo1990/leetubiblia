@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useReading } from '../hooks/useReading.js'
 import { useInstallPrompt } from '../hooks/useInstallPrompt.js'
@@ -172,6 +172,21 @@ export default function Hoy() {
     const id = setTimeout(() => setBreathDone(true), 2400)
     return () => clearTimeout(id)
   }, [justMarked])
+
+  // Foco al marcar: va a la barra durante el respiro y, cuando la barra se va, al
+  // encabezado «Tu día» (si no, caería al <body>). Ver también liveNote más abajo.
+  const actionBarRef = useRef(null)
+  useEffect(() => {
+    if (justMarked && !breathDone) actionBarRef.current?.focus({ preventScroll: true })
+  }, [justMarked, breathDone])
+  useEffect(() => {
+    if (!breathDone) return
+    const h = document.getElementById('tu-dia')
+    if (h && (document.activeElement === document.body || !document.activeElement)) {
+      h.tabIndex = -1
+      h.focus({ preventScroll: true })
+    }
+  }, [breathDone])
 
   // Mostrar "Listo, seguimos desde hoy" unos segundos al terminar de reprogramar.
   useEffect(() => {
@@ -451,6 +466,17 @@ export default function Hoy() {
   // El respiro de la marca: ~2 s de ✓ dibujado antes de que la pantalla siga.
   const breathing = doneShown && justMarked && !breathDone
 
+  // Accesibilidad al marcar: la confirmación se anuncia en una región viva fija
+  // (existe desde el primer render, para que el lector la oiga al cambiar), y el
+  // foco no se pierde: va a la barra durante el respiro y, cuando la barra se va,
+  // al encabezado «Tu día».
+  const liveNote =
+    doneShown && justMarked
+      ? !viewingAhead && r.streak >= 2
+        ? t('hoy.streakDays', { count: r.streak })
+        : t('hoy.markedNote')
+      : ''
+
   // Filas de "Tu día". Cada una es una invitación: sin diario no hay nota; sin
   // pedidos no hay oración; una nota de otro día no se reescribe (solo se ve).
   const noteRow =
@@ -502,6 +528,7 @@ export default function Hoy() {
       <div aria-hidden="true" className={`day-light ${period}`} />
       {/* Título de la pantalla para quien navega por encabezados (rotor de VoiceOver). */}
       <h1 className="sr-only">{t('nav.hoy')}</h1>
+      <p role="status" className="sr-only">{liveNote}</p>
       <div className="flex items-center justify-between gap-3">
         <p className="min-w-0 truncate text-[14px] font-medium text-ink-soft">{greeting}</p>
         {/* En desktop Ajustes ya está visible en el sidebar; evitar duplicarlo. */}
@@ -928,7 +955,7 @@ export default function Hoy() {
           ARRIBA: el botón nunca se mueve). Después, lo que sigue vive en "Tu
           día", en el recorrido de la pantalla, no en una barra fija. */}
       {!r.planFinished && (!doneShown ? !readingUnavailable : breathing) && (
-        <div className="action-bar">
+        <div className="action-bar outline-none" ref={actionBarRef} tabIndex={-1}>
           <div className="lg:mx-auto lg:max-w-[440px]">
             {!doneShown ? (
                 myTime.enabled && !viewingAhead ? (
