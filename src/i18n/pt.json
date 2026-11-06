@@ -307,7 +307,7 @@
   },
   "oracion.stillSame": "Continuar orando",
   "oracion.review": "Atualizar",
-  "oracion.empty.mine": "Você ainda não tem pedidos. Toque em + para criar o primeiro: ele pode ficar privado ou ser compartilhado com um grupo.",
+  "oracion.empty.mine": "Você ainda não tem pedidos. Ele pode ficar privado ou ser compartilhado com um grupo.",
   "oracion.answeredSection": "Respondidos",
   "oracion.answeredOn": "Respondido · {date}",
   "oracion.empty.groups": "Ore junto com outros: entre em um grupo para ver e sustentar os pedidos que compartilham.",

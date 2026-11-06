@@ -307,7 +307,7 @@
   },
   "oracion.stillSame": "Keep praying",
   "oracion.review": "Update",
-  "oracion.empty.mine": "You don't have any requests yet. Tap + to create your first: it can stay private or be shared with a group.",
+  "oracion.empty.mine": "You don't have any requests yet. It can stay private or be shared with a group.",
   "oracion.answeredSection": "Answered",
   "oracion.answeredOn": "Answered · {date}",
   "oracion.empty.groups": "Pray alongside others: join a group to see and hold up the requests they share.",

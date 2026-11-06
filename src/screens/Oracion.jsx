@@ -258,7 +258,17 @@ export default function Oracion() {
             <EmptyState
               icon={<HeartIcon size={32} />}
               text={t('oracion.empty.mine')}
-            />
+            >
+              {/* Si ya se ve la tarjeta «Orar ahora» (hay pedidos de grupo), no se suma un segundo relleno. */}
+              <button
+                type="button"
+                onClick={() => setSheet({ mode: 'create' })}
+                disabled={!online}
+                className={`btn ${activeToPray > 0 ? 'btn-secondary' : 'btn-primary'} inline-block px-8`}
+              >
+                {t('oracion.new')}
+              </button>
+            </EmptyState>
           )}
           <ul className="space-y-3">
             {myActive.map((p) => (
