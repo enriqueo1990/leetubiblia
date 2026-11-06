@@ -4,6 +4,7 @@ import { usePreferences } from '../../lib/preferences.jsx'
 import { startDateForDay, todayLocalISO, markDaysRead } from '../../lib/db.js'
 import { readPendingPlan, clearPendingPlan } from '../../lib/pendingPlan.js'
 import PlanCatalog from '../../components/PlanCatalog.jsx'
+import Preparing from '../../components/Preparing.jsx'
 import { recordFunnel } from '../../lib/diag.js'
 
 // Elegir plan de lectura en el onboarding (documento maestro §5.3 / §5.8).
@@ -71,17 +72,11 @@ export default function ChoosePlanOnboarding({ onSkip }) {
   }, [])
 
   // Prefirió decidir después: onSkip corre en el efecto y el Gate avanza solo.
-  if (pending?.skipped) return null
+  if (pending?.skipped) return <Preparing />
 
   // Aplicando la elección pre-cuenta: sin catálogo, solo el estado (si sale bien,
   // el perfil cambia y el Gate avanza solo a los extras).
-  if (autoApplying) {
-    return (
-      <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col items-center justify-center px-7">
-        <p className="text-[15px] text-ink-soft">{t('planes.activating')}</p>
-      </div>
-    )
-  }
+  if (autoApplying) return <Preparing />
 
   return (
     <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col px-7 py-10">

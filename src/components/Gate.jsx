@@ -5,6 +5,7 @@ import { usePreferences } from '../lib/preferences.jsx'
 import { clearPendingPlan, readPendingPlan } from '../lib/pendingPlan.js'
 import { isExtrasDone } from '../lib/sessionFlags.js'
 import LaunchReady from './LaunchReady.jsx'
+import Preparing from './Preparing.jsx'
 import AuthFlow from '../screens/onboarding/AuthFlow.jsx'
 import AskName from '../screens/onboarding/AskName.jsx'
 import ChoosePlanOnboarding from '../screens/onboarding/ChoosePlanOnboarding.jsx'
@@ -79,7 +80,7 @@ export default function Gate({ children }) {
     if (hasActivePlan) clearPendingPlan()
   }, [hasActivePlan])
 
-  if (loading) return null
+  if (loading) return <Preparing />
   if (!session) return <LaunchReady><AuthFlow /></LaunchReady>
 
   // Hay sesión pero el perfil no cargó ni hay caché: reintento, no cuelgue.
@@ -88,7 +89,7 @@ export default function Gate({ children }) {
   }
 
   // Sesión recién creada: el trigger crea el profile; mientras llega, splash.
-  if (!profile) return null
+  if (!profile) return <Preparing />
 
   // El nombre solo hace falta para los grupos: se pide al llegar por invitación.
   if (!profile.display_name && joiningFromInvite) return <LaunchReady><AskName /></LaunchReady>

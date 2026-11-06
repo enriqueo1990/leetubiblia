@@ -5,6 +5,7 @@ import { markExtrasDone } from '../../lib/sessionFlags.js'
 import { recordFunnel } from '../../lib/diag.js'
 import { isIOSBrowser } from '../../lib/platform.js'
 import { ShareIcon } from '../../components/icons.jsx'
+import Preparing from '../../components/Preparing.jsx'
 
 // Cierre del onboarding (documento maestro §5.8). Se marca una sola vez por
 // cuenta (profiles.onboarded_at, con respaldo local en lib/sessionFlags.js) y
@@ -37,7 +38,7 @@ export default function OnboardingExtras({ onDone }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (!showAddToHome) return null
+  if (!showAddToHome) return <Preparing />
 
   return (
     <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col px-7 py-10">
