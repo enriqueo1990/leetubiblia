@@ -33,7 +33,9 @@ export const INFO_FAQ = [
   {
     q: '¿Sirve para mi iglesia?',
     a: [
-      'Los planes recorren la Biblia y los puede usar cualquier iglesia cristiana. Algunos materiales opcionales (catecismos y confesiones) son de tradición reformada: si no son lo tuyo, los ignorás.',
+      'Los planes recorren la Biblia y los puede usar cualquier iglesia cristiana. Algunos materiales opcionales (catecismos y confesiones) son de tradición reformada: si no son lo tuyo, los ignorás. Los ves en la ',
+      { to: '/biblioteca', text: 'Biblioteca' },
+      '.',
     ],
   },
   {

@@ -85,6 +85,16 @@ const FAQ = [
     'Lo sigue leyendo. Puede sumar el del grupo como lectura extra, y los dos aparecen en su pantalla Hoy.',
   ],
   [
+    '¿Podemos leer también un catecismo juntos?',
+    <>
+      Sí. Cada uno suma el mismo material a su estante en la{' '}
+      <Link to="/biblioteca" className="lk-textlink">
+        Biblioteca
+      </Link>{' '}
+      y lo lee a su ritmo, en Hoy, junto al plan del grupo. El avance de cada material es personal: la app no lo comparte.
+    </>,
+  ],
+  [
     '¿Quién ve los pedidos de oración?',
     'Solo los miembros del grupo, y solo los pedidos que cada uno elige compartir. Lo demás es privado.',
   ],

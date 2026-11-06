@@ -107,6 +107,7 @@ ${dark('.in-page', '--in-faint:#363B41; --in-tint-strong:color-mix(in srgb, var(
 .in-tile h3{font:650 1.1875rem/1.25 var(--in-sans); letter-spacing:-.01em; margin-top:14px}
 .in-tile p{margin-top:6px; font-size:var(--lk-fs-small); line-height:1.55; color:var(--text-soft); max-width:30em}
 .in-tile .in-viz{margin-top:auto}
+.in-tile-link{display:inline-flex; align-items:center; min-height:44px; margin-top:2px; font-size:var(--lk-fs-small)}
 .in-k{font:600 .75rem/1 var(--in-sans); letter-spacing:.12em; text-transform:uppercase; color:var(--accent-ink); display:flex; align-items:center; gap:8px}
 .in-k .in-ico{width:18px; height:18px}
 .in-k.in-oracion{color:var(--in-oracion-ink)}
@@ -144,9 +145,10 @@ ${dark('.in-page', '--in-faint:#363B41; --in-tint-strong:color-mix(in srgb, var(
 .in-covers{display:flex; gap:10px}
 .in-cover{flex:1; aspect-ratio:3/4.2; border-radius:6px 12px 12px 6px; padding:12px 10px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:var(--shadow-card), inset 3px 0 0 rgba(255,255,255,.18); color:#fff; font:450 .9375rem/1.1 var(--lk-serif); letter-spacing:-.01em; min-width:0}
 .in-cover small{font:600 .5625rem/1.2 var(--in-sans); letter-spacing:.1em; text-transform:uppercase; opacity:.8}
-.in-cover.in-a{background:#3B6A93}
-.in-cover.in-b{background:#4C8A74}
-.in-cover.in-c{background:#8A5A6E}
+/* Los colores de las tapas de la app (materialTheme.js): Heidelberg, Westminster y las matutinas. */
+.in-cover.in-a{background:#1F3B2D}
+.in-cover.in-b{background:#1B2944}
+.in-cover.in-c{background:#C27B2E; color:#2A1907}
 .in-avatars{display:flex; align-items:center}
 .in-avatars i{width:40px; height:40px; border-radius:50%; margin-left:-10px; border:3px solid var(--surface); display:grid; place-items:center; font:700 .8125rem/1 var(--in-sans); font-style:normal; color:#fff}
 .in-avatars i:first-child{margin-left:0}

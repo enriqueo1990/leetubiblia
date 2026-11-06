@@ -57,8 +57,8 @@ test('initialAuthStep: sin landing, bienvenida de siempre', () => {
   assert.equal(initialAuthStep({ ...base, entry: entry('?from=privacidad') }), 'welcome')
 })
 
-test('initialAuthStep: desde info, lideres o ayuda se saltea la bienvenida', () => {
-  for (const from of ['info', 'lideres', 'ayuda']) {
+test('initialAuthStep: desde info, lideres, biblioteca o ayuda se saltea la bienvenida', () => {
+  for (const from of ['info', 'lideres', 'biblioteca', 'ayuda']) {
     assert.equal(initialAuthStep({ ...base, entry: entry(`?from=${from}`) }), 'explore', from)
   }
 })

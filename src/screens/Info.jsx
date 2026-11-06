@@ -257,6 +257,9 @@ export default function Info() {
                   </div>
                   <h3>Para leer despacio</h3>
                   <p>Catecismos, confesiones y las lecturas matutinas de Spurgeon.</p>
+                  <Link to="/biblioteca" className="lk-textlink in-tile-link">
+                    Conocé la Biblioteca
+                  </Link>
                 </div>
                 <div className="in-covers in-viz" aria-hidden="true">
                   <div className="in-cover in-a"><small>Catecismo</small>Heidelberg</div>

@@ -1,17 +1,17 @@
-// Cómo se llega a la app desde las páginas públicas (/info, /lideres, /ayuda,
-// /privacidad). Los botones «Empezar gratis» / «Entrar» apuntan a `/?from=<página>`:
+// Cómo se llega a la app desde las páginas públicas (/info, /lideres, /biblioteca,
+// /ayuda, /privacidad). Los botones «Empezar gratis» / «Entrar» apuntan a `/?from=<página>`:
 //   - `from` se suma al embudo (ob_welcome) para saber qué página convierte;
-//   - quien viene de /info, /lideres o /ayuda ya decidió empezar: se salta la
+//   - quien viene de /info, /lideres, /biblioteca o /ayuda ya decidió empezar: se salta la
 //     bienvenida genérica y se va al siguiente paso útil (ver initialAuthStep);
 //   - `intent=lider` (o venir de /lideres) guarda que la persona quiere crear un
 //     grupo: al terminar el alta, la app la lleva a Grupos con la hoja de crear
 //     abierta en lugar de dejarla en Hoy.
 // Todo acá es lógica pura (sin window ni React) para poder probarla.
 
-export const LANDING_FROMS = ['info', 'lideres', 'ayuda', 'privacidad']
+export const LANDING_FROMS = ['info', 'lideres', 'biblioteca', 'ayuda', 'privacidad']
 // Desde estas se salta la bienvenida (privacidad es un documento: ahí la gente
 // viene a leer, no a decidir, y ve la bienvenida normal).
-const SKIP_WELCOME_FROM = ['info', 'lideres', 'ayuda']
+const SKIP_WELCOME_FROM = ['info', 'lideres', 'biblioteca', 'ayuda']
 
 export function parseLandingEntry(search) {
   let params

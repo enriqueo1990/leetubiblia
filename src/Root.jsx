@@ -6,11 +6,13 @@ const PrivateRoot = lazy(() => import('./PrivateRoot.jsx'))
 const Info = lazy(() => import('./screens/Info.jsx'))
 const Ayuda = lazy(() => import('./screens/Ayuda.jsx'))
 const Lideres = lazy(() => import('./screens/Lideres.jsx'))
+const Biblioteca = lazy(() => import('./screens/Biblioteca.jsx'))
 const Privacidad = lazy(() => import('./screens/Privacidad.jsx'))
 
 const PUBLIC_ROUTES = {
   '/info': Info,
   '/lideres': Lideres,
+  '/biblioteca': Biblioteca,
   '/ayuda': Ayuda,
   '/privacidad': Privacidad,
   // Compatibilidad client-side; Netlify hace el 301 cuando la navegación es fría.

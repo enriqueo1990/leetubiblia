@@ -7,6 +7,7 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import { LANDING_FONT_ROMAN } from './src/screens/landingSystem.js'
 import { INFO_META, faqJsonLd } from './src/screens/infoCopy.js'
+import { BIBLIOTECA_META, BIBLIOTECA_URL, bibliotecaFaqJsonLd } from './src/screens/bibliotecaCopy.js'
 
 // Meta social propia de cada landing pública (ver src/screens/Info.jsx y
 // GruposDiscipulado.jsx). El sitio es un SPA con las meta OG estáticas en index.html;
@@ -53,6 +54,19 @@ const LANDING_PAGES = [
     url: 'https://leetubiblia.com/lideres',
     image: 'https://leetubiblia.com/og-lideres.png',
     alt: 'Lee Tu Biblia — para líderes de grupos de discipulado',
+  },
+  {
+    file: 'biblioteca/index.html',
+    route: '/biblioteca',
+    screen: 'Biblioteca',
+    // Título, descripción y FAQ vienen de bibliotecaCopy.js: la misma fuente que
+    // usa Biblioteca.jsx, así el FAQPage coincide palabra por palabra con lo visible.
+    title: BIBLIOTECA_META.title,
+    description: BIBLIOTECA_META.description,
+    url: BIBLIOTECA_URL,
+    image: 'https://leetubiblia.com/og-biblioteca.png',
+    alt: 'Lee Tu Biblia — Biblioteca: para leer despacio, además de tu Biblia',
+    jsonLd: bibliotecaFaqJsonLd,
   },
   {
     file: 'ayuda/index.html',

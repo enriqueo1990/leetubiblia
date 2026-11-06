@@ -30,9 +30,9 @@ Lee Tu Biblia es una PWA (aplicación web instalable) que funciona con o sin con
 - **40 días con Dios** — lecturas breves para crecer en la fe (40 días).
 - **Oficio Diario (Libro de Oración Común)** — leccionario litúrgico de dos años (861 días).
 
-## Materiales de lectura opcionales
+## Biblioteca: materiales de lectura opcionales
 
-Catecismos y confesiones históricas para acompañar el tiempo de lectura, cada uno con su introducción: Credos de la iglesia antigua (Apostólico, Niceno, Calcedonia y Atanasiano), Confesión Belga, Catecismo de Heidelberg, Cánones de Dort, Catecismo Menor de Westminster, Confesión Bautista de 1689, Catecismo de Keach, Catecismo de Spurgeon y Catecismo para Niños de Spurgeon; y un devocional para cada mañana del año: las Lecturas matutinas de Spurgeon.
+Diez lecturas históricas para sumar al día, además de la lectura bíblica, cada una con su introducción: Credos de la iglesia antigua (Apostólico, Niceno, Calcedonia y Atanasiano), Confesión Belga, Catecismo de Heidelberg, Cánones de Dort, Catecismo Menor de Westminster, Confesión Bautista de 1689, Catecismo de Keach, Catecismo de Spurgeon y Catecismo para Niños de Spurgeon; y un devocional para cada mañana del año: las Lecturas matutinas de Spurgeon. Son textos de dominio público traducidos al español. Ninguno viene activado: cada persona agrega a su estante los que quiere y aparecen en Hoy, junto a su lectura. Se avanza a ritmo propio (una lectura por día, varias de una vez o una pausa), sin calendario ni atraso, salvo las matutinas, que van por fecha. Los pasajes de apoyo se muestran solo como referencias que abren en la app de Biblia. Los materiales están en español aunque la app se use en otro idioma.
 
 ## Para quién es
 
@@ -41,6 +41,7 @@ Personas que quieren leer su Biblia con constancia, y líderes de grupos de disc
 ## Páginas
 
 - [Qué es la app](https://leetubiblia.com/info): la puerta principal —qué es y cómo es un día con la app, qué incluye (planes, racha, diario, oración, materiales, grupos), lo que la app no hace, cómo instalarla y preguntas frecuentes—.
+- [Biblioteca](https://leetubiblia.com/biblioteca): las diez lecturas adicionales —credos, catecismos, confesiones y un devocional— cómo funcionan en la app (estante, ritmo propio, sin atraso), para quién son, lo que no hacen y preguntas frecuentes.
 - [Para líderes de grupos de discipulado](https://leetubiblia.com/lideres): por qué y para qué usar la app con un grupo, con capturas reales —paso a paso: un plan común (como plan principal o lectura adicional), la lectura en el Hoy de cada uno, el pulso del grupo, la oración compartida y las vistas del líder—.
 - [Guía completa](https://leetubiblia.com/ayuda): manual/referencia detallado, función por función, con los trece planes y los materiales.
 - [Privacidad](https://leetubiblia.com/privacidad): qué datos se guardan y para qué, privado por defecto, opt-in en grupos, sin publicidad ni venta de datos, y borrado total de la cuenta desde la app.

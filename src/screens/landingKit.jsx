@@ -203,10 +203,11 @@ export function SubTitle({ children, className = '' }) {
   return <h3 className={`lk-h4 ${className}`}>{children}</h3>
 }
 
-// Navegación del sitio: las 4 páginas hermanas, en orden. Compartida por header
+// Navegación del sitio: las páginas hermanas, en orden. Compartida por header
 // y footer para que sean UNA sola fuente de verdad.
 const SITE_NAV = [
   ['/info', 'Inicio'],
+  ['/biblioteca', 'Biblioteca'],
   ['/lideres', 'Para líderes'],
   ['/ayuda', 'Ayuda'],
   ['/privacidad', 'Privacidad'],
@@ -508,6 +509,7 @@ export function LandingFooter({ current }) {
               <p className="lk-foot-h" id="lkf-app">La app</p>
               <ul className="lk-foot-list" aria-labelledby="lkf-app">
                 {link('/info', 'Inicio')}
+                {link('/biblioteca', 'Biblioteca')}
                 {link('/ayuda', 'Ayuda')}
                 <li>
                   <AppLink page={current} where="pie-entrar">

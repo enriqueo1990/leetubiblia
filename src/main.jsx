@@ -34,7 +34,7 @@ const app = (
   </React.StrictMode>
 )
 
-// Las landings públicas (/info, /lideres, /ayuda, /privacidad) se emiten con su
+// Las landings públicas (/info, /lideres, /biblioteca, /ayuda, /privacidad) se emiten con su
 // HTML ya dentro de #root (data-prerendered, ver vite.config.js): React lo
 // hidrata en lugar de reemplazarlo, así no hay parpadeo. El resto de rutas —y
 // cualquier carga que llegue con el #root vacío, p. ej. el index.html de respaldo

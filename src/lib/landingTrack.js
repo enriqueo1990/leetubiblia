@@ -1,4 +1,4 @@
-// Medición de las páginas públicas (/info, /lideres, /ayuda, /privacidad):
+// Medición de las páginas públicas (/info, /lideres, /biblioteca, /ayuda, /privacidad):
 //   landing_view  → se abrió la página (una vez por dispositivo y página)
 //   landing_cta   → se tocó «Empezar gratis» / «Entrar» (con la ubicación del botón)
 // Eventos de la migración 0039, en la misma tabla que el embudo (boot_diagnostics).
@@ -19,7 +19,7 @@
 
 import { deviceId } from './diag.js'
 
-export const LANDING_PAGES = ['info', 'lideres', 'ayuda', 'privacidad']
+export const LANDING_PAGES = ['info', 'lideres', 'biblioteca', 'ayuda', 'privacidad']
 
 const SEEN_KEY = 'ltb.diag.landings' // páginas cuya apertura ya se registró en este dispositivo
 const OFF_KEY = 'ltb.diag.landingOff' // hasta cuándo no insistir (el servidor rechazó los eventos)
