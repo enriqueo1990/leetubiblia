@@ -639,6 +639,7 @@
   "reflectionSheet.confirmDeleteTitle": "Delete this note?",
   "reflectionSheet.editHint": "You can edit it today. Tomorrow it's saved as is.",
   "reflectionSheet.shareImage": "Share as an image",
+  "reflectionSheet.shareNeedsSave": "Save your note to share it",
 
   "hoy.alsoToday": "Also today",
   "myTime.section": "Your way of reading",

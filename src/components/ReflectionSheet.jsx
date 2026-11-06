@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import Sheet from './Sheet.jsx'
 import ShareImageSheet from './ShareImageSheet.jsx'
 import { ShareIcon } from './icons.jsx'
@@ -47,8 +47,12 @@ export default function ReflectionSheet({
   const [confirmDelete, setConfirmDelete] = useState(false)
   const dirty = editable && body.trim() !== initialBody.trim()
   const canSave = editable && body.trim().length > 0 && dirty && !saving && !deleting
-  // Compartible = hay nota guardada y lo que se ve es exactamente eso.
-  const canShare = !!shareData && !!initialBody && !dirty
+  // Hay nota guardada y se puede compartir; pero solo lo que se ve es exactamente
+  // lo guardado. Con cambios sin guardar la fila queda, deshabilitada y con el motivo
+  // a la vista (si se esfumara, la hoja se encogería mientras se escribe).
+  const hasShare = !!shareData && !!initialBody
+  const canShare = hasShare && !dirty
+  const shareHintId = useId()
   const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s)
 
   async function handleShare(variant, format) {
@@ -118,19 +122,27 @@ export default function ReflectionSheet({
     )
   }
 
-  const shareButton = canShare && (
-    <button
-      type="button"
-      onClick={() => {
-        setSnap(shareData)
-        setShareOpen(true)
-      }}
-      disabled={sharing}
-      className="flex min-h-11 w-full items-center justify-center gap-2 text-[14px] font-semibold disabled:opacity-50"
-      style={{ color: 'var(--accent-ink)' }}
-    >
-      <ShareIcon size={16} /> {t('reflectionSheet.shareImage')}
-    </button>
+  const shareButton = hasShare && (
+    <>
+      <button
+        type="button"
+        onClick={() => {
+          setSnap(shareData)
+          setShareOpen(true)
+        }}
+        disabled={!canShare || sharing}
+        aria-describedby={dirty ? shareHintId : undefined}
+        className="flex min-h-11 w-full items-center justify-center gap-2 text-[14px] font-semibold disabled:opacity-50"
+        style={{ color: 'var(--accent-ink)' }}
+      >
+        <ShareIcon size={16} /> {t('reflectionSheet.shareImage')}
+      </button>
+      {dirty && (
+        <p id={shareHintId} className="text-center text-[12px] text-ink-soft">
+          {t('reflectionSheet.shareNeedsSave')}
+        </p>
+      )}
+    </>
   )
 
   return (
