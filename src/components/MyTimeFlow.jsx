@@ -159,7 +159,7 @@ export default function MyTimeFlow({
       <>
         {kicker(t('myTime.read.kicker'))}
         {title(t('myTime.read.title'))}
-        <div className="mt-5 space-y-1">
+        <div className="mt-5">
           <PassageList refs={refs} locale={locale} provider={bibleProvider} externalHint={t('hoy.externalBibleHint')} />
         </div>
         <p className="mt-5 text-[16px] leading-relaxed text-ink-soft">{t('myTime.read.text')}</p>

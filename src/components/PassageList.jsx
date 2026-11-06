@@ -12,7 +12,10 @@ export default function PassageList({ refs, locale, provider, externalHint }) {
   useEffect(() => {
     ensureBrandFont()
   }, [])
-  const displayClass = refs.length >= 4 ? 'text-display-sm' : 'text-display'
+  // Cada pasaje es la puerta: con la display chica (≥4) la línea mide 37 px, así
+  // que el relleno vertical lleva el blanco de toque a 45 px (los grandes ya
+  // pasan de 44). El contenedor no pone espacio entre ellos: lo ponen estos py.
+  const displayClass = refs.length >= 4 ? 'text-display-sm py-1' : 'text-display py-0.5'
   return refs.map((ref, i) => {
     const url = passageUrl(ref, locale, provider)
     const label = bookLabel(ref, locale)

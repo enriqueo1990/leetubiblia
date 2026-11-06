@@ -661,8 +661,8 @@ export default function Hoy() {
         <>
         <div className="card mt-3 px-4 pb-1 pt-3.5">
           {r.plan && (
-            <Link to="/lecturas" className="block min-w-0">
-              <span className="flex items-center gap-1">
+            <Link to="/lecturas" className="-my-2.5 flex min-h-11 min-w-0 items-center py-2.5">
+              <span className="flex w-full min-w-0 items-center gap-1">
                 <span className="line-clamp-2 text-[17px] font-semibold leading-snug text-ink">
                   {planName(t, r.plan)}
                 </span>
@@ -694,7 +694,7 @@ export default function Hoy() {
           )}
           {/* Los pasajes siempre a la vista, leídos o no: son la Palabra del día
               y abrirlos de nuevo no debería costar un toque. */}
-          <div className="mt-4 space-y-1 pb-2">
+          <div className="mt-4 pb-2">
           {viewingAhead && aheadLoading ? (
             <SkeletonPassages />
           ) : (

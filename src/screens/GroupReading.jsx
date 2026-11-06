@@ -113,7 +113,7 @@ export default function GroupReading() {
         <p className="mt-8 text-[15px] text-ink-soft">{t('groupDetail.planFinished')}</p>
       ) : (
         // Los pasajes son la página, como en Hoy: cada referencia abre su capítulo.
-        <div className="mt-9 space-y-1">
+        <div className="mt-9">
           <PassageList
             refs={data.refs}
             locale={locale}
