@@ -35,6 +35,7 @@ export default function Layout() {
       <div className={focusMode ? '' : 'lg:pl-[250px]'}>
         <main
           key={pathname}
+          data-focus={focusMode ? '' : undefined}
           className={`screen-enter mx-auto w-full max-w-content px-6 ${managementWide ? 'lg:max-w-[1040px]' : 'lg:max-w-content-wide'}`}
           style={{
             paddingTop: 'max(env(safe-area-inset-top), 16px)',
