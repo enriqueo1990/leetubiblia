@@ -199,6 +199,12 @@ export default function OrarAhora() {
     setIdx(0)
     setPhase('groups')
   }
+  // «Por hoy no»: tus pedidos ya los oraste, así que cierra con el ✦ (en versión
+  // quieta, sin intercesiones) en lugar de salir sin cierre.
+  function skipGroups() {
+    setIdx(groupDeck.length)
+    setPhase('groups')
+  }
 
   if (askGroups) {
     return (
@@ -235,7 +241,7 @@ export default function OrarAhora() {
             <button type="button" onClick={startGroupPrayer} className="btn btn-primary">
               {t('orar.groupsPrompt.primary')}
             </button>
-            <button type="button" onClick={close} className="btn btn-secondary">
+            <button type="button" onClick={skipGroups} className="btn btn-secondary">
               {t('orar.groupsPrompt.secondary')}
             </button>
           </div>
