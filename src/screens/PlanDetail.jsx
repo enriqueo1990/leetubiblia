@@ -5,7 +5,8 @@ import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { bookLabel } from '../i18n/books.js'
 import BackLink from '../components/BackLink.jsx'
-import { getPlan, getPlanDays, startDateForDay, todayLocalISO, markDaysRead } from '../lib/db.js'
+import { getPlan, getPlanDays, getCompletionMap, startDateForDay, todayLocalISO, markDaysRead } from '../lib/db.js'
+import { firstUnreadDay } from '../lib/dateMath.js'
 import { planName, planDescription, durationLabel } from '../lib/planLabels.js'
 import { useReading } from '../hooks/useReading.js'
 import ResumeFromDay from '../components/ResumeFromDay.jsx'
@@ -34,6 +35,8 @@ export default function PlanDetail() {
   const [resumeDay, setResumeDay] = useState(null)
   const [confirm, setConfirm] = useState(false)
   const [saving, setSaving] = useState(false)
+  const [checking, setChecking] = useState(false) // mirando si el plan ya tiene avance
+  const [returnDay, setReturnDay] = useState(null) // día donde retomás si ya habías leído este plan
   const [saveFailed, setSaveFailed] = useState(false) // no se pudo activar el plan
   const [previousFailed, setPreviousFailed] = useState(false) // activó, pero no marcó 1..N−1
   const [jumpInput, setJumpInput] = useState('')
@@ -147,11 +150,26 @@ export default function PlanDetail() {
     }, 0)
   }
 
-  function onActivateClick() {
+  async function onActivateClick() {
     if (isActive) return navigate('/')
     // Si ya hay otro plan activo, confirmar el reinicio.
-    if (profile?.active_plan_id) setConfirm(true)
-    else activate()
+    if (!profile?.active_plan_id) return activate()
+    // El avance se guarda por plan: si este ya tenía días leídos, Hoy ancla en el
+    // primer día sin leer, no en el 1. El diálogo tiene que decir lo que va a pasar.
+    let day = null
+    if (!resumeDay && user) {
+      setChecking(true)
+      try {
+        const done = await getCompletionMap(user.id, planId)
+        const next = firstUnreadDay(done, duration)
+        if (done.size > 0 && next <= duration) day = next
+      } catch {
+        // Sin saber el avance, el diálogo cae al texto de siempre.
+      }
+      setChecking(false)
+    }
+    setReturnDay(day)
+    setConfirm(true)
   }
 
   return (
@@ -183,8 +201,8 @@ export default function PlanDetail() {
       <button
         type="button"
         onClick={onActivateClick}
-        disabled={saving}
-        aria-busy={saving}
+        disabled={saving || checking}
+        aria-busy={saving || checking}
         className={`btn mt-5 ${isActive ? 'btn-secondary' : 'btn-primary'}`}
       >
         {isActive ? t('planes.goToday') : saving ? t('planes.activating') : t('planes.useThisPlan')}
@@ -291,7 +309,9 @@ export default function PlanDetail() {
           message={
             resumeDay
               ? t('planes.changeMsgResume', { day: resumeDay })
-              : t('planes.changeMsgNew')
+              : returnDay
+                ? t('planes.changeMsgReturn', { day: returnDay })
+                : t('planes.changeMsgNew')
           }
           confirmLabel={saving ? '…' : t('planes.change')}
           busy={saving}

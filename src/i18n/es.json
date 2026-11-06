@@ -514,6 +514,7 @@
   "planes.changeTitle": "¿Cambiar a {name}?",
   "planes.changeMsgResume": "El plan nuevo arranca desde el día {day}. Tu progreso anterior se guarda aparte.",
   "planes.changeMsgNew": "El plan nuevo arranca desde el día 1. Tu progreso anterior se guarda aparte.",
+  "planes.changeMsgReturn": "Retomás donde lo dejaste: día {day}. Tu progreso del plan actual se guarda aparte.",
   "planes.change": "Cambiar",
 
   "grupos.createTitle": "Crear grupo",

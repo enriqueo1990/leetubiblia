@@ -514,6 +514,7 @@
   "planes.changeTitle": "Switch to {name}?",
   "planes.changeMsgResume": "The new plan starts from day {day}. Your previous progress is saved separately.",
   "planes.changeMsgNew": "The new plan starts from day 1. Your previous progress is saved separately.",
+  "planes.changeMsgReturn": "You'll pick up where you left off: day {day}. Your current plan's progress is saved separately.",
   "planes.change": "Switch",
 
   "grupos.createTitle": "Create group",
