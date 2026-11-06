@@ -501,6 +501,7 @@ export default function GroupDetail() {
             iShare={iShare}
             readMap={readMap}
             onKick={(m) => setConfirm({ type: 'kick', member: m })}
+            onInvite={() => setInviteOpen(true)}
           />
         </div>
 

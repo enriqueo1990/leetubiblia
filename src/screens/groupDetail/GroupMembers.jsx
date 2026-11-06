@@ -7,7 +7,7 @@ import SectionLabel from '../../components/SectionLabel.jsx'
 // Miembros — la gente, con su lectura (cuando compartís). Solo señalamos lo
 // positivo: quien leyó hoy. El resto no muestra nada — nada de "no leyó" que
 // suene a reproche. Recíproco: el chip solo aparece si vos también compartís.
-export default function GroupMembers({ members, isOwner, iShare, readMap, onKick }) {
+export default function GroupMembers({ members, isOwner, iShare, readMap, onKick, onInvite }) {
   const { t } = usePreferences()
   const { user } = useAuth()
 
@@ -64,6 +64,19 @@ export default function GroupMembers({ members, isOwner, iShare, readMap, onKick
             </li>
           )
         })}
+        {/* Un grupo de una persona no sirve: la puerta para invitar, a la vista. */}
+        {members.length === 1 && (
+          <li>
+            <button
+              type="button"
+              onClick={onInvite}
+              className="flex min-h-11 w-full items-center px-4 py-3 text-left text-[15px] font-semibold"
+              style={{ color: 'var(--accent-ink)' }}
+            >
+              {t('groupDetail.inviteFirst')} ›
+            </button>
+          </li>
+        )}
       </ul>
     </>
   )
