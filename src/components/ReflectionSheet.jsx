@@ -33,6 +33,10 @@ export default function ReflectionSheet({
   const { t } = usePreferences()
   const [body, setBody] = useState(initialBody)
   const [shareOpen, setShareOpen] = useState(false)
+  // Foto fija de shareData al abrir el compositor: el padre arma un objeto nuevo en
+  // cada render y, si ShareImageSheet lo viera cambiar, descartaría el video ya
+  // preparado (ver F6-01). Mismo patrón que `shareSnap` en MaterialReader.
+  const [snap, setSnap] = useState(null)
   const [sharing, setSharing] = useState(false)
   const [shareError, setShareError] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -47,12 +51,12 @@ export default function ReflectionSheet({
   const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s)
 
   async function handleShare(variant, format) {
-    if (sharing || !shareData) return
+    if (sharing || !snap) return
     setShareOpen(false)
     setSharing(true)
     setShareError(false)
     try {
-      await shareCover({ ...shareData, variant, format, text: t('shareImage.fromApp', { url: shareUrl('nota') }) })
+      await shareCover({ ...snap, variant, format, text: t('shareImage.fromApp', { url: shareUrl('nota') }) })
     } catch {
       setShareError(true)
     } finally {
@@ -65,7 +69,7 @@ export default function ReflectionSheet({
     setShareError(false)
     try {
       await shareOrDownload(
-        [{ blob, filename: (shareData.filename ?? 'mi-nota.png').replace(/\.png$/, '-historia.mp4') }],
+        [{ blob, filename: (snap.filename ?? 'mi-nota.png').replace(/\.png$/, '-historia.mp4') }],
         t('shareImage.fromApp', { url: shareUrl('nota') }),
       )
     } catch {
@@ -102,10 +106,10 @@ export default function ReflectionSheet({
 
   // El compositor reemplaza a la hoja de la nota (nunca dos sheets apilados);
   // cancelar vuelve a la nota.
-  if (shareOpen && shareData) {
+  if (shareOpen && snap) {
     return (
       <ShareImageSheet
-        data={shareData}
+        data={snap}
         onShare={handleShare}
         onShareVideo={handleShareVideo}
         onCancel={() => setShareOpen(false)}
@@ -116,7 +120,10 @@ export default function ReflectionSheet({
   const shareButton = canShare && (
     <button
       type="button"
-      onClick={() => setShareOpen(true)}
+      onClick={() => {
+        setSnap(shareData)
+        setShareOpen(true)
+      }}
       disabled={sharing}
       className="flex min-h-11 w-full items-center justify-center gap-2 text-[14px] font-semibold disabled:opacity-50"
       style={{ color: 'var(--accent-ink)' }}
