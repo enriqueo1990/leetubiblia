@@ -1,5 +1,6 @@
 import { BookIcon, HeartIcon } from '../../components/icons.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
+import SectionLabel from '../../components/SectionLabel.jsx'
 
 // HOY — el pulso del grupo: quién leyó y cuántos pedidos activos hay.
 export default function GroupPulse({ iShare, onAskShare, iRead = false, readCount, prayingCount, prayersCount }) {
@@ -10,9 +11,9 @@ export default function GroupPulse({ iShare, onAskShare, iRead = false, readCoun
       className="mt-5 rounded-card p-4"
       style={{ backgroundColor: 'var(--accent-tint)', border: '1px solid var(--accent)' }}
     >
-      <p className="text-[12px] font-semibold uppercase tracking-wide" style={{ color: 'var(--accent-ink)' }}>
+      <SectionLabel inside accent className="mb-0">
         {t('groupDetail.today')}
-      </p>
+      </SectionLabel>
       {iShare ? (
         <div className="mt-2.5 flex items-center gap-2.5 text-ink">
           <span style={{ color: 'var(--accent-ink)' }}>

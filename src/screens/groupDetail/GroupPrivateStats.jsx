@@ -2,6 +2,7 @@ import { LockIcon } from '../../components/icons.jsx'
 import { useAuth } from '../../lib/auth.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
 import StatTile from '../../components/StatTile.jsx'
+import SectionLabel from '../../components/SectionLabel.jsx'
 
 // Lo privado del líder en UNA sola card con separador interno (resumen +
 // semana): dos cajas gemelas apiladas eran ritmo monótono. Los miembros nunca
@@ -25,9 +26,7 @@ export default function GroupPrivateStats({ stats, weekRows, answeredPct }) {
         <div className="p-5">
           <div className="flex items-center gap-1.5 text-ink-soft">
             <LockIcon size={13} />
-            <span className="text-[12px] font-semibold uppercase tracking-wide">
-              {t('groupDetail.summaryPrivate')}
-            </span>
+            <SectionLabel inside className="mb-0">{t('groupDetail.summaryPrivate')}</SectionLabel>
           </div>
           <div className="mt-4 flex">
             <StatTile bare accent value={stats.active} label={t('groupDetail.statActive')} />
@@ -46,9 +45,9 @@ export default function GroupPrivateStats({ stats, weekRows, answeredPct }) {
           {/* «Solo vos lo ves» una sola vez por tarjeta: el primer bloque lo dice. */}
           <div className="flex items-center gap-1.5 text-ink-soft">
             {!stats && <LockIcon size={13} />}
-            <span className="text-[12px] font-semibold uppercase tracking-wide">
+            <SectionLabel inside className="mb-0">
               {stats ? t('groupDetail.weekLabel') : t('groupDetail.weekPrivate')}
-            </span>
+            </SectionLabel>
           </div>
           <div className="mt-4 space-y-2.5">
             {/* Header con la letra del día real de cada columna; "hoy" en acento. */}

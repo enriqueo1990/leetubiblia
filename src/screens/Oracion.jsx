@@ -12,6 +12,7 @@ import { usePreferences } from '../lib/preferences.jsx'
 import { fmtDate } from '../i18n/dates.js'
 import { useOnlineStatus } from '../hooks/useOnlineStatus.js'
 import { getMyPrayers, getGroupPrayers, getMyGroups, getPrayersToReview, markPrayerReviewed } from '../lib/db.js'
+import SectionLabel from '../components/SectionLabel.jsx'
 
 // Oración (documento maestro §5.4, README pantalla 4).
 
@@ -196,9 +197,7 @@ export default function Oracion() {
           {/* Pedidos propios que conviene volver a sostener o actualizar. */}
           {toReview.length > 0 && (
             <div className="mb-6">
-              <h2 className="mb-2 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
-                {t('oracion.toReview')}
-              </h2>
+              <SectionLabel>{t('oracion.toReview')}</SectionLabel>
               <div className="card divide-y divide-hairline">
                 {toReview.map((p) => {
                   const dias = daysSince(p.last_reviewed_at ?? p.created_at)
@@ -266,9 +265,7 @@ export default function Oracion() {
           </ul>
           {myAnswered.length > 0 && (
             <>
-              <h2 className="mb-2 mt-6 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
-                {t('oracion.answeredSection')}
-              </h2>
+              <SectionLabel className="mt-6">{t('oracion.answeredSection')}</SectionLabel>
               <ul className="space-y-3">
                 {myAnswered.map((p) => (
                   <PrayerItem
@@ -307,9 +304,7 @@ export default function Oracion() {
             const answered = items.filter((p) => p.status === 'answered')
             return (
               <div key={name} className="mb-6">
-                <h2 className="mb-2 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
-                  {name}
-                </h2>
+                <SectionLabel>{name}</SectionLabel>
                 <ul className="space-y-3">
                   {[...active, ...answered].map((p) => (
                     <PrayerItem

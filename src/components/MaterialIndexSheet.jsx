@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import Sheet from './Sheet.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
+import SectionLabel from './SectionLabel.jsx'
 
 // Índice de un material (catecismo): los bloques temáticos con sus preguntas, en el
 // lenguaje de listas agrupadas de la app (mismo patrón que Ajustes: etiqueta de
@@ -59,9 +60,7 @@ export default function MaterialIndexSheet({ content, frontier, current, numberO
       {blocks.map((b) => (
         <div key={b.title ?? 'bloque'} className="mb-6">
           {b.title && (
-            <p className="mb-2 px-1 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-              {b.title}
-            </p>
+            <SectionLabel>{b.title}</SectionLabel>
           )}
           <div className="card divide-y divide-hairline">
             {b.items.map((e) => {

@@ -9,6 +9,7 @@ import { DOOR_ORDER, planDoor } from '../lib/planCatalog.js'
 import { RowChevron } from '../components/icons.jsx'
 import RetryError from '../components/RetryError.jsx'
 import { SkeletonCards } from '../components/Skeleton.jsx'
+import SectionLabel from '../components/SectionLabel.jsx'
 
 // Selección / cambio de plan (documento maestro §5.3, README pantalla 3).
 // Cada tarjeta abre el detalle del plan (/planes/:id), donde se ve el listado
@@ -81,17 +82,13 @@ export default function Planes() {
         {error && <RetryError message={t('planes.loadError')} onRetry={load} />}
         {activePlan && (
           <section>
-            <h2 className="mb-2 px-1 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
-              {t('planes.yourPlan')}
-            </h2>
+            <SectionLabel>{t('planes.yourPlan')}</SectionLabel>
             {planCard(activePlan, true)}
           </section>
         )}
         {sections.filter((section) => section.plans.length > 0).map((section) => (
           <section key={section.key} className="pt-3">
-            <h2 className="mb-2 px-1 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
-              {section.label}
-            </h2>
+            <SectionLabel>{section.label}</SectionLabel>
             <div className="space-y-3">{section.plans.map((p) => planCard(p))}</div>
           </section>
         ))}

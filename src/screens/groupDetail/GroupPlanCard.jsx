@@ -3,6 +3,7 @@ import { usePreferences } from '../../lib/preferences.jsx'
 import { planName } from '../../lib/planLabels.js'
 import RetryError from '../../components/RetryError.jsx'
 import InlineError from '../../components/InlineError.jsx'
+import SectionLabel from '../../components/SectionLabel.jsx'
 
 // Plan del grupo — leer lo mismo, juntos. Los miembros lo ven cuando existe;
 // el owner además tiene la puerta para elegirlo/cambiarlo.
@@ -30,9 +31,7 @@ export default function GroupPlanCard({
   if (hasPlan && !planInfo) {
     return (
       <>
-        <h2 className="mt-7 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
-          {t('groupDetail.groupPlan')}
-        </h2>
+        <SectionLabel className="mt-7 mb-0">{t('groupDetail.groupPlan')}</SectionLabel>
         <RetryError message={t('groupDetail.planLoadError')} onRetry={onRetryPlan} />
       </>
     )
@@ -42,21 +41,23 @@ export default function GroupPlanCard({
 
   return (
     <>
-      <div className="mt-7 flex items-center justify-between">
-        <h2 className="text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
-          {t('groupDetail.groupPlan')}
-        </h2>
-        {isOwner && planInfo && (
-          <button
-            type="button"
-            onClick={onChangePlan}
-            className="-mr-2 inline-flex min-h-11 items-center px-2 text-[13px] font-medium"
-            style={{ color: 'var(--accent-ink)' }}
-          >
-            {t('groupDetail.changePlan')}
-          </button>
-        )}
-      </div>
+      <SectionLabel
+        className="mt-7 mb-0"
+        action={
+          isOwner && planInfo ? (
+            <button
+              type="button"
+              onClick={onChangePlan}
+              className="-mr-2 inline-flex min-h-11 items-center px-2 text-[13px] font-medium"
+              style={{ color: 'var(--accent-ink)' }}
+            >
+              {t('groupDetail.changePlan')}
+            </button>
+          ) : null
+        }
+      >
+        {t('groupDetail.groupPlan')}
+      </SectionLabel>
       {planInfo ? (
         <div className="card mt-3 p-4">
           <p className="text-[16px] font-semibold leading-snug text-ink">{planName(t, planInfo)}</p>

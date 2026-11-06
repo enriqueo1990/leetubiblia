@@ -3,6 +3,7 @@ import { usePreferences } from '../../lib/preferences.jsx'
 import { recordFunnel } from '../../lib/diag.js'
 import { useDonationGoal } from '../../hooks/useDonationGoal.js'
 import DonateSheet from '../../components/DonateSheet.jsx'
+import SectionLabel from '../../components/SectionLabel.jsx'
 
 // Meta de donación (tiendas) para el líder, en su zona privada al final del
 // grupo: los líderes son quienes más aprovechan la app. Quieta, sin "Ahora no":
@@ -22,9 +23,9 @@ export default function GroupGoalCard() {
     <>
       <section className="card mt-7 p-5" aria-labelledby="group-goal-title">
         {/* Sin candado: ese ícono es de los datos pastorales, no de un pedido de apoyo. */}
-        <span id="group-goal-title" className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+        <SectionLabel id="group-goal-title" inside className="mb-0">
           {t('goal.eyebrow')}
-        </span>
+        </SectionLabel>
         <p className="mt-3 text-[15px] leading-snug text-ink">{t('groupDetail.goalText')}</p>
         <button
           type="button"

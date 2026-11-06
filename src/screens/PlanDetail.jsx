@@ -15,6 +15,7 @@ import { inputStyle } from '../components/formStyles.js'
 import RetryError from '../components/RetryError.jsx'
 import InlineError from '../components/InlineError.jsx'
 import { nextCyclePatch } from '../lib/planCycle.js'
+import SectionLabel from '../components/SectionLabel.jsx'
 
 const WINDOW_SIZE = 31
 
@@ -192,30 +193,32 @@ export default function PlanDetail() {
       )}
 
       {/* Listado día-por-día */}
-      <div className="mb-2 mt-8 flex items-center justify-between px-1">
-        <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-          {t('planes.readingsPerDay')}
-        </p>
-        {/* Planes largos (M'Cheyne, Cronológico, Oficio Diario...) no se recorren
-            a mano: un salto directo al día evita scrollear cientos de filas. */}
-        {plan && plan.duration_days > 30 && (
-          <form onSubmit={jumpToDay} className="flex items-center gap-1.5">
-            <input
-              type="text"
-              inputMode="numeric"
-              value={jumpInput}
-              onChange={(e) => setJumpInput(e.target.value.replace(/[^\d]/g, ''))}
-              placeholder={t('planes.jumpPlaceholder')}
-              aria-label={t('planes.jumpToDay')}
-              className="h-11 w-20 rounded-input px-3 text-[15px] outline-none"
-              style={inputStyle}
-            />
-            <button type="submit" className="min-h-11 px-2 text-[15px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
-              {t('planes.jumpGo')}
-            </button>
-          </form>
-        )}
-      </div>
+      <SectionLabel
+        className="mt-8"
+        action={
+          /* Planes largos (M'Cheyne, Cronológico, Oficio Diario...) no se recorren
+             a mano: un salto directo al día evita scrollear cientos de filas. */
+          plan && plan.duration_days > 30 ? (
+            <form onSubmit={jumpToDay} className="flex items-center gap-1.5">
+              <input
+                type="text"
+                inputMode="numeric"
+                value={jumpInput}
+                onChange={(e) => setJumpInput(e.target.value.replace(/[^\d]/g, ''))}
+                placeholder={t('planes.jumpPlaceholder')}
+                aria-label={t('planes.jumpToDay')}
+                className="h-11 w-20 rounded-input px-3 text-[15px] outline-none"
+                style={inputStyle}
+              />
+              <button type="submit" className="min-h-11 px-2 text-[15px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
+                {t('planes.jumpGo')}
+              </button>
+            </form>
+          ) : null
+        }
+      >
+        {t('planes.readingsPerDay')}
+      </SectionLabel>
       {days === null && !loadError && <SkeletonRows count={6} />}
       {loadError && <RetryError message={t('planes.detailLoadError')} onRetry={load} />}
       {days && windowStart > 1 && (

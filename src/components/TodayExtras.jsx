@@ -10,6 +10,7 @@ import { RowChevron } from './icons.jsx'
 import BookCover from './BookCover.jsx'
 import { MATERIALS } from '../lib/materials.js'
 import { isLibraryCardSnoozed, snoozeLibraryCard, suggestedMaterials } from '../lib/libraryOffer.js'
+import SectionLabel from './SectionLabel.jsx'
 
 // La pista se descarta por usuario. La clave vieja (por dispositivo) se sigue
 // leyendo para no volver a mostrarla a quien ya la cerró.
@@ -59,9 +60,7 @@ export default function TodayExtras() {
     if (expected === 0) return null
     return (
       <div className="mt-8" aria-hidden="true">
-        <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-          {t('hoy.alsoToday')}
-        </p>
+        <SectionLabel inside>{t('hoy.alsoToday')}</SectionLabel>
         <SkeletonRows count={Math.min(expected, INLINE_LIMIT)} twoLine />
       </div>
     )
@@ -75,9 +74,7 @@ export default function TodayExtras() {
     // No ofrecer la pista de materiales a quien quizá sí tiene lecturas: avisar.
     return (
       <div className="mt-8">
-        <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-          {t('hoy.alsoToday')}
-        </p>
+        <SectionLabel inside className="mb-0">{t('hoy.alsoToday')}</SectionLabel>
         {errorBlock}
       </div>
     )
@@ -92,7 +89,7 @@ export default function TodayExtras() {
     if (!profile || cardSnoozed || suggested.length === 0) return null
     return (
       <div className="mt-8">
-        <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">{t('library.cardLabel')}</p>
+        <SectionLabel inside>{t('library.cardLabel')}</SectionLabel>
         <div className="card p-4">
           <Link to="/materiales" state={{ from }} className="block" aria-label={t('library.cardCta')}>
             <div className="grid grid-cols-4 gap-2.5" aria-hidden="true">
@@ -126,9 +123,7 @@ export default function TodayExtras() {
 
   return (
     <div className="mt-8">
-      <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-        {t('hoy.alsoToday')}
-      </p>
+      <SectionLabel inside>{t('hoy.alsoToday')}</SectionLabel>
       <div className="card divide-y divide-hairline">
         <TodayExtraRows rows={shown} />
         {overflow ? (

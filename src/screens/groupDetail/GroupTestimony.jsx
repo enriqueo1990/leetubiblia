@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { CheckIcon } from '../../components/icons.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
+import SectionLabel from '../../components/SectionLabel.jsx'
 
 // Testimonios — solo cuando existe el primero; una sección vacía que dice
 // "no hay nada" es ruido (el flujo para crearlos nace en la oración).
@@ -10,9 +11,7 @@ export default function GroupTestimony({ testimony, groupId }) {
 
   return (
     <>
-      <h2 className="mt-7 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
-        {t('groupDetail.testimonies')}
-      </h2>
+      <SectionLabel className="mt-7 mb-0">{t('groupDetail.testimonies')}</SectionLabel>
       <Link to={`/grupos/${groupId}/testimonios`} className="card mt-3 block p-4">
         <div className="flex items-start gap-3">
           <div

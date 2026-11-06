@@ -12,6 +12,7 @@ import InlineError from '../components/InlineError.jsx'
 import { RowChevron } from '../components/icons.jsx'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 import StatTile from '../components/StatTile.jsx'
+import SectionLabel from '../components/SectionLabel.jsx'
 
 // Progreso — sub-vista de Hoy (documento maestro §5.2, README pantalla 2).
 // Racha, % y CALENDARIO DE CONSTANCIA de las últimas 5 semanas: cada cuadrado se
@@ -131,9 +132,7 @@ export default function Progreso() {
           <div className="lg:grid lg:grid-cols-[minmax(280px,0.8fr)_minmax(0,1.2fr)] lg:items-start lg:gap-8">
           <div>
           {/* Stat cards */}
-          <h2 className="mt-5 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
-            {t('progreso.sectionConstancy')}
-          </h2>
+          <SectionLabel className="mt-5 mb-0">{t('progreso.sectionConstancy')}</SectionLabel>
           <div className="mt-3 flex gap-3">
             <div className="card flex-1 p-4">
               {r.streak > 0 ? (
@@ -163,9 +162,7 @@ export default function Progreso() {
 
           <div>
 
-          <h2 className="mt-7 text-[13px] font-semibold uppercase tracking-wide text-ink-soft lg:mt-5">
-            {t('progreso.last5weeks')}
-          </h2>
+          <SectionLabel className="mt-7 mb-0 lg:mt-5">{t('progreso.last5weeks')}</SectionLabel>
 
           {/* Header de días */}
           <div className="mt-3 grid grid-cols-7 gap-1.5">

@@ -4,6 +4,7 @@ import { CheckIcon, HeartIcon, PlusIcon } from '../../components/icons.jsx'
 import Avatars from '../../components/Avatars.jsx'
 import { useAuth } from '../../lib/auth.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
+import SectionLabel from '../../components/SectionLabel.jsx'
 
 // Oración — visible para todos, con "Orar" inline. Una sola card agrupada
 // (filas + hairlines) en vez de una card por pedido.
@@ -28,19 +29,23 @@ export default function GroupPrayers({
 
   return (
     <>
-      <div className="mt-7 flex items-center justify-between">
-        <h2 className="text-[13px] font-semibold uppercase tracking-wide text-ink-soft">{t('nav.oracion')}</h2>
-        <button
-          type="button"
-          onClick={onAddPrayer}
-          disabled={!online}
-          aria-label={t('groupDetail.sharePrayerAria')}
-          className="flex h-11 w-11 items-center justify-center rounded-full text-on-accent"
-          style={{ backgroundColor: 'var(--accent-action)', opacity: online ? 1 : 0.45 }}
-        >
-          <PlusIcon size={18} />
-        </button>
-      </div>
+      <SectionLabel
+        className="mt-7 mb-0"
+        action={
+          <button
+            type="button"
+            onClick={onAddPrayer}
+            disabled={!online}
+            aria-label={t('groupDetail.sharePrayerAria')}
+            className="-mr-1 flex h-11 w-11 items-center justify-center rounded-full text-on-accent"
+            style={{ backgroundColor: 'var(--accent-action)', opacity: online ? 1 : 0.45 }}
+          >
+            <PlusIcon size={18} />
+          </button>
+        }
+      >
+        {t('nav.oracion')}
+      </SectionLabel>
       {prayers.length === 0 ? (
         <button type="button" onClick={onAddPrayer} disabled={!online} className="card mt-3 flex w-full items-center gap-3 p-4 text-left disabled:opacity-60">
           <span

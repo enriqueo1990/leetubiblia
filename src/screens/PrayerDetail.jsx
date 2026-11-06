@@ -24,6 +24,7 @@ import { SkeletonDetail } from '../components/Skeleton.jsx'
 import { useOnlineStatus } from '../hooks/useOnlineStatus.js'
 import { inputStyle } from '../components/formStyles.js'
 import InlineError from '../components/InlineError.jsx'
+import SectionLabel from '../components/SectionLabel.jsx'
 
 // Detalle de un pedido compartido con "Estoy orando por esto" (Fase 2, F2-A).
 // Lo abren los miembros desde "De mis grupos"; el autor lo ve sin el botón pero
@@ -242,9 +243,9 @@ export default function PrayerDetail() {
 
       {data.testimony && (isAuthor || data.testimony_shared) && (
         <section className="card mt-4 px-5 py-5" aria-labelledby="testimony-title">
-          <h2 id="testimony-title" className="text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
+          <SectionLabel id="testimony-title" inside className="mb-0">
             {t('prayerDetail.testimonyHeading')}
-          </h2>
+          </SectionLabel>
           <p className="mt-2.5 whitespace-pre-line text-[16px] leading-[1.6] text-ink">{data.testimony}</p>
           {isAuthor && (
             <p className="mt-3 text-[13px] text-ink-soft">
@@ -260,9 +261,9 @@ export default function PrayerDetail() {
           la tiene: nadie más lo ve. */}
       {data.visibility !== 'private' && (
       <section className="card mt-4 p-4" aria-labelledby="praying-title">
-        <h2 id="praying-title" className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
+        <SectionLabel id="praying-title" inside className="mb-3">
           {t('nav.oracion')}
-        </h2>
+        </SectionLabel>
         <div className="flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2.5">
             {count > 0 ? (
@@ -370,9 +371,9 @@ export default function PrayerDetail() {
 
       {(updates.length > 0 || (isAuthor && data.status === 'active')) && (
         <section className="card mt-4 p-4" aria-labelledby="updates-title">
-          <h2 id="updates-title" className="text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
+          <SectionLabel id="updates-title" inside className="mb-0">
             {t('prayerDetail.updates')}
-          </h2>
+          </SectionLabel>
 
           {updates.length > 0 && (
             <ul className="mt-4 space-y-[18px]">

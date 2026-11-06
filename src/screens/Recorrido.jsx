@@ -9,6 +9,7 @@ import { SkeletonCards } from '../components/Skeleton.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import RetryError from '../components/RetryError.jsx'
 import StatTile from '../components/StatTile.jsx'
+import SectionLabel from '../components/SectionLabel.jsx'
 
 // "Tu recorrido en la Palabra" (Feature 5, parte 2): números acumulados + planes
 // terminados. Se nutre de plan_completions (logros permanentes) y de los datos
@@ -67,9 +68,7 @@ export default function Recorrido() {
         <EmptyState icon="✦" title={t('recorrido.empty.title')} text={t('recorrido.empty.text')} />
       ) : (
         <>
-          <h2 className="mt-6 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
-            {t('recorrido.sectionNumbers')}
-          </h2>
+          <SectionLabel className="mt-6 mb-0">{t('recorrido.sectionNumbers')}</SectionLabel>
           <div className="mt-3 flex gap-3">
             <StatTile
               value={stats.plansCompleted}
@@ -92,36 +91,32 @@ export default function Recorrido() {
             />
           </div>
 
+          <SectionLabel className="mt-8 mb-0">{t('recorrido.plansYouFinished')}</SectionLabel>
           {plans.length > 0 ? (
-            <>
-              <p className="mt-8 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-                {t('recorrido.plansYouFinished')}
-              </p>
-              <ul className="mt-3 space-y-3">
-                {plans.map((c) => (
-                  <li key={c.id} className="card p-4">
-                    <div className="flex items-baseline justify-between gap-3">
-                      <p className="min-w-0 flex-1 truncate text-[16px] font-semibold text-ink">
-                        {planName(t, { slug: c.plan_slug, name: c.plan_name })}
-                      </p>
-                      <span
-                        className="shrink-0 text-[12px] font-medium"
-                        style={{ color: 'var(--accent-ink)' }}
-                      >
-                        ✓ {fmtDate(c.completed_on)}
-                      </span>
-                    </div>
-                    <p className="mt-1 text-[13px] text-ink-soft">
-                      {t('recorrido.planStats', { read: c.days_read, total: c.total_days, streak: c.longest_streak })}
+            <ul className="mt-3 space-y-3">
+              {plans.map((c) => (
+                <li key={c.id} className="card p-4">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <p className="min-w-0 flex-1 truncate text-[16px] font-semibold text-ink">
+                      {planName(t, { slug: c.plan_slug, name: c.plan_name })}
                     </p>
-                  </li>
-                ))}
-              </ul>
-            </>
+                    <span
+                      className="shrink-0 text-[12px] font-medium"
+                      style={{ color: 'var(--accent-ink)' }}
+                    >
+                      ✓ {fmtDate(c.completed_on)}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-[13px] text-ink-soft">
+                    {t('recorrido.planStats', { read: c.days_read, total: c.total_days, streak: c.longest_streak })}
+                  </p>
+                </li>
+              ))}
+            </ul>
           ) : (
-            <p className="mt-8 text-[15px] leading-relaxed text-ink-soft">
-              {t('recorrido.noPlansYet')}
-            </p>
+            <div className="card mt-3 p-4">
+              <p className="text-[15px] leading-relaxed text-ink-soft">{t('recorrido.noPlansYet')}</p>
+            </div>
           )}
         </>
       )}

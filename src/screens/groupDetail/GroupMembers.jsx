@@ -2,6 +2,7 @@ import { CheckIcon, MinusIcon } from '../../components/icons.jsx'
 import UserAvatar from '../../components/UserAvatar.jsx'
 import { useAuth } from '../../lib/auth.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
+import SectionLabel from '../../components/SectionLabel.jsx'
 
 // Miembros — la gente, con su lectura (cuando compartís). Solo señalamos lo
 // positivo: quien leyó hoy. El resto no muestra nada — nada de "no leyó" que
@@ -12,9 +13,9 @@ export default function GroupMembers({ members, isOwner, iShare, readMap, onKick
 
   return (
     <>
-      <h2 className="mt-7 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
+      <SectionLabel className="mt-7 mb-0">
         {t('groupDetail.members')} · {members.length}
-      </h2>
+      </SectionLabel>
       {/* Sin esto, el líder no distingue "no leyó" de "no comparte su lectura". */}
       {iShare && <p className="mt-1 text-[13px] leading-snug text-ink-soft">{t('groupDetail.membersShareHint')}</p>}
       <ul className="mt-3 card divide-y divide-hairline">

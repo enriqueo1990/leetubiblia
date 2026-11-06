@@ -34,18 +34,11 @@ import { flushQueue, pendingCount } from '../lib/offline.js'
 import { APP_VERSION_LABEL } from '../lib/appVersion.js'
 import NameSheet from '../components/NameSheet.jsx'
 import { inputStyleOnCard } from '../components/formStyles.js'
+import SectionLabel from '../components/SectionLabel.jsx'
 
 // Ajustes (documento maestro §5.7, README pantalla 7). Acento y tema persisten en
 // profiles (vía updateProfile) además de aplicarse en vivo. Recordatorio: mejor
 // esfuerzo (sin prometer hora fija en iOS). Eliminar cuenta: borrado en cascada.
-
-function SectionLabel({ children }) {
-  return (
-    <h2 className="mb-2 mt-7 px-1 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-      {children}
-    </h2>
-  )
-}
 
 // Fila del índice de Ajustes: ícono en su baldosa, el nombre de la sección y,
 // debajo, lo que hoy tenés elegido ahí (para saber sin entrar).
@@ -578,7 +571,7 @@ export default function Ajustes() {
       {section === 'lectura' && (
         <div>
       {/* Lectura bíblica: tu plan, grande, con su avance; cambiarlo a un toque. */}
-      <SectionLabel>{t('ajustes.lectura.bible')}</SectionLabel>
+      <SectionLabel className="mt-7">{t('ajustes.lectura.bible')}</SectionLabel>
       <div className="card divide-y divide-hairline">
         {plan ? (
           <Link to={`/planes/${plan.id}`} state={{ from: fromAjustes }} className="block px-4 py-4">
@@ -616,7 +609,7 @@ export default function Ajustes() {
 
       {/* Lecturas adicionales: tus materiales como un estante de portadas, y la
           Biblioteca para sumar más. */}
-      <SectionLabel>{t('ajustes.lectura.extras')}</SectionLabel>
+      <SectionLabel className="mt-7">{t('ajustes.lectura.extras')}</SectionLabel>
       <div className="card overflow-hidden">
         {shelf.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto px-4 pb-3 pt-4" style={{ scrollbarWidth: 'none' }}>
@@ -650,7 +643,7 @@ export default function Ajustes() {
         </Link>
       </div>
 
-      <SectionLabel>{t('ajustes.lectura.sharing')}</SectionLabel>
+      <SectionLabel className="mt-7">{t('ajustes.lectura.sharing')}</SectionLabel>
       <div className="card divide-y divide-hairline">
         <Row
           title={t('ajustes.compartirLectura')}
@@ -670,7 +663,7 @@ export default function Ajustes() {
       {/* Fijar en qué día del plan vas (catch-up para quien ya venía leyendo). */}
       {currentDay != null && (
         <>
-          <SectionLabel>{t('ajustes.section.queDia')}</SectionLabel>
+          <SectionLabel className="mt-7">{t('ajustes.section.queDia')}</SectionLabel>
           <div className="card p-4">
             <p className="text-[15px] text-ink-soft">
               {t('ajustes.currentDay')}: <span className="font-semibold text-ink">{currentDay}</span>{' '}
@@ -723,7 +716,7 @@ export default function Ajustes() {
           </div>
         </>
       )}
-      <SectionLabel>{t('ajustes.proveedorBiblia')}</SectionLabel>
+      <SectionLabel className="mt-7">{t('ajustes.proveedorBiblia')}</SectionLabel>
       <Segmented
         label={t('ajustes.proveedorBiblia')}
         options={bibleProviders}
@@ -740,7 +733,7 @@ export default function Ajustes() {
 
       {section === 'manera' && (
         <div>
-      <SectionLabel>{t('myTime.title')}</SectionLabel>
+      <SectionLabel className="mt-7">{t('myTime.title')}</SectionLabel>
       <div className="card divide-y divide-hairline">
         <Row
           title={t('myTime.title')}
@@ -770,7 +763,7 @@ export default function Ajustes() {
         )}
       </div>
       <p className="mt-2 px-1 text-[13px] leading-snug text-ink-soft">{t('myTime.settingNote')}</p>
-      <SectionLabel>{t('ajustes.section.diario')}</SectionLabel>
+      <SectionLabel className="mt-7">{t('ajustes.section.diario')}</SectionLabel>
       <div className="card divide-y divide-hairline">
         <Row
           title={t('ajustes.section.diario')}
@@ -1003,7 +996,7 @@ export default function Ajustes() {
 
       {/* Quién hace la app: donar, sugerir, avisar un error. Vive en su propio
           componente (DeveloperSection) con sus dos hojas. */}
-      <SectionLabel>{t('ajustes.section.dev')}</SectionLabel>
+      <SectionLabel className="mt-7">{t('ajustes.section.dev')}</SectionLabel>
       <DeveloperSection />
 
         </div>

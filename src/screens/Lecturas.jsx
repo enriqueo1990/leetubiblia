@@ -11,6 +11,7 @@ import RetryError from '../components/RetryError.jsx'
 import TodayExtraRows from '../components/TodayExtraRows.jsx'
 import { SkeletonRows } from '../components/Skeleton.jsx'
 import { BookIcon, RowChevron } from '../components/icons.jsx'
+import SectionLabel from '../components/SectionLabel.jsx'
 
 // Lecturas — hub de segundo anillo colgado de Hoy. Reúne en un solo lugar todo
 // lo que se LEE: el plan activo (y cambiarlo), las otras lecturas de hoy (grupos
@@ -18,14 +19,6 @@ import { BookIcon, RowChevron } from '../components/icons.jsx'
 // Materiales colgaban de Ajustes, donde nadie busca "cambiar de plan": eso es
 // contenido, no configuración. No es pestaña: el mapa primario sigue en 4 y Hoy
 // sigue siendo la cara de la app; se llega acá tocando el plan en Hoy.
-
-function SectionLabel({ children }) {
-  return (
-    <h2 className="mb-2 mt-7 px-1 text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
-      {children}
-    </h2>
-  )
-}
 
 function Row({ to, state, title, detail, accent = false }) {
   return (
@@ -68,7 +61,7 @@ export default function Lecturas() {
       <div>
         <div>
           {/* ── Tu plan ───────────────────────────────────────────────── */}
-          <SectionLabel>{t('lecturas.section.plan')}</SectionLabel>
+          <SectionLabel className="mt-7">{t('lecturas.section.plan')}</SectionLabel>
           {r.loading ? (
             <SkeletonRows count={2} twoLine />
           ) : r.hasPlan && r.plan ? (
@@ -114,7 +107,7 @@ export default function Lecturas() {
 
         <div>
           {/* ── También hoy ───────────────────────────────────────────── */}
-          <SectionLabel>{t('hoy.alsoToday')}</SectionLabel>
+          <SectionLabel className="mt-7">{t('hoy.alsoToday')}</SectionLabel>
           {extras.loading && <SkeletonRows count={3} twoLine />}
           {!extras.loading && extras.rows.length === 0 && extras.error && (
             <RetryError message={t('hoy.extrasLoadError')} onRetry={extras.retry} />
@@ -142,7 +135,7 @@ export default function Lecturas() {
 
         <div>
           {/* ── Materiales ────────────────────────────────────────────── */}
-          <SectionLabel>{t('nav.materiales')}</SectionLabel>
+          <SectionLabel className="mt-7">{t('nav.materiales')}</SectionLabel>
           <div className="card">
             <Row
               to="/materiales"
