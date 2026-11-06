@@ -10,7 +10,7 @@ import { CONTACT_EMAIL as CONTACTO } from '../lib/developer.js'
 // Eliminar cuenta, migración 0006). Tono pastoral y claro, no jurídico: nada de
 // prometer lo que la app no hace. Mismo canon de diseño vía landingKit.
 
-const ACTUALIZADO = '11 de julio de 2026'
+const ACTUALIZADO = '6 de noviembre de 2026'
 
 // Qué guardamos y para qué — anclado a las tablas reales del backend.
 const DATOS = [
@@ -47,6 +47,23 @@ const DATOS = [
     title: 'El recordatorio diario',
     tone: 'ajustes',
     desc: 'Si lo activás, guardamos lo justo para enviarte la notificación a tu hora. Lo apagás cuando quieras desde Ajustes.',
+  },
+  {
+    icon: <PeopleIcon size={22} />,
+    title: 'Tu foto de perfil',
+    tone: 'ajustes',
+    desc: 'Si subís una, la guardamos achicada. Se ve en la app solo junto a tu nombre (vos y tus grupos), aunque el archivo vive en un enlace público. Si no subís ninguna, se usa tu inicial.',
+  },
+  {
+    icon: <LockIcon size={22} />,
+    title: 'Cómo se usa la app',
+    desc: 'Contamos aperturas y en qué paso del inicio se traba la gente (por ejemplo, qué plan elegiste al empezar), con un identificador del teléfono y el tipo de navegador, unido a tu cuenta si entraste. Nunca lo que anotás ni por qué orás.',
+  },
+  {
+    icon: <PencilIcon size={22} />,
+    title: 'Lo que nos escribís',
+    tone: 'ajustes',
+    desc: 'Si mandás una sugerencia o un problema desde Ajustes, lo guardamos con la versión de la app y el tipo de teléfono para poder responderte.',
   },
 ]
 
