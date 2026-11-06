@@ -5,6 +5,7 @@ import {
   MATERIALS,
   getMaterial,
   currentEntryLabel,
+  activeMaterials,
   isMaterialActive,
   positionOf,
   loadMaterialContent,
@@ -35,7 +36,11 @@ export default function Materiales() {
   // Total por slug (avance y "Completado" cuando el marcador pasó el final).
   const [totals, setTotals] = useState({})
 
-  const shelf = MATERIALS.filter((m) => isMaterialActive(profile, m.slug))
+  // El estante sigue el orden de «También hoy» (el de activación): el libro nuevo
+  // entra al final, no se cuela en su lugar del catálogo.
+  const shelf = activeMaterials(profile)
+    .map((a) => getMaterial(a.slug))
+    .filter(Boolean)
   const rest = MATERIALS.filter((m) => !isMaterialActive(profile, m.slug))
   const shelfKey = shelf.map((m) => m.slug).join(',')
 
