@@ -255,6 +255,9 @@ export default function PrayerSheet({
 
       <FieldLabel>{t('prayerSheet.fieldDuration')}</FieldLabel>
       <Segmented label={t('prayerSheet.fieldDuration')} options={DURATION} value={duration} onChange={setDuration} />
+      <p className="mt-2 text-[13px] leading-snug text-ink-soft">
+        {t(duration === 'forever' ? 'prayerSheet.durationHelpForever' : 'prayerSheet.durationHelp')}
+      </p>
 
       <FieldLabel>{t('prayerSheet.fieldVisibility')}</FieldLabel>
       <Segmented label={t('prayerSheet.fieldVisibility')} options={VIS} value={visibility} onChange={setVisibility} />

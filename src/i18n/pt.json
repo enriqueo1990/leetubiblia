@@ -611,6 +611,8 @@
   "prayerSheet.fieldDescription": "Descrição",
   "prayerSheet.descPlaceholder": "Detalhes, se quiser…",
   "prayerSheet.fieldDuration": "Duração",
+  "prayerSheet.durationHelp": "Depois desse tempo ele volta em «Para orar de novo» para você decidir. Não é apagado.",
+  "prayerSheet.durationHelpForever": "De vez em quando ele volta em «Para orar de novo» para você ver como está.",
   "prayerSheet.fieldVisibility": "Visibilidade",
   "prayerSheet.fieldGroup": "Grupo",
   "prayerSheet.visibilityPrivateHelp": "Somente você pode ver este pedido.",

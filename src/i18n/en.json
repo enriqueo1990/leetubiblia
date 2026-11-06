@@ -611,6 +611,8 @@
   "prayerSheet.fieldDescription": "Description",
   "prayerSheet.descPlaceholder": "Details, if you'd like…",
   "prayerSheet.fieldDuration": "Duration",
+  "prayerSheet.durationHelp": "After that it comes back under \"To pray again\" so you can decide. It isn't deleted.",
+  "prayerSheet.durationHelpForever": "Every so often it comes back under \"To pray again\" so you can check in.",
   "prayerSheet.fieldVisibility": "Visibility",
   "prayerSheet.fieldGroup": "Group",
   "prayerSheet.visibilityPrivateHelp": "Only you can see this request.",
