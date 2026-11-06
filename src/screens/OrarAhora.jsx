@@ -63,11 +63,14 @@ export default function OrarAhora() {
   const [actionError, setActionError] = useState(false)
   const transitionTimer = useRef(null)
 
+  // Depende del id, no del objeto: si la sesión se renueva (volver de otra app),
+  // no se reinicia la ronda de oración.
+  const uid = user?.id
   const load = useCallback(async () => {
-    if (!user) return
+    if (!uid) return
     setError(false)
     try {
-      setDeck(await getPrayerDeck(user.id))
+      setDeck(await getPrayerDeck(uid))
       setIdx(0)
       setPhase('mine')
       setInterceded(0)
@@ -75,7 +78,7 @@ export default function OrarAhora() {
     } catch {
       setError(true)
     }
-  }, [user])
+  }, [uid])
 
   useEffect(() => {
     load()

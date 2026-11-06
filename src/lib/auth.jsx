@@ -56,6 +56,17 @@ function writeCachedProfile(uid, p) {
   }
 }
 
+// Renovar el token (o volver a la app) trae un objeto `user` nuevo aunque sea la
+// misma persona, y todo lo que depende de `[user]` volvía a cargar: Orar ahora
+// volvía a «1 de N» y Hoy a su esqueleto. Si el id y el correo no cambiaron, se
+// conserva el `user` anterior: la sesión se actualiza (token) pero `user` es estable.
+function keepUser(prev, next) {
+  const a = prev?.user
+  const b = next?.user
+  if (a && b && a.id === b.id && (a.email ?? null) === (b.email ?? null)) return { ...next, user: a }
+  return next
+}
+
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null)
   const [profile, setProfile] = useState(null)
@@ -187,7 +198,7 @@ export function AuthProvider({ children }) {
           offlineAuthRef.current = false
           setOfflineAuth(false)
         }
-        setSession(sess)
+        setSession((prev) => keepUser(prev, sess))
         lastUid.current = sess?.user?.id ?? null
         await loadProfile(sess?.user?.id)
       })
@@ -212,7 +223,7 @@ export function AuthProvider({ children }) {
         offlineAuthRef.current = false
         setOfflineAuth(false)
       }
-      setSession(sess)
+      setSession((prev) => keepUser(prev, sess))
       const uid = sess?.user?.id ?? null
       setTimeout(() => {
         if (!active) return
@@ -240,7 +251,7 @@ export function AuthProvider({ children }) {
         offlineAuthRef.current = false
         setOfflineAuth(false)
         if (data?.session) {
-          setSession(data.session)
+          setSession((prev) => keepUser(prev, data.session))
           lastUid.current = data.session.user.id
           loadProfile(data.session.user.id)
         } else {

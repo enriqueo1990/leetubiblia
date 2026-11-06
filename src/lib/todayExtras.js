@@ -14,20 +14,21 @@ export function useTodayExtras() {
   const [attempt, setAttempt] = useState(0)
   const [groupsFailed, setGroupsFailed] = useState(false)
   const [materialsFailed, setMaterialsFailed] = useState(false)
+  const uid = user?.id
   const materials = activeMaterials(profile)
   const [contents, setContents] = useState({})
   const [materialsReady, setMaterialsReady] = useState(materials.length === 0)
 
   useEffect(() => {
     // Sin cuenta no hay grupos: resolver vacío para no quedar cargando para siempre.
-    if (!user) {
+    if (!uid) {
       setGroupReadings([])
       return
     }
     let on = true
     setGroupReadings(null)
     setGroupsFailed(false)
-    getFollowedGroupReadings(user.id)
+    getFollowedGroupReadings(uid)
       .then((list) => on && setGroupReadings(list))
       .catch(() => {
         if (!on) return
@@ -37,7 +38,7 @@ export function useTodayExtras() {
     return () => {
       on = false
     }
-  }, [user, attempt])
+  }, [uid, attempt])
 
   const activeKey = materials.map((m) => m.slug).join(',')
   useEffect(() => {
