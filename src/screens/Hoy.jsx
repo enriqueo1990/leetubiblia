@@ -718,8 +718,10 @@ export default function Hoy() {
           </div>
           {/* Adelantarse es la excepción: en el pie de la tarjeta del plan, al
               que pertenece. */}
-          {doneShown && !breathing && nextDay != null && (
-            <div className="-mx-4 mt-1 border-t border-hairline px-4">
+          {/* Durante el respiro ocupa su lugar pero invisible (sin tabulación ni
+              lector): al terminar solo aparece, y «Tu día» no se corre. */}
+          {doneShown && nextDay != null && (
+            <div className={`-mx-4 mt-1 border-t border-hairline px-4 ${breathing ? 'invisible' : ''}`}>
               <button
                 type="button"
                 onClick={() => readNext(nextDay)}
