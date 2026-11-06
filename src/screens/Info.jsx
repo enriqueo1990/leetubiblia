@@ -103,7 +103,7 @@ function Steps({ title, steps }) {
               {i + 1}
             </span>
             <span
-              className="pt-1 text-[16px] leading-snug text-ink [&_b]:font-semibold [&_b]:text-accent-ink"
+              className="pt-1 text-[16px] leading-snug text-ink [&_b]:font-semibold [&_b]:text-ink"
               dangerouslySetInnerHTML={{ __html: s }}
             />
           </li>
@@ -280,16 +280,16 @@ export default function Info() {
             title="Android"
             steps={[
               'En Chrome, tocá el menú <b>⋮</b> arriba a la derecha',
-              'Elegí <b>Instalar app</b>',
+              'Elegí <b>«Instalar app»</b>',
               'Confirmá — listo',
             ]}
           />
           <Steps
             title="iPhone"
             steps={[
-              'En Safari, tocá el ícono de <b>Compartir</b>',
-              'Elegí <b>Agregar a pantalla de inicio</b>',
-              'Tocá <b>Agregar</b> — listo',
+              'En Safari, tocá el ícono de <b>«Compartir»</b>',
+              'Elegí <b>«Agregar a pantalla de inicio»</b>',
+              'Tocá <b>«Agregar»</b> — listo',
             ]}
           />
         </div>

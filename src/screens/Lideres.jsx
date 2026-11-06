@@ -44,7 +44,8 @@ function Shot({ src, alt, width, height }) {
   )
 }
 
-// Bloque de pasos numerados. Los nombres de botones van en <b> (acento).
+// Bloque de pasos numerados. Los nombres de botones van en <b>, en tinta y entre «comillas»
+// (el acento queda para lo tocable: acá no hay nada que tocar).
 function Steps({ eyebrow, title, steps, children }) {
   return (
     <section className="mx-auto w-full max-w-[880px] px-6 py-8">
@@ -59,7 +60,7 @@ function Steps({ eyebrow, title, steps, children }) {
               </span>
               <span className="pt-1">
                 <span className="block text-[17px] font-semibold leading-snug text-ink">{head}</span>
-                <span className="mt-1 block text-[16px] leading-snug text-ink-soft [&_b]:font-semibold [&_b]:text-accent-ink">
+                <span className="mt-1 block text-[16px] leading-snug text-ink-soft [&_b]:font-semibold [&_b]:text-ink">
                   {body}
                 </span>
               </span>
@@ -80,7 +81,7 @@ function Week({ title, children, shot, alt, side = 'right', first = false }) {
     <div className={`${first ? '' : 'border-t border-hairline pt-12'} lg:flex lg:items-center lg:gap-16`}>
       <div className={`lg:flex-1 ${left ? 'lg:order-2' : ''}`}>
         <SubTitle className="max-w-[480px]">{title}</SubTitle>
-        <p className="mt-4 max-w-[480px] text-[16.5px] leading-relaxed text-ink-soft [&_b]:font-semibold [&_b]:text-accent-ink">
+        <p className="mt-4 max-w-[480px] text-[16.5px] leading-relaxed text-ink-soft [&_b]:font-semibold [&_b]:text-ink">
           {children}
         </p>
       </div>
@@ -156,20 +157,20 @@ export default function Lideres() {
           [
             'Creá el grupo',
             <>
-              En la pestaña Grupos, tocá <b>Agregar grupo</b> y ponele un nombre.
+              En la pestaña Grupos, tocá <b>«Agregar grupo»</b> y ponele un nombre.
             </>,
           ],
           [
             'Elegí qué van a leer',
             <>
-              Entrá al grupo y tocá <b>Elegí un plan para leer juntos</b>. Empieza hoy,
+              Entrá al grupo y tocá <b>«Elegí un plan para leer juntos»</b>. Empieza hoy,
               día 1 para todos.
             </>,
           ],
           [
             'Invitá a tu gente',
             <>
-              Tocá <b>Invitar</b> y mandá el link al chat del grupo.
+              Tocá <b>«Invitar»</b> y mandá el link al chat del grupo.
             </>,
           ],
         ]}
@@ -192,7 +193,7 @@ export default function Lideres() {
           [
             'Se suma al plan del grupo',
             <>
-              En el grupo toca <b>Leer este plan con el grupo</b>. Si ya tenía su propio plan,
+              En el grupo toca <b>«Leer este plan con el grupo»</b>. Si ya tenía su propio plan,
               puede sumar este como lectura extra.
             </>,
           ],
@@ -206,7 +207,7 @@ export default function Lideres() {
           [
             'Cada día, lee y marca',
             <>
-              Lee en su Biblia los pasajes del día y toca <b>Marcar como leído</b>.
+              Lee en su Biblia los pasajes del día y toca <b>«Marcar como leído»</b>.
             </>,
           ],
         ]}
@@ -231,7 +232,7 @@ export default function Lideres() {
             side="right"
             first
           >
-            Cada uno ve la lectura del grupo en <b>Hoy</b>, junto a la suya. No tiene que
+            Cada uno ve la lectura del grupo en <b>«Hoy»</b>, junto a la suya. No tiene que
             buscarla en otro lado.
           </Week>
         </div>
@@ -255,7 +256,7 @@ export default function Lideres() {
             alt="Modo «Orar ahora», que recorre los pedidos de oración uno por uno."
             side="right"
           >
-            Cualquiera puede compartir un pedido con el grupo y los demás tocan <b>Orar</b>.
+            Cualquiera puede compartir un pedido con el grupo y los demás tocan <b>«Orar»</b>.
             Quien lo pidió va contando cómo sigue, y cuando Dios responde, el pedido se
             vuelve un testimonio del grupo.
           </Week>
