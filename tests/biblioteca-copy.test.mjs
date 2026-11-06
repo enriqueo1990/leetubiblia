@@ -50,7 +50,8 @@ test('ninguna cadena de la landing cita texto bíblico: solo referencias', () =>
   const all = JSON.stringify([BIBLIOTECA_FAQ, BOOKS])
   // Las comillas angulares abren una cita; las únicas permitidas son nombres de botones y secciones.
   const quoted = [...all.matchAll(/«([^»]+)»/g)].map((m) => m[1])
-  for (const q of quoted) assert.equal(q, 'También hoy', `cita no prevista: ${q}`)
+  const permitidas = ['También hoy', 'de tradición spurgeoniana'] // nombres de botones/secciones y la etiqueta de la fuente del catecismo infantil
+  for (const q of quoted) assert.ok(permitidas.includes(q), `cita no prevista: ${q}`)
 })
 
 test('lo que muestra el lector (captura real) es la pregunta 44 del Catecismo de Heidelberg, tal cual', () => {

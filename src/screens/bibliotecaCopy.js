@@ -76,7 +76,7 @@ export const BOOKS = {
     count: '48 preguntas',
     total: 48,
     year: '',
-    blurb: 'Preguntas de una o dos líneas, en la tradición de Spurgeon, para los más chicos.',
+    blurb: 'Preguntas de una o dos líneas para los más chicos, de tradición spurgeoniana. No consta que lo escribiera él.',
   },
   'spurgeon-matutinas': {
     count: '366 lecturas',
@@ -168,7 +168,19 @@ export const BIBLIOTECA_FAQ = [
   {
     q: '¿De dónde salen los textos?',
     a: [
-      'Son textos históricos de dominio público, traducidos al español para esta edición, y los materiales están en español aunque uses la app en inglés o en portugués. Los pasajes de apoyo son los del propio catecismo o confesión; en los Credos, la Confesión Belga, los Cánones de Dort y el Catecismo para Niños de Spurgeon se seleccionaron para esta edición.',
+      'Son textos históricos de dominio público, y los materiales están en español aunque uses la app en inglés o en portugués. Los pasajes de apoyo son los del propio catecismo o confesión; en los Credos, la Confesión Belga, los Cánones de Dort y el Catecismo para Niños de Spurgeon se seleccionaron para esta edición.',
+    ],
+  },
+  {
+    q: '¿Quién los tradujo? ¿Están revisados?',
+    a: [
+      'Las traducciones son propias de esta edición: se hicieron al español a partir de los textos de dominio público en inglés (o en griego y latín, según el material). Todavía no las revisó un teólogo ni un traductor profesional, así que pueden tener errores. Si encontrás alguno, escribinos a hola@leetubiblia.com y lo corregimos. Si un texto es importante para tu iglesia, contrastalo con la edición que ustedes usan.',
+    ],
+  },
+  {
+    q: '¿Lo escribió Spurgeon?',
+    a: [
+      'El Catecismo de Spurgeon (82 preguntas, 1855) sí es suyo. El Catecismo para Niños (48 preguntas) no sabemos con certeza que lo haya escrito él: la edición de la que sale lo presenta como un catecismo infantil «de tradición spurgeoniana». Por eso lo ofrecemos con ese nombre, pero sin atribuirle la autoría.',
     ],
   },
   {
