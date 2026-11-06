@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useReading } from '../hooks/useReading.js'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
@@ -38,7 +38,14 @@ export default function Progreso() {
   const { user, profile } = useAuth()
   const { t, locale } = usePreferences()
   const reflectionsEnabled = !!profile?.reflections_enabled
-  const [seg, setSeg] = useState('progreso')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [seg, setSeg] = useState(searchParams.get('vista') === 'camino' ? 'camino' : 'progreso')
+  // El segmento vive también en la URL (/progreso?vista=camino): al recargar o volver
+  // de otra pestaña, quien usa el diario cae directo en «Mi camino».
+  function changeSeg(key) {
+    setSeg(key)
+    setSearchParams(key === 'camino' ? { vista: 'camino' } : {}, { replace: true })
+  }
   // Si apagó el diario pero ya escribió notas, "Mi camino" sigue a mano: esconderlo
   // dejaba esas notas inalcanzables dentro de la app.
   const [hasNotes, setHasNotes] = useState(false)
@@ -94,7 +101,7 @@ export default function Progreso() {
       )}
 
       {showCamino && (
-        <Segmented className="mt-4" options={PROG_VIEWS} value={seg} onChange={setSeg} />
+        <Segmented className="mt-4" options={PROG_VIEWS} value={seg} onChange={changeSeg} />
       )}
 
       {showCamino && seg === 'camino' ? (
