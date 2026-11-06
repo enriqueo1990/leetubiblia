@@ -190,7 +190,7 @@ export default function PrayerSheet({
       onDeleted?.() ?? onSaved()
     } catch {
       setConfirmDelete(false)
-      setError(t('prayerSheet.deleteError'))
+      setError(t('common.deleteError'))
       setBusy(false)
     }
   }

@@ -405,7 +405,7 @@ export default function GroupDetail() {
       setData((d) => ({ ...d, group: { ...d.group, name: trimmed } }))
       setEditingName(false)
     } catch {
-      setNameError(t('groupDetail.nameError'))
+      setNameError(t('common.saveError'))
     } finally {
       setSavingName(false)
     }

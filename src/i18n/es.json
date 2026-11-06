@@ -519,7 +519,7 @@
 
   "grupos.createTitle": "Crear grupo",
   "grupos.creating": "Creando…",
-  "grupos.createError": "No se pudo crear el grupo.",
+  "grupos.createError": "No pudimos crear el grupo. Revisá tu conexión y probá de nuevo.",
   "grupos.namePlaceholder": "Nombre del grupo",
   "grupos.nameLabel": "Nombre del grupo",
   "grupos.createHelp": "Vas a ser el administrador. Te damos un código para invitar a quien quieras.",
@@ -530,7 +530,7 @@
   "grupos.codeLabel": "Código de invitación",
   "grupos.joinHelp": "Pedile el código a quien administra el grupo.",
   "grupos.notFound": "No encontramos un grupo con ese código.",
-  "grupos.joinError": "No se pudo unir al grupo.",
+  "grupos.joinError": "No pudimos sumarte al grupo. Revisá tu conexión y probá de nuevo.",
   "grupos.addGroup": "Agregar grupo",
   "grupos.loadError": "No se pudieron cargar tus grupos.",
   "grupos.empty": "Todavía no estás en ningún grupo. Creá uno o unite con un código.",
@@ -600,7 +600,6 @@
   "prayerSheet.saving": "Guardando…",
   "prayerSheet.save": "Guardar pedido",
   "prayerSheet.saveError": "No se pudo guardar el pedido. Lo que escribiste sigue acá: revisá tu conexión y probá de nuevo.",
-  "prayerSheet.deleteError": "No se pudo eliminar.",
   "prayerSheet.prayingForThis": {
     "one": "{count} persona está orando por esto",
     "other": "{count} personas están orando por esto"
@@ -715,7 +714,6 @@
 
   "groupDetail.loadError": "No se pudo cargar el grupo.",
   "groupDetail.planLoadError": "No se pudo cargar el plan del grupo.",
-  "groupDetail.nameError": "No se pudo guardar el nombre.",
   "groupDetail.copyCodePrompt": "Copiá el código:",
   "groupDetail.inviteText": "Te invito al grupo \"{name}\" en Lee Tu Biblia",
   "groupDetail.copyInvitePrompt": "Copiá el link de invitación:",
@@ -838,7 +836,6 @@
   "join.joining": "Uniéndote al grupo…",
   "join.linkExpired": "Quizás el enlace venció o se regeneró el código.",
   "join.askLeader": "Pedile a quien te invitó un código nuevo — se genera en un segundo.",
-  "join.errorHint": "Puede ser la conexión. Probá de nuevo en un momento.",
 
   "nav.materiales": "Biblioteca",
   "nav.lecturas": "Lecturas",

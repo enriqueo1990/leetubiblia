@@ -519,7 +519,7 @@
 
   "grupos.createTitle": "Criar grupo",
   "grupos.creating": "Criando…",
-  "grupos.createError": "Não foi possível criar o grupo.",
+  "grupos.createError": "Não conseguimos criar o grupo. Confira sua conexão e tente de novo.",
   "grupos.namePlaceholder": "Nome do grupo",
   "grupos.nameLabel": "Nome do grupo",
   "grupos.createHelp": "Você vai administrar o grupo. Damos um código para convidar quem você quiser.",
@@ -530,7 +530,7 @@
   "grupos.codeLabel": "Código do convite",
   "grupos.joinHelp": "Peça o código para quem administra o grupo.",
   "grupos.notFound": "Não encontramos um grupo com esse código.",
-  "grupos.joinError": "Não foi possível entrar no grupo.",
+  "grupos.joinError": "Não conseguimos colocar você no grupo. Confira sua conexão e tente de novo.",
   "grupos.addGroup": "Adicionar grupo",
   "grupos.loadError": "Não foi possível carregar seus grupos.",
   "grupos.empty": "Você ainda não está em nenhum grupo. Crie um ou entre com um código.",
@@ -600,7 +600,6 @@
   "prayerSheet.saving": "Salvando…",
   "prayerSheet.save": "Salvar pedido",
   "prayerSheet.saveError": "Não foi possível salvar o pedido. O que você escreveu continua aqui: confira sua conexão e tente de novo.",
-  "prayerSheet.deleteError": "Não foi possível excluir.",
   "prayerSheet.prayingForThis": {
     "one": "{count} pessoa está orando por isto",
     "other": "{count} pessoas estão orando por isto"
@@ -715,7 +714,6 @@
 
   "groupDetail.loadError": "Não foi possível carregar o grupo.",
   "groupDetail.planLoadError": "Não foi possível carregar o plano do grupo.",
-  "groupDetail.nameError": "Não foi possível salvar o nome.",
   "groupDetail.copyCodePrompt": "Copie o código:",
   "groupDetail.inviteText": "Convido você para o grupo \"{name}\" no Lee Tu Biblia",
   "groupDetail.copyInvitePrompt": "Copie o link do convite:",
@@ -838,7 +836,6 @@
   "join.joining": "Entrando no grupo…",
   "join.linkExpired": "Talvez o link tenha expirado ou o código foi regenerado.",
   "join.askLeader": "Peça um código novo para quem convidou você — leva só um instante para criar.",
-  "join.errorHint": "Pode ser a conexão. Tente de novo em um instante.",
 
   "nav.materiales": "Biblioteca",
   "nav.lecturas": "Leituras",

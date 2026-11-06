@@ -77,10 +77,7 @@ export default function Join() {
 
       {status === 'error' && (
         <>
-          <h1 className="mt-8 text-[17px] font-semibold text-ink">{t('grupos.joinError')}</h1>
-          <p className="mt-2 max-w-[300px] text-[15px] leading-relaxed text-ink-soft">
-            {t('join.errorHint')}
-          </p>
+          <h1 className="mt-8 max-w-[300px] text-[17px] font-semibold leading-snug text-ink">{t('grupos.joinError')}</h1>
           <div className="mt-7 flex gap-3">
             <button type="button" onClick={retry} className="btn btn-primary px-6">
               {t('common.retry')}

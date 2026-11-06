@@ -519,7 +519,7 @@
 
   "grupos.createTitle": "Create group",
   "grupos.creating": "Creating…",
-  "grupos.createError": "Couldn't create the group.",
+  "grupos.createError": "We couldn't create the group. Check your connection and try again.",
   "grupos.namePlaceholder": "Group name",
   "grupos.nameLabel": "Group name",
   "grupos.createHelp": "You'll be the admin. We'll give you a code to invite whoever you want.",
@@ -530,7 +530,7 @@
   "grupos.codeLabel": "Invitation code",
   "grupos.joinHelp": "Ask the group's admin for the code.",
   "grupos.notFound": "We couldn't find a group with that code.",
-  "grupos.joinError": "Couldn't join the group.",
+  "grupos.joinError": "We couldn't add you to the group. Check your connection and try again.",
   "grupos.addGroup": "Add group",
   "grupos.loadError": "Couldn't load your groups.",
   "grupos.empty": "You're not in any group yet. Create one or join with a code.",
@@ -600,7 +600,6 @@
   "prayerSheet.saving": "Saving…",
   "prayerSheet.save": "Save request",
   "prayerSheet.saveError": "Couldn't save the request. What you wrote is still here — check your connection and try again.",
-  "prayerSheet.deleteError": "Couldn't delete.",
   "prayerSheet.prayingForThis": {
     "one": "{count} person is praying for this",
     "other": "{count} people are praying for this"
@@ -715,7 +714,6 @@
 
   "groupDetail.loadError": "Couldn't load the group.",
   "groupDetail.planLoadError": "Couldn't load the group's plan.",
-  "groupDetail.nameError": "Couldn't save the name.",
   "groupDetail.copyCodePrompt": "Copy the code:",
   "groupDetail.inviteText": "I invite you to the group \"{name}\" on Lee Tu Biblia",
   "groupDetail.copyInvitePrompt": "Copy the invite link:",
@@ -838,7 +836,6 @@
   "join.joining": "Joining the group…",
   "join.linkExpired": "The link may have expired or the code was regenerated.",
   "join.askLeader": "Ask the person who invited you for a new code — it only takes a moment to create.",
-  "join.errorHint": "It might be your connection. Try again in a moment.",
 
   "nav.materiales": "Library",
   "nav.lecturas": "Readings",
