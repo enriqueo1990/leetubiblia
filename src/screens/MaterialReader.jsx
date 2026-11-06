@@ -415,6 +415,14 @@ export default function MaterialReader() {
           de un marco estable. La miga y las acciones quedan fuera del contenedor.
           key={n} + screen-enter: al cambiar de pregunta la ficha entra con la misma
           transición que las pantallas de la app (reduced-motion ya cubierto global). */}
+      {/* Anuncia la ficha nueva al marcar leída (el foco se queda en el botón). Fuera
+          de la ficha con key: esa se remonta y un aviso recién montado no se lee. */}
+      <p role="status" className="sr-only">
+        {!isIntro && entry
+          ? `${entryOfLabel(t, slug, entry.number, total, locale)}${entry.question ? ` · ${entry.question}` : ''}`
+          : ''}
+      </p>
+
       {isIntro ? (
         /* Ficha 0 — portada: contexto histórico. No es una pregunta: no se marca,
            no mueve el marcador. Acá vive el nombre completo del material. */

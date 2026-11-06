@@ -302,6 +302,11 @@ export default function OrarAhora() {
         <span className="text-[12.5px] tabular-nums text-ink-soft">
           {t('orar.progress', { n: idx + 1, total: activeDeck.length })}
         </span>
+        {/* Anuncia la ficha nueva sin mover el foco (el botón de abajo sigue donde
+            estaba): «2 de 6 · título». */}
+        <span role="status" className="sr-only">
+          {t('orar.progress', { n: idx + 1, total: activeDeck.length })} · {p.title}
+        </span>
       </div>
       <div className="mx-auto mt-3 h-1.5 w-28 overflow-hidden rounded-full bg-surface-alt" aria-hidden="true">
         <span
