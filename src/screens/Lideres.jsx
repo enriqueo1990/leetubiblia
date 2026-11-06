@@ -265,7 +265,7 @@ export default function Lideres() {
       {/* ── EN LA REUNIÓN ────────────────────────────────────── */}
       <section className="mx-auto w-full max-w-[880px] px-6 py-14">
         <div className="band-grupos rounded-card px-7 py-8">
-          <Eyebrow>En la reunión</Eyebrow>
+          <Eyebrow tone="grupos">En la reunión</Eyebrow>
           <h2 className="mt-4 text-[22px] font-bold tracking-[-0.02em] text-ink sm:text-[24px]">
             Una idea para usarla cuando se juntan
           </h2>
