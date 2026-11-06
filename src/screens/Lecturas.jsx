@@ -119,7 +119,7 @@ export default function Lecturas() {
                 state={{ from }}
                 className="btn btn-secondary inline-block px-8"
               >
-                {t('materialsToday.hintCta')}
+                {t('library.cardCta')}
               </Link>
             </EmptyState>
           )}
@@ -140,7 +140,7 @@ export default function Lecturas() {
             <Row
               to="/materiales"
               state={{ from }}
-              title={t('ajustes.materialesDeLectura')}
+              title={t('ajustes.lectura.library')}
               detail={
                 materialsCount > 0
                   ? t('library.onShelf', { count: materialsCount })
