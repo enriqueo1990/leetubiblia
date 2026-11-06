@@ -6,6 +6,10 @@ import shotSala from '../assets/guia-lideres/sala-grupo.png'
 import shotOrar from '../assets/guia-lideres/orar-ahora.png'
 import shotLider from '../assets/guia-lideres/pulso-lider.png'
 
+// Tamaño real (px) de las capturas, junto a sus imports: reservan el lugar antes de
+// que carguen. Si se rehacen las capturas, se actualizan acá.
+const SIZE_PHONE = { width: 780, height: 1688 }
+
 // Landing pública /lideres — cómo usar la app con un grupo pequeño (ver App.jsx,
 // fuera del Gate). Es una guía práctica, no una pieza de venta: lo que arma el
 // líder, lo que hace cada miembro, lo que se ve en la semana, qué hacer en la
@@ -16,14 +20,16 @@ import shotLider from '../assets/guia-lideres/pulso-lider.png'
 
 // Una captura real, enmarcada como pantalla de teléfono (borde + sombra neutra,
 // la misma de landingKit: nunca marrón).
-function Shot({ src, alt }) {
+function Shot({ src, alt, width, height }) {
   return (
     <div className="mx-auto w-[220px] shrink-0 sm:w-[240px]">
       <img
         src={src}
         alt={alt}
+        width={width}
+        height={height}
         loading="lazy"
-        className="w-full rounded-[24px] border border-hairline"
+        className="h-auto w-full rounded-[24px] border border-hairline"
         style={{ boxShadow: '0 24px 60px -24px rgba(28, 28, 30, 0.25)' }}
       />
     </div>
@@ -72,7 +78,7 @@ function Week({ title, children, shot, alt, side = 'right' }) {
         </p>
       </div>
       <div className={`mt-9 shrink-0 lg:mt-0 ${left ? 'lg:order-1' : ''}`}>
-        <Shot src={shot} alt={alt} />
+        <Shot src={shot} alt={alt} {...SIZE_PHONE} />
       </div>
     </div>
   )
