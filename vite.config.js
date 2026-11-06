@@ -5,6 +5,7 @@ import { pathToFileURL } from 'node:url'
 import { defineConfig, build as viteBuild } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+import { LANDING_FONT_ROMAN } from './src/screens/landingSystem.js'
 
 // Meta social propia de cada landing pública (ver src/screens/Info.jsx y
 // GruposDiscipulado.jsx). El sitio es un SPA con las meta OG estáticas en index.html;
@@ -178,6 +179,14 @@ function landingHtmlPlugin() {
           [...html.matchAll(/(?:href|src)="(\/assets\/[^"]+\.js)"/g)].map((m) => m[1].slice(1))
         )
 
+        // Newsreader de las landings (public/fonts, subsetada): se precarga SOLO la roman,
+        // la del H1. `crossorigin` es obligatorio aunque sea del mismo origen: las fuentes
+        // se piden en modo CORS y, sin él, el navegador la bajaría dos veces.
+        if (!existsSync(resolve(outDir, LANDING_FONT_ROMAN.slice(1)))) {
+          throw new Error(`[ltb-landing-html] Falta ${LANDING_FONT_ROMAN} en dist/ (¿public/fonts?).`)
+        }
+        const fontPreload = `<link rel="preload" as="font" type="font/woff2" href="${LANDING_FONT_ROMAN}" crossorigin />`
+
         for (const page of LANDING_PAGES) {
           const markup = await render(page.route)
           if (!/<h1[\s>]/.test(markup) || markup.includes('ltb-splash')) {
@@ -185,7 +194,7 @@ function landingHtmlPlugin() {
           }
           assertAssetsExist(markup, outDir, page.route)
 
-          const seo = `\n    ${seoBlock(page)}\n    ${preloadLinks(page.screen, clientBundle, alreadyLoaded)}\n    ${close}`
+          const seo = `\n    ${seoBlock(page)}\n    ${fontPreload}\n    ${preloadLinks(page.screen, clientBundle, alreadyLoaded)}\n    ${close}`
           const pageHtml = (head + seo + tail).replace(
             ROOT_DIV,
             () => `<div id="root" data-prerendered>${markup}</div>`
@@ -353,11 +362,12 @@ export default defineConfig({
               expiration: { maxEntries: 80, maxAgeSeconds: 30 * 24 * 60 * 60 },
             },
           },
-          // Newsreader (portadas e imágenes para compartir): no entra en la
-          // instalación (~460 KB); se baja la primera vez que se usa y queda
-          // guardada, así compartir funciona sin red desde entonces.
+          // Newsreader (portadas e imágenes para compartir; y la subsetada de las
+          // landings en /fonts): no entra en la instalación (~460 KB); se baja la
+          // primera vez que se usa y queda guardada, así compartir funciona sin red
+          // desde entonces.
           {
-            urlPattern: /\/assets\/newsreader-.*\.woff2$/,
+            urlPattern: /\/(?:assets|fonts)\/newsreader-.*\.woff2$/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'ltb-fonts',
