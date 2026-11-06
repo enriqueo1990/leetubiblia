@@ -313,6 +313,9 @@ export default function AuthFlow() {
 
   // ---- Explorar planes (sin cuenta todavía) ----
   if (step === 'explore') {
+    // Al volver del formulario con ‹, el catálogo reaparece con lo que ya se había
+    // elegido (se guardó al tocar «Continuar»).
+    const picked = readPendingPlan()
     return (
       <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col px-7 py-10">
         <button
@@ -336,6 +339,8 @@ export default function AuthFlow() {
             goToForm('signup', 'explore')
           }}
           startLabel={t('onboarding.auth.exploreContinue')}
+          initialSelected={picked?.planId ?? null}
+          initialResumeDay={picked?.resumeDay ?? null}
         />
 
         <button
