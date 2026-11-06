@@ -20,7 +20,9 @@ import { usePreferences } from '../lib/preferences.jsx'
 export default function Sheet({ title, onCancel, action, children, footer, dirty = false, plain = false }) {
   const { t } = usePreferences()
   const panelRef = useRef(null)
-  const prevFocus = useRef(null)
+  // El foco previo se captura en el primer render (antes de que React aplique un
+  // autoFocus de adentro): así, al cerrar, vuelve al botón que abrió la hoja.
+  const prevFocus = useRef(typeof document !== 'undefined' ? document.activeElement : null)
   const dirtyRef = useRef(dirty)
   const [askDiscard, setAskDiscard] = useState(false)
 
@@ -32,7 +34,6 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
   }
 
   useEffect(() => {
-    prevFocus.current = document.activeElement
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
 
@@ -40,7 +41,8 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
       panelRef.current?.querySelectorAll(
         'button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])'
       ) ?? []
-    focusables()[0]?.focus()
+    // Si un campo de adentro ya tomó el foco (autoFocus), no se lo saca.
+    if (!panelRef.current?.contains(document.activeElement)) focusables()[0]?.focus()
 
     function onKey(e) {
       if (e.key === 'Escape') {
@@ -98,7 +100,6 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
               onClick={requestClose}
               aria-label={t('common.close')}
               className="absolute right-1.5 top-1.5 z-10 flex h-11 w-11 items-center justify-center text-[16px] leading-none text-ink-soft"
-              style={{ opacity: 0.55 }}
             >
               ✕
             </button>
@@ -110,7 +111,6 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
                   onClick={requestClose}
                   aria-label={t('common.close')}
                   className="flex h-11 w-11 items-center justify-center rounded-full text-ink-soft"
-                  style={{ opacity: 0.6 }}
                 >
                   <XIcon size={22} />
                 </button>

@@ -541,7 +541,6 @@ export default function Hoy() {
               onClick={r.dismissBehind}
               aria-label={t('hoy.dismissBehind')}
               className="ml-auto flex h-11 w-11 items-center justify-center text-[15px] leading-none text-ink-soft"
-              style={{ opacity: 0.5 }}
             >
               ✕
             </button>

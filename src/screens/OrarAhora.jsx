@@ -207,7 +207,6 @@ export default function OrarAhora() {
             onClick={close}
             aria-label={t('common.close')}
             className="-ml-2 flex h-11 w-11 items-center justify-center text-ink-soft"
-            style={{ opacity: 0.65 }}
           >
             <XIcon size={22} />
           </button>
@@ -297,7 +296,6 @@ export default function OrarAhora() {
           onClick={close}
           aria-label={t('common.close')}
           className="-ml-2 flex h-11 w-11 items-center justify-center text-ink-soft"
-          style={{ opacity: 0.65 }}
         >
           <XIcon size={22} />
         </button>
