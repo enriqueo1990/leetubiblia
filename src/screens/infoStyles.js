@@ -196,21 +196,17 @@ ${dark('.in-page', '--in-faint:#363B41; --in-tint-strong:color-mix(in srgb, var(
   .in-nots-head{position:sticky; top:calc(var(--lk-header-h) + 40px)}
 }
 .in-who{margin-top:clamp(40px, 5vw, 64px); display:grid; gap:22px; padding:26px; border-radius:24px; background:color-mix(in srgb, var(--accent) 8%, var(--bg-app)); border:1px solid var(--hairline); align-items:center}
-.in-face{display:flex; align-items:center}
-.in-face i{width:64px; height:64px; border-radius:50%; display:grid; place-items:center; color:#fff; font:450 1.75rem/1 var(--lk-serif); font-style:normal; border:3px solid color-mix(in srgb, var(--accent) 8%, var(--bg-app))}
-.in-face i:first-child{background:linear-gradient(145deg, var(--accent), var(--accent-action))}
-.in-face i:last-child{margin-left:-14px; background:linear-gradient(145deg, var(--hue-grupos), #2F6F58)}
+.in-portrait{display:block; width:132px; aspect-ratio:4/5; border-radius:20px; overflow:hidden; border:3px solid color-mix(in srgb, var(--accent) 8%, var(--bg-app)); box-shadow:0 14px 30px -16px rgba(28,28,30,.35)}
+.in-portrait img{display:block; width:100%; height:100%; object-fit:cover}
 .in-who h3{font:450 clamp(1.5rem, 1.3rem + .8vw, 1.875rem)/1.2 var(--lk-serif); letter-spacing:-.015em}
 .in-who p{margin-top:10px; color:var(--text-soft); max-width:38em}
 .in-who p b{color:var(--text-primary); font-weight:600}
-.in-who p.in-sign{margin-top:14px; font:italic 450 1.375rem/1.2 var(--lk-serif); color:var(--accent-ink)}
 .in-who .in-links{display:flex; flex-wrap:wrap; gap:0 22px; margin-top:6px; font-size:var(--lk-fs-small)}
 .in-who .in-links > *{display:inline-flex; align-items:center; gap:6px; min-height:44px}
 .in-linkbtn{padding:0; border:0; background:none; cursor:pointer; font:inherit; font-weight:600}
 @media (min-width:760px){
   .in-who{grid-template-columns:auto 1fr; gap:32px; padding:34px 38px}
-  .in-face i{width:78px; height:78px; font-size:2.1rem}
-  .in-face i:last-child{margin-left:-18px}
+  .in-portrait{width:168px}
 }
 
 /* — Líderes — */

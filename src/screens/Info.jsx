@@ -17,6 +17,13 @@ import { INFO_META, INFO_URL } from './infoCopy.js'
 import PhoneShot, { PhoneShotStyle } from './PhoneShot.jsx'
 import { InfoSprite, Ico, PaperBible, InstallGuide, InstallArt, FaqList } from './infoParts.jsx'
 
+// Retrato de «Quién hace» (scripts/optimize-portrait.mjs): AVIF con WebP de reserva.
+const PORTRAIT_URLS = import.meta.glob('../assets/quien/enrique-480.{avif,webp}', { eager: true, query: '?url', import: 'default' })
+const PORTRAIT = {
+  avif: Object.entries(PORTRAIT_URLS).find(([k]) => k.endsWith('.avif'))?.[1],
+  webp: Object.entries(PORTRAIT_URLS).find(([k]) => k.endsWith('.webp'))?.[1],
+}
+
 // Landing pública /info — página fuera del Gate (ver App.jsx). Le habla a quien
 // llega en frío (redes, un pastor pasando el link) antes de decidir crear cuenta.
 // Concepto: la app acompaña la Biblia FÍSICA, no la reemplaza
@@ -408,19 +415,26 @@ export default function Info() {
             </div>
 
             <aside className="in-who in-rv" aria-labelledby="quien">
-              <div className="in-face" aria-hidden="true">
-                <i>E</i>
-                <i>T</i>
-              </div>
+              <picture className="in-portrait">
+                <source type="image/avif" srcSet={PORTRAIT.avif} />
+                <img
+                  src={PORTRAIT.webp}
+                  alt="Enrique Oriolo, misionero y pastor, sonriendo"
+                  width="480"
+                  height="600"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
               <div>
                 <h3 id="quien">Quién hace Lee Tu Biblia</h3>
                 <p>
-                  <b>Somos Enrique y Tamara, misioneros.</b> Enrique, pastor, hizo esta app para que leer la Biblia cada
-                  día sea más fácil, y la seguimos mejorando con lo que nos escriben. Es gratis porque vivimos de los
-                  aportes de quienes sostienen nuestra misión; si querés dar una mano, hay una donación discreta, y si
-                  no, usala tranquilo. Lo que nos escribas, lo leemos nosotros.
+                  <b>Enrique, misionero y pastor,</b> hizo esta app para que leer la Biblia cada día sea más fácil, y la
+                  seguimos mejorando con lo que nos escriben. Es gratis porque vivimos de los aportes de quienes
+                  sostienen nuestra misión; si querés dar una mano, hay una donación discreta, y si no, usala
+                  tranquilo. Lo que nos escribas, lo leemos nosotros.
                 </p>
-                <p className="in-sign">Enrique y Tamara</p>
+                <p>Enrique está casado con Tamara, y tienen cuatro hijas.</p>
                 <p className="in-links">
                   <a className="lk-textlink" href={MISSION_URL} target="_blank" rel="noopener noreferrer">
                     Conocé nuestra misión
