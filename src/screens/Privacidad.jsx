@@ -106,7 +106,7 @@ export default function Privacidad() {
           <ul className="mt-5 flex flex-col gap-3 text-[16.5px] leading-snug text-ink">
             <li className="flex items-start gap-3">
               <span className="mt-[9px] h-[6px] w-[6px] shrink-0 rounded-full bg-accent" />
-              La app es <b className="font-semibold text-accent-ink">gratis</b> y no tiene publicidad.
+              <span>La app es <b className="font-semibold text-accent-ink">gratis</b> y no tiene publicidad.</span>
             </li>
             <li className="flex items-start gap-3">
               <span className="mt-[9px] h-[6px] w-[6px] shrink-0 rounded-full bg-accent" />
@@ -114,11 +114,11 @@ export default function Privacidad() {
             </li>
             <li className="flex items-start gap-3">
               <span className="mt-[9px] h-[6px] w-[6px] shrink-0 rounded-full bg-accent" />
-              Todo es <b className="font-semibold text-accent-ink">privado por defecto</b>. Se comparte solo lo que vos elegís compartir.
+              <span>Todo es <b className="font-semibold text-accent-ink">privado por defecto</b>. Se comparte solo lo que vos elegís compartir.</span>
             </li>
             <li className="flex items-start gap-3">
               <span className="mt-[9px] h-[6px] w-[6px] shrink-0 rounded-full bg-accent" />
-              Podés <b className="font-semibold text-accent-ink">borrar tu cuenta y todos tus datos</b> cuando quieras, desde la app.
+              <span>Podés <b className="font-semibold text-accent-ink">borrar tu cuenta y todos tus datos</b> cuando quieras, desde la app.</span>
             </li>
           </ul>
         </div>
