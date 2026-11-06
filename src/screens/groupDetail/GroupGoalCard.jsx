@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
-import { LockIcon } from '../../components/icons.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
 import { recordFunnel } from '../../lib/diag.js'
 import { useDonationGoal } from '../../hooks/useDonationGoal.js'
-import DonateSheet, { GoalProgress } from '../../components/DonateSheet.jsx'
+import DonateSheet from '../../components/DonateSheet.jsx'
 
 // Meta de donación (tiendas) para el líder, en su zona privada al final del
 // grupo: los líderes son quienes más aprovechan la app. Quieta, sin "Ahora no":
@@ -22,19 +21,15 @@ export default function GroupGoalCard() {
   return (
     <>
       <section className="card mt-7 p-5" aria-labelledby="group-goal-title">
-        <div className="flex items-center gap-1.5 text-ink-soft">
-          <LockIcon size={13} />
-          <span id="group-goal-title" className="text-[12px] font-semibold uppercase tracking-wide">
-            {t('groupDetail.goalPrivate')}
-          </span>
-        </div>
+        {/* Sin candado: ese ícono es de los datos pastorales, no de un pedido de apoyo. */}
+        <span id="group-goal-title" className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+          {t('goal.eyebrow')}
+        </span>
         <p className="mt-3 text-[15px] leading-snug text-ink">{t('groupDetail.goalText')}</p>
-        <div className="mt-4">
-          <GoalProgress goal={goal} />
-        </div>
         <button
           type="button"
           className="btn btn-secondary mt-4"
+          style={{ color: 'var(--accent-ink)', borderColor: 'var(--accent-ink)' }}
           onClick={() => {
             recordFunnel('goal_open')
             setSheetOpen(true)
@@ -42,6 +37,7 @@ export default function GroupGoalCard() {
         >
           {t('goal.cta')}
         </button>
+        <p className="mt-3 text-[12px] text-ink-soft">{t('groupDetail.goalLeaderNote')}</p>
       </section>
 
       {sheetOpen && <DonateSheet goal={goal} fromGoal onClose={() => setSheetOpen(false)} />}

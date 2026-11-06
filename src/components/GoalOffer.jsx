@@ -3,7 +3,7 @@ import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { recordFunnel } from '../lib/diag.js'
 import { markGoalMomentSeen } from '../lib/goalOffer.js'
-import DonateSheet, { GoalProgress } from './DonateSheet.jsx'
+import DonateSheet from './DonateSheet.jsx'
 import { HeartIcon } from './icons.jsx'
 
 // Tarjeta de la meta de donación en Hoy ("Ayudanos a llegar a las tiendas"),
@@ -58,10 +58,14 @@ export default function GoalOffer({ goal, moment, streak, onClose }) {
             </p>
           </div>
         </div>
-        <div className="mt-4">
-          <GoalProgress goal={goal} />
-        </div>
-        <button type="button" className="btn btn-primary mt-4" onClick={help}>
+        {/* Secundario, sin barra: pedir apoyo es una invitación calmada (receta única
+            de donación). La meta con su avance vive solo dentro de la hoja. */}
+        <button
+          type="button"
+          className="btn btn-secondary mt-4"
+          style={{ color: 'var(--accent-ink)', borderColor: 'var(--accent-ink)' }}
+          onClick={help}
+        >
           {t('goal.cta')}
         </button>
         <button

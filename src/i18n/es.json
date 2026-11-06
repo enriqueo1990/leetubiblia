@@ -805,7 +805,7 @@
   "groupDetail.answeredPct": "{pct}% de los pedidos del grupo ya fueron respondidos.",
   "groupDetail.weekPrivate": "Lectura de la semana · solo vos lo ves",
   "groupDetail.weekLabel": "Lectura de la semana",
-  "groupDetail.goalPrivate": "Apoyar la app · solo vos lo ves",
+  "groupDetail.goalLeaderNote": "Tus miembros no ven este pedido.",
   "groupDetail.goalText": "Tu grupo usa Lee Tu Biblia gratis. Queremos publicarla en App Store y Google Play para que a cada uno le sea más fácil instalarla. ¿Nos ayudás a llegar?",
   "groupDetail.weekDayLetters": "D,L,M,M,J,V,S",
   "groupDetail.weekAria": "{name}: marcó su lectura {days} de los últimos 7 días",
