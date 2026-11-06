@@ -26,6 +26,7 @@ import {
   WifiOffIcon,
   AwardIcon,
   HandsIcon,
+  BackToIndex,
 } from './landingKit.jsx'
 
 // Página pública /ayuda — la REFERENCIA de la app (ver App.jsx, fuera del Gate).
@@ -178,7 +179,7 @@ export default function Ayuda() {
           </p>
           {/* Índice de las cuatro pestañas — cada chip viste el matiz de su
               pestaña: el índice adelanta el sistema de color de la página. */}
-          <nav className="mt-7 flex flex-wrap gap-2">
+          <nav id="indice" className="mt-7 flex scroll-mt-6 flex-wrap gap-2">
             {[
               ['Hoy', '#hoy', 'bg-accent-tint text-accent-ink'],
               ['Oración', '#oracion', 'hb-oracion'],
@@ -274,6 +275,7 @@ export default function Ayuda() {
             ))}
           </div>
         </div>
+        <BackToIndex />
       </section>
 
       {/* ── ORACIÓN ──────────────────────────────────────────── */}
@@ -293,6 +295,9 @@ export default function Ayuda() {
           <div className="mt-12 shrink-0 lg:order-1 lg:mt-0">
             <PrayerMock />
           </div>
+        </div>
+        <div className="mx-auto w-full max-w-[880px] px-6">
+          <BackToIndex />
         </div>
       </section>
 
@@ -314,6 +319,7 @@ export default function Ayuda() {
             <GroupMock />
           </div>
         </div>
+        <BackToIndex />
       </section>
 
       {/* ── AJUSTES ──────────────────────────────────────────── */}
@@ -328,6 +334,7 @@ export default function Ayuda() {
           <div className="mt-10">
             <FeatureGrid items={AJUSTES} tone="ajustes" />
           </div>
+          <BackToIndex />
         </div>
       </section>
 

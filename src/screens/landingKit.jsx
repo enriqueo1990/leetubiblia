@@ -242,6 +242,18 @@ const SITE_NAV = [
 const FOCUS =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-app rounded'
 
+// Cierre de cada sección: la guía se consulta por partes, así que hay camino de vuelta al índice.
+export function BackToIndex() {
+  return (
+    <a
+      href="#indice"
+      className={`mt-10 inline-flex min-h-11 items-center text-[14px] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
+    >
+      ↑ Volver al índice
+    </a>
+  )
+}
+
 // Header GLOBAL de las páginas públicas. Dos filas: (1) wordmark + acción, y
 // (2) la navegación entre hermanas, VISIBLE arriba —no oculta tras un menú— para
 // que quien no baje al footer igual pueda saltar de página. El enlace activo
