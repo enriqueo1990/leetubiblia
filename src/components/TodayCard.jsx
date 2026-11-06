@@ -5,7 +5,8 @@ import { CheckIcon, RowChevron } from './icons.jsx'
 // fila es una invitación, no una obligación: sin marcas de "te faltó". Una fila
 // hecha lleva el círculo lleno; una pendiente, el círculo vacío y un chevron.
 // `rows`: [{ key, done, title, sub, serif, onClick }]. Sin onClick la fila es
-// solo lectura (por ejemplo "Leíste tu lectura").
+// solo lectura (por ejemplo la oración ya hecha). «Leíste tu lectura» sí lleva
+// onClick: es la puerta a desmarcar.
 export default function TodayCard({ rows, footer = null, className = '' }) {
   return (
     <div className={`card overflow-hidden ${className}`}>
@@ -25,7 +26,7 @@ export default function TodayCard({ rows, footer = null, className = '' }) {
                 style={
                   row.done
                     ? { backgroundColor: 'var(--accent-action)' }
-                    : { boxShadow: 'inset 0 0 0 1.6px var(--faint)' }
+                    : { boxShadow: 'inset 0 0 0 1.6px var(--control-border)' }
                 }
               >
                 {row.done && (
