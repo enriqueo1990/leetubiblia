@@ -279,7 +279,7 @@ export function LandingHeader({ current, width = 'max-w-[880px]' }) {
             <span
               key={to}
               aria-current="page"
-              className="-mx-3 rounded-pill bg-accent-tint px-3 py-1.5 text-[14.5px] font-semibold text-accent-ink"
+              className="-mx-3 inline-flex min-h-11 items-center rounded-pill bg-accent-tint px-3 text-[14.5px] font-semibold text-accent-ink"
             >
               {label}
             </span>
@@ -287,7 +287,7 @@ export function LandingHeader({ current, width = 'max-w-[880px]' }) {
             <Link
               key={to}
               to={to}
-              className={`text-[14.5px] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
+              className={`inline-flex min-h-11 items-center text-[14.5px] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
             >
               {label}
             </Link>
@@ -314,7 +314,7 @@ function FooterDonate() {
           if (goal) recordFunnel('goal_open')
           setOpen(true)
         }}
-        className={`inline-flex items-center gap-1.5 text-[14px] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
+        className={`inline-flex min-h-11 items-center gap-1.5 text-[14px] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
       >
         <HeartIcon size={16} />
         Apoyar el proyecto
@@ -335,17 +335,17 @@ export function LandingFooter({ current, width = 'max-w-[880px]' }) {
         <Link to="/info" aria-label="Lee Tu Biblia" className={FOCUS}>
           <Wordmark />
         </Link>
-        <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2.5">
+        <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-0">
           {SITE_NAV.map(([to, label]) =>
             to === current ? (
-              <span key={to} className="text-[14px] font-semibold text-ink" aria-current="page">
+              <span key={to} className="inline-flex min-h-11 items-center text-[14px] font-semibold text-ink" aria-current="page">
                 {label}
               </span>
             ) : (
               <Link
                 key={to}
                 to={to}
-                className={`text-[14px] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
+                className={`inline-flex min-h-11 items-center text-[14px] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
               >
                 {label}
               </Link>
@@ -353,7 +353,7 @@ export function LandingFooter({ current, width = 'max-w-[880px]' }) {
           )}
           <Link
             to="/"
-            className={`text-[14px] font-semibold text-accent-ink transition-colors hover:underline ${FOCUS}`}
+            className={`inline-flex min-h-11 items-center text-[14px] font-semibold text-accent-ink transition-colors hover:underline ${FOCUS}`}
           >
             Abrir la app →
           </Link>
