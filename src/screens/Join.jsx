@@ -72,6 +72,9 @@ export default function Join() {
           <Link to="/grupos" className="btn btn-primary mt-7 inline-block px-8">
             {t('oracion.goToGroups')}
           </Link>
+          <Link to="/info" className="mt-4 inline-flex min-h-11 items-center text-[0.9375rem] font-medium text-accent-ink">
+            {t('join.learnMore')}
+          </Link>
         </>
       )}
 

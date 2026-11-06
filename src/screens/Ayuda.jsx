@@ -175,15 +175,15 @@ export default function Ayuda() {
             Guía completa de la app
           </h1>
           <p className="mt-3 max-w-[600px] text-[1.0312rem] leading-relaxed text-ink-soft">
-            Cada función, pestaña por pestaña: tu lectura y los 13 planes, la
-            oración, los grupos de discipulado y los ajustes. La Palabra la leés
+            Cada función, de a una: tu lectura y tu progreso, los 13 planes, la
+            oración, los grupos de discipulado y los ajustes (el engranaje de Hoy). La Palabra la leés
             en tu Biblia de papel; la app acompaña el hábito.
           </p>
           {/* Índice de las cuatro pestañas — cada chip viste el matiz de su
               pestaña: el índice adelanta el sistema de color de la página. */}
           <nav id="indice" aria-label="Contenido de la guía" className="mt-7 flex scroll-mt-6 flex-wrap gap-2">
             {[
-              ['Hoy', '#hoy', 'bg-accent-tint text-accent-ink'],
+              ['Hoy y Progreso', '#hoy', 'bg-accent-tint text-accent-ink'],
               ['Oración', '#oracion', 'hb-oracion'],
               ['Grupos', '#grupos', 'hb-grupos'],
               ['Ajustes', '#ajustes', 'hb-ajustes'],
@@ -207,7 +207,7 @@ export default function Ayuda() {
         <div className="lg:flex lg:items-start lg:gap-16">
           <div className="lg:flex-1">
             <TabHead
-              eyebrow="Pestaña · Hoy"
+              eyebrow="Pestañas · Hoy y Progreso"
               title="Tu lectura del día, sin ruido"
               intro="El corazón de la app. Cada mañana ves qué toca leer; un toque para marcarlo y tu avance se cuida solo, sin regaños."
             />
@@ -324,7 +324,7 @@ export default function Ayuda() {
       <section id="ajustes" className="scroll-mt-6 border-t border-hairline">
         <div className="mx-auto w-full max-w-[880px] px-6 py-20">
           <TabHead
-            eyebrow="Pestaña · Ajustes"
+            eyebrow="El engranaje · Ajustes"
             tone="ajustes"
             title="Tuya, a tu manera"
             intro="Pequeños detalles para que la app se sienta propia y descanse la vista."
