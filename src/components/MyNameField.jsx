@@ -7,7 +7,7 @@ export default function MyNameField({ value, onChange, id = 'my-name', autoFocus
   const { t } = usePreferences()
   return (
     <div className="mb-5">
-      <label htmlFor={id} className="mb-2 block text-[14px] font-medium text-ink">
+      <label htmlFor={id} className="mb-2 block text-[0.875rem] font-medium text-ink">
         {t('onboarding.askName.label')}
       </label>
       <input
@@ -18,10 +18,10 @@ export default function MyNameField({ value, onChange, id = 'my-name', autoFocus
         placeholder={t('ajustes.tuNombre')}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-input px-4 py-3 text-[16px] outline-none"
+        className="w-full rounded-input px-4 py-3 text-[1rem] outline-none"
         style={inputStyle}
       />
-      <p className="mt-2 text-[13px] text-ink-soft">{t('onboarding.askName.subtitle')}</p>
+      <p className="mt-2 text-[0.8125rem] text-ink-soft">{t('onboarding.askName.subtitle')}</p>
     </div>
   )
 }

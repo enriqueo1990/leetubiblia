@@ -214,7 +214,7 @@ export default function PrayerDetail() {
           <button
             type="button"
             onClick={() => setEditing(true)}
-            className="inline-flex min-h-11 min-w-11 items-center justify-center text-[15px] font-medium"
+            className="inline-flex min-h-11 min-w-11 items-center justify-center text-[0.9375rem] font-medium"
             style={{ color: 'var(--accent-ink)' }}
           >
             {t('common.edit')}
@@ -223,24 +223,24 @@ export default function PrayerDetail() {
       </div>
 
       <article className="card mt-5 px-5 py-5">
-        <h1 className="text-[21px] font-medium leading-[1.35] text-ink">
+        <h1 className="text-[1.3125rem] font-medium leading-[1.35] text-ink">
           {data.title}
         </h1>
 
         {data.description && (
-          <p className="mt-2.5 whitespace-pre-line text-[16px] leading-[1.6] text-ink-soft">
+          <p className="mt-2.5 whitespace-pre-line text-[1rem] leading-[1.6] text-ink-soft">
             {data.description}
           </p>
         )}
 
-        <p className="mt-4 text-[13.5px] leading-snug text-ink-soft">
+        <p className="mt-4 text-[0.8438rem] leading-snug text-ink-soft">
           {displayAuthor} · {fmtLongD(data.created_at)}
           {data.group?.name ? ` · ${data.group.name}` : ''}
         </p>
 
         {data.status === 'answered' && (
           <div className="mt-2 flex items-center justify-between gap-3">
-            <p className="text-[13px] font-medium text-accent-ink">
+            <p className="text-[0.8125rem] font-medium text-accent-ink">
               {t('oracion.answeredOn', { date: fmtLongD(data.answered_at || data.created_at) })}
             </p>
             {isAuthor && justAnswered && (
@@ -248,7 +248,7 @@ export default function PrayerDetail() {
                 type="button"
                 onClick={undoAnswered}
                 disabled={undoing || !online}
-                className="inline-flex min-h-11 shrink-0 items-center px-1 text-[14px] font-medium"
+                className="inline-flex min-h-11 shrink-0 items-center px-1 text-[0.875rem] font-medium"
                 style={{ color: 'var(--accent-ink)', opacity: undoing || !online ? 0.55 : 1 }}
               >
                 {t('prayerDetail.undoAnswered')}
@@ -283,9 +283,9 @@ export default function PrayerDetail() {
           <SectionLabel id="testimony-title" inside className="mb-0">
             {t('prayerDetail.testimonyHeading')}
           </SectionLabel>
-          <p className="mt-2.5 whitespace-pre-line text-[16px] leading-[1.6] text-ink">{data.testimony}</p>
+          <p className="mt-2.5 whitespace-pre-line text-[1rem] leading-[1.6] text-ink">{data.testimony}</p>
           {isAuthor && (
-            <p className="mt-3 text-[13px] text-ink-soft">
+            <p className="mt-3 text-[0.8125rem] text-ink-soft">
               {data.testimony_shared
                 ? t('prayerDetail.testimonySharedWith', { group: data.group?.name ?? t('common.grupo') })
                 : t('prayerDetail.testimonyPrivate')}
@@ -308,18 +308,18 @@ export default function PrayerDetail() {
             ) : (
               <HeartIcon size={17} className="shrink-0 text-accent-ink" />
             )}
-            <p className="min-w-0 text-[14.5px] text-ink-soft">{countLabel}</p>
+            <p className="min-w-0 text-[0.9062rem] text-ink-soft">{countLabel}</p>
           </div>
 
           {!isAuthor && data.status !== 'active' ? (
-            <p className="shrink-0 text-[13px] text-ink-soft">{t('prayerDetail.answered')}</p>
+            <p className="shrink-0 text-[0.8125rem] text-ink-soft">{t('prayerDetail.answered')}</p>
           ) : !isAuthor && i_intercede ? (
             <button
               type="button"
               onClick={toggle}
               disabled={busy || !online}
               aria-pressed="true"
-              className="inline-flex min-h-11 shrink-0 items-center gap-1.5 text-[14px] font-medium text-accent-ink"
+              className="inline-flex min-h-11 shrink-0 items-center gap-1.5 text-[0.875rem] font-medium text-accent-ink"
             >
               <CheckIcon size={16} strokeWidth={2.2} /> {t('prayerDetail.youArePraying')}
             </button>
@@ -329,7 +329,7 @@ export default function PrayerDetail() {
               onClick={toggle}
               disabled={busy || !online}
               aria-pressed="false"
-              className="inline-flex min-h-11 shrink-0 items-center rounded-pill border px-[15px] py-[7px] text-[14px] font-medium"
+              className="inline-flex min-h-11 shrink-0 items-center rounded-pill border px-[15px] py-[7px] text-[0.875rem] font-medium"
               style={{
                 backgroundColor: 'var(--accent-tint)',
                 borderColor: 'color-mix(in srgb, var(--accent) 24%, transparent)',
@@ -343,12 +343,12 @@ export default function PrayerDetail() {
         </div>
 
         {!isAuthor && data.status === 'active' && i_intercede && (
-          <p className="mt-2 text-[13px] text-ink-soft">
+          <p className="mt-2 text-[0.8125rem] text-ink-soft">
             {t('prayerDetail.authorWillKnow', { author: data.author_name ?? t('common.someone') })}
           </p>
         )}
         {intercessionError && (
-          <p className="mt-2 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
+          <p className="mt-2 text-[0.8125rem]" role="alert" style={{ color: 'var(--danger)' }}>
             {t('prayerDetail.intercessionError')}{' '}
             <button
               type="button"
@@ -378,10 +378,10 @@ export default function PrayerDetail() {
                 <CheckIcon size={21} strokeWidth={2.2} />
               </div>
               <div className="min-w-0 flex-1">
-                <h2 id="testimony-prompt-title" className="text-[17px] font-semibold text-ink">
+                <h2 id="testimony-prompt-title" className="text-[1.0625rem] font-semibold text-ink">
                   {t('prayerDetail.testimonyPrompt.title')}
                 </h2>
-                <p className="mt-1 text-[14px] leading-snug text-ink-soft">
+                <p className="mt-1 text-[0.875rem] leading-snug text-ink-soft">
                   {t('prayerDetail.testimonyPrompt.text')}
                 </p>
               </div>
@@ -398,7 +398,7 @@ export default function PrayerDetail() {
             </button>
             <button
               type="button"
-              className="mt-1 min-h-11 w-full text-center text-[15px] font-medium text-ink-soft"
+              className="mt-1 min-h-11 w-full text-center text-[0.9375rem] font-medium text-ink-soft"
               onClick={() => setTestimonyPromptDismissed(true)}
             >
               {t('prayerDetail.testimonyPrompt.later')}
@@ -417,7 +417,7 @@ export default function PrayerDetail() {
               {updates.map((u) => (
                 <li key={u.id} className="flex items-start gap-3">
                   <span
-                    className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full text-[12px] font-medium"
+                    className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full text-[0.75rem] font-medium"
                     style={{
                       backgroundColor: 'var(--accent-tint)',
                       color: 'var(--accent-ink)',
@@ -427,15 +427,15 @@ export default function PrayerDetail() {
                     {displayAuthor?.[0] || '•'}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="text-[12.5px] text-ink-soft">
+                    <p className="text-[0.7812rem] text-ink-soft">
                       {displayAuthor} · {fmtD(u.created_at)}
                     </p>
-                    <p className="mt-[3px] whitespace-pre-line text-[15.5px] leading-[1.55] text-ink">{u.body}</p>
+                    <p className="mt-[3px] whitespace-pre-line text-[0.9688rem] leading-[1.55] text-ink">{u.body}</p>
                     {isAuthor && (
                       <button
                         type="button"
                         onClick={() => setConfirmDeleteUpdate(u)}
-                        className="mt-1 inline-flex min-h-11 items-center px-1 text-[12px] font-medium"
+                        className="mt-1 inline-flex min-h-11 items-center px-1 text-[0.75rem] font-medium"
                         style={{ color: 'var(--danger)' }}
                       >
                         {t('ajustes.eliminar')}
@@ -458,7 +458,7 @@ export default function PrayerDetail() {
                 rows={3}
                 placeholder={t(data.visibility === 'private' ? 'prayerDetail.updatePlaceholderPrivate' : 'prayerDetail.updatePlaceholder')}
                 aria-label={addUpdateLabel}
-                className="w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
+                className="w-full resize-none rounded-input px-4 py-3 text-[1rem] outline-none"
                 style={inputStyle}
               />
               {updateError && <InlineError message={t('common.saveError')} />}
@@ -491,7 +491,7 @@ export default function PrayerDetail() {
             <button
               type="button"
               onClick={() => setAdding(true)}
-              className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 text-[15px] font-semibold"
+              className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 text-[0.9375rem] font-semibold"
               style={{ color: 'var(--accent-ink)' }}
             >
               <PlusIcon size={17} /> {addUpdateLabel}

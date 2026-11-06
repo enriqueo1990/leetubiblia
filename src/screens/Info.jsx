@@ -93,17 +93,17 @@ const DISCIPULADO = [
 function Steps({ title, steps }) {
   return (
     <div className="flex-1">
-      <h3 className="mb-5 text-[15px] font-bold uppercase tracking-[0.08em] text-ink">
+      <h3 className="mb-5 text-[0.9375rem] font-bold uppercase tracking-[0.08em] text-ink">
         {title}
       </h3>
       <ol className="flex flex-col gap-3">
         {steps.map((s, i) => (
           <li key={i} className="flex items-start gap-4">
-            <span className="mt-[1px] inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-action text-[15px] font-bold text-on-accent">
+            <span className="mt-[1px] inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-action text-[0.9375rem] font-bold text-on-accent">
               {i + 1}
             </span>
             <span
-              className="pt-1 text-[16px] leading-snug text-ink [&_b]:font-semibold [&_b]:text-ink"
+              className="pt-1 text-[1rem] leading-snug text-ink [&_b]:font-semibold [&_b]:text-ink"
               dangerouslySetInnerHTML={{ __html: s }}
             />
           </li>
@@ -132,10 +132,10 @@ export default function Info() {
       <section>
         <div className="screen-enter relative mx-auto w-full max-w-[680px] px-6 pb-16 pt-10 text-center sm:pt-14">
           <Eyebrow>Compañero de lectura bíblica</Eyebrow>
-          <h1 className="mx-auto mt-5 max-w-[560px] text-[38px] font-bold leading-[1.12] tracking-[-0.03em] text-ink [text-wrap:balance] sm:text-[48px]">
+          <h1 className="mx-auto mt-5 max-w-[560px] text-[2.375rem] font-bold leading-[1.12] tracking-[-0.03em] text-ink [text-wrap:balance] sm:text-[3rem]">
             El hábito de abrir <span className="whitespace-nowrap text-accent-ink">tu Biblia</span>, sostenido día a día.
           </h1>
-          <p className="mx-auto mt-6 max-w-[480px] text-[18px] leading-relaxed text-ink-soft">
+          <p className="mx-auto mt-6 max-w-[480px] text-[1.125rem] leading-relaxed text-ink-soft">
             Tu plan, tu racha, tu diario y tus oraciones —solo o con tu grupo—
             para sostener la lectura en tu Biblia de papel. No es otro lector
             para la pantalla.
@@ -145,10 +145,10 @@ export default function Info() {
               Empezá gratis
             </Link>
           </div>
-          <p className="mt-5 text-[15px] font-medium text-ink-soft">
+          <p className="mt-5 text-[0.9375rem] font-medium text-ink-soft">
             Más de 100 lectores ya sostienen su hábito acá.
           </p>
-          <p className="mt-1.5 text-[13px] text-ink-soft">
+          <p className="mt-1.5 text-[0.8125rem] text-ink-soft">
             Gratis · solo tu correo, sin contraseña · sin publicidad
           </p>
         </div>
@@ -161,12 +161,12 @@ export default function Info() {
         <div className="border-t border-hairline pt-12 lg:flex lg:items-center lg:gap-16">
           <div className="lg:flex-1">
             <Eyebrow>La idea</Eyebrow>
-            <p className="mt-5 max-w-[560px] text-[22px] font-medium leading-[1.5] tracking-[-0.02em] text-ink sm:text-[25px]">
+            <p className="mt-5 max-w-[560px] text-[1.375rem] font-medium leading-[1.5] tracking-[-0.02em] text-ink sm:text-[1.5625rem]">
               «Lee Tu Biblia» significa leé <span className="text-accent-ink">tu</span>{' '}
               Biblia: la de papel, la que subrayás. La app no compite con ese
               momento —lo cuida. El texto vive en tus páginas; acá vive el hábito.
             </p>
-            <p className="mt-6 max-w-[520px] text-[16px] leading-relaxed text-ink-soft">
+            <p className="mt-6 max-w-[520px] text-[1rem] leading-relaxed text-ink-soft">
               ¿Preferís leer en el teléfono? También. Con un toque te abrimos el
               pasaje del día en tu app de Biblia —la app no reemplaza ese momento,
               te acompaña hasta él.
@@ -185,7 +185,7 @@ export default function Info() {
         <div className="mt-10 flex flex-col gap-12">
           {CLUSTERS.map((c) => (
             <div key={c.label}>
-              <h3 className="mb-6 border-b border-hairline pb-3 text-[13px] font-semibold uppercase tracking-[0.12em] text-ink-soft">
+              <h3 className="mb-6 border-b border-hairline pb-3 text-[0.8125rem] font-semibold uppercase tracking-[0.12em] text-ink-soft">
                 {c.label}
               </h3>
               <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
@@ -193,8 +193,8 @@ export default function Info() {
                   <div key={f.name} className="flex items-start gap-4">
                     <IconBadge tone={f.tone}>{f.icon}</IconBadge>
                     <div>
-                      <p className="text-[17px] font-semibold text-ink">{f.name}</p>
-                      <p className="mt-1 text-[15px] leading-snug text-ink-soft">{f.desc}</p>
+                      <p className="text-[1.0625rem] font-semibold text-ink">{f.name}</p>
+                      <p className="mt-1 text-[0.9375rem] leading-snug text-ink-soft">{f.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -211,7 +211,7 @@ export default function Info() {
           <SectionTitle className="mt-4 max-w-[560px]">
             Una herramienta para discipular, no solo una app personal
           </SectionTitle>
-          <p className="mt-6 max-w-[560px] text-[18px] leading-relaxed text-ink-soft">
+          <p className="mt-6 max-w-[560px] text-[1.125rem] leading-relaxed text-ink-soft">
             Rinde de verdad en comunidad. Si guiás un grupo de discipulado o
             una congregación, tenés lo necesario para caminar con
             tu gente en la Palabra —sin grupos de chat desbordados—, con la
@@ -227,8 +227,8 @@ export default function Info() {
                   <div key={d.title} className="flex items-start gap-4">
                     <IconBadge tone={d.tone}>{d.icon}</IconBadge>
                     <div>
-                      <h3 className="text-[17px] font-semibold text-ink">{d.title}</h3>
-                      <p className="mt-1 text-[15px] leading-snug text-ink-soft">{d.desc}</p>
+                      <h3 className="text-[1.0625rem] font-semibold text-ink">{d.title}</h3>
+                      <p className="mt-1 text-[0.9375rem] leading-snug text-ink-soft">{d.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -241,10 +241,10 @@ export default function Info() {
 
           {/* El camino del líder: empezar cuesta un minuto. */}
           <div className="mt-12">
-            <p className="text-[14px] font-medium text-ink-soft">
+            <p className="text-[0.875rem] font-medium text-ink-soft">
               Empezar con tu grupo lleva un minuto:
             </p>
-            <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[17px] font-semibold text-ink">
+            <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[1.0625rem] font-semibold text-ink">
               <span>Creá el grupo</span>
               <span aria-hidden="true" className="text-accent-ink">→</span>
               <span>Compartí el código</span>
@@ -253,12 +253,12 @@ export default function Info() {
             </p>
           </div>
 
-          <p className="mt-9 text-[15px] italic leading-relaxed text-ink-soft">
+          <p className="mt-9 text-[0.9375rem] italic leading-relaxed text-ink-soft">
             Todo es opt-in: cada persona elige qué comparte con el grupo. Nadie
             queda expuesto.
           </p>
 
-          <p className="mt-8 text-[16px] text-ink-soft">
+          <p className="mt-8 text-[1rem] text-ink-soft">
             ¿Guiás un grupo?{' '}
             <Link to="/lideres" className="font-semibold text-accent-ink hover:underline">
               Mirá la guía para líderes, con capturas reales →
@@ -271,7 +271,7 @@ export default function Info() {
       <section className="mx-auto w-full max-w-[880px] px-6 py-20">
         <Eyebrow>En 2 minutos</Eyebrow>
         <SectionTitle className="mt-4">Instalala como app</SectionTitle>
-        <p className="mt-4 max-w-[520px] text-[16px] leading-relaxed text-ink-soft">
+        <p className="mt-4 max-w-[520px] text-[1rem] leading-relaxed text-ink-soft">
           No hace falta ninguna tienda: ya estás en el lugar. Creá tu cuenta y
           agregala a tu pantalla de inicio.
         </p>
@@ -293,7 +293,7 @@ export default function Info() {
             ]}
           />
         </div>
-        <p className="mt-9 max-w-[560px] text-[14px] leading-relaxed text-ink-soft">
+        <p className="mt-9 max-w-[560px] text-[0.875rem] leading-relaxed text-ink-soft">
           ¿Llegaste desde Instagram o Facebook? Tocá el menú del navegador
           interno y elegí «Abrir en Safari» (o Chrome) antes de instalar.
         </p>
@@ -302,10 +302,10 @@ export default function Info() {
       {/* ── CTA FINAL ────────────────────────────────────────── */}
       <section className="border-t border-hairline">
         <div className="mx-auto w-full max-w-[680px] px-6 py-20 text-center">
-          <h2 className="text-[32px] font-bold tracking-[-0.025em] text-ink sm:text-[38px]">
+          <h2 className="text-[2rem] font-bold tracking-[-0.025em] text-ink sm:text-[2.375rem]">
             Empezá hoy
           </h2>
-          <p className="mx-auto mt-4 max-w-[380px] text-[18px] leading-relaxed text-ink-soft">
+          <p className="mx-auto mt-4 max-w-[380px] text-[1.125rem] leading-relaxed text-ink-soft">
             Sumate gratis y sostené tu lectura, un día a la vez.
           </p>
           <div className="mx-auto mt-8 max-w-[300px]">
@@ -315,10 +315,10 @@ export default function Info() {
           </div>
 
           {/* La firma que ya usa el splash de la app: landing y producto, unidos. */}
-          <p className="mx-auto mt-16 max-w-[420px] text-[17px] italic leading-relaxed text-ink-soft">
+          <p className="mx-auto mt-16 max-w-[420px] text-[1.0625rem] italic leading-relaxed text-ink-soft">
             «Santifícalos en la verdad; Tu palabra es verdad.»
           </p>
-          <p className="mt-2 text-[13px] text-ink-soft">Juan 17:17 · NBLA</p>
+          <p className="mt-2 text-[0.8125rem] text-ink-soft">Juan 17:17 · NBLA</p>
         </div>
       </section>
 

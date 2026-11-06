@@ -28,8 +28,8 @@ function ActionRow({ title, subtitle, onClick }) {
       className="flex min-h-11 w-full items-center justify-between gap-4 px-4 py-3 text-left"
     >
       <span className="min-w-0 flex-1">
-        <span className="block text-[16px] text-ink">{title}</span>
-        <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">{subtitle}</span>
+        <span className="block text-[1rem] text-ink">{title}</span>
+        <span className="mt-0.5 block text-[0.8125rem] leading-snug text-ink-soft">{subtitle}</span>
       </span>
       <RowChevron />
     </button>
@@ -87,8 +87,8 @@ function FeedbackSheet({ initialKind, onClose }) {
           >
             <CheckIcon size={32} strokeWidth={2.2} />
           </span>
-          <p className="mt-4 text-[20px] font-semibold text-ink">{t('dev.sentTitle')}</p>
-          <p className="mt-1.5 max-w-[32ch] text-[15px] leading-snug text-ink-soft">{t('dev.sentBody')}</p>
+          <p className="mt-4 text-[1.25rem] font-semibold text-ink">{t('dev.sentTitle')}</p>
+          <p className="mt-1.5 max-w-[32ch] text-[0.9375rem] leading-snug text-ink-soft">{t('dev.sentBody')}</p>
         </div>
       </Sheet>
     )
@@ -120,10 +120,10 @@ function FeedbackSheet({ initialKind, onClose }) {
         placeholder={kind === 'bug' ? t('dev.placeholderBug') : t('dev.placeholderSuggestion')}
         value={body}
         onChange={(e) => setBody(e.target.value)}
-        className="mt-3 w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
+        className="mt-3 w-full resize-none rounded-input px-4 py-3 text-[1rem] outline-none"
         style={inputStyle}
       />
-      <p className="mt-2 text-[13px] leading-snug text-ink-soft">
+      <p className="mt-2 text-[0.8125rem] leading-snug text-ink-soft">
         {kind === 'bug' ? t('dev.attachedBug', { version: APP_VERSION }) : t('dev.attachedSuggestion')}
       </p>
       {error && (
@@ -135,7 +135,7 @@ function FeedbackSheet({ initialKind, onClose }) {
               body,
               ctx
             )}
-            className="mt-1 inline-block text-[13px] font-medium"
+            className="mt-1 inline-block text-[0.8125rem] font-medium"
             style={{ color: 'var(--accent-ink)' }}
           >
             {t('dev.emailInstead')}
@@ -165,23 +165,23 @@ export default function DeveloperSection() {
         <div className="px-4 py-4">
           <div className="flex items-center gap-3">
             <span
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[14px] font-semibold"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[0.875rem] font-semibold"
               style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
               aria-hidden="true"
             >
               {initials(DEVELOPER_NAME)}
             </span>
             <div className="min-w-0">
-              <p className="text-[16px] font-medium text-ink">{DEVELOPER_NAME}</p>
-              <p className="text-[13px] text-ink-soft">{t('dev.role')}</p>
+              <p className="text-[1rem] font-medium text-ink">{DEVELOPER_NAME}</p>
+              <p className="text-[0.8125rem] text-ink-soft">{t('dev.role')}</p>
             </div>
           </div>
-          <p className="mt-3 text-[15px] leading-snug text-ink">{t('dev.intro')}</p>
+          <p className="mt-3 text-[0.9375rem] leading-snug text-ink">{t('dev.intro')}</p>
           <a
             href={MISSION_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-2 inline-flex items-center gap-1 text-[13px] font-medium"
+            className="mt-2 inline-flex items-center gap-1 text-[0.8125rem] font-medium"
             style={{ color: 'var(--accent-ink)' }}
           >
             {t('ajustes.misionLink')} ↗

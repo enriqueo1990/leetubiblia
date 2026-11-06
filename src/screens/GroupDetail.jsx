@@ -477,7 +477,7 @@ export default function GroupDetail() {
           style={{ backgroundColor: 'var(--surface-alt)', borderColor: 'var(--control-border)' }}
           role="status"
         >
-          <p className="text-[13px] leading-snug text-ink-soft">{t('groupDetail.partialLoadError')}</p>
+          <p className="text-[0.8125rem] leading-snug text-ink-soft">{t('groupDetail.partialLoadError')}</p>
           <button
             type="button"
             onClick={load}
@@ -573,7 +573,7 @@ export default function GroupDetail() {
         <button
           type="button"
           onClick={() => setConfirm({ type: 'leave' })}
-          className="mt-7 min-h-11 w-full py-3 text-center text-[16px]"
+          className="mt-7 min-h-11 w-full py-3 text-center text-[1rem]"
           style={{ color: 'var(--danger)' }}
         >
           {t('groupDetail.leaveGroup')}
@@ -584,7 +584,7 @@ export default function GroupDetail() {
         <button
           type="button"
           onClick={() => setConfirm({ type: 'delete' })}
-          className="mt-7 min-h-11 w-full py-3 text-center text-[16px]"
+          className="mt-7 min-h-11 w-full py-3 text-center text-[1rem]"
           style={{ color: 'var(--danger)' }}
         >
           {t('groupDetail.deleteGroup')}

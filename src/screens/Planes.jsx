@@ -59,8 +59,8 @@ export default function Planes() {
   return (
     <div className="pt-2">
       <BackLink to="/" label={t('nav.hoy')} />
-      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">{t('nav.planes')}</h1>
-      <p className="mt-2 text-[16px] text-ink-soft">{t('planes.subtitle')}</p>
+      <h1 className="mt-3 text-[1.625rem] font-bold tracking-tight text-ink">{t('nav.planes')}</h1>
+      <p className="mt-2 text-[1rem] text-ink-soft">{t('planes.subtitle')}</p>
 
       <div className="mt-5 space-y-3">
         {plans === null && !error && <SkeletonCards count={3} />}

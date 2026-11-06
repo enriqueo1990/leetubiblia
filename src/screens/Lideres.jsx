@@ -55,12 +55,12 @@ function Steps({ eyebrow, title, steps, children }) {
         <ol className="mt-8 flex max-w-[600px] flex-col gap-5">
           {steps.map(([head, body], i) => (
             <li key={i} className="flex items-start gap-4">
-              <span className="mt-[1px] inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-action text-[15px] font-bold text-on-accent">
+              <span className="mt-[1px] inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-action text-[0.9375rem] font-bold text-on-accent">
                 {i + 1}
               </span>
               <span className="pt-1">
-                <span className="block text-[17px] font-semibold leading-snug text-ink">{head}</span>
-                <span className="mt-1 block text-[16px] leading-snug text-ink-soft [&_b]:font-semibold [&_b]:text-ink">
+                <span className="block text-[1.0625rem] font-semibold leading-snug text-ink">{head}</span>
+                <span className="mt-1 block text-[1rem] leading-snug text-ink-soft [&_b]:font-semibold [&_b]:text-ink">
                   {body}
                 </span>
               </span>
@@ -81,7 +81,7 @@ function Week({ title, children, shot, alt, side = 'right', first = false }) {
     <div className={`${first ? '' : 'border-t border-hairline pt-12'} lg:flex lg:items-center lg:gap-16`}>
       <div className={`lg:flex-1 ${left ? 'lg:order-2' : ''}`}>
         <SubTitle className="max-w-[480px]">{title}</SubTitle>
-        <p className="mt-4 max-w-[480px] text-[16.5px] leading-relaxed text-ink-soft [&_b]:font-semibold [&_b]:text-ink">
+        <p className="mt-4 max-w-[480px] text-[1.0312rem] leading-relaxed text-ink-soft [&_b]:font-semibold [&_b]:text-ink">
           {children}
         </p>
       </div>
@@ -134,10 +134,10 @@ export default function Lideres() {
       <section>
         <div className="screen-enter relative mx-auto w-full max-w-[680px] px-6 pb-12 pt-10 text-center sm:pt-14">
           <Eyebrow>Para líderes de grupo</Eyebrow>
-          <h1 className="mx-auto mt-5 max-w-[580px] text-[34px] font-bold leading-[1.13] tracking-[-0.03em] text-ink [text-wrap:balance] sm:text-[42px]">
+          <h1 className="mx-auto mt-5 max-w-[580px] text-[2.125rem] font-bold leading-[1.13] tracking-[-0.03em] text-ink [text-wrap:balance] sm:text-[2.625rem]">
             Cómo usar Lee Tu Biblia <span className="text-accent-ink">con tu grupo</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-[500px] text-[18px] leading-relaxed text-ink-soft">
+          <p className="mx-auto mt-6 max-w-[500px] text-[1.125rem] leading-relaxed text-ink-soft">
             Cada uno lee en su Biblia. La app les ayuda a leer lo mismo, a ver
             quién va leyendo y a orar unos por otros. Se arma en cinco minutos.
           </p>
@@ -175,7 +175,7 @@ export default function Lideres() {
           ],
         ]}
       >
-        <p className="mt-7 max-w-[560px] text-[15px] leading-relaxed text-ink-soft">
+        <p className="mt-7 max-w-[560px] text-[0.9375rem] leading-relaxed text-ink-soft">
           Al entrar al grupo, la app te pregunta si compartís tu lectura. Decí que sí: sin eso
           no ves quién leyó ni la semana de cada uno.
         </p>
@@ -212,7 +212,7 @@ export default function Lideres() {
           ],
         ]}
       >
-        <p className="mt-7 max-w-[560px] text-[15px] leading-relaxed text-ink-soft">
+        <p className="mt-7 max-w-[560px] text-[0.9375rem] leading-relaxed text-ink-soft">
           Tip: mandá estos cuatro pasos al chat junto con el link de invitación.
         </p>
       </Steps>
@@ -280,7 +280,7 @@ export default function Lideres() {
         <div className="band-grupos rounded-card px-7 py-8">
           <Eyebrow tone="grupos">En la reunión</Eyebrow>
           <SectionTitle className="mt-4">Una idea para usarla cuando se juntan</SectionTitle>
-          <ul className="mt-6 flex max-w-[600px] flex-col gap-3 text-[16px] leading-snug text-ink">
+          <ul className="mt-6 flex max-w-[600px] flex-col gap-3 text-[1rem] leading-snug text-ink">
             <li>
               <b className="font-semibold">Abran la semana:</b> ¿qué les habló Dios en la lectura?
             </li>
@@ -301,8 +301,8 @@ export default function Lideres() {
           <dl className="mt-6 grid max-w-[760px] gap-x-10 gap-y-7 sm:grid-cols-2">
             {FAQ.map(([q, a]) => (
               <div key={q}>
-                <dt className="text-[16.5px] font-semibold text-ink">{q}</dt>
-                <dd className="mt-1.5 text-[15.5px] leading-relaxed text-ink-soft">{a}</dd>
+                <dt className="text-[1.0312rem] font-semibold text-ink">{q}</dt>
+                <dd className="mt-1.5 text-[0.9688rem] leading-relaxed text-ink-soft">{a}</dd>
               </div>
             ))}
           </dl>
@@ -312,10 +312,10 @@ export default function Lideres() {
       {/* ── CIERRE ───────────────────────────────────────────── */}
       <section className="border-t border-hairline">
         <div className="mx-auto w-full max-w-[680px] px-6 py-20 text-center">
-          <h2 className="text-[32px] font-bold tracking-[-0.025em] text-ink sm:text-[38px]">
+          <h2 className="text-[2rem] font-bold tracking-[-0.025em] text-ink sm:text-[2.375rem]">
             Empezá hoy con tu grupo
           </h2>
-          <p className="mx-auto mt-4 max-w-[420px] text-[18px] leading-relaxed text-ink-soft">
+          <p className="mx-auto mt-4 max-w-[420px] text-[1.125rem] leading-relaxed text-ink-soft">
             Creá el grupo, elegí el plan y mandá el link. El resto lo van caminando juntos.
           </p>
           <div className="mx-auto mt-8 max-w-[300px]">
@@ -323,18 +323,18 @@ export default function Lideres() {
               Abrir la app
             </Link>
           </div>
-          <p className="mt-4 text-[14px] text-ink-soft">
+          <p className="mt-4 text-[0.875rem] text-ink-soft">
             ¿Querés ver todo lo que hace la app?{' '}
             <Link to="/ayuda" className="font-semibold text-accent-ink hover:underline">
               Guía completa
             </Link>
           </p>
 
-          <p className="mx-auto mt-16 max-w-[460px] text-[17px] italic leading-relaxed text-ink-soft">
+          <p className="mx-auto mt-16 max-w-[460px] text-[1.0625rem] italic leading-relaxed text-ink-soft">
             «Y considerémonos unos a otros para estimularnos al amor y a las
             buenas obras.»
           </p>
-          <p className="mt-2 text-[13px] text-ink-soft">Hebreos 10:24 · NBLA</p>
+          <p className="mt-2 text-[0.8125rem] text-ink-soft">Hebreos 10:24 · NBLA</p>
         </div>
       </section>
 

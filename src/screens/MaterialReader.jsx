@@ -56,13 +56,13 @@ import InlineError from '../components/InlineError.jsx'
 function RefLink({ refItem, locale, bibleProvider }) {
   const url = passageUrl(refItem, locale, bibleProvider)
   const label = bookLabel(refItem, locale)
-  if (!url) return <span className="whitespace-nowrap text-[15px] font-medium text-ink-soft">{label}</span>
+  if (!url) return <span className="whitespace-nowrap text-[0.9375rem] font-medium text-ink-soft">{label}</span>
   return (
     <a
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="whitespace-nowrap text-[15px] font-medium transition-opacity active:opacity-50"
+      className="whitespace-nowrap text-[0.9375rem] font-medium transition-opacity active:opacity-50"
       style={{ color: 'var(--accent-ink)' }}
     >
       {label}
@@ -411,7 +411,7 @@ export default function MaterialReader() {
           <button
             type="button"
             onClick={() => setIndexOpen(true)}
-            className="-mr-2 flex min-h-11 items-center gap-1.5 px-2 text-[13px] font-medium text-ink-soft transition-colors hover:text-accent-ink"
+            className="-mr-2 flex min-h-11 items-center gap-1.5 px-2 text-[0.8125rem] font-medium text-ink-soft transition-colors hover:text-accent-ink"
           >
             <ListIcon size={16} />
             {t('materialReader.index')}
@@ -436,16 +436,16 @@ export default function MaterialReader() {
         /* Ficha 0 — portada: contexto histórico. No es una pregunta: no se marca,
            no mueve el marcador. Acá vive el nombre completo del material. */
         <div key="intro" className="screen-enter card mt-6 p-5">
-          <p className="text-[13px] font-medium text-ink-soft">{t('materialReader.intro')}</p>
-          <h1 className="mt-2.5 text-[20px] font-semibold leading-snug text-ink">
+          <p className="text-[0.8125rem] font-medium text-ink-soft">{t('materialReader.intro')}</p>
+          <h1 className="mt-2.5 text-[1.25rem] font-semibold leading-snug text-ink">
             {content.name}
           </h1>
           {locale !== 'es' && (
-            <p className="mt-1 text-[12px] text-ink-soft">{t('materiales.inSpanish')}</p>
+            <p className="mt-1 text-[0.75rem] text-ink-soft">{t('materiales.inSpanish')}</p>
           )}
           <div className="mt-3.5 space-y-3">
             {content.intro.map((p, i) => (
-              <p key={i} className="text-[17px] leading-relaxed text-ink">
+              <p key={i} className="text-[1.0625rem] leading-relaxed text-ink">
                 {p}
               </p>
             ))}
@@ -456,14 +456,14 @@ export default function MaterialReader() {
         {/* Una sola línea de metadata: posición y bloque. El estado leída/actual NO
             va acá: ya lo comunica la zona de abajo (botón primario = actual;
             solo navegación = repaso). Cada estado se dice una sola vez. */}
-        <p className="text-[13px] font-medium text-ink-soft">
+        <p className="text-[0.8125rem] font-medium text-ink-soft">
           {/* Por fecha, el bloque es el mes: ya lo dice la fecha. */}
           {[entryOfLabel(t, slug, entry.number, total, locale), entry.section ?? (!calendar && entry.blockTitle)]
             .filter(Boolean)
             .join(' · ')}
         </p>
 
-        <h1 className="mt-2.5 text-[20px] font-semibold leading-snug text-ink">
+        <h1 className="mt-2.5 text-[1.25rem] font-semibold leading-snug text-ink">
           {entry.question}
           {/* Devocional: la cita va pegada al versículo que encabeza la lectura. */}
           {headingRef && (
@@ -479,7 +479,7 @@ export default function MaterialReader() {
         {pick ? (
           // Modo "Elegir una frase": cada oración se toca; el rango elegido se
           // resalta con el tinte del acento. Los párrafos conservan su aire.
-          <div className="mt-3.5 space-y-3 text-[17px] leading-relaxed text-ink">
+          <div className="mt-3.5 space-y-3 text-[1.0625rem] leading-relaxed text-ink">
             {[...new Set(sentences.map((x) => x.para))].map((para) => (
               <p key={para}>
                 {sentences.map((x, i) => {
@@ -519,11 +519,11 @@ export default function MaterialReader() {
             ))}
           </div>
         ) : (
-          <p className="mt-3.5 whitespace-pre-line text-[17px] leading-relaxed text-ink">{entry.answer}</p>
+          <p className="mt-3.5 whitespace-pre-line text-[1.0625rem] leading-relaxed text-ink">{entry.answer}</p>
         )}
 
         {content.author && (
-          <p className="mt-4 text-right text-[15px] italic text-ink-soft">— {content.author}</p>
+          <p className="mt-4 text-right text-[0.9375rem] italic text-ink-soft">— {content.author}</p>
         )}
 
         {/* Citas de apoyo como nota al pie de la ficha: filete hairline arriba
@@ -537,7 +537,7 @@ export default function MaterialReader() {
             {refGroups(footRefs).map((g, gi) => (
               <p key={gi} className="leading-relaxed">
                 {g.p != null && (
-                  <span className="mr-2 text-[13px] font-medium tabular-nums text-ink-soft">{g.p}</span>
+                  <span className="mr-2 text-[0.8125rem] font-medium tabular-nums text-ink-soft">{g.p}</span>
                 )}
                 {g.refs.map((ref, i) => {
                   const url = passageUrl(ref, locale, bibleProvider)
@@ -552,13 +552,13 @@ export default function MaterialReader() {
                             href={url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-block py-1 text-[15px] font-medium transition-opacity active:opacity-50"
+                            className="inline-block py-1 text-[0.9375rem] font-medium transition-opacity active:opacity-50"
                             style={{ color: 'var(--accent-ink)' }}
                           >
                             {bookLabel(ref, locale)}
                           </a>
                         ) : (
-                          <span className="text-[15px] text-ink">{bookLabel(ref, locale)}</span>
+                          <span className="text-[0.9375rem] text-ink">{bookLabel(ref, locale)}</span>
                         )}
                         {!last && (
                           <span aria-hidden="true" className="text-ink-soft" style={{ opacity: 0.5 }}>
@@ -578,7 +578,7 @@ export default function MaterialReader() {
       )}
 
       {completed && !isIntro && (
-        <p className="mt-6 text-[14px] text-ink-soft">
+        <p className="mt-6 text-[0.875rem] text-ink-soft">
           <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✓ </span>
           {t('materialReader.completed')}
         </p>
@@ -601,14 +601,14 @@ export default function MaterialReader() {
           quedar a ras de esos bordes, no varado más angosto. */}
       <div className="action-bar space-y-1">
         {saveError && (
-          <p className="pb-1 text-[12px]" role="alert" style={{ color: 'var(--danger)' }}>
+          <p className="pb-1 text-[0.75rem]" role="alert" style={{ color: 'var(--danger)' }}>
             {t('materialReader.saveError')}
           </p>
         )}
         {shareError && <InlineError message={t('materialReader.shareError')} className="pb-1" />}
         {pick ? (
           <>
-            <p className="pb-1 text-center text-[13px] text-ink-soft">{t('share.pickHint')}</p>
+            <p className="pb-1 text-center text-[0.8125rem] text-ink-soft">{t('share.pickHint')}</p>
             <button
               type="button"
               onClick={sharePhrase}
@@ -620,7 +620,7 @@ export default function MaterialReader() {
             <button
               type="button"
               onClick={() => setPick(null)}
-              className="block w-full py-2 text-center text-[15px] font-medium text-ink-soft"
+              className="block w-full py-2 text-center text-[0.9375rem] font-medium text-ink-soft"
             >
               {t('common.cancel')}
             </button>
@@ -633,7 +633,7 @@ export default function MaterialReader() {
         ) : (
           <>
             {justMarked && atFrontier && (
-              <p className="moment-in pb-1.5 text-center text-[13px] font-medium text-ink-soft">
+              <p className="moment-in pb-1.5 text-center text-[0.8125rem] font-medium text-ink-soft">
                 <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✓ </span>
                 {t('materialReader.markedNote')}
               </p>
@@ -651,13 +651,13 @@ export default function MaterialReader() {
                 Hoy); otro día → volver a la de hoy. */}
             {calendar && n === today && readToday && (
               <>
-                <p className="py-2 text-center text-[15px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
+                <p className="py-2 text-center text-[0.9375rem] font-semibold" style={{ color: 'var(--accent-ink)' }}>
                   ✓ {t('hoy.read')}
                 </p>
                 <button
                   type="button"
                   onClick={() => setTodayRead(false)}
-                  className="block w-full py-2 text-center text-[14px] font-medium text-ink-soft"
+                  className="block w-full py-2 text-center text-[0.875rem] font-medium text-ink-soft"
                 >
                   {t('hoy.unmark')}
                 </button>
@@ -674,7 +674,7 @@ export default function MaterialReader() {
                   <button
                     type="button"
                     onClick={() => setN(n - 1)}
-                    className="inline-flex min-h-11 items-center pr-4 text-[15px] font-medium"
+                    className="inline-flex min-h-11 items-center pr-4 text-[0.9375rem] font-medium"
                     style={{ color: 'var(--accent-ink)' }}
                   >
                     {/* Desde la pregunta 1 lo anterior es la portada: decirlo. */}
@@ -687,7 +687,7 @@ export default function MaterialReader() {
                   <button
                     type="button"
                     onClick={() => setN(n + 1)}
-                    className="inline-flex min-h-11 items-center pl-4 text-[15px] font-medium"
+                    className="inline-flex min-h-11 items-center pl-4 text-[0.9375rem] font-medium"
                     style={{ color: 'var(--accent-ink)' }}
                   >
                     {t('materialReader.next')} ›

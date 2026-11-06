@@ -3,7 +3,7 @@
 export default function InlineError({ message, className = 'mt-1' }) {
   if (!message) return null
   return (
-    <p role="alert" className={`text-[13px] leading-snug ${className}`} style={{ color: 'var(--danger)' }}>
+    <p role="alert" className={`text-[0.8125rem] leading-snug ${className}`} style={{ color: 'var(--danger)' }}>
       {message}
     </p>
   )

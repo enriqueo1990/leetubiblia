@@ -40,9 +40,9 @@ export default function TodayExtraRows({ rows, rowClassName = 'px-4 py-3', from 
             <span className="sr-only">{t('hoy.extrasTypeMaterial')}: </span>
             {/* El nombre entero, hasta dos líneas: el avance va abajo, junto a la
                 barra, para no robarle lugar. */}
-            <span className="line-clamp-2 block text-[15px] font-semibold leading-snug text-ink">{r.label}</span>
+            <span className="line-clamp-2 block text-[0.9375rem] font-semibold leading-snug text-ink">{r.label}</span>
             {r.question && (
-              <span className="mt-1 line-clamp-3 block text-[15px] leading-snug text-ink" style={{ fontFamily: BRAND_SERIF }}>
+              <span className="mt-1 line-clamp-3 block text-[0.9375rem] leading-snug text-ink" style={{ fontFamily: BRAND_SERIF }}>
                 {r.question}
               </span>
             )}
@@ -55,7 +55,7 @@ export default function TodayExtraRows({ rows, rowClassName = 'px-4 py-3', from 
                   />
                 </span>
               )}
-              <span className="shrink-0 text-[12px] tabular-nums text-ink-soft">
+              <span className="shrink-0 text-[0.75rem] tabular-nums text-ink-soft">
                 {done && (
                   <>
                     <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✓ </span>
@@ -86,12 +86,12 @@ export default function TodayExtraRows({ rows, rowClassName = 'px-4 py-3', from 
               <PeopleIcon size={16} />
             </span>
             <span className="sr-only">{t('hoy.extrasTypeGroup')}: </span>
-            <span className="block min-w-0 truncate text-[16px] text-ink">{name}</span>
+            <span className="block min-w-0 truncate text-[1rem] text-ink">{name}</span>
           </span>
-          {detail && <span className="mt-0.5 block truncate pl-6 text-[13px] text-ink-soft">{detail}</span>}
+          {detail && <span className="mt-0.5 block truncate pl-6 text-[0.8125rem] text-ink-soft">{detail}</span>}
         </span>
         <span className="flex shrink-0 items-center gap-1.5">
-          <span className="text-[13px] tabular-nums text-ink-soft">
+          <span className="text-[0.8125rem] tabular-nums text-ink-soft">
             {done && (
               <>
                 <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✓ </span>

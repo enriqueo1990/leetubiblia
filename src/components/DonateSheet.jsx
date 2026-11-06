@@ -18,14 +18,14 @@ export function GoalProgress({ goal }) {
   return (
     <div>
       <div className="flex items-baseline justify-between gap-3">
-        <p className="text-[15px] font-semibold text-ink tabular-nums">
+        <p className="text-[0.9375rem] font-semibold text-ink tabular-nums">
           {t('goal.progress', {
             currency: goal.currency,
             raised: money(goal.raised, locale),
             target: money(goal.target, locale),
           })}
         </p>
-        <p className="text-[13px] text-ink-soft tabular-nums">{Math.round(ratio * 100)}%</p>
+        <p className="text-[0.8125rem] text-ink-soft tabular-nums">{Math.round(ratio * 100)}%</p>
       </div>
       <div
         className="mt-2 h-2 overflow-hidden rounded-full"
@@ -51,22 +51,22 @@ export default function DonateSheet({ goal, fromGoal = false, title = null, onCl
   const { t, locale } = usePreferences()
   const goalBlock = goal ? (
     <section className="rounded-card p-4" style={{ backgroundColor: 'var(--surface)' }}>
-      <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">{t('goal.eyebrow')}</p>
-      <p className="mt-1 text-[15px] leading-snug text-ink">
+      <p className="text-[0.75rem] font-semibold uppercase tracking-wide text-ink-soft">{t('goal.eyebrow')}</p>
+      <p className="mt-1 text-[0.9375rem] leading-snug text-ink">
         {t('goal.text', { currency: goal.currency, target: money(goal.target, locale) })}
       </p>
       <div className="mt-3">
         <GoalProgress goal={goal} />
       </div>
-      <p className="mt-3 text-[13px] leading-snug text-ink-soft">{t('goal.surplus')}</p>
+      <p className="mt-3 text-[0.8125rem] leading-snug text-ink-soft">{t('goal.surplus')}</p>
     </section>
   ) : null
 
   return (
     <Sheet title={title ?? (fromGoal ? t('goal.sheetTitle') : t('dev.donate'))} onCancel={onClose}>
-      {fromGoal ? goalBlock : <p className="text-[15px] leading-snug text-ink">{t('ajustes.misionText')}</p>}
+      {fromGoal ? goalBlock : <p className="text-[0.9375rem] leading-snug text-ink">{t('ajustes.misionText')}</p>}
       {!fromGoal && goalBlock ? <div className="mt-4">{goalBlock}</div> : null}
-      <p className="mt-4 text-[13px] leading-snug text-ink-soft">{t('dev.donateIntro')}</p>
+      <p className="mt-4 text-[0.8125rem] leading-snug text-ink-soft">{t('dev.donateIntro')}</p>
       <div className="mt-2 space-y-2">
         {DONATE_LINKS.map((d) => (
           <a
@@ -78,8 +78,8 @@ export default function DonateSheet({ goal, fromGoal = false, title = null, onCl
             className="flex min-h-12 items-center justify-between rounded-card px-4 py-3"
             style={{ backgroundColor: 'var(--surface)' }}
           >
-            <span className="text-[15px] font-medium text-ink">{t(`ajustes.${d.key}`)}</span>
-            <span className="text-[15px]" style={{ color: 'var(--accent-ink)' }} aria-hidden="true">
+            <span className="text-[0.9375rem] font-medium text-ink">{t(`ajustes.${d.key}`)}</span>
+            <span className="text-[0.9375rem]" style={{ color: 'var(--accent-ink)' }} aria-hidden="true">
               ↗
             </span>
           </a>
@@ -89,7 +89,7 @@ export default function DonateSheet({ goal, fromGoal = false, title = null, onCl
         href={MISSION_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-4 inline-flex items-center gap-1 text-[13px] font-medium"
+        className="mt-4 inline-flex items-center gap-1 text-[0.8125rem] font-medium"
         style={{ color: 'var(--accent-ink)' }}
       >
         {t('ajustes.misionLink')} ↗

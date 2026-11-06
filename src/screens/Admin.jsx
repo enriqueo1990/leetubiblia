@@ -46,13 +46,13 @@ function StatCard({ value, label, hint, accent, className = '', children }) {
   return (
     <div className={`card flex flex-col p-4 ${className}`}>
       <p
-        className={`text-[28px] font-bold leading-none ${accent ? 'text-accent-ink' : 'text-ink'}`}
+        className={`text-[1.75rem] font-bold leading-none ${accent ? 'text-accent-ink' : 'text-ink'}`}
         style={{ letterSpacing: '-1px' }}
       >
         {typeof value === 'number' ? formatCount(value) : value}
       </p>
-      <p className="mt-1.5 text-[13px] leading-tight text-ink-soft">{label}</p>
-      {hint ? <p className="mt-0.5 text-[12px] text-placeholder">{hint}</p> : null}
+      <p className="mt-1.5 text-[0.8125rem] leading-tight text-ink-soft">{label}</p>
+      {hint ? <p className="mt-0.5 text-[0.75rem] text-placeholder">{hint}</p> : null}
       {children ? <div className="mt-auto pt-3">{children}</div> : null}
     </div>
   )
@@ -78,11 +78,11 @@ function UsersHero({ total, series, new30, prev30 }) {
     <div className="card p-4 lg:p-5">
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[220px_minmax(0,1fr)] lg:items-center">
         <div>
-          <p className="text-[13px] text-ink-soft">Usuarios registrados</p>
-          <p className="mt-1 text-[52px] font-bold leading-none text-ink" style={{ letterSpacing: '-2px' }}>
+          <p className="text-[0.8125rem] text-ink-soft">Usuarios registrados</p>
+          <p className="mt-1 text-[3.25rem] font-bold leading-none text-ink" style={{ letterSpacing: '-2px' }}>
             {formatCount(total)}
           </p>
-          <p className="mt-2 text-[13px] text-ink-soft">+{formatCount(new30)} en los últimos 30 días</p>
+          <p className="mt-2 text-[0.8125rem] text-ink-soft">+{formatCount(new30)} en los últimos 30 días</p>
           <Delta now={new30} before={prev30} period="los 30 anteriores" />
         </div>
         {series.length > 1 ? (
@@ -112,7 +112,7 @@ function FunnelChart({ rows, empty, children }) {
     <div className="card p-4">
       <BarList rows={rows} empty={empty} highlight={drop?.index} />
       {drop ? (
-        <p className="mt-4 border-t pt-3 text-[13px] text-ink-soft" style={{ borderColor: 'var(--hairline)' }}>
+        <p className="mt-4 border-t pt-3 text-[0.8125rem] text-ink-soft" style={{ borderColor: 'var(--hairline)' }}>
           Mayor caída: <span className="font-semibold text-ink">−{Math.round(drop.loss * 100)}%</span> de «{drop.from}» a
           «{drop.to}».
         </p>
@@ -126,8 +126,8 @@ function FunnelChart({ rows, empty, children }) {
 function Section({ id, title, subtitle, children }) {
   return (
     <section id={id} className="mt-8 min-w-0 scroll-mt-[76px] lg:scroll-mt-8">
-      <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">{title}</p>
-      {subtitle ? <p className="mt-0.5 text-[13px] text-placeholder">{subtitle}</p> : null}
+      <p className="text-[0.75rem] font-semibold uppercase tracking-wide text-ink-soft">{title}</p>
+      {subtitle ? <p className="mt-0.5 text-[0.8125rem] text-placeholder">{subtitle}</p> : null}
       <div className="mt-3">{children}</div>
     </section>
   )
@@ -311,8 +311,8 @@ function AdminSidebar({ items, active, onSelect, updatedAt, onRefresh, refreshin
       aria-label="Secciones del panel"
     >
       <div className="px-3 pb-6">
-        <span className="text-[18px] font-bold tracking-tight text-ink">Panel</span>
-        <p className="mt-0.5 text-[13px] text-ink-soft">Lee Tu Biblia</p>
+        <span className="text-[1.125rem] font-bold tracking-tight text-ink">Panel</span>
+        <p className="mt-0.5 text-[0.8125rem] text-ink-soft">Lee Tu Biblia</p>
       </div>
       <nav className="-mx-1 min-h-0 flex-1 overflow-y-auto px-1">
         <ul className="flex flex-col gap-1">
@@ -334,12 +334,12 @@ function AdminSidebar({ items, active, onSelect, updatedAt, onRefresh, refreshin
                   }}
                 >
                   <Icon size={22} />
-                  <span className="flex-1 text-[15px]" style={{ fontWeight: on ? 600 : 500 }}>
+                  <span className="flex-1 text-[0.9375rem]" style={{ fontWeight: on ? 600 : 500 }}>
                     {label}
                   </span>
                   {badge ? (
                     <span
-                      className="rounded-full px-2 text-[12px] font-semibold leading-[20px]"
+                      className="rounded-full px-2 text-[0.75rem] font-semibold leading-[20px]"
                       style={{ backgroundColor: 'var(--accent-action)', color: '#fff' }}
                     >
                       {badge}
@@ -360,14 +360,14 @@ function AdminSidebar({ items, active, onSelect, updatedAt, onRefresh, refreshin
           style={{ color: 'var(--text-soft)' }}
         >
           <RefreshIcon size={22} className={refreshing ? 'animate-spin' : ''} />
-          <span className="text-[15px] font-medium">{refreshing ? 'Actualizando…' : 'Actualizar'}</span>
+          <span className="text-[0.9375rem] font-medium">{refreshing ? 'Actualizando…' : 'Actualizar'}</span>
         </button>
         <Link to="/" className={`${itemClass} hover:bg-[var(--accent-tint-nav)]`} style={{ color: 'var(--text-soft)' }}>
           <BackIcon size={22} />
-          <span className="text-[15px] font-medium">Volver a la app</span>
+          <span className="text-[0.9375rem] font-medium">Volver a la app</span>
         </Link>
         {updatedAt ? (
-          <p className="px-3 pt-2 text-[12px] text-placeholder">
+          <p className="px-3 pt-2 text-[0.75rem] text-placeholder">
             Actualizado {new Date(updatedAt).toLocaleString('es-ES')}
           </p>
         ) : null}
@@ -417,7 +417,7 @@ function AdminNav({ items, active, onSelect }) {
                   e.preventDefault()
                   onSelect(it.id)
                 }}
-                className="flex min-h-9 items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 text-[14px] transition-colors duration-200"
+                className="flex min-h-9 items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 text-[0.875rem] transition-colors duration-200"
                 style={{
                   backgroundColor: on ? 'var(--accent-action)' : 'var(--segment-track)',
                   color: on ? '#fff' : 'var(--text-soft)',
@@ -427,7 +427,7 @@ function AdminNav({ items, active, onSelect }) {
                 {it.label}
                 {it.badge ? (
                   <span
-                    className="rounded-full px-1.5 text-[12px] font-semibold leading-[18px]"
+                    className="rounded-full px-1.5 text-[0.75rem] font-semibold leading-[18px]"
                     style={{
                       backgroundColor: on ? 'rgba(255,255,255,0.25)' : 'var(--surface)',
                       color: on ? '#fff' : 'var(--text-primary)',
@@ -451,7 +451,7 @@ function AdminNav({ items, active, onSelect }) {
 // Barras de 8px, base recta y punta redondeada (4px).
 function BarList({ rows, empty, highlight }) {
   if (!rows || rows.length === 0) {
-    return <p className="text-[15px] text-ink-soft">{empty}</p>
+    return <p className="text-[0.9375rem] text-ink-soft">{empty}</p>
   }
   const max = Math.max(...rows.map((r) => r.value), 1)
   return (
@@ -459,11 +459,11 @@ function BarList({ rows, empty, highlight }) {
       {rows.map((r, i) => (
         <li key={i}>
           <div className="flex items-baseline justify-between gap-3">
-            <span className="min-w-0 flex-1 truncate text-[15px] text-ink">
+            <span className="min-w-0 flex-1 truncate text-[0.9375rem] text-ink">
               {r.lead ? <span className="mr-2">{r.lead}</span> : null}
               {r.label}
             </span>
-            <span className="shrink-0 text-[14px] font-semibold text-ink tabular-nums">
+            <span className="shrink-0 text-[0.875rem] font-semibold text-ink tabular-nums">
               {formatCount(r.value)}
               {r.note ? <span className="ml-2 font-normal text-ink-soft">{r.note}</span> : null}
             </span>
@@ -496,8 +496,8 @@ function SignupsChart({ series }) {
   return (
     <div className="card p-4">
       <div className="flex items-baseline justify-between gap-3">
-        <p className="text-[15px] font-semibold text-ink">Altas por día</p>
-        <p className="text-[13px] text-ink-soft">
+        <p className="text-[0.9375rem] font-semibold text-ink">Altas por día</p>
+        <p className="text-[0.8125rem] text-ink-soft">
           {formatCount(total)} en {series.length} días
         </p>
       </div>
@@ -533,11 +533,11 @@ function planStates(p) {
 function PlansHealth({ rows }) {
   const [hover, setHover] = useState(null) // `${slug}:${key}`
   if (!rows || rows.length === 0) {
-    return <p className="text-[15px] text-ink-soft">Sin planes todavía.</p>
+    return <p className="text-[0.9375rem] text-ink-soft">Sin planes todavía.</p>
   }
   return (
     <div className="card p-4 lg:p-5">
-      <ul className="flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-ink-soft" aria-label="Referencias">
+      <ul className="flex flex-wrap gap-x-4 gap-y-1 text-[0.75rem] text-ink-soft" aria-label="Referencias">
         {PLAN_STATES.map((st) => (
           <li key={st.key} className="flex items-center gap-1.5">
             <span className="h-2.5 w-2.5 rounded-[3px]" style={{ backgroundColor: st.color }} />
@@ -551,9 +551,9 @@ function PlansHealth({ rows }) {
           return (
             <li key={p.slug} className="min-w-0">
               <div className="flex items-baseline justify-between gap-3">
-                <p className="min-w-0 flex-1 truncate text-[15px] font-semibold text-ink">{p.name}</p>
+                <p className="min-w-0 flex-1 truncate text-[0.9375rem] font-semibold text-ink">{p.name}</p>
                 {p.started ? (
-                  <p className="shrink-0 text-[13px] text-ink-soft">
+                  <p className="shrink-0 text-[0.8125rem] text-ink-soft">
                     <span className="font-semibold text-ink tabular-nums">{pct(parts.done, p.started)}%</span> terminaron
                   </p>
                 ) : null}
@@ -580,7 +580,7 @@ function PlansHealth({ rows }) {
                   ) : null,
                 )}
               </div>
-              <p className="mt-1.5 text-[13px] text-ink-soft tabular-nums">
+              <p className="mt-1.5 text-[0.8125rem] text-ink-soft tabular-nums">
                 {p.started
                   ? `${p.started} empezaron · ${parts.done} terminaron · ${parts.active} en curso · ${parts.left} lo dejaron`
                   : 'Nadie lo empezó todavía'}
@@ -631,7 +631,7 @@ function Geography({ countries, timezones }) {
   return (
     <div className="card p-4 lg:p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-[13px] text-ink-soft">
+        <p className="text-[0.8125rem] text-ink-soft">
           <span className="font-semibold text-ink">{ranked.length}</span> {ranked.length === 1 ? 'país' : 'países'} ·{' '}
           {formatCount(located)} usuarios ubicados{unknown ? ` · ${formatCount(unknown)} sin registrar` : ''}
         </p>
@@ -641,7 +641,7 @@ function Geography({ countries, timezones }) {
         <WorldMap counts={counts} ariaLabel={`Mapa de usuarios por país (${mode === 'country' ? 'por IP' : 'por zona horaria'})`} />
         <BarList rows={rows} empty={mode === 'country' ? 'Sin datos de país todavía.' : 'Sin zonas horarias registradas.'} />
       </div>
-      <p className="mt-4 text-[12px] text-placeholder">
+      <p className="mt-4 text-[0.75rem] text-placeholder">
         {mode === 'country'
           ? 'Por la IP al abrir la app. Cuenta desde que se empezó a registrar el país.'
           : 'Aproximado por la zona horaria del perfil. Cubre a todos, incluso a quien no volvió a abrir la app.'}
@@ -665,11 +665,11 @@ function FeedbackInbox({ rows, error, onRetry }) {
     return (
       <div>
         <RetryError message="No se pudieron cargar las sugerencias." onRetry={onRetry} />
-        <p className="mt-3 break-words text-center text-[12px] text-placeholder">{error}</p>
+        <p className="mt-3 break-words text-center text-[0.75rem] text-placeholder">{error}</p>
       </div>
     )
   }
-  if (!rows) return <p className="text-[15px] text-ink-soft">Cargando…</p>
+  if (!rows) return <p className="text-[0.9375rem] text-ink-soft">Cargando…</p>
   const count = (k) => rows.filter((r) => r.kind === k).length
   const visible = rows.filter((r) => r.kind === kind)
   return (
@@ -682,7 +682,7 @@ function FeedbackInbox({ rows, error, onRetry }) {
         options={FEEDBACK_OPTIONS.map((o) => ({ ...o, label: `${o.label} · ${count(o.key)}` }))}
       />
       {visible.length === 0 ? (
-        <p className="mt-4 text-[15px] text-ink-soft">
+        <p className="mt-4 text-[0.9375rem] text-ink-soft">
           {kind === 'bug' ? 'Nadie avisó de un error todavía.' : 'Nadie sugirió nada todavía.'}
         </p>
       ) : (
@@ -691,15 +691,15 @@ function FeedbackInbox({ rows, error, onRetry }) {
             <li key={r.id} className="card p-4">
               <div className="flex items-baseline justify-between gap-3">
                 <span
-                  className="shrink-0 text-[12px] font-semibold uppercase tracking-wide"
+                  className="shrink-0 text-[0.75rem] font-semibold uppercase tracking-wide"
                   style={{ color: r.kind === 'bug' ? 'var(--danger)' : 'var(--accent-ink)' }}
                 >
                   {FEEDBACK_KIND[r.kind] || r.kind}
                 </span>
-                <span className="text-[13px] text-ink-soft">{new Date(r.created_at).toLocaleString('es-ES')}</span>
+                <span className="text-[0.8125rem] text-ink-soft">{new Date(r.created_at).toLocaleString('es-ES')}</span>
               </div>
-              <p className="mt-2 whitespace-pre-wrap break-words text-[15px] leading-snug text-ink">{r.body}</p>
-              <p className="mt-3 border-t pt-2.5 text-[12px] text-placeholder" style={{ borderColor: 'var(--hairline)' }}>
+              <p className="mt-2 whitespace-pre-wrap break-words text-[0.9375rem] leading-snug text-ink">{r.body}</p>
+              <p className="mt-3 border-t pt-2.5 text-[0.75rem] text-placeholder" style={{ borderColor: 'var(--hairline)' }}>
                 {[
                   r.app_version ? `v${r.app_version}` : 'versión sin registrar',
                   PLATFORM_LABEL[r.platform] || r.platform || 'plataforma sin registrar',
@@ -725,7 +725,7 @@ function OnboardingFunnel({ rows, error, onRetry }) {
     return (
       <div className="card p-4">
         <RetryError message="No se pudo cargar el embudo." onRetry={onRetry} />
-        <p className="mt-3 break-words text-center text-[12px] text-placeholder">
+        <p className="mt-3 break-words text-center text-[0.75rem] text-placeholder">
           {/admin_onboarding_funnel|PGRST202|does not exist/i.test(error)
             ? 'Falta aplicar la migración 0035.'
             : error}
@@ -733,7 +733,7 @@ function OnboardingFunnel({ rows, error, onRetry }) {
       </div>
     )
   }
-  if (!rows) return <p className="text-[15px] text-ink-soft">Cargando…</p>
+  if (!rows) return <p className="text-[0.9375rem] text-ink-soft">Cargando…</p>
 
   const count = (step) => rows.find((r) => r.step === step)?.devices ?? 0
   const base = count('ob_welcome')
@@ -749,13 +749,13 @@ function OnboardingFunnel({ rows, error, onRetry }) {
 
   return (
     <FunnelChart rows={base ? funnelRows : []} empty="Sin datos todavía.">
-      <p className="mt-3 text-[13px] text-ink-soft">
+      <p className="mt-3 text-[0.8125rem] text-ink-soft">
         iPhone: {count('ob_install_step')} vieron «agregala a tu inicio» · {count('ob_install_skip')} siguieron en
         el navegador
       </p>
       {/* El nombre solo se pide a invitados (quien lee solo lo da al crear o unirse
           a un grupo): fuera del embudo para no simular una caída. */}
-      <p className="mt-1.5 text-[13px] text-ink-soft">
+      <p className="mt-1.5 text-[0.8125rem] text-ink-soft">
         Invitados: {count('ob_name_saved')} pusieron su nombre
       </p>
     </FunnelChart>
@@ -851,7 +851,7 @@ export default function Admin() {
   }, [load, loadFeedback, loadObFunnel, loadStore])
 
   const back = (
-    <Link to="/" className="text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
+    <Link to="/" className="text-[0.9375rem] font-medium" style={{ color: 'var(--accent-ink)' }}>
       ‹ Volver
     </Link>
   )
@@ -861,7 +861,7 @@ export default function Admin() {
       <div className="mx-auto max-w-[560px] px-5 pt-6">
         {back}
         <div className="mt-16 text-center">
-          <p className="text-[17px] text-ink">Esta página es privada.</p>
+          <p className="text-[1.0625rem] text-ink">Esta página es privada.</p>
         </div>
       </div>
     )
@@ -907,18 +907,18 @@ export default function Admin() {
       <div className={o ? 'lg:pl-[250px]' : ''}>
         <div className="mx-auto max-w-[560px] px-5 pb-16 pt-6 lg:max-w-[1080px] lg:px-10 lg:pt-10">
           <div className={o ? 'lg:hidden' : ''}>{back}</div>
-          <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink lg:mt-0 lg:text-[30px]">Panel</h1>
-          <p className="mt-1 text-[15px] text-ink-soft">Números de Lee Tu Biblia. Solo para vos.</p>
+          <h1 className="mt-3 text-[1.625rem] font-bold tracking-tight text-ink lg:mt-0 lg:text-[1.875rem]">Panel</h1>
+          <p className="mt-1 text-[0.9375rem] text-ink-soft">Números de Lee Tu Biblia. Solo para vos.</p>
 
           {o ? <AdminNav items={navItems} active={active} onSelect={goTo} /> : null}
 
           {error ? (
             <div className="mt-8">
               <RetryError message="No se pudo cargar el panel." onRetry={load} />
-              <p className="mt-3 break-words text-center text-[12px] text-placeholder">{error}</p>
+              <p className="mt-3 break-words text-center text-[0.75rem] text-placeholder">{error}</p>
             </div>
           ) : !o ? (
-            <p className="mt-10 text-[15px] text-ink-soft">Cargando…</p>
+            <p className="mt-10 text-[0.9375rem] text-ink-soft">Cargando…</p>
           ) : (
             <>
               <Section id="usuarios" title="Usuarios">
@@ -994,8 +994,8 @@ export default function Admin() {
                   <div className="card p-4">
                     <div className="mb-4 border-b pb-4" style={{ borderColor: 'var(--hairline)' }}>
                       <div className="flex items-baseline justify-between gap-3">
-                        <p className="text-[15px] text-ink">La usan instalada</p>
-                        <p className="text-[14px] font-semibold text-ink tabular-nums">
+                        <p className="text-[0.9375rem] text-ink">La usan instalada</p>
+                        <p className="text-[0.875rem] font-semibold text-ink tabular-nums">
                           {pct(o.installs.standalone_users, o.installs.standalone_users + o.installs.browser_only)}%
                         </p>
                       </div>
@@ -1012,7 +1012,7 @@ export default function Admin() {
                     </div>
                     <BarList empty="Sin datos todavía." rows={platformRows} />
                     <p
-                      className="mt-4 border-t pt-3 text-[13px] text-ink-soft"
+                      className="mt-4 border-t pt-3 text-[0.8125rem] text-ink-soft"
                       style={{ borderColor: 'var(--hairline)' }}
                     >
                       {o.installs.standalone_users} instalada · {o.installs.browser_only} solo navegador ·{' '}
@@ -1095,7 +1095,7 @@ export default function Admin() {
                 <FeedbackInbox rows={feedback} error={feedbackError} onRetry={loadFeedback} />
               </Section>
 
-              <p className="mt-10 text-center text-[12px] text-placeholder lg:hidden">
+              <p className="mt-10 text-center text-[0.75rem] text-placeholder lg:hidden">
                 Actualizado {new Date(o.generated_at).toLocaleString('es-ES')}
               </p>
             </>

@@ -97,19 +97,19 @@ export default function TodayExtras() {
                 <BookCover key={slug} slug={slug} size="sm" />
               ))}
             </div>
-            <p className="mt-3.5 text-[16px] font-semibold leading-snug text-ink">{t('library.cardTitle')}</p>
-            <p className="mt-1 text-[14px] leading-snug text-ink-soft">{t('library.cardText')}</p>
+            <p className="mt-3.5 text-[1rem] font-semibold leading-snug text-ink">{t('library.cardTitle')}</p>
+            <p className="mt-1 text-[0.875rem] leading-snug text-ink-soft">{t('library.cardText')}</p>
           </Link>
           <div className="mt-2 flex items-center justify-between">
             <Link
               to="/materiales"
               state={{ from }}
-              className="-ml-1 flex min-h-11 items-center px-1 text-[15px] font-semibold"
+              className="-ml-1 flex min-h-11 items-center px-1 text-[0.9375rem] font-semibold"
               style={{ color: 'var(--accent-ink)' }}
             >
               {t('library.cardCta')} ›
             </Link>
-            <button type="button" onClick={snoozeCard} className="flex min-h-11 items-center px-1 text-[14px] font-medium text-ink-soft">
+            <button type="button" onClick={snoozeCard} className="flex min-h-11 items-center px-1 text-[0.875rem] font-medium text-ink-soft">
               {t('library.notNow')}
             </button>
           </div>
@@ -137,7 +137,7 @@ export default function TodayExtras() {
                 )
               )}
             </span>
-            <span className="min-w-0 flex-1 text-[15px] text-ink">
+            <span className="min-w-0 flex-1 text-[0.9375rem] text-ink">
               {t('hoy.extrasMoreToday', { count: rows.length - PREVIEW_ROWS })} · {t('library.title')}
             </span>
             <RowChevron />
@@ -153,8 +153,8 @@ export default function TodayExtras() {
                 ))}
               </span>
             )}
-            <span className="min-w-0 flex-1 text-[16px] text-ink">{t('library.title')}</span>
-            <span className="flex shrink-0 items-center gap-1.5 text-[13px] text-ink-soft">
+            <span className="min-w-0 flex-1 text-[1rem] text-ink">{t('library.title')}</span>
+            <span className="flex shrink-0 items-center gap-1.5 text-[0.8125rem] text-ink-soft">
               {toAdd.length > 0 && t('library.moreToAdd', { count: toAdd.length })}
               <RowChevron />
             </span>

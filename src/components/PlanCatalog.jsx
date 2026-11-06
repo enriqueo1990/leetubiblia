@@ -73,7 +73,7 @@ export default function PlanCatalog({
           />
         ))}
         {plans && !showAll && recommended.length >= 3 && (
-          <button type="button" onClick={() => setShowAll(true)} className="min-h-11 w-full text-[15px] font-medium text-accent-ink">
+          <button type="button" onClick={() => setShowAll(true)} className="min-h-11 w-full text-[0.9375rem] font-medium text-accent-ink">
             {t('onboarding.choosePlan.showAll')}
           </button>
         )}
@@ -95,7 +95,7 @@ export default function PlanCatalog({
             setResumeOpen(true)
             setResumeDay(1)
           }}
-          className="mt-2 min-h-11 w-full text-[14px] text-ink-soft"
+          className="mt-2 min-h-11 w-full text-[0.875rem] text-ink-soft"
         >
           {t('resume.alreadyReadingQ')}
         </button>

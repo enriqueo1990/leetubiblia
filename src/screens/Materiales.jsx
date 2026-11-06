@@ -64,14 +64,14 @@ export default function Materiales() {
     <div className="pt-2">
       <BackLink to="/lecturas" label={t('nav.lecturas')} />
 
-      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">{t('library.title')}</h1>
-      <p className="mt-2 px-1 text-[14px] text-ink-soft">{t('library.subtitle')}</p>
+      <h1 className="mt-3 text-[1.625rem] font-bold tracking-tight text-ink">{t('library.title')}</h1>
+      <p className="mt-2 px-1 text-[0.875rem] text-ink-soft">{t('library.subtitle')}</p>
 
       {shelf.length > 0 && (
         <section className="mt-7">
           <div className="mb-3 flex items-baseline justify-between px-1">
-            <h2 className="text-[17px] font-semibold text-ink">{t('library.shelf')}</h2>
-            <span className="text-[13px] tabular-nums text-ink-soft">{shelf.length}</span>
+            <h2 className="text-[1.0625rem] font-semibold text-ink">{t('library.shelf')}</h2>
+            <span className="text-[0.8125rem] tabular-nums text-ink-soft">{shelf.length}</span>
           </div>
           <div className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3">
             {shelf.map((m) => {
@@ -92,7 +92,7 @@ export default function Materiales() {
                   <div className="mt-2.5 h-1 overflow-hidden rounded-full" style={{ backgroundColor: 'var(--hairline)' }}>
                     <div className="h-full rounded-full" style={{ width: `${Math.max(progress * 100, 2)}%`, backgroundColor: 'var(--accent)' }} />
                   </div>
-                  <p className="mt-1.5 text-[13px] font-medium leading-snug text-ink">
+                  <p className="mt-1.5 text-[0.8125rem] font-medium leading-snug text-ink">
                     {done ? `✓ ${t('materiales.completedReview')}` : currentEntryLabel(t, m.slug, position)}
                   </p>
                 </Link>
@@ -105,14 +105,14 @@ export default function Materiales() {
       {rest.length > 0 && (
         <section className="mt-9">
           <div className="mb-3 flex items-baseline justify-between px-1">
-            <h2 className="text-[17px] font-semibold text-ink">{shelf.length ? t('library.toAdd') : t('library.startHere')}</h2>
-            <span className="text-[13px] text-ink-soft">{t('library.tapToSee')}</span>
+            <h2 className="text-[1.0625rem] font-semibold text-ink">{shelf.length ? t('library.toAdd') : t('library.startHere')}</h2>
+            <span className="text-[0.8125rem] text-ink-soft">{t('library.tapToSee')}</span>
           </div>
           <div className="grid grid-cols-3 gap-x-3 gap-y-5 sm:grid-cols-4">
             {rest.map((m) => (
               <button key={m.slug} type="button" onClick={() => setPreview(m.slug)} className="text-left" aria-label={m.name}>
                 <BookCover slug={m.slug} size="sm" />
-                <span className="mt-2 block text-[13px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
+                <span className="mt-2 block text-[0.8125rem] font-semibold" style={{ color: 'var(--accent-ink)' }}>
                   + {t('library.add')}
                 </span>
               </button>
@@ -190,7 +190,7 @@ function PreviewSheet({ slug, from, onClose }) {
             <button
               type="button"
               onClick={onClose}
-              className="block w-full py-2 text-center text-[15px] font-medium text-ink-soft"
+              className="block w-full py-2 text-center text-[0.9375rem] font-medium text-ink-soft"
             >
               {t('library.momentOk')}
             </button>
@@ -203,7 +203,7 @@ function PreviewSheet({ slug, from, onClose }) {
       }
     >
       {added && (
-        <p role="status" className="mb-4 text-[15px] font-semibold leading-snug text-ink">
+        <p role="status" className="mb-4 text-[0.9375rem] font-semibold leading-snug text-ink">
           <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✓ </span>
           {t('library.momentAdded')}
         </p>
@@ -214,17 +214,17 @@ function PreviewSheet({ slug, from, onClose }) {
         </div>
         <div className="min-w-0 pb-1">
           {th.kind && (
-            <p className="text-[11px] font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--accent-ink)' }}>
+            <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--accent-ink)' }}>
               {t(`library.kind.${th.kind}`)}
             </p>
           )}
-          <p className="mt-1.5 text-[13px] leading-snug text-ink-soft">
+          <p className="mt-1.5 text-[0.8125rem] leading-snug text-ink-soft">
             {[th.year, content && t(`library.count.${m?.unit ?? 'question'}`, { count: content.total })].filter(Boolean).join(' · ')}
           </p>
-          {locale !== 'es' && <p className="mt-0.5 text-[12px] text-ink-soft">{t('materiales.inSpanish')}</p>}
+          {locale !== 'es' && <p className="mt-0.5 text-[0.75rem] text-ink-soft">{t('materiales.inSpanish')}</p>}
         </div>
       </div>
-      <p className="mt-4 text-[15px] leading-relaxed text-ink-soft">{m?.description}</p>
+      <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-soft">{m?.description}</p>
       {/* Reserva el lugar de la muestra mientras carga: sin esto la hoja crece
           después de abierta y el botón de abajo salta. */}
       {content === null && (
@@ -236,8 +236,8 @@ function PreviewSheet({ slug, from, onClose }) {
       )}
       {sample && (
         <div className="card mt-4 p-4">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-soft">{t('library.sample')}</p>
-          <p className="mt-2 text-[16px] leading-snug text-ink" style={{ fontFamily: BRAND_SERIF }}>
+          <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-ink-soft">{t('library.sample')}</p>
+          <p className="mt-2 text-[1rem] leading-snug text-ink" style={{ fontFamily: BRAND_SERIF }}>
             «{sample}»
           </p>
         </div>

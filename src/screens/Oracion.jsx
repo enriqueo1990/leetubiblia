@@ -23,12 +23,12 @@ function PrayerItem({ p, subtitle, onClick, dimmed }) {
     <li>
       <button type="button" onClick={onClick} className="card flex w-full items-center justify-between p-4 text-left">
         <div className="min-w-0 pr-3">
-          <p className={`line-clamp-2 text-[16px] font-semibold leading-snug ${dimmed ? 'text-ink-soft' : 'text-ink'}`}>
+          <p className={`line-clamp-2 text-[1rem] font-semibold leading-snug ${dimmed ? 'text-ink-soft' : 'text-ink'}`}>
             {p.title}
           </p>
-          <p className="text-[13px] text-ink-soft">{subtitle}</p>
+          <p className="text-[0.8125rem] text-ink-soft">{subtitle}</p>
           {p.visibility === 'shared' && count > 0 && (
-            <p className="mt-0.5 text-[12px] font-medium" style={{ color: 'var(--accent-ink)' }}>
+            <p className="mt-0.5 text-[0.75rem] font-medium" style={{ color: 'var(--accent-ink)' }}>
               {t('oracion.praying', { count })}
             </p>
           )}
@@ -42,7 +42,7 @@ function PrayerItem({ p, subtitle, onClick, dimmed }) {
           {/* "Activo" es el estado por defecto: solo se señala la excepción. */}
           {p.status === 'answered' && (
             <span
-              className="rounded-pill px-2 py-0.5 text-[12px] font-medium"
+              className="rounded-pill px-2 py-0.5 text-[0.75rem] font-medium"
               style={{ color: 'var(--accent-ink)', backgroundColor: 'var(--accent-tint)' }}
             >
               {t('oracion.answered')}
@@ -154,7 +154,7 @@ export default function Oracion() {
   return (
     <div className="pt-2">
       <div className="flex items-center justify-between">
-        <h1 className="text-[26px] font-bold tracking-tight text-ink">{t('oracion.title')}</h1>
+        <h1 className="text-[1.625rem] font-bold tracking-tight text-ink">{t('oracion.title')}</h1>
         <button
           type="button"
           aria-label={t('oracion.new')}
@@ -164,7 +164,7 @@ export default function Oracion() {
           style={{ color: 'var(--accent-ink)', minWidth: 44, opacity: online ? 1 : 0.45 }}
         >
           <PlusIcon size={20} />
-          <span className="hidden text-[15px] font-semibold lg:inline">{t('oracion.new')}</span>
+          <span className="hidden text-[0.9375rem] font-semibold lg:inline">{t('oracion.new')}</span>
         </button>
       </div>
 
@@ -179,10 +179,10 @@ export default function Oracion() {
           style={{ backgroundColor: 'var(--accent-tint)', boxShadow: 'none' }}
         >
           <span className="min-w-0">
-            <span className="block text-[24px] font-medium leading-tight text-ink" style={{ fontFamily: BRAND_SERIF }}>
+            <span className="block text-[1.5rem] font-medium leading-tight text-ink" style={{ fontFamily: BRAND_SERIF }}>
               {t('orar.cta')}
             </span>
-            <span className="mt-1 block text-[14px] text-ink-soft">{t('orar.ctaOneByOne', { count: activeToPray })}</span>
+            <span className="mt-1 block text-[0.875rem] text-ink-soft">{t('orar.ctaOneByOne', { count: activeToPray })}</span>
           </span>
           <span
             aria-hidden="true"
@@ -210,8 +210,8 @@ export default function Oracion() {
                   const dias = daysSince(p.last_reviewed_at ?? p.created_at)
                   return (
                     <div key={p.id} className="p-4">
-                      <p className="line-clamp-2 text-[15px] font-semibold text-ink">{p.title}</p>
-                      <p className="mt-0.5 text-[13px] text-ink-soft">
+                      <p className="line-clamp-2 text-[0.9375rem] font-semibold text-ink">{p.title}</p>
+                      <p className="mt-0.5 text-[0.8125rem] text-ink-soft">
                         {t('oracion.activeFor', { count: dias })}
                       </p>
                       {/* Acciones como texto dentro de su tarjeta: la acción fuerte de la
@@ -221,7 +221,7 @@ export default function Oracion() {
                           type="button"
                           onClick={() => sigueIgual(p)}
                           disabled={!online || reviewAction.busyId === p.id}
-                          className="-ml-1 flex min-h-11 items-center px-1 text-[15px] font-semibold disabled:opacity-50"
+                          className="-ml-1 flex min-h-11 items-center px-1 text-[0.9375rem] font-semibold disabled:opacity-50"
                           style={{ color: 'var(--accent-ink)' }}
                         >
                           {reviewAction.busyId === p.id ? '…' : t('oracion.stillSame')}
@@ -229,13 +229,13 @@ export default function Oracion() {
                         <button
                           type="button"
                           onClick={() => openPrayer(p, { openUpdate: p.status === 'active' })}
-                          className="flex min-h-11 items-center px-1 text-[15px] font-medium text-ink-soft"
+                          className="flex min-h-11 items-center px-1 text-[0.9375rem] font-medium text-ink-soft"
                         >
                           {t('oracion.review')}
                         </button>
                       </div>
                       {reviewAction.errorId === p.id && (
-                        <p className="mt-2 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
+                        <p className="mt-2 text-[0.8125rem]" role="alert" style={{ color: 'var(--danger)' }}>
                           {t('oracion.reviewSaveError')}{' '}
                           <button
                             type="button"

@@ -41,17 +41,17 @@ export default function TodayCard({ rows, footer = null, className = '' }) {
               {row.serif ? (
                 <span
                   id={row.describeTitle ? `today-row-${row.key}-title` : undefined}
-                  className="line-clamp-2 text-[16px] italic leading-snug text-ink"
+                  className="line-clamp-2 text-[1rem] italic leading-snug text-ink"
                   style={{ fontFamily: BRAND_SERIF }}
                 >
                   {row.title}
                 </span>
               ) : (
-                <span className={`block text-[16px] leading-tight ${row.done ? 'font-medium text-ink-soft' : row.icon ? 'font-medium text-ink' : 'font-semibold text-ink'}`}>
+                <span className={`block text-[1rem] leading-tight ${row.done ? 'font-medium text-ink-soft' : row.icon ? 'font-medium text-ink' : 'font-semibold text-ink'}`}>
                   {row.title}
                 </span>
               )}
-              {row.sub && <span className="mt-0.5 line-clamp-1 text-[13px] leading-snug text-ink-soft">{row.sub}</span>}
+              {row.sub && <span className="mt-0.5 line-clamp-1 text-[0.8125rem] leading-snug text-ink-soft">{row.sub}</span>}
             </span>
             {row.onClick && (
               <RowChevron />
@@ -78,7 +78,7 @@ export default function TodayCard({ rows, footer = null, className = '' }) {
       })}
       {/* Pie: el cierre del día, adentro de la tarjeta (no flota suelto). */}
       {footer && (
-        <div className="border-t border-hairline px-4 py-3.5 text-[15px] leading-snug" style={{ backgroundColor: 'var(--accent-tint)' }}>
+        <div className="border-t border-hairline px-4 py-3.5 text-[0.9375rem] leading-snug" style={{ backgroundColor: 'var(--accent-tint)' }}>
           {footer}
         </div>
       )}

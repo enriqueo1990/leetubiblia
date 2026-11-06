@@ -17,7 +17,7 @@ export default function Sidebar() {
     >
       <div className="flex items-center gap-2.5 px-3 pb-6">
         <BrandMark size={28} />
-        <span className="text-[18px] font-bold tracking-tight text-ink">
+        <span className="text-[1.125rem] font-bold tracking-tight text-ink">
           Lee Tu Biblia
         </span>
       </div>
@@ -42,7 +42,7 @@ export default function Sidebar() {
                     <>
                       <Icon size={22} />
                       <span
-                        className="text-[15px]"
+                        className="text-[0.9375rem]"
                         style={{ fontWeight: isActive || extra ? 600 : 500 }}
                       >
                         {t(labelKey)}
@@ -67,7 +67,7 @@ export default function Sidebar() {
           {({ isActive }) => (
             <>
               <GearIcon size={22} />
-              <span className="text-[15px]" style={{ fontWeight: isActive ? 600 : 500 }}>
+              <span className="text-[0.9375rem]" style={{ fontWeight: isActive ? 600 : 500 }}>
                 {t('nav.ajustes')}
               </span>
             </>

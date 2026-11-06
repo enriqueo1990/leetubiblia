@@ -65,11 +65,11 @@ export default function WhatsNew({ myTimeEnabled, onEnableMyTime, onClose }) {
           }}
         >
           <div className="flex items-center justify-between px-5 pt-4">
-            <span className="text-[12px] font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--accent-ink)' }}>
+            <span className="text-[0.75rem] font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--accent-ink)' }}>
               {t('whatsNew.kicker')}
             </span>
             {!last && (
-              <button type="button" onClick={onClose} className="-mr-2 min-h-11 px-2 text-[15px] font-medium text-ink-soft">
+              <button type="button" onClick={onClose} className="-mr-2 min-h-11 px-2 text-[0.9375rem] font-medium text-ink-soft">
                 {t('whatsNew.skip')}
               </button>
             )}
@@ -84,16 +84,16 @@ export default function WhatsNew({ myTimeEnabled, onEnableMyTime, onClose }) {
             >
               {page.art}
             </div>
-            <h2 id="whats-new-title" className="mt-6 text-[28px] font-medium leading-[1.12] tracking-[-0.015em] text-ink" style={{ fontFamily: BRAND_SERIF }}>
+            <h2 id="whats-new-title" className="mt-6 text-[1.75rem] font-medium leading-[1.12] tracking-[-0.015em] text-ink" style={{ fontFamily: BRAND_SERIF }}>
               {page.title}
             </h2>
-            <p className="mt-2.5 min-h-[72px] text-[16px] leading-relaxed text-ink-soft">{page.text}</p>
+            <p className="mt-2.5 min-h-[72px] text-[1rem] leading-relaxed text-ink-soft">{page.text}</p>
             {page.myTime && (
               <button
                 type="button"
                 onClick={onEnableMyTime}
                 disabled={myTimeEnabled}
-                className="mt-1 min-h-11 text-[15px] font-semibold"
+                className="mt-1 min-h-11 text-[0.9375rem] font-semibold"
                 style={{ color: 'var(--accent-ink)' }}
               >
                 {myTimeEnabled ? `✓ ${t('whatsNew.myTime.on')}` : t('whatsNew.myTime.cta')}
@@ -138,11 +138,11 @@ function ArtLight() {
     <>
       <div className="absolute inset-0" style={{ background: 'radial-gradient(90% 70% at 80% 0%, rgba(255,196,120,.32), transparent 70%)' }} />
       <div className="card relative w-[78%] px-5 py-4">
-        <p className="text-[13px] font-semibold text-ink">Oficio Diario</p>
+        <p className="text-[0.8125rem] font-semibold text-ink">Oficio Diario</p>
         <div className="mt-2 h-[2px] rounded-full" style={{ backgroundColor: 'var(--hairline)' }}>
           <div className="h-full w-[30%] rounded-full" style={{ backgroundColor: 'var(--accent)' }} />
         </div>
-        <p className="mt-3 text-[26px] font-medium leading-[1.15] text-ink" style={{ fontFamily: BRAND_SERIF }}>
+        <p className="mt-3 text-[1.625rem] font-medium leading-[1.15] text-ink" style={{ fontFamily: BRAND_SERIF }}>
           Salmos <span style={{ color: 'var(--accent-ink)' }}>19</span>
           <br />
           Isaías <span style={{ color: 'var(--accent-ink)' }}>45</span>
@@ -176,7 +176,7 @@ function ArtDay({ t }) {
       {rows.map((r, k) => (
         <div key={k} className="flex items-center gap-3 border-t border-hairline px-4 py-3 first:border-t-0">
           <Dot done={r.done} />
-          <span className={`text-[14px] ${r.done ? 'font-medium text-ink-soft' : 'font-semibold text-ink'}`}>{r.label}</span>
+          <span className={`text-[0.875rem] ${r.done ? 'font-medium text-ink-soft' : 'font-semibold text-ink'}`}>{r.label}</span>
         </div>
       ))}
     </div>

@@ -12,8 +12,8 @@ export default function OfflineNotice() {
       role="status"
       aria-live="polite"
     >
-      <p className="text-[14px] font-semibold text-ink">{t('connection.offline.title')}</p>
-      <p className="mt-0.5 text-[13px] leading-snug text-ink-soft">{t('connection.offline.text')}</p>
+      <p className="text-[0.875rem] font-semibold text-ink">{t('connection.offline.title')}</p>
+      <p className="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{t('connection.offline.text')}</p>
     </div>
   )
 }

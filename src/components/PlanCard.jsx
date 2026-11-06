@@ -31,22 +31,22 @@ export default function PlanCard({
     <>
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-[18px] font-semibold text-ink">{planName(t, plan)}</span>
+          <span className="text-[1.125rem] font-semibold text-ink">{planName(t, plan)}</span>
           {mode === 'link' && active && (
-            <span className="rounded-pill px-2 py-0.5 text-[12px] font-medium text-accent-ink bg-accent-tint">
+            <span className="rounded-pill px-2 py-0.5 text-[0.75rem] font-medium text-accent-ink bg-accent-tint">
               {t('planes.active')}
             </span>
           )}
           {mode === 'select' && active && (
-            <span className="rounded-pill px-2 py-0.5 text-[12px] font-medium text-accent-ink bg-accent-tint">
+            <span className="rounded-pill px-2 py-0.5 text-[0.75rem] font-medium text-accent-ink bg-accent-tint">
               {t('onboarding.choosePlan.selected')}
             </span>
           )}
         </div>
-        {plan.description && <p className="mt-1 text-[15px] text-ink-soft">{planDescription(t, plan)}</p>}
-        <p className="mt-1 text-[13px] text-ink-soft">{meta}</p>
+        {plan.description && <p className="mt-1 text-[0.9375rem] text-ink-soft">{planDescription(t, plan)}</p>}
+        <p className="mt-1 text-[0.8125rem] text-ink-soft">{meta}</p>
         {recommended && (
-          <p className="mt-2 text-[13px] font-medium text-accent-ink">{t('onboarding.choosePlan.recommended')}</p>
+          <p className="mt-2 text-[0.8125rem] font-medium text-accent-ink">{t('onboarding.choosePlan.recommended')}</p>
         )}
       </div>
       {mode === 'link' && <RowChevron />}

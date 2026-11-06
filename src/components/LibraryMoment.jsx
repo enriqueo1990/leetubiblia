@@ -45,11 +45,11 @@ export default function LibraryMoment({ slug, streak, onAdded, onClose }) {
       <div className="min-w-0 flex-1">
         {added ? (
           <>
-            <p className="text-[15px] font-semibold leading-snug text-ink">{t('library.momentAdded')}</p>
+            <p className="text-[0.9375rem] font-semibold leading-snug text-ink">{t('library.momentAdded')}</p>
             <button
               type="button"
               onClick={onClose}
-              className="-ml-1 mt-1 flex min-h-11 items-center px-1 text-[14px] font-semibold"
+              className="-ml-1 mt-1 flex min-h-11 items-center px-1 text-[0.875rem] font-semibold"
               style={{ color: 'var(--accent-ink)' }}
             >
               {t('library.momentOk')}
@@ -57,13 +57,13 @@ export default function LibraryMoment({ slug, streak, onAdded, onClose }) {
           </>
         ) : (
           <>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--accent-ink)' }}>
+            <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--accent-ink)' }}>
               {t('library.momentKicker', { count: streak })}
             </p>
-            <h3 id="library-moment-title" className="mt-1 text-[16px] font-semibold leading-snug text-ink">
+            <h3 id="library-moment-title" className="mt-1 text-[1rem] font-semibold leading-snug text-ink">
               {t('library.momentTitle')}
             </h3>
-            <p className="mt-0.5 text-[13px] leading-snug text-ink-soft">
+            <p className="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">
               {m?.name}: {m?.description}
               {locale !== 'es' && ` ${t('materiales.inSpanish')}.`}
             </p>
@@ -72,12 +72,12 @@ export default function LibraryMoment({ slug, streak, onAdded, onClose }) {
                 type="button"
                 onClick={add}
                 disabled={saving}
-                className="-ml-1 flex min-h-11 items-center px-1 text-[14px] font-semibold"
+                className="-ml-1 flex min-h-11 items-center px-1 text-[0.875rem] font-semibold"
                 style={{ color: 'var(--accent-ink)', opacity: saving ? 0.6 : 1 }}
               >
                 {saving ? t('common.saving') : t('library.addToShelf')}
               </button>
-              <button type="button" onClick={later} className="flex min-h-11 items-center px-1 text-[14px] font-medium text-ink-soft">
+              <button type="button" onClick={later} className="flex min-h-11 items-center px-1 text-[0.875rem] font-medium text-ink-soft">
                 {t('library.notNow')}
               </button>
             </div>

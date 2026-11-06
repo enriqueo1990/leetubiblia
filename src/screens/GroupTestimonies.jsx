@@ -40,8 +40,8 @@ export default function GroupTestimonies() {
     <div className="pt-2">
       <BackLink to={`/grupos/${id}`} label={group?.name ?? t('common.grupo')} />
 
-      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">{t('groupDetail.testimonies')}</h1>
-      <p className="mt-1 text-[15px] text-ink-soft">{t('groupTestimonies.subtitle')}</p>
+      <h1 className="mt-3 text-[1.625rem] font-bold tracking-tight text-ink">{t('groupDetail.testimonies')}</h1>
+      <p className="mt-1 text-[0.9375rem] text-ink-soft">{t('groupTestimonies.subtitle')}</p>
 
       {error && <RetryError message={error} onRetry={load} />}
       {!error && items === null && <div className="mt-5"><SkeletonCards count={3} /></div>}
@@ -55,15 +55,15 @@ export default function GroupTestimonies() {
       <ul className="mt-5 space-y-3">
         {items?.map((item) => (
           <li key={item.id} className="card p-[18px]">
-            <div className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wide text-accent-ink">
+            <div className="flex items-center gap-1.5 text-[0.75rem] font-semibold uppercase tracking-wide text-accent-ink">
               <CheckIcon size={13} strokeWidth={2.4} />
               {t('oracion.answeredOn', { date: fmtD(item.answered_at) })}
             </div>
-            <p className="mt-2.5 text-[18px] font-semibold tracking-tight text-ink">{item.title}</p>
+            <p className="mt-2.5 text-[1.125rem] font-semibold tracking-tight text-ink">{item.title}</p>
             {item.testimony && (
-              <p className="mt-2.5 text-[15px] leading-relaxed text-ink">«{item.testimony}»</p>
+              <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-ink">«{item.testimony}»</p>
             )}
-            <p className="mt-3 text-[13px] font-medium text-ink-soft">{item.author_name ?? t('common.someone')}</p>
+            <p className="mt-3 text-[0.8125rem] font-medium text-ink-soft">{item.author_name ?? t('common.someone')}</p>
           </li>
         ))}
       </ul>

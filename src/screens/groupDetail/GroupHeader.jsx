@@ -34,7 +34,7 @@ export default function GroupHeader({
               if (e.key === 'Enter') onSaveName()
               if (e.key === 'Escape') onCancelEdit()
             }}
-            className="w-full rounded-input px-4 py-3 text-[18px] font-bold outline-none"
+            className="w-full rounded-input px-4 py-3 text-[1.125rem] font-bold outline-none"
             style={inputStyleOnCard}
             maxLength={60}
           />
@@ -57,7 +57,7 @@ export default function GroupHeader({
       ) : (
         <div className="mt-3 flex items-center justify-between gap-2">
           <div className="flex min-w-0 items-center gap-2">
-            <h1 className="truncate text-[26px] font-bold tracking-tight text-ink">{group.name}</h1>
+            <h1 className="truncate text-[1.625rem] font-bold tracking-tight text-ink">{group.name}</h1>
             {isOwner && (
               <button
                 type="button"
@@ -79,12 +79,12 @@ export default function GroupHeader({
             style={{ backgroundColor: 'var(--accent-action)', minWidth: 44 }}
           >
             <ShareIcon size={18} />
-            <span className="hidden text-[15px] font-semibold lg:inline">{t('groupDetail.invite')}</span>
+            <span className="hidden text-[0.9375rem] font-semibold lg:inline">{t('groupDetail.invite')}</span>
           </button>
         </div>
       )}
 
-      <p className="mt-2 text-[14px] text-ink-soft">
+      <p className="mt-2 text-[0.875rem] text-ink-soft">
         {membersCount === 1
           ? t('groupDetail.onlyYou')
           : `${t('groupDetail.walkingTogether', { count: membersCount })}${isOwner ? t('groupDetail.adminSuffix') : ''}`}

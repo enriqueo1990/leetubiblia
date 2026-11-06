@@ -28,7 +28,7 @@ function NotFound() {
   const { t } = usePreferences()
   return (
     <>
-      <p className="text-[17px] text-ink">{t('notFound.title')}</p>
+      <p className="text-[1.0625rem] text-ink">{t('notFound.title')}</p>
       <Link to="/" className="btn btn-primary mt-6 inline-block px-8">
         {t('notFound.goHome')}
       </Link>

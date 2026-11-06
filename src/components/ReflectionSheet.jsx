@@ -132,13 +132,13 @@ export default function ReflectionSheet({
         }}
         disabled={!canShare || sharing}
         aria-describedby={dirty ? shareHintId : undefined}
-        className="flex min-h-11 w-full items-center justify-center gap-2 text-[14px] font-semibold disabled:opacity-50"
+        className="flex min-h-11 w-full items-center justify-center gap-2 text-[0.875rem] font-semibold disabled:opacity-50"
         style={{ color: 'var(--accent-ink)' }}
       >
         <ShareIcon size={16} /> {t('reflectionSheet.shareImage')}
       </button>
       {dirty && (
-        <p id={shareHintId} className="text-center text-[12px] text-ink-soft">
+        <p id={shareHintId} className="text-center text-[0.75rem] text-ink-soft">
           {t('reflectionSheet.shareNeedsSave')}
         </p>
       )}
@@ -173,7 +173,7 @@ export default function ReflectionSheet({
     >
       {editable ? (
         <>
-          <p className="text-[13px] text-ink-soft">
+          <p className="text-[0.8125rem] text-ink-soft">
             {[cap(dateLabel), t('planes.dayN', { n: dayNumber }), planName].filter(Boolean).join(' · ')}
           </p>
           <textarea
@@ -188,11 +188,11 @@ export default function ReflectionSheet({
             rows={4}
             placeholder={t('reflectionSheet.placeholder')}
             aria-label={t('reflectionSheet.titleEdit')}
-            className="mt-3 w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
+            className="mt-3 w-full resize-none rounded-input px-4 py-3 text-[1rem] outline-none"
             style={inputStyle}
           />
           <div className="mt-2 flex items-center justify-between gap-3">
-            <p className="text-[12px] text-ink-soft">
+            <p className="text-[0.75rem] text-ink-soft">
               {t('reflectionSheet.editHint')}
             </p>
             {initialBody && onDelete && (
@@ -200,7 +200,7 @@ export default function ReflectionSheet({
                 type="button"
                 onClick={() => setConfirmDelete(true)}
                 disabled={deleting || saving}
-                className="inline-flex min-h-11 shrink-0 items-center px-2 text-[13px] font-medium disabled:opacity-50"
+                className="inline-flex min-h-11 shrink-0 items-center px-2 text-[0.8125rem] font-medium disabled:opacity-50"
                 style={{ color: 'var(--danger)' }}
               >
                 {deleting ? t('common.deleting') : t('ajustes.eliminar')}
@@ -208,12 +208,12 @@ export default function ReflectionSheet({
             )}
           </div>
           {saveError && (
-            <p className="mt-2 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
+            <p className="mt-2 text-[0.8125rem]" role="alert" style={{ color: 'var(--danger)' }}>
               {t('common.saveError')}
             </p>
           )}
           {shareError && (
-            <p className="mt-1 text-[12px]" role="alert" style={{ color: 'var(--danger)' }}>
+            <p className="mt-1 text-[0.75rem]" role="alert" style={{ color: 'var(--danger)' }}>
               {t('hoy.imageError')}
             </p>
           )}
@@ -222,11 +222,11 @@ export default function ReflectionSheet({
         /* Estampita: la nota al centro, fecha y día como pie, firma de la app.
            Pensada para que una captura se comparta tal cual (sin plan ni avisos). */
         <div className="pb-4 pt-6 text-center">
-          <p className="text-[20px] leading-relaxed text-ink">{initialBody}</p>
-          <p className="mt-5 text-[13px] text-ink-soft">
+          <p className="text-[1.25rem] leading-relaxed text-ink">{initialBody}</p>
+          <p className="mt-5 text-[0.8125rem] text-ink-soft">
             {[cap(dateLabel), t('planes.dayN', { n: dayNumber })].filter(Boolean).join(' · ')}
           </p>
-          <p className="mt-9 text-[12px] font-medium">
+          <p className="mt-9 text-[0.75rem] font-medium">
             <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✦ </span>
             <span className="text-ink-soft" style={{ opacity: 0.8 }}>Lee Tu Biblia</span>
           </p>

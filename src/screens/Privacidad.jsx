@@ -96,11 +96,11 @@ export default function Privacidad() {
       <section className="screen-enter relative mx-auto w-full max-w-[880px] px-6 pt-10">
         <div className="border-b border-hairline pb-9">
           <Eyebrow>Privacidad</Eyebrow>
-          <h1 className="mt-3 max-w-[560px] text-[28px] font-bold leading-[1.15] tracking-[-0.025em] text-ink sm:text-[34px]">
+          <h1 className="mt-3 max-w-[560px] text-[1.75rem] font-bold leading-[1.15] tracking-[-0.025em] text-ink sm:text-[2.125rem]">
             Tu vida con Dios es <span className="text-accent-ink">tuya</span>
           </h1>
-          <p className="mt-2 text-[13px] text-ink-soft">Última actualización: {ACTUALIZADO}</p>
-          <p className="mt-5 max-w-[600px] text-[16.5px] leading-relaxed text-ink-soft">
+          <p className="mt-2 text-[0.8125rem] text-ink-soft">Última actualización: {ACTUALIZADO}</p>
+          <p className="mt-5 max-w-[600px] text-[1.0312rem] leading-relaxed text-ink-soft">
             Lo que leés, lo que anotás y por lo que orás te pertenece. Acá te
             contamos —en simple— qué guardamos, qué es privado y cómo tenés el
             control. Sin letra chica.
@@ -112,7 +112,7 @@ export default function Privacidad() {
       <section className="mx-auto w-full max-w-[880px] px-6 py-8">
         <div className="rounded-card border border-hairline bg-surface-alt/60 px-7 py-8">
           <Eyebrow>Lo esencial</Eyebrow>
-          <ul className="mt-5 flex flex-col gap-3 text-[16.5px] leading-snug text-ink">
+          <ul className="mt-5 flex flex-col gap-3 text-[1.0312rem] leading-snug text-ink">
             <li className="flex items-start gap-3">
               <span className="mt-[9px] h-[6px] w-[6px] shrink-0 rounded-full bg-accent" />
               <span>La app es <b className="font-semibold text-accent-ink">gratis</b> y no tiene publicidad.</span>
@@ -140,7 +140,7 @@ export default function Privacidad() {
           <SectionTitle className="mt-4 max-w-[560px]">
             Solo lo necesario para que la app funcione
           </SectionTitle>
-          <p className="mt-5 max-w-[560px] text-[16px] leading-relaxed text-ink-soft">
+          <p className="mt-5 max-w-[560px] text-[1rem] leading-relaxed text-ink-soft">
             Guardamos lo justo para sostener tu hábito de lectura y tu vida de
             oración —nada más—. Esto es todo:
           </p>
@@ -149,8 +149,8 @@ export default function Privacidad() {
               <div key={d.title} className="flex items-start gap-4">
                 <IconBadge tone={d.tone}>{d.icon}</IconBadge>
                 <div>
-                  <h3 className="text-[17px] font-semibold text-ink">{d.title}</h3>
-                  <p className="mt-1 text-[15px] leading-snug text-ink-soft">{d.desc}</p>
+                  <h3 className="text-[1.0625rem] font-semibold text-ink">{d.title}</h3>
+                  <p className="mt-1 text-[0.9375rem] leading-snug text-ink-soft">{d.desc}</p>
                 </div>
               </div>
             ))}
@@ -167,7 +167,7 @@ export default function Privacidad() {
             </IconBadge>
             <div>
               <SectionTitle>Qué es privado y qué se comparte</SectionTitle>
-              <div className="mt-5 flex flex-col gap-4 text-[16px] leading-relaxed text-ink-soft">
+              <div className="mt-5 flex flex-col gap-4 text-[1rem] leading-relaxed text-ink-soft">
                 <p>
                   Por defecto, <b className="font-semibold text-accent-ink">nada de lo tuyo es visible para otros</b>.
                   Tu diario es siempre privado. Tus pedidos de oración son
@@ -197,7 +197,7 @@ export default function Privacidad() {
           <div>
             <Eyebrow>Cómo entrás</Eyebrow>
             <SubTitle className="mt-4">Con tu correo, sin contraseña</SubTitle>
-            <p className="mt-3 text-[15.5px] leading-relaxed text-ink-soft">
+            <p className="mt-3 text-[0.9688rem] leading-relaxed text-ink-soft">
               Te enviamos un código a tu correo. No manejamos ni
               guardamos contraseñas, así que no hay una que se pueda filtrar.
             </p>
@@ -205,7 +205,7 @@ export default function Privacidad() {
           <div>
             <Eyebrow>Dónde viven tus datos</Eyebrow>
             <SubTitle className="mt-4">En un servidor seguro</SubTitle>
-            <p className="mt-3 text-[15.5px] leading-relaxed text-ink-soft">
+            <p className="mt-3 text-[0.9688rem] leading-relaxed text-ink-soft">
               Tus datos se guardan de forma segura en nuestro proveedor de
               infraestructura (Supabase). La app se instala en tu teléfono y
               muestra tu lectura de hoy aún sin conexión.
@@ -219,7 +219,7 @@ export default function Privacidad() {
         <div className="mx-auto w-full max-w-[880px] px-6 py-16">
           <Eyebrow>Tu control</Eyebrow>
           <SectionTitle className="mt-4">Podés irte con todo lo tuyo</SectionTitle>
-          <p className="mt-5 max-w-[560px] text-[16px] leading-relaxed text-ink-soft">
+          <p className="mt-5 max-w-[560px] text-[1rem] leading-relaxed text-ink-soft">
             En <b className="font-semibold text-accent-ink">Ajustes → Eliminar cuenta</b> borrás tu
             cuenta y con ella todos tus datos —tu lectura, tus reflexiones, tus
             oraciones y tus membresías de grupo—. El borrado es completo y no se
@@ -233,16 +233,16 @@ export default function Privacidad() {
       {/* ── CONTACTO ─────────────────────────────────────────── */}
       <section className="border-t border-hairline">
         <div className="mx-auto w-full max-w-[680px] px-6 py-20 text-center">
-          <h2 className="text-[32px] font-bold tracking-[-0.025em] text-ink sm:text-[38px]">
+          <h2 className="text-[2rem] font-bold tracking-[-0.025em] text-ink sm:text-[2.375rem]">
             ¿Alguna duda?
           </h2>
-          <p className="mx-auto mt-4 max-w-[440px] text-[17px] leading-relaxed text-ink-soft">
+          <p className="mx-auto mt-4 max-w-[440px] text-[1.0625rem] leading-relaxed text-ink-soft">
             Escribinos y con gusto te respondemos sobre tus datos o cualquier
             cosa de la app.
           </p>
           <a
             href={`mailto:${CONTACTO}`}
-            className="info-cta mt-6 inline-block text-[17px] font-semibold text-accent-ink hover:underline"
+            className="info-cta mt-6 inline-block text-[1.0625rem] font-semibold text-accent-ink hover:underline"
           >
             {CONTACTO}
           </a>

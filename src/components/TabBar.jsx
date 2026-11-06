@@ -39,7 +39,7 @@ function TabItem({ to, labelKey, Icon, end, match, matchMobile }) {
           <>
             <Icon size={25} />
             <span
-              className="text-[12px]"
+              className="text-[0.75rem]"
               style={{ fontWeight: isActive || extra ? 600 : 500 }}
             >
               {t(labelKey)}

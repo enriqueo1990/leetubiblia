@@ -26,7 +26,7 @@ export default function GroupGoalCard() {
         <SectionLabel id="group-goal-title" inside className="mb-0">
           {t('goal.eyebrow')}
         </SectionLabel>
-        <p className="mt-3 text-[15px] leading-snug text-ink">{t('groupDetail.goalText')}</p>
+        <p className="mt-3 text-[0.9375rem] leading-snug text-ink">{t('groupDetail.goalText')}</p>
         <button
           type="button"
           className="btn btn-secondary mt-4"
@@ -38,7 +38,7 @@ export default function GroupGoalCard() {
         >
           {t('goal.cta')}
         </button>
-        <p className="mt-3 text-[12px] text-ink-soft">{t('groupDetail.goalLeaderNote')}</p>
+        <p className="mt-3 text-[0.75rem] text-ink-soft">{t('groupDetail.goalLeaderNote')}</p>
       </section>
 
       {sheetOpen && <DonateSheet goal={goal} fromGoal onClose={() => setSheetOpen(false)} />}

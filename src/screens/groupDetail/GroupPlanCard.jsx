@@ -48,7 +48,7 @@ export default function GroupPlanCard({
             <button
               type="button"
               onClick={onChangePlan}
-              className="-mr-2 inline-flex min-h-11 items-center px-2 text-[13px] font-medium"
+              className="-mr-2 inline-flex min-h-11 items-center px-2 text-[0.8125rem] font-medium"
               style={{ color: 'var(--accent-ink)' }}
             >
               {t('groupDetail.changePlan')}
@@ -60,8 +60,8 @@ export default function GroupPlanCard({
       </SectionLabel>
       {planInfo ? (
         <div className="card mt-3 p-4">
-          <p className="text-[16px] font-semibold leading-snug text-ink">{planName(t, planInfo)}</p>
-          <p className="mt-1 text-[13px] text-ink-soft">
+          <p className="text-[1rem] font-semibold leading-snug text-ink">{planName(t, planInfo)}</p>
+          <p className="mt-1 text-[0.8125rem] text-ink-soft">
             {groupPlanFinished
               ? t('groupDetail.planFinished')
               : groupPlanDay != null
@@ -69,7 +69,7 @@ export default function GroupPlanCard({
                 : null}
           </p>
           {amOnGroupPlan ? (
-            <p className="mt-3 flex items-center gap-1.5 text-[13px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
+            <p className="mt-3 flex items-center gap-1.5 text-[0.8125rem] font-semibold" style={{ color: 'var(--accent-ink)' }}>
               <CheckIcon size={15} strokeWidth={2.2} /> {t('groupDetail.readingWithGroup')}
             </p>
           ) : !groupPlanFinished ? (
@@ -90,13 +90,13 @@ export default function GroupPlanCard({
               <div className="mt-1 flex items-center justify-between gap-3">
                 {following ? (
                   <>
-                    <p className="flex min-w-0 items-center gap-1.5 text-[13px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
+                    <p className="flex min-w-0 items-center gap-1.5 text-[0.8125rem] font-semibold" style={{ color: 'var(--accent-ink)' }}>
                       <CheckIcon size={15} strokeWidth={2.2} className="shrink-0" /> {t('groupDetail.followingPlan')}
                     </p>
                     <button
                       type="button"
                       onClick={() => onToggleFollow(false)}
-                      className="min-h-11 shrink-0 px-1 text-[13px] font-medium text-ink-soft"
+                      className="min-h-11 shrink-0 px-1 text-[0.8125rem] font-medium text-ink-soft"
                     >
                       {t('groupDetail.unfollowPlan')}
                     </button>
@@ -105,7 +105,7 @@ export default function GroupPlanCard({
                   <button
                     type="button"
                     onClick={() => onToggleFollow(true)}
-                    className="min-h-11 w-full py-2 text-center text-[14px] font-medium"
+                    className="min-h-11 w-full py-2 text-center text-[0.875rem] font-medium"
                     style={{ color: 'var(--accent-ink)' }}
                   >
                     {t('groupDetail.followPlan')}
@@ -121,7 +121,7 @@ export default function GroupPlanCard({
                 {t('groupDetail.pickNextPlan')}
               </button>
             ) : (
-              <p className="mt-3 text-[13px] leading-snug text-ink-soft">{t('groupDetail.nextPlanSoon')}</p>
+              <p className="mt-3 text-[0.8125rem] leading-snug text-ink-soft">{t('groupDetail.nextPlanSoon')}</p>
             ))}
           {adoptError && <InlineError message={t('groupDetail.adoptError')} className="mt-2" />}
           {followError && <InlineError message={t('groupDetail.followError')} className="mt-2" />}
@@ -136,8 +136,8 @@ export default function GroupPlanCard({
             <BookIcon size={20} />
           </span>
           <span className="min-w-0">
-            <span className="block text-[15px] text-ink">{t('groupDetail.noPlanYet')}</span>
-            <span className="mt-0.5 block text-[13px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
+            <span className="block text-[0.9375rem] text-ink">{t('groupDetail.noPlanYet')}</span>
+            <span className="mt-0.5 block text-[0.8125rem] font-semibold" style={{ color: 'var(--accent-ink)' }}>
               {t('groupDetail.choosePlanCta')} ›
             </span>
           </span>

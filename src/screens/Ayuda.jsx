@@ -124,8 +124,8 @@ function FeatureGrid({ items, tone }) {
         <div key={f.name} className="flex items-start gap-4">
           <IconBadge tone={tone}>{f.icon}</IconBadge>
           <div>
-            <p className="text-[17px] font-semibold text-ink">{f.name}</p>
-            <p className="mt-1 text-[15px] leading-snug text-ink-soft">{f.desc}</p>
+            <p className="text-[1.0625rem] font-semibold text-ink">{f.name}</p>
+            <p className="mt-1 text-[0.9375rem] leading-snug text-ink-soft">{f.desc}</p>
           </div>
         </div>
       ))}
@@ -140,7 +140,7 @@ function TabHead({ eyebrow, title, intro, tone }) {
       <Eyebrow tone={tone}>{eyebrow}</Eyebrow>
       <SectionTitle className="mt-4 max-w-[560px]">{title}</SectionTitle>
       {intro && (
-        <p className="mt-5 max-w-[560px] text-[17px] leading-relaxed text-ink-soft">{intro}</p>
+        <p className="mt-5 max-w-[560px] text-[1.0625rem] leading-relaxed text-ink-soft">{intro}</p>
       )}
     </>
   )
@@ -169,10 +169,10 @@ export default function Ayuda() {
       <section className="screen-enter relative mx-auto w-full max-w-[880px] px-6 pt-10">
         <div className="border-b border-hairline pb-9">
           <Eyebrow>Manual · referencia</Eyebrow>
-          <h1 className="mt-3 max-w-[620px] text-[28px] font-bold leading-[1.15] tracking-[-0.025em] text-ink sm:text-[34px]">
+          <h1 className="mt-3 max-w-[620px] text-[1.75rem] font-bold leading-[1.15] tracking-[-0.025em] text-ink sm:text-[2.125rem]">
             Guía completa de la app
           </h1>
-          <p className="mt-3 max-w-[600px] text-[16.5px] leading-relaxed text-ink-soft">
+          <p className="mt-3 max-w-[600px] text-[1.0312rem] leading-relaxed text-ink-soft">
             Cada función, pestaña por pestaña: tu lectura y los 13 planes, la
             oración, los grupos de discipulado y los ajustes. La Palabra la leés
             en tu Biblia de papel; la app acompaña el hábito.
@@ -189,7 +189,7 @@ export default function Ayuda() {
               <a
                 key={href}
                 href={href}
-                className={`info-cta rounded-pill px-4 py-2 text-[14px] font-semibold ${hue} ${hue === 'hb-ajustes' ? 'border border-hairline' : ''}`}
+                className={`info-cta rounded-pill px-4 py-2 text-[0.875rem] font-semibold ${hue} ${hue === 'hb-ajustes' ? 'border border-hairline' : ''}`}
               >
                 {label}
               </a>
@@ -222,7 +222,7 @@ export default function Ayuda() {
         <div className="mt-16 border-t border-hairline pt-12">
           <Eyebrow>Planes de lectura</Eyebrow>
           <SubTitle className="mt-4">Trece planes, uno para cada temporada</SubTitle>
-          <p className="mt-4 max-w-[520px] text-[16px] leading-relaxed text-ink-soft">
+          <p className="mt-4 max-w-[520px] text-[1rem] leading-relaxed text-ink-soft">
             Desde 8 días hasta dos años. Un plan activo a la vez, para no dispersarte.
           </p>
           <ul className="mt-8 flex flex-col">
@@ -232,10 +232,10 @@ export default function Ayuda() {
                 className="flex items-baseline justify-between gap-4 border-t border-hairline py-4 first:border-t-0"
               >
                 <div>
-                  <p className="text-[16.5px] font-semibold text-ink">{p.name}</p>
-                  <p className="mt-0.5 text-[14.5px] leading-snug text-ink-soft">{p.desc}</p>
+                  <p className="text-[1.0312rem] font-semibold text-ink">{p.name}</p>
+                  <p className="mt-0.5 text-[0.9062rem] leading-snug text-ink-soft">{p.desc}</p>
                 </div>
-                <span className="shrink-0 whitespace-nowrap text-[13px] font-semibold text-accent-ink">
+                <span className="shrink-0 whitespace-nowrap text-[0.8125rem] font-semibold text-accent-ink">
                   {p.dur}
                 </span>
               </li>
@@ -247,7 +247,7 @@ export default function Ayuda() {
         <div className="mt-16 border-t border-hairline pt-12">
           <Eyebrow>Materiales opcionales</Eyebrow>
           <SubTitle className="mt-4">Para enriquecer tu tiempo</SubTitle>
-          <p className="mt-4 max-w-[520px] text-[16px] leading-relaxed text-ink-soft">
+          <p className="mt-4 max-w-[520px] text-[1rem] leading-relaxed text-ink-soft">
             Credos, confesiones y catecismos históricos, cada uno con su breve introducción, y un
             devocional para cada mañana del año. En la Biblioteca cada uno tiene su portada: los que
             sumás a tu estante aparecen en Hoy junto a tu lectura, y avanzás a tu ritmo. Una frase que
@@ -256,12 +256,12 @@ export default function Ayuda() {
           <div className="mt-7 space-y-6">
             {MATERIALES.map((g) => (
               <div key={g.group}>
-                <p className="text-[13px] font-semibold text-ink-soft">{g.group}</p>
+                <p className="text-[0.8125rem] font-semibold text-ink-soft">{g.group}</p>
                 <div className="mt-2.5 flex flex-wrap gap-2.5">
                   {g.items.map((m) => (
                     <span
                       key={m}
-                      className="rounded-pill border border-hairline px-4 py-2 text-[14px] font-medium text-ink-soft"
+                      className="rounded-pill border border-hairline px-4 py-2 text-[0.875rem] font-medium text-ink-soft"
                     >
                       {m}
                     </span>
@@ -337,10 +337,10 @@ export default function Ayuda() {
       {/* ── CTA FINAL ────────────────────────────────────────── */}
       <section className="border-t border-hairline">
         <div className="mx-auto w-full max-w-[680px] px-6 py-20 text-center">
-          <h2 className="text-[32px] font-bold tracking-[-0.025em] text-ink sm:text-[38px]">
+          <h2 className="text-[2rem] font-bold tracking-[-0.025em] text-ink sm:text-[2.375rem]">
             Esta mañana, abrí tu Biblia
           </h2>
-          <p className="mx-auto mt-4 max-w-[400px] text-[18px] leading-relaxed text-ink-soft">
+          <p className="mx-auto mt-4 max-w-[400px] text-[1.125rem] leading-relaxed text-ink-soft">
             Lee Tu Biblia te acompaña el resto: el plan, la racha, la oración y tu gente.
           </p>
           <div className="mx-auto mt-8 max-w-[300px]">
@@ -349,17 +349,17 @@ export default function Ayuda() {
               {from?.to ? 'Volver a la app' : 'Empezá gratis'}
             </Link>
           </div>
-          <p className="mt-5 text-[14px] text-ink-soft">
+          <p className="mt-5 text-[0.875rem] text-ink-soft">
             ¿Querés la versión corta?{' '}
             <Link to="/info" className="font-semibold text-accent-ink">
               Mirá la presentación
             </Link>
           </p>
 
-          <p className="mx-auto mt-16 max-w-[420px] text-[17px] italic leading-relaxed text-ink-soft">
+          <p className="mx-auto mt-16 max-w-[420px] text-[1.0625rem] italic leading-relaxed text-ink-soft">
             «Santifícalos en la verdad; Tu palabra es verdad.»
           </p>
-          <p className="mt-2 text-[13px] text-ink-soft">Juan 17:17 · NBLA</p>
+          <p className="mt-2 text-[0.8125rem] text-ink-soft">Juan 17:17 · NBLA</p>
         </div>
       </section>
 

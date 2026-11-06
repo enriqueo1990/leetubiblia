@@ -36,7 +36,7 @@ export default function GroupPrivateStats({ stats, weekRows, answeredPct }) {
           <div className="mt-4 h-2 overflow-hidden rounded-full" style={{ backgroundColor: 'var(--surface-alt)' }}>
             <div className="h-full" style={{ width: `${answeredPct}%`, backgroundColor: 'var(--accent)' }} />
           </div>
-          <p className="mt-2 text-[12px] text-ink-soft">{t('groupDetail.answeredPct', { pct: answeredPct })}</p>
+          <p className="mt-2 text-[0.75rem] text-ink-soft">{t('groupDetail.answeredPct', { pct: answeredPct })}</p>
         </div>
       )}
 
@@ -57,7 +57,7 @@ export default function GroupPrivateStats({ stats, weekRows, answeredPct }) {
                 {weekDates.map((d, i) => (
                   <span
                     key={i}
-                    className="flex h-[18px] w-[18px] items-center justify-center text-[10px] font-semibold"
+                    className="flex h-[18px] w-[18px] items-center justify-center text-[0.625rem] font-semibold"
                     style={{ color: i === 6 ? 'var(--accent-ink)' : 'var(--text-soft)' }}
                   >
                     {DAY_LETTERS[d.getDay()]}
@@ -73,7 +73,7 @@ export default function GroupPrivateStats({ stats, weekRows, answeredPct }) {
                   className="flex items-center gap-3"
                   aria-label={t('groupDetail.weekAria', { name: m.display_name ?? t('common.member'), days: readDays })}
                 >
-                  <span className="min-w-0 flex-1 truncate text-[14px] text-ink">
+                  <span className="min-w-0 flex-1 truncate text-[0.875rem] text-ink">
                     {m.display_name ?? t('common.member')}
                     {m.user_id === user?.id && <span className="text-ink-soft"> {t('groupDetail.youParen')}</span>}
                   </span>
@@ -95,7 +95,7 @@ export default function GroupPrivateStats({ stats, weekRows, answeredPct }) {
               )
             })}
           </div>
-          <p className="mt-3 text-[12px] text-ink-soft">{t('groupDetail.weekHint')}</p>
+          <p className="mt-3 text-[0.75rem] text-ink-soft">{t('groupDetail.weekHint')}</p>
         </div>
       )}
     </div>

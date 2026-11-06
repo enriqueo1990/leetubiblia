@@ -42,7 +42,7 @@ export default function GroupPrayers({
               type="button"
               onClick={onAddPrayer}
               disabled={!online}
-              className="-mr-2 inline-flex min-h-11 items-center gap-1 px-2 text-[13px] font-medium disabled:opacity-45"
+              className="-mr-2 inline-flex min-h-11 items-center gap-1 px-2 text-[0.8125rem] font-medium disabled:opacity-45"
               style={{ color: 'var(--accent-ink)' }}
             >
               <PlusIcon size={16} /> {t('groupDetail.sharePrayerAria')}
@@ -62,8 +62,8 @@ export default function GroupPrayers({
             <HeartIcon size={20} />
           </span>
           <span className="min-w-0">
-            <span className="block text-[15px] text-ink">{t('groupDetail.noPrayers')}</span>
-            <span className="mt-0.5 block text-[13px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
+            <span className="block text-[0.9375rem] text-ink">{t('groupDetail.noPrayers')}</span>
+            <span className="mt-0.5 block text-[0.8125rem] font-semibold" style={{ color: 'var(--accent-ink)' }}>
               {t('groupDetail.shareFirst')} ›
             </span>
           </span>
@@ -88,13 +88,13 @@ export default function GroupPrayers({
                   }}
                   className="block w-full p-4 text-left"
                 >
-                  <p className="text-[16px] font-semibold leading-snug text-ink">{p.title}</p>
+                  <p className="text-[1rem] font-semibold leading-snug text-ink">{p.title}</p>
                   {p.description && (
-                    <p className="mt-1 line-clamp-2 text-[13px] leading-snug text-ink-soft">{p.description}</p>
+                    <p className="mt-1 line-clamp-2 text-[0.8125rem] leading-snug text-ink-soft">{p.description}</p>
                   )}
                 </button>
                 <div className="flex items-center justify-between gap-3 px-4 pb-4">
-                  <div className="flex min-w-0 items-center gap-1.5 text-[12px] text-ink-soft">
+                  <div className="flex min-w-0 items-center gap-1.5 text-[0.75rem] text-ink-soft">
                     <span className="min-w-0 truncate">{p.author_name ?? t('common.someone')} ·</span>
                     <span className="flex shrink-0 items-center gap-1.5">
                       {p.intercessors.length > 0 && (
@@ -106,14 +106,14 @@ export default function GroupPrayers({
                     </span>
                   </div>
                   {p.user_id === user?.id ? (
-                    <span className="shrink-0 text-[12px] text-ink-soft">{t('groupDetail.yourPrayer')}</span>
+                    <span className="shrink-0 text-[0.75rem] text-ink-soft">{t('groupDetail.yourPrayer')}</span>
                   ) : interceding(p) ? (
                     <button
                       type="button"
                       onClick={() => onUnpray(p)}
                       disabled={!online || prayerAction?.busyId === p.id}
                       aria-pressed="true"
-                      className="inline-flex min-h-11 shrink-0 items-center gap-1 text-[13px] font-semibold"
+                      className="inline-flex min-h-11 shrink-0 items-center gap-1 text-[0.8125rem] font-semibold"
                       style={{
                         color: 'var(--accent-ink)',
                         opacity: !online || prayerAction?.busyId === p.id ? 0.55 : 1,
@@ -127,7 +127,7 @@ export default function GroupPrayers({
                       onClick={() => onPray(p)}
                       disabled={!online || prayerAction?.busyId === p.id}
                       aria-pressed="false"
-                      className="min-h-11 shrink-0 rounded-pill px-4 text-[13px] font-semibold"
+                      className="min-h-11 shrink-0 rounded-pill px-4 text-[0.8125rem] font-semibold"
                       style={{
                         backgroundColor: 'var(--accent-tint)',
                         color: 'var(--accent-ink)',
@@ -139,7 +139,7 @@ export default function GroupPrayers({
                   )}
                 </div>
                 {prayerAction?.errorId === p.id && (
-                  <p className="px-4 pb-3 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
+                  <p className="px-4 pb-3 text-[0.8125rem]" role="alert" style={{ color: 'var(--danger)' }}>
                     {t('groupDetail.prayError')}{' '}
                     <button
                       type="button"
@@ -157,7 +157,7 @@ export default function GroupPrayers({
             <button
               type="button"
               onClick={() => setExpanded(true)}
-              className="mt-2 inline-flex min-h-11 items-center text-[14px] font-semibold"
+              className="mt-2 inline-flex min-h-11 items-center text-[0.875rem] font-semibold"
               style={{ color: 'var(--accent-ink)' }}
             >
               {t('groupDetail.seeRemaining', { count: hidden })} ↓

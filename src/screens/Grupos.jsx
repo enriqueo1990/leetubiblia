@@ -86,7 +86,7 @@ function CreateGroupSheet({ onClose, onCreated, online = true }) {
       }
     >
       {needsName && <MyNameField value={myName} onChange={setMyName} />}
-      <label htmlFor="group-name" className="mb-2 block text-[14px] font-medium text-ink">
+      <label htmlFor="group-name" className="mb-2 block text-[0.875rem] font-medium text-ink">
         {t('grupos.nameLabel')}
       </label>
       <input
@@ -96,13 +96,13 @@ function CreateGroupSheet({ onClose, onCreated, online = true }) {
         placeholder={t('grupos.namePlaceholder')}
         value={name}
         onChange={(e) => setName(e.target.value)}
-        className="w-full rounded-input px-4 py-3 text-[16px] outline-none"
+        className="w-full rounded-input px-4 py-3 text-[1rem] outline-none"
         style={inputStyle}
       />
-      <p className="mt-3 text-[13px] text-ink-soft">
+      <p className="mt-3 text-[0.8125rem] text-ink-soft">
         {t('grupos.createHelp')}
       </p>
-      {error && <p className="mt-3 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
+      {error && <p className="mt-3 text-[0.8125rem]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
     </Sheet>
   )
 }
@@ -166,7 +166,7 @@ function JoinGroupSheet({ onClose, onJoined, online = true }) {
       }
     >
       {needsName && <MyNameField value={myName} onChange={setMyName} />}
-      <label htmlFor="group-code" className="mb-2 block text-center text-[14px] font-medium text-ink">
+      <label htmlFor="group-code" className="mb-2 block text-center text-[0.875rem] font-medium text-ink">
         {t('grupos.codeLabel')}
       </label>
       <input
@@ -185,10 +185,10 @@ function JoinGroupSheet({ onClose, onJoined, online = true }) {
         }}
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? 'group-code-error' : undefined}
-        className="w-full rounded-input px-4 py-3 text-center text-[24px] font-bold outline-none"
+        className="w-full rounded-input px-4 py-3 text-center text-[1.5rem] font-bold outline-none"
         style={{ ...inputStyle, letterSpacing: '3px' }}
       />
-      <p className="mt-3 text-center text-[13px] text-ink-soft">
+      <p className="mt-3 text-center text-[0.8125rem] text-ink-soft">
         {t('grupos.joinHelp')}
       </p>
       <div id="group-code-error">
@@ -225,7 +225,7 @@ export default function Grupos() {
     <div className="pt-2">
       {/* Acción primaria en el header, como en Oración: el contenido empieza bajo el título. */}
       <div className="flex items-center justify-between">
-        <h1 className="text-[26px] font-bold tracking-tight text-ink">{t('nav.grupos')}</h1>
+        <h1 className="text-[1.625rem] font-bold tracking-tight text-ink">{t('nav.grupos')}</h1>
         <button
           type="button"
           aria-label={t('grupos.addGroup')}
@@ -235,7 +235,7 @@ export default function Grupos() {
           style={{ backgroundColor: 'var(--accent-action)', minWidth: 44, opacity: online ? 1 : 0.45 }}
         >
           <PlusIcon size={20} />
-          <span className="hidden text-[15px] font-semibold lg:inline">{t('grupos.addGroup')}</span>
+          <span className="hidden text-[0.9375rem] font-semibold lg:inline">{t('grupos.addGroup')}</span>
         </button>
       </div>
 
@@ -272,15 +272,15 @@ export default function Grupos() {
               className="card flex items-center gap-3 p-4"
             >
               <div
-                className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-[15px] font-semibold"
+                className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-[0.9375rem] font-semibold"
                 style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
                 aria-hidden="true"
               >
                 {initials(g.name)}
               </div>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-[16px] font-semibold text-ink">{g.name}</p>
-                <p className="text-[13px] text-ink-soft">
+                <p className="truncate text-[1rem] font-semibold text-ink">{g.name}</p>
+                <p className="text-[0.8125rem] text-ink-soft">
                   {t('grupos.members', { count: g.member_count })}
                   {g.role === 'owner' && ` · ${t('grupos.admin')}`}
                 </p>

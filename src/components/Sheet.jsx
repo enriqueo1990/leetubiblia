@@ -119,7 +119,7 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
                   <XIcon size={22} />
                 </button>
               </span>
-              <span className="text-[16px] font-semibold text-ink">{title}</span>
+              <span className="text-[1rem] font-semibold text-ink">{title}</span>
               <span className="min-w-[44px] text-right">
                 {action ?? <span className="opacity-0">·</span>}
               </span>

@@ -43,22 +43,22 @@ export default function OnboardingExtras({ onDone }) {
   return (
     <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col px-7 py-10">
       <div className="flex-1">
-        <h1 className="text-[24px] font-bold tracking-tight text-ink">{t('onboarding.extras.title')}</h1>
-        <p className="mt-2 text-[16px] text-ink-soft">{t('onboarding.extras.subtitleIOS')}</p>
+        <h1 className="text-[1.5rem] font-bold tracking-tight text-ink">{t('onboarding.extras.title')}</h1>
+        <p className="mt-2 text-[1rem] text-ink-soft">{t('onboarding.extras.subtitleIOS')}</p>
 
         <div className="card mt-6 p-4">
-          <p className="text-[16px] font-medium text-ink">{t('onboarding.extras.addToHomeTitle')}</p>
-          <p className="mt-1 text-[15px] text-ink-soft">{t('onboarding.extras.addToHomeDescIOS')}</p>
+          <p className="text-[1rem] font-medium text-ink">{t('onboarding.extras.addToHomeTitle')}</p>
+          <p className="mt-1 text-[0.9375rem] text-ink-soft">{t('onboarding.extras.addToHomeDescIOS')}</p>
           <ol className="mt-3 space-y-2">
             {[t('onboarding.extras.step1'), t('onboarding.extras.step2')].map((step, i) => (
               <li key={i} className="flex items-center gap-3">
                 <span
-                  className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[13px] font-semibold text-on-accent"
+                  className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[0.8125rem] font-semibold text-on-accent"
                   style={{ backgroundColor: 'var(--accent-action)' }}
                 >
                   {i + 1}
                 </span>
-                <span className="text-[15px] text-ink">{step}</span>
+                <span className="text-[0.9375rem] text-ink">{step}</span>
                 {i === 0 && (
                   <span className="ml-auto text-accent-ink">
                     <ShareIcon size={20} />

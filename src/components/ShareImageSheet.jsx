@@ -212,7 +212,7 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
           </div>
         )}
         {format === 'carousel' && previews.length > 0 && (
-          <p className="-mt-1 text-center text-[13px] text-ink-soft">
+          <p className="-mt-1 text-center text-[0.8125rem] text-ink-soft">
             {t('materialReader.shareCarouselCount', { n: previews.length })}
           </p>
         )}
@@ -228,7 +228,7 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
                   type="button"
                   onClick={() => setVariant(s.id)}
                   aria-pressed={active}
-                  className="flex min-h-11 items-center justify-center gap-2 rounded-input border py-2.5 text-[14px] font-medium text-ink transition-colors"
+                  className="flex min-h-11 items-center justify-center gap-2 rounded-input border py-2.5 text-[0.875rem] font-medium text-ink transition-colors"
                   style={{
                     borderColor: active ? 'var(--accent)' : 'var(--hairline)',
                     backgroundColor: active ? 'var(--accent-tint)' : 'transparent',
@@ -263,8 +263,8 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
         {canVideo && (
           <div className="flex items-center justify-between gap-3 px-1">
             <div className="min-w-0">
-              <p className="text-[15px] text-ink">{t('share.animated')}</p>
-              <p className="text-[13px] text-ink-soft">{t('share.animatedHelp')}</p>
+              <p className="text-[0.9375rem] text-ink">{t('share.animated')}</p>
+              <p className="text-[0.8125rem] text-ink-soft">{t('share.animatedHelp')}</p>
             </div>
             <Switch on={animated} onChange={() => setAnimated((v) => !v)} label={t('share.animated')} />
           </div>
@@ -274,8 +274,8 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
         {data.personal && (
           <div className="flex items-center justify-between gap-3 px-1">
             <div className="min-w-0">
-              <p className="text-[15px] text-ink">{t('share.showProgress')}</p>
-              <p className="text-[13px] text-ink-soft">{data.personal}</p>
+              <p className="text-[0.9375rem] text-ink">{t('share.showProgress')}</p>
+              <p className="text-[0.8125rem] text-ink-soft">{data.personal}</p>
             </div>
             <Switch on={withPersonal} onChange={() => setWithPersonal((v) => !v)} label={t('share.showProgress')} />
           </div>
@@ -285,7 +285,7 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
           <button
             type="button"
             onClick={onPickPhrase}
-            className="flex min-h-11 w-full items-center justify-center text-[15px] font-semibold"
+            className="flex min-h-11 w-full items-center justify-center text-[0.9375rem] font-semibold"
             style={{ color: 'var(--accent-ink)' }}
           >
             {t('share.pickPhrase')}

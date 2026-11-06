@@ -80,10 +80,10 @@ export default function ChoosePlanOnboarding({ onSkip }) {
 
   return (
     <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col px-7 py-10">
-      <h1 className="text-[26px] font-bold tracking-tight text-ink">
+      <h1 className="text-[1.625rem] font-bold tracking-tight text-ink">
         {t('onboarding.choosePlan.title')}
       </h1>
-      <p className="mt-2 text-[16px] text-ink-soft">{t('onboarding.choosePlan.subtitle')}</p>
+      <p className="mt-2 text-[1rem] text-ink-soft">{t('onboarding.choosePlan.subtitle')}</p>
 
       <PlanCatalog
         onStart={(plan, resumeDay) => {
@@ -100,7 +100,7 @@ export default function ChoosePlanOnboarding({ onSkip }) {
 
       <div className="my-4 flex items-center gap-3" aria-hidden="true">
         <span className="h-px flex-1 bg-hairline" />
-        <span className="text-[13px] text-ink-soft">{t('common.or')}</span>
+        <span className="text-[0.8125rem] text-ink-soft">{t('common.or')}</span>
         <span className="h-px flex-1 bg-hairline" />
       </div>
 
@@ -114,7 +114,7 @@ export default function ChoosePlanOnboarding({ onSkip }) {
       >
         {t('onboarding.choosePlan.groupCta')}
       </button>
-      <p className="mt-2 text-center text-[13px] leading-relaxed text-ink-soft">
+      <p className="mt-2 text-center text-[0.8125rem] leading-relaxed text-ink-soft">
         {t('onboarding.choosePlan.groupHelp')}
       </p>
     </div>

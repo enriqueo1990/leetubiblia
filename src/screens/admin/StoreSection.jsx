@@ -26,7 +26,7 @@ function ErrorBlock({ message, error, onRetry }) {
   return (
     <div className="card p-4">
       <RetryError message={message} onRetry={onRetry} />
-      <p className="mt-3 break-words text-center text-[12px] text-placeholder">
+      <p className="mt-3 break-words text-center text-[0.75rem] text-placeholder">
         {missingMigration(error) ? 'Falta aplicar la migración 0036.' : error}
       </p>
     </div>
@@ -37,10 +37,10 @@ function ErrorBlock({ message, error, onRetry }) {
 function Cell({ label, value, base }) {
   return (
     <div className="min-w-0">
-      <p className="text-[12px] leading-tight text-ink-soft">{label}</p>
-      <p className="mt-0.5 text-[15px] font-semibold text-ink tabular-nums">
+      <p className="text-[0.75rem] leading-tight text-ink-soft">{label}</p>
+      <p className="mt-0.5 text-[0.9375rem] font-semibold text-ink tabular-nums">
         {value}
-        <span className="ml-1 text-[12px] font-normal text-placeholder">{pct(value, base)}%</span>
+        <span className="ml-1 text-[0.75rem] font-normal text-placeholder">{pct(value, base)}%</span>
       </p>
       <div className="mt-1">
         <Meter ratio={base ? value / base : 0} label={label} />
@@ -61,7 +61,7 @@ function verdict(rows) {
 
 export function StoreSignals({ data, error, onRetry }) {
   if (error) return <ErrorBlock message="No se pudieron cargar las señales." error={error} onRetry={onRetry} />
-  if (!data) return <p className="text-[15px] text-ink-soft">Cargando…</p>
+  if (!data) return <p className="text-[0.9375rem] text-ink-soft">Cargando…</p>
 
   const rows = data.platforms || []
   const total = rows.reduce((n, r) => n + r.users, 0)
@@ -73,30 +73,30 @@ export function StoreSignals({ data, error, onRetry }) {
     <div>
       <div className="grid grid-cols-2 gap-3">
         <div className="card p-4">
-          <p className="text-[28px] font-bold leading-none text-accent-ink" style={{ letterSpacing: '-1px' }}>
+          <p className="text-[1.75rem] font-bold leading-none text-accent-ink" style={{ letterSpacing: '-1px' }}>
             {habitual}
           </p>
-          <p className="mt-1.5 text-[13px] leading-tight text-ink-soft">leen 3+ días por semana</p>
-          <p className="mt-0.5 text-[12px] text-placeholder">{pct(habitual, total)}% de los registrados</p>
+          <p className="mt-1.5 text-[0.8125rem] leading-tight text-ink-soft">leen 3+ días por semana</p>
+          <p className="mt-0.5 text-[0.75rem] text-placeholder">{pct(habitual, total)}% de los registrados</p>
         </div>
         <div className="card p-4">
-          <p className="text-[28px] font-bold leading-none text-ink" style={{ letterSpacing: '-1px' }}>
+          <p className="text-[1.75rem] font-bold leading-none text-ink" style={{ letterSpacing: '-1px' }}>
             {pct(ios?.users || 0, total)}%
           </p>
-          <p className="mt-1.5 text-[13px] leading-tight text-ink-soft">se registraron en iPhone</p>
-          <p className="mt-0.5 text-[12px] text-placeholder">{ios?.users || 0} de {total}</p>
+          <p className="mt-1.5 text-[0.8125rem] leading-tight text-ink-soft">se registraron en iPhone</p>
+          <p className="mt-0.5 text-[0.75rem] text-placeholder">{ios?.users || 0} de {total}</p>
         </div>
       </div>
 
       <div className="card mt-3 divide-y divide-hairline">
         {rows.length === 0 ? (
-          <p className="p-4 text-[15px] text-ink-soft">Sin usuarios todavía.</p>
+          <p className="p-4 text-[0.9375rem] text-ink-soft">Sin usuarios todavía.</p>
         ) : (
           rows.map((r) => (
             <div key={r.platform} className="p-4">
               <div className="flex items-baseline justify-between gap-3">
-                <p className="text-[15px] font-medium text-ink">{PLATFORM_LABEL[r.platform] || r.platform}</p>
-                <p className="text-[13px] text-ink-soft tabular-nums">{r.users} registrados</p>
+                <p className="text-[0.9375rem] font-medium text-ink">{PLATFORM_LABEL[r.platform] || r.platform}</p>
+                <p className="text-[0.8125rem] text-ink-soft tabular-nums">{r.users} registrados</p>
               </div>
               <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-4">
                 <Cell label="Leyeron" value={r.read} base={r.users} />
@@ -108,7 +108,7 @@ export function StoreSignals({ data, error, onRetry }) {
           ))
         )}
       </div>
-      <p className="mt-3 text-[13px] leading-snug text-ink-soft">
+      <p className="mt-3 text-[0.8125rem] leading-snug text-ink-soft">
         {line ? `${line} ` : ''}«Volvieron» cuenta solo a quienes se registraron hace 2+ días.
       </p>
     </div>
@@ -136,7 +136,7 @@ export function GoalEditor({ goal, funnel, error, onRetry, onSaved }) {
   }, [goal])
 
   if (error) return <ErrorBlock message="No se pudo cargar la meta." error={error} onRetry={onRetry} />
-  if (!goal) return <p className="text-[15px] text-ink-soft">Cargando…</p>
+  if (!goal) return <p className="text-[0.9375rem] text-ink-soft">Cargando…</p>
 
   const r = toAmount(raised)
   const tg = toAmount(target)
@@ -163,7 +163,7 @@ export function GoalEditor({ goal, funnel, error, onRetry, onSaved }) {
   return (
     <div className="card p-4">
       <GoalProgress goal={preview} />
-      <p className="mt-2 text-[13px] text-ink-soft">
+      <p className="mt-2 text-[0.8125rem] text-ink-soft">
         {active
           ? preview.raised >= preview.target
             ? 'Meta cumplida: la tarjeta ya no se muestra.'
@@ -173,28 +173,28 @@ export function GoalEditor({ goal, funnel, error, onRetry, onSaved }) {
 
       <div className="mt-4 grid grid-cols-2 gap-3">
         <label className="block">
-          <span className="text-[13px] text-ink-soft">Juntado ({goal.currency})</span>
+          <span className="text-[0.8125rem] text-ink-soft">Juntado ({goal.currency})</span>
           <input
             inputMode="decimal"
             value={raised}
             onChange={(e) => setRaised(e.target.value)}
-            className="mt-1 w-full rounded-input px-4 py-3 text-[16px] outline-none tabular-nums"
+            className="mt-1 w-full rounded-input px-4 py-3 text-[1rem] outline-none tabular-nums"
             style={inputStyle}
           />
         </label>
         <label className="block">
-          <span className="text-[13px] text-ink-soft">Meta ({goal.currency})</span>
+          <span className="text-[0.8125rem] text-ink-soft">Meta ({goal.currency})</span>
           <input
             inputMode="decimal"
             value={target}
             onChange={(e) => setTarget(e.target.value)}
-            className="mt-1 w-full rounded-input px-4 py-3 text-[16px] outline-none tabular-nums"
+            className="mt-1 w-full rounded-input px-4 py-3 text-[1rem] outline-none tabular-nums"
             style={inputStyle}
           />
         </label>
       </div>
       <div className="mt-2 flex items-center justify-between gap-3">
-        <span className="text-[15px] text-ink">Mostrar la meta en la app</span>
+        <span className="text-[0.9375rem] text-ink">Mostrar la meta en la app</span>
         <Switch on={active} onChange={setActive} label="Mostrar la meta en la app" />
       </div>
       <button
@@ -208,13 +208,13 @@ export function GoalEditor({ goal, funnel, error, onRetry, onSaved }) {
       </button>
       {saveError ? <InlineError message={`No se pudo guardar: ${saveError}`} className="mt-2" /> : null}
       {savedAt && !dirty && !saveError ? (
-        <p className="mt-2 text-center text-[13px]" style={{ color: 'var(--accent-ink)' }} role="status">
+        <p className="mt-2 text-center text-[0.8125rem]" style={{ color: 'var(--accent-ink)' }} role="status">
           ✓ Guardado
         </p>
       ) : null}
 
       {funnel ? (
-        <p className="mt-4 border-t pt-3 text-[13px] text-ink-soft" style={{ borderColor: 'var(--hairline)' }}>
+        <p className="mt-4 border-t pt-3 text-[0.8125rem] text-ink-soft" style={{ borderColor: 'var(--hairline)' }}>
           {funnel.shown} vieron la tarjeta · {funnel.opened} abrieron la hoja · {funnel.link} tocaron un link
         </p>
       ) : null}

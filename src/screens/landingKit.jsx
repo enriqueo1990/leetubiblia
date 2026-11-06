@@ -206,7 +206,7 @@ export function Wordmark({ size = 'sm' }) {
     <span className="inline-flex items-center gap-3">
       <BrandMark size={s ? 56 : 36} />
       <span
-        className={`font-bold tracking-[-0.02em] text-ink ${s ? 'text-[24px]' : 'text-[18px]'}`}
+        className={`font-bold tracking-[-0.02em] text-ink ${s ? 'text-[1.5rem]' : 'text-[1.125rem]'}`}
       >
         Lee Tu Biblia
       </span>
@@ -220,7 +220,7 @@ export function Wordmark({ size = 'sm' }) {
 export function Eyebrow({ children, tone }) {
   return (
     <p
-      className={`info-eyebrow text-[13px] font-semibold uppercase tracking-[0.16em] ${
+      className={`info-eyebrow text-[0.8125rem] font-semibold uppercase tracking-[0.16em] ${
         tone ? `ht-${tone}` : ''
       }`}
     >
@@ -235,7 +235,7 @@ export function Eyebrow({ children, tone }) {
 export function SectionTitle({ children, className = '' }) {
   return (
     <h2
-      className={`text-[28px] font-bold leading-[1.14] tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[32px] ${className}`}
+      className={`text-[1.75rem] font-bold leading-[1.14] tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-[2rem] ${className}`}
     >
       {children}
     </h2>
@@ -243,7 +243,7 @@ export function SectionTitle({ children, className = '' }) {
 }
 export function SubTitle({ children, className = '' }) {
   return (
-    <h3 className={`text-[20px] font-bold leading-[1.25] tracking-[-0.02em] text-ink sm:text-[22px] ${className}`}>
+    <h3 className={`text-[1.25rem] font-bold leading-[1.25] tracking-[-0.02em] text-ink sm:text-[1.375rem] ${className}`}>
       {children}
     </h3>
   )
@@ -267,7 +267,7 @@ export function BackToIndex() {
   return (
     <a
       href="#indice"
-      className={`mt-10 inline-flex min-h-11 items-center text-[14px] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
+      className={`mt-10 inline-flex min-h-11 items-center text-[0.875rem] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
     >
       ↑ Volver al índice
     </a>
@@ -299,7 +299,7 @@ export function LandingHeader({ current, width = 'max-w-[880px]' }) {
         ) : (
           <Link
             to="/"
-            className={`inline-flex min-h-11 shrink-0 items-center rounded-pill bg-accent-tint px-4 text-[14.5px] font-semibold text-accent-ink transition-[filter] hover:brightness-95 ${FOCUS}`}
+            className={`inline-flex min-h-11 shrink-0 items-center rounded-pill bg-accent-tint px-4 text-[0.9062rem] font-semibold text-accent-ink transition-[filter] hover:brightness-95 ${FOCUS}`}
           >
             Abrir la app
           </Link>
@@ -316,7 +316,7 @@ export function LandingHeader({ current, width = 'max-w-[880px]' }) {
             <span
               key={to}
               aria-current="page"
-              className="-mx-3 inline-flex min-h-11 items-center rounded-pill bg-accent-tint px-3 text-[14.5px] font-semibold text-accent-ink"
+              className="-mx-3 inline-flex min-h-11 items-center rounded-pill bg-accent-tint px-3 text-[0.9062rem] font-semibold text-accent-ink"
             >
               {label}
             </span>
@@ -324,7 +324,7 @@ export function LandingHeader({ current, width = 'max-w-[880px]' }) {
             <Link
               key={to}
               to={to}
-              className={`inline-flex min-h-11 items-center text-[14.5px] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
+              className={`inline-flex min-h-11 items-center text-[0.9062rem] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
             >
               {label}
             </Link>
@@ -351,7 +351,7 @@ function FooterDonate() {
           if (goal) recordFunnel('goal_open')
           setOpen(true)
         }}
-        className={`inline-flex min-h-11 items-center gap-1.5 text-[14px] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
+        className={`inline-flex min-h-11 items-center gap-1.5 text-[0.875rem] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
       >
         <HeartIcon size={16} />
         Apoyar el proyecto
@@ -375,14 +375,14 @@ export function LandingFooter({ current, width = 'max-w-[880px]' }) {
         <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-0">
           {SITE_NAV.map(([to, label]) =>
             to === current ? (
-              <span key={to} className="inline-flex min-h-11 items-center text-[14px] font-semibold text-ink" aria-current="page">
+              <span key={to} className="inline-flex min-h-11 items-center text-[0.875rem] font-semibold text-ink" aria-current="page">
                 {label}
               </span>
             ) : (
               <Link
                 key={to}
                 to={to}
-                className={`inline-flex min-h-11 items-center text-[14px] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
+                className={`inline-flex min-h-11 items-center text-[0.875rem] font-medium text-ink-soft transition-colors hover:text-accent-ink ${FOCUS}`}
               >
                 {label}
               </Link>
@@ -390,12 +390,12 @@ export function LandingFooter({ current, width = 'max-w-[880px]' }) {
           )}
           <Link
             to="/"
-            className={`inline-flex min-h-11 items-center text-[14px] font-semibold text-accent-ink transition-colors hover:underline ${FOCUS}`}
+            className={`inline-flex min-h-11 items-center text-[0.875rem] font-semibold text-accent-ink transition-colors hover:underline ${FOCUS}`}
           >
             Abrir la app →
           </Link>
         </nav>
-        <p className="text-[13px] leading-relaxed text-ink-soft">
+        <p className="text-[0.8125rem] leading-relaxed text-ink-soft">
           Gratis · sin publicidad · hecho para acompañar tu lectura en la Palabra.
         </p>
         <FooterDonate />
@@ -422,7 +422,7 @@ function Shot({ src, alt, width, height }) {
         className="h-auto w-full rounded-[26px] border border-hairline"
         style={{ boxShadow: '0 30px 60px -30px rgba(28, 28, 30, 0.25)' }}
       />
-      <figcaption className="mx-auto mt-5 max-w-[250px] text-center text-[13.5px] leading-snug text-ink-soft">
+      <figcaption className="mx-auto mt-5 max-w-[250px] text-center text-[0.8438rem] leading-snug text-ink-soft">
         {alt}
       </figcaption>
     </figure>

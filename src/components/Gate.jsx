@@ -34,7 +34,7 @@ function LoadError({ onRetry, onSignOut }) {
   }
   return (
     <div className="flex min-h-[100dvh] flex-col items-center justify-center gap-4 bg-app px-8 text-center">
-      <p className="max-w-[280px] text-[15px] text-ink-soft">
+      <p className="max-w-[280px] text-[0.9375rem] text-ink-soft">
         {t('gate.loadError')}
       </p>
       <button
@@ -49,7 +49,7 @@ function LoadError({ onRetry, onSignOut }) {
         <button
           type="button"
           onClick={onSignOut}
-          className="min-h-11 px-2 text-[15px] font-medium text-ink-soft"
+          className="min-h-11 px-2 text-[0.9375rem] font-medium text-ink-soft"
         >
           {t('gate.signOut')}
         </button>

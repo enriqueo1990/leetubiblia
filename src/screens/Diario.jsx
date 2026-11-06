@@ -104,14 +104,14 @@ export default function Diario() {
                 onClick={() => setSheet(e)}
                 className="card w-full p-4 text-left"
               >
-                <span className="block text-[16px] leading-relaxed text-ink">{e.body}</span>
+                <span className="block text-[1rem] leading-relaxed text-ink">{e.body}</span>
                 <span className="mt-2.5 flex items-center justify-between gap-3">
-                  <span className="block text-[12px] text-ink-soft">
+                  <span className="block text-[0.75rem] text-ink-soft">
                     {t('diario.entryMeta', { date: fmtDay(e.created_at), day: e.day_number })}
                   </span>
                   {editable && (
                     <span
-                      className="flex shrink-0 items-center gap-1 text-[12px] font-medium"
+                      className="flex shrink-0 items-center gap-1 text-[0.75rem] font-medium"
                       style={{ color: 'var(--accent-ink)' }}
                     >
                       <PencilIcon size={13} />
@@ -129,7 +129,7 @@ export default function Diario() {
         <button
           type="button"
           onClick={loadMore}
-          className="mt-3 min-h-11 w-full text-center text-[14px] font-semibold"
+          className="mt-3 min-h-11 w-full text-center text-[0.875rem] font-semibold"
           style={{ color: 'var(--accent-ink)' }}
         >
           {t('common.loadMore')}

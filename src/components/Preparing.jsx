@@ -12,7 +12,7 @@ export default function Preparing() {
   return (
     <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col items-center justify-center px-7 text-center">
       <BrandMark size={88} />
-      <p className="mt-6 text-[15px] text-ink-soft" role="status">
+      <p className="mt-6 text-[0.9375rem] text-ink-soft" role="status">
         {t('onboarding.extras.finishing')}
       </p>
     </div>

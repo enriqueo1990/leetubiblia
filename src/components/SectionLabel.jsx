@@ -21,7 +21,7 @@ export default function SectionLabel({
   const margin = /(^|\s)mb-/.test(className) ? '' : 'mb-2'
   const label = (
     <Tag
-      className={`text-[13px] font-semibold uppercase tracking-wide ${tone} ${action ? '' : `${inside ? '' : 'px-1'} ${margin} ${className}`}`}
+      className={`text-[0.8125rem] font-semibold uppercase tracking-wide ${tone} ${action ? '' : `${inside ? '' : 'px-1'} ${margin} ${className}`}`}
       {...props}
     >
       {children}

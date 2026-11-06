@@ -139,8 +139,8 @@ export default function BiblePhotoSheet({ data, onClose }) {
       {picker}
       {!photo ? (
         <div className="pb-1 text-center">
-          <p className="mx-auto max-w-[32ch] text-[16px] leading-snug text-ink">{t('photo.intro')}</p>
-          <p className="mx-auto mt-3 max-w-[34ch] text-[13px] leading-snug text-ink-soft">{t('photo.privacy')}</p>
+          <p className="mx-auto max-w-[32ch] text-[1rem] leading-snug text-ink">{t('photo.intro')}</p>
+          <p className="mx-auto mt-3 max-w-[34ch] text-[0.8125rem] leading-snug text-ink-soft">{t('photo.privacy')}</p>
           {photoError && <InlineError message={t('photo.error')} className="mt-3" />}
         </div>
       ) : (
@@ -186,7 +186,7 @@ export default function BiblePhotoSheet({ data, onClose }) {
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
-            className="flex min-h-11 w-full items-center justify-center text-[15px] font-semibold"
+            className="flex min-h-11 w-full items-center justify-center text-[0.9375rem] font-semibold"
             style={{ color: 'var(--accent-ink)' }}
           >
             {t('photo.change')}

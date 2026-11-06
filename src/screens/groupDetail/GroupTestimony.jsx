@@ -21,10 +21,10 @@ export default function GroupTestimony({ testimony, groupId }) {
             <CheckIcon size={20} strokeWidth={2.2} />
           </div>
           <div className="min-w-0">
-            <p className="line-clamp-2 text-[15px] leading-relaxed text-ink">
+            <p className="line-clamp-2 text-[0.9375rem] leading-relaxed text-ink">
               &quot;{testimony.testimony || testimony.title}&quot;
             </p>
-            <p className="mt-1 text-[13px]" style={{ color: 'var(--accent-ink)' }}>
+            <p className="mt-1 text-[0.8125rem]" style={{ color: 'var(--accent-ink)' }}>
               {testimony.author_name ?? t('common.someone')} · {t('groupDetail.seeAll')} ›
             </p>
           </div>

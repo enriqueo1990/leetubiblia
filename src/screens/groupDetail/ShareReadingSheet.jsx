@@ -41,7 +41,7 @@ export default function ShareReadingSheet({ isOwner, onShare, onLater }) {
           </button>
           <button
             type="button"
-            className="mt-1 min-h-11 w-full text-center text-[15px] font-medium text-ink-soft"
+            className="mt-1 min-h-11 w-full text-center text-[0.9375rem] font-medium text-ink-soft"
             onClick={onLater}
           >
             {t('groupDetail.shareAsk.later')}
@@ -57,10 +57,10 @@ export default function ShareReadingSheet({ isOwner, onShare, onLater }) {
         >
           <BookIcon size={30} />
         </span>
-        <p className="mt-4 max-w-[34ch] text-[16px] leading-snug text-ink">
+        <p className="mt-4 max-w-[34ch] text-[1rem] leading-snug text-ink">
           {isOwner ? t('groupDetail.shareAsk.textOwner') : t('groupDetail.shareAsk.text')}
         </p>
-        <p className="mt-2 text-[13px] leading-snug text-ink-soft">{t('groupDetail.shareAsk.note')}</p>
+        <p className="mt-2 text-[0.8125rem] leading-snug text-ink-soft">{t('groupDetail.shareAsk.note')}</p>
       </div>
       {error && <InlineError message={t('groupDetail.shareAsk.error')} className="mt-3" />}
     </Sheet>

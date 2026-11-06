@@ -35,10 +35,10 @@ export default function ThanksCard({ className = '' }) {
             <HeartIcon size={21} />
           </span>
           <div className="min-w-0 flex-1">
-            <h2 id="thanks-title" className="text-[17px] font-semibold leading-tight text-ink">
+            <h2 id="thanks-title" className="text-[1.0625rem] font-semibold leading-tight text-ink">
               {t('thanks.title')}
             </h2>
-            <p className="mt-1.5 text-[14px] leading-relaxed text-ink-soft">{t('thanks.text')}</p>
+            <p className="mt-1.5 text-[0.875rem] leading-relaxed text-ink-soft">{t('thanks.text')}</p>
           </div>
         </div>
         <button

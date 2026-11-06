@@ -55,8 +55,8 @@ function Tooltip({ x, y, width, value, label }) {
       }}
       role="status"
     >
-      <p className="text-[14px] font-semibold leading-tight text-ink">{value}</p>
-      <p className="text-[12px] leading-tight text-ink-soft">{label}</p>
+      <p className="text-[0.875rem] font-semibold leading-tight text-ink">{value}</p>
+      <p className="text-[0.75rem] leading-tight text-ink-soft">{label}</p>
     </div>
   )
 }
@@ -275,7 +275,7 @@ export function Delta({ now, before, period }) {
   const up = diff > 0
   const flat = diff === 0
   return (
-    <p className="mt-1 text-[12px] font-medium" style={{ color: up ? 'var(--accent-ink)' : 'var(--text-soft)' }}>
+    <p className="mt-1 text-[0.75rem] font-medium" style={{ color: up ? 'var(--accent-ink)' : 'var(--text-soft)' }}>
       <span aria-hidden="true">{flat ? '＝' : up ? '▲' : '▼'}</span>{' '}
       {flat ? 'igual' : `${up ? '+' : '−'}${formatCount(Math.abs(diff))}`} vs {period}
     </p>

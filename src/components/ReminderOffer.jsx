@@ -73,7 +73,7 @@ export default function ReminderOffer({ onStart, onClose }) {
   if (done) {
     return (
       <section className="card mt-6 p-4" role="status">
-        <p className="text-[15px] font-medium text-ink">
+        <p className="text-[0.9375rem] font-medium text-ink">
           <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✦</span>{' '}
           {t('reminderOffer.done', { time })}
         </p>
@@ -92,15 +92,15 @@ export default function ReminderOffer({ onStart, onClose }) {
           <BellIcon size={20} />
         </div>
         <div className="min-w-0 flex-1">
-          <h2 id="reminder-offer-title" className="text-[17px] font-semibold text-ink">
+          <h2 id="reminder-offer-title" className="text-[1.0625rem] font-semibold text-ink">
             {t('reminderOffer.title', { time })}
           </h2>
-          <p className="mt-1 text-[14px] leading-snug text-ink-soft">{t('reminderOffer.text')}</p>
+          <p className="mt-1 text-[0.875rem] leading-snug text-ink-soft">{t('reminderOffer.text')}</p>
         </div>
       </div>
 
       <div className="mt-4 flex items-center justify-between gap-4">
-        <label htmlFor="reminder-offer-time" className="text-[16px] text-ink">
+        <label htmlFor="reminder-offer-time" className="text-[1rem] text-ink">
           {t('ajustes.hora')}
         </label>
         <input
@@ -108,13 +108,13 @@ export default function ReminderOffer({ onStart, onClose }) {
           type="time"
           value={time}
           onChange={(e) => setTime(e.target.value || time)}
-          className="min-h-11 rounded-input px-3 text-[16px] outline-none"
+          className="min-h-11 rounded-input px-3 text-[1rem] outline-none"
           style={inputStyleOnCard}
         />
       </div>
 
       {error && (
-        <p className="mt-3 text-[13px] leading-snug" role="alert" style={{ color: 'var(--danger)' }}>
+        <p className="mt-3 text-[0.8125rem] leading-snug" role="alert" style={{ color: 'var(--danger)' }}>
           {error}
         </p>
       )}
@@ -131,7 +131,7 @@ export default function ReminderOffer({ onStart, onClose }) {
       </button>
       <button
         type="button"
-        className="mt-1 min-h-11 w-full text-center text-[15px] font-medium text-ink-soft"
+        className="mt-1 min-h-11 w-full text-center text-[0.9375rem] font-medium text-ink-soft"
         onClick={dismiss}
       >
         {t('hoy.install.dismiss')}

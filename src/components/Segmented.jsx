@@ -17,7 +17,7 @@ export default function Segmented({ options, value, onChange, className = '', la
             aria-checked={active}
             onClick={() => onChange(o.key)}
             /* radio concéntrico: track rounded-input (14) − padding (4) = 10 */
-            className="min-h-11 flex-1 rounded-[10px] px-2 py-2 text-[15px] transition-colors duration-150"
+            className="min-h-11 flex-1 rounded-[10px] px-2 py-2 text-[0.9375rem] transition-colors duration-150"
             style={{
               backgroundColor: active ? 'var(--segment-active)' : 'transparent',
               color: active ? 'var(--text-primary)' : 'var(--text-soft)',

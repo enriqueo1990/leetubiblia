@@ -93,7 +93,7 @@ export default function GroupReading() {
           (metadata más apagada), todo tocable hacia el detalle del grupo. */}
       <Link
         to={`/grupos/${id}`}
-        className="mt-3 flex w-fit min-w-0 items-center gap-1.5 py-1 text-[13px] font-medium text-ink-soft"
+        className="mt-3 flex w-fit min-w-0 items-center gap-1.5 py-1 text-[0.8125rem] font-medium text-ink-soft"
       >
         {!data.finished && (
           <>
@@ -111,8 +111,8 @@ export default function GroupReading() {
 
       {data.finished ? (
         <>
-          <p className="mt-8 text-[15px] text-ink-soft">{t('groupDetail.planFinished')}</p>
-          <p className="mt-1 text-[13px] leading-snug text-ink-soft">{t('groupDetail.nextPlanSoon')}</p>
+          <p className="mt-8 text-[0.9375rem] text-ink-soft">{t('groupDetail.planFinished')}</p>
+          <p className="mt-1 text-[0.8125rem] leading-snug text-ink-soft">{t('groupDetail.nextPlanSoon')}</p>
         </>
       ) : (
         // Los pasajes son la página, como en Hoy: cada referencia abre su capítulo.
@@ -128,7 +128,7 @@ export default function GroupReading() {
 
       {/* Mismo plan que el tuyo: marcar el día del grupo marca el tuyo. */}
       {samePlan && !data.finished && (
-        <p className="mt-6 text-[13px] leading-snug text-ink-soft">{t('groupReading.samePlanNote')}</p>
+        <p className="mt-6 text-[0.8125rem] leading-snug text-ink-soft">{t('groupReading.samePlanNote')}</p>
       )}
 
       <div className="flex-1 lg:hidden" />
@@ -152,7 +152,7 @@ export default function GroupReading() {
             ) : (
               <>
                 <p
-                  className="min-h-11 py-2 text-center text-[15px] font-semibold"
+                  className="min-h-11 py-2 text-center text-[0.9375rem] font-semibold"
                   style={{ color: 'var(--accent-ink)' }}
                 >
                   ✓ {t('hoy.read')}
@@ -160,7 +160,7 @@ export default function GroupReading() {
                 <button
                   type="button"
                   onClick={toggle}
-                  className="block min-h-11 w-full py-2 text-center text-[14px] font-medium text-ink-soft"
+                  className="block min-h-11 w-full py-2 text-center text-[0.875rem] font-medium text-ink-soft"
                 >
                   {t('hoy.unmark')}
                 </button>

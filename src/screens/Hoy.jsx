@@ -546,7 +546,7 @@ export default function Hoy() {
       <h1 className="sr-only">{t('nav.hoy')}</h1>
       <p role="status" className="sr-only">{liveNote}</p>
       <div className="flex items-center justify-between gap-3">
-        <p className="min-w-0 truncate text-[14px] font-medium text-ink-soft">{greeting}</p>
+        <p className="min-w-0 truncate text-[0.875rem] font-medium text-ink-soft">{greeting}</p>
         {/* En desktop Ajustes ya está visible en el sidebar; evitar duplicarlo. */}
         <Link
           to="/ajustes"
@@ -558,7 +558,7 @@ export default function Hoy() {
       </div>
 
       {r.offline && (
-        <p className="mt-2 text-[12px] text-ink-soft">
+        <p className="mt-2 text-[0.75rem] text-ink-soft">
           {r.staleReadings ? t('hoy.offline.stale') : t('hoy.offline.fresh')}
         </p>
       )}
@@ -569,14 +569,14 @@ export default function Hoy() {
       {r.showBehind && !r.planFinished && !viewingAhead && (
         <>
           <div className="mt-4 flex flex-wrap items-center">
-            <p className="text-[14px] text-ink-soft">
+            <p className="text-[0.875rem] text-ink-soft">
               {t('hoy.behind', { count: r.behind })}
             </p>
             <button
               type="button"
               onClick={r.reprogramar}
               disabled={r.reprogramando}
-              className="ml-3 min-h-11 py-2 text-[14px] font-semibold"
+              className="ml-3 min-h-11 py-2 text-[0.875rem] font-semibold"
               style={{ color: 'var(--accent-ink)', opacity: r.reprogramando ? 0.5 : 1 }}
             >
               {r.reprogramando ? t('hoy.reprogramando') : t('hoy.reprogramar')}
@@ -594,7 +594,7 @@ export default function Hoy() {
         </>
       )}
       {showReprogramado && (
-        <p className="mt-3 text-[13px]" style={{ color: 'var(--accent-ink)' }} role="status">
+        <p className="mt-3 text-[0.8125rem]" style={{ color: 'var(--accent-ink)' }} role="status">
           ✓ {t('hoy.reprogramado')}
         </p>
       )}
@@ -614,13 +614,13 @@ export default function Hoy() {
                 <CheckIcon size={32} strokeWidth={2.4} />
               </div>
               <p
-                className="mt-4 text-[12px] font-semibold uppercase tracking-wide"
+                className="mt-4 text-[0.75rem] font-semibold uppercase tracking-wide"
                 style={{ color: 'var(--accent-ink)' }}
               >
                 {t('hoy.planCompleted')}
               </p>
-              <p className="mt-1.5 text-[15px] text-ink-soft">{t('hoy.finishedReading')}</p>
-              <h2 className="mt-1 text-[26px] font-bold leading-tight text-ink">{planName(t, r.plan)}</h2>
+              <p className="mt-1.5 text-[0.9375rem] text-ink-soft">{t('hoy.finishedReading')}</p>
+              <h2 className="mt-1 text-[1.625rem] font-bold leading-tight text-ink">{planName(t, r.plan)}</h2>
             </div>
             {/* Stats ajustados al plan real */}
             <div className="grid grid-cols-2 divide-x divide-hairline border-t border-hairline">
@@ -628,7 +628,7 @@ export default function Hoy() {
               <StatTile bare center className="py-5" value={maxStreak} label={t('hoy.maxStreak', { count: maxStreak })} />
             </div>
             {dateRange && (
-              <p className="border-t border-hairline py-3 text-center text-[13px] text-ink-soft">
+              <p className="border-t border-hairline py-3 text-center text-[0.8125rem] text-ink-soft">
                 {dateRange}
               </p>
             )}
@@ -651,14 +651,14 @@ export default function Hoy() {
             <button
               type="button"
               onClick={() => navigate('/planes')}
-              className="w-full py-2 text-center text-[15px] font-medium"
+              className="w-full py-2 text-center text-[0.9375rem] font-medium"
               style={{ color: 'var(--accent-ink)' }}
             >
               {t('hoy.chooseAnotherPlan')}
             </button>
           </div>
           {shareNote === 'downloaded' && (
-            <p className="mt-3 text-center text-[13px] text-ink-soft">
+            <p className="mt-3 text-center text-[0.8125rem] text-ink-soft">
               {t('hoy.imageDownloaded')}
             </p>
           )}
@@ -676,7 +676,7 @@ export default function Hoy() {
           {r.plan && (
             <Link to="/lecturas" className="-my-2.5 flex min-h-11 min-w-0 items-center py-2.5">
               <span className="flex w-full min-w-0 items-center gap-1">
-                <span className="line-clamp-2 text-[17px] font-semibold leading-snug text-ink">
+                <span className="line-clamp-2 text-[1.0625rem] font-semibold leading-snug text-ink">
                   {planName(t, r.plan)}
                 </span>
                 <RowChevron />
@@ -684,7 +684,7 @@ export default function Hoy() {
             </Link>
           )}
           {dayShown != null && (
-            <p className="mt-0.5 text-[13px] tabular-nums text-ink-soft">
+            <p className="mt-0.5 text-[0.8125rem] tabular-nums text-ink-soft">
               {viewingAhead && r.displayDay != null
                 ? t('hoy.dayOnN', { day: dayShown, done: r.displayDay })
                 : t('hoy.dayN', { day: dayShown })}
@@ -716,8 +716,8 @@ export default function Hoy() {
             // al presionar).
             readingUnavailable ? (
               <div className="card p-4" role="alert">
-                <h2 className="text-[17px] font-semibold text-ink">{t('hoy.unavailable.title')}</h2>
-                <p className="mt-1 text-[14px] text-ink-soft">{t('hoy.unavailable.text')}</p>
+                <h2 className="text-[1.0625rem] font-semibold text-ink">{t('hoy.unavailable.title')}</h2>
+                <p className="mt-1 text-[0.875rem] text-ink-soft">{t('hoy.unavailable.text')}</p>
                 <button
                   type="button"
                   onClick={viewingAhead ? () => setAheadTry((n) => n + 1) : r.reload}
@@ -733,7 +733,7 @@ export default function Hoy() {
                       setAheadDay(null)
                       setAheadRefs(null)
                     }}
-                    className="mt-1 min-h-11 w-full text-center text-[15px] font-medium"
+                    className="mt-1 min-h-11 w-full text-center text-[0.9375rem] font-medium"
                     style={{ color: 'var(--accent-ink)' }}
                   >
                     {t('hoy.unavailable.back', { day: r.displayDay })}
@@ -761,7 +761,7 @@ export default function Hoy() {
               <button
                 type="button"
                 onClick={() => readNext(nextDay)}
-                className="flex min-h-12 w-full items-center justify-end text-[14px] font-semibold"
+                className="flex min-h-12 w-full items-center justify-end text-[0.875rem] font-semibold"
                 style={{ color: 'var(--accent-ink)' }}
               >
                 {t('hoy.readNextDay')} ›
@@ -772,7 +772,7 @@ export default function Hoy() {
         <div>
           {/* Primer día: cómo se usa, una sola vez (hasta la primera marca). */}
           {r.completedCount === 0 && !viewingAhead && !readingUnavailable && (
-            <p className="mt-4 text-[13px] leading-relaxed text-ink-soft">{t('hoy.firstDayHint')}</p>
+            <p className="mt-4 text-[0.8125rem] leading-relaxed text-ink-soft">{t('hoy.firstDayHint')}</p>
           )}
 
           {/* "Tu día": lo que sigue después de leer, en el recorrido de la pantalla.
@@ -792,7 +792,7 @@ export default function Hoy() {
                     <button
                       type="button"
                       onClick={() => setMyTimeOpen(true)}
-                      className="-mr-1 flex min-h-11 items-center gap-1 px-1 text-[13px] font-semibold"
+                      className="-mr-1 flex min-h-11 items-center gap-1 px-1 text-[0.8125rem] font-semibold"
                       style={{ color: 'var(--accent-ink)' }}
                     >
                       <span aria-hidden="true">✦</span> {t('myTime.title')}
@@ -876,22 +876,22 @@ export default function Hoy() {
               <InstallIcon size={20} />
             </div>
             <div className="min-w-0 flex-1">
-              <h2 id="install-ios-title" className="text-[17px] font-semibold text-ink">
+              <h2 id="install-ios-title" className="text-[1.0625rem] font-semibold text-ink">
                 {t('hoy.install.title')}
               </h2>
-              <p className="mt-1 text-[14px] leading-snug text-ink-soft">{t('hoy.install.textIOS')}</p>
+              <p className="mt-1 text-[0.875rem] leading-snug text-ink-soft">{t('hoy.install.textIOS')}</p>
             </div>
           </div>
           <ol className="mt-4 space-y-2">
             {[t('onboarding.extras.step1'), t('onboarding.extras.step2')].map((label, i) => (
               <li key={i} className="flex items-center gap-3">
                 <span
-                  className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[13px] font-semibold text-on-accent"
+                  className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[0.8125rem] font-semibold text-on-accent"
                   style={{ backgroundColor: 'var(--accent-action)' }}
                 >
                   {i + 1}
                 </span>
-                <span className="text-[15px] text-ink">{label}</span>
+                <span className="text-[0.9375rem] text-ink">{label}</span>
                 {i === 0 && (
                   <span className="ml-auto text-accent-ink">
                     <ShareIcon size={20} />
@@ -902,7 +902,7 @@ export default function Hoy() {
           </ol>
           <button
             type="button"
-            className="mt-2 min-h-11 w-full text-center text-[15px] font-medium text-ink-soft"
+            className="mt-2 min-h-11 w-full text-center text-[0.9375rem] font-medium text-ink-soft"
             onClick={dismissInstallCard}
           >
             {t('hoy.install.dismiss')}
@@ -921,10 +921,10 @@ export default function Hoy() {
               <InstallIcon size={20} />
             </div>
             <div className="min-w-0 flex-1">
-              <h2 id="install-app-title" className="text-[17px] font-semibold text-ink">
+              <h2 id="install-app-title" className="text-[1.0625rem] font-semibold text-ink">
                 {t('hoy.install.title')}
               </h2>
-              <p className="mt-1 text-[14px] leading-snug text-ink-soft">
+              <p className="mt-1 text-[0.875rem] leading-snug text-ink-soft">
                 {t('hoy.install.text')}
               </p>
             </div>
@@ -940,7 +940,7 @@ export default function Hoy() {
           </button>
           <button
             type="button"
-            className="mt-1 min-h-11 w-full text-center text-[15px] font-medium text-ink-soft"
+            className="mt-1 min-h-11 w-full text-center text-[0.9375rem] font-medium text-ink-soft"
             onClick={dismissInstallCard}
           >
             {t('hoy.install.dismiss')}
@@ -952,14 +952,14 @@ export default function Hoy() {
         <section className="card moment-in mt-6 flex items-start gap-3.5 p-4" aria-labelledby="mytime-invite">
           <span
             aria-hidden="true"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] text-[20px]"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] text-[1.25rem]"
             style={{ backgroundColor: 'var(--accent-tint)', color: 'var(--accent-ink)' }}
           >
             ✦
           </span>
           <div className="min-w-0 flex-1">
-            <h3 id="mytime-invite" className="text-[15px] font-semibold text-ink">{t('myTime.inviteTitle')}</h3>
-            <p className="mt-0.5 text-[13px] leading-snug text-ink-soft">{t('myTime.inviteText')}</p>
+            <h3 id="mytime-invite" className="text-[0.9375rem] font-semibold text-ink">{t('myTime.inviteTitle')}</h3>
+            <p className="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{t('myTime.inviteText')}</p>
             <div className="mt-1 flex items-center gap-4">
               <button
                 type="button"
@@ -967,7 +967,7 @@ export default function Hoy() {
                   setMyTime({ enabled: true, inviteDismissed: true })
                   setMyTimeOpen(true)
                 }}
-                className="-ml-1 flex min-h-11 items-center px-1 text-[14px] font-semibold"
+                className="-ml-1 flex min-h-11 items-center px-1 text-[0.875rem] font-semibold"
                 style={{ color: 'var(--accent-ink)' }}
               >
                 {t('myTime.inviteTry')}
@@ -977,7 +977,7 @@ export default function Hoy() {
                 onClick={() => {
                   setMyTime({ inviteDismissed: true })
                 }}
-                className="flex min-h-11 items-center px-1 text-[14px] font-medium text-ink-soft"
+                className="flex min-h-11 items-center px-1 text-[0.875rem] font-medium text-ink-soft"
               >
                 {t('myTime.inviteNo')}
               </button>
@@ -1008,7 +1008,7 @@ export default function Hoy() {
                     <button
                       type="button"
                       onClick={markShownDay}
-                      className="mt-1 block min-h-11 w-full text-center text-[15px] font-medium"
+                      className="mt-1 block min-h-11 w-full text-center text-[0.9375rem] font-medium"
                       style={{ color: 'var(--accent-ink)' }}
                     >
                       {t('myTime.justMark')}
@@ -1021,7 +1021,7 @@ export default function Hoy() {
                 )
             ) : (
                 <>
-                  <p className="moment-in pb-2.5 text-center text-[13px] font-medium text-ink-soft">
+                  <p className="moment-in pb-2.5 text-center text-[0.8125rem] font-medium text-ink-soft">
                     <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✦</span>{' '}
                     {!viewingAhead && r.streak >= 2
                       ? t('hoy.streakDays', { count: r.streak })

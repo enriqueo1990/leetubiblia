@@ -55,8 +55,8 @@ function IndexRow({ to, icon, title, summary }) {
         {icon}
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block text-[16px] text-ink">{title}</span>
-        {summary && <span className="mt-0.5 block truncate text-[13px] text-ink-soft">{summary}</span>}
+        <span className="block text-[1rem] text-ink">{title}</span>
+        {summary && <span className="mt-0.5 block truncate text-[0.8125rem] text-ink-soft">{summary}</span>}
       </span>
       <RowChevron />
     </Link>
@@ -75,8 +75,8 @@ function Row({ title, subtitle, control, error, note }) {
   return (
     <div className="flex items-center justify-between gap-4 px-4 py-3">
       <div className="min-w-0 flex-1">
-        <p className="text-[16px] text-ink">{title}</p>
-        {subtitle && <p className="mt-0.5 text-[13px] leading-snug text-ink-soft">{subtitle}</p>}
+        <p className="text-[1rem] text-ink">{title}</p>
+        {subtitle && <p className="mt-0.5 text-[0.8125rem] leading-snug text-ink-soft">{subtitle}</p>}
         {note}
         <InlineError message={error} />
       </div>
@@ -475,7 +475,7 @@ export default function Ajustes() {
       const issue = target === 'group' ? groupPushIssue() : null
       if (!issue) return null
       return (
-        <div role="status" className="mt-1 text-[13px] leading-snug text-ink-soft">
+        <div role="status" className="mt-1 text-[0.8125rem] leading-snug text-ink-soft">
           <p>
             {issue === 'default'
               ? t('ajustes.push.notOnHere')
@@ -496,7 +496,7 @@ export default function Ajustes() {
     }
     const needsInstall = pushNote.reason === 'unsupported' && isIOS() && !isStandalone()
     return (
-      <div role="status" className="mt-1 text-[13px] leading-snug text-ink-soft">
+      <div role="status" className="mt-1 text-[0.8125rem] leading-snug text-ink-soft">
         <p>{pushNote.msg}</p>
         {needsInstall && (
           <ol className="mt-1 list-decimal pl-5">
@@ -546,12 +546,12 @@ export default function Ajustes() {
       {section ? (
         <>
           <BackLink to="/ajustes" label={t('nav.ajustes')} />
-          <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">{titles[section]}</h1>
+          <h1 className="mt-3 text-[1.625rem] font-bold tracking-tight text-ink">{titles[section]}</h1>
         </>
       ) : (
         <>
           <BackLink to="/" label={t('nav.hoy')} />
-          <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">{t('nav.ajustes')}</h1>
+          <h1 className="mt-3 text-[1.625rem] font-bold tracking-tight text-ink">{t('nav.ajustes')}</h1>
         </>
       )}
 
@@ -561,8 +561,8 @@ export default function Ajustes() {
           <Link to="/ajustes/cuenta" className="card mt-5 flex items-center gap-3.5 px-4 py-3.5">
             <UserAvatar name={profile?.display_name || user?.email} url={profile?.avatar_url} size={48} tone="solid" />
             <span className="min-w-0 flex-1">
-              <span className="block truncate text-[17px] font-semibold text-ink">{profile?.display_name || t('ajustes.tuNombre')}</span>
-              <span className="block truncate text-[13px] text-ink-soft">{user?.email}</span>
+              <span className="block truncate text-[1.0625rem] font-semibold text-ink">{profile?.display_name || t('ajustes.tuNombre')}</span>
+              <span className="block truncate text-[0.8125rem] text-ink-soft">{user?.email}</span>
             </span>
             <RowChevron />
           </Link>
@@ -593,12 +593,12 @@ export default function Ajustes() {
           {plan ? (
             <Link to={`/planes/${plan.id}`} state={{ from: fromAjustes }} className="block px-4 py-4">
               <span className="flex items-center justify-between gap-3">
-                <span className="min-w-0 text-[19px] font-semibold leading-snug text-ink">{planName(t, plan)}</span>
+                <span className="min-w-0 text-[1.1875rem] font-semibold leading-snug text-ink">{planName(t, plan)}</span>
                 <RowChevron />
               </span>
               {(reading.planFinished || (duration != null && reading.displayDay != null)) && (
                 <>
-                  <span className="mt-1 block text-[13px] tabular-nums text-ink-soft">
+                  <span className="mt-1 block text-[0.8125rem] tabular-nums text-ink-soft">
                     {reading.planFinished
                       ? `✓ ${t('hoy.planCompleted')}`
                       : t('lecturas.planMeta', { day: reading.displayDay, total: duration, percent: reading.percent })}
@@ -613,12 +613,12 @@ export default function Ajustes() {
               )}
             </Link>
           ) : (
-            <p className="px-4 py-4 text-[15px] text-ink-soft">{t('lecturas.noPlan')}</p>
+            <p className="px-4 py-4 text-[0.9375rem] text-ink-soft">{t('lecturas.noPlan')}</p>
           )}
           <Link
             to="/planes"
             state={{ from: fromAjustes }}
-            className="flex min-h-11 items-center justify-between px-4 py-3 text-[16px] font-medium"
+            className="flex min-h-11 items-center justify-between px-4 py-3 text-[1rem] font-medium"
             style={{ color: 'var(--accent-ink)' }}
           >
             {plan ? t('lecturas.changePlan') : t('lecturas.choosePlan')}
@@ -646,7 +646,7 @@ export default function Ajustes() {
             ))}
           </div>
         ) : (
-          <p className="px-4 pb-1 pt-4 text-[15px] leading-snug text-ink-soft">{t('ajustes.lectura.extrasEmpty')}</p>
+          <p className="px-4 pb-1 pt-4 text-[0.9375rem] leading-snug text-ink-soft">{t('ajustes.lectura.extrasEmpty')}</p>
         )}
         <Link
           to="/materiales"
@@ -654,10 +654,10 @@ export default function Ajustes() {
           className="flex min-h-11 items-center justify-between gap-3 border-t border-hairline px-4 py-3"
         >
           <span className="min-w-0">
-            <span className="block text-[16px] font-medium" style={{ color: 'var(--accent-ink)' }}>
+            <span className="block text-[1rem] font-medium" style={{ color: 'var(--accent-ink)' }}>
               {shelf.length > 0 ? t('ajustes.lectura.library') : t('ajustes.lectura.libraryEmpty')}
             </span>
-            {shelf.length > 0 && <span className="block text-[13px] text-ink-soft">{t('library.onShelf', { count: shelf.length })}</span>}
+            {shelf.length > 0 && <span className="block text-[0.8125rem] text-ink-soft">{t('library.onShelf', { count: shelf.length })}</span>}
           </span>
           <RowChevron />
         </Link>
@@ -685,11 +685,11 @@ export default function Ajustes() {
         <>
           <SectionLabel className="mt-7">{t('ajustes.section.queDia')}</SectionLabel>
           <div className="card p-4">
-            <p className="text-[15px] text-ink-soft">
+            <p className="text-[0.9375rem] text-ink-soft">
               {t('ajustes.currentDay')}: <span className="font-semibold text-ink">{currentDay}</span>{' '}
               {t('ajustes.ofTotal', { total: duration })}
             </p>
-            <p className="mt-1 text-[13px] leading-snug text-ink-soft">
+            <p className="mt-1 text-[0.8125rem] leading-snug text-ink-soft">
               {t('ajustes.dayPositionHelp')}
             </p>
             <label htmlFor="plan-day" className="sr-only">{t('ajustes.section.queDia')}</label>
@@ -703,11 +703,11 @@ export default function Ajustes() {
                 setSavedDay(false)
               }}
               placeholder={t('ajustes.dayPlaceholder', { day: currentDay })}
-              className="mt-3 w-full rounded-input px-4 py-3 text-[16px] outline-none"
+              className="mt-3 w-full rounded-input px-4 py-3 text-[1rem] outline-none"
               style={inputStyleOnCard}
             />
             {canUpdateDay && (
-              <p className="mt-3 text-[13px] text-ink-soft">
+              <p className="mt-3 text-[0.8125rem] text-ink-soft">
                 {targetDay < currentDay
                   ? t('ajustes.dayChangeBack', { day: targetDay })
                   : t('ajustes.dayChangeForward', { day: targetDay })}
@@ -729,7 +729,7 @@ export default function Ajustes() {
               />
             )}
             {savedDay && !dayInput && (
-              <p className="mt-2 text-[13px]" style={{ color: 'var(--accent-ink)' }}>
+              <p className="mt-2 text-[0.8125rem]" style={{ color: 'var(--accent-ink)' }}>
                 ✓ {t('ajustes.daySaved', { day: currentDay })}
               </p>
             )}
@@ -744,7 +744,7 @@ export default function Ajustes() {
         onChange={pickBibleProvider}
       />
       <InlineError message={errorFor('provider')} className="mt-2 px-1" />
-      <p className="mt-2 px-1 text-[13px] leading-snug text-ink-soft">
+      <p className="mt-2 px-1 text-[0.8125rem] leading-snug text-ink-soft">
         {t('ajustes.proveedorBibliaHelp')}
       </p>
 
@@ -780,7 +780,7 @@ export default function Ajustes() {
           control={<Switch on={myTime.prayer} onChange={() => setMyTime({ prayer: !myTime.prayer })} label={t('myTime.includePrayer')} disabled={!myTime.enabled} />}
         />
       </div>
-      <p className="mt-2 px-1 text-[13px] leading-snug text-ink-soft">{t('myTime.settingNote')}</p>
+      <p className="mt-2 px-1 text-[0.8125rem] leading-snug text-ink-soft">{t('myTime.settingNote')}</p>
       <SectionLabel className="mt-7">{t('ajustes.section.diario')}</SectionLabel>
       <div className="card divide-y divide-hairline">
         <Row
@@ -803,13 +803,13 @@ export default function Ajustes() {
           className="flex w-full items-center justify-between gap-4 px-4 py-3 text-left"
         >
           <span className="min-w-0 flex-1">
-            <span className="block text-[16px] text-ink">{t('ajustes.exportDiario')}</span>
-            <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">
+            <span className="block text-[1rem] text-ink">{t('ajustes.exportDiario')}</span>
+            <span className="mt-0.5 block text-[0.8125rem] leading-snug text-ink-soft">
               {t('ajustes.exportDiarioHelp')}
             </span>
           </span>
           <span
-            className="flex shrink-0 items-center text-[15px] font-medium"
+            className="flex shrink-0 items-center text-[0.9375rem] font-medium"
             style={{ color: 'var(--accent-ink)', opacity: exporting ? 0.5 : 1 }}
           >
             {exporting ? t('ajustes.exporting') : <ShareIcon size={18} />}
@@ -817,7 +817,7 @@ export default function Ajustes() {
         </button>
         {exportNote && (
           <p
-            className="px-4 pb-3 text-[13px]"
+            className="px-4 pb-3 text-[0.8125rem]"
             role="status"
             style={{ color: exportNote === 'error' ? 'var(--danger)' : 'var(--text-soft)' }}
           >
@@ -853,14 +853,14 @@ export default function Ajustes() {
         {reminderOn && (
           <div className="px-4 py-3">
             <div className="flex items-center justify-between">
-              <span className="text-[16px] text-ink">{t('ajustes.hora')}</span>
+              <span className="text-[1rem] text-ink">{t('ajustes.hora')}</span>
               <input
                 type="time"
                 value={timeDraft ?? reminderTime}
                 onChange={(e) => changeTime(e.target.value)}
                 onBlur={(e) => commitTime(e.target.value)}
                 aria-label={t('ajustes.hora')}
-                className="min-h-11 rounded-input px-3 text-[16px] outline-none"
+                className="min-h-11 rounded-input px-3 text-[1rem] outline-none"
                 style={inputStyleOnCard}
               />
             </div>
@@ -959,12 +959,12 @@ export default function Ajustes() {
           className="flex w-full items-center justify-between gap-4 px-4 py-3 text-left"
         >
           <span className="min-w-0 flex-1">
-            <span className="block text-[16px] text-ink">{t('ajustes.compartirApp')}</span>
-            <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">
+            <span className="block text-[1rem] text-ink">{t('ajustes.compartirApp')}</span>
+            <span className="mt-0.5 block text-[0.8125rem] leading-snug text-ink-soft">
               {t('ajustes.compartirHelp')}
             </span>
           </span>
-          <span className="flex items-center gap-1.5 text-[15px] font-medium" style={{ color: 'var(--accent-ink)' }}>
+          <span className="flex items-center gap-1.5 text-[0.9375rem] font-medium" style={{ color: 'var(--accent-ink)' }}>
             {shared ? t('ajustes.copiado') : <ShareIcon size={18} />}
           </span>
         </button>
@@ -977,13 +977,13 @@ export default function Ajustes() {
             className="flex min-h-11 w-full items-center justify-between gap-4 px-4 py-3 text-left"
           >
             <span className="min-w-0 flex-1">
-              <span className="block text-[16px] text-ink">{t('ajustes.installApp')}</span>
-              <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">
+              <span className="block text-[1rem] text-ink">{t('ajustes.installApp')}</span>
+              <span className="mt-0.5 block text-[0.8125rem] leading-snug text-ink-soft">
                 {t('ajustes.installHelp')}
               </span>
             </span>
             <span
-              className="flex shrink-0 items-center text-[15px] font-medium"
+              className="flex shrink-0 items-center text-[0.9375rem] font-medium"
               style={{ color: 'var(--accent-ink)', opacity: installing ? 0.5 : 1 }}
             >
               {installing ? t('ajustes.installing') : <InstallIcon size={18} />}
@@ -997,8 +997,8 @@ export default function Ajustes() {
           className="flex w-full items-center justify-between gap-4 px-4 py-3 text-left"
         >
           <span className="min-w-0 flex-1">
-            <span className="block text-[16px] text-ink">{t('whatsNew.settingsRow')}</span>
-            <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">{t('whatsNew.settingsHelp')}</span>
+            <span className="block text-[1rem] text-ink">{t('whatsNew.settingsRow')}</span>
+            <span className="mt-0.5 block text-[0.8125rem] leading-snug text-ink-soft">{t('whatsNew.settingsHelp')}</span>
           </span>
           <RowChevron />
         </button>
@@ -1010,11 +1010,11 @@ export default function Ajustes() {
           className="flex items-center justify-between gap-4 px-4 py-3"
         >
           <span className="min-w-0 flex-1">
-            <span className="block text-[16px] text-ink">
+            <span className="block text-[1rem] text-ink">
               {t('ajustes.guiaApp')}
               {locale !== 'es' && t('ajustes.guideInSpanish')}
             </span>
-            <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">
+            <span className="mt-0.5 block text-[0.8125rem] leading-snug text-ink-soft">
               {t('ajustes.ayudaHelp')}
             </span>
           </span>
@@ -1027,11 +1027,11 @@ export default function Ajustes() {
           className="flex items-center justify-between gap-4 px-4 py-3"
         >
           <span className="min-w-0 flex-1">
-            <span className="block text-[16px] text-ink">
+            <span className="block text-[1rem] text-ink">
               {t('ajustes.privacidad')}
               {locale !== 'es' && t('ajustes.guideInSpanish')}
             </span>
-            <span className="mt-0.5 block text-[13px] leading-snug text-ink-soft">
+            <span className="mt-0.5 block text-[0.8125rem] leading-snug text-ink-soft">
               {t('ajustes.privacidadHelp')}
             </span>
           </span>
@@ -1053,14 +1053,14 @@ export default function Ajustes() {
         <div className="flex items-center gap-4 px-4 py-4">
           <UserAvatar name={profile?.display_name || user?.email} url={profile?.avatar_url} size={64} tone="solid" />
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[17px] font-semibold text-ink">{profile?.display_name || t('ajustes.tuNombre')}</p>
-            <p className="truncate text-[13px] text-ink-soft">{user?.email}</p>
+            <p className="truncate text-[1.0625rem] font-semibold text-ink">{profile?.display_name || t('ajustes.tuNombre')}</p>
+            <p className="truncate text-[0.8125rem] text-ink-soft">{user?.email}</p>
             <div className="mt-1 flex flex-wrap items-center gap-x-4">
               <button
                 type="button"
                 onClick={() => photoInput.current?.click()}
                 disabled={avatarBusy}
-                className="min-h-11 text-[15px] font-semibold"
+                className="min-h-11 text-[0.9375rem] font-semibold"
                 style={{ color: 'var(--accent-ink)', opacity: avatarBusy ? 0.5 : 1 }}
               >
                 {avatarBusy ? t('ajustes.photo.saving') : profile?.avatar_url ? t('ajustes.photo.change') : t('ajustes.photo.add')}
@@ -1068,18 +1068,18 @@ export default function Ajustes() {
               <button
                 type="button"
                 onClick={() => setNameOpen(true)}
-                className="min-h-11 text-[15px] font-semibold"
+                className="min-h-11 text-[0.9375rem] font-semibold"
                 style={{ color: 'var(--accent-ink)' }}
               >
                 {t('ajustes.nameChange')}
               </button>
               {profile?.avatar_url && !avatarBusy && (
-                <button type="button" onClick={removePhoto} className="min-h-11 text-[15px] font-medium text-ink-soft">
+                <button type="button" onClick={removePhoto} className="min-h-11 text-[0.9375rem] font-medium text-ink-soft">
                   {t('ajustes.photo.remove')}
                 </button>
               )}
             </div>
-            <p className="text-[12px] leading-snug text-ink-soft">{t('ajustes.photo.help')}</p>
+            <p className="text-[0.75rem] leading-snug text-ink-soft">{t('ajustes.photo.help')}</p>
             <input ref={photoInput} type="file" accept="image/*" className="hidden" onChange={pickPhoto} aria-label={t('ajustes.photo.add')} />
             <InlineError message={avatarError && !cropFile ? t('ajustes.photo.error') : null} />
           </div>
@@ -1087,7 +1087,7 @@ export default function Ajustes() {
         <button
           type="button"
           onClick={askSignOut}
-          className="min-h-11 w-full px-4 py-3 text-left text-[16px] text-ink"
+          className="min-h-11 w-full px-4 py-3 text-left text-[1rem] text-ink"
         >
           {t('ajustes.cerrarSesion')}
         </button>
@@ -1099,21 +1099,21 @@ export default function Ajustes() {
           type="button"
           onClick={() => setConfirmDelete(true)}
           disabled={deleting}
-          className="min-h-11 w-full px-4 py-3 text-left text-[16px]"
+          className="min-h-11 w-full px-4 py-3 text-left text-[1rem]"
           style={{ color: 'var(--danger)' }}
         >
           {deleting ? t('ajustes.eliminando') : t('ajustes.eliminarCuenta')}
         </button>
       </div>
       {deleteError && (
-        <p className="mt-2 px-1 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
+        <p className="mt-2 px-1 text-[0.8125rem]" role="alert" style={{ color: 'var(--danger)' }}>
           {t('ajustes.deleteError')}
         </p>
       )}
         </div>
       )}
 
-      {!section && <p className="mt-8 text-center text-[13px] text-ink-soft">{t('ajustes.version', { version: APP_VERSION_LABEL })}</p>}
+      {!section && <p className="mt-8 text-center text-[0.8125rem] text-ink-soft">{t('ajustes.version', { version: APP_VERSION_LABEL })}</p>}
 
       {cropFile && (
         <AvatarCropper

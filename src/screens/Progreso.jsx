@@ -89,12 +89,12 @@ export default function Progreso() {
   return (
     <div className="pt-2">
       {/* Pantalla top-level (4º ítem de la nav primaria desde 2026-07): sin miga. */}
-      <h1 className="text-[26px] font-bold tracking-tight text-ink">{t('nav.progreso')}</h1>
+      <h1 className="text-[1.625rem] font-bold tracking-tight text-ink">{t('nav.progreso')}</h1>
 
       {/* Mientras carga se reserva la línea del subtítulo: el selector no salta al llegar. */}
       {r.loading && <div className="mt-1 min-h-[21px]" aria-hidden="true" />}
       {!r.loading && r.hasPlan && r.displayDay != null && (
-        <p className="mt-1 text-[14px] text-ink-soft">
+        <p className="mt-1 text-[0.875rem] text-ink-soft">
           {t('progreso.position', { day: r.displayDay })}
           {r.todayDay != null && r.displayDay > r.todayDay && (
             <span className="ml-1">{t('progreso.positionAhead', { day: r.todayDay })}</span>
@@ -118,7 +118,7 @@ export default function Progreso() {
         // que no se sabe (justo en la racha, la métrica más sensible).
         <EmptyState text={t('progreso.offlineNoData')} />
       ) : !r.hasPlan ? (
-        <p className="mt-8 text-[15px] text-ink-soft">
+        <p className="mt-8 text-[0.9375rem] text-ink-soft">
           {t('progreso.noPlanPre')}
           <Link
             to="/planes"
@@ -133,7 +133,7 @@ export default function Progreso() {
       ) : (
         <>
           {r.offline && (
-            <p className="mt-3 text-[13px] text-ink-soft">
+            <p className="mt-3 text-[0.8125rem] text-ink-soft">
               {t('progreso.offline')}
             </p>
           )}
@@ -155,9 +155,9 @@ export default function Progreso() {
                 // Sin racha viva no se abre con un "0" héroe: el atraso es un dato,
                 // no un reto.
                 <>
-                  <p className="text-[15px] leading-snug text-ink-soft">{t('progreso.noStreakYet')}</p>
+                  <p className="text-[0.9375rem] leading-snug text-ink-soft">{t('progreso.noStreakYet')}</p>
                   {bestStreak > 0 && (
-                    <p className="mt-1 text-[13px] text-ink-soft">{t('progreso.bestStreak', { count: bestStreak })}</p>
+                    <p className="mt-1 text-[0.8125rem] text-ink-soft">{t('progreso.bestStreak', { count: bestStreak })}</p>
                   )}
                 </>
               )}
@@ -176,7 +176,7 @@ export default function Progreso() {
           {/* Header de días */}
           <div className="mt-3 grid grid-cols-7 gap-1.5">
             {WEEKDAYS.map((w, i) => (
-              <div key={i} className="text-center text-[12px] font-medium text-ink-soft">
+              <div key={i} className="text-center text-[0.75rem] font-medium text-ink-soft">
                 {w}
               </div>
             ))}
@@ -216,19 +216,19 @@ export default function Progreso() {
           <p className="sr-only">
             {t('progreso.heatmapSummary', { read: readLast35, total: daysLast35 })}
           </p>
-          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-[13px] text-ink-soft">
+          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-[0.8125rem] text-ink-soft">
             <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm bg-accent" />{t('progreso.state.read')}</span>
             <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-control-border" />{t('progreso.state.unread')}</span>
             <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm border border-dashed border-control-border" />{t('progreso.state.future')}</span>
           </div>
 
-          <p className="mt-3 text-[13px] leading-snug text-ink-soft">{t('progreso.heatmapHint')}</p>
+          <p className="mt-3 text-[0.8125rem] leading-snug text-ink-soft">{t('progreso.heatmapHint')}</p>
 
           {/* Acceso al recorrido (logros + números acumulados) */}
           <Link to="/recorrido" className="card mt-6 flex items-center justify-between px-4 py-3.5">
             <span>
-              <span className="block text-[15px] font-semibold text-ink">{t('progreso.recorrido.title')}</span>
-              <span className="block text-[13px] text-ink-soft">{t('progreso.recorrido.subtitle')}</span>
+              <span className="block text-[0.9375rem] font-semibold text-ink">{t('progreso.recorrido.title')}</span>
+              <span className="block text-[0.8125rem] text-ink-soft">{t('progreso.recorrido.subtitle')}</span>
             </span>
             <RowChevron />
           </Link>
@@ -238,7 +238,7 @@ export default function Progreso() {
           {/* Nota neutra de atraso */}
           {showBehindNote && (
             <>
-              <p className="mt-6 text-[15px] text-ink-soft">
+              <p className="mt-6 text-[0.9375rem] text-ink-soft">
                 {t('progreso.behindPre', { count: r.behind })}
                 <button
                   type="button"
@@ -255,7 +255,7 @@ export default function Progreso() {
             </>
           )}
           {showReprogramado && (
-            <p className="mt-3 text-[13px]" style={{ color: 'var(--accent-ink)' }} role="status">
+            <p className="mt-3 text-[0.8125rem]" style={{ color: 'var(--accent-ink)' }} role="status">
               ✓ {t('progreso.reprogramado')}
             </p>
           )}

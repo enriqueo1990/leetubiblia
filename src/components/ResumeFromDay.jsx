@@ -38,7 +38,7 @@ export default function ResumeFromDay({ durationDays, day, onChange }) {
   return (
     <div className="card p-4">
       <div className="flex w-full items-center justify-between">
-        <span className="text-[15px] font-medium text-ink">
+        <span className="text-[0.9375rem] font-medium text-ink">
           {t('resume.alreadyReading')}
         </span>
         <Switch on={on} onChange={toggle} label={t('resume.alreadyReading')} />
@@ -46,7 +46,7 @@ export default function ResumeFromDay({ durationDays, day, onChange }) {
 
       {on && (
         <div className="mt-4">
-          <label htmlFor="resume-day" className="text-[15px] text-ink-soft">{t('ajustes.section.queDia')}</label>
+          <label htmlFor="resume-day" className="text-[0.9375rem] text-ink-soft">{t('ajustes.section.queDia')}</label>
           <input
             id="resume-day"
             type="text"
@@ -55,10 +55,10 @@ export default function ResumeFromDay({ durationDays, day, onChange }) {
             value={draft}
             onChange={onInput}
             placeholder={t('resume.placeholder')}
-            className="mt-2 w-full rounded-input px-4 py-3 text-[16px] outline-none"
+            className="mt-2 w-full rounded-input px-4 py-3 text-[1rem] outline-none"
             style={inputStyle}
           />
-          <p className="mt-2 text-[13px] text-ink-soft">
+          <p className="mt-2 text-[0.8125rem] text-ink-soft">
             {durationDays
               ? t('resume.startInfo', { day: draft || '—', total: durationDays })
               : t('resume.startInfoNoTotal', { day: draft || '—' })}

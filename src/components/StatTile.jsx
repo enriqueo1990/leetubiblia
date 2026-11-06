@@ -7,8 +7,8 @@
 export default function StatTile({ value, label, accent = false, bare = false, center = false, className = '' }) {
   return (
     <div className={`${bare ? '' : 'card p-4'} flex-1 ${center ? 'text-center' : ''} ${className}`}>
-      <p className={`stat-num text-[30px] font-bold ${accent ? 'text-accent-ink' : 'text-ink'}`}>{value}</p>
-      <p className="mt-0.5 text-[13px] leading-tight text-ink-soft">{label}</p>
+      <p className={`stat-num text-[1.875rem] font-bold ${accent ? 'text-accent-ink' : 'text-ink'}`}>{value}</p>
+      <p className="mt-0.5 text-[0.8125rem] leading-tight text-ink-soft">{label}</p>
     </div>
   )
 }

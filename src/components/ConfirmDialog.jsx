@@ -85,8 +85,8 @@ export default function ConfirmDialog({
         style={{ backgroundColor: 'var(--surface)', boxShadow: 'var(--shadow-overlay)' }}
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 id={titleId} className="text-[18px] font-bold text-ink">{title}</h2>
-        {message && <p id={messageId} className="mt-2 text-[15px] text-ink-soft">{message}</p>}
+        <h2 id={titleId} className="text-[1.125rem] font-bold text-ink">{title}</h2>
+        {message && <p id={messageId} className="mt-2 text-[0.9375rem] text-ink-soft">{message}</p>}
         <InlineError message={error} className="mt-2" />
         <div className="mt-5 flex gap-3">
           <button

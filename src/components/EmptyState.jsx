@@ -6,16 +6,16 @@ export default function EmptyState({ icon, title, text, children }) {
     <div className="mt-12 flex flex-col items-center text-center">
       {icon && (
         <div
-          className="flex h-[72px] w-[72px] items-center justify-center rounded-full text-[30px]"
+          className="flex h-[72px] w-[72px] items-center justify-center rounded-full text-[1.875rem]"
           style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--accent-ink)' }}
           aria-hidden="true"
         >
           {icon}
         </div>
       )}
-      {title && <h2 className="mt-5 text-[20px] font-semibold text-ink">{title}</h2>}
+      {title && <h2 className="mt-5 text-[1.25rem] font-semibold text-ink">{title}</h2>}
       <p
-        className={`${title ? 'mt-2' : icon ? 'mt-4' : ''} max-w-[300px] text-[15px] leading-relaxed text-ink-soft`}
+        className={`${title ? 'mt-2' : icon ? 'mt-4' : ''} max-w-[300px] text-[0.9375rem] leading-relaxed text-ink-soft`}
       >
         {text}
       </p>

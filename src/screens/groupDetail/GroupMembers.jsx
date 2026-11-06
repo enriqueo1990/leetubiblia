@@ -17,7 +17,7 @@ export default function GroupMembers({ members, isOwner, iShare, readMap, onKick
         {t('groupDetail.members')} · {members.length}
       </SectionLabel>
       {/* Sin esto, el líder no distingue "no leyó" de "no comparte su lectura". */}
-      {iShare && <p className="mt-1 text-[13px] leading-snug text-ink-soft">{t('groupDetail.membersShareHint')}</p>}
+      {iShare && <p className="mt-1 text-[0.8125rem] leading-snug text-ink-soft">{t('groupDetail.membersShareHint')}</p>}
       <ul className="mt-3 card divide-y divide-hairline">
         {members.map((m) => {
           const memberName = m.display_name ?? t('common.member')
@@ -29,16 +29,16 @@ export default function GroupMembers({ members, isOwner, iShare, readMap, onKick
             <li key={m.user_id} className="flex items-center gap-3 px-4 py-3">
               <UserAvatar name={memberName} url={m.avatar_url} size={40} />
               <div className="min-w-0 flex-1">
-                <p className="text-[16px] text-ink">
+                <p className="text-[1rem] text-ink">
                   {memberName}
                   {isMe && <span className="text-ink-soft"> {t('groupDetail.youParen')}</span>}
                 </p>
-                {isMemberOwner && <p className="text-[13px] text-ink-soft">{t('groupDetail.adminShort')}</p>}
+                {isMemberOwner && <p className="text-[0.8125rem] text-ink-soft">{t('groupDetail.adminShort')}</p>}
               </div>
               <div className="flex shrink-0 items-center gap-2">
                 {iShare && shares && readToday && (
                   <span
-                    className="flex items-center gap-1 rounded-pill px-2.5 py-1 text-[12px] font-medium"
+                    className="flex items-center gap-1 rounded-pill px-2.5 py-1 text-[0.75rem] font-medium"
                     style={{ color: 'var(--accent-ink)', backgroundColor: 'var(--accent-tint)' }}
                   >
                     <CheckIcon size={13} strokeWidth={2.2} /> {t('groupDetail.readTodayChip')}
@@ -70,7 +70,7 @@ export default function GroupMembers({ members, isOwner, iShare, readMap, onKick
             <button
               type="button"
               onClick={onInvite}
-              className="flex min-h-11 w-full items-center px-4 py-3 text-left text-[15px] font-semibold"
+              className="flex min-h-11 w-full items-center px-4 py-3 text-left text-[0.9375rem] font-semibold"
               style={{ color: 'var(--accent-ink)' }}
             >
               {t('groupDetail.inviteFirst')} ›

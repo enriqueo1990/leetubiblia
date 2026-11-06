@@ -17,9 +17,9 @@ export default function GroupInviteSheet({
   return (
     <Sheet title={t('groupDetail.inviteAria')} onCancel={onClose}>
       <div className="pb-1 text-center">
-        <p className="text-[15px] text-ink-soft">{t('groupDetail.inviteDesc')}</p>
+        <p className="text-[0.9375rem] text-ink-soft">{t('groupDetail.inviteDesc')}</p>
         {/* El código en tinta neutra: el acento queda para la acción real (compartir). */}
-        <p className="mt-6 text-[40px] font-bold text-ink" style={{ letterSpacing: '6px', paddingLeft: '6px' }}>
+        <p className="mt-6 text-[2.5rem] font-bold text-ink" style={{ letterSpacing: '6px', paddingLeft: '6px' }}>
           {group.invite_code}
         </p>
         <div className="mt-7 space-y-3">
@@ -33,7 +33,7 @@ export default function GroupInviteSheet({
             <button
               type="button"
               onClick={onRegen}
-              className="flex min-h-11 w-full items-center justify-center gap-1.5 text-[14px] font-medium text-ink-soft"
+              className="flex min-h-11 w-full items-center justify-center gap-1.5 text-[0.875rem] font-medium text-ink-soft"
             >
               <RefreshIcon size={15} /> {t('groupDetail.regenCode')}
             </button>

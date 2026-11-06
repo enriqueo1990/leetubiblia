@@ -44,13 +44,13 @@ export default function GoalOffer({ goal, moment, streak, onClose }) {
             <HeartIcon size={20} />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-[13px] font-medium" style={{ color: 'var(--accent-ink)' }}>
+            <p className="text-[0.8125rem] font-medium" style={{ color: 'var(--accent-ink)' }}>
               ✦ {eyebrow}
             </p>
-            <h2 id="goal-offer-title" className="mt-0.5 text-[17px] font-semibold text-ink">
+            <h2 id="goal-offer-title" className="mt-0.5 text-[1.0625rem] font-semibold text-ink">
               {t('goal.title')}
             </h2>
-            <p className="mt-1 text-[14px] leading-snug text-ink-soft">
+            <p className="mt-1 text-[0.875rem] leading-snug text-ink-soft">
               {t('goal.text', {
                 currency: goal.currency,
                 target: Number(goal.target).toLocaleString(locale, { maximumFractionDigits: 0 }),
@@ -70,7 +70,7 @@ export default function GoalOffer({ goal, moment, streak, onClose }) {
         </button>
         <button
           type="button"
-          className="mt-1 min-h-11 w-full text-center text-[15px] font-medium text-ink-soft"
+          className="mt-1 min-h-11 w-full text-center text-[0.9375rem] font-medium text-ink-soft"
           onClick={dismiss}
         >
           {t('goal.dismiss')}

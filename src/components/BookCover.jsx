@@ -59,7 +59,7 @@ export default function BookCover({ slug, size = 'lg', meta = null, className = 
             {th.title}
           </span>
           {size === 'lg' && meta && (
-            <span className="mt-2 text-[10px] leading-tight" style={{ color: th.soft }}>
+            <span className="mt-2 text-[0.625rem] leading-tight" style={{ color: th.soft }}>
               {meta}
             </span>
           )}

@@ -57,8 +57,8 @@ export default function Recorrido() {
   return (
     <div className="pt-2">
       {back}
-      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">{t('recorrido.title')}</h1>
-      <p className="mt-1 text-[15px] text-ink-soft">{t('recorrido.subtitle')}</p>
+      <h1 className="mt-3 text-[1.625rem] font-bold tracking-tight text-ink">{t('recorrido.title')}</h1>
+      <p className="mt-1 text-[0.9375rem] text-ink-soft">{t('recorrido.subtitle')}</p>
 
       {stats === null ? (
         <div className="mt-6">
@@ -97,17 +97,17 @@ export default function Recorrido() {
               {plans.map((c) => (
                 <li key={c.id} className="card p-4">
                   <div className="flex items-baseline justify-between gap-3">
-                    <p className="min-w-0 flex-1 truncate text-[16px] font-semibold text-ink">
+                    <p className="min-w-0 flex-1 truncate text-[1rem] font-semibold text-ink">
                       {planName(t, { slug: c.plan_slug, name: c.plan_name })}
                     </p>
                     <span
-                      className="shrink-0 text-[12px] font-medium"
+                      className="shrink-0 text-[0.75rem] font-medium"
                       style={{ color: 'var(--accent-ink)' }}
                     >
                       ✓ {fmtDate(c.completed_on)}
                     </span>
                   </div>
-                  <p className="mt-1 text-[13px] text-ink-soft">
+                  <p className="mt-1 text-[0.8125rem] text-ink-soft">
                     {t('recorrido.planStats', { read: c.days_read, total: c.total_days, streak: c.longest_streak })}
                   </p>
                 </li>
@@ -115,7 +115,7 @@ export default function Recorrido() {
             </ul>
           ) : (
             <div className="card mt-3 p-4">
-              <p className="text-[15px] leading-relaxed text-ink-soft">{t('recorrido.noPlansYet')}</p>
+              <p className="text-[0.9375rem] leading-relaxed text-ink-soft">{t('recorrido.noPlansYet')}</p>
             </div>
           )}
         </>

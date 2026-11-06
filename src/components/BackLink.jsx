@@ -16,7 +16,7 @@ export default function BackLink({ to, label }) {
     <Link
       to={from?.to ?? to}
       state={from?.back ? { from: from.back } : undefined}
-      className="-ml-2 inline-flex min-h-11 items-center px-2 text-[15px] font-medium"
+      className="-ml-2 inline-flex min-h-11 items-center px-2 text-[0.9375rem] font-medium"
       style={{ color: 'var(--accent-ink)' }}
     >
       ‹ {from?.label ?? label}

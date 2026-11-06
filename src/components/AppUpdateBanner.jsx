@@ -21,16 +21,16 @@ export default function AppUpdateBanner() {
       role="status"
       aria-live="polite"
     >
-      <p className="text-[16px] font-semibold text-ink">{t('appUpdate.title')}</p>
-      <p className="mt-1 text-[13px] leading-snug text-ink-soft">{t('appUpdate.text')}</p>
+      <p className="text-[1rem] font-semibold text-ink">{t('appUpdate.title')}</p>
+      <p className="mt-1 text-[0.8125rem] leading-snug text-ink-soft">{t('appUpdate.text')}</p>
       <div className="mt-3 flex gap-2">
-        <button type="button" onClick={applyAppUpdate} className="btn btn-primary flex-1 px-3 py-2 text-[15px]">
+        <button type="button" onClick={applyAppUpdate} className="btn btn-primary flex-1 px-3 py-2 text-[0.9375rem]">
           {t('appUpdate.apply')}
         </button>
         <button
           type="button"
           onClick={() => setDismissed(true)}
-          className="btn btn-secondary flex-1 px-3 py-2 text-[15px]"
+          className="btn btn-secondary flex-1 px-3 py-2 text-[0.9375rem]"
         >
           {t('appUpdate.later')}
         </button>

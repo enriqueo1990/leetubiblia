@@ -222,14 +222,14 @@ export default function OrarAhora() {
         <div className="prayer-card-enter flex flex-1 flex-col justify-center py-7 lg:mx-auto lg:w-full lg:max-w-[440px]">
           <article className="card flex min-h-[360px] flex-col items-center justify-center px-6 py-7 text-center">
             <div className="flex flex-col items-center justify-center gap-5">
-              <p className="text-[12px] font-semibold uppercase tracking-wide text-accent-ink">
+              <p className="text-[0.75rem] font-semibold uppercase tracking-wide text-accent-ink">
                 {t('orar.groupsPrompt.eyebrow')}
               </p>
               <div className="mx-auto max-w-[340px] space-y-3">
-                <h1 className="text-[26px] font-bold leading-tight tracking-tight text-ink">
+                <h1 className="text-[1.625rem] font-bold leading-tight tracking-tight text-ink">
                   {t('orar.groupsPrompt.title')}
                 </h1>
-                <p className="text-[16px] leading-relaxed text-ink-soft">
+                <p className="text-[1rem] leading-relaxed text-ink-soft">
                   {t('orar.groupsPrompt.text', { count: groupDeck.length })}
                 </p>
               </div>
@@ -255,13 +255,13 @@ export default function OrarAhora() {
     return (
       <div className="flex min-h-[calc(100dvh-56px)] flex-col pt-2 lg:min-h-0">
         <div className="flex flex-1 flex-col items-center justify-center px-4 text-center">
-          <span aria-hidden="true" className="text-[28px]" style={{ color: 'var(--accent-ink)' }}>
+          <span aria-hidden="true" className="text-[1.75rem]" style={{ color: 'var(--accent-ink)' }}>
             ✦
           </span>
-          <h1 className="mt-4 text-[24px] font-bold tracking-tight text-ink">
+          <h1 className="mt-4 text-[1.5rem] font-bold tracking-tight text-ink">
             {t('orar.done.title', { count: completedCount })}
           </h1>
-          <p className="mt-2 max-w-[300px] text-[15px] leading-relaxed text-ink-soft">
+          <p className="mt-2 max-w-[300px] text-[0.9375rem] leading-relaxed text-ink-soft">
             {interceded > 0 ? t('orar.done.shared') : t('orar.done.quiet')}
           </p>
         </div>
@@ -305,7 +305,7 @@ export default function OrarAhora() {
         >
           <XIcon size={22} />
         </button>
-        <span className="text-[12.5px] tabular-nums text-ink-soft">
+        <span className="text-[0.7812rem] tabular-nums text-ink-soft">
           {t('orar.progress', { n: idx + 1, total: activeDeck.length })}
         </span>
         {/* Anuncia la ficha nueva sin mover el foco (el botón de abajo sigue donde
@@ -327,7 +327,7 @@ export default function OrarAhora() {
         className="prayer-card-enter flex flex-1 flex-col justify-center gap-3 py-7 lg:mx-auto lg:w-full lg:max-w-[440px]"
       >
         {eyebrow && (
-          <p className="text-center text-[12px] font-semibold uppercase tracking-wide text-accent-ink">
+          <p className="text-center text-[0.75rem] font-semibold uppercase tracking-wide text-accent-ink">
             {eyebrow}
           </p>
         )}
@@ -339,9 +339,9 @@ export default function OrarAhora() {
           <div className="flex flex-col items-center justify-center gap-7">
             <div className="w-full space-y-5">
               <div className="mx-auto max-w-[340px] space-y-4">
-                <h1 className="text-[26px] font-bold leading-tight tracking-tight text-ink">{p.title}</h1>
+                <h1 className="text-[1.625rem] font-bold leading-tight tracking-tight text-ink">{p.title}</h1>
                 {p.description && (
-                  <p className="whitespace-pre-line text-[17px] leading-relaxed text-ink">{p.description}</p>
+                  <p className="whitespace-pre-line text-[1.0625rem] leading-relaxed text-ink">{p.description}</p>
                 )}
               </div>
 
@@ -350,13 +350,13 @@ export default function OrarAhora() {
               {p.latest_update && (
                 <div className="mx-auto max-w-[330px] pt-2">
                   <div className="mx-auto mb-4 h-px w-12" style={{ backgroundColor: 'var(--hairline)' }} />
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-soft">
+                  <p className="text-[0.6875rem] font-semibold uppercase tracking-wide text-ink-soft">
                     {t('prayerDetail.updates')}
                   </p>
-                  <p className="mt-2 whitespace-pre-line text-[15px] leading-relaxed text-ink-soft">
+                  <p className="mt-2 whitespace-pre-line text-[0.9375rem] leading-relaxed text-ink-soft">
                     {p.latest_update.body}
                   </p>
-                  <p className="mt-2 text-[12px] text-ink-soft">
+                  <p className="mt-2 text-[0.75rem] text-ink-soft">
                     {fmtD(p.latest_update.created_at)}
                   </p>
                 </div>
@@ -365,7 +365,7 @@ export default function OrarAhora() {
           </div>
         </article>
         <p
-          className={`text-center text-[13px] text-ink-soft transition-all duration-[700ms] ease-soft ${
+          className={`text-center text-[0.8125rem] text-ink-soft transition-all duration-[700ms] ease-soft ${
             leaving ? 'translate-y-1 opacity-0' : 'translate-y-0 opacity-100'
           }`}
         >
@@ -412,13 +412,13 @@ export default function OrarAhora() {
               type="button"
               onClick={() => advance(null, 'skip')}
               disabled={leaving}
-              className="mt-1 block min-h-11 w-full text-center text-[15px] font-medium text-ink-soft"
+              className="mt-1 block min-h-11 w-full text-center text-[0.9375rem] font-medium text-ink-soft"
             >
               {t('orar.skip')}
             </button>
           )}
           {actionError && (
-            <p className="mt-2 text-center text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
+            <p className="mt-2 text-center text-[0.8125rem]" role="alert" style={{ color: 'var(--danger)' }}>
               {t('orar.actionError')}
             </p>
           )}

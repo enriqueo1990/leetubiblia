@@ -19,7 +19,7 @@ export default function GroupPulse({ iShare, onAskShare, iRead = false, readCoun
           <span style={{ color: 'var(--accent-ink)' }}>
             <BookIcon size={18} />
           </span>
-          <span className="text-[15px]">
+          <span className="text-[0.9375rem]">
             {readCount === 0 ? (
               iRead ? t('groupDetail.onlyYouReadToday') : t('groupDetail.noneReadToday')
             ) : iRead ? (
@@ -41,14 +41,14 @@ export default function GroupPulse({ iShare, onAskShare, iRead = false, readCoun
           style={{ color: 'var(--accent-ink)' }}
         >
           <BookIcon size={18} />
-          <span className="text-[14px] font-medium">{t('groupDetail.shareToSee')} ›</span>
+          <span className="text-[0.875rem] font-medium">{t('groupDetail.shareToSee')} ›</span>
         </button>
       )}
       <div className="mt-2 flex items-center gap-2.5 text-ink">
         <span style={{ color: 'var(--accent-ink)' }}>
           <HeartIcon size={18} />
         </span>
-        <span className="text-[15px]">
+        <span className="text-[0.9375rem]">
           {prayingCount > 0 && (
             <>
               <b>{prayingCount}</b> {t('groupDetail.praying')} ·{' '}

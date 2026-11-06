@@ -180,14 +180,14 @@ export default function PlanDetail() {
     <div className="pt-2">
       <BackLink to="/planes" label={t('nav.planes')} />
 
-      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">
+      <h1 className="mt-3 text-[1.625rem] font-bold tracking-tight text-ink">
         {plan ? planName(t, plan) : t('common.plan')}
       </h1>
       {plan && (
-        <p className="mt-1 text-[13px] text-ink-soft">{durationLabel(t, plan.duration_days, { long: true })}</p>
+        <p className="mt-1 text-[0.8125rem] text-ink-soft">{durationLabel(t, plan.duration_days, { long: true })}</p>
       )}
       {plan?.description && (
-        <p className="mt-3 text-[16px] text-ink-soft">{planDescription(t, plan)}</p>
+        <p className="mt-3 text-[1rem] text-ink-soft">{planDescription(t, plan)}</p>
       )}
 
       {/* Engancharse a un plan ya empezado (solo si aún no es el activo) */}
@@ -214,7 +214,7 @@ export default function PlanDetail() {
       {saveFailed && !confirm && <InlineError message={t('common.saveError')} className="mt-2 text-center" />}
       {previousFailed && <InlineError message={t('planes.markPreviousError')} className="mt-2 text-center" />}
       {isActive && (
-        <p className="mt-2 text-center text-[13px]" style={{ color: 'var(--accent-ink)' }}>
+        <p className="mt-2 text-center text-[0.8125rem]" style={{ color: 'var(--accent-ink)' }}>
           {t('planes.isYourActive')}
         </p>
       )}
@@ -234,10 +234,10 @@ export default function PlanDetail() {
                 onChange={(e) => setJumpInput(e.target.value.replace(/[^\d]/g, ''))}
                 placeholder={t('planes.jumpPlaceholder')}
                 aria-label={t('planes.jumpToDay')}
-                className="h-11 w-20 rounded-input px-3 text-[15px] outline-none"
+                className="h-11 w-20 rounded-input px-3 text-[0.9375rem] outline-none"
                 style={inputStyle}
               />
-              <button type="submit" className="min-h-11 px-2 text-[15px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
+              <button type="submit" className="min-h-11 px-2 text-[0.9375rem] font-semibold" style={{ color: 'var(--accent-ink)' }}>
                 {t('planes.jumpGo')}
               </button>
             </form>
@@ -275,12 +275,12 @@ export default function PlanDetail() {
               }
             >
               <span
-                className="w-14 shrink-0 whitespace-nowrap pt-0.5 text-[12px] font-semibold uppercase tabular-nums tracking-wide"
+                className="w-14 shrink-0 whitespace-nowrap pt-0.5 text-[0.75rem] font-semibold uppercase tabular-nums tracking-wide"
                 style={{ color: isCurrent || read ? 'var(--accent-ink)' : 'var(--text-soft)' }}
               >
                 {t('planes.dayN', { n: d.day_number })}
               </span>
-              <span className="flex-1 text-[15px] text-ink">
+              <span className="flex-1 text-[0.9375rem] text-ink">
                 {d.refs.map((ref, i) => (
                   <span key={i}>
                     {bookLabel(ref, locale)}
@@ -290,7 +290,7 @@ export default function PlanDetail() {
               </span>
               {read && (
                 <span
-                  className="shrink-0 pt-0.5 text-[15px] font-bold"
+                  className="shrink-0 pt-0.5 text-[0.9375rem] font-bold"
                   style={{ color: 'var(--accent-ink)' }}
                   aria-label={t('hoy.read')}
                 >

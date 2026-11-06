@@ -117,9 +117,9 @@ export default function AvatarCropper({ file, busy, error = null, onCancel, onCo
             }}
           />
         </div>
-        <p className="mt-3 text-center text-[13px] text-ink-soft">{t('ajustes.photo.cropHint')}</p>
+        <p className="mt-3 text-center text-[0.8125rem] text-ink-soft">{t('ajustes.photo.cropHint')}</p>
         <label className="mt-3 flex w-full max-w-[280px] items-center gap-3">
-          <span aria-hidden="true" className="text-[13px] text-ink-soft">−</span>
+          <span aria-hidden="true" className="text-[0.8125rem] text-ink-soft">−</span>
           <input
             type="range"
             min={MIN_ZOOM}
@@ -131,7 +131,7 @@ export default function AvatarCropper({ file, busy, error = null, onCancel, onCo
             className="w-full"
             style={{ accentColor: 'var(--accent-action)' }}
           />
-          <span aria-hidden="true" className="text-[16px] text-ink-soft">+</span>
+          <span aria-hidden="true" className="text-[1rem] text-ink-soft">+</span>
         </label>
       </div>
     </Sheet>

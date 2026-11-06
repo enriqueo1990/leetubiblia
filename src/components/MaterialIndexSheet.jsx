@@ -35,7 +35,7 @@ export default function MaterialIndexSheet({ content, frontier, current, numberO
     <Sheet title={t('materialReader.index')} onCancel={onClose}>
       {/* Sin esta línea, las entradas futuras apagadas parecen un error. */}
       {frontier < content.total && (
-        <p className="mb-4 px-1 text-[13px] leading-snug text-ink-soft">{t('materialReader.indexLockedHint')}</p>
+        <p className="mb-4 px-1 text-[0.8125rem] leading-snug text-ink-soft">{t('materialReader.indexLockedHint')}</p>
       )}
       {Array.isArray(content.intro) && content.intro.length > 0 && (
         <div className="mb-6">
@@ -48,7 +48,7 @@ export default function MaterialIndexSheet({ content, frontier, current, numberO
             >
               <span className="w-7 shrink-0" aria-hidden="true" />
               <span
-                className="min-w-0 flex-1 truncate text-[15px] text-ink"
+                className="min-w-0 flex-1 truncate text-[0.9375rem] text-ink"
                 style={current === 0 ? { color: 'var(--accent-ink)' } : undefined}
               >
                 {t('materialReader.intro')}
@@ -76,11 +76,11 @@ export default function MaterialIndexSheet({ content, frontier, current, numberO
                   className="flex min-h-11 w-full items-baseline gap-3 px-4 py-2.5 text-left"
                   style={{ opacity: locked ? 0.4 : 1 }}
                 >
-                  <span className="w-7 shrink-0 text-right text-[13px] tabular-nums text-ink-soft">
+                  <span className="w-7 shrink-0 text-right text-[0.8125rem] tabular-nums text-ink-soft">
                     {numberOf(e)}
                   </span>
                   <span
-                    className="min-w-0 flex-1 truncate text-[15px] text-ink"
+                    className="min-w-0 flex-1 truncate text-[0.9375rem] text-ink"
                     style={isCurrent ? { color: 'var(--accent-ink)' } : undefined}
                   >
                     {e.question}
@@ -95,7 +95,7 @@ export default function MaterialIndexSheet({ content, frontier, current, numberO
         <button
           type="button"
           onClick={onRemove}
-          className="mb-2 flex min-h-11 w-full items-center justify-center text-[15px] font-medium"
+          className="mb-2 flex min-h-11 w-full items-center justify-center text-[0.9375rem] font-medium"
           style={{ color: 'var(--danger)' }}
         >
           {t('library.remove')}

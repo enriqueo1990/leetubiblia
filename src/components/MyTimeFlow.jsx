@@ -126,18 +126,18 @@ export default function MyTimeFlow({
     </button>
   )
   const link = (label, onClick) => (
-    <button type="button" onClick={onClick} className="block min-h-11 w-full text-center text-[15px] font-medium text-ink-soft">
+    <button type="button" onClick={onClick} className="block min-h-11 w-full text-center text-[0.9375rem] font-medium text-ink-soft">
       {label}
     </button>
   )
   const serif = { fontFamily: BRAND_SERIF }
   const title = (text) => (
-    <h2 data-step-title className="mt-3.5 text-[36px] font-medium leading-[1.12] tracking-[-0.02em] text-ink outline-none" style={serif}>
+    <h2 data-step-title className="mt-3.5 text-[2.25rem] font-medium leading-[1.12] tracking-[-0.02em] text-ink outline-none" style={serif}>
       {text}
     </h2>
   )
   const kicker = (text) => (
-    <p className="text-[12px] font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--accent-ink)' }}>
+    <p className="text-[0.75rem] font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--accent-ink)' }}>
       {text}
     </p>
   )
@@ -149,7 +149,7 @@ export default function MyTimeFlow({
       <>
         {kicker(t('myTime.kickerTime', { time }))}
         {title(t('myTime.prepare.title'))}
-        <p className="mt-3.5 text-[17px] leading-relaxed text-ink-soft">{t('myTime.prepare.text')}</p>
+        <p className="mt-3.5 text-[1.0625rem] leading-relaxed text-ink-soft">{t('myTime.prepare.text')}</p>
         <div className="breathe mx-auto mt-10" aria-hidden="true" />
       </>
     )
@@ -162,7 +162,7 @@ export default function MyTimeFlow({
         <div className="mt-5">
           <PassageList refs={refs} locale={locale} provider={bibleProvider} externalHint={t('hoy.externalBibleHint')} />
         </div>
-        <p className="mt-5 text-[16px] leading-relaxed text-ink-soft">{t('myTime.read.text')}</p>
+        <p className="mt-5 text-[1rem] leading-relaxed text-ink-soft">{t('myTime.read.text')}</p>
       </>
     )
     foot = btn(doneToday ? t('myTime.read.ctaDone') : t('myTime.read.cta'), read)
@@ -178,7 +178,7 @@ export default function MyTimeFlow({
           autoFocus
           placeholder={t('myTime.note.placeholder')}
           aria-label={t('myTime.note.title')}
-          className="mt-6 w-full resize-none rounded-[18px] p-4 text-[18px] leading-relaxed text-ink outline-none"
+          className="mt-6 w-full resize-none rounded-[18px] p-4 text-[1.125rem] leading-relaxed text-ink outline-none"
           style={{ ...serif, ...inputStyle }}
         />
       </>
@@ -195,13 +195,13 @@ export default function MyTimeFlow({
         {kicker(t('myTime.pray.kicker'))}
         {title(t('myTime.pray.title'))}
         <div className="card mt-6 p-5" style={{ boxShadow: 'inset 0 0 0 1px var(--hairline)' }}>
-          <p className="text-[17px] font-semibold leading-snug text-ink">{prayer.title}</p>
-          <p className="mt-1 text-[14px] text-ink-soft">{prayer.mine ? t('myTime.pray.mine') : prayer.group?.name ?? t('myTime.pray.group')}</p>
+          <p className="text-[1.0625rem] font-semibold leading-snug text-ink">{prayer.title}</p>
+          <p className="mt-1 text-[0.875rem] text-ink-soft">{prayer.mine ? t('myTime.pray.mine') : prayer.group?.name ?? t('myTime.pray.group')}</p>
         </div>
-        <p className="mt-4 text-[16px] leading-relaxed text-ink-soft">{t('myTime.pray.text')}</p>
+        <p className="mt-4 text-[1rem] leading-relaxed text-ink-soft">{t('myTime.pray.text')}</p>
       </>
     ) : (
-      <p className="text-center text-[15px] text-ink-soft">{t('common.loading')}</p>
+      <p className="text-center text-[0.9375rem] text-ink-soft">{t('common.loading')}</p>
     )
     // Orar es opcional como todo el recorrido: "Hoy no" siempre está; "Otro
     // pedido" cuando hay más de uno.
@@ -226,11 +226,11 @@ export default function MyTimeFlow({
     content = (
       <div className="text-center">
         {kicker(t('myTime.done.kicker'))}
-        <p className="mt-5 text-[96px] font-medium leading-none tabular-nums" style={{ ...serif, color: 'var(--accent-ink)' }}>
+        <p className="mt-5 text-[6rem] font-medium leading-none tabular-nums" style={{ ...serif, color: 'var(--accent-ink)' }}>
           {daysRead}
         </p>
         {title(t('myTime.done.days', { count: daysRead }))}
-        <p className="mx-auto mt-3.5 max-w-[30ch] text-[16px] leading-relaxed text-ink-soft">{summary}</p>
+        <p className="mx-auto mt-3.5 max-w-[30ch] text-[1rem] leading-relaxed text-ink-soft">{summary}</p>
       </div>
     )
     foot = (
@@ -239,7 +239,7 @@ export default function MyTimeFlow({
         <button
           type="button"
           onClick={onPhoto}
-          className="block min-h-11 w-full text-center text-[15px] font-semibold"
+          className="block min-h-11 w-full text-center text-[0.9375rem] font-semibold"
           style={{ color: 'var(--accent-ink)' }}
         >
           {t('photo.cta')}
@@ -264,7 +264,7 @@ export default function MyTimeFlow({
       <div className="mx-auto flex w-full max-w-content flex-1 flex-col px-6 pb-6 pt-4">
         <div className="flex items-center justify-between">
           {step !== 'done' ? (
-            <button type="button" onClick={onClose} className="-ml-1 min-h-11 px-1 text-[15px] font-medium text-ink-soft">
+            <button type="button" onClick={onClose} className="-ml-1 min-h-11 px-1 text-[0.9375rem] font-medium text-ink-soft">
               {t('common.close')}
             </button>
           ) : (
@@ -280,7 +280,7 @@ export default function MyTimeFlow({
           {content}
         </div>
         {error && (
-          <p className="pb-2 text-center text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
+          <p className="pb-2 text-center text-[0.8125rem]" role="alert" style={{ color: 'var(--danger)' }}>
             {t('common.saveError')}
           </p>
         )}

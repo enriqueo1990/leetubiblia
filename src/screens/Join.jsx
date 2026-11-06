@@ -18,7 +18,7 @@ function Wordmark() {
   return (
     <>
       <BrandMark size={64} />
-      <p className="mt-4 text-[17px] font-semibold tracking-tight text-ink">Lee Tu Biblia</p>
+      <p className="mt-4 text-[1.0625rem] font-semibold tracking-tight text-ink">Lee Tu Biblia</p>
     </>
   )
 }
@@ -60,13 +60,13 @@ export default function Join() {
       <Wordmark />
 
       {status === 'joining' && (
-        <h1 className="mt-8 text-[15px] text-ink-soft">{t('join.joining')}</h1>
+        <h1 className="mt-8 text-[0.9375rem] text-ink-soft">{t('join.joining')}</h1>
       )}
 
       {status === 'notfound' && (
         <>
-          <h1 className="mt-8 text-[17px] font-semibold text-ink">{t('grupos.notFound')}</h1>
-          <p className="mt-2 max-w-[300px] text-[15px] leading-relaxed text-ink-soft">
+          <h1 className="mt-8 text-[1.0625rem] font-semibold text-ink">{t('grupos.notFound')}</h1>
+          <p className="mt-2 max-w-[300px] text-[0.9375rem] leading-relaxed text-ink-soft">
             {t('join.linkExpired')} {t('join.askLeader')}
           </p>
           <Link to="/grupos" className="btn btn-primary mt-7 inline-block px-8">
@@ -77,7 +77,7 @@ export default function Join() {
 
       {status === 'error' && (
         <>
-          <h1 className="mt-8 max-w-[300px] text-[17px] font-semibold leading-snug text-ink">{t('grupos.joinError')}</h1>
+          <h1 className="mt-8 max-w-[300px] text-[1.0625rem] font-semibold leading-snug text-ink">{t('grupos.joinError')}</h1>
           <div className="mt-7 flex gap-3">
             <button type="button" onClick={retry} className="btn btn-primary px-6">
               {t('common.retry')}

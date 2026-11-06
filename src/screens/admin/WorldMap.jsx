@@ -77,15 +77,15 @@ export default function WorldMap({ counts, ariaLabel }) {
               boxShadow: 'var(--shadow-card), 0 0 0 1px var(--hairline)',
             }}
           >
-            <p className="text-[14px] font-semibold leading-tight text-ink">
+            <p className="text-[0.875rem] font-semibold leading-tight text-ink">
               {formatCount(counts[hover.id] || 0)} {counts[hover.id] === 1 ? 'usuario' : 'usuarios'}
             </p>
-            <p className="text-[12px] leading-tight text-ink-soft">{countryName(hover.id)}</p>
+            <p className="text-[0.75rem] leading-tight text-ink-soft">{countryName(hover.id)}</p>
           </div>
         ) : null}
       </div>
       {legend.length ? (
-        <ul className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[12px] text-ink-soft">
+        <ul className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[0.75rem] text-ink-soft">
           <li className="flex items-center gap-1.5">
             <span className="h-2.5 w-2.5 rounded-[3px]" style={{ backgroundColor: EMPTY }} />
             sin usuarios

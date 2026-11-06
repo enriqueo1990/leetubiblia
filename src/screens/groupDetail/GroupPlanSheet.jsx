@@ -44,9 +44,9 @@ export default function GroupPlanSheet({ currentPlanId, saving, error, onSet, on
         </button>
       }
     >
-      <p className="text-[13px] leading-snug text-ink-soft">{t('groupDetail.planPickerHelp')}</p>
+      <p className="text-[0.8125rem] leading-snug text-ink-soft">{t('groupDetail.planPickerHelp')}</p>
       {currentPlanId != null && (
-        <p className="mt-2 text-[13px] leading-snug text-ink-soft">{t('groupDetail.planPickerChangeNote')}</p>
+        <p className="mt-2 text-[0.8125rem] leading-snug text-ink-soft">{t('groupDetail.planPickerChangeNote')}</p>
       )}
 
       {loadError ? (
@@ -73,7 +73,7 @@ export default function GroupPlanSheet({ currentPlanId, saving, error, onSet, on
         <button
           type="button"
           onClick={onClear}
-          className="mt-4 min-h-11 w-full text-center text-[14px]"
+          className="mt-4 min-h-11 w-full text-center text-[0.875rem]"
           style={{ color: 'var(--danger)' }}
         >
           {t('groupDetail.clearPlan')}

@@ -28,13 +28,13 @@ function Row({ to, state, title, detail, accent = false }) {
       className="flex min-h-11 w-full items-center justify-between gap-3 px-4 py-3 text-left"
     >
       <span
-        className={`min-w-0 truncate text-[16px]${accent ? ' font-medium' : ' text-ink'}`}
+        className={`min-w-0 truncate text-[1rem]${accent ? ' font-medium' : ' text-ink'}`}
         style={accent ? { color: 'var(--accent-ink)' } : undefined}
       >
         {title}
       </span>
       <span className="flex shrink-0 items-center gap-1.5">
-        {detail && <span className="text-[15px] text-ink-soft">{detail}</span>}
+        {detail && <span className="text-[0.9375rem] text-ink-soft">{detail}</span>}
         <RowChevron />
       </span>
     </Link>
@@ -53,7 +53,7 @@ export default function Lecturas() {
   return (
     <div className="pt-2">
       <BackLink to="/" label={t('nav.hoy')} />
-      <h1 className="mt-3 text-[26px] font-bold tracking-tight text-ink">{t('nav.lecturas')}</h1>
+      <h1 className="mt-3 text-[1.625rem] font-bold tracking-tight text-ink">{t('nav.lecturas')}</h1>
 
       {/* Orden: Tu plan → También hoy → Materiales (primero lo que se lee hoy, el
           catálogo al final). Una sola columna también en desktop: dos columnas en
@@ -72,10 +72,10 @@ export default function Lecturas() {
                 className="flex min-h-11 w-full items-center justify-between gap-3 px-4 py-3 text-left"
               >
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-[18px] font-semibold text-ink">
+                  <span className="block truncate text-[1.125rem] font-semibold text-ink">
                     {planName(t, r.plan)}
                   </span>
-                  <span className="mt-0.5 block text-[13px] tabular-nums text-ink-soft">
+                  <span className="mt-0.5 block text-[0.8125rem] tabular-nums text-ink-soft">
                     {r.planFinished
                       ? `✓ ${t('hoy.planCompleted')}`
                       : duration != null && r.displayDay != null
@@ -95,7 +95,7 @@ export default function Lecturas() {
             <RetryError message={t('lecturas.planLoadError')} onRetry={r.reload} />
           ) : (
             <div className="card px-4 py-4">
-              <p className="text-[15px] text-ink-soft">{t('lecturas.noPlan')}</p>
+              <p className="text-[0.9375rem] text-ink-soft">{t('lecturas.noPlan')}</p>
               <Link
                 to="/planes"
                 state={{ from }}
@@ -150,7 +150,7 @@ export default function Lecturas() {
               }
             />
           </div>
-          <p className="mt-2 px-1 text-[13px] text-ink-soft">{t('lecturas.materialsHelp')}</p>
+          <p className="mt-2 px-1 text-[0.8125rem] text-ink-soft">{t('lecturas.materialsHelp')}</p>
         </div>
       </div>
     </div>

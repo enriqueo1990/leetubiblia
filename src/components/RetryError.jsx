@@ -8,7 +8,7 @@ export default function RetryError({ message, onRetry }) {
   return (
     <div
       role="alert"
-      className="mt-4 rounded-card p-4 text-[15px]"
+      className="mt-4 rounded-card p-4 text-[0.9375rem]"
       style={{ backgroundColor: 'var(--surface-alt)' }}
     >
       <p className="text-ink">{message ?? t('common.loadError')}</p>

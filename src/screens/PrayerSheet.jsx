@@ -17,7 +17,7 @@ function FieldLabel({ children, optional, htmlFor }) {
   const { t } = usePreferences()
   const Tag = htmlFor ? 'label' : 'p'
   return (
-    <Tag htmlFor={htmlFor} className="mb-1.5 mt-4 block text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
+    <Tag htmlFor={htmlFor} className="mb-1.5 mt-4 block text-[0.8125rem] font-semibold uppercase tracking-wide text-ink-soft">
       {children}
       {optional && <span className="font-normal lowercase"> ({t('common.optional')})</span>}
     </Tag>
@@ -220,7 +220,7 @@ export default function PrayerSheet({
       {editing && prayer?.visibility === 'shared' && (
         <div className="mb-1 mt-1 flex items-center gap-2.5">
           <Avatars people={intercessors} size={26} surface="var(--bg-app)" />
-          <span className="text-[13px] text-ink-soft">
+          <span className="text-[0.8125rem] text-ink-soft">
             {intercessors.length > 0
               ? t('prayerSheet.prayingForThis', { count: intercessors.length })
               : t('prayerSheet.noneYet')}
@@ -238,7 +238,7 @@ export default function PrayerSheet({
         placeholder={t('prayerSheet.titlePlaceholder')}
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="w-full rounded-input px-4 py-3 text-[16px] outline-none"
+        className="w-full rounded-input px-4 py-3 text-[1rem] outline-none"
         style={inputStyle}
       />
 
@@ -249,19 +249,19 @@ export default function PrayerSheet({
         placeholder={t('prayerSheet.descPlaceholder')}
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        className="w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
+        className="w-full resize-none rounded-input px-4 py-3 text-[1rem] outline-none"
         style={inputStyle}
       />
 
       <FieldLabel>{t('prayerSheet.fieldDuration')}</FieldLabel>
       <Segmented label={t('prayerSheet.fieldDuration')} options={DURATION} value={duration} onChange={setDuration} />
-      <p className="mt-2 text-[13px] leading-snug text-ink-soft">
+      <p className="mt-2 text-[0.8125rem] leading-snug text-ink-soft">
         {t(duration === 'forever' ? 'prayerSheet.durationHelpForever' : 'prayerSheet.durationHelp')}
       </p>
 
       <FieldLabel>{t('prayerSheet.fieldVisibility')}</FieldLabel>
       <Segmented label={t('prayerSheet.fieldVisibility')} options={VIS} value={visibility} onChange={setVisibility} />
-      <p className="mt-2 text-[13px] leading-snug text-ink-soft" role="status" aria-live="polite">
+      <p className="mt-2 text-[0.8125rem] leading-snug text-ink-soft" role="status" aria-live="polite">
         {visibility === 'private'
           ? t('prayerSheet.visibilityPrivateHelp')
           : groupId
@@ -283,14 +283,14 @@ export default function PrayerSheet({
                 onClick={() => setGroupId(g.id)}
                 className="flex min-h-11 w-full items-center justify-between px-4 py-3 text-left"
               >
-                <span className="text-[16px] text-ink">{g.name}</span>
+                <span className="text-[1rem] text-ink">{g.name}</span>
                 {g.id === groupId && (
                   <span style={{ color: 'var(--accent-ink)' }}>✓</span>
                 )}
               </button>
             ))
           ) : (
-            <p className="px-4 py-3 text-[15px] text-ink-soft">
+            <p className="px-4 py-3 text-[0.9375rem] text-ink-soft">
               {t('prayerSheet.noGroups')}
             </p>
           )}
@@ -302,7 +302,7 @@ export default function PrayerSheet({
           <FieldLabel>{t('prayerSheet.fieldStatus')}</FieldLabel>
           <Segmented label={t('prayerSheet.fieldStatus')} options={STATUS} value={status} onChange={setStatus} />
           {answeredDate && (
-            <p className="mt-2 text-[13px]" style={{ color: 'var(--accent-ink)' }}>
+            <p className="mt-2 text-[0.8125rem]" style={{ color: 'var(--accent-ink)' }}>
               ✓ {t('prayerSheet.answeredOn', { date: answeredDate })}
             </p>
           )}
@@ -310,7 +310,7 @@ export default function PrayerSheet({
           {needsGroup && status === 'answered' && (
             <div className="card mt-4 p-4">
               <div className="flex w-full items-center justify-between gap-3">
-                <span className="text-[16px] text-ink">{t('prayerSheet.shareWith', { group: groupName })}</span>
+                <span className="text-[1rem] text-ink">{t('prayerSheet.shareWith', { group: groupName })}</span>
                 <Switch
                   on={testimonyShared}
                   onChange={setTestimonyShared}
@@ -318,7 +318,7 @@ export default function PrayerSheet({
                 />
               </div>
               <div className="mt-3 border-t border-hairline pt-3">
-                <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+                <p className="text-[0.75rem] font-semibold uppercase tracking-wide text-ink-soft">
                   {t('prayerSheet.fewWords')} <span className="font-normal lowercase">({t('common.optional')})</span>
                 </p>
                 <textarea
@@ -328,7 +328,7 @@ export default function PrayerSheet({
                   value={testimony}
                   onChange={(e) => setTestimony(e.target.value)}
                   placeholder={t('prayerSheet.testimonyPlaceholder')}
-                  className="mt-2 w-full resize-none rounded-input px-3 py-2.5 text-[15px] outline-none"
+                  className="mt-2 w-full resize-none rounded-input px-3 py-2.5 text-[0.9375rem] outline-none"
                   style={inputStyle}
                 />
               </div>
@@ -338,7 +338,7 @@ export default function PrayerSheet({
           <button
             type="button"
             onClick={() => setConfirmDelete(true)}
-            className="mt-7 w-full py-3 text-center text-[16px]"
+            className="mt-7 w-full py-3 text-center text-[1rem]"
             style={{ color: 'var(--danger)' }}
           >
             {t('prayerSheet.deletePrayer')}
@@ -346,7 +346,7 @@ export default function PrayerSheet({
         </>
       )}
 
-      {error && <p className="mt-3 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
+      {error && <p className="mt-3 text-[0.8125rem]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
 
       {confirmShare && (
         <ConfirmDialog

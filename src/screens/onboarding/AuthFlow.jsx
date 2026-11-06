@@ -27,7 +27,7 @@ const RESEND_COOLDOWN = 30
 
 // "‹ Volver" de la bienvenida: mismo target de 44 px que BackLink.
 const BACK_CLASS =
-  '-ml-2 mb-4 inline-flex min-h-11 items-center self-start px-2 text-[15px] font-medium'
+  '-ml-2 mb-4 inline-flex min-h-11 items-center self-start px-2 text-[0.9375rem] font-medium'
 
 // align="top": el paso del código. El teclado numérico de iOS no tiene tecla de
 // enviar y, con el contenido centrado, tapa «Entrar»: arriba queda a la vista.
@@ -188,31 +188,31 @@ export default function AuthFlow() {
       <Centered>
         <div className="flex flex-1 flex-col items-center justify-center text-center">
           <BrandMark size={88} />
-          <h1 className="mt-7 text-[24px] font-bold tracking-tight text-ink">
+          <h1 className="mt-7 text-[1.5rem] font-bold tracking-tight text-ink">
             Lee Tu Biblia
           </h1>
           {invite ? (
             <>
-              <p className="mt-2 max-w-[280px] text-[17px] text-ink">
+              <p className="mt-2 max-w-[280px] text-[1.0625rem] text-ink">
                 {t('onboarding.auth.inviteTitle', { group: invite.name })}
               </p>
               {invite.member_count >= 2 && (
-                <p className="mt-1.5 text-[13px] text-ink-soft">
+                <p className="mt-1.5 text-[0.8125rem] text-ink-soft">
                   {t('onboarding.auth.inviteMembers', { count: invite.member_count })}
                 </p>
               )}
             </>
           ) : (
-            <p className="mt-2 max-w-[280px] text-[17px] text-ink-soft">
+            <p className="mt-2 max-w-[280px] text-[1.0625rem] text-ink-soft">
               {t('onboarding.auth.tagline')}
             </p>
           )}
-          <p className="mt-3 max-w-[300px] text-[13px] leading-relaxed text-ink-soft">
+          <p className="mt-3 max-w-[300px] text-[0.8125rem] leading-relaxed text-ink-soft">
             {t('onboarding.auth.physicalBibleNote')}
           </p>
           {/* Había una sesión en este dispositivo y ya no es válida. */}
           {sessionExpired && (
-            <p className="mt-4 max-w-[300px] text-[14px] font-medium text-ink" role="status">
+            <p className="mt-4 max-w-[300px] text-[0.875rem] font-medium text-ink" role="status">
               {t('onboarding.auth.sessionExpired')}
             </p>
           )}
@@ -266,25 +266,25 @@ export default function AuthFlow() {
         >
           ‹ {t('common.back')}
         </button>
-        <h1 className="text-[26px] font-bold tracking-tight text-ink">
+        <h1 className="text-[1.625rem] font-bold tracking-tight text-ink">
           {t('onboarding.install.title')}
         </h1>
-        <p className="mt-2 text-[16px] text-ink-soft">{t('onboarding.install.text')}</p>
+        <p className="mt-2 text-[1rem] text-ink-soft">{t('onboarding.install.text')}</p>
 
         <div className="card mt-7 p-4">
           {inApp ? (
-            <p className="text-[15px] text-ink">{t('onboarding.install.inApp')}</p>
+            <p className="text-[0.9375rem] text-ink">{t('onboarding.install.inApp')}</p>
           ) : (
             <ol className="space-y-3">
               {steps.map((label, i) => (
                 <li key={i} className="flex items-center gap-3">
                   <span
-                    className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[13px] font-semibold text-on-accent"
+                    className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[0.8125rem] font-semibold text-on-accent"
                     style={{ backgroundColor: 'var(--accent-action)' }}
                   >
                     {i + 1}
                   </span>
-                  <span className="text-[15px] text-ink">{label}</span>
+                  <span className="text-[0.9375rem] text-ink">{label}</span>
                   {i === 0 && (
                     <span className="ml-auto text-accent-ink">
                       <ShareIcon size={20} />
@@ -326,10 +326,10 @@ export default function AuthFlow() {
         >
           ‹ {t('common.back')}
         </button>
-        <h1 className="text-[26px] font-bold tracking-tight text-ink">
+        <h1 className="text-[1.625rem] font-bold tracking-tight text-ink">
           {t('onboarding.auth.exploreTitle')}
         </h1>
-        <p className="mt-2 text-[16px] text-ink-soft">{t('onboarding.choosePlan.subtitle')}</p>
+        <p className="mt-2 text-[1rem] text-ink-soft">{t('onboarding.choosePlan.subtitle')}</p>
 
         <PlanCatalog
           onStart={(plan, resumeDay) => {
@@ -345,7 +345,7 @@ export default function AuthFlow() {
 
         <button
           type="button"
-          className="mt-4 min-h-11 w-full text-center text-[15px] font-medium text-accent-ink"
+          className="mt-4 min-h-11 w-full text-center text-[0.9375rem] font-medium text-accent-ink"
           onClick={() => {
             savePendingPlan({ skipped: true })
             recordFunnel('ob_plan_chosen', { skipped: true })
@@ -371,12 +371,12 @@ export default function AuthFlow() {
         >
           ‹ {t('common.back')}
         </button>
-        <h1 className="text-[24px] font-bold tracking-tight text-ink">{t('onboarding.auth.checkEmail')}</h1>
-        <p className="mt-2 text-[16px] text-ink-soft">
+        <h1 className="text-[1.5rem] font-bold tracking-tight text-ink">{t('onboarding.auth.checkEmail')}</h1>
+        <p className="mt-2 text-[1rem] text-ink-soft">
           {t('onboarding.auth.sentCodePre')}
           <span className="text-ink">{email.trim()}</span>{t('onboarding.auth.sentCodePost')}
         </p>
-        <p className="mt-1.5 text-[13px] text-ink-soft">
+        <p className="mt-1.5 text-[0.8125rem] text-ink-soft">
           {t('onboarding.auth.spamHintPre')}
           <button
             type="button"
@@ -396,7 +396,7 @@ export default function AuthFlow() {
           }}
           className="mt-7"
         >
-          <label htmlFor="auth-code" className="mb-2 block text-[14px] font-medium text-ink">
+          <label htmlFor="auth-code" className="mb-2 block text-[0.875rem] font-medium text-ink">
             {t('onboarding.auth.codeLabel')}
           </label>
           <input
@@ -409,10 +409,10 @@ export default function AuthFlow() {
             placeholder={t('onboarding.auth.codePlaceholder')}
             value={code}
             onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 10))}
-            className="w-full rounded-input px-4 py-3.5 text-center text-[26px] font-bold tracking-[6px] outline-none placeholder:text-[16px] placeholder:font-normal placeholder:tracking-normal"
+            className="w-full rounded-input px-4 py-3.5 text-center text-[1.625rem] font-bold tracking-[6px] outline-none placeholder:text-[1rem] placeholder:font-normal placeholder:tracking-normal"
             style={inputStyle}
           />
-          {error && <p className="mt-2 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
+          {error && <p className="mt-2 text-[0.8125rem]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
 
           <button
             type="submit"
@@ -425,13 +425,13 @@ export default function AuthFlow() {
         </form>
 
         {resent && (
-          <p className="mt-5 text-center text-[13px] text-ink-soft" role="status">
+          <p className="mt-5 text-center text-[0.8125rem] text-ink-soft" role="status">
             {t('onboarding.auth.resent')}
           </p>
         )}
         <button
           type="button"
-          className="mt-3 min-h-11 text-center text-[15px] text-ink-soft"
+          className="mt-3 min-h-11 text-center text-[0.9375rem] text-ink-soft"
           onClick={() => handleSend({ resend: true })}
           disabled={sending || cooldown > 0}
           style={{ opacity: cooldown > 0 && !sending ? 0.6 : 1 }}
@@ -471,11 +471,11 @@ export default function AuthFlow() {
       >
         ‹ {t('common.back')}
       </button>
-      <h1 className="text-[26px] font-bold tracking-tight text-ink">
+      <h1 className="text-[1.625rem] font-bold tracking-tight text-ink">
         {isSignup ? t('onboarding.auth.createTitle') : t('onboarding.auth.login')}
       </h1>
       {signupContext && (
-        <p className="mt-2 text-[15px] text-ink-soft">{signupContext}</p>
+        <p className="mt-2 text-[0.9375rem] text-ink-soft">{signupContext}</p>
       )}
 
       <form
@@ -485,7 +485,7 @@ export default function AuthFlow() {
         }}
         className="mt-7"
       >
-        <label htmlFor="auth-email" className="mb-2 block text-[14px] font-medium text-ink">
+        <label htmlFor="auth-email" className="mb-2 block text-[0.875rem] font-medium text-ink">
           {t('onboarding.auth.emailLabel')}
         </label>
         <input
@@ -497,10 +497,10 @@ export default function AuthFlow() {
           placeholder={t('onboarding.auth.emailPlaceholder')}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full rounded-input px-4 py-3.5 text-[16px] outline-none"
+          className="w-full rounded-input px-4 py-3.5 text-[1rem] outline-none"
           style={inputStyle}
         />
-        {error && <p className="mt-2 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
+        {error && <p className="mt-2 text-[0.8125rem]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
 
         <button
           type="submit"
@@ -512,13 +512,13 @@ export default function AuthFlow() {
         </button>
       </form>
 
-      <p className="mt-3 text-[13px] text-ink-soft">
+      <p className="mt-3 text-[0.8125rem] text-ink-soft">
         {t('onboarding.auth.passwordlessNote')}
       </p>
 
       <button
         type="button"
-        className="mt-8 min-h-11 text-center text-[15px] text-ink-soft"
+        className="mt-8 min-h-11 text-center text-[0.9375rem] text-ink-soft"
         onClick={() => {
           setError(null)
           setMode(isSignup ? 'login' : 'signup')
