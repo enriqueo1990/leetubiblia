@@ -773,7 +773,9 @@ export default function Hoy() {
               <TodayCard
                 rows={dayRows}
                 footer={
-                  dayAllDone && !viewingAhead ? (
+                  // Cierra el día con la lectura hecha: quien solo lee en su Biblia
+                  // también se despide (nota y oración siguen como invitaciones).
+                  !viewingAhead && !breathing ? (
                     <>
                       <span className="font-medium" style={{ fontFamily: BRAND_SERIF, color: 'var(--accent-ink)' }}>
                         ✦ {r.completedCount} {t('myTime.done.days', { count: r.completedCount })}
