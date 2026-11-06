@@ -185,7 +185,7 @@ export default function PrayerDetail() {
   }
 
   return (
-    <div className="flex min-h-[calc(100svh-116px)] flex-col pt-2">
+    <div className="pt-2 pb-4">
       <div className="flex items-center justify-between">
         <BackLink to="/oracion" label={t('nav.oracion')} />
         {isAuthor && (
@@ -221,11 +221,28 @@ export default function PrayerDetail() {
             {t('oracion.answeredOn', { date: fmtLongD(data.answered_at || data.created_at) })}
           </p>
         )}
+
+        {isAuthor && data.status === 'active' && (
+          <>
+            <button
+              type="button"
+              onClick={markAnswered}
+              disabled={markingAnswered || !online}
+              className="btn btn-secondary mt-5"
+              style={{ opacity: markingAnswered || !online ? 0.55 : 1, color: 'var(--accent-ink)', borderColor: 'var(--accent-ink)' }}
+            >
+              {markingAnswered ? t('prayerDetail.markingAnswered') : t('prayerDetail.markAnswered')}
+            </button>
+            {markAnsweredError && (
+              <InlineError message={t('prayerDetail.markAnsweredError')} className="mt-2 text-center" />
+            )}
+          </>
+        )}
       </article>
 
       {data.testimony && (isAuthor || data.testimony_shared) && (
         <section className="card mt-4 px-5 py-5" aria-labelledby="testimony-title">
-          <h2 id="testimony-title" className="text-[12px] font-semibold uppercase tracking-wide text-ink-soft">
+          <h2 id="testimony-title" className="text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
             {t('prayerDetail.testimonyHeading')}
           </h2>
           <p className="mt-2.5 whitespace-pre-line text-[16px] leading-[1.6] text-ink">{data.testimony}</p>
@@ -242,7 +259,10 @@ export default function PrayerDetail() {
       {/* Interacción del pedido: quién ora + gesto de oración. Un pedido privado no
           la tiene: nadie más lo ve. */}
       {data.visibility !== 'private' && (
-      <div className="px-1 pt-[18px]">
+      <section className="card mt-4 p-4" aria-labelledby="praying-title">
+        <h2 id="praying-title" className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
+          {t('nav.oracion')}
+        </h2>
         <div className="flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2.5">
             {count > 0 ? (
@@ -301,7 +321,7 @@ export default function PrayerDetail() {
             </button>
           </p>
         )}
-      </div>
+      </section>
       )}
 
       {isAuthor &&
@@ -348,15 +368,13 @@ export default function PrayerDetail() {
           </section>
         )}
 
-      {updates.length > 0 && (
-        <>
-          <div className="mx-0 my-4 h-px bg-hairline" />
+      {(updates.length > 0 || (isAuthor && data.status === 'active')) && (
+        <section className="card mt-4 p-4" aria-labelledby="updates-title">
+          <h2 id="updates-title" className="text-[13px] font-semibold uppercase tracking-wide text-ink-soft">
+            {t('prayerDetail.updates')}
+          </h2>
 
-          <section className="px-1 pt-[14px]">
-            <h2 className="text-[13px] font-medium text-ink-soft">
-              {t('prayerDetail.updates')}
-            </h2>
-
+          {updates.length > 0 && (
             <ul className="mt-4 space-y-[18px]">
               {updates.map((u) => (
                 <li key={u.id} className="flex items-start gap-3">
@@ -389,76 +407,59 @@ export default function PrayerDetail() {
                 </li>
               ))}
             </ul>
-          </section>
-          {deleteUpdateError && (
-            <p className="mt-3 px-1 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>
-              {t('prayerDetail.deleteUpdateError')}
-            </p>
           )}
-        </>
-      )}
+          {deleteUpdateError && <InlineError message={t('prayerDetail.deleteUpdateError')} className="mt-3" />}
 
-      {isAuthor && data.status === 'active' && adding && (
-        <div className="mt-5">
-          <textarea
-            autoFocus
-            value={updateBody}
-            onChange={(e) => setUpdateBody(e.target.value)}
-            maxLength={1000}
-            rows={3}
-            placeholder={t(data.visibility === 'private' ? 'prayerDetail.updatePlaceholderPrivate' : 'prayerDetail.updatePlaceholder')}
-            aria-label={t('prayerDetail.addUpdate')}
-            className="w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
-            style={inputStyle}
-          />
-          {updateError && <InlineError message={t('common.saveError')} />}
-          <div className="mt-2 flex gap-2">
+          {isAuthor && data.status === 'active' && adding && (
+            <div className="mt-4">
+              <textarea
+                autoFocus
+                value={updateBody}
+                onChange={(e) => setUpdateBody(e.target.value)}
+                maxLength={1000}
+                rows={3}
+                placeholder={t(data.visibility === 'private' ? 'prayerDetail.updatePlaceholderPrivate' : 'prayerDetail.updatePlaceholder')}
+                aria-label={t('prayerDetail.addUpdate')}
+                className="w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
+                style={inputStyle}
+              />
+              {updateError && <InlineError message={t('common.saveError')} />}
+              <div className="mt-2 flex gap-2">
+                <button
+                  type="button"
+                  onClick={saveUpdate}
+                  disabled={!updateBody.trim() || savingUpdate}
+                  className="btn btn-primary"
+                  style={{ opacity: !updateBody.trim() || savingUpdate ? 0.5 : 1 }}
+                >
+                  {savingUpdate ? t('common.saving') : t('common.save')}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAdding(false)
+                    setUpdateBody('')
+                    setUpdateError(false)
+                  }}
+                  className="btn btn-secondary"
+                >
+                  {t('common.cancel')}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {isAuthor && data.status === 'active' && !adding && (
             <button
               type="button"
-              onClick={saveUpdate}
-              disabled={!updateBody.trim() || savingUpdate}
-              className="btn btn-primary"
-              style={{ opacity: !updateBody.trim() || savingUpdate ? 0.5 : 1 }}
+              onClick={() => setAdding(true)}
+              className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 text-[15px] font-semibold"
+              style={{ color: 'var(--accent-ink)' }}
             >
-              {savingUpdate ? t('common.saving') : t('common.save')}
+              <PlusIcon size={17} /> {t('prayerDetail.addUpdate')}
             </button>
-            <button
-              type="button"
-              onClick={() => {
-                setAdding(false)
-                setUpdateBody('')
-                setUpdateError(false)
-              }}
-              className="btn btn-secondary"
-            >
-              {t('common.cancel')}
-            </button>
-          </div>
-        </div>
-      )}
-
-      {isAuthor && data.status === 'active' && !adding && (
-        <div className="action-bar mt-auto space-y-2">
-          <button
-            type="button"
-            onClick={markAnswered}
-            disabled={markingAnswered || !online}
-            className="btn btn-primary"
-            style={{ opacity: markingAnswered || !online ? 0.55 : 1 }}
-          >
-            {markingAnswered ? t('prayerDetail.markingAnswered') : t('prayerDetail.markAnswered')}
-          </button>
-          {markAnsweredError && (
-            <InlineError message={t('prayerDetail.markAnsweredError')} className="text-center" />
           )}
-          <button
-            type="button"
-            onClick={() => setAdding(true)}
-            className="btn btn-secondary flex items-center justify-center gap-2"
-          >
-            <PlusIcon size={17} /> {t('prayerDetail.addUpdate')}
-          </button>
-        </div>
+        </section>
       )}
 
       {editing && (
