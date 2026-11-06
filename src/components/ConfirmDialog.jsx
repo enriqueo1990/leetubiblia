@@ -100,7 +100,7 @@ export default function ConfirmDialog({
             type="button"
             className="btn btn-primary flex-1"
             disabled={busy}
-            style={danger ? { backgroundColor: 'var(--danger)', color: '#fff' } : undefined}
+            style={danger ? { backgroundColor: 'var(--danger)', color: 'var(--on-danger)' } : undefined}
             onClick={onConfirm}
           >
             {busy ? '…' : confirm}
