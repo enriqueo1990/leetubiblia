@@ -13,6 +13,20 @@
     <!-- Único splash de arranque: completa libro, versículo y referencia mientras
          React prepara la pantalla real detrás. Se retira cuando la pantalla está
          lista; la transición CSS evita mostrar contenido incompleto. -->
+    <script>
+      /* Aplica el modo elegido (claro/oscuro) ANTES de pintar el splash: si no, quien
+         eligió «Oscuro» con el teléfono en claro veía un fogonazo de papel en cada
+         arranque. Con 'auto' (o sin valor) mandan los media queries, igual que
+         applyTheme en useTheme.js. */
+      try {
+        var p = localStorage.getItem('ltb.theme_pref');
+        if (p === 'dark' || p === 'light') {
+          document.documentElement.classList.add(p);
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute('content', p === 'dark' ? '#131517' : '#FAF8F4');
+        }
+      } catch (e) {}
+    </script>
     <style>
       /* Fondo en html/body para que no haya flash blanco mientras React monta */
       html, body {
@@ -20,8 +34,9 @@
         background: #FAF8F4;
       }
       @media (prefers-color-scheme: dark) {
-        html, body { background: #131517; }
+        html:not(.light), html:not(.light) body { background: #131517; }
       }
+      html.dark, html.dark body { background: #131517; }
       #ltb-splash {
         position: fixed;
         inset: 0;
@@ -58,7 +73,7 @@
         font-size: clamp(19px, 5.5vw, 21px);
         font-style: italic;
         line-height: 1.5;
-        color: #1C1C1E;
+        color: #1F1B16;
       }
       #ltb-splash-rule { margin-top: 24px; width: 32px; height: 1px; background: #5B9FDF; }
       #ltb-splash-ref {
@@ -96,13 +111,19 @@
         to   { opacity: 1; transform: translateY(0); }
       }
       @media (prefers-color-scheme: dark) {
-        #ltb-splash { background: #131517; }
-        #ltb-splash svg g { stroke: #8FBFEC; }
-        #ltb-splash-verse { color: #F2F2F7; }
-        #ltb-splash-rule { background: #8FBFEC; }
-        #ltb-splash-ref { color: #6A6A6E; }
-        #ltb-splash-brand { color: #B6D3ED; } /* accent-ink oscuro precalculado */
+        html:not(.light) #ltb-splash { background: #131517; }
+        html:not(.light) #ltb-splash svg g { stroke: #8FBFEC; }
+        html:not(.light) #ltb-splash-verse { color: #F1F1EE; }
+        html:not(.light) #ltb-splash-rule { background: #8FBFEC; }
+        html:not(.light) #ltb-splash-ref { color: #767C83; }
+        html:not(.light) #ltb-splash-brand { color: #B6D3ED; } /* accent-ink oscuro precalculado */
       }
+      html.dark #ltb-splash { background: #131517; }
+      html.dark #ltb-splash svg g { stroke: #8FBFEC; }
+      html.dark #ltb-splash-verse { color: #F1F1EE; }
+      html.dark #ltb-splash-rule { background: #8FBFEC; }
+      html.dark #ltb-splash-ref { color: #767C83; }
+      html.dark #ltb-splash-brand { color: #B6D3ED; }
       @media (prefers-reduced-motion: reduce) {
         .ltb-book-cover, .ltb-book-spine, #ltb-splash-brand,
         #ltb-splash-verse, #ltb-splash-rule, #ltb-splash-ref { animation: none; opacity: 1; }
