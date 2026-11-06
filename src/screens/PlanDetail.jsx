@@ -264,7 +264,11 @@ export default function PlanDetail() {
               ref={isCurrent ? todayRef : undefined}
               tabIndex={-1}
               className="flex gap-3 px-4 py-3"
-              style={isCurrent ? { backgroundColor: 'var(--accent-tint)' } : undefined}
+              style={
+                isCurrent
+                  ? { backgroundColor: 'var(--accent-tint)', boxShadow: 'inset 3px 0 0 var(--accent)' }
+                  : undefined
+              }
             >
               <span
                 className="w-12 shrink-0 pt-0.5 text-[12px] font-semibold uppercase tracking-wide"
