@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { usePreferences } from '../lib/preferences.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import { useInstallPrompt } from '../hooks/useInstallPrompt.js'
 import {
-  getPlan,
   deleteAccount,
   dayNumberFor,
   startDateForDay,
@@ -14,10 +13,13 @@ import {
 import Segmented from '../components/Segmented.jsx'
 import Switch from '../components/Switch.jsx'
 import { useMyTime } from '../hooks/useMyTime.js'
+import { useReading } from '../hooks/useReading.js'
 import { OPEN_WHATS_NEW_EVENT } from '../lib/whatsNew.js'
 import BackLink from '../components/BackLink.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import InlineError from '../components/InlineError.jsx'
+import RetryError from '../components/RetryError.jsx'
+import { SkeletonRows } from '../components/Skeleton.jsx'
 import DeveloperSection from './DeveloperSection.jsx'
 import UserAvatar from '../components/UserAvatar.jsx'
 import AvatarCropper from '../components/AvatarCropper.jsx'
@@ -114,7 +116,11 @@ export default function Ajustes() {
   const { canInstall, promptInstall } = useInstallPrompt()
   const { section } = useParams()
 
-  const [plan, setPlan] = useState(null)
+  // El plan y su avance vienen de useReading, igual que en Hoy y Lecturas: así
+  // mientras carga o sin red no se afirma «no tenés plan», y el día y el porcentaje
+  // coinciden con los de las otras pantallas.
+  const reading = useReading()
+  const plan = reading.hasPlan ? reading.plan : null
   const [shared, setShared] = useState(false)
   const [installing, setInstalling] = useState(false)
   const [deleting, setDeleting] = useState(false)
@@ -184,16 +190,6 @@ export default function Ajustes() {
     }
     persist('share', patch)
   }
-
-  useEffect(() => {
-    if (!profile?.active_plan_id) {
-      setPlan(null)
-      return
-    }
-    getPlan(profile.active_plan_id)
-      .then((p) => setPlan(p))
-      .catch(() => setPlan(null))
-  }, [profile?.active_plan_id])
 
   // Día actual del plan (según plan_start_date) y validación del día a fijar.
   const duration = plan?.duration_days ?? null
@@ -344,6 +340,9 @@ export default function Ajustes() {
     }
     setDayInput('')
     setSavedDay(true)
+    // Las marcas cambiaron después de que useReading cargó con el nuevo inicio:
+    // se vuelve a leer para que el porcentaje de la tarjeta del plan no quede viejo.
+    reading.reload()
   }
 
   // Exportar "Mi camino" como archivo de texto: las reflexiones son del
@@ -516,7 +515,7 @@ export default function Ajustes() {
   const themeLabel = THEMES.find((x) => x.key === themePref)?.label
   const localeLabel = locales.find((x) => x.key === locale)?.label
   const summaries = {
-    lectura: [plan ? planName(t, plan) : t('ajustes.elegir'), shelf.length ? t('library.onShelf', { count: shelf.length }) : null].filter(Boolean).join(' · '),
+    lectura: [reading.hasPlan ? (plan ? planName(t, plan) : null) : t('ajustes.elegir'), shelf.length ? t('library.onShelf', { count: shelf.length }) : null].filter(Boolean).join(' · '),
     manera: [myTime.enabled ? t('myTime.title') : null, reflectionsOn ? t('ajustes.section.diario') : null].filter(Boolean).join(' · ') || t('ajustes.idx.mannerPlain'),
     avisos: reminderOn ? `${t('ajustes.section.recordatorio')} · ${reminderTime}` : t('ajustes.idx.reminderOff'),
     apariencia: [t(`accent.${accent}`), themeLabel, localeLabel].filter(Boolean).join(' · '),
@@ -583,40 +582,50 @@ export default function Ajustes() {
         <div>
       {/* Lectura bíblica: tu plan, grande, con su avance; cambiarlo a un toque. */}
       <SectionLabel className="mt-7">{t('ajustes.lectura.bible')}</SectionLabel>
-      <div className="card divide-y divide-hairline">
-        {plan ? (
-          <Link to={`/planes/${plan.id}`} state={{ from: fromAjustes }} className="block px-4 py-4">
-            <span className="flex items-center justify-between gap-3">
-              <span className="min-w-0 text-[19px] font-semibold leading-snug text-ink">{planName(t, plan)}</span>
-              <RowChevron />
-            </span>
-            {currentDay != null && duration != null && (
-              <>
-                <span className="mt-1 block text-[13px] tabular-nums text-ink-soft">
-                  {t('lecturas.planMeta', { day: currentDay, total: duration, percent: Math.ceil(((currentDay - 1) / duration) * 100) })}
-                </span>
-                <span className="mt-2.5 block h-1 overflow-hidden rounded-full" style={{ backgroundColor: 'var(--hairline)' }}>
-                  <span
-                    className="block h-full rounded-full"
-                    style={{ width: `${Math.max(2, ((currentDay - 1) / duration) * 100)}%`, backgroundColor: 'var(--accent)' }}
-                  />
-                </span>
-              </>
-            )}
-          </Link>
+      {reading.hasPlan && !plan ? (
+        reading.loading ? (
+          <SkeletonRows count={2} twoLine />
         ) : (
-          <p className="px-4 py-4 text-[15px] text-ink-soft">{t('lecturas.noPlan')}</p>
-        )}
-        <Link
-          to="/planes"
-          state={{ from: fromAjustes }}
-          className="flex min-h-11 items-center justify-between px-4 py-3 text-[16px] font-medium"
-          style={{ color: 'var(--accent-ink)' }}
-        >
-          {plan ? t('lecturas.changePlan') : t('lecturas.choosePlan')}
-          <span aria-hidden="true">›</span>
-        </Link>
-      </div>
+          <RetryError message={t('lecturas.planLoadError')} onRetry={reading.reload} />
+        )
+      ) : (
+        <div className="card divide-y divide-hairline">
+          {plan ? (
+            <Link to={`/planes/${plan.id}`} state={{ from: fromAjustes }} className="block px-4 py-4">
+              <span className="flex items-center justify-between gap-3">
+                <span className="min-w-0 text-[19px] font-semibold leading-snug text-ink">{planName(t, plan)}</span>
+                <RowChevron />
+              </span>
+              {(reading.planFinished || (duration != null && reading.displayDay != null)) && (
+                <>
+                  <span className="mt-1 block text-[13px] tabular-nums text-ink-soft">
+                    {reading.planFinished
+                      ? `✓ ${t('hoy.planCompleted')}`
+                      : t('lecturas.planMeta', { day: reading.displayDay, total: duration, percent: reading.percent })}
+                  </span>
+                  <span className="mt-2.5 block h-1 overflow-hidden rounded-full" style={{ backgroundColor: 'var(--hairline)' }}>
+                    <span
+                      className="block h-full rounded-full"
+                      style={{ width: `${Math.max(2, reading.percent)}%`, backgroundColor: 'var(--accent)' }}
+                    />
+                  </span>
+                </>
+              )}
+            </Link>
+          ) : (
+            <p className="px-4 py-4 text-[15px] text-ink-soft">{t('lecturas.noPlan')}</p>
+          )}
+          <Link
+            to="/planes"
+            state={{ from: fromAjustes }}
+            className="flex min-h-11 items-center justify-between px-4 py-3 text-[16px] font-medium"
+            style={{ color: 'var(--accent-ink)' }}
+          >
+            {plan ? t('lecturas.changePlan') : t('lecturas.choosePlan')}
+            <span aria-hidden="true">›</span>
+          </Link>
+        </div>
+      )}
 
       {/* Lecturas adicionales: tus materiales como un estante de portadas, y la
           Biblioteca para sumar más. */}

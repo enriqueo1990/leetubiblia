@@ -91,6 +91,8 @@ export default function Lecturas() {
               </Link>
               <Row to="/planes" state={{ from }} title={t('lecturas.changePlan')} accent />
             </div>
+          ) : r.hasPlan ? (
+            <RetryError message={t('lecturas.planLoadError')} onRetry={r.reload} />
           ) : (
             <div className="card px-4 py-4">
               <p className="text-[15px] text-ink-soft">{t('lecturas.noPlan')}</p>

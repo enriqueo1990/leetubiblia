@@ -847,6 +847,7 @@
   "lecturas.planMeta": "Dia {day} de {total} · {percent}%",
   "lecturas.changePlan": "Trocar de plano",
   "lecturas.noPlan": "Você ainda não tem um plano de leitura.",
+  "lecturas.planLoadError": "Não foi possível carregar seu plano.",
   "lecturas.choosePlan": "Escolher um plano",
   "lecturas.materialsHelp": "Leituras curtas para somar ao seu dia. As da sua estante aparecem em Hoje.",
   "materiales.completedReview": "Concluído · revisar",

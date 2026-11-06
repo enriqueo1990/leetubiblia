@@ -847,6 +847,7 @@
   "lecturas.planMeta": "Day {day} of {total} · {percent}%",
   "lecturas.changePlan": "Change plan",
   "lecturas.noPlan": "You don't have a reading plan yet.",
+  "lecturas.planLoadError": "Couldn't load your plan.",
   "lecturas.choosePlan": "Choose a plan",
   "lecturas.materialsHelp": "Short readings to add to your day. The ones on your shelf show up in Today.",
   "materiales.completedReview": "Completed · review",
