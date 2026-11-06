@@ -64,8 +64,15 @@ export default function Oracion() {
     { key: 'mine', label: t('oracion.tab.mine') },
     { key: 'groups', label: t('oracion.tab.groups') },
   ]
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [seg, setSeg] = useState(searchParams.get('tab') === 'grupos' ? 'groups' : 'mine')
+  // La pestaña vive también en la URL: al volver de un pedido (miga o atrás) o al
+  // recargar, la lista aparece en la misma pestaña en la que estabas.
+  function changeSeg(key) {
+    setSeg(key)
+    setSearchParams(key === 'groups' ? { tab: 'grupos' } : {}, { replace: true })
+  }
+  const backHere = seg === 'groups' ? '/oracion?tab=grupos' : '/oracion'
   const [mine, setMine] = useState(null)
   const [toReview, setToReview] = useState([])
   const [groupPrayers, setGroupPrayers] = useState(null)
@@ -124,7 +131,7 @@ export default function Oracion() {
   // un solo modelo mental. Editar vive en el detalle.
   const openPrayer = (p, extra = {}) =>
     navigate(`/oracion/${p.id}`, {
-      state: { from: { to: '/oracion', label: t('nav.oracion') }, ...extra },
+      state: { from: { to: backHere, label: t('nav.oracion') }, ...extra },
     })
 
   // "Míos": activos primero, luego respondidos atenuados. Los que ya están en
@@ -187,7 +194,7 @@ export default function Oracion() {
         </Link>
       )}
 
-      <Segmented label={t('oracion.title')} className="mt-5" options={SEGMENTS} value={seg} onChange={setSeg} />
+      <Segmented label={t('oracion.title')} className="mt-5" options={SEGMENTS} value={seg} onChange={changeSeg} />
 
       {error && <RetryError message={t('oracion.loadError')} onRetry={load} />}
 
@@ -312,7 +319,7 @@ export default function Oracion() {
                       p={p}
                       dimmed={p.status === 'answered'}
                       subtitle={`${p.author_name ?? t('common.someone')} · ${fmtD(p.created_at)}`}
-                      onClick={() => navigate(`/oracion/${p.id}`, { state: { from: { to: '/oracion', label: t('nav.oracion') } } })}
+                      onClick={() => navigate(`/oracion/${p.id}`, { state: { from: { to: backHere, label: t('nav.oracion') } } })}
                     />
                   ))}
                 </ul>
