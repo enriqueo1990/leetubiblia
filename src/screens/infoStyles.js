@@ -340,6 +340,8 @@ ${dark('.in-lsteps li::before', 'color:#10231b')}
 .in-install-grid .lk-h2{margin-top:18px}
 .in-install-grid p.in-lede{margin-top:18px; max-width:30em}
 .in-tabs{margin-top:28px}
+.in-installnow{margin-bottom:22px}
+.lk-install-note{padding:12px 16px; border-radius:14px; background:var(--accent-tint); font-size:var(--lk-fs-small); line-height:1.5}
 .in-tab-labels{display:inline-grid; grid-auto-flow:column; background:var(--segment-track); padding:4px; border-radius:14px}
 .in-tab{position:relative; display:flex; align-items:center; gap:8px; padding:0 22px; height:44px; border-radius:11px; font-weight:600; color:var(--text-soft); cursor:pointer; transition:background-color .2s, color .2s}
 .in-tab input{position:absolute; opacity:0; inset:0; width:100%; height:100%; margin:0; cursor:pointer}

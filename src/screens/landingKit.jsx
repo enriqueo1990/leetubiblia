@@ -14,7 +14,8 @@ const SIZE_GRUPO = { width: 780, height: 1688 }
 const SIZE_ORACION = { width: 780, height: 1688 }
 import BrandMark from '../components/BrandMark.jsx'
 import BackLink from '../components/BackLink.jsx'
-import { isInAppBrowser } from '../lib/platform.js'
+import { isIOS, isInAppBrowser } from '../lib/platform.js'
+import { useInstallPrompt } from '../hooks/useInstallPrompt.js'
 import { CONTACT_EMAIL } from '../lib/developer.js'
 
 // La hoja de donación (con Supabase para la meta, Sheet, etc.) se baja recién al
@@ -243,14 +244,74 @@ function appHref(current) {
 }
 
 // Dentro del navegador de Instagram/Facebook/TikTok no se puede instalar la app:
-// se avisa ARRIBA, donde llega el tráfico frío, y no al fondo de la página.
-function InAppBrowserBand() {
+// se avisa ARRIBA, donde llega el tráfico frío (banda del header), y otra vez en la
+// sección de instalación (`inline`), donde se decide instalar. Los menús cambian
+// según el aparato: en iPhone es ⋯ y «Abrir en Safari»; en Android, ⋮ y «Abrir en
+// Chrome». Las etiquetas exactas varían por app («Abrir en el navegador», «Abrir en
+// navegador externo»), por eso se nombran las dos más comunes.
+export function InAppBrowserBand({ inline = false }) {
   const inApp = useClientSide(isInAppBrowser)
+  const ios = useClientSide(isIOS)
   if (!inApp) return null
+  const menu = ios ? '⋯' : '⋮'
+  const browser = ios ? 'Safari' : 'Chrome'
   return (
-    <div role="note" className="bg-accent-tint px-6 py-3 text-center text-[0.875rem] leading-snug text-ink">
-      Estás en el navegador de otra app. Para instalar Lee Tu Biblia, tocá el menú{' '}
-      <b>⋯</b> y elegí <b>«Abrir en Safari»</b> (o Chrome).
+    <div
+      role="note"
+      className={
+        inline
+          ? 'mb-5 mt-6 rounded-2xl bg-accent-tint px-4 py-3 text-[0.9375rem] leading-snug text-ink'
+          : 'bg-accent-tint px-6 py-3 text-center text-[0.875rem] leading-snug text-ink'
+      }
+    >
+      Estás en el navegador de otra app (Instagram, Facebook, TikTok…) y desde ahí no se puede instalar Lee Tu Biblia.
+      Tocá el menú <b>{menu}</b> y elegí <b>«Abrir en {browser}»</b> (o <b>«Abrir en el navegador»</b>).
+    </div>
+  )
+}
+
+// Botón nativo «Instalar la app» (Android/Chrome y navegadores de escritorio que
+// ofrecen instalar). Usa lib/installPrompt.js, que ya captura `beforeinstallprompt`
+// al arrancar (main.jsx) y es el mismo que usan Hoy y Ajustes: acá solo se pide el
+// diálogo. Donde el navegador no lo ofrece (iPhone, Firefox, ya instalada) no
+// aparece nada y queda la guía por pasos. `canInstall` es false al prerenderizar y
+// al hidratar (ver useInstallPrompt), así que no hay desajuste.
+export function InstallNowButton({ className = '' }) {
+  const { canInstall, promptInstall } = useInstallPrompt()
+  const [state, setState] = useState('idle') // idle | opening | dismissed | done
+
+  async function install() {
+    if (state === 'opening') return
+    setState('opening')
+    const choice = await promptInstall()
+    setState(choice?.outcome === 'accepted' ? 'done' : 'dismissed')
+  }
+
+  if (state === 'done') {
+    return (
+      <p className={`lk-install-note ${className}`} role="status">
+        <b>Listo.</b> Buscá Lee Tu Biblia entre tus apps y abrila desde su ícono.
+      </p>
+    )
+  }
+  if (!canInstall) {
+    return state === 'dismissed' ? (
+      <p className={`lk-install-note ${className}`} role="status">
+        Sin apuro. Cuando quieras, la instalás desde el menú del navegador.
+      </p>
+    ) : null
+  }
+  return (
+    <div className={className}>
+      <button
+        type="button"
+        className="lk-btn lk-btn-primary"
+        onClick={install}
+        disabled={state === 'opening'}
+        aria-busy={state === 'opening'}
+      >
+        {state === 'opening' ? 'Abriendo…' : 'Instalar la app'}
+      </button>
     </div>
   )
 }

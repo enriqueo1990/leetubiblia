@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useClientSide } from './landingHydration.js'
+import { InAppBrowserBand, InstallNowButton } from './landingKit.jsx'
 import { getInstallPlatform } from '../lib/platform.js'
 import BrandMark from '../components/BrandMark.jsx'
 import { INFO_FAQ } from './infoCopy.js'
@@ -154,6 +155,10 @@ export function InstallGuide() {
 
   return (
     <div className="in-tabs" ref={root}>
+      {/* Desde el navegador de Instagram/Facebook/TikTok no se instala: se avisa acá también. */}
+      <InAppBrowserBand inline />
+      {/* Android/Chrome: el navegador ofrece instalar con un toque. Los pasos siguen debajo. */}
+      <InstallNowButton className="in-installnow" />
       <div className="in-tab-labels" role="radiogroup" aria-label="Tu teléfono" onChange={() => (touched.current = true)}>
         <label className="in-tab">
           <input type="radio" name="in-plat" className="in-tab-ios" defaultChecked />

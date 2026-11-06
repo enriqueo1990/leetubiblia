@@ -46,7 +46,7 @@ export function isIOSBrowser() {
 // Navegadores internos de redes sociales: desde ahí no se puede agregar a inicio.
 export function isInAppBrowser() {
   if (typeof navigator === 'undefined') return false
-  return /FBAN|FBAV|FB_IAB|Instagram|Line\/|TikTok|musical_ly|Snapchat/i.test(navigator.userAgent)
+  return /FBAN|FBAV|FB_IAB|Instagram|Line\/|TikTok|musical_ly|BytedanceWebview|Snapchat/i.test(navigator.userAgent)
 }
 
 // ¿Corre como app de tienda? Android: la TWA de Play abre con ?source=twa (lo fija
