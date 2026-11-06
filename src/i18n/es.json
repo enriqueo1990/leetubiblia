@@ -221,6 +221,7 @@
   "onboarding.auth.inviteMembers": "Ya hay {count} personas leyendo juntas",
   "onboarding.auth.inviteCta": "Crear cuenta para unirme",
   "onboarding.auth.haveAccount": "Ya tengo cuenta",
+  "onboarding.auth.createAccount": "Crear cuenta",
   "onboarding.auth.checkEmail": "Revisá tu correo",
   "onboarding.auth.sentCodePre": "Te enviamos un código a ",
   "onboarding.auth.sentCodePost": ". Ingresalo acá para entrar.",

@@ -161,6 +161,21 @@ export default function AuthFlow() {
     setStep('form')
   }
 
+  // «Empezar» de la bienvenida.
+  // Invitación: derecho al registro (el plan se resuelve con el grupo).
+  // La ruta sale del código en la URL, no de la vista previa: esa llega después
+  // (o falla) y el botón no puede cambiar de destino bajo el dedo.
+  // Sin invitación: primero explorar los planes, la cuenta después.
+  // En iPhone, antes que nada, instalar: la app de inicio no comparte sesión con
+  // el navegador y la cuenta se crearía dos veces. (No con invitación: instalar
+  // desde /join podría perder el código.)
+  function startOnboarding() {
+    if (inviteCode) goToForm('signup', 'welcome')
+    else setStep(isIOSBrowser() ? 'install' : 'explore')
+  }
+
+  const goToLogin = () => goToForm('login', 'welcome')
+
   // ---- Bienvenida ----
   if (step === 'welcome') {
     return (
@@ -196,32 +211,31 @@ export default function AuthFlow() {
             </p>
           )}
         </div>
+        {/* Con la sesión vencida es alguien que ya tiene cuenta: «Ingresá» es el botón
+            grande y crear una cuenta queda en el secundario. */}
         <div className="space-y-3">
           <button
             type="button"
             className="btn btn-primary"
-            onClick={() => {
-              // Invitación: derecho al registro (el plan se resuelve con el grupo).
-              // La ruta y la etiqueta salen del código en la URL, no de la vista
-              // previa: esa llega después (o falla) y el botón no puede cambiar
-              // de destino bajo el dedo.
-              // Sin invitación: primero explorar los planes, la cuenta después.
-              // En iPhone, antes que nada, instalar: la app de inicio no comparte
-              // sesión con el navegador y la cuenta se crearía dos veces. (No con
-              // invitación: instalar desde /join podría perder el código.)
-              if (inviteCode) goToForm('signup', 'welcome')
-              else setStep(isIOSBrowser() ? 'install' : 'explore')
-            }}
+            onClick={sessionExpired ? goToLogin : startOnboarding}
           >
-            {inviteCode ? t('onboarding.auth.inviteCta') : t('onboarding.auth.start')}
+            {sessionExpired
+              ? t('onboarding.auth.login')
+              : inviteCode
+                ? t('onboarding.auth.inviteCta')
+                : t('onboarding.auth.start')}
           </button>
           <button
             type="button"
             className="btn btn-secondary"
             style={{ color: 'var(--accent-ink)', borderColor: 'var(--accent-ink)' }}
-            onClick={() => goToForm('login', 'welcome')}
+            onClick={sessionExpired ? startOnboarding : goToLogin}
           >
-            {t('onboarding.auth.haveAccount')}
+            {sessionExpired
+              ? inviteCode
+                ? t('onboarding.auth.inviteCta')
+                : t('onboarding.auth.createAccount')
+              : t('onboarding.auth.haveAccount')}
           </button>
         </div>
       </Centered>
