@@ -359,6 +359,7 @@
   "hoy.offline.fresh": "Offline · your check-off is saved and syncs when you're back.",
   "hoy.unavailable.title": "The reading isn't available",
   "hoy.unavailable.text": "Connect to load it before marking this day as read.",
+  "hoy.unavailable.back": "Back to Day {day}",
   "hoy.readWriteError": "Couldn't save the reading mark. Try again in a moment.",
   "hoy.behind": {
     "one": "{count} day left unmarked",

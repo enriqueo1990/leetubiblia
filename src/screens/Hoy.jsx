@@ -113,6 +113,7 @@ export default function Hoy() {
   const [aheadDay, setAheadDay] = useState(null)
   const [aheadRefs, setAheadRefs] = useState(null)
   const [aheadLoading, setAheadLoading] = useState(false)
+  const [aheadTry, setAheadTry] = useState(0) // «Reintentar» del día adelantado
 
   // Momento de marcar: true solo en la sesión justo después de marcar el día
   // mostrado (dispara el check dibujado, el respiro del botón y la línea cálida).
@@ -148,7 +149,7 @@ export default function Hoy() {
     return () => {
       on = false
     }
-  }, [aheadDay, planId])
+  }, [aheadDay, planId, aheadTry])
 
   // Si cambia el plan (o el día ancla, p. ej. al recargar/avanzar), salir del
   // modo "seguir leyendo".
@@ -704,9 +705,27 @@ export default function Hoy() {
               <div className="card p-4" role="alert">
                 <h2 className="text-[17px] font-semibold text-ink">{t('hoy.unavailable.title')}</h2>
                 <p className="mt-1 text-[14px] text-ink-soft">{t('hoy.unavailable.text')}</p>
-                <button type="button" onClick={r.reload} className="btn btn-secondary mt-4">
+                <button
+                  type="button"
+                  onClick={viewingAhead ? () => setAheadTry((n) => n + 1) : r.reload}
+                  className="btn btn-secondary mt-4"
+                >
                   {t('common.retry')}
                 </button>
+                {/* Sin red el día adelantado no carga: hay salida a donde dejaste el marcador. */}
+                {viewingAhead && r.displayDay != null && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAheadDay(null)
+                      setAheadRefs(null)
+                    }}
+                    className="mt-1 min-h-11 w-full text-center text-[15px] font-medium"
+                    style={{ color: 'var(--accent-ink)' }}
+                  >
+                    {t('hoy.unavailable.back', { day: r.displayDay })}
+                  </button>
+                )}
               </div>
             ) : (
               refsShown && (

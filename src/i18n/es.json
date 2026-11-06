@@ -359,6 +359,7 @@
   "hoy.offline.fresh": "Sin conexión · tu marca se guarda y se sincroniza al volver.",
   "hoy.unavailable.title": "La lectura no está disponible",
   "hoy.unavailable.text": "Conectate para cargarla antes de marcar este día como leído.",
+  "hoy.unavailable.back": "Volver al Día {day}",
   "hoy.readWriteError": "No se pudo guardar la marca. Intentá de nuevo en un momento.",
   "hoy.behind": {
     "one": "Quedó {count} día sin marcar",
