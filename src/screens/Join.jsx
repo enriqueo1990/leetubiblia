@@ -60,12 +60,12 @@ export default function Join() {
       <Wordmark />
 
       {status === 'joining' && (
-        <p className="mt-8 text-[15px] text-ink-soft">{t('join.joining')}</p>
+        <h1 className="mt-8 text-[15px] text-ink-soft">{t('join.joining')}</h1>
       )}
 
       {status === 'notfound' && (
         <>
-          <p className="mt-8 text-[17px] font-semibold text-ink">{t('grupos.notFound')}</p>
+          <h1 className="mt-8 text-[17px] font-semibold text-ink">{t('grupos.notFound')}</h1>
           <p className="mt-2 max-w-[300px] text-[15px] leading-relaxed text-ink-soft">
             {t('join.linkExpired')} {t('join.askLeader')}
           </p>
@@ -77,7 +77,7 @@ export default function Join() {
 
       {status === 'error' && (
         <>
-          <p className="mt-8 text-[17px] font-semibold text-ink">{t('grupos.joinError')}</p>
+          <h1 className="mt-8 text-[17px] font-semibold text-ink">{t('grupos.joinError')}</h1>
           <p className="mt-2 max-w-[300px] text-[15px] leading-relaxed text-ink-soft">
             {t('join.errorHint')}
           </p>

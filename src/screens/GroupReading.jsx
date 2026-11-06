@@ -87,6 +87,7 @@ export default function GroupReading() {
   return (
     <div className="flex min-h-[calc(100dvh-120px)] flex-col pt-2">
       <BackLink to="/" label={t('nav.hoy')} />
+      <h1 className="sr-only">{data.groupName}</h1>
 
       {/* Header de UNA línea, como Hoy: el día (tinta suave) + el grupo y su plan
           (metadata más apagada), todo tocable hacia el detalle del grupo. */}

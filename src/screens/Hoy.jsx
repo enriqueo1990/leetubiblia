@@ -500,6 +500,8 @@ export default function Hoy() {
   return (
     <div className="relative isolate flex min-h-[calc(100dvh-120px)] flex-col pt-2 lg:min-h-0">
       <div aria-hidden="true" className={`day-light ${period}`} />
+      {/* Título de la pantalla para quien navega por encabezados (rotor de VoiceOver). */}
+      <h1 className="sr-only">{t('nav.hoy')}</h1>
       <div className="flex items-center justify-between gap-3">
         <p className="min-w-0 truncate text-[14px] font-medium text-ink-soft">{greeting}</p>
         {/* En desktop Ajustes ya está visible en el sidebar; evitar duplicarlo. */}
