@@ -271,7 +271,7 @@ export default function PlanDetail() {
               }
             >
               <span
-                className="w-12 shrink-0 pt-0.5 text-[12px] font-semibold uppercase tracking-wide"
+                className="w-14 shrink-0 whitespace-nowrap pt-0.5 text-[12px] font-semibold uppercase tabular-nums tracking-wide"
                 style={{ color: isCurrent || read ? 'var(--accent-ink)' : 'var(--text-soft)' }}
               >
                 {t('planes.dayN', { n: d.day_number })}
