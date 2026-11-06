@@ -1,15 +1,18 @@
 // Toggle accesible estilo iOS (track 48×29, knob 24). On = acento.
 // Único origen del switch en la app: expone role="switch" + aria-checked para
 // que el estado se anuncie. Acepta `label` (aria-label) cuando no hay texto visible.
-export default function Switch({ on, onChange, label, disabled = false }) {
+//   busy → guardando: ignora toques y avisa con aria-busy, SIN bajar la opacidad (el
+//          0,5 queda para el disabled real).
+export default function Switch({ on, onChange, label, disabled = false, busy = false }) {
   return (
     <button
       type="button"
       role="switch"
       aria-checked={on}
       aria-label={label}
+      aria-busy={busy || undefined}
       disabled={disabled}
-      onClick={() => !disabled && onChange?.(!on)}
+      onClick={() => !disabled && !busy && onChange?.(!on)}
       className="relative inline-flex h-11 w-12 shrink-0 items-center justify-center"
       style={{
         opacity: disabled ? 0.5 : 1,

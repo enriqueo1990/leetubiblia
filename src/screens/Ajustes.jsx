@@ -147,6 +147,9 @@ export default function Ajustes() {
   // Guardado de un ajuste: cuál está guardando y cuál falló (para mostrar el error
   // en su fila y deshabilitar solo ese control).
   const [savingKey, setSavingKey] = useState(null)
+  // Valores recién tocados que todavía esperan al servidor: el switch se mueve ya
+  // (optimista) y vuelve solo si el guardado falla.
+  const [pending, setPending] = useState({})
   const [failedKey, setFailedKey] = useState(null)
   const [dayError, setDayError] = useState(null) // null | 'save' | 'marks'
   // Foto de perfil: subiendo/quitando y si falló.
@@ -156,19 +159,25 @@ export default function Ajustes() {
   const [cropFile, setCropFile] = useState(null) // la foto elegida, en la hoja de recorte
 
   // Recordatorio (best-effort) — refleja el perfil.
-  const reminderOn = !!profile?.reminder_enabled
+  const reminderOn = !!(pending.reminder_enabled ?? profile?.reminder_enabled)
   const reminderTime = profile?.reminder_time?.slice(0, 5) || '07:00'
-  const reflectionsOn = !!profile?.reflections_enabled
+  const reflectionsOn = !!(pending.reflections_enabled ?? profile?.reflections_enabled)
   const [myTime, setMyTime] = useMyTime(user?.id)
-  const shareReadingOn = !!profile?.share_reading
-  const prayerFollowupOn = profile?.prayer_followup_enabled !== false // default true
+  const shareReadingOn = !!(pending.share_reading ?? profile?.share_reading)
+  const prayerFollowupOn = (pending.prayer_followup_enabled ?? profile?.prayer_followup_enabled) !== false // default true
 
   // Guarda un ajuste con reversión: si falla, `revert` deshace el cambio local y
   // se marca la fila para mostrar el error. Optimista pero honesto (canon).
   async function persist(key, patch, revert) {
     setSavingKey(key)
     setFailedKey(null)
+    setPending((p) => ({ ...p, ...patch }))
     const ok = await saveOrRevert(() => updateProfile(patch), revert)
+    setPending((p) => {
+      const n = { ...p }
+      for (const k of Object.keys(patch)) delete n[k]
+      return n
+    })
     setSavingKey(null)
     if (!ok) setFailedKey(key)
     return ok
@@ -239,7 +248,7 @@ export default function Ajustes() {
   // La subscripción Web Push es del dispositivo y la comparten el recordatorio y
   // los avisos de grupo. Solo la borramos cuando se apagan AMBAS features; así
   // apagar el recordatorio no mata los avisos de grupo (ni al revés).
-  const groupNotifOn = profile?.group_prayer_notifications_enabled ?? true
+  const groupNotifOn = pending.group_prayer_notifications_enabled ?? profile?.group_prayer_notifications_enabled ?? true
   // Con el switch en ON pero sin notificaciones en ESTE aparato, la fila lo dice
   // (el valor viene del perfil, no del aparato). `permTick` fuerza releer el permiso.
   const [permTick, setPermTick] = useState(0)
@@ -263,8 +272,10 @@ export default function Ajustes() {
     if (next) {
       // Activar = pedir permiso y suscribir. Si falla, NO encendemos el switch:
       // mostramos por qué en vez de mentir que está activo.
+      setSavingKey('reminder')
       const res = await subscribeToPush(user.id)
       if (!res.ok) {
+        setSavingKey(null)
         setPushNote({ target: 'reminder', msg: pushReasonMessage(res.reason, t), reason: res.reason })
         return
       }
@@ -285,8 +296,10 @@ export default function Ajustes() {
     const next = !groupNotifOn
     setPushNote(null)
     if (next) {
+      setSavingKey('group')
       const res = await subscribeToPush(user.id)
       if (!res.ok) {
+        setSavingKey(null)
         setPushNote({ target: 'group', msg: pushReasonMessage(res.reason, t), reason: res.reason })
         return
       }
@@ -653,7 +666,7 @@ export default function Ajustes() {
               on={shareReadingOn}
               onChange={toggleShareReading}
               label={t('ajustes.compartirLecturaLabel')}
-              disabled={savingKey === 'share'}
+              busy={savingKey === 'share'}
             />
           }
         />
@@ -773,7 +786,7 @@ export default function Ajustes() {
               on={reflectionsOn}
               onChange={() => persist('diario', { reflections_enabled: !reflectionsOn })}
               label={t('ajustes.section.diario')}
-              disabled={savingKey === 'diario'}
+              busy={savingKey === 'diario'}
             />
           }
         />
@@ -826,7 +839,7 @@ export default function Ajustes() {
               on={reminderOn}
               onChange={toggleReminder}
               label={t('ajustes.section.recordatorio')}
-              disabled={savingKey === 'reminder'}
+              busy={savingKey === 'reminder'}
             />
           }
         />
@@ -857,7 +870,7 @@ export default function Ajustes() {
               on={groupNotifOn}
               onChange={toggleGroupNotif}
               label={t('ajustes.avisosGrupoLabel')}
-              disabled={savingKey === 'group'}
+              busy={savingKey === 'group'}
             />
           }
         />
@@ -870,7 +883,7 @@ export default function Ajustes() {
               on={prayerFollowupOn}
               onChange={() => persist('followup', { prayer_followup_enabled: !prayerFollowupOn })}
               label={t('ajustes.recordarRevisarLabel')}
-              disabled={savingKey === 'followup'}
+              busy={savingKey === 'followup'}
             />
           }
         />
