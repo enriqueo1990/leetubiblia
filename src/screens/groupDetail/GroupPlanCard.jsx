@@ -76,11 +76,6 @@ export default function GroupPlanCard({
             <>
               {/* Dos maneras de leerlo: como TU plan (lo de siempre) o como
                   lectura adicional en Hoy — tu plan queda intacto. */}
-              {following && (
-                <p className="mt-3 flex items-center gap-1.5 text-[13px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
-                  <CheckIcon size={15} strokeWidth={2.2} /> {t('groupDetail.followingPlan')}
-                </p>
-              )}
               <button
                 type="button"
                 onClick={onJoinPlan}
@@ -89,16 +84,34 @@ export default function GroupPlanCard({
               >
                 {t('groupDetail.joinPlan')}
               </button>
-              {/* Dejar de seguir no es destructivo (apaga una preferencia):
-                  tinta suave, no rojo — el rojo queda para lo que duele deshacer. */}
-              <button
-                type="button"
-                onClick={() => onToggleFollow(!following)}
-                className={`mt-1 min-h-11 w-full py-2 text-center text-[14px] font-medium${following ? ' text-ink-soft' : ''}`}
-                style={following ? undefined : { color: 'var(--accent-ink)' }}
-              >
-                {following ? t('groupDetail.unfollowPlan') : t('groupDetail.followPlan')}
-              </button>
+              {/* Seguirlo (o dejar de seguirlo) es una fila: la confirmación ocupa el
+                  lugar del botón y no empuja nada bajo el dedo. Dejar de seguir no
+                  es destructivo (apaga una preferencia): tinta suave, no rojo. */}
+              <div className="mt-1 flex items-center justify-between gap-3">
+                {following ? (
+                  <>
+                    <p className="flex min-w-0 items-center gap-1.5 text-[13px] font-semibold" style={{ color: 'var(--accent-ink)' }}>
+                      <CheckIcon size={15} strokeWidth={2.2} className="shrink-0" /> {t('groupDetail.followingPlan')}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => onToggleFollow(false)}
+                      className="min-h-11 shrink-0 px-1 text-[13px] font-medium text-ink-soft"
+                    >
+                      {t('groupDetail.unfollowPlan')}
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => onToggleFollow(true)}
+                    className="min-h-11 w-full py-2 text-center text-[14px] font-medium"
+                    style={{ color: 'var(--accent-ink)' }}
+                  >
+                    {t('groupDetail.followPlan')}
+                  </button>
+                )}
+              </div>
             </>
           ) : null}
           {/* Terminado: el paso siguiente es elegir otro plan (líder) o esperar (miembro). */}
