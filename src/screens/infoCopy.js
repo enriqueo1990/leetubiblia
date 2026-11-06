@@ -27,7 +27,7 @@ export const INFO_FAQ = [
     q: '¿La app muestra el texto de la Biblia?',
     open: true,
     a: [
-      'No. Te dice qué leer y lo leés en tu Biblia de papel. Si preferís el teléfono, tocás la referencia y se abre en YouVersion o BibleGateway.',
+      'No es un lector de la Biblia: la lectura es en tu Biblia de papel. La app te muestra las referencias del día y, si preferís el teléfono, tocás la referencia y se abre en YouVersion o BibleGateway. Los materiales de la Biblioteca (catecismos y confesiones) traen sus propios textos y citas de apoyo.',
     ],
   },
   {

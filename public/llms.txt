@@ -2,7 +2,7 @@
 
 > App gratuita, en español, para sostener el hábito de leer la Biblia cada día: planes de lectura, racha, diario de reflexiones y oración —solo o con tu grupo de discipulado—. No es un lector de Escritura: acompaña tu Biblia de papel, no la reemplaza.
 
-Lee Tu Biblia es una PWA (aplicación web instalable) que funciona con o sin conexión. Su principio de producto es central: "Lee Tu Biblia" significa leé *tu* Biblia física. La app es un compañero de hábito —plan, racha, oración, grupos— y deliberadamente NO muestra el texto bíblico adentro. Cada mañana te dice qué leer, registra tu avance sin culpa y conecta tu vida de oración con tu comunidad.
+Lee Tu Biblia es una PWA (aplicación web instalable) que funciona con o sin conexión. Su principio de producto es central: "Lee Tu Biblia" significa leé *tu* Biblia física. La app es un compañero de hábito —plan, racha, oración, grupos— y deliberadamente no es un lector de la Biblia: el texto se lee en tu Biblia, y la app muestra las referencias del día (los materiales de la Biblioteca traen sus propios textos y citas de apoyo). Cada mañana te dice qué leer, registra tu avance sin culpa y conecta tu vida de oración con tu comunidad.
 
 ## Qué hace
 

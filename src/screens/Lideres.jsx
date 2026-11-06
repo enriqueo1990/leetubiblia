@@ -74,7 +74,7 @@ const FAQ = [
   ['¿Cuesta algo?', 'No. Es gratis y sin publicidad, para vos y para tu grupo.'],
   [
     '¿La app muestra el texto de la Biblia?',
-    'No. Cada uno lee en su Biblia de papel. La app dice qué leer hoy y, si alguien quiere, abre el pasaje en YouVersion o BibleGateway con un toque.',
+    'No es un lector de la Biblia: cada uno lee en su Biblia de papel. La app dice qué leer hoy y, si alguien quiere, abre el pasaje en YouVersion o BibleGateway con un toque. Los materiales de la Biblioteca (catecismos y confesiones) traen sus propios textos y citas de apoyo.',
   ],
   [
     '¿Se ve quién no leyó?',

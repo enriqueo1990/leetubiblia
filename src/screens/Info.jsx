@@ -53,7 +53,7 @@ const GESTOS = [
 
 // Las promesas se pueden comprobar en la app y en /privacidad.
 const NOS = [
-  ['No te mostramos la Biblia.', 'No hay texto bíblico en la app. La Biblia es la tuya, la de papel; la app solo es el marcapáginas.'],
+  ['No reemplazamos tu Biblia.', 'La Biblia es la tuya, la de papel. La app te dice qué leer, lleva tu avance y se hace a un lado.'],
   ['No hay anuncios.', 'Nadie paga por mirarte: la app no vive de tu atención.'],
   ['No te cobramos.', 'Es gratis: sin pruebas, sin suscripción, sin letra chica.'],
   ['No castigamos.', 'Si un día no leés, no se enciende nada rojo. Mañana seguimos.'],
