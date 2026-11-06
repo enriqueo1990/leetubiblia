@@ -5,6 +5,7 @@ import PlanCard from './PlanCard.jsx'
 import { SkeletonCards } from './Skeleton.jsx'
 import ResumeFromDay from './ResumeFromDay.jsx'
 import RetryError from './RetryError.jsx'
+import InlineError from './InlineError.jsx'
 
 // Catálogo de planes con selección: destacados + "ver todos", día de reanudación
 // y CTA primario. Compartido entre la exploración SIN cuenta (bienvenida) y el
@@ -57,9 +58,6 @@ export default function PlanCatalog({
   return (
     <>
       <div className="mt-6 flex-1 space-y-3">
-        {errorMessage && (
-          <p className="text-[15px]" role="alert" style={{ color: 'var(--danger)' }}>{errorMessage}</p>
-        )}
         {loadError && <RetryError message={t('planes.loadError')} onRetry={loadPlans} />}
         {!loadError && plans === null && <SkeletonCards count={3} />}
 
@@ -103,6 +101,8 @@ export default function PlanCatalog({
         </button>
       )}
 
+      {/* Junto al botón que falló, no al principio de la lista. */}
+      <InlineError message={errorMessage} className="mt-4" />
       <button
         type="button"
         disabled={!selectedPlan || saving}
