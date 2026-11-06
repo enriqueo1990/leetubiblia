@@ -148,8 +148,8 @@ function PreviewSheet({ slug, from, onClose }) {
   useEffect(() => {
     let on = true
     loadMaterialContent(slug)
-      .then((c) => on && setContent(c))
-      .catch(() => {})
+      .then((c) => on && setContent(c ?? false))
+      .catch(() => on && setContent(false)) // false = no cargó: la muestra se omite
     return () => {
       on = false
     }
@@ -225,6 +225,15 @@ function PreviewSheet({ slug, from, onClose }) {
         </div>
       </div>
       <p className="mt-4 text-[15px] leading-relaxed text-ink-soft">{m?.description}</p>
+      {/* Reserva el lugar de la muestra mientras carga: sin esto la hoja crece
+          después de abierta y el botón de abajo salta. */}
+      {content === null && (
+        <div className="card mt-4 animate-pulse p-4" aria-hidden="true" style={{ minHeight: 96 }}>
+          <div className="rounded-pill" style={{ width: '25%', height: 11, backgroundColor: 'var(--surface-alt)' }} />
+          <div className="mt-3 rounded-pill" style={{ width: '90%', height: 14, backgroundColor: 'var(--surface-alt)' }} />
+          <div className="mt-2 rounded-pill" style={{ width: '60%', height: 14, backgroundColor: 'var(--surface-alt)' }} />
+        </div>
+      )}
       {sample && (
         <div className="card mt-4 p-4">
           <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-soft">{t('library.sample')}</p>
