@@ -632,7 +632,7 @@ export default function Ajustes() {
       <SectionLabel className="mt-7">{t('ajustes.lectura.extras')}</SectionLabel>
       <div className="card overflow-hidden">
         {shelf.length > 0 ? (
-          <div className="flex gap-3 overflow-x-auto px-4 pb-3 pt-4" style={{ scrollbarWidth: 'none' }}>
+          <div className="flex gap-3 overflow-x-auto px-4 pb-3 pt-4 lg:flex-wrap lg:overflow-visible" style={{ scrollbarWidth: 'none' }}>
             {shelf.map((m) => (
               <Link
                 key={m.slug}
