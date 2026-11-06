@@ -66,7 +66,7 @@ const DATOS = [
   {
     icon: <LockIcon size={22} />,
     title: 'Cómo se usa la app',
-    desc: 'Contamos aperturas y en qué paso del inicio se traba la gente (por ejemplo, qué plan elegiste al empezar), con un identificador del teléfono y el tipo de navegador, unido a tu cuenta si entraste. Nunca lo que anotás ni por qué orás.',
+    desc: 'Contamos aperturas y en qué paso del inicio se traba la gente (por ejemplo, qué plan elegiste al empezar o desde qué página pública llegaste), con un identificador del teléfono y el tipo de navegador, unido a tu cuenta si entraste. Nunca lo que anotás ni por qué orás.',
   },
   {
     icon: <PencilIcon size={22} />,
@@ -89,6 +89,8 @@ export default function Privacidad() {
       <LandingGlow soft />
 
       <LandingHeader current="/privacidad" />
+
+      <main id="contenido" tabIndex={-1} className="outline-none">
 
       {/* ── ENCABEZADO DE DOCUMENTO ──────────────────────────── */}
       {/* Sobrio: alineado a la izquierda y con la fecha arriba, para que se lea
@@ -248,6 +250,8 @@ export default function Privacidad() {
           </a>
         </div>
       </section>
+
+      </main>
 
       {/* ── FOOTER GLOBAL ────────────────────────────────────── */}
       <LandingFooter current="/privacidad" />

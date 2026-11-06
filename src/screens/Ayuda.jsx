@@ -161,6 +161,8 @@ export default function Ayuda() {
 
       <LandingHeader current="/ayuda" />
 
+      <main id="contenido" tabIndex={-1} className="outline-none">
+
       {/* ── ENCABEZADO DE MANUAL ─────────────────────────────── */}
       {/* Deliberadamente NO es un hero de landing (sin resplandor de acento, sin
           título gigante centrado): esta página es referencia, no captación, y
@@ -179,7 +181,7 @@ export default function Ayuda() {
           </p>
           {/* Índice de las cuatro pestañas — cada chip viste el matiz de su
               pestaña: el índice adelanta el sistema de color de la página. */}
-          <nav id="indice" className="mt-7 flex scroll-mt-6 flex-wrap gap-2">
+          <nav id="indice" aria-label="Contenido de la guía" className="mt-7 flex scroll-mt-6 flex-wrap gap-2">
             {[
               ['Hoy', '#hoy', 'bg-accent-tint text-accent-ink'],
               ['Oración', '#oracion', 'hb-oracion'],
@@ -189,7 +191,7 @@ export default function Ayuda() {
               <a
                 key={href}
                 href={href}
-                className={`info-cta rounded-pill px-4 py-2 text-[0.875rem] font-semibold ${hue} ${hue === 'hb-ajustes' ? 'border border-hairline' : ''}`}
+                className={`info-cta inline-flex min-h-11 items-center rounded-pill px-4 text-[0.875rem] font-semibold ${hue} ${hue === 'hb-ajustes' ? 'border border-hairline' : ''}`}
               >
                 {label}
               </a>
@@ -358,6 +360,8 @@ export default function Ayuda() {
 
         </div>
       </section>
+
+      </main>
 
       {/* ── FOOTER GLOBAL ────────────────────────────────────── */}
       <LandingFooter current="/ayuda" />

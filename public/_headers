@@ -17,3 +17,17 @@
 /registerSW.js
   Cache-Control: no-cache, no-store, must-revalidate
   Netlify-CDN-Cache-Control: no-cache, no-store, must-revalidate
+
+# Archivos con hash en el nombre (assets/…): nunca cambian, se cachean un año.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Imágenes sociales e íconos de la raíz: un día.
+/*.png
+  Cache-Control: public, max-age=86400
+
+# Seguridad básica para todo el sitio.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

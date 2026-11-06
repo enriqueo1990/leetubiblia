@@ -311,6 +311,12 @@ export function LandingHeader({ current, width = 'max-w-[880px]' }) {
   const from = useLocation().state?.from
   return (
     <>
+    <a
+      href="#contenido"
+      className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-pill focus:bg-surface focus:px-4 focus:py-2 focus:text-[0.9375rem] focus:font-semibold focus:text-accent-ink"
+    >
+      Saltar al contenido
+    </a>
     <InAppBrowserBand />
     <header className={`relative mx-auto w-full ${width} px-6 pt-6`}>
       <div className="flex items-center justify-between gap-4">
@@ -333,7 +339,7 @@ export function LandingHeader({ current, width = 'max-w-[880px]' }) {
           conserve el borde izquierdo alineado con el contenido. El contenedor
           scrolleable compensa con -mx-3/px-3: espacio de sangrado DENTRO del
           scrollport para que el fondo de la píldora no se recorte. */}
-      <nav className="-mx-3 mt-3.5 flex items-center gap-x-5 overflow-x-auto whitespace-nowrap px-3 py-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <nav aria-label="Principal" className="-mx-3 mt-3.5 flex items-center gap-x-5 overflow-x-auto whitespace-nowrap px-3 py-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {SITE_NAV.map(([to, label]) =>
           to === current ? (
             <span
@@ -396,7 +402,7 @@ export function LandingFooter({ current, width = 'max-w-[880px]' }) {
         <Link to="/info" aria-label="Lee Tu Biblia" className={FOCUS}>
           <Wordmark />
         </Link>
-        <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-0">
+        <nav aria-label="Pie de página" className="flex flex-wrap items-center justify-center gap-x-6 gap-y-0">
           {SITE_NAV.map(([to, label]) =>
             to === current ? (
               <span key={to} className="inline-flex min-h-11 items-center text-[0.875rem] font-semibold text-ink" aria-current="page">

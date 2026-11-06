@@ -128,6 +128,8 @@ export default function Info() {
 
       <LandingHeader current="/info" />
 
+      <main id="contenido" tabIndex={-1} className="outline-none">
+
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section>
         <div className="screen-enter relative mx-auto w-full max-w-[680px] px-6 pb-16 pt-10 text-center sm:pt-14">
@@ -318,6 +320,8 @@ export default function Info() {
 
         </div>
       </section>
+
+      </main>
 
       {/* ── FOOTER GLOBAL ────────────────────────────────────── */}
       <LandingFooter current="/info" />

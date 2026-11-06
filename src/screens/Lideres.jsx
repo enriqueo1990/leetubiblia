@@ -130,6 +130,8 @@ export default function Lideres() {
 
       <LandingHeader current="/lideres" />
 
+      <main id="contenido" tabIndex={-1} className="outline-none">
+
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section>
         <div className="screen-enter relative mx-auto w-full max-w-[680px] px-6 pb-12 pt-10 text-center sm:pt-14">
@@ -298,6 +300,7 @@ export default function Lideres() {
       <section className="mx-auto w-full max-w-[880px] px-6 py-8">
         <div className="border-t border-hairline pt-12">
           <Eyebrow>Preguntas comunes</Eyebrow>
+          <h2 className="sr-only">Preguntas comunes de los líderes</h2>
           <dl className="mt-6 grid max-w-[760px] gap-x-10 gap-y-7 sm:grid-cols-2">
             {FAQ.map(([q, a]) => (
               <div key={q}>
@@ -332,6 +335,8 @@ export default function Lideres() {
 
         </div>
       </section>
+
+      </main>
 
       {/* ── FOOTER GLOBAL ────────────────────────────────────── */}
       <LandingFooter current="/lideres" />
