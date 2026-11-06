@@ -141,8 +141,8 @@ export default function Info() {
             para la pantalla.
           </p>
           <div className="mx-auto mt-9 max-w-[300px]">
-            <Link to="/" className="btn btn-primary info-cta block">
-              Empezá gratis
+            <Link to="/?from=info" className="btn btn-primary info-cta block">
+              Empezar gratis
             </Link>
           </div>
           <p className="mt-5 text-[0.9375rem] font-medium text-ink-soft">
@@ -272,8 +272,10 @@ export default function Info() {
         <Eyebrow>En 2 minutos</Eyebrow>
         <SectionTitle className="mt-4">Instalala como app</SectionTitle>
         <p className="mt-4 max-w-[520px] text-[1rem] leading-relaxed text-ink-soft">
-          No hace falta ninguna tienda: ya estás en el lugar. Creá tu cuenta y
-          agregala a tu pantalla de inicio.
+          No hace falta ninguna tienda: ya estás en el lugar. En Android,
+          agregala a tu pantalla de inicio cuando quieras. En iPhone,
+          instalala primero y recién después creá tu cuenta: la app instalada
+          no comparte la sesión con Safari.
         </p>
         <div className="mt-11 flex flex-col gap-12 sm:flex-row sm:gap-14">
           <Steps
@@ -309,8 +311,8 @@ export default function Info() {
             Sumate gratis y sostené tu lectura, un día a la vez.
           </p>
           <div className="mx-auto mt-8 max-w-[300px]">
-            <Link to="/" className="btn btn-primary info-cta block">
-              Empezá gratis
+            <Link to="/?from=info" className="btn btn-primary info-cta block">
+              Empezar gratis
             </Link>
           </div>
 

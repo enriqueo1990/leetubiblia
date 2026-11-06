@@ -345,8 +345,8 @@ export default function Ayuda() {
           </p>
           <div className="mx-auto mt-8 max-w-[300px]">
             {/* Quien llega desde Ajustes ya empezó: vuelve a donde estaba. */}
-            <Link to={from?.to ?? '/'} className="btn btn-primary info-cta block">
-              {from?.to ? 'Volver a la app' : 'Empezá gratis'}
+            <Link to={from?.to ?? '/?from=ayuda'} className="btn btn-primary info-cta block">
+              {from?.to ? 'Volver a la app' : 'Empezar gratis'}
             </Link>
           </div>
           <p className="mt-5 text-[0.875rem] text-ink-soft">

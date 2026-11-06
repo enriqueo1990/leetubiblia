@@ -15,6 +15,7 @@ const SIZE_GRUPO = { width: 780, height: 1688 }
 const SIZE_ORACION = { width: 780, height: 1688 }
 import BrandMark from '../components/BrandMark.jsx'
 import BackLink from '../components/BackLink.jsx'
+import { isInAppBrowser } from '../lib/platform.js'
 
 // Kit compartido por las páginas públicas (/info, /lideres, /ayuda, /privacidad):
 // primitivos de marca, íconos, mocks de producto y el footer global. Vive fuera
@@ -284,11 +285,33 @@ export function BackToIndex() {
 // página (mismo valor que su encabezado superior), para que wordmark, nav y
 // contenido compartan gutter. La CTA "Abrir la app" es SECUNDARIA (ghost): la
 // CTA sólida de cada página es la protagonista, no compite con el header.
+// Destino de los botones «entrar / empezar» de las landings: la raíz de la app con
+// `?from=<página>` para saber desde qué landing llegó cada persona (se suma al
+// evento ob_welcome del embudo; ver AuthFlow). Sin datos personales.
+function appHref(current) {
+  const key = String(current || '').replace(/^\//, '')
+  return key ? `/?from=${key}` : '/'
+}
+
+// Dentro del navegador de Instagram/Facebook/TikTok no se puede instalar la app:
+// se avisa ARRIBA, donde llega el tráfico frío, y no al fondo de la página.
+function InAppBrowserBand() {
+  if (!isInAppBrowser()) return null
+  return (
+    <div role="note" className="bg-accent-tint px-6 py-3 text-center text-[0.875rem] leading-snug text-ink">
+      Estás en el navegador de otra app. Para instalar Lee Tu Biblia, tocá el menú{' '}
+      <b>⋯</b> y elegí <b>«Abrir en Safari»</b> (o Chrome).
+    </div>
+  )
+}
+
 export function LandingHeader({ current, width = 'max-w-[880px]' }) {
   // Si llegaste desde adentro de la app (state.from, p. ej. Ajustes › Guía), la
   // salida es el «‹ Ajustes» de siempre, no «Abrir la app»: la PWA no tiene atrás.
   const from = useLocation().state?.from
   return (
+    <>
+    <InAppBrowserBand />
     <header className={`relative mx-auto w-full ${width} px-6 pt-6`}>
       <div className="flex items-center justify-between gap-4">
         <Link to="/info" aria-label="Lee Tu Biblia" className={FOCUS}>
@@ -298,10 +321,10 @@ export function LandingHeader({ current, width = 'max-w-[880px]' }) {
           <BackLink to="/" label="la app" />
         ) : (
           <Link
-            to="/"
+            to={appHref(current)}
             className={`inline-flex min-h-11 shrink-0 items-center rounded-pill bg-accent-tint px-4 text-[0.9062rem] font-semibold text-accent-ink transition-[filter] hover:brightness-95 ${FOCUS}`}
           >
-            Abrir la app
+            Entrar
           </Link>
         )}
       </div>
@@ -332,6 +355,7 @@ export function LandingHeader({ current, width = 'max-w-[880px]' }) {
         )}
       </nav>
     </header>
+    </>
   )
 }
 
@@ -389,10 +413,10 @@ export function LandingFooter({ current, width = 'max-w-[880px]' }) {
             )
           )}
           <Link
-            to="/"
+            to={appHref(current)}
             className={`inline-flex min-h-11 items-center text-[0.875rem] font-semibold text-accent-ink transition-colors hover:underline ${FOCUS}`}
           >
-            Abrir la app →
+            Entrar a la app →
           </Link>
         </nav>
         <p className="text-[0.8125rem] leading-relaxed text-ink-soft">

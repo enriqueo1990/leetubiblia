@@ -142,8 +142,8 @@ export default function Lideres() {
             quién va leyendo y a orar unos por otros. Se arma en cinco minutos.
           </p>
           <div className="mx-auto mt-8 max-w-[300px]">
-            <Link to="/" className="btn btn-primary info-cta block">
-              Abrir la app
+            <Link to="/?from=lideres" className="btn btn-primary info-cta block">
+              Empezar gratis
             </Link>
           </div>
         </div>
@@ -319,8 +319,8 @@ export default function Lideres() {
             Creá el grupo, elegí el plan y mandá el link. El resto lo van caminando juntos.
           </p>
           <div className="mx-auto mt-8 max-w-[300px]">
-            <Link to="/" className="btn btn-primary info-cta block">
-              Abrir la app
+            <Link to="/?from=lideres" className="btn btn-primary info-cta block">
+              Empezar gratis
             </Link>
           </div>
           <p className="mt-4 text-[0.875rem] text-ink-soft">

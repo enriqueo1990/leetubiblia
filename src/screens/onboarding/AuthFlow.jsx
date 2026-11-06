@@ -74,6 +74,8 @@ export default function AuthFlow() {
   // Invitación a grupo (/join?code=X): vista previa sin sesión — solo nombre y
   // cantidad de miembros (RPC anónima, migración 0032). Si falla o el código no
   // existe, la bienvenida queda genérica y Join.jsx da el error real tras entrar.
+  // Landing de la que llegó (/?from=info|lideres|ayuda), para medir qué página convierte.
+  const landingFrom = ['info', 'lideres', 'ayuda', 'privacidad'].find((k) => new URLSearchParams(search).get('from') === k) ?? null
   const inviteCode =
     pathname === '/join' ? (new URLSearchParams(search).get('code') || '').trim() : ''
   const [invite, setInvite] = useState(null)
@@ -98,10 +100,10 @@ export default function AuthFlow() {
   // comparten almacenamiento) y la persona aparecería dos veces.
   useEffect(() => {
     const countWelcome = !sessionExpired && !(isIOS() && isStandalone())
-    if (step === 'welcome' && countWelcome) recordFunnel('ob_welcome', { invite: Boolean(inviteCode) })
+    if (step === 'welcome' && countWelcome) recordFunnel('ob_welcome', { invite: Boolean(inviteCode), from: landingFrom })
     if (step === 'install') recordFunnel('ob_install_step', { in_app: isInAppBrowser() })
     if (step === 'explore') recordFunnel('ob_explore')
-  }, [step, sessionExpired, inviteCode])
+  }, [step, sessionExpired, inviteCode, landingFrom])
 
   const valid = EMAIL_RE.test(email.trim())
 
