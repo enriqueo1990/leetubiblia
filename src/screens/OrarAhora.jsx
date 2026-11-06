@@ -59,7 +59,6 @@ export default function OrarAhora() {
   const [interceded, setInterceded] = useState(0) // cuántas veces sumé mi oración
   const [leaving, setLeaving] = useState(false)
   const [pressedAction, setPressedAction] = useState(null)
-  const [actionBusy, setActionBusy] = useState(false)
   const [actionError, setActionError] = useState(false)
   const transitionTimer = useRef(null)
 
@@ -160,37 +159,40 @@ export default function OrarAhora() {
       setIdx((i) => i + 1)
       setLeaving(false)
       setPressedAction(null)
-    }, PRAYER_TRANSITION_MS + 60)
+    }, window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 0 : PRAYER_TRANSITION_MS + 60)
   }
 
-  async function pray() {
-    if (!online || actionBusy || leaving) return
-    setActionBusy(true)
-    setActionError(false)
-    try {
-      await addIntercession(activeDeck[idx].id, user.id)
-      markPrayedToday(user.id, activeDeck[idx].title)
-      setInterceded((c) => c + 1)
-      advance(null, 'primary')
-    } catch {
-      setActionError(true)
-    } finally {
-      setActionBusy(false)
-    }
+  // Optimista pero honesto: la ficha avanza en el mismo toque y el guardado corre
+  // en paralelo. Si falla, la ficha vuelve y se avisa con orar.actionError.
+  function undoAdvance(i, { prayed = false } = {}) {
+    window.clearTimeout(transitionTimer.current)
+    setIdx(i)
+    setLeaving(false)
+    setPressedAction(null)
+    if (prayed) setInterceded((c) => Math.max(0, c - 1))
+    setActionError(true)
   }
-  async function stillSame() {
-    if (!online || actionBusy || leaving) return
-    setActionBusy(true)
+
+  function pray() {
+    if (!online || leaving) return
+    const card = activeDeck[idx]
+    const i = idx
     setActionError(false)
-    try {
-      await markPrayerReviewed(activeDeck[idx].id)
-      markPrayedToday(user.id, activeDeck[idx].title)
-      advance(null, 'primary')
-    } catch {
-      setActionError(true)
-    } finally {
-      setActionBusy(false)
-    }
+    setInterceded((c) => c + 1)
+    advance(null, 'primary')
+    addIntercession(card.id, user.id)
+      .then(() => markPrayedToday(user.id, card.title))
+      .catch(() => undoAdvance(i, { prayed: true }))
+  }
+  function stillSame() {
+    if (!online || leaving) return
+    const card = activeDeck[idx]
+    const i = idx
+    setActionError(false)
+    advance(null, 'primary')
+    markPrayerReviewed(card.id)
+      .then(() => markPrayedToday(user.id, card.title))
+      .catch(() => undoAdvance(i))
   }
 
   function startGroupPrayer() {
@@ -275,13 +277,11 @@ export default function OrarAhora() {
   // orando por tu pedido" lo ve el autor): se llama como lo que hace. Pasar sin
   // orar es una acción aparte y callada.
   const groupLabel = isLast ? t('orar.prayedForLast') : t('orar.prayedFor')
-  const currentActionLabel = actionBusy
-    ? t('common.saving')
-    : actionError
-      ? t('common.retry')
-      : p.mine
-        ? actionLabel
-        : groupLabel
+  const currentActionLabel = actionError
+    ? t('common.retry')
+    : p.mine
+      ? actionLabel
+      : groupLabel
   const eyebrow = p.mine ? null : p.group?.name
   const meta = p.mine
     ? t('orar.myRequestMeta', { date: fmtLongD(p.created_at) })
@@ -374,7 +374,7 @@ export default function OrarAhora() {
             <button
               type="button"
               onClick={stillSame}
-              disabled={!online || leaving || actionBusy}
+              disabled={!online || leaving}
               aria-label={pressedAction === 'primary' ? t('orar.keepPraying') : currentActionLabel}
               className={`btn btn-primary flex items-center justify-center ${
                 pressedAction === 'primary' ? 'prayer-action-breathe' : ''
@@ -388,7 +388,7 @@ export default function OrarAhora() {
             <button
               type="button"
               onClick={pray}
-              disabled={!online || leaving || actionBusy}
+              disabled={!online || leaving}
               aria-label={pressedAction === 'primary' ? t('orar.keepPraying') : currentActionLabel}
               className={`btn btn-primary flex items-center justify-center gap-2 ${
                 pressedAction === 'primary' ? 'prayer-action-breathe' : ''
@@ -403,7 +403,7 @@ export default function OrarAhora() {
             <button
               type="button"
               onClick={() => advance(null, 'skip')}
-              disabled={leaving || actionBusy}
+              disabled={leaving}
               className="mt-1 block min-h-11 w-full text-center text-[15px] font-medium text-ink-soft"
             >
               {t('orar.skip')}
