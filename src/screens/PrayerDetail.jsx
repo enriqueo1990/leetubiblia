@@ -389,7 +389,7 @@ export default function PrayerDetail() {
             onChange={(e) => setUpdateBody(e.target.value)}
             maxLength={1000}
             rows={3}
-            placeholder={t('prayerDetail.updatePlaceholder')}
+            placeholder={t(data.visibility === 'private' ? 'prayerDetail.updatePlaceholderPrivate' : 'prayerDetail.updatePlaceholder')}
             aria-label={t('prayerDetail.addUpdate')}
             className="w-full resize-none rounded-input px-4 py-3 text-[16px] outline-none"
             style={inputStyle}

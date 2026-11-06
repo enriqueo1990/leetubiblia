@@ -579,6 +579,7 @@
   "prayerDetail.testimonyPrompt.action": "Share testimony",
   "prayerDetail.testimonyPrompt.later": "Not now",
   "prayerDetail.updatePlaceholder": "How is this request going? Tell the group…",
+  "prayerDetail.updatePlaceholderPrivate": "How is this request going? It stays just for you…",
   "prayerDetail.deleteUpdateTitle": "Delete this update?",
 
   "common.optional": "optional",

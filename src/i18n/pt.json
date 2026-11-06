@@ -579,6 +579,7 @@
   "prayerDetail.testimonyPrompt.action": "Contar testemunho",
   "prayerDetail.testimonyPrompt.later": "Agora não",
   "prayerDetail.updatePlaceholder": "Como está este pedido? Conte para o grupo…",
+  "prayerDetail.updatePlaceholderPrivate": "Como está este pedido? Fica só para você…",
   "prayerDetail.deleteUpdateTitle": "Excluir esta atualização?",
 
   "common.optional": "opcional",
