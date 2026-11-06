@@ -29,9 +29,15 @@ const RESEND_COOLDOWN = 30
 const BACK_CLASS =
   '-ml-2 mb-4 inline-flex min-h-11 items-center self-start px-2 text-[15px] font-medium'
 
-function Centered({ children }) {
+// align="top": el paso del código. El teclado numérico de iOS no tiene tecla de
+// enviar y, con el contenido centrado, tapa «Entrar»: arriba queda a la vista.
+function Centered({ children, align = 'center' }) {
   return (
-    <div className="mx-auto flex min-h-[100dvh] max-w-content flex-col justify-center px-7 py-10">
+    <div
+      className={`mx-auto flex min-h-[100dvh] max-w-content flex-col px-7 py-10 ${
+        align === 'top' ? 'justify-start' : 'justify-center'
+      }`}
+    >
       {children}
     </div>
   )
@@ -351,7 +357,7 @@ export default function AuthFlow() {
   // ---- Ingresar código ----
   if (step === 'code') {
     return (
-      <Centered>
+      <Centered align="top">
         <button
           type="button"
           className={BACK_CLASS}
