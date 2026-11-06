@@ -87,8 +87,8 @@ const LANDING_PAGES = [
     description:
       'Qué guardamos y qué no, en simple: privado por defecto, sin publicidad, no vendemos tus datos, y podés borrar tu cuenta y todo lo tuyo cuando quieras.',
     url: 'https://leetubiblia.com/privacidad',
-    image: 'https://leetubiblia.com/og-image.png',
-    alt: 'Lee Tu Biblia',
+    image: 'https://leetubiblia.com/og-privacidad.png',
+    alt: 'Lee Tu Biblia — privacidad: tu vida con Dios es tuya',
   },
 ]
 

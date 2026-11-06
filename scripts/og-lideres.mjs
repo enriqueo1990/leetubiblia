@@ -1,16 +1,15 @@
-// Genera public/og-lideres.png: la imagen Open Graph de /lideres, con el MISMO titular
-// que el H1 de esa página (Lideres.jsx). Mismo sistema visual que og-info.png (ver
-// scripts/og-lib.mjs). Si cambia el H1 de /lideres, cambiarlo acá y regenerar.
+// Genera public/og-lideres.png: la imagen Open Graph de la landing /lideres. Usa la plantilla de
+// scripts/og-lib.mjs («Marcapáginas · Luz de mañana») con una captura real del teléfono (cuenta demo).
 //
-// Regenerar:  node scripts/og-lideres.mjs
+// Regenerar tras tocar el titular, el diseño o las capturas:  node scripts/og-lideres.mjs
 import { fileURLToPath } from 'node:url'
 import { renderOg } from './og-lib.mjs'
 
 await renderOg({
   eyebrow: 'Para líderes de grupo',
-  title: 'Cómo usar Lee Tu Biblia\n*con tu grupo*',
+  title: 'Acompañá a tu grupo\n*en la Palabra*',
   sub: 'Cada uno lee en su Biblia; la app les ayuda a leer lo mismo.',
-  size: 76,
   url: 'leetubiblia.com/lideres',
+  shot: fileURLToPath(new URL('../src/assets/shots/orar-claro-780.webp', import.meta.url)),
   out: fileURLToPath(new URL('../public/og-lideres.png', import.meta.url)),
 })
