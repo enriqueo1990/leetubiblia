@@ -20,6 +20,8 @@
          applyTheme en useTheme.js. */
       try {
         var p = localStorage.getItem('ltb.theme_pref');
+        var z = localStorage.getItem('ltb.text_size');
+        if (z === 'large' || z === 'larger') document.documentElement.classList.add('text-' + z);
         if (p === 'dark' || p === 'light') {
           document.documentElement.classList.add(p);
           var m = document.querySelector('meta[name="theme-color"]');

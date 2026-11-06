@@ -15,6 +15,22 @@
     height: 100%;
   }
 
+  /* Tamaño de letra: en iOS, Dynamic Type (la misma sans del sistema; el rem base
+     pasa a ser el tamaño de texto que eligió la persona en Ajustes › Pantalla).
+     Todo el texto va en rem. «Letra más grande» de la app (useTextSize) lo
+     escala encima. */
+  @supports (font: -apple-system-body) {
+    html {
+      font: -apple-system-body;
+    }
+  }
+  html.text-large {
+    font-size: 112.5%;
+  }
+  html.text-larger {
+    font-size: 125%;
+  }
+
   body {
     margin: 0;
     background-color: var(--bg-app);

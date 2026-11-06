@@ -1,5 +1,6 @@
 import { createContext, useContext } from 'react'
 import { useTheme } from '../hooks/useTheme.js'
+import { useTextSize } from '../hooks/useTextSize.js'
 import { useAccent } from '../hooks/useAccent.js'
 import { useLocale } from '../hooks/useLocale.js'
 import { useBibleProvider } from '../hooks/useBibleProvider.js'
@@ -13,11 +14,12 @@ const PreferencesContext = createContext(null)
 
 export function PreferencesProvider({ children }) {
   const theme = useTheme()
+  const textSize = useTextSize()
   const accent = useAccent()
   const locale = useLocale()
   const bibleProvider = useBibleProvider()
   return (
-    <PreferencesContext.Provider value={{ ...theme, ...accent, ...locale, ...bibleProvider }}>
+    <PreferencesContext.Provider value={{ ...theme, ...textSize, ...accent, ...locale, ...bibleProvider }}>
       {children}
     </PreferencesContext.Provider>
   )

@@ -110,7 +110,7 @@ function pushReasonMessage(reason, t) {
 export default function Ajustes() {
   const {
     accent, setAccent, accents, themePref, setTheme, resolvedMode, locale, setLocale, locales,
-    bibleProvider, setBibleProvider, bibleProviders, t,
+    bibleProvider, setBibleProvider, bibleProviders, t, textSize, setTextSize,
   } = usePreferences()
   const { user, profile, updateProfile, signOut } = useAuth()
   const { canInstall, promptInstall } = useInstallPrompt()
@@ -224,6 +224,11 @@ export default function Ajustes() {
     setBibleProvider(key)
     persist('provider', { bible_provider: key }, () => setBibleProvider(prev))
   }
+  const TEXT_SIZES = [
+    { key: 'normal', label: t('ajustes.textSize.normal') },
+    { key: 'large', label: t('ajustes.textSize.large') },
+    { key: 'larger', label: t('ajustes.textSize.larger') },
+  ]
   const THEMES = [
     { key: 'auto', label: t('ajustes.theme.auto') },
     { key: 'light', label: t('ajustes.theme.light') },
@@ -941,6 +946,9 @@ export default function Ajustes() {
       <SectionLabel className="mt-7">{t('ajustes.section.tema')}</SectionLabel>
       <Segmented label={t('ajustes.section.tema')} options={THEMES} value={themePref} onChange={pickTheme} />
       <InlineError message={errorFor('theme')} className="mt-2 px-1" />
+
+      <SectionLabel className="mt-7">{t('ajustes.textSize')}</SectionLabel>
+      <Segmented label={t('ajustes.textSize')} options={TEXT_SIZES} value={textSize} onChange={setTextSize} />
 
       <SectionLabel className="mt-7">{t('ajustes.idioma')}</SectionLabel>
       <Segmented label={t('ajustes.idioma')} options={locales} value={locale} onChange={pickLocale} />

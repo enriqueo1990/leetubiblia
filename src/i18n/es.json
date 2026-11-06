@@ -1,5 +1,9 @@
 {
   "ajustes.idioma": "Idioma",
+  "ajustes.textSize": "Tamaño de letra",
+  "ajustes.textSize.normal": "Normal",
+  "ajustes.textSize.large": "Grande",
+  "ajustes.textSize.larger": "Más grande",
   "ajustes.proveedorBiblia": "Proveedor de Biblia",
   "ajustes.proveedorBibliaHelp": "Con qué app o sitio se abren los pasajes al tocarlos.",
   "ajustes.lectura.bible": "Lectura bíblica",

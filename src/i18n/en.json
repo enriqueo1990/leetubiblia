@@ -1,5 +1,9 @@
 {
   "ajustes.idioma": "Language",
+  "ajustes.textSize": "Text size",
+  "ajustes.textSize.normal": "Default",
+  "ajustes.textSize.large": "Large",
+  "ajustes.textSize.larger": "Larger",
   "ajustes.proveedorBiblia": "Bible provider",
   "ajustes.proveedorBibliaHelp": "Which app or site opens when you tap a passage.",
   "ajustes.lectura.bible": "Bible reading",
