@@ -409,8 +409,8 @@ export default function AuthFlow() {
             placeholder={t('onboarding.auth.codePlaceholder')}
             value={code}
             onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 10))}
-            className="w-full rounded-input px-4 py-3.5 text-center text-[26px] font-bold outline-none"
-            style={{ ...inputStyle, letterSpacing: '6px' }}
+            className="w-full rounded-input px-4 py-3.5 text-center text-[26px] font-bold tracking-[6px] outline-none placeholder:text-[16px] placeholder:font-normal placeholder:tracking-normal"
+            style={inputStyle}
           />
           {error && <p className="mt-2 text-[13px]" role="alert" style={{ color: 'var(--danger)' }}>{error}</p>}
 
