@@ -842,7 +842,7 @@
   "lecturas.materialsHelp": "Lecturas breves para sumar a tu día. Las de tu estante aparecen en Hoy.",
   "materiales.completedReview": "Completado · repasar",
   "materiales.onQuestion": "Vas en la pregunta {n}",
-  "materiales.confirmOff": "Si lo apagás, tu marcador vuelve al principio. ¿Seguimos?",
+  "materiales.confirmOff": "Si lo quitás del estante, tu marcador vuelve al principio. ¿Seguimos?",
   "materiales.inSpanish": "En español",
   "materiales.onArticle": "Vas en el artículo {n}",
   "materiales.onItem": "Vas en la lectura {n}",
