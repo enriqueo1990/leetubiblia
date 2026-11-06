@@ -129,11 +129,18 @@ export default function PlanDetail() {
   // no es el activo, a diferencia del auto-scroll de arriba (solo currentDay).
   function jumpToDay(e) {
     e.preventDefault()
-    const n = Number(jumpInput)
-    if (!n || !days?.some((d) => d.day_number === n)) return
+    if (!jumpInput || !days?.length) return
+    // Un número fuera de rango no se ignora: se lleva al extremo más cercano
+    // (0 → día 1; 999 en un plan de 365 → el último) y el campo lo refleja.
+    const n = Math.min(Math.max(Number(jumpInput) || 1, 1), days[days.length - 1].day_number)
+    setJumpInput(String(n))
     setWindowStart(Math.max(1, Math.min(n - 7, Math.max(1, days.length - WINDOW_SIZE + 1))))
     window.setTimeout(() => {
-      document.getElementById(`plan-day-${n}`)?.scrollIntoView({
+      const row = document.getElementById(`plan-day-${n}`)
+      if (!row) return
+      // El foco va a la fila de destino: cierra el teclado y la deja marcada.
+      row.focus({ preventScroll: true })
+      row.scrollIntoView({
         block: 'center',
         behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
       })
@@ -237,6 +244,7 @@ export default function PlanDetail() {
               key={d.day_number}
               id={`plan-day-${d.day_number}`}
               ref={isCurrent ? todayRef : undefined}
+              tabIndex={-1}
               className="flex gap-3 px-4 py-3"
               style={isCurrent ? { backgroundColor: 'var(--accent-tint)' } : undefined}
             >
