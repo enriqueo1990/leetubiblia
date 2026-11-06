@@ -37,6 +37,11 @@ export default function PlanCard({
               {t('planes.active')}
             </span>
           )}
+          {mode === 'select' && active && (
+            <span className="rounded-pill px-2 py-0.5 text-[12px] font-medium text-accent-ink bg-accent-tint">
+              {t('onboarding.choosePlan.selected')}
+            </span>
+          )}
         </div>
         {plan.description && <p className="mt-1 text-[15px] text-ink-soft">{planDescription(t, plan)}</p>}
         <p className="mt-1 text-[13px] text-ink-soft">{meta}</p>

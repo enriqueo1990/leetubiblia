@@ -254,6 +254,7 @@
   "onboarding.auth.codeError": "Código incorreto ou expirado. Verifique o e-mail ou peça um novo.",
   "onboarding.choosePlan.title": "Escolha um plano",
   "onboarding.choosePlan.recommended": "Na dúvida, comece por este",
+  "onboarding.choosePlan.selected": "Escolhido",
   "onboarding.choosePlan.showAll": "Ver todos os planos",
   "onboarding.choosePlan.activateError": "Não foi possível ativar o plano. Tente de novo.",
   "onboarding.choosePlan.start": "Começar",

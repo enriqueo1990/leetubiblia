@@ -254,6 +254,7 @@
   "onboarding.auth.codeError": "Wrong or expired code. Check your email or request a new one.",
   "onboarding.choosePlan.title": "Choose a plan",
   "onboarding.choosePlan.recommended": "Not sure? Start with this one",
+  "onboarding.choosePlan.selected": "Selected",
   "onboarding.choosePlan.showAll": "View all plans",
   "onboarding.choosePlan.activateError": "Couldn't activate the plan. Try again.",
   "onboarding.choosePlan.start": "Start",

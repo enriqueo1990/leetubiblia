@@ -254,6 +254,7 @@
   "onboarding.auth.codeError": "Código incorrecto o vencido. Revisá el correo o pedí uno nuevo.",
   "onboarding.choosePlan.title": "Elegí un plan",
   "onboarding.choosePlan.recommended": "Si no sabés cuál, empezá por este",
+  "onboarding.choosePlan.selected": "Elegido",
   "onboarding.choosePlan.showAll": "Ver todos los planes",
   "onboarding.choosePlan.activateError": "No se pudo activar el plan. Probá de nuevo.",
   "onboarding.choosePlan.start": "Empezar",

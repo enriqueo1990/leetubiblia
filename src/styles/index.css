@@ -390,7 +390,7 @@
     box-shadow: var(--shadow-card);
   }
   .card-active {
-    box-shadow: var(--shadow-card), 0 0 0 1.5px var(--accent);
+    box-shadow: var(--shadow-card), 0 0 0 2px var(--accent-ink);
   }
 
   /* Números que cambian (racha, %, stats): dígitos tabulares para que el layout
