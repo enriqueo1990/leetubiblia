@@ -90,12 +90,12 @@ export default function GroupPrayers({
                   )}
                 </button>
                 <div className="flex items-center justify-between gap-3 px-4 pb-4">
-                  <div className="flex min-w-0 items-center gap-2">
-                    {p.intercessors.length > 0 && (
-                      <Avatars people={p.intercessors} size={22} surface="var(--surface)" />
-                    )}
-                    <span className="truncate text-[12px] text-ink-soft">
-                      {p.author_name ?? t('common.someone')} ·{' '}
+                  <div className="flex min-w-0 items-center gap-1.5 text-[12px] text-ink-soft">
+                    <span className="min-w-0 truncate">{p.author_name ?? t('common.someone')} ·</span>
+                    <span className="flex shrink-0 items-center gap-1.5">
+                      {p.intercessors.length > 0 && (
+                        <Avatars people={p.intercessors} size={22} surface="var(--surface)" />
+                      )}
                       {p.intercessors.length > 0
                         ? t('groupDetail.nPraying', { count: p.intercessors.length })
                         : t('groupDetail.nobodyYet')}
