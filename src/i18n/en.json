@@ -455,6 +455,7 @@
   "diario.loadError": "Couldn't load your journey.",
   "diario.empty.title": "Your journey starts here",
   "diario.empty.text": "When you finish your reading in Today, jot down a line of what spoke to you and you'll find it here, day after day.",
+  "diario.empty.cta": "Go to Today",
   "diario.entryMeta": "{date} · Day {day}",
   "exportJournal.entries": {
     "one": "{count} reflection",

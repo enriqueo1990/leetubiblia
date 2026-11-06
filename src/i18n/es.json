@@ -455,6 +455,7 @@
   "diario.loadError": "No se pudo cargar tu camino.",
   "diario.empty.title": "Tu camino empieza acá",
   "diario.empty.text": "Al terminar tu lectura en Hoy, anotá una línea de lo que te habló y la vas a encontrar acá, día tras día.",
+  "diario.empty.cta": "Ir a Hoy",
   "diario.entryMeta": "{date} · Día {day}",
   "exportJournal.entries": {
     "one": "{count} reflexión",

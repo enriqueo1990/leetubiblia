@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { fmtWeekdayDayMonth, fmtISODate, capitalize } from '../i18n/dates.js'
@@ -80,7 +81,11 @@ export default function Diario() {
         icon="✦"
         title={t('diario.empty.title')}
         text={t('diario.empty.text')}
-      />
+      >
+        <Link to="/" className="btn btn-secondary mx-auto block max-w-xs">
+          {t('diario.empty.cta')}
+        </Link>
+      </EmptyState>
     )
   }
 
