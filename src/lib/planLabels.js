@@ -17,3 +17,11 @@ export function planDescription(t, plan) {
   const value = t(key)
   return value === key ? (plan.description ?? '') : value
 }
+
+// Duración de un plan: «Un año» / «30 días». `long` (detalle del plan) agrega
+// «· 365 días» al año. Una sola copia para catálogo, onboarding, detalle y la hoja
+// del líder.
+export function durationLabel(t, days, { long = false } = {}) {
+  if (days === 365) return t(long ? 'planes.durationYearLong' : 'planes.durationYear')
+  return t('planes.durationDays', { days })
+}

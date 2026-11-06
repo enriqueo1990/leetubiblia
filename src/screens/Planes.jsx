@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import BackLink from '../components/BackLink.jsx'
 import { getPlans } from '../lib/db.js'
-import { planName, planDescription } from '../lib/planLabels.js'
 import { DOOR_ORDER, planDoor } from '../lib/planCatalog.js'
-import { RowChevron } from '../components/icons.jsx'
+import PlanCard from '../components/PlanCard.jsx'
 import RetryError from '../components/RetryError.jsx'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 import SectionLabel from '../components/SectionLabel.jsx'
@@ -18,8 +16,6 @@ import SectionLabel from '../components/SectionLabel.jsx'
 export default function Planes() {
   const { profile } = useAuth()
   const { t } = usePreferences()
-  const durationLabel = (days) =>
-    days === 365 ? t('planes.durationYear') : t('planes.durationDays', { days })
   const [plans, setPlans] = useState(null)
   const [error, setError] = useState(false)
 
@@ -48,26 +44,13 @@ export default function Planes() {
 
   function planCard(p, active = false) {
     return (
-      <Link
+      <PlanCard
         key={p.id}
+        plan={p}
         to={`/planes/${p.id}`}
         state={{ from: { to: '/planes', label: t('nav.planes') } }}
-        className={`card flex w-full items-center gap-3 p-4 text-left transition-colors duration-200${active ? ' card-active' : ''}`}
-      >
-        <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[18px] font-semibold text-ink">{planName(t, p)}</span>
-            {active && (
-              <span className="rounded-pill px-2 py-0.5 text-[12px] font-medium text-accent-ink bg-accent-tint">
-                {t('planes.active')}
-              </span>
-            )}
-          </div>
-          {p.description && <p className="mt-1 text-[15px] text-ink-soft">{planDescription(t, p)}</p>}
-          <p className="mt-1 text-[13px] text-ink-soft">{durationLabel(p.duration_days)}</p>
-        </div>
-        <RowChevron />
-      </Link>
+        active={active}
+      />
     )
   }
 

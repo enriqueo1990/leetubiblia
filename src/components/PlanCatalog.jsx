@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { usePreferences } from '../lib/preferences.jsx'
 import { getPlans } from '../lib/db.js'
-import { planName, planDescription } from '../lib/planLabels.js'
-import planMinutes from '../data/planMinutes.json'
+import PlanCard from './PlanCard.jsx'
 import { SkeletonCards } from './Skeleton.jsx'
 import ResumeFromDay from './ResumeFromDay.jsx'
 import RetryError from './RetryError.jsx'
@@ -22,8 +21,6 @@ export default function PlanCatalog({
   initialResumeDay = null,
 }) {
   const { t } = usePreferences()
-  const planDurationLabel = (days) =>
-    days === 365 ? t('planes.durationYear') : t('planes.durationDays', { days })
   const [plans, setPlans] = useState(null)
   const [selected, setSelected] = useState(initialSelected)
   const [resumeDay, setResumeDay] = useState(initialResumeDay)
@@ -66,40 +63,17 @@ export default function PlanCatalog({
         {loadError && <RetryError message={t('planes.loadError')} onRetry={loadPlans} />}
         {!loadError && plans === null && <SkeletonCards count={3} />}
 
-        {visiblePlans?.map((p) => {
-          const active = p.id === selected
-          return (
-            <button
-              key={p.id}
-              type="button"
-              onClick={() => pickPlan(p.id)}
-              aria-pressed={active}
-              className={`card w-full p-4 text-left transition-colors duration-200${active ? ' card-active' : ''}`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-[18px] font-semibold text-ink">{planName(t, p)}</span>
-                <span className="text-[13px] text-ink-soft">
-                  {planDurationLabel(p.duration_days)}
-                </span>
-              </div>
-              {p.description && (
-                <p className="mt-1 text-[15px] text-ink-soft">{planDescription(t, p)}</p>
-              )}
-              {/* Cuánto lleva por día (estimado, scripts/plan-minutes.mjs). */}
-              {planMinutes[p.slug] && (
-                <p className="mt-1 text-[13px] text-ink-soft">
-                  {t('planes.minutesPerDay', { n: planMinutes[p.slug] })}
-                </p>
-              )}
-              {/* Una sola sugerencia: si todos son "recomendados", ninguno orienta. */}
-              {!showAll && p.id === recommendedIds[0] && (
-                <p className="mt-2 text-[13px] font-medium text-accent-ink">
-                  {t('onboarding.choosePlan.recommended')}
-                </p>
-              )}
-            </button>
-          )
-        })}
+        {visiblePlans?.map((p) => (
+          <PlanCard
+            key={p.id}
+            plan={p}
+            mode="select"
+            active={p.id === selected}
+            onSelect={() => pickPlan(p.id)}
+            // Una sola sugerencia: si todos son "recomendados", ninguno orienta.
+            recommended={!showAll && p.id === recommendedIds[0]}
+          />
+        ))}
         {plans && !showAll && recommended.length >= 3 && (
           <button type="button" onClick={() => setShowAll(true)} className="min-h-11 w-full text-[15px] font-medium text-accent-ink">
             {t('onboarding.choosePlan.showAll')}

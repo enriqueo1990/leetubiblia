@@ -6,7 +6,7 @@ import { usePreferences } from '../lib/preferences.jsx'
 import { bookLabel } from '../i18n/books.js'
 import BackLink from '../components/BackLink.jsx'
 import { getPlan, getPlanDays, startDateForDay, todayLocalISO, markDaysRead } from '../lib/db.js'
-import { planName, planDescription } from '../lib/planLabels.js'
+import { planName, planDescription, durationLabel } from '../lib/planLabels.js'
 import { useReading } from '../hooks/useReading.js'
 import ResumeFromDay from '../components/ResumeFromDay.jsx'
 import { SkeletonRows } from '../components/Skeleton.jsx'
@@ -24,8 +24,6 @@ export default function PlanDetail() {
   const planId = Number(id)
   const { user, profile, updateProfile } = useAuth()
   const { t, locale } = usePreferences()
-  const durationLabel = (days) =>
-    days === 365 ? t('planes.durationYearLong') : t('planes.durationDays', { days })
   const r = useReading() // progreso del plan ACTIVO (para resaltar dónde vas leyendo)
   const navigate = useNavigate()
 
@@ -157,7 +155,7 @@ export default function PlanDetail() {
         {plan ? planName(t, plan) : t('common.plan')}
       </h1>
       {plan && (
-        <p className="mt-1 text-[13px] text-ink-soft">{durationLabel(plan.duration_days)}</p>
+        <p className="mt-1 text-[13px] text-ink-soft">{durationLabel(t, plan.duration_days, { long: true })}</p>
       )}
       {plan?.description && (
         <p className="mt-3 text-[16px] text-ink-soft">{planDescription(t, plan)}</p>

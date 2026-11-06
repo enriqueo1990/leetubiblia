@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import Sheet from '../../components/Sheet.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
 import { getPlans } from '../../lib/db.js'
-import { planName } from '../../lib/planLabels.js'
+import PlanCard from '../../components/PlanCard.jsx'
 import RetryError from '../../components/RetryError.jsx'
 import InlineError from '../../components/InlineError.jsx'
 
@@ -54,36 +54,14 @@ export default function GroupPlanSheet({ currentPlanId, saving, error, onSet, on
       ) : plans === null ? (
         <div className="mt-4 space-y-2 animate-pulse" aria-hidden="true">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="h-[52px] rounded-input" style={{ backgroundColor: 'var(--surface-alt)' }} />
+            <div key={i} className="h-[88px] rounded-card" style={{ backgroundColor: 'var(--surface-alt)' }} />
           ))}
         </div>
       ) : (
-        <div className="mt-4 space-y-2">
-          {plans.map((p) => {
-            const active = p.id === sel
-            return (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => setSel(p.id)}
-                aria-pressed={active}
-                className="flex w-full items-center justify-between gap-3 rounded-input border px-4 py-3 text-left"
-                style={{
-                  borderColor: active ? 'var(--accent)' : 'var(--hairline)',
-                  backgroundColor: active ? 'var(--accent-tint)' : 'transparent',
-                }}
-              >
-                <span className="min-w-0 flex-1 truncate text-[15px] font-medium text-ink">
-                  {planName(t, p)}
-                </span>
-                <span className="shrink-0 text-[13px] text-ink-soft">
-                  {p.duration_days === 365
-                    ? t('planes.durationYear')
-                    : t('planes.durationDays', { days: p.duration_days })}
-                </span>
-              </button>
-            )
-          })}
+        <div className="mt-4 space-y-3">
+          {plans.map((p) => (
+            <PlanCard key={p.id} plan={p} mode="select" active={p.id === sel} onSelect={() => setSel(p.id)} />
+          ))}
         </div>
       )}
 
