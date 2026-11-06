@@ -134,7 +134,10 @@ export default function PlanDetail() {
     if (!n || !days?.some((d) => d.day_number === n)) return
     setWindowStart(Math.max(1, Math.min(n - 7, Math.max(1, days.length - WINDOW_SIZE + 1))))
     window.setTimeout(() => {
-      document.getElementById(`plan-day-${n}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+      document.getElementById(`plan-day-${n}`)?.scrollIntoView({
+        block: 'center',
+        behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      })
     }, 0)
   }
 

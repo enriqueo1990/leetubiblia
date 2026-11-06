@@ -51,6 +51,8 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
     }
   })
   const [withPersonal, setWithPersonal] = useState(true)
+  // Con «reducir movimiento» el video «Animada» no arranca solo: queda con controles.
+  const reduceMotion = typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
   const [previews, setPreviews] = useState([])
   const personal = withPersonal ? data.personal : null
   const [animated, setAnimated] = useState(false)
@@ -190,7 +192,8 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
             {video ? (
               <video
                 src={video.url}
-                autoPlay
+                autoPlay={!reduceMotion}
+                controls={reduceMotion}
                 muted
                 loop
                 playsInline
