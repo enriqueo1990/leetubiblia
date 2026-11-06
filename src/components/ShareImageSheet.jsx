@@ -7,6 +7,7 @@ import { buildCoverImage, recordCoverVideo, videoMimeType } from '../lib/coverIm
 import { buildCarouselImages } from '../lib/carouselImage.js'
 import { materialTheme } from '../lib/materialTheme.js'
 import InlineError from './InlineError.jsx'
+import SectionLabel from './SectionLabel.jsx'
 
 // Último estilo y formato de imagen compartida. Es memoria de flujo, no una
 // preferencia del perfil: vive en el dispositivo. Claves compartidas entre todo
@@ -216,41 +217,48 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
           </p>
         )}
 
-        <div className="grid grid-cols-2 gap-2">
-          {styles.map((s) => {
-            const active = s.id === variant
-            return (
-              <button
-                key={s.id}
-                type="button"
-                onClick={() => setVariant(s.id)}
-                aria-pressed={active}
-                className="flex items-center justify-center gap-2 rounded-input border py-2.5 text-[14px] font-medium text-ink transition-colors"
-                style={{
-                  borderColor: active ? 'var(--accent)' : 'var(--hairline)',
-                  backgroundColor: active ? 'var(--accent-tint)' : 'transparent',
-                }}
-              >
-                <span
-                  aria-hidden="true"
-                  className="h-4 w-4 rounded-full border-2"
-                  style={{ backgroundColor: s.swatch, borderColor: s.ring }}
-                />
-                {s.label}
-              </button>
-            )
-          })}
+        <div>
+          <SectionLabel as="p" inside>{t('share.style')}</SectionLabel>
+          <div className="grid grid-cols-2 gap-2">
+            {styles.map((s) => {
+              const active = s.id === variant
+              return (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => setVariant(s.id)}
+                  aria-pressed={active}
+                  className="flex items-center justify-center gap-2 rounded-input border py-2.5 text-[14px] font-medium text-ink transition-colors"
+                  style={{
+                    borderColor: active ? 'var(--accent)' : 'var(--hairline)',
+                    backgroundColor: active ? 'var(--accent-tint)' : 'transparent',
+                  }}
+                >
+                  <span
+                    aria-hidden="true"
+                    className="h-4 w-4 rounded-full border-2"
+                    style={{ backgroundColor: s.swatch, borderColor: s.ring }}
+                  />
+                  {s.label}
+                </button>
+              )
+            })}
+          </div>
         </div>
 
-        <Segmented
-          value={format}
-          onChange={setFormat}
-          options={[
-            ...(carousel ? [{ key: 'carousel', label: t('materialReader.shareCarousel') }] : []),
-            { key: 'post', label: t('materialReader.sharePost') },
-            { key: 'story', label: t('materialReader.shareStory') },
-          ]}
-        />
+        <div>
+          <SectionLabel as="p" inside>{t('photo.format')}</SectionLabel>
+          <Segmented
+            value={format}
+            label={t('photo.format')}
+            onChange={setFormat}
+            options={[
+              ...(carousel ? [{ key: 'carousel', label: t('materialReader.shareCarousel') }] : []),
+              { key: 'post', label: t('materialReader.sharePost') },
+              { key: 'story', label: t('materialReader.shareStory') },
+            ]}
+          />
+        </div>
 
         {canVideo && (
           <div className="flex items-center justify-between gap-3 px-1">

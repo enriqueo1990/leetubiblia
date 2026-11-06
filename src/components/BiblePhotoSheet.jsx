@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import Sheet from './Sheet.jsx'
 import Segmented from './Segmented.jsx'
 import InlineError from './InlineError.jsx'
+import SectionLabel from './SectionLabel.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
 import { buildBiblePhoto, decodePhoto } from '../lib/biblePhotoImage.js'
 import { shareOrDownload, shareUrl } from '../lib/canvasKit.js'
@@ -149,29 +150,39 @@ export default function BiblePhotoSheet({ data, onClose }) {
               <img src={preview} alt="" className="max-h-full max-w-full rounded-[10px]" style={{ boxShadow: 'var(--shadow-overlay)' }} />
             )}
           </div>
-          <Segmented
-            value={layer}
-            onChange={setLayer}
-            label={t('photo.layer')}
-            options={layers.map((l) => ({ key: l, label: t(`photo.layer.${l}`) }))}
-          />
-          <Segmented
-            value={format}
-            onChange={setFormat}
-            options={[
-              { key: 'post', label: t('materialReader.sharePost') },
-              { key: 'story', label: t('materialReader.shareStory') },
-            ]}
-          />
-          <Segmented
-            value={position}
-            onChange={setPosition}
-            label={t('photo.position')}
-            options={[
-              { key: 'top', label: t('photo.top') },
-              { key: 'bottom', label: t('photo.bottom') },
-            ]}
-          />
+          <div>
+            <SectionLabel as="p" inside>{t('photo.layer')}</SectionLabel>
+            <Segmented
+              value={layer}
+              onChange={setLayer}
+              label={t('photo.layer')}
+              options={layers.map((l) => ({ key: l, label: t(`photo.layer.${l}`) }))}
+            />
+          </div>
+          <div>
+            <SectionLabel as="p" inside>{t('photo.format')}</SectionLabel>
+            <Segmented
+              value={format}
+              onChange={setFormat}
+              label={t('photo.format')}
+              options={[
+                { key: 'post', label: t('materialReader.sharePost') },
+                { key: 'story', label: t('materialReader.shareStory') },
+              ]}
+            />
+          </div>
+          <div>
+            <SectionLabel as="p" inside>{t('photo.position')}</SectionLabel>
+            <Segmented
+              value={position}
+              onChange={setPosition}
+              label={t('photo.position')}
+              options={[
+                { key: 'top', label: t('photo.top') },
+                { key: 'bottom', label: t('photo.bottom') },
+              ]}
+            />
+          </div>
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
