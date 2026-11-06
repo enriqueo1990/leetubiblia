@@ -6,6 +6,7 @@ import { usePreferences } from '../lib/preferences.jsx'
 import { buildCoverImage, recordCoverVideo, videoMimeType } from '../lib/coverImage.js'
 import { buildCarouselImages } from '../lib/carouselImage.js'
 import { materialTheme } from '../lib/materialTheme.js'
+import InlineError from './InlineError.jsx'
 
 // Último estilo y formato de imagen compartida. Es memoria de flujo, no una
 // preferencia del perfil: vive en el dispositivo. Claves compartidas entre todo
@@ -257,7 +258,7 @@ export default function ShareImageSheet({ data, carousel = null, onShare, onCanc
             <Switch on={animated} onChange={() => setAnimated((v) => !v)} label={t('share.animated')} />
           </div>
         )}
-        {videoError && <p className="px-1 text-[13px]" style={{ color: 'var(--danger)' }}>{t('share.videoError')}</p>}
+        {videoError && <InlineError message={t('share.videoError')} className="px-1" />}
 
         {data.personal && (
           <div className="flex items-center justify-between gap-3 px-1">

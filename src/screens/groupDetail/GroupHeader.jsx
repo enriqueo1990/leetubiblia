@@ -1,5 +1,6 @@
 import { PencilIcon, ShareIcon } from '../../components/icons.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
+import InlineError from '../../components/InlineError.jsx'
 
 // Nombre del grupo (+ editar, owner), acción primaria de invitar en el header
 // (mismo patrón que Grupos/Oración) y la línea de metadata de miembros.
@@ -36,11 +37,7 @@ export default function GroupHeader({
             style={{ backgroundColor: 'var(--surface-alt)', color: 'var(--text-primary)' }}
             maxLength={60}
           />
-          {nameError && (
-            <p className="mt-1 text-[13px]" style={{ color: 'var(--danger)' }}>
-              {nameError}
-            </p>
-          )}
+          <InlineError message={nameError} />
           <div className="mt-2 flex gap-2">
             <button
               type="button"

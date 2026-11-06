@@ -34,6 +34,7 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
   }
 
   useEffect(() => {
+    const returnTo = prevFocus.current
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
 
@@ -68,7 +69,7 @@ export default function Sheet({ title, onCancel, action, children, footer, dirty
     return () => {
       document.removeEventListener('keydown', onKey)
       document.body.style.overflow = prevOverflow
-      prevFocus.current?.focus?.()
+      returnTo?.focus?.()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

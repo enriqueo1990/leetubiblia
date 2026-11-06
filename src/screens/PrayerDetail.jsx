@@ -449,14 +449,7 @@ export default function PrayerDetail() {
             {markingAnswered ? t('prayerDetail.markingAnswered') : t('prayerDetail.markAnswered')}
           </button>
           {markAnsweredError && (
-            <p
-              className="text-center text-[13px]"
-              style={{ color: 'var(--danger)' }}
-              role="status"
-              aria-live="polite"
-            >
-              {t('prayerDetail.markAnsweredError')}
-            </p>
+            <InlineError message={t('prayerDetail.markAnsweredError')} className="text-center" />
           )}
           <button
             type="button"

@@ -2,6 +2,7 @@ import { BookIcon, CheckIcon } from '../../components/icons.jsx'
 import { usePreferences } from '../../lib/preferences.jsx'
 import { planName } from '../../lib/planLabels.js'
 import RetryError from '../../components/RetryError.jsx'
+import InlineError from '../../components/InlineError.jsx'
 
 // Plan del grupo — leer lo mismo, juntos. Los miembros lo ven cuando existe;
 // el owner además tiene la puerta para elegirlo/cambiarlo.
@@ -99,16 +100,8 @@ export default function GroupPlanCard({
               </button>
             </>
           ) : null}
-          {adoptError && (
-            <p className="mt-2 text-[13px]" style={{ color: 'var(--danger)' }}>
-              {t('groupDetail.adoptError')}
-            </p>
-          )}
-          {followError && (
-            <p className="mt-2 text-[13px]" style={{ color: 'var(--danger)' }}>
-              {t('groupDetail.followError')}
-            </p>
-          )}
+          {adoptError && <InlineError message={t('groupDetail.adoptError')} className="mt-2" />}
+          {followError && <InlineError message={t('groupDetail.followError')} className="mt-2" />}
         </div>
       ) : (
         <button type="button" onClick={onOpenPicker} className="card mt-3 flex w-full items-center gap-3 p-4 text-left">

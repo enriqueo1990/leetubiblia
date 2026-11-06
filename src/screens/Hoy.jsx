@@ -627,11 +627,7 @@ export default function Hoy() {
               {t('hoy.imageDownloaded')}
             </p>
           )}
-          {shareNote === 'error' && (
-            <p className="mt-3 text-center text-[13px]" style={{ color: 'var(--danger)' }}>
-              {t('hoy.imageError')}
-            </p>
-          )}
+          {shareNote === 'error' && <InlineError message={t('hoy.imageError')} className="mt-3 text-center" />}
         </div>
       ) : (
         // La lectura de hoy es una tarjeta: el plan (tocable hacia Lecturas),

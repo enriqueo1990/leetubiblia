@@ -33,6 +33,7 @@ import { SkeletonDetail } from '../components/Skeleton.jsx'
 import MaterialIndexSheet from '../components/MaterialIndexSheet.jsx'
 import ConfirmDialog from '../components/ConfirmDialog.jsx'
 import ShareImageSheet from '../components/ShareImageSheet.jsx'
+import InlineError from '../components/InlineError.jsx'
 
 // Vista de lectura de un material (catecismo, etc.) — un lector tipo libro con
 // marcador. Se abre en la pregunta actual (la posición guardada). Navegás libremente
@@ -587,11 +588,7 @@ export default function MaterialReader() {
             {t('materialReader.saveError')}
           </p>
         )}
-        {shareError && (
-          <p className="pb-1 text-[12px]" style={{ color: 'var(--danger)' }}>
-            {t('materialReader.shareError')}
-          </p>
-        )}
+        {shareError && <InlineError message={t('materialReader.shareError')} className="pb-1" />}
         {pick ? (
           <>
             <p className="pb-1 text-center text-[13px] text-ink-soft">{t('share.pickHint')}</p>
