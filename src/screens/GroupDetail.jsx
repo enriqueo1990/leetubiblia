@@ -39,7 +39,6 @@ import GroupPrayers from './groupDetail/GroupPrayers.jsx'
 import GroupTestimony from './groupDetail/GroupTestimony.jsx'
 import GroupMembers from './groupDetail/GroupMembers.jsx'
 import GroupPrivateStats from './groupDetail/GroupPrivateStats.jsx'
-import GroupGoalCard from './groupDetail/GroupGoalCard.jsx'
 import GroupInviteSheet from './groupDetail/GroupInviteSheet.jsx'
 import ShareReadingSheet from './groupDetail/ShareReadingSheet.jsx'
 import { dismissShareReadingAsk, wasShareReadingAskDismissed } from '../lib/shareReadingAsk.js'
@@ -565,7 +564,6 @@ export default function GroupDetail() {
           />
           <GroupTestimony testimony={testimony} groupId={id} />
           {isOwner && <GroupPrivateStats stats={stats} weekRows={weekRows} answeredPct={answeredPct} />}
-          {isOwner && <GroupGoalCard />}
         </div>
       </div>
 
