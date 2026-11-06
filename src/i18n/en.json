@@ -279,7 +279,7 @@
   "resume.alreadyReadingQ": "Already reading this plan?",
   "hoy.firstDayHint": "Look up these passages in your Bible (or tap them to open them in your app). When you're done, mark the day.",
   "hoy.install.textIOS": "Add it to your Home Screen to get the reminder and read offline. When you open it from the icon, tap “I already have an account” and sign in with your email.",
-  "reminderOffer.title": "Want a nudge tomorrow at this time?",
+  "reminderOffer.title": "Want a nudge tomorrow at {time}?",
   "reminderOffer.text": "A gentle reminder for your reading. You can change the time here or in Settings.",
   "reminderOffer.cta": "Turn on reminder",
   "reminderOffer.activating": "Turning on…",

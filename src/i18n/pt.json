@@ -279,7 +279,7 @@
   "resume.alreadyReadingQ": "Já estava lendo este plano?",
   "hoy.firstDayHint": "Procure estas passagens na sua Bíblia (ou toque nelas para abrir no seu app). Quando terminar, marque o dia.",
   "hoy.install.textIOS": "Adicione à tela de início para receber o lembrete e ler sem conexão. Ao abrir pelo ícone, toque em “Já tenho conta” e entre com seu e-mail.",
-  "reminderOffer.title": "Quer um aviso amanhã neste horário?",
+  "reminderOffer.title": "Quer um aviso amanhã às {time}?",
   "reminderOffer.text": "Um lembrete suave para a sua leitura. Dá para mudar o horário aqui ou em Configurações.",
   "reminderOffer.cta": "Ativar lembrete",
   "reminderOffer.activating": "Ativando…",

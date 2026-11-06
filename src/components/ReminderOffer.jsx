@@ -93,7 +93,7 @@ export default function ReminderOffer({ onStart, onClose }) {
         </div>
         <div className="min-w-0 flex-1">
           <h2 id="reminder-offer-title" className="text-[17px] font-semibold text-ink">
-            {t('reminderOffer.title')}
+            {t('reminderOffer.title', { time })}
           </h2>
           <p className="mt-1 text-[14px] leading-snug text-ink-soft">{t('reminderOffer.text')}</p>
         </div>
