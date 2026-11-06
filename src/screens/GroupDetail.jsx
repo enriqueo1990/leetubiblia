@@ -46,6 +46,23 @@ import { dismissShareReadingAsk, wasShareReadingAskDismissed } from '../lib/shar
 import { getTimezone } from '../lib/push.js'
 import { useOnlineStatus } from '../hooks/useOnlineStatus.js'
 
+// Al abrir un pedido desde el grupo se guarda dónde estabas (scroll + «ver el
+// resto» abierto) para devolverte al mismo lugar al volver: la miga es un enlace
+// nuevo, no «atrás», así que el navegador no lo restaura solo. Dura unos minutos
+// y se usa una sola vez.
+const RESUME_TTL_MS = 10 * 60 * 1000
+const resumeKey = (id) => `ltb.groupResume.${id}`
+function readResume(id) {
+  try {
+    const raw = sessionStorage.getItem(resumeKey(id))
+    const saved = raw ? JSON.parse(raw) : null
+    if (!saved || Date.now() - saved.at > RESUME_TTL_MS) return null
+    return saved
+  } catch {
+    return null
+  }
+}
+
 // Detalle de grupo — "de panel a sala" (Fase 3): la gente y el pulso del día
 // primero; oración y lectura del grupo en la misma vista; la administración
 // (código, regenerar, renombrar) abajo.
@@ -86,6 +103,8 @@ export default function GroupDetail() {
   const [nameError, setNameError] = useState(null)
   const [prayerAction, setPrayerAction] = useState({ busyId: null, errorId: null })
   const [partialLoadError, setPartialLoadError] = useState(false)
+  const [resume] = useState(() => readResume(id))
+  const [settled, setSettled] = useState(false) // llegó todo lo del grupo, no solo el esqueleto
 
   const load = useCallback(async () => {
     setError(null)
@@ -115,6 +134,7 @@ export default function GroupDetail() {
       if (statsRes.status === 'fulfilled') setStats(statsRes.value)
       if (weekRes.status === 'fulfilled') setWeekly(weekRes.value)
       setPlanInfo(planRes.status === 'fulfilled' ? planRes.value : null)
+      setSettled(true)
     } catch {
       setError(t('groupDetail.loadError'))
     }
@@ -134,6 +154,26 @@ export default function GroupDetail() {
   useEffect(() => {
     load()
   }, [load])
+
+  // Con todo cargado, de vuelta donde estabas (ver `readResume`).
+  useEffect(() => {
+    if (!settled || !resume) return
+    try {
+      sessionStorage.removeItem(resumeKey(id)) // se usa una sola vez
+    } catch {
+      /* ignorar */
+    }
+    const raf = requestAnimationFrame(() => window.scrollTo(0, resume.y))
+    return () => cancelAnimationFrame(raf)
+  }, [settled, resume, id])
+
+  function rememberPlace(extra) {
+    try {
+      sessionStorage.setItem(resumeKey(id), JSON.stringify({ y: window.scrollY, at: Date.now(), ...extra }))
+    } catch {
+      /* sin sessionStorage: se vuelve arriba, como antes */
+    }
+  }
 
   // "¿Compartís tu lectura?": se ofrece sola una vez al abrir un grupo sin
   // compartir (recién unido, recién creado o de antes). Después, el pulso la abre.
@@ -513,6 +553,8 @@ export default function GroupDetail() {
             onAddPrayer={() => setSheetOpen(true)}
             onPray={orar}
             onUnpray={dejarDeOrar}
+            defaultExpanded={!!resume?.expanded}
+            onLeave={(expanded) => rememberPlace({ expanded })}
             prayerAction={prayerAction}
             online={online}
           />

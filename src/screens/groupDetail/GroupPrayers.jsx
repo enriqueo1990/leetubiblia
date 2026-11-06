@@ -16,13 +16,15 @@ export default function GroupPrayers({
   onPray,
   onUnpray,
   prayerAction,
+  defaultExpanded = false,
+  onLeave,
   online = true,
 }) {
   const { t } = usePreferences()
   const { user } = useAuth()
   const navigate = useNavigate()
   // Ver el resto acá mismo: ir a /oracion sacaba del grupo y mezclaba todos.
-  const [expanded, setExpanded] = useState(false)
+  const [expanded, setExpanded] = useState(defaultExpanded)
   const LIMIT = 4
   const hidden = Math.max(0, prayers.length - LIMIT)
   const interceding = (p) => p.intercessors.some((x) => x.user_id === user?.id)
@@ -72,7 +74,8 @@ export default function GroupPrayers({
               <li key={p.id}>
                 <button
                   type="button"
-                  onClick={() =>
+                  onClick={() => {
+                    onLeave?.(expanded)
                     navigate(`/oracion/${p.id}`, {
                       state: {
                         from: {
@@ -81,7 +84,7 @@ export default function GroupPrayers({
                         },
                       },
                     })
-                  }
+                  }}
                   className="block w-full p-4 text-left"
                 >
                   <p className="text-[16px] font-semibold leading-snug text-ink">{p.title}</p>
