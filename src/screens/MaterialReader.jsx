@@ -26,7 +26,11 @@ import { shareOrDownload, shareUrl } from '../lib/canvasKit.js'
 import { carouselSections } from '../lib/carousel.js'
 import { joinSentences, splitSentences } from '../lib/sentences.js'
 import { excerpt } from '../lib/excerpt.js'
-import { ListIcon, ShareIcon } from '../components/icons.jsx'
+import { ListIcon, ShareIcon, ChevronRight, CheckIcon } from '../components/icons.jsx'
+import BookCover from '../components/BookCover.jsx'
+import { bookAccentVars, materialTheme } from '../lib/materialTheme.js'
+import { BRAND_SERIF, ensureBrandFont } from '../lib/brandFont.js'
+import { paragraphs, splitDropCap } from '../lib/dropCap.js'
 import BackLink from '../components/BackLink.jsx'
 import RetryError from '../components/RetryError.jsx'
 import { SkeletonDetail } from '../components/Skeleton.jsx'
@@ -82,6 +86,40 @@ function refGroups(refs) {
   return groups
 }
 
+// Ornamento de libro entre el encabezado y el texto: dos filetes y un rombo,
+// en la tinta del material.
+function BookOrnament({ className = '' }) {
+  return (
+    <svg width="120" height="12" viewBox="0 0 120 12" aria-hidden="true" className={`mx-auto block ${className}`}>
+      <path d="M0 6h50M70 6h50" stroke="var(--book-acc)" strokeOpacity="0.45" strokeWidth="1" />
+      <path d="M60 1l5 5-5 5-5-5z" fill="var(--book-acc)" />
+    </svg>
+  )
+}
+
+// Texto corrido de libro: un <p> por párrafo y capitular en el primero.
+function BookText({ text, small = false, className = '' }) {
+  const paras = paragraphs(text)
+  const cap = splitDropCap(paras[0])
+  return (
+    <div lang="es" className={`book-text ${small ? 'book-text-sm' : ''} ${className}`}>
+      {paras.map((para, i) =>
+        i === 0 && cap ? (
+          <p key={i}>
+            <span className="book-dropcap">
+              {cap.punct && <span className="book-dropcap-punct">{cap.punct}</span>}
+              {cap.letter}
+            </span>
+            {cap.rest}
+          </p>
+        ) : (
+          <p key={i}>{para}</p>
+        )
+      )}
+    </div>
+  )
+}
+
 // Una frase para compartir, no un párrafo: hasta ~3 oraciones.
 const PHRASE_MAX = 320
 
@@ -104,7 +142,12 @@ export default function MaterialReader() {
   const [pick, setPick] = useState(null) // "Elegir una frase": { start, end } (índices de oración) o null
   const [sharing, setSharing] = useState(false) // generando la imagen para compartir
   const [shareError, setShareError] = useState(false)
+  const [confirmUnmark, setConfirmUnmark] = useState(false) // por fecha: desmarcar la de hoy
   useEffect(() => setPick(null), [n])
+  // La serif de libro (Newsreader) para la portada y el devocional.
+  useEffect(() => {
+    ensureBrandFont()
+  }, [])
   // Ficha a la que se llegó al marcar leída: mientras estés en ella, una línea
   // confirma que el marcador avanzó. Al navegar a otra ficha se va sola.
   const [markedFor, setMarkedFor] = useState(null)
@@ -197,6 +240,15 @@ export default function MaterialReader() {
   const canPrev = n > (hasIntro ? 0 : 1)
   const canNext = n < maxN
   const justMarked = !calendar && markedFor === n // acaba de marcar y sigue en esta ficha
+  // Devocional (por fecha): se lee como un libro — sin ficha, versículo como
+  // epígrafe, texto en serif con capitular y la firma del autor al pie.
+  const book = calendar
+  const tomorrow = calendar && n === today && n < total ? content.entries[n] : null
+  // Portada: el pie de la tapa ("C. H. Spurgeon · 1865") y la cantidad debajo.
+  const th = materialTheme(slug)
+  const coverByline = [th.byline, th.year].filter(Boolean).join(' · ') || null
+  const unitKey = getMaterial(slug)?.unit ?? 'question'
+  const coverCount = t(`library.count.${unitKey}`, { count: total })
 
   // Avance optimista PERO honesto: la UI avanza ya, y si el guardado falla se
   // revierte y se avisa (canon: nunca mostrar un estado que no quedó guardado).
@@ -386,7 +438,9 @@ export default function MaterialReader() {
   }
 
   return (
-    <div className="flex min-h-[calc(100dvh-120px)] flex-col pt-2">
+    <div className="book relative isolate flex min-h-[calc(100dvh-120px)] flex-col pt-2" style={bookAccentVars(slug)}>
+      {/* El devocional es de la mañana: la misma luz cálida de Hoy a esa hora. */}
+      {book && <div aria-hidden="true" className="day-light morning" />}
       {/* Header según el canon (como Hoy: navegación a la izquierda, acción a la
           derecha). La miga es BackLink: honesta con el origen (desde el catálogo
           vuelve a Materiales; desde Hoy, a Hoy). "Índice" abre la hoja de bloques
@@ -435,34 +489,56 @@ export default function MaterialReader() {
       {isIntro ? (
         /* Ficha 0 — portada: contexto histórico. No es una pregunta: no se marca,
            no mueve el marcador. Acá vive el nombre completo del material. */
-        <div key="intro" className="screen-enter card mt-6 p-5">
-          <p className="text-[0.8125rem] font-medium text-ink-soft">{t('materialReader.intro')}</p>
-          <h1 className="mt-2.5 text-[1.25rem] font-semibold leading-snug text-ink">
-            {content.name}
-          </h1>
-          {locale !== 'es' && (
-            <p className="mt-1 text-[0.75rem] text-ink-soft">{t('materiales.inSpanish')}</p>
-          )}
-          <div className="mt-3.5 space-y-3">
-            {content.intro.map((p, i) => (
-              <p key={i} className="text-[1.0625rem] leading-relaxed text-ink">
-                {p}
-              </p>
-            ))}
+        <div key="intro" className="screen-enter mt-5">
+          {/* La tapa grande, como al abrir un libro de la colección. */}
+          <BookCover slug={slug} size="hero" meta={coverByline} className="mx-auto w-[196px]" />
+          <div className="mt-7 text-center">
+            <h1 className="text-[1.75rem] font-medium leading-[1.1] tracking-[-0.01em] text-ink" style={{ fontFamily: BRAND_SERIF }}>
+              {content.name}
+            </h1>
+            {content.author && <p className="mt-1.5 text-[0.9375rem] text-ink-soft">{content.author}</p>}
+            {coverCount && <p className="mt-1 text-[0.8125rem] text-ink-soft">{coverCount}</p>}
+            {locale !== 'es' && <p className="mt-1 text-[0.75rem] text-ink-soft">{t('materiales.inSpanish')}</p>}
+            <BookOrnament className="mt-5" />
           </div>
+          <p className="sr-only">{t('materialReader.intro')}</p>
+          <BookText text={content.intro.join('\n\n')} small className="mt-5" />
         </div>
       ) : (
-      <div key={n} className="screen-enter card mt-6 p-5">
+      <div key={n} className={book ? 'screen-enter mt-5' : 'screen-enter card mt-6 p-5'}>
         {/* Una sola línea de metadata: posición y bloque. El estado leída/actual NO
             va acá: ya lo comunica la zona de abajo (botón primario = actual;
             solo navegación = repaso). Cada estado se dice una sola vez. */}
+        {book ? (
+          <p className="book-kicker text-center">{entryOfLabel(t, slug, entry.number, total, locale)}</p>
+        ) : (
         <p className="text-[0.8125rem] font-medium text-ink-soft">
           {/* Por fecha, el bloque es el mes: ya lo dice la fecha. */}
           {[entryOfLabel(t, slug, entry.number, total, locale), entry.section ?? (!calendar && entry.blockTitle)]
             .filter(Boolean)
             .join(' · ')}
         </p>
+        )}
 
+        {book ? (
+          /* Devocional: el versículo como epígrafe, la cita debajo y un ornamento
+             que abre la meditación. */
+          <div className="mt-3.5 px-1 text-center">
+            <h1
+              lang="es"
+              className="text-[1.5625rem] italic leading-[1.25] tracking-[-0.01em] text-ink"
+              style={{ fontFamily: BRAND_SERIF, fontWeight: 400, textWrap: 'balance' }}
+            >
+              {entry.question}
+            </h1>
+            {headingRef && (
+              <p className="mt-1.5 flex min-h-9 items-center justify-center">
+                <RefLink refItem={headingRef} locale={locale} bibleProvider={bibleProvider} />
+              </p>
+            )}
+            <BookOrnament className="mt-2" />
+          </div>
+        ) : (
         <h1 className="mt-2.5 text-[1.25rem] font-semibold leading-snug text-ink">
           {entry.question}
           {/* Devocional: la cita va pegada al versículo que encabeza la lectura. */}
@@ -473,13 +549,14 @@ export default function MaterialReader() {
             </>
           )}
         </h1>
+        )}
 
         {/* pre-line: los artículos largos (p. ej. Confesión Belga) traen párrafos
             separados por línea en blanco en el JSON. */}
         {pick ? (
           // Modo "Elegir una frase": cada oración se toca; el rango elegido se
           // resalta con el tinte del acento. Los párrafos conservan su aire.
-          <div className="mt-3.5 space-y-3 text-[1.0625rem] leading-relaxed text-ink">
+          <div className={book ? 'book-text mt-6' : 'mt-3.5 space-y-3 text-[1.0625rem] leading-relaxed text-ink'}>
             {[...new Set(sentences.map((x) => x.para))].map((para) => (
               <p key={para}>
                 {sentences.map((x, i) => {
@@ -518,13 +595,27 @@ export default function MaterialReader() {
               </p>
             ))}
           </div>
+        ) : book ? (
+          <BookText text={entry.answer} className="mt-6" />
         ) : (
           <p className="mt-3.5 whitespace-pre-line text-[1.0625rem] leading-relaxed text-ink">{entry.answer}</p>
         )}
 
-        {content.author && (
-          <p className="mt-4 text-right text-[0.9375rem] italic text-ink-soft">— {content.author}</p>
-        )}
+        {content.author &&
+          (book ? (
+            /* La firma al pie, como en el libro. Provisoria en texto: va a ser la
+               firma manuscrita de Spurgeon (dominio público) cuando esté el escaneo. */
+            <div className="mt-6 flex flex-col items-end pr-1">
+              <p className="text-[1.5rem] italic leading-none text-ink" style={{ fontFamily: BRAND_SERIF }}>
+                {content.author}
+              </p>
+              <p className="mt-2 text-[0.625rem] font-bold uppercase tracking-[0.2em] text-ink-soft">
+                {[getMaterial(slug)?.shortName, th.year].filter(Boolean).join(' · ')}
+              </p>
+            </div>
+          ) : (
+            <p className="mt-4 text-right text-[0.9375rem] italic text-ink-soft">— {content.author}</p>
+          ))}
 
         {/* Citas de apoyo como nota al pie de la ficha: filete hairline arriba
             (como en un catecismo impreso), sin etiqueta ni cromo. El color acento
@@ -573,6 +664,15 @@ export default function MaterialReader() {
               </p>
             ))}
           </div>
+        )}
+        {/* Devocional: cierre con ornamento y lo que viene mañana. */}
+        {book && tomorrow && !pick && (
+          <>
+            <BookOrnament className="mt-8" />
+            <p className="mb-6 mt-3.5 text-center text-[0.8125rem] leading-snug text-ink-soft">
+              {t('materialReader.tomorrow', { title: tomorrow.question })}
+            </p>
+          </>
         )}
       </div>
       )}
@@ -625,9 +725,67 @@ export default function MaterialReader() {
               {t('common.cancel')}
             </button>
           </>
+        ) : calendar && isIntro ? (
+          /* Por fecha, la portada siempre lleva a la lectura de hoy. */
+          <button type="button" onClick={() => setN(today)} className="btn btn-primary">
+            {t('materialReader.startToday', { date: entryOfLabel(t, slug, today, total, locale) })}
+          </button>
+        ) : calendar ? (
+          /* Por fecha: UNA fila — ‹ · acción del día · › — para que la barra no se
+             coma la lectura. Las flechas guardan su lugar aunque no haya adónde ir. */
+          <div className="-mx-3 flex items-center gap-1">
+            {canPrev ? (
+              <button
+                type="button"
+                onClick={() => setN(n - 1)}
+                aria-label={n === 1 && hasIntro ? t('materialReader.intro') : t('materialReader.previous')}
+                className="flex h-12 w-11 shrink-0 items-center justify-center transition-opacity active:opacity-50"
+                style={{ color: 'var(--accent-ink)' }}
+              >
+                <ChevronRight size={22} style={{ transform: 'scaleX(-1)' }} />
+              </button>
+            ) : (
+              <span className="w-11 shrink-0" />
+            )}
+            {atFrontier ? (
+              <button type="button" onClick={() => setTodayRead(true)} className="btn btn-primary min-w-0 flex-1">
+                {t('hoy.markRead')}
+              </button>
+            ) : n === today ? (
+              /* Ya leída hoy: el estado ocupa el lugar del botón; tocarlo pregunta
+                 si desmarcar (un toque al pasar no la desmarca). */
+              <button
+                type="button"
+                onClick={() => setConfirmUnmark(true)}
+                aria-label={t('materialReader.readTodayAria')}
+                className="btn btn-done flex min-w-0 flex-1 items-center justify-center gap-2"
+                style={{ color: 'var(--accent-ink)' }}
+              >
+                <CheckIcon size={18} strokeWidth={2.4} />
+                {t('materialReader.readToday')}
+              </button>
+            ) : (
+              <button type="button" onClick={() => setN(today)} className="btn btn-secondary min-w-0 flex-1">
+                {t('materialReader.goToday')}
+              </button>
+            )}
+            {canNext ? (
+              <button
+                type="button"
+                onClick={() => setN(n + 1)}
+                aria-label={t('materialReader.next')}
+                className="flex h-12 w-11 shrink-0 items-center justify-center transition-opacity active:opacity-50"
+                style={{ color: 'var(--accent-ink)' }}
+              >
+                <ChevronRight size={22} />
+              </button>
+            ) : (
+              <span className="w-11 shrink-0" />
+            )}
+          </div>
         ) : isIntro && pos === 1 ? (
           /* Primera visita (nada leído): la portada invita a arrancar. */
-          <button type="button" onClick={() => setN(calendar ? today : 1)} className="btn btn-primary">
+          <button type="button" onClick={() => setN(1)} className="btn btn-primary">
             {t('materialReader.start')}
           </button>
         ) : (
@@ -641,31 +799,10 @@ export default function MaterialReader() {
             {atFrontier && (
               <button
                 type="button"
-                onClick={calendar ? () => setTodayRead(true) : markRead}
+                onClick={markRead}
                 className="btn btn-primary"
               >
                 {t('hoy.markRead')}
-              </button>
-            )}
-            {/* Por fecha: la de hoy ya marcada → estado + desmarcar callado (como
-                Hoy); otro día → volver a la de hoy. */}
-            {calendar && n === today && readToday && (
-              <>
-                <p className="py-2 text-center text-[0.9375rem] font-semibold" style={{ color: 'var(--accent-ink)' }}>
-                  ✓ {t('hoy.read')}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setTodayRead(false)}
-                  className="block w-full py-2 text-center text-[0.875rem] font-medium text-ink-soft"
-                >
-                  {t('hoy.unmark')}
-                </button>
-              </>
-            )}
-            {calendar && n !== today && (
-              <button type="button" onClick={() => setN(today)} className="btn btn-secondary">
-                {t('materialReader.goToday')}
               </button>
             )}
             {(canPrev || canNext) && (
@@ -752,6 +889,19 @@ export default function MaterialReader() {
             if (error) setSaveError(true)
           }}
           onCancel={() => setConfirmRemove(false)}
+        />
+      )}
+
+      {confirmUnmark && (
+        <ConfirmDialog
+          title={t('materialReader.unmarkTitle')}
+          message={t('materialReader.unmarkMsg')}
+          confirmLabel={t('hoy.unmarkConfirm')}
+          onConfirm={() => {
+            setConfirmUnmark(false)
+            setTodayRead(false)
+          }}
+          onCancel={() => setConfirmUnmark(false)}
         />
       )}
 

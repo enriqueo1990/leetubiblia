@@ -426,3 +426,50 @@
     letter-spacing: -1px;
   }
 }
+
+/* Lector en modo libro (el devocional y las portadas de los materiales). La
+   tinta del libro sale del material (bookAccentVars): legible sobre el papel de
+   día, clara de noche. Solo para detalles de libro (fecha, capitular,
+   ornamentos); botones y enlaces siguen en el acento de la app. */
+.book { --book-acc: var(--book-acc-light); }
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .book { --book-acc: var(--book-acc-dark); }
+}
+:root.dark .book { --book-acc: var(--book-acc-dark); }
+
+/* Texto corrido de libro: Newsreader, cuerpo generoso, renglones aireados. */
+.book-text {
+  font-family: "Newsreader", Georgia, "Times New Roman", serif;
+  font-size: 1.1875rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  text-wrap: pretty;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+.book-text p + p { margin-top: 1em; }
+
+/* Capitular de tres renglones (la puntuación de apertura va chica, pegada). */
+.book-dropcap {
+  float: left;
+  margin: 0.09em 0.12em 0 0;
+  font-weight: 500;
+  font-size: 4.6em;
+  line-height: 0.8;
+  color: var(--book-acc);
+}
+.book-dropcap-punct {
+  font-size: 0.38em;
+  vertical-align: top;
+  margin-right: 0.04em;
+}
+.book-text.book-text-sm { font-size: 1.0625rem; }
+.book-text-sm .book-dropcap { font-size: 3.7em; }
+
+.book-kicker {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--book-acc);
+}

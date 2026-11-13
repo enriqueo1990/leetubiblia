@@ -1,8 +1,10 @@
 // Identidad de cada material: su color de portada (como una colección de
 // libros) y los datos que lleva la tapa (`title`: el nombre corto de la tapa,
 // en español como el contenido; `kind`: el tipo, que se traduce; `year`).
-// Es la excepción deliberada a "un solo acento": vive SOLO en las portadas
-// (Biblioteca, Hoy) y en lo que se comparte.
+// Es la excepción deliberada a "un solo acento": vive en las portadas
+// (Biblioteca, Hoy), en lo que se comparte y, ya como tinta (bookAccentVars), en
+// los detalles de libro del lector: la portada, la capitular y los ornamentos.
+// Los controles (botones, enlaces) siguen en el acento de la app.
 //
 // Cada tema trae dos paletas:
 //  - color: la tapa en color pleno (c fondo, spine lomo, ink texto, soft texto
@@ -21,7 +23,7 @@ const THEMES = {
   'bautista-1689': { title: 'Bautista de 1689', c: '#6B1E23', spine: '#511519', ink: '#F6ECDD', soft: 'rgba(246,236,221,.66)', acc: '#E2B66B', papelAcc: '#6B1E23', year: '1689', kind: 'confession' },
   keach: { title: 'Keach', c: '#1E5560', spine: '#163F48', ink: '#EAF3F2', soft: 'rgba(234,243,242,.64)', acc: '#F0C98E', papelAcc: '#1E5560', year: '1693', kind: 'catechism' },
   spurgeon: { title: 'Spurgeon', c: '#8C4A2B', spine: '#6E3920', ink: '#FBEFE4', soft: 'rgba(251,239,228,.66)', acc: '#F2C58E', papelAcc: '#8C4A2B', year: '1855', kind: 'catechism' },
-  'spurgeon-matutinas': { title: 'Lecturas matutinas', c: '#C27B2E', spine: '#A3641F', ink: '#2A1907', soft: 'rgba(42,25,7,.66)', acc: '#FFF3E0', papelAcc: '#8A5317', year: '1865', kind: 'devotional' },
+  'spurgeon-matutinas': { title: 'Lecturas matutinas', c: '#C27B2E', spine: '#A3641F', ink: '#2A1907', soft: 'rgba(42,25,7,.66)', acc: '#FFF3E0', papelAcc: '#8A5317', bookAccDark: '#E3A866', motif: 'sunrise', byline: 'C. H. Spurgeon', year: '1865', kind: 'devotional' },
   'spurgeon-ninos': { title: 'Spurgeon para Niños', c: '#E58A6D', spine: '#CC7258', ink: '#2E140C', soft: 'rgba(46,20,12,.62)', acc: '#FFF4EC', papelAcc: '#A8492E', year: '', kind: 'children' },
 }
 
@@ -46,3 +48,12 @@ export function coverPalette(slug, variant = 'color') {
 }
 
 export const COVER_VARIANTS = ['color', 'papel']
+
+// El color del libro DENTRO del lector (portada, capitular, ornamentos y la
+// fecha del devocional): sobre el papel de la app, el acento legible del
+// material (papelAcc); de noche, uno claro (bookAccDark, o el acento de la tapa).
+// Se pasa como variables CSS (.book en index.css elige según el modo).
+export function bookAccentVars(slug) {
+  const th = materialTheme(slug)
+  return { '--book-acc-light': th.papelAcc, '--book-acc-dark': th.bookAccDark ?? th.acc }
+}
