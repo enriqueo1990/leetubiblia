@@ -707,10 +707,6 @@
   "hoy.greet.afternoon": "Boa tarde",
   "hoy.greet.night": "Boa noite",
   "hoy.greetName": "{greet}, {name}",
-  "hoy.extrasMoreToday": {
-    "one": "Mais {count} hoje",
-    "other": "Mais {count} hoje"
-  },
   "hoy.extrasTypeGroup": "Leitura do grupo",
   "hoy.extrasTypeMaterial": "Material",
   "hoy.extrasReadDone": "Já lido",
@@ -910,10 +906,6 @@
   "library.cardText": "Uma pergunta de catecismo, um devocional da manhã, os credos da igreja. Cinco minutos.",
   "library.cardCta": "Ver a Biblioteca",
   "library.notNow": "Agora não",
-  "library.moreToAdd": {
-    "one": "{count} a mais para somar",
-    "other": "{count} a mais para somar"
-  },
   "library.momentKicker": {
     "one": "{count} dia seguido",
     "other": "{count} dias seguidos"

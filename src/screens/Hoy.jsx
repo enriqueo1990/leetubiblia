@@ -752,12 +752,80 @@ export default function Hoy() {
             )
           )}
           </div>
+          {/* Acción del día, DENTRO de la tarjeta (no fija abajo): junto a la
+              lectura sobre la que actúa y sin ocupar pantalla mientras se mira
+              el resto. Solo mientras el día mostrado no está leído (marcar) y
+              durante el respiro de la marca: el ✓ dibujado aparece en el mismo
+              lugar donde estaban los botones. Después, lo que sigue vive en
+              «Tu día» y el pie pasa a ser «Leer el día siguiente». */}
+          {(!doneShown ? !readingUnavailable : breathing) && (
+            <div ref={actionBarRef} tabIndex={-1} className="-mx-4 border-t border-hairline px-4 py-3 outline-none">
+              {!doneShown ? (
+                myTime.enabled && !viewingAhead ? (
+                  // Con "Mi tiempo" activo: el recorrido es lo primario, y marcar
+                  // directo queda a un toque al lado, para los días con prisa.
+                  // «Ya leí» ocupa el espacio que queda y se centra en él.
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setMyTimeOpen(true)}
+                      className="btn btn-primary w-auto px-5 py-3 text-[1rem]"
+                    >
+                      {t('myTime.start')}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={markShownDay}
+                      aria-label={t('myTime.justMark')}
+                      className="flex min-h-12 flex-1 items-center justify-center gap-1.5 px-1 text-[0.9375rem] font-semibold transition-opacity active:opacity-50"
+                      style={{ color: 'var(--accent-ink)' }}
+                    >
+                      <CheckIcon size={17} strokeWidth={2.4} />
+                      {t('myTime.read.cta')}
+                    </button>
+                  </div>
+                ) : (
+                  <button type="button" onClick={markShownDay} className="btn btn-primary py-3 text-[1rem]">
+                    {t('hoy.markRead')}
+                  </button>
+                )
+              ) : (
+                <>
+                  <p className="moment-in pb-2 text-center text-[0.8125rem] font-medium text-ink-soft">
+                    <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✦</span>{' '}
+                    {!viewingAhead && r.streak >= 2
+                      ? t('hoy.streakDays', { count: r.streak })
+                      : t('hoy.markedNote')}
+                  </p>
+                  {/* Solo confirma: no es tocable, así un doble toque en «Marcar como
+                      leído» no desmarca el día. Desmarcar vive en «Tu día». */}
+                  <div className="btn btn-done btn-just-marked py-3 text-[1rem]">
+                    <span className="flex items-center justify-center gap-2">
+                      <svg
+                        width="17"
+                        height="17"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M5 12l5 5L20 7" pathLength="1" className="check-drawn" />
+                      </svg>
+                      {aheadOfToday ? t('hoy.read') : t('hoy.readToday')}
+                    </span>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
           {/* Adelantarse es la excepción: en el pie de la tarjeta del plan, al
               que pertenece. */}
-          {/* Durante el respiro ocupa su lugar pero invisible (sin tabulación ni
-              lector): al terminar solo aparece, y «Tu día» no se corre. */}
-          {doneShown && nextDay != null && (
-            <div className={`-mx-4 mt-1 border-t border-hairline px-4 ${breathing ? 'invisible' : ''}`}>
+          {/* Durante el respiro su lugar lo ocupa el ✓ de la acción de arriba. */}
+          {doneShown && nextDay != null && !breathing && (
+            <div className="-mx-4 mt-1 border-t border-hairline px-4">
               <button
                 type="button"
                 onClick={() => readNext(nextDay)}
@@ -823,9 +891,7 @@ export default function Hoy() {
         </>
       )}
 
-      {/* En escritorio la barra de acción deja de ser fija y, como va después en el DOM
-          (en el celular el sticky necesita quedar al final), se pasa ARRIBA de lo
-          extra con order: «Marcar como leído» no queda debajo de «También hoy». */}
+      {/* Lo extra va después de la tarjeta del día (donde vive la acción). */}
       <div className="lg:order-last">
       {/* Lecturas secundarias del día. Una sola sección para no competir con la
           lectura principal: si no hay grupos/materiales, no ocupa lugar. Con el
@@ -987,71 +1053,6 @@ export default function Hoy() {
       )}
 
       </div>
-
-      <div className="flex-1 lg:hidden" />
-
-      {/* Zona de acción: solo mientras el día mostrado no está leído (marcar) y
-          durante el respiro de la marca (el ✓ dibujado, con la línea cálida
-          ARRIBA: el botón nunca se mueve). Después, lo que sigue vive en "Tu
-          día", en el recorrido de la pantalla, no en una barra fija. */}
-      {!r.planFinished && (!doneShown ? !readingUnavailable : breathing) && (
-        <div className="action-bar outline-none" ref={actionBarRef} tabIndex={-1}>
-          <div>
-            {!doneShown ? (
-                myTime.enabled && !viewingAhead ? (
-                  // Con "Mi tiempo" activo: el recorrido es lo primario, y marcar
-                  // directo queda a un toque para los días con prisa.
-                  <>
-                    <button type="button" onClick={() => setMyTimeOpen(true)} className="btn btn-primary">
-                      {t('myTime.start')}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={markShownDay}
-                      className="mt-1 block min-h-11 w-full text-center text-[0.9375rem] font-medium"
-                      style={{ color: 'var(--accent-ink)' }}
-                    >
-                      {t('myTime.justMark')}
-                    </button>
-                  </>
-                ) : (
-                  <button type="button" onClick={markShownDay} className="btn btn-primary">
-                    {t('hoy.markRead')}
-                  </button>
-                )
-            ) : (
-                <>
-                  <p className="moment-in pb-2.5 text-center text-[0.8125rem] font-medium text-ink-soft">
-                    <span aria-hidden="true" style={{ color: 'var(--accent-ink)' }}>✦</span>{' '}
-                    {!viewingAhead && r.streak >= 2
-                      ? t('hoy.streakDays', { count: r.streak })
-                      : t('hoy.markedNote')}
-                  </p>
-                  {/* Solo confirma: no es tocable, así un doble toque en «Marcar como
-                      leído» no desmarca el día. Desmarcar vive en «Tu día». */}
-                  <div className="btn btn-done btn-just-marked">
-                    <span className="flex items-center justify-center gap-2">
-                      <svg
-                        width="17"
-                        height="17"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.4"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden="true"
-                      >
-                        <path d="M5 12l5 5L20 7" pathLength="1" className="check-drawn" />
-                      </svg>
-                      {aheadOfToday ? t('hoy.read') : t('hoy.readToday')}
-                    </span>
-                  </div>
-                </>
-            )}
-          </div>
-        </div>
-      )}
 
       {myTimeOpen && dayShown != null && (
         <MyTimeFlow
