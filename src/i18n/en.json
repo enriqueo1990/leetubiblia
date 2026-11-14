@@ -906,10 +906,6 @@
   "library.cardText": "A catechism question, a morning devotional, the creeds of the church. Five minutes.",
   "library.cardCta": "See the Library",
   "library.notNow": "Not now",
-  "library.moreToAdd": {
-    "one": "{count} more to add",
-    "other": "{count} more to add"
-  },
   "library.momentKicker": {
     "one": "{count} day in a row",
     "other": "{count} days in a row"

@@ -906,10 +906,6 @@
   "library.cardText": "Una pregunta de catecismo, un devocional de la mañana, los credos de la iglesia. Cinco minutos.",
   "library.cardCta": "Ver la Biblioteca",
   "library.notNow": "Ahora no",
-  "library.moreToAdd": {
-    "one": "{count} más para sumar",
-    "other": "{count} más para sumar"
-  },
   "library.momentKicker": {
     "one": "{count} día seguido",
     "other": "{count} días seguidos"

@@ -8,7 +8,7 @@ import { SkeletonRows } from './Skeleton.jsx'
 import RetryError from './RetryError.jsx'
 import { RowChevron } from './icons.jsx'
 import BookCover from './BookCover.jsx'
-import { MATERIALS } from '../lib/materials.js'
+import { MATERIALS, activeMaterials } from '../lib/materials.js'
 import { isLibraryCardSnoozed, snoozeLibraryCard, suggestedMaterials } from '../lib/libraryOffer.js'
 import SectionLabel from './SectionLabel.jsx'
 
@@ -118,26 +118,28 @@ export default function TodayExtras() {
     )
   }
 
+  const doorCovers = activeMaterials(profile)
+    .map((m) => m.slug)
+    .slice(0, 3)
+
   return (
     <div className="mt-8">
       <SectionLabel inside>{t('hoy.alsoToday')}</SectionLabel>
       <div className="card divide-y divide-hairline">
         <TodayExtraRows rows={rows} />
         {/* La puerta fija a la Biblioteca: siempre a un toque, también para quien
-            solo tiene lecturas de grupo. */}
+            solo tiene lecturas de grupo. Con las tapas de TUS libros (los que ya
+            habilitaste), no de los que faltan: acá no se ofrece nada. */}
         <Link to="/materiales" state={{ from }} className="flex min-h-11 w-full items-center gap-3 px-4 py-3 text-left">
-          {suggested.length > 0 && (
+          {doorCovers.length > 0 && (
             <span className="flex shrink-0" aria-hidden="true">
-              {suggested.slice(0, 3).map((slug, i) => (
+              {doorCovers.map((slug, i) => (
                 <BookCover key={slug} slug={slug} size="thumb" className="w-[20px]" style={{ marginLeft: i ? -6 : 0 }} />
               ))}
             </span>
           )}
           <span className="min-w-0 flex-1 text-[1rem] text-ink">{t('library.title')}</span>
-          <span className="flex shrink-0 items-center gap-1.5 text-[0.8125rem] text-ink-soft">
-            {toAdd.length > 0 && t('library.moreToAdd', { count: toAdd.length })}
-            <RowChevron />
-          </span>
+          <RowChevron />
         </Link>
       </div>
       {errorBlock}
