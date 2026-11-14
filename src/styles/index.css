@@ -465,6 +465,27 @@
 }
 .book-text.book-text-sm { font-size: 1.0625rem; }
 .book-text-sm .book-dropcap { font-size: 3.7em; }
+/* Respuestas de catecismo: un punto más grandes (se leen para retenerlas). */
+.book-text.book-text-lg { font-size: 1.25rem; line-height: 1.55; }
+
+/* Párrafos numerados (Confesión de 1689): el número al margen, en la tinta del
+   libro; el texto conserva su alineación con el resto de la página. */
+.book-num-row {
+  display: grid;
+  grid-template-columns: 1.1rem minmax(0, 1fr);
+  column-gap: 0.5rem;
+  margin-left: -0.75rem;
+}
+.book-num-row + .book-num-row { margin-top: 1em; }
+.book-num {
+  padding-top: 0.32em;
+  text-align: right;
+  font-family: theme('fontFamily.sans');
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--book-acc);
+}
 
 .book-kicker {
   font-size: 0.6875rem;
