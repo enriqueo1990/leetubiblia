@@ -368,6 +368,10 @@
     position: sticky;
     bottom: calc(57px + env(safe-area-inset-bottom));
     z-index: 10;
+    /* Aire arriba del alto de la franja de disolución (::before): al llegar al
+       final de la pantalla, la franja cae sobre este hueco y no sobre lo último
+       del contenido (antes lavaba la fila «N más hoy · Biblioteca» de Hoy). */
+    margin-top: 28px;
     margin-inline: -24px;
     padding: 12px 24px 16px;
     background-color: var(--tabbar-bg);
