@@ -31,6 +31,8 @@ import BookCover from '../components/BookCover.jsx'
 import { bookAccentVars, materialTheme } from '../lib/materialTheme.js'
 import { BRAND_SERIF, ensureBrandFont } from '../lib/brandFont.js'
 import { paragraphs, splitDropCap } from '../lib/dropCap.js'
+import { useReaderScale } from '../hooks/useReaderScale.js'
+import ReaderTextSheet from '../components/ReaderTextSheet.jsx'
 import BackLink from '../components/BackLink.jsx'
 import RetryError from '../components/RetryError.jsx'
 import { SkeletonDetail } from '../components/Skeleton.jsx'
@@ -162,6 +164,8 @@ export default function MaterialReader() {
   const [sharing, setSharing] = useState(false) // generando la imagen para compartir
   const [shareError, setShareError] = useState(false)
   const [confirmUnmark, setConfirmUnmark] = useState(false) // por fecha: desmarcar la de hoy
+  const [textSheet, setTextSheet] = useState(false) // hoja "Aa": tamaño de la letra de lectura
+  const readerScale = useReaderScale()
   useEffect(() => setPick(null), [n])
   // La serif de libro (Newsreader) para la portada y el devocional.
   useEffect(() => {
@@ -470,7 +474,10 @@ export default function MaterialReader() {
   const backToLabel = calendar ? null : t(`materialReader.backTo.${unit}`, { n: Math.min(pos, total) })
 
   return (
-    <div className="book relative isolate flex min-h-[calc(100dvh-120px)] flex-col pt-2" style={bookAccentVars(slug)}>
+    <div
+      className="book relative isolate flex min-h-[calc(100dvh-120px)] flex-col pt-2"
+      style={{ ...bookAccentVars(slug), '--reader-scale': readerScale.scale }}
+    >
       {/* El devocional es de la mañana: la misma luz cálida de Hoy a esa hora. */}
       {calendar && <div aria-hidden="true" className="day-light morning" />}
       {/* Header según el canon (como Hoy: navegación a la izquierda, acción a la
@@ -483,6 +490,18 @@ export default function MaterialReader() {
           {/* Compartir la pregunta como imagen — solo en fichas de pregunta
               (la portada no es contenido compartible). Icono solo: "Índice"
               conserva su etiqueta porque nombra un lugar, no una acción obvia. */}
+          {/* "Aa": el tamaño de la letra de lectura, como en Kindle. */}
+          <button
+            type="button"
+            onClick={() => setTextSheet(true)}
+            aria-label={t('materialReader.textSize')}
+            className="flex h-11 w-11 items-center justify-center text-ink-soft transition-colors hover:text-accent-ink"
+            style={{ fontFamily: BRAND_SERIF }}
+          >
+            <span aria-hidden="true" className="text-[0.8125rem] font-medium">
+              A<span className="text-[1.125rem]">a</span>
+            </span>
+          </button>
           {!isIntro && (
             <button
               type="button"
@@ -843,6 +862,16 @@ export default function MaterialReader() {
           onCancel={() => setShareSnap(null)}
           onPickPhrase={entry && splitSentences(entry.answer).length > 1 ? startPicking : null}
           onShareVideo={shareVideo}
+        />
+      )}
+
+      {textSheet && (
+        <ReaderTextSheet
+          {...readerScale}
+          onSmaller={readerScale.smaller}
+          onLarger={readerScale.larger}
+          sample={excerpt(isIntro ? content.intro[0] : entry.answer, 160).replace(/^\d+\.\s+/, '')}
+          onClose={() => setTextSheet(false)}
         />
       )}
 

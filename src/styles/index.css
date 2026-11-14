@@ -437,10 +437,11 @@
 }
 :root.dark .book { --book-acc: var(--book-acc-dark); }
 
-/* Texto corrido de libro: Newsreader, cuerpo generoso, renglones aireados. */
+/* Texto corrido de libro: Newsreader, cuerpo generoso, renglones aireados.
+   --reader-scale: el tamaño de lectura elegido en «Aa» (useReaderScale). */
 .book-text {
   font-family: "Newsreader", Georgia, "Times New Roman", serif;
-  font-size: 1.1875rem;
+  font-size: calc(1.1875rem * var(--reader-scale, 1));
   line-height: 1.6;
   color: var(--text-primary);
   text-wrap: pretty;
@@ -463,10 +464,10 @@
   vertical-align: top;
   margin-right: 0.04em;
 }
-.book-text.book-text-sm { font-size: 1.0625rem; }
+.book-text.book-text-sm { font-size: calc(1.0625rem * var(--reader-scale, 1)); }
 .book-text-sm .book-dropcap { font-size: 3.7em; }
 /* Respuestas de catecismo: un punto más grandes (se leen para retenerlas). */
-.book-text.book-text-lg { font-size: 1.25rem; line-height: 1.55; }
+.book-text.book-text-lg { font-size: calc(1.25rem * var(--reader-scale, 1)); line-height: 1.55; }
 
 /* Párrafos numerados (Confesión de 1689): el número al margen, en la tinta del
    libro; el texto conserva su alineación con el resto de la página. */
