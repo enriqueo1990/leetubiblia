@@ -704,16 +704,21 @@ export default function MaterialReader() {
         </p>
       )}
 
-      {/* En móvil crece para empujar la barra sticky al fondo; en desktop no crece,
-          así la acción queda pegada a la ficha en vez de vararse abajo del viewport. */}
+      {/* En móvil crece para que, en una entrada corta, la acción quede al pie de
+          la pantalla; en desktop no crece y la acción queda pegada al texto. */}
       <div className="flex-1 lg:hidden" />
 
-      {/* Zona de acción (sticky, como en Hoy), en una sola fila ‹ · acción · ›:
+      {/* Zona de acción, en una sola fila ‹ · acción · ›:
           — frontera: marcar como leído
           — repaso: volver al marcador
           — completado: volver a empezar
-          — por fecha: marcar la de hoy / leída hoy / ir a la de hoy */}
-      <div className="action-bar space-y-1">
+          — por fecha: marcar la de hoy / leída hoy / ir a la de hoy
+          Va al FINAL del texto, no fija: se toca al terminar de leer, y mientras
+          se lee no ocupa pantalla (la tab bar también se aparta al bajar). En
+          una entrada corta el espaciador de arriba la deja al pie igual. Solo
+          "Elegir una frase" la fija abajo: ahí la acción se usa mientras se
+          recorre el texto. */}
+      <div className={`${pick ? 'action-bar' : 'action-inline'} space-y-1`}>
         {saveError && (
           <p className="pb-1 text-[0.75rem]" role="alert" style={{ color: 'var(--danger)' }}>
             {t('materialReader.saveError')}

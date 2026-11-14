@@ -494,3 +494,18 @@
   text-transform: uppercase;
   color: var(--book-acc);
 }
+
+/* Tab bar que se aparta al leer (useHideOnScroll). Si recibe foco con teclado,
+   vuelve a la vista. */
+.tabbar-slide {
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tabbar-hidden:not(:focus-within) {
+  transform: translateY(100%);
+}
+
+/* Acción del lector al final del texto (no fija): se toca al terminar de leer,
+   así que no ocupa pantalla mientras se lee. */
+.action-inline {
+  margin-top: 28px;
+}
