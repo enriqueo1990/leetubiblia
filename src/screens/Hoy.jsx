@@ -764,7 +764,8 @@ export default function Hoy() {
                 myTime.enabled && !viewingAhead ? (
                   // Con "Mi tiempo" activo: el recorrido es lo primario, y marcar
                   // directo queda a un toque al lado, para los días con prisa.
-                  <div className="flex items-center justify-between gap-3">
+                  // «Ya leí» ocupa el espacio que queda y se centra en él.
+                  <div className="flex items-center gap-3">
                     <button
                       type="button"
                       onClick={() => setMyTimeOpen(true)}
@@ -776,7 +777,7 @@ export default function Hoy() {
                       type="button"
                       onClick={markShownDay}
                       aria-label={t('myTime.justMark')}
-                      className="flex min-h-12 shrink-0 items-center gap-1.5 px-1 text-[0.9375rem] font-semibold transition-opacity active:opacity-50"
+                      className="flex min-h-12 flex-1 items-center justify-center gap-1.5 px-1 text-[0.9375rem] font-semibold transition-opacity active:opacity-50"
                       style={{ color: 'var(--accent-ink)' }}
                     >
                       <CheckIcon size={17} strokeWidth={2.4} />
