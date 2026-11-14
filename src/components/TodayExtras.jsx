@@ -133,7 +133,7 @@ export default function TodayExtras() {
             <span className="flex shrink-0" aria-hidden="true">
               {rows.slice(PREVIEW_ROWS, PREVIEW_ROWS + 3).map((row, i) =>
                 row.type === 'group' ? null : (
-                  <BookCover key={row.key} slug={row.item.slug} size="thumb" className="w-[15px]" style={{ marginLeft: i ? -5 : 0 }} />
+                  <BookCover key={row.key} slug={row.item.slug} size="thumb" className="w-[20px]" style={{ marginLeft: i ? -6 : 0 }} />
                 )
               )}
             </span>
@@ -149,7 +149,7 @@ export default function TodayExtras() {
             {suggested.length > 0 && (
               <span className="flex shrink-0" aria-hidden="true">
                 {suggested.slice(0, 3).map((slug, i) => (
-                  <BookCover key={slug} slug={slug} size="thumb" className="w-[15px]" style={{ marginLeft: i ? -5 : 0 }} />
+                  <BookCover key={slug} slug={slug} size="thumb" className="w-[20px]" style={{ marginLeft: i ? -6 : 0 }} />
                 ))}
               </span>
             )}

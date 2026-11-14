@@ -26,7 +26,13 @@ import { shareOrDownload, shareUrl } from '../lib/canvasKit.js'
 import { carouselSections } from '../lib/carousel.js'
 import { joinSentences, splitSentences } from '../lib/sentences.js'
 import { excerpt } from '../lib/excerpt.js'
-import { ListIcon, ShareIcon } from '../components/icons.jsx'
+import { ListIcon, ShareIcon, ChevronRight, CheckIcon } from '../components/icons.jsx'
+import BookCover from '../components/BookCover.jsx'
+import { bookAccentVars, materialTheme } from '../lib/materialTheme.js'
+import { BRAND_SERIF, ensureBrandFont } from '../lib/brandFont.js'
+import { paragraphs, splitDropCap } from '../lib/dropCap.js'
+import { useReaderScale } from '../hooks/useReaderScale.js'
+import ReaderTextSheet from '../components/ReaderTextSheet.jsx'
 import BackLink from '../components/BackLink.jsx'
 import RetryError from '../components/RetryError.jsx'
 import { SkeletonDetail } from '../components/Skeleton.jsx'
@@ -42,11 +48,11 @@ import InlineError from '../components/InlineError.jsx'
 // reading_progress: es tu marcador personal del material, nada más.
 //
 // Diseño (mismo principio que Hoy): metadata callada, contenido protagonista, UNA
-// acción primaria por estado. La fila de navegación (‹ Anterior / Siguiente ›) es
-// constante: mismo lugar, color y vocabulario en frontera y repaso — el control de
-// "volver" no se teletransporta al cambiar de estado. En la frontera "Marcar como
-// leído" ocupa el lugar de avanzar (no hay Siguiente); nada de botones
-// deshabilitados ocupando lugar.
+// acción por estado. Se lee como un libro: sin ficha, en serif, con la tinta del
+// material en la ubicación, los ornamentos y la capitular. La barra es UNA fila
+// (‹ · acción · ›): las flechas no se mueven al cambiar de estado y la acción del
+// centro dice qué toca — marcar, volver al marcador, volver a empezar. En la
+// frontera "Marcar como leído" ocupa el lugar de avanzar (no hay ›).
 //
 // Materiales por fecha (devocional, cadence 'calendar'): no hay marcador ni
 // frontera. Se abre en la lectura de hoy, se navega libremente por todo el año, y
@@ -82,6 +88,59 @@ function refGroups(refs) {
   return groups
 }
 
+// Ornamento de libro entre el encabezado y el texto: dos filetes y un rombo,
+// en la tinta del material.
+function BookOrnament({ className = '' }) {
+  return (
+    <svg width="120" height="12" viewBox="0 0 120 12" aria-hidden="true" className={`mx-auto block ${className}`}>
+      <path d="M0 6h50M70 6h50" stroke="var(--book-acc)" strokeOpacity="0.45" strokeWidth="1" />
+      <path d="M60 1l5 5-5 5-5-5z" fill="var(--book-acc)" />
+    </svg>
+  )
+}
+
+// Texto corrido de libro: un párrafo por bloque y capitular en el primero
+// (si `dropCap`). Los párrafos que traen su número ("6. Todo el consejo…", como
+// en la Confesión de 1689) lo llevan al margen, como en una edición impresa.
+function BookText({ text, size = 'md', dropCap = true, className = '' }) {
+  const paras = paragraphs(text).map((p) => {
+    const m = p.match(/^(\d+)\.\s+([\s\S]*)$/)
+    return m ? { num: m[1], text: m[2] } : { num: null, text: p }
+  })
+  const numbered = paras.some((p) => p.num)
+  const cap = dropCap ? splitDropCap(paras[0]?.text) : null
+  const body = (p, i) =>
+    i === 0 && cap ? (
+      <>
+        <span className="book-dropcap">
+          {cap.punct && <span className="book-dropcap-punct">{cap.punct}</span>}
+          {cap.letter}
+        </span>
+        {cap.rest}
+      </>
+    ) : (
+      p.text
+    )
+  return (
+    <div lang="es" className={`book-text book-text-${size} ${className}`}>
+      {paras.map((p, i) =>
+        numbered ? (
+          <div key={i} className="book-num-row">
+            <span className="book-num">{p.num}</span>
+            <p>{body(p, i)}</p>
+          </div>
+        ) : (
+          <p key={i}>{body(p, i)}</p>
+        )
+      )}
+    </div>
+  )
+}
+
+// Catecismos: la capitular solo cuando la respuesta da para envolverla (unos
+// cuatro renglones); en una de dos renglones se comería la respuesta.
+const CATECHISM_DROPCAP_MIN = 220
+
 // Una frase para compartir, no un párrafo: hasta ~3 oraciones.
 const PHRASE_MAX = 320
 
@@ -104,7 +163,14 @@ export default function MaterialReader() {
   const [pick, setPick] = useState(null) // "Elegir una frase": { start, end } (índices de oración) o null
   const [sharing, setSharing] = useState(false) // generando la imagen para compartir
   const [shareError, setShareError] = useState(false)
+  const [confirmUnmark, setConfirmUnmark] = useState(false) // por fecha: desmarcar la de hoy
+  const [textSheet, setTextSheet] = useState(false) // hoja "Aa": tamaño de la letra de lectura
+  const readerScale = useReaderScale()
   useEffect(() => setPick(null), [n])
+  // La serif de libro (Newsreader) para la portada y el devocional.
+  useEffect(() => {
+    ensureBrandFont()
+  }, [])
   // Ficha a la que se llegó al marcar leída: mientras estés en ella, una línea
   // confirma que el marcador avanzó. Al navegar a otra ficha se va sola.
   const [markedFor, setMarkedFor] = useState(null)
@@ -197,6 +263,18 @@ export default function MaterialReader() {
   const canPrev = n > (hasIntro ? 0 : 1)
   const canNext = n < maxN
   const justMarked = !calendar && markedFor === n // acaba de marcar y sigue en esta ficha
+  // Todo material se lee como un libro (sin ficha, texto en serif), con tres
+  // formas según el género: el devocional (versículo como epígrafe, capitular,
+  // firma), el catecismo (pregunta y respuesta; capitular solo si la respuesta
+  // es larga) y la confesión (título del capítulo o artículo, capitular, párrafos
+  // numerados al margen).
+  const unit = getMaterial(slug)?.unit ?? 'question'
+  const genre = calendar ? 'devotional' : unit === 'question' ? 'catechism' : 'confession'
+  const tomorrow = calendar && n === today && n < total ? content.entries[n] : null
+  // Portada: el pie de la tapa ("C. H. Spurgeon · 1865") y la cantidad debajo.
+  const th = materialTheme(slug)
+  const coverByline = [th.byline, th.year].filter(Boolean).join(' · ') || null
+  const coverCount = t(`library.count.${unit}`, { count: total })
 
   // Avance optimista PERO honesto: la UI avanza ya, y si el guardado falla se
   // revierte y se avisa (canon: nunca mostrar un estado que no quedó guardado).
@@ -385,8 +463,23 @@ export default function MaterialReader() {
     }
   }
 
+  // Encabezado de la entrada según el género. La confesión con sección propia
+  // ("Capítulo 1, párrafos 1–5") la usa como ubicación; el resto, su número.
+  const kicker = entry && (genre === 'confession' && entry.section ? entry.section : entryOfLabel(t, slug, entry.number, total, locale))
+  const kickerSub = entry && genre !== 'devotional' && !entry.section ? entry.blockTitle : null
+  const bodySize = genre === 'catechism' ? 'lg' : 'md'
+  const dropCap = genre !== 'catechism' || (entry?.answer.length ?? 0) >= CATECHISM_DROPCAP_MIN
+  // "Volver a la pregunta 12" / "Volver al artículo 12" / "Volver a donde ibas"
+  // (los materiales por 'item' no numeran igual que el marcador).
+  const backToLabel = calendar ? null : t(`materialReader.backTo.${unit}`, { n: Math.min(pos, total) })
+
   return (
-    <div className="flex min-h-[calc(100dvh-120px)] flex-col pt-2">
+    <div
+      className="book relative isolate flex min-h-[calc(100dvh-120px)] flex-col pt-2"
+      style={{ ...bookAccentVars(slug), '--reader-scale': readerScale.scale }}
+    >
+      {/* El devocional es de la mañana: la misma luz cálida de Hoy a esa hora. */}
+      {calendar && <div aria-hidden="true" className="day-light morning" />}
       {/* Header según el canon (como Hoy: navegación a la izquierda, acción a la
           derecha). La miga es BackLink: honesta con el origen (desde el catálogo
           vuelve a Materiales; desde Hoy, a Hoy). "Índice" abre la hoja de bloques
@@ -397,6 +490,18 @@ export default function MaterialReader() {
           {/* Compartir la pregunta como imagen — solo en fichas de pregunta
               (la portada no es contenido compartible). Icono solo: "Índice"
               conserva su etiqueta porque nombra un lugar, no una acción obvia. */}
+          {/* "Aa": el tamaño de la letra de lectura, como en Kindle. */}
+          <button
+            type="button"
+            onClick={() => setTextSheet(true)}
+            aria-label={t('materialReader.textSize')}
+            className="flex h-11 w-11 items-center justify-center text-ink-soft transition-colors hover:text-accent-ink"
+            style={{ fontFamily: BRAND_SERIF }}
+          >
+            <span aria-hidden="true" className="text-[0.8125rem] font-medium">
+              A<span className="text-[1.125rem]">a</span>
+            </span>
+          </button>
           {!isIntro && (
             <button
               type="button"
@@ -419,11 +524,9 @@ export default function MaterialReader() {
         </div>
       </div>
 
-      {/* La pregunta como ficha: un .card contiene la unidad de lectura completa
-          (metadata, pregunta, respuesta, citas). Navegar = cambiar de ficha dentro
-          de un marco estable. La miga y las acciones quedan fuera del contenedor.
-          key={n} + screen-enter: al cambiar de pregunta la ficha entra con la misma
-          transición que las pantallas de la app (reduced-motion ya cubierto global). */}
+      {/* La entrada como página de libro (ubicación, título, texto, citas al pie).
+          key={n} + screen-enter: al cambiar de entrada la página entra con la
+          misma transición que las pantallas de la app (reduced-motion ya cubierto). */}
       {/* Anuncia la ficha nueva al marcar leída (el foco se queda en el botón). Fuera
           de la ficha con key: esa se remonta y un aviso recién montado no se lee. */}
       <p role="status" className="sr-only">
@@ -435,51 +538,69 @@ export default function MaterialReader() {
       {isIntro ? (
         /* Ficha 0 — portada: contexto histórico. No es una pregunta: no se marca,
            no mueve el marcador. Acá vive el nombre completo del material. */
-        <div key="intro" className="screen-enter card mt-6 p-5">
-          <p className="text-[0.8125rem] font-medium text-ink-soft">{t('materialReader.intro')}</p>
-          <h1 className="mt-2.5 text-[1.25rem] font-semibold leading-snug text-ink">
-            {content.name}
-          </h1>
-          {locale !== 'es' && (
-            <p className="mt-1 text-[0.75rem] text-ink-soft">{t('materiales.inSpanish')}</p>
-          )}
-          <div className="mt-3.5 space-y-3">
-            {content.intro.map((p, i) => (
-              <p key={i} className="text-[1.0625rem] leading-relaxed text-ink">
-                {p}
-              </p>
-            ))}
+        <div key="intro" className="screen-enter mt-5">
+          {/* La tapa grande, como al abrir un libro de la colección. */}
+          <BookCover slug={slug} size="hero" meta={coverByline} className="mx-auto w-[196px]" />
+          <div className="mt-7 text-center">
+            <h1 className="text-[1.75rem] font-medium leading-[1.1] tracking-[-0.01em] text-ink" style={{ fontFamily: BRAND_SERIF }}>
+              {content.name}
+            </h1>
+            {content.author && <p className="mt-1.5 text-[0.9375rem] text-ink-soft">{content.author}</p>}
+            {coverCount && <p className="mt-1 text-[0.8125rem] text-ink-soft">{coverCount}</p>}
+            {locale !== 'es' && <p className="mt-1 text-[0.75rem] text-ink-soft">{t('materiales.inSpanish')}</p>}
+            <BookOrnament className="mt-5" />
           </div>
+          <p className="sr-only">{t('materialReader.intro')}</p>
+          <BookText text={content.intro.join('\n\n')} small className="mt-5" />
         </div>
       ) : (
-      <div key={n} className="screen-enter card mt-6 p-5">
-        {/* Una sola línea de metadata: posición y bloque. El estado leída/actual NO
-            va acá: ya lo comunica la zona de abajo (botón primario = actual;
-            solo navegación = repaso). Cada estado se dice una sola vez. */}
-        <p className="text-[0.8125rem] font-medium text-ink-soft">
-          {/* Por fecha, el bloque es el mes: ya lo dice la fecha. */}
-          {[entryOfLabel(t, slug, entry.number, total, locale), entry.section ?? (!calendar && entry.blockTitle)]
-            .filter(Boolean)
-            .join(' · ')}
-        </p>
-
-        <h1 className="mt-2.5 text-[1.25rem] font-semibold leading-snug text-ink">
-          {entry.question}
-          {/* Devocional: la cita va pegada al versículo que encabeza la lectura. */}
-          {headingRef && (
+      <div key={n} className="screen-enter mt-5">
+        {/* Una línea de ubicación arriba (la fecha, la pregunta, el capítulo) y,
+            si hace falta, el bloque debajo. El estado leída/actual NO va acá: ya
+            lo comunica la barra de abajo. Cada estado se dice una sola vez. */}
+        <div className="px-1 text-center">
+          <p className="book-kicker">{kicker}</p>
+          {kickerSub && <p className="mt-1 text-[0.8125rem] text-ink-soft">{kickerSub}</p>}
+          {genre === 'devotional' ? (
+            /* El versículo como epígrafe, la cita debajo. */
             <>
-              {' '}
-              <RefLink refItem={headingRef} locale={locale} bibleProvider={bibleProvider} />
+              <h1
+                lang="es"
+                className="mt-3.5 text-[1.5625rem] italic leading-[1.25] tracking-[-0.01em] text-ink"
+                style={{ fontFamily: BRAND_SERIF, fontWeight: 400, textWrap: 'balance' }}
+              >
+                {entry.question}
+              </h1>
+              {headingRef && (
+                <p className="mt-1.5 flex min-h-9 items-center justify-center">
+                  <RefLink refItem={headingRef} locale={locale} bibleProvider={bibleProvider} />
+                </p>
+              )}
             </>
+          ) : genre === 'catechism' ? (
+            <h1
+              lang="es"
+              className="mt-4 text-[1.625rem] leading-[1.22] tracking-[-0.01em] text-ink"
+              style={{ fontFamily: BRAND_SERIF, fontWeight: 600, textWrap: 'balance' }}
+            >
+              {entry.question}
+            </h1>
+          ) : (
+            <h1
+              lang="es"
+              className="mt-3 text-[1.875rem] leading-[1.15] tracking-[-0.015em] text-ink"
+              style={{ fontFamily: BRAND_SERIF, fontWeight: 500, textWrap: 'balance' }}
+            >
+              {stripRange(entry.question)}
+            </h1>
           )}
-        </h1>
+          <BookOrnament className={genre === 'devotional' ? 'mt-2' : 'mt-4'} />
+        </div>
 
-        {/* pre-line: los artículos largos (p. ej. Confesión Belga) traen párrafos
-            separados por línea en blanco en el JSON. */}
         {pick ? (
           // Modo "Elegir una frase": cada oración se toca; el rango elegido se
           // resalta con el tinte del acento. Los párrafos conservan su aire.
-          <div className="mt-3.5 space-y-3 text-[1.0625rem] leading-relaxed text-ink">
+          <div className={`book-text book-text-${bodySize} mt-6`}>
             {[...new Set(sentences.map((x) => x.para))].map((para) => (
               <p key={para}>
                 {sentences.map((x, i) => {
@@ -519,11 +640,20 @@ export default function MaterialReader() {
             ))}
           </div>
         ) : (
-          <p className="mt-3.5 whitespace-pre-line text-[1.0625rem] leading-relaxed text-ink">{entry.answer}</p>
+          <BookText text={entry.answer} size={bodySize} dropCap={dropCap} className="mt-6" />
         )}
 
         {content.author && (
-          <p className="mt-4 text-right text-[0.9375rem] italic text-ink-soft">— {content.author}</p>
+          /* La firma al pie, como en el libro. Provisoria en texto: va a ser la
+             firma manuscrita de Spurgeon (dominio público) cuando esté el escaneo. */
+          <div className="mt-6 flex flex-col items-end pr-1">
+            <p className="text-[1.5rem] italic leading-none text-ink" style={{ fontFamily: BRAND_SERIF }}>
+              {content.author}
+            </p>
+            <p className="mt-2 text-[0.625rem] font-bold uppercase tracking-[0.2em] text-ink-soft">
+              {[getMaterial(slug)?.shortName, th.year].filter(Boolean).join(' · ')}
+            </p>
+          </div>
         )}
 
         {/* Citas de apoyo como nota al pie de la ficha: filete hairline arriba
@@ -574,6 +704,15 @@ export default function MaterialReader() {
             ))}
           </div>
         )}
+        {/* Devocional: cierre con ornamento y lo que viene mañana. */}
+        {tomorrow && !pick && (
+          <>
+            <BookOrnament className="mt-8" />
+            <p className="mb-6 mt-3.5 text-center text-[0.8125rem] leading-snug text-ink-soft">
+              {t('materialReader.tomorrow', { title: tomorrow.question })}
+            </p>
+          </>
+        )}
       </div>
       )}
 
@@ -584,22 +723,21 @@ export default function MaterialReader() {
         </p>
       )}
 
-      {/* En móvil crece para empujar la barra sticky al fondo; en desktop no crece,
-          así la acción queda pegada a la ficha en vez de vararse abajo del viewport. */}
+      {/* En móvil crece para que, en una entrada corta, la acción quede al pie de
+          la pantalla; en desktop no crece y la acción queda pegada al texto. */}
       <div className="flex-1 lg:hidden" />
 
-      {/* Zona de acción (sticky, como en Hoy). Una acción primaria por estado:
+      {/* Zona de acción, en una sola fila ‹ · acción · ›:
           — frontera: marcar como leído
-          — repaso: solo navegación
-          — completado: navegación + volver a empezar
-          Debajo del botón (si lo hay) va SIEMPRE la misma fila de navegación:
-          "‹ Anterior" a la izquierda, "Siguiente ›" a la derecha. En la frontera
-          no existe Siguiente (avanzar es marcar); la fila conserva posición,
-          color y vocabulario para que el gesto de volver no cambie de lugar.
-          En desktop se alinea al ancho de la ficha (sin cap de 440px): acá el
-          contenido vive en un .card con bordes visibles, así que el botón debe
-          quedar a ras de esos bordes, no varado más angosto. */}
-      <div className="action-bar space-y-1">
+          — repaso: volver al marcador
+          — completado: volver a empezar
+          — por fecha: marcar la de hoy / leída hoy / ir a la de hoy
+          Va al FINAL del texto, no fija: se toca al terminar de leer, y mientras
+          se lee no ocupa pantalla (la tab bar también se aparta al bajar). En
+          una entrada corta el espaciador de arriba la deja al pie igual. Solo
+          "Elegir una frase" la fija abajo: ahí la acción se usa mientras se
+          recorre el texto. */}
+      <div className={`${pick ? 'action-bar' : 'action-inline'} space-y-1`}>
         {saveError && (
           <p className="pb-1 text-[0.75rem]" role="alert" style={{ color: 'var(--danger)' }}>
             {t('materialReader.saveError')}
@@ -625,12 +763,21 @@ export default function MaterialReader() {
               {t('common.cancel')}
             </button>
           </>
+        ) : calendar && isIntro ? (
+          /* Por fecha, la portada siempre lleva a la lectura de hoy. */
+          <button type="button" onClick={() => setN(today)} className="btn btn-primary">
+            {t('materialReader.startToday', { date: entryOfLabel(t, slug, today, total, locale) })}
+          </button>
         ) : isIntro && pos === 1 ? (
           /* Primera visita (nada leído): la portada invita a arrancar. */
-          <button type="button" onClick={() => setN(calendar ? today : 1)} className="btn btn-primary">
+          <button type="button" onClick={() => setN(1)} className="btn btn-primary">
             {t('materialReader.start')}
           </button>
         ) : (
+          /* UNA fila — ‹ · acción · › — para que la barra no se coma la lectura.
+             La acción del centro cambia con el estado; las flechas guardan su
+             lugar aunque no haya adónde ir (en la frontera de un catecismo no hay
+             ›: avanzar es marcar). */
           <>
             {justMarked && atFrontier && (
               <p className="moment-in pb-1.5 text-center text-[0.8125rem] font-medium text-ink-soft">
@@ -638,72 +785,69 @@ export default function MaterialReader() {
                 {t('materialReader.markedNote')}
               </p>
             )}
-            {atFrontier && (
-              <button
-                type="button"
-                onClick={calendar ? () => setTodayRead(true) : markRead}
-                className="btn btn-primary"
-              >
-                {t('hoy.markRead')}
-              </button>
-            )}
-            {/* Por fecha: la de hoy ya marcada → estado + desmarcar callado (como
-                Hoy); otro día → volver a la de hoy. */}
-            {calendar && n === today && readToday && (
-              <>
-                <p className="py-2 text-center text-[0.9375rem] font-semibold" style={{ color: 'var(--accent-ink)' }}>
-                  ✓ {t('hoy.read')}
-                </p>
+            <div className="-mx-3 flex items-center gap-1">
+              {canPrev ? (
                 <button
                   type="button"
-                  onClick={() => setTodayRead(false)}
-                  className="block w-full py-2 text-center text-[0.875rem] font-medium text-ink-soft"
+                  onClick={() => setN(n - 1)}
+                  aria-label={n === 1 && hasIntro ? t('materialReader.intro') : t('materialReader.previous')}
+                  className="flex h-12 w-11 shrink-0 items-center justify-center transition-opacity active:opacity-50"
+                  style={{ color: 'var(--accent-ink)' }}
                 >
-                  {t('hoy.unmark')}
+                  <ChevronRight size={22} style={{ transform: 'scaleX(-1)' }} />
                 </button>
-              </>
-            )}
-            {calendar && n !== today && (
-              <button type="button" onClick={() => setN(today)} className="btn btn-secondary">
-                {t('materialReader.goToday')}
-              </button>
-            )}
-            {(canPrev || canNext) && (
-              <div className="flex items-center justify-between">
-                {canPrev ? (
-                  <button
-                    type="button"
-                    onClick={() => setN(n - 1)}
-                    className="inline-flex min-h-11 items-center pr-4 text-[0.9375rem] font-medium"
-                    style={{ color: 'var(--accent-ink)' }}
-                  >
-                    {/* Desde la pregunta 1 lo anterior es la portada: decirlo. */}
-                    ‹ {n === 1 && hasIntro ? t('materialReader.intro') : t('materialReader.previous')}
-                  </button>
-                ) : (
-                  <span />
-                )}
-                {canNext && (
-                  <button
-                    type="button"
-                    onClick={() => setN(n + 1)}
-                    className="inline-flex min-h-11 items-center pl-4 text-[0.9375rem] font-medium"
-                    style={{ color: 'var(--accent-ink)' }}
-                  >
-                    {t('materialReader.next')} ›
-                  </button>
-                )}
-              </div>
-            )}
-            {completed && (
-              <button
-                type="button"
-                onClick={() => setConfirmRestart(true)}
-                className="btn btn-secondary"
-              >
-                {t('materialReader.restart')}
-              </button>
-            )}
+              ) : (
+                <span className="w-11 shrink-0" />
+              )}
+              {atFrontier ? (
+                <button
+                  type="button"
+                  onClick={calendar ? () => setTodayRead(true) : markRead}
+                  className="btn btn-primary min-w-0 flex-1"
+                >
+                  {t('hoy.markRead')}
+                </button>
+              ) : calendar && n === today ? (
+                /* Ya leída hoy: el estado ocupa el lugar del botón; tocarlo pregunta
+                   si desmarcar (un toque al pasar no la desmarca). */
+                <button
+                  type="button"
+                  onClick={() => setConfirmUnmark(true)}
+                  aria-label={t('materialReader.readTodayAria')}
+                  className="btn btn-done flex min-w-0 flex-1 items-center justify-center gap-2"
+                  style={{ color: 'var(--accent-ink)' }}
+                >
+                  <CheckIcon size={18} strokeWidth={2.4} />
+                  {t('materialReader.readToday')}
+                </button>
+              ) : calendar ? (
+                <button type="button" onClick={() => setN(today)} className="btn btn-secondary min-w-0 flex-1">
+                  {t('materialReader.goToday')}
+                </button>
+              ) : completed ? (
+                <button type="button" onClick={() => setConfirmRestart(true)} className="btn btn-secondary min-w-0 flex-1">
+                  {t('materialReader.restart')}
+                </button>
+              ) : (
+                /* Repasando una anterior: volver directo al marcador. */
+                <button type="button" onClick={() => setN(Math.min(pos, total))} className="btn btn-secondary min-w-0 flex-1">
+                  {backToLabel}
+                </button>
+              )}
+              {canNext ? (
+                <button
+                  type="button"
+                  onClick={() => setN(n + 1)}
+                  aria-label={t('materialReader.next')}
+                  className="flex h-12 w-11 shrink-0 items-center justify-center transition-opacity active:opacity-50"
+                  style={{ color: 'var(--accent-ink)' }}
+                >
+                  <ChevronRight size={22} />
+                </button>
+              ) : (
+                <span className="w-11 shrink-0" />
+              )}
+            </div>
           </>
         )}
       </div>
@@ -718,6 +862,16 @@ export default function MaterialReader() {
           onCancel={() => setShareSnap(null)}
           onPickPhrase={entry && splitSentences(entry.answer).length > 1 ? startPicking : null}
           onShareVideo={shareVideo}
+        />
+      )}
+
+      {textSheet && (
+        <ReaderTextSheet
+          {...readerScale}
+          onSmaller={readerScale.smaller}
+          onLarger={readerScale.larger}
+          sample={excerpt(isIntro ? content.intro[0] : entry.answer, 160).replace(/^\d+\.\s+/, '')}
+          onClose={() => setTextSheet(false)}
         />
       )}
 
@@ -752,6 +906,19 @@ export default function MaterialReader() {
             if (error) setSaveError(true)
           }}
           onCancel={() => setConfirmRemove(false)}
+        />
+      )}
+
+      {confirmUnmark && (
+        <ConfirmDialog
+          title={t('materialReader.unmarkTitle')}
+          message={t('materialReader.unmarkMsg')}
+          confirmLabel={t('hoy.unmarkConfirm')}
+          onConfirm={() => {
+            setConfirmUnmark(false)
+            setTodayRead(false)
+          }}
+          onCancel={() => setConfirmUnmark(false)}
         />
       )}
 

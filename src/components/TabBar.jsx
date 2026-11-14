@@ -2,6 +2,11 @@ import { useRef, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { NAV_ITEMS, matchesExtra } from './nav.js'
 import { usePreferences } from '../lib/preferences.jsx'
+import { useHideOnScroll } from '../hooks/useHideOnScroll.js'
+
+// El lector de un material (/materiales/<slug>) es lectura larga: ahí la barra
+// se aparta mientras bajás y vuelve al subir o al llegar al final.
+const READER_PATH = /^\/materiales\/[^/]+$/
 
 function TabItem({ to, labelKey, Icon, end, match, matchMobile }) {
   const { pathname } = useLocation()
@@ -56,9 +61,11 @@ function TabItem({ to, labelKey, Icon, end, match, matchMobile }) {
 // para que en tablet quede "centrada bajo la columna" (README — Responsive).
 export default function TabBar() {
   const { t } = usePreferences()
+  const { pathname } = useLocation()
+  const hidden = useHideOnScroll(READER_PATH.test(pathname))
   return (
     <nav
-      className="lg:hidden fixed bottom-0 inset-x-0 z-20"
+      className={`tabbar-slide lg:hidden fixed bottom-0 inset-x-0 z-20${hidden ? ' tabbar-hidden' : ''}`}
       aria-label={t('nav.main')}
     >
       <div
