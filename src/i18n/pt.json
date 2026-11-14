@@ -707,10 +707,6 @@
   "hoy.greet.afternoon": "Boa tarde",
   "hoy.greet.night": "Boa noite",
   "hoy.greetName": "{greet}, {name}",
-  "hoy.extrasMoreToday": {
-    "one": "Mais {count} hoje",
-    "other": "Mais {count} hoje"
-  },
   "hoy.extrasTypeGroup": "Leitura do grupo",
   "hoy.extrasTypeMaterial": "Material",
   "hoy.extrasReadDone": "Já lido",

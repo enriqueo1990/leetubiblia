@@ -14,8 +14,8 @@ import SectionLabel from './SectionLabel.jsx'
 
 // La pista se descarta por usuario. La clave vieja (por dispositivo) se sigue
 // leyendo para no volver a mostrarla a quien ya la cerró.
-const INLINE_LIMIT = 4 // hasta acá se ven todas las filas
-const PREVIEW_ROWS = 3 // con más, se ven estas y un "Ver todas"
+// Todas las lecturas agregadas se ven siempre en Hoy (sin "N más hoy"): esconder
+// algunas obligaba a un toque extra para llegar a lo que uno eligió leer.
 
 // Cuántas filas se mostraron la última vez, por usuario: sirve para reservar el
 // alto mientras carga y que la barra de acción de Hoy no salte al llegar los datos.
@@ -61,7 +61,7 @@ export default function TodayExtras() {
     return (
       <div className="mt-8" aria-hidden="true">
         <SectionLabel inside>{t('hoy.alsoToday')}</SectionLabel>
-        <SkeletonRows count={Math.min(expected, INLINE_LIMIT)} cover libraryRow />
+        <SkeletonRows count={expected} cover libraryRow />
       </div>
     )
   }
@@ -118,48 +118,27 @@ export default function TodayExtras() {
     )
   }
 
-  const overflow = rows.length > INLINE_LIMIT
-  const shown = overflow ? rows.slice(0, PREVIEW_ROWS) : rows
-
   return (
     <div className="mt-8">
       <SectionLabel inside>{t('hoy.alsoToday')}</SectionLabel>
       <div className="card divide-y divide-hairline">
-        <TodayExtraRows rows={shown} />
-        {overflow ? (
-          // Con más de las que entran: una sola fila con las portadas de las
-          // que quedan y la Biblioteca; Lecturas tiene todas y el estante.
-          <Link to="/lecturas" className="flex min-h-11 w-full items-center gap-3 px-4 py-3 text-left">
+        <TodayExtraRows rows={rows} />
+        {/* La puerta fija a la Biblioteca: siempre a un toque, también para quien
+            solo tiene lecturas de grupo. */}
+        <Link to="/materiales" state={{ from }} className="flex min-h-11 w-full items-center gap-3 px-4 py-3 text-left">
+          {suggested.length > 0 && (
             <span className="flex shrink-0" aria-hidden="true">
-              {rows.slice(PREVIEW_ROWS, PREVIEW_ROWS + 3).map((row, i) =>
-                row.type === 'group' ? null : (
-                  <BookCover key={row.key} slug={row.item.slug} size="thumb" className="w-[20px]" style={{ marginLeft: i ? -6 : 0 }} />
-                )
-              )}
+              {suggested.slice(0, 3).map((slug, i) => (
+                <BookCover key={slug} slug={slug} size="thumb" className="w-[20px]" style={{ marginLeft: i ? -6 : 0 }} />
+              ))}
             </span>
-            <span className="min-w-0 flex-1 text-[0.9375rem] text-ink">
-              {t('hoy.extrasMoreToday', { count: rows.length - PREVIEW_ROWS })} · {t('library.title')}
-            </span>
+          )}
+          <span className="min-w-0 flex-1 text-[1rem] text-ink">{t('library.title')}</span>
+          <span className="flex shrink-0 items-center gap-1.5 text-[0.8125rem] text-ink-soft">
+            {toAdd.length > 0 && t('library.moreToAdd', { count: toAdd.length })}
             <RowChevron />
-          </Link>
-        ) : (
-          // B · La puerta fija a la Biblioteca: siempre a un toque, también para
-          // quien solo tiene lecturas de grupo.
-          <Link to="/materiales" state={{ from }} className="flex min-h-11 w-full items-center gap-3 px-4 py-3 text-left">
-            {suggested.length > 0 && (
-              <span className="flex shrink-0" aria-hidden="true">
-                {suggested.slice(0, 3).map((slug, i) => (
-                  <BookCover key={slug} slug={slug} size="thumb" className="w-[20px]" style={{ marginLeft: i ? -6 : 0 }} />
-                ))}
-              </span>
-            )}
-            <span className="min-w-0 flex-1 text-[1rem] text-ink">{t('library.title')}</span>
-            <span className="flex shrink-0 items-center gap-1.5 text-[0.8125rem] text-ink-soft">
-              {toAdd.length > 0 && t('library.moreToAdd', { count: toAdd.length })}
-              <RowChevron />
-            </span>
-          </Link>
-        )}
+          </span>
+        </Link>
       </div>
       {errorBlock}
     </div>
