@@ -17,7 +17,7 @@ export const BIBLIOTECA_URL = 'https://leetubiblia.com/biblioteca'
 export const BIBLIOTECA_META = {
   title: 'Lee Tu Biblia · Biblioteca: catecismos, credos y devocional',
   description:
-    'Dieciocho lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
+    'Diecinueve lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
 }
 
 // Qué hay en cada libro, tal como lo dicen los JSON (`entries`) y el catálogo
@@ -41,6 +41,12 @@ export const BOOKS = {
     total: 144,
     year: '397',
     blurb: 'La vida de Agustín contada como una oración a Dios, completa, de la infancia a la conversión y más allá.',
+  },
+  'lutero-catecismo-menor': {
+    count: '36 lecturas',
+    total: 36,
+    year: '1529',
+    blurb: 'El catecismo de Lutero para la casa: cada mandamiento, artículo y petición explicado con la misma pregunta sencilla.',
   },
   belga: {
     count: '37 artículos',
@@ -147,8 +153,8 @@ export const SHELVES = [
   {
     id: 'continental',
     title: 'Reforma en el continente',
-    note: 'Ginebra, los Países Bajos y Alemania, siglos XVI y XVII: las Tres Formas de Unidad y Calvino.',
-    slugs: ['belga', 'heidelberg', 'calvino-vida-cristiana', 'dort'],
+    note: 'Wittenberg, Ginebra, los Países Bajos y Alemania, siglos XVI y XVII: Lutero, Calvino y las Tres Formas de Unidad.',
+    slugs: ['lutero-catecismo-menor', 'belga', 'heidelberg', 'calvino-vida-cristiana', 'dort'],
   },
   {
     id: 'westminster',

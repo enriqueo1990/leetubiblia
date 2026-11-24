@@ -76,6 +76,7 @@ const MATERIALES = [
   {
     group: 'Catecismos',
     items: [
+      'Catecismo Menor de Lutero',
       'Catecismo de Heidelberg',
       'Catecismo Mayor de Westminster',
       'Catecismo Menor de Westminster',

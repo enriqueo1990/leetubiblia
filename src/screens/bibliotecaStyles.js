@@ -51,7 +51,7 @@ export const BIBLIOTECA_CSS = `
 .bb-reader-demo .in-demo-cap{margin-top:18px}
 @media (min-width:960px){ .bb-reader{grid-template-columns:1.05fr .95fr; gap:80px} }
 
-/* ── Los dieciocho libros: estantes por tradición ── */
+/* ── Los diecinueve libros: estantes por tradición ── */
 .bb-shelves{margin-top:clamp(36px, 5vw, 64px); display:grid; gap:0}
 .bb-shelf{display:grid; gap:22px; padding-block:clamp(26px, 3.4vw, 40px); border-top:1px solid var(--hairline)}
 .bb-shelf:last-child{border-bottom:1px solid var(--hairline)}

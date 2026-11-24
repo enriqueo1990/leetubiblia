@@ -1,0 +1,564 @@
+{
+  "slug": "lutero-catecismo-menor",
+  "name": "Catecismo Menor de Lutero",
+  "description": "El Catecismo Menor de Martín Lutero (1529), escrito para que los padres enseñaran la fe en casa: los diez mandamientos, el Credo, el Padrenuestro, el bautismo, la confesión y la Cena del Señor, con sus oraciones para la mañana, la noche y la mesa.",
+  "cadence": "sequence",
+  "source": "Traducción original al español realizada a partir del texto alemán de dominio público publicado en el Triglot Concordia (1921), con el apoyo de la traducción inglesa de Robert E. Smith (Project Wittenberg, 2002), liberada por él al dominio público. Se conservan la numeración luterana de los mandamientos, el «día de descanso» (Feiertag) del tercero y el Credo con la fórmula de Lutero («la santa Iglesia cristiana»). Esta edición no incluye la Tabla de deberes ni el formulario breve de confesión.",
+  "intro": [
+    "Martín Lutero (1483-1546) escribió el Catecismo Menor en 1529, después de visitar las parroquias de Sajonia y comprobar con tristeza cuánto ignoraba la gente común, y aun muchos pastores, de la fe cristiana. Lo pensó para que el padre de familia lo enseñara en casa: cada mandamiento, artículo o petición se explica con una pregunta sencilla, «¿Qué significa esto?».",
+    "Es uno de los textos más queridos de la Reforma, y el catecismo de las iglesias luteranas hasta hoy. Recorre los diez mandamientos, el Credo Apostólico y el Padrenuestro, y después el bautismo, la confesión y la Cena del Señor, y termina con oraciones breves para la mañana, la noche y la mesa. Sus explicaciones del Credo, como «me ha redimido a mí, hombre perdido y condenado», están entre las páginas más hermosas de la piedad evangélica.",
+    "Lutero es la fuente de la tradición luterana, no de la reformada, y en algunos puntos no coincide con los otros catecismos de esta Biblioteca. Numera los mandamientos a la manera antigua (no enumera aparte la prohibición de imágenes, que entiende dentro del primero, y divide la codicia en dos), enseña que en la Cena el cuerpo y la sangre de Cristo están presentes «bajo el pan y el vino», atribuye al bautismo el perdón de los pecados y la regeneración, y conserva la confesión privada y la señal de la cruz. Esta edición lo presenta fielmente, en lecturas breves, con los pasajes bíblicos para buscarlos en tu Biblia."
+  ],
+  "entries": [
+    {
+      "block": 1,
+      "title": "Los diez mandamientos",
+      "questions": [
+        {
+          "number": 1,
+          "section": "Los diez mandamientos",
+          "question": "El primer mandamiento",
+          "answer": "«No tendrás otros dioses».\n\n¿Qué significa esto?\n\nDebemos temer y amar a Dios y confiar en él sobre todas las cosas.",
+          "refs": [
+            {
+              "label": "Éxodo 20:3",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "section": "Los diez mandamientos",
+          "question": "El segundo mandamiento",
+          "answer": "«No tomarás en vano el nombre de tu Dios».\n\n¿Qué significa esto?\n\nDebemos temer y amar a Dios, de modo que no usemos su nombre para maldecir, jurar, hacer hechicerías, mentir o engañar, sino que lo invoquemos en toda necesidad, oremos, lo alabemos y le demos gracias.",
+          "refs": [
+            {
+              "label": "Éxodo 20:7",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "section": "Los diez mandamientos",
+          "question": "El tercer mandamiento",
+          "answer": "«Santificarás el día de descanso».\n\n¿Qué significa esto?\n\nDebemos temer y amar a Dios, de modo que no despreciemos la predicación ni su Palabra, sino que la tengamos por santa, la oigamos con gusto y la aprendamos.",
+          "refs": [
+            {
+              "label": "Éxodo 20:8",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 4,
+          "section": "Los diez mandamientos",
+          "question": "El cuarto mandamiento",
+          "answer": "«Honrarás a tu padre y a tu madre, para que te vaya bien y vivas largo tiempo sobre la tierra».\n\n¿Qué significa esto?\n\nDebemos temer y amar a Dios, de modo que no despreciemos ni irritemos a nuestros padres y superiores, sino que los honremos, les sirvamos, los obedezcamos, los amemos y los tengamos en estima.",
+          "refs": [
+            {
+              "label": "Éxodo 20:12",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 5,
+          "section": "Los diez mandamientos",
+          "question": "El quinto mandamiento",
+          "answer": "«No matarás».\n\n¿Qué significa esto?\n\nDebemos temer y amar a Dios, de modo que no hagamos daño ni perjuicio alguno a nuestro prójimo en su cuerpo, sino que lo ayudemos y lo asistamos en todas sus necesidades corporales.",
+          "refs": [
+            {
+              "label": "Éxodo 20:13",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 6,
+          "section": "Los diez mandamientos",
+          "question": "El sexto mandamiento",
+          "answer": "«No cometerás adulterio».\n\n¿Qué significa esto?\n\nDebemos temer y amar a Dios, de modo que llevemos una vida casta y decente en palabras y obras, y que cada uno ame y honre a su cónyuge.",
+          "refs": [
+            {
+              "label": "Éxodo 20:14",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 7,
+          "section": "Los diez mandamientos",
+          "question": "El séptimo mandamiento",
+          "answer": "«No hurtarás».\n\n¿Qué significa esto?\n\nDebemos temer y amar a Dios, de modo que no le quitemos a nuestro prójimo su dinero ni sus bienes, ni nos apoderemos de ellos con mercadería falsa o con negocios fraudulentos, sino que lo ayudemos a mejorar y conservar sus bienes y su sustento.",
+          "refs": [
+            {
+              "label": "Éxodo 20:15",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 8,
+          "section": "Los diez mandamientos",
+          "question": "El octavo mandamiento",
+          "answer": "«No dirás falso testimonio contra tu prójimo».\n\n¿Qué significa esto?\n\nDebemos temer y amar a Dios, de modo que no mintamos contra nuestro prójimo, ni lo traicionemos, ni lo calumniemos, ni le demos mala fama, sino que lo disculpemos, hablemos bien de él e interpretemos todo en el mejor sentido.",
+          "refs": [
+            {
+              "label": "Éxodo 20:16",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 9,
+          "section": "Los diez mandamientos",
+          "question": "El noveno mandamiento",
+          "answer": "«No codiciarás la casa de tu prójimo».\n\n¿Qué significa esto?\n\nDebemos temer y amar a Dios, de modo que no tratemos de quedarnos con astucia con la herencia o la casa de nuestro prójimo, ni de apropiárnoslas con apariencia de derecho, sino que lo ayudemos y le sirvamos para que las conserve.",
+          "refs": [
+            {
+              "label": "Éxodo 20:17",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 10,
+          "section": "Los diez mandamientos",
+          "question": "El décimo mandamiento",
+          "answer": "«No codiciarás la mujer de tu prójimo, ni su siervo, ni su criada, ni su ganado, ni nada de lo que es suyo».\n\n¿Qué significa esto?\n\nDebemos temer y amar a Dios, de modo que no le quitemos a nuestro prójimo su mujer, sus empleados o sus animales, ni se los apartemos ni los incitemos a abandonarlo, sino que los exhortemos a que se queden y cumplan con su deber.",
+          "refs": [
+            {
+              "label": "Éxodo 20:17",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 11,
+          "section": "Los diez mandamientos",
+          "question": "La conclusión de los mandamientos",
+          "answer": "¿Qué dice Dios de todos estos mandamientos?\n\nDice así: «Yo, el Señor tu Dios, soy un Dios celoso, que castigo la maldad de los padres sobre los hijos hasta la tercera y la cuarta generación de los que me aborrecen; pero hago misericordia por millares a los que me aman y guardan mis mandamientos».\n\n¿Qué significa esto?\n\nDios amenaza con castigar a todos los que quebrantan estos mandamientos; por eso debemos temer su ira y no obrar contra ellos. Pero promete gracia y todo bien a todos los que guardan estos mandamientos; por eso debemos también amarlo, confiar en él y cumplir con gusto sus mandamientos.",
+          "refs": [
+            {
+              "label": "Éxodo 20:5-6",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 2,
+      "title": "El Credo",
+      "questions": [
+        {
+          "number": 12,
+          "section": "El Credo",
+          "question": "El primer artículo: la creación",
+          "answer": "«Creo en Dios Padre todopoderoso, Creador del cielo y de la tierra».\n\n¿Qué significa esto?\n\nCreo que Dios me ha creado a mí y a todas las criaturas; que me ha dado cuerpo y alma, ojos, oídos y todos los miembros, la razón y todos los sentidos, y que todavía los conserva; además, ropa y calzado, comida y bebida, casa y hogar, esposa e hijos, campos, ganado y todos los bienes; que cada día me provee abundantemente de todo lo necesario para el sustento de este cuerpo y de esta vida, me protege contra todo peligro y me guarda y me libra de todo mal. Y todo esto lo hace por pura bondad y misericordia paternal y divina, sin ningún mérito ni dignidad de mi parte. Por todo esto estoy obligado a darle gracias, alabarlo, servirle y obedecerle. Esto es ciertamente verdad.",
+          "refs": [
+            {
+              "label": "Génesis 1:1",
+              "book_usfm": "GEN",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 13,
+          "section": "El Credo",
+          "question": "El segundo artículo: la redención",
+          "answer": "«Y en Jesucristo, su único Hijo, nuestro Señor; que fue concebido por el Espíritu Santo, nació de la virgen María; padeció bajo el poder de Poncio Pilato, fue crucificado, muerto y sepultado; descendió a los infiernos; al tercer día resucitó de entre los muertos; subió a los cielos, y está sentado a la diestra de Dios Padre todopoderoso; desde allí ha de venir a juzgar a los vivos y a los muertos».\n\n¿Qué significa esto?\n\nCreo que Jesucristo, verdadero Dios, engendrado del Padre desde la eternidad, y también verdadero hombre, nacido de la virgen María, es mi Señor, que me ha redimido a mí, hombre perdido y condenado, y me ha rescatado y ganado de todos los pecados, de la muerte y del poder del diablo, no con oro ni plata, sino con su santa y preciosa sangre y con su inocente pasión y muerte; para que yo sea suyo y viva bajo él en su reino, y le sirva en eterna justicia, inocencia y bienaventuranza, así como él resucitó de la muerte, vive y reina eternamente. Esto es ciertamente verdad.",
+          "refs": [
+            {
+              "label": "1 Pedro 1:18-19",
+              "book_usfm": "1PE",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 14,
+          "section": "El Credo",
+          "question": "El tercer artículo: la santificación",
+          "answer": "«Creo en el Espíritu Santo; la santa Iglesia cristiana, la comunión de los santos; el perdón de los pecados; la resurrección de la carne; y la vida perpetua. Amén».\n\n¿Qué significa esto?\n\nCreo que ni por mi propia razón ni por mis propias fuerzas puedo creer en Jesucristo, mi Señor, ni venir a él; sino que el Espíritu Santo me ha llamado por el evangelio, me ha iluminado con sus dones, me ha santificado y me ha conservado en la verdadera fe; del mismo modo que llama, congrega, ilumina y santifica a toda la cristiandad en la tierra, y la conserva unida a Jesucristo en la única verdadera fe. En esta cristiandad me perdona cada día, abundantemente, todos los pecados a mí y a todos los creyentes. Y en el último día me resucitará a mí y a todos los muertos, y me dará a mí y a todos los que creen en Cristo la vida eterna. Esto es ciertamente verdad.",
+          "refs": [
+            {
+              "label": "1 Corintios 12:3",
+              "book_usfm": "1CO",
+              "chapter": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 3,
+      "title": "El Padrenuestro",
+      "questions": [
+        {
+          "number": 15,
+          "section": "El Padrenuestro",
+          "question": "La introducción",
+          "answer": "«Padre nuestro que estás en los cielos».\n\n¿Qué significa esto?\n\nCon esto Dios quiere invitarnos a creer que él es nuestro verdadero Padre y que nosotros somos sus verdaderos hijos, para que le pidamos con toda confianza y seguridad, como hijos queridos piden a su querido padre.",
+          "refs": [
+            {
+              "label": "Mateo 6:9",
+              "book_usfm": "MAT",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 16,
+          "section": "El Padrenuestro",
+          "question": "La primera petición",
+          "answer": "«Santificado sea tu nombre».\n\n¿Qué significa esto?\n\nEl nombre de Dios ya es santo en sí mismo; pero pedimos en esta petición que sea santificado también entre nosotros.\n\n¿Cómo sucede esto?\n\nCuando la Palabra de Dios se enseña con claridad y pureza, y nosotros, como hijos de Dios, vivimos también santamente conforme a ella. ¡Ayúdanos a esto, amado Padre celestial! Pero quien enseña y vive de otro modo que como enseña la Palabra de Dios, profana entre nosotros el nombre de Dios. ¡Guárdanos de esto, Padre celestial!",
+          "refs": [
+            {
+              "label": "Mateo 6:9",
+              "book_usfm": "MAT",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 17,
+          "section": "El Padrenuestro",
+          "question": "La segunda petición",
+          "answer": "«Venga tu reino».\n\n¿Qué significa esto?\n\nEl reino de Dios viene por sí mismo, aun sin nuestra oración; pero pedimos en esta petición que venga también a nosotros.\n\n¿Cómo sucede esto?\n\nCuando el Padre celestial nos da su Espíritu Santo, para que por su gracia creamos su santa Palabra y vivamos piadosamente, aquí en el tiempo y allá en la eternidad.",
+          "refs": [
+            {
+              "label": "Mateo 6:10",
+              "book_usfm": "MAT",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 18,
+          "section": "El Padrenuestro",
+          "question": "La tercera petición",
+          "answer": "«Sea hecha tu voluntad, como en el cielo, así también en la tierra».\n\n¿Qué significa esto?\n\nLa buena y misericordiosa voluntad de Dios se hace aun sin nuestra oración; pero pedimos en esta petición que se haga también entre nosotros.\n\n¿Cómo sucede esto?\n\nCuando Dios quebranta e impide todo mal consejo y toda mala voluntad que no quieren dejarnos santificar el nombre de Dios ni que venga su reino, como es la voluntad del diablo, del mundo y de nuestra carne; y cuando nos fortalece y nos mantiene firmes en su Palabra y en la fe hasta el fin de nuestros días. Esta es su buena y misericordiosa voluntad.",
+          "refs": [
+            {
+              "label": "Mateo 6:10",
+              "book_usfm": "MAT",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 19,
+          "section": "El Padrenuestro",
+          "question": "La cuarta petición",
+          "answer": "«Danos hoy nuestro pan de cada día».\n\n¿Qué significa esto?\n\nDios da el pan de cada día, aun sin nuestra oración, también a todos los malos; pero pedimos en esta petición que nos haga reconocerlo, y que recibamos nuestro pan de cada día con acción de gracias.\n\n¿Qué quiere decir «el pan de cada día»?\n\nTodo lo que pertenece al sustento y a las necesidades del cuerpo, como comida, bebida, ropa, calzado, casa, hogar, campos, ganado, dinero, bienes; un cónyuge piadoso, hijos piadosos, empleados piadosos, gobernantes piadosos y fieles, buen gobierno, buen tiempo, paz, salud, disciplina, honra, buenos amigos, vecinos fieles y otras cosas semejantes.",
+          "refs": [
+            {
+              "label": "Mateo 6:11",
+              "book_usfm": "MAT",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 20,
+          "section": "El Padrenuestro",
+          "question": "La quinta petición",
+          "answer": "«Y perdónanos nuestras deudas, como también nosotros perdonamos a nuestros deudores».\n\n¿Qué significa esto?\n\nPedimos en esta petición que el Padre celestial no mire nuestros pecados, ni por causa de ellos nos niegue lo que pedimos, porque no somos dignos de nada de lo que pedimos ni lo hemos merecido; sino que nos lo dé todo por gracia, porque cada día pecamos mucho y no merecemos sino castigo. Así también nosotros, por nuestra parte, perdonaremos de corazón y haremos con gusto el bien a los que pecan contra nosotros.",
+          "refs": [
+            {
+              "label": "Mateo 6:12",
+              "book_usfm": "MAT",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 21,
+          "section": "El Padrenuestro",
+          "question": "La sexta petición",
+          "answer": "«Y no nos metas en tentación».\n\n¿Qué significa esto?\n\nDios no tienta a nadie; pero pedimos en esta petición que Dios nos guarde y nos sostenga, para que el diablo, el mundo y nuestra carne no nos engañen ni nos lleven a la incredulidad, a la desesperación y a otras grandes vergüenzas y vicios; y que, aunque seamos tentados por ellos, al final venzamos y obtengamos la victoria.",
+          "refs": [
+            {
+              "label": "Mateo 6:13",
+              "book_usfm": "MAT",
+              "chapter": 6
+            },
+            {
+              "label": "Santiago 1:13",
+              "book_usfm": "JAS",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 22,
+          "section": "El Padrenuestro",
+          "question": "La séptima petición",
+          "answer": "«Mas líbranos del mal».\n\n¿Qué significa esto?\n\nPedimos en esta petición, como en un resumen, que el Padre celestial nos libre de todo mal del cuerpo y del alma, de los bienes y de la honra; y que, cuando llegue nuestra última hora, nos conceda un fin bienaventurado y nos lleve por su gracia de este valle de lágrimas a sí, al cielo.",
+          "refs": [
+            {
+              "label": "Mateo 6:13",
+              "book_usfm": "MAT",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 23,
+          "section": "El Padrenuestro",
+          "question": "La conclusión",
+          "answer": "«Amén».\n\n¿Qué significa esto?\n\nQue debo estar seguro de que tales peticiones son agradables al Padre celestial y escuchadas por él; porque él mismo nos mandó orar así y prometió escucharnos. Amén, amén quiere decir: sí, sí, así sea.",
+          "refs": [
+            {
+              "label": "Juan 16:23",
+              "book_usfm": "JHN",
+              "chapter": 16
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 4,
+      "title": "El sacramento del santo bautismo",
+      "questions": [
+        {
+          "number": 24,
+          "section": "El sacramento del santo bautismo",
+          "question": "¿Qué es el bautismo?",
+          "answer": "¿Qué es el bautismo?\n\nEl bautismo no es simple agua solamente, sino que es el agua comprendida en el mandato de Dios y unida con la Palabra de Dios.\n\n¿Cuál es esa Palabra de Dios?\n\nEs la que nuestro Señor Jesucristo dice en el último capítulo de Mateo: «Vayan por todo el mundo, enseñen a todas las naciones y bautícenlas en el nombre del Padre, y del Hijo, y del Espíritu Santo».",
+          "refs": [
+            {
+              "label": "Mateo 28:19",
+              "book_usfm": "MAT",
+              "chapter": 28
+            }
+          ]
+        },
+        {
+          "number": 25,
+          "section": "El sacramento del santo bautismo",
+          "question": "¿Qué da el bautismo?",
+          "answer": "¿Qué da o de qué sirve el bautismo?\n\nObra el perdón de los pecados, libra de la muerte y del diablo, y da la salvación eterna a todos los que lo creen, tal como lo dicen las palabras y promesas de Dios.\n\n¿Cuáles son esas palabras y promesas de Dios?\n\nSon las que nuestro Señor Jesucristo dice en el último capítulo de Marcos: «El que crea y sea bautizado será salvo; pero el que no crea será condenado».",
+          "refs": [
+            {
+              "label": "Marcos 16:16",
+              "book_usfm": "MRK",
+              "chapter": 16
+            }
+          ]
+        },
+        {
+          "number": 26,
+          "section": "El sacramento del santo bautismo",
+          "question": "¿Cómo puede el agua hacer cosas tan grandes?",
+          "answer": "¿Cómo puede el agua hacer cosas tan grandes?\n\nEl agua ciertamente no las hace, sino la Palabra de Dios que está en el agua y con el agua, y la fe que confía en esa Palabra de Dios unida al agua. Porque sin la Palabra de Dios el agua es simple agua y no es bautismo; pero con la Palabra de Dios es un bautismo, es decir, un agua de vida llena de gracia y un lavamiento de la regeneración en el Espíritu Santo, como dice san Pablo a Tito en el capítulo tercero: «Por el lavamiento de la regeneración y la renovación del Espíritu Santo, que derramó sobre nosotros abundantemente por Jesucristo nuestro Salvador, para que, justificados por su gracia, seamos hechos herederos conforme a la esperanza de la vida eterna. Palabra fiel es esta».",
+          "refs": [
+            {
+              "label": "Tito 3:5-8",
+              "book_usfm": "TIT",
+              "chapter": 3
+            }
+          ]
+        },
+        {
+          "number": 27,
+          "section": "El sacramento del santo bautismo",
+          "question": "¿Qué significa bautizar con agua?",
+          "answer": "¿Qué significa este bautizar con agua?\n\nSignifica que el viejo Adán en nosotros debe ser ahogado por el arrepentimiento y la contrición diarios, y morir con todos los pecados y malos deseos; y que, a su vez, cada día debe surgir y levantarse un hombre nuevo, que viva eternamente delante de Dios en justicia y pureza.\n\n¿Dónde está escrito esto?\n\nSan Pablo dice a los Romanos en el capítulo sexto: «Somos sepultados con Cristo por el bautismo en la muerte, para que, así como Cristo resucitó de los muertos por la gloria del Padre, así también nosotros andemos en vida nueva».",
+          "refs": [
+            {
+              "label": "Romanos 6:4",
+              "book_usfm": "ROM",
+              "chapter": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 5,
+      "title": "La confesión",
+      "questions": [
+        {
+          "number": 28,
+          "section": "La confesión",
+          "question": "Cómo enseñar a confesarse",
+          "answer": "¿Qué es la confesión?\n\nLa confesión comprende dos partes: la primera, que uno confiese sus pecados; la segunda, que reciba la absolución o el perdón del confesor como de Dios mismo, sin dudar en nada, sino creyendo firmemente que por ella sus pecados son perdonados delante de Dios en el cielo.\n\n¿Qué pecados hay que confesar?\n\nDelante de Dios debemos declararnos culpables de todos los pecados, aun de los que no conocemos, como lo hacemos en el Padrenuestro; pero delante del confesor debemos confesar solamente los pecados que conocemos y sentimos en nuestro corazón.\n\n¿Cuáles son esos pecados?\n\nConsidera tu estado según los diez mandamientos: si eres padre, madre, hijo, hija, patrón, patrona, empleado; si has sido desobediente, infiel o perezoso; si has hecho daño a alguien con palabras o con obras; si has robado, descuidado tu deber, dejado las cosas sin hacer o causado algún perjuicio.",
+          "refs": [
+            {
+              "label": "Santiago 5:16",
+              "book_usfm": "JAS",
+              "chapter": 5
+            },
+            {
+              "label": "1 Juan 1:9",
+              "book_usfm": "1JN",
+              "chapter": 1
+            },
+            {
+              "label": "Juan 20:23",
+              "book_usfm": "JHN",
+              "chapter": 20
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 6,
+      "title": "El sacramento del altar",
+      "questions": [
+        {
+          "number": 29,
+          "section": "El sacramento del altar",
+          "question": "¿Qué es el sacramento del altar?",
+          "answer": "¿Qué es el sacramento del altar?\n\nEs el verdadero cuerpo y la verdadera sangre de nuestro Señor Jesucristo, bajo el pan y el vino, instituido por Cristo mismo para que los cristianos lo comamos y lo bebamos.\n\n¿Dónde está escrito esto?\n\nAsí escriben los santos evangelistas Mateo, Marcos y Lucas, y san Pablo: «Nuestro Señor Jesucristo, la noche en que fue entregado, tomó el pan, dio gracias, lo partió, lo dio a sus discípulos y dijo: “Tomen, coman; esto es mi cuerpo, que por ustedes es dado; hagan esto en memoria de mí”. Asimismo tomó también la copa, después de haber cenado, dio gracias, se la dio y dijo: “Tomen y beban todos de ella; esta copa es el nuevo testamento en mi sangre, que por ustedes es derramada para el perdón de los pecados; hagan esto todas las veces que la beban, en memoria de mí”».",
+          "refs": [
+            {
+              "label": "Mateo 26:26-28",
+              "book_usfm": "MAT",
+              "chapter": 26
+            },
+            {
+              "label": "Marcos 14:22-24",
+              "book_usfm": "MRK",
+              "chapter": 14
+            },
+            {
+              "label": "Lucas 22:19-20",
+              "book_usfm": "LUK",
+              "chapter": 22
+            },
+            {
+              "label": "1 Corintios 11:23-25",
+              "book_usfm": "1CO",
+              "chapter": 11
+            }
+          ]
+        },
+        {
+          "number": 30,
+          "section": "El sacramento del altar",
+          "question": "¿De qué sirve comer y beber así?",
+          "answer": "¿De qué sirve este comer y beber?\n\nNos lo indican estas palabras: «por ustedes es dado» y «por ustedes es derramada para el perdón de los pecados». Es decir, que en el sacramento, por estas palabras, se nos da el perdón de los pecados, vida y salvación; porque donde hay perdón de los pecados, hay también vida y salvación.",
+          "refs": [
+            {
+              "label": "Mateo 26:28",
+              "book_usfm": "MAT",
+              "chapter": 26
+            }
+          ]
+        },
+        {
+          "number": 31,
+          "section": "El sacramento del altar",
+          "question": "¿Cómo puede el comer y beber hacer cosas tan grandes?",
+          "answer": "¿Cómo puede el comer y beber corporal hacer cosas tan grandes?\n\nEl comer y beber ciertamente no las hace, sino las palabras que están aquí escritas: «por ustedes es dado» y «por ustedes es derramada para el perdón de los pecados». Estas palabras, junto con el comer y beber corporal, son lo principal en el sacramento; y quien cree estas palabras tiene lo que dicen y expresan, a saber, el perdón de los pecados.",
+          "refs": [
+            {
+              "label": "Lucas 22:19-20",
+              "book_usfm": "LUK",
+              "chapter": 22
+            }
+          ]
+        },
+        {
+          "number": 32,
+          "section": "El sacramento del altar",
+          "question": "¿Quién lo recibe dignamente?",
+          "answer": "¿Quién recibe, pues, este sacramento dignamente?\n\nEl ayunar y prepararse corporalmente es, por cierto, una buena disciplina externa; pero verdaderamente digno y bien preparado está quien tiene fe en estas palabras: «por ustedes es dado» y «por ustedes es derramada para el perdón de los pecados». Pero quien no cree estas palabras, o duda de ellas, no es digno ni está preparado; porque las palabras «por ustedes» exigen corazones que crean.",
+          "refs": [
+            {
+              "label": "1 Corintios 11:27-29",
+              "book_usfm": "1CO",
+              "chapter": 11
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 7,
+      "title": "Oraciones para cada día",
+      "questions": [
+        {
+          "number": 33,
+          "section": "Oraciones para cada día",
+          "question": "La oración de la mañana",
+          "answer": "Por la mañana, al levantarte, santíguate con la señal de la santa cruz y di:\n\n«¡Dios Padre, Hijo y Espíritu Santo me guarde! Amén».\n\nLuego, de rodillas o de pie, di el Credo y el Padrenuestro. Si quieres, puedes decir además esta breve oración:\n\n«Te doy gracias, mi Padre celestial, por Jesucristo, tu amado Hijo, porque me has guardado esta noche de todo mal y peligro; y te ruego que también hoy me guardes del pecado y de todo mal, para que te agraden todas mis obras y mi vida. Porque en tus manos me encomiendo yo, mi cuerpo, mi alma y todo lo mío. Tu santo ángel sea conmigo, para que el maligno enemigo no tenga poder sobre mí. Amén».\n\nY luego ve con alegría a tu trabajo, y canta quizá un himno, como los diez mandamientos o lo que tu devoción te inspire.",
+          "refs": [
+            {
+              "label": "Salmo 5:3",
+              "book_usfm": "PSA",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 34,
+          "section": "Oraciones para cada día",
+          "question": "La oración de la noche",
+          "answer": "Por la noche, al acostarte, santíguate con la señal de la santa cruz y di:\n\n«¡Dios Padre, Hijo y Espíritu Santo me guarde! Amén».\n\nLuego, de rodillas o de pie, di el Credo y el Padrenuestro. Si quieres, puedes decir además esta breve oración:\n\n«Te doy gracias, mi Padre celestial, por Jesucristo, tu amado Hijo, porque me has guardado por tu gracia este día; y te ruego que me perdones todos mis pecados y el mal que he hecho, y que esta noche me guardes por tu gracia. Porque en tus manos me encomiendo yo, mi cuerpo, mi alma y todo lo mío. Tu santo ángel sea conmigo, para que el maligno enemigo no tenga poder sobre mí. Amén».\n\nY después, duérmete enseguida y con alegría.",
+          "refs": [
+            {
+              "label": "Salmo 4:8",
+              "book_usfm": "PSA",
+              "chapter": 4
+            }
+          ]
+        },
+        {
+          "number": 35,
+          "section": "Oraciones para cada día",
+          "question": "La oración antes de comer",
+          "answer": "Los niños y la familia deben acercarse a la mesa con reverencia, con las manos juntas, y decir:\n\n«Los ojos de todos esperan en ti, Señor, y tú les das su comida a su tiempo. Abres tu mano y sacias de buena gana a todo ser viviente».\n\n«De buena gana» quiere decir que todos los animales reciben tanto de comer que quedan contentos y alegres; porque la preocupación y la avaricia impiden ese contento.\n\nDespués, el Padrenuestro y esta oración:\n\n«Señor Dios, Padre celestial, bendícenos a nosotros y a estos dones que recibimos de tu generosa bondad, por Jesucristo nuestro Señor. Amén».",
+          "refs": [
+            {
+              "label": "Salmo 145:15-16",
+              "book_usfm": "PSA",
+              "chapter": 145
+            }
+          ]
+        },
+        {
+          "number": 36,
+          "section": "Oraciones para cada día",
+          "question": "La oración después de comer",
+          "answer": "Asimismo, después de comer, deben decir con reverencia y con las manos juntas:\n\n«Den gracias al Señor, porque él es bueno, porque para siempre es su misericordia. Él da alimento a toda carne; da a la bestia su mantenimiento, y a los hijos de los cuervos que claman. No se deleita en la fuerza del caballo, ni se complace en la agilidad del hombre. Se complace el Señor en los que le temen, y en los que esperan en su misericordia».\n\nDespués, el Padrenuestro y esta oración:\n\n«Te damos gracias, Señor Dios, Padre, por Jesucristo nuestro Señor, por todos tus beneficios; tú que vives y reinas por los siglos de los siglos. Amén».",
+          "refs": [
+            {
+              "label": "Salmo 106:1",
+              "book_usfm": "PSA",
+              "chapter": 106
+            },
+            {
+              "label": "Salmo 136:25",
+              "book_usfm": "PSA",
+              "chapter": 136
+            },
+            {
+              "label": "Salmo 147:9-11",
+              "book_usfm": "PSA",
+              "chapter": 147
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

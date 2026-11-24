@@ -62,6 +62,16 @@ export const MATERIALS = [
     load: () => import('../data/materials/belga.json'),
   },
   {
+    slug: 'lutero-catecismo-menor',
+    total: 36,
+    name: 'Catecismo Menor de Lutero',
+    shortName: 'Catecismo de Lutero',
+    // Cada entrada es un mandamiento, artículo, petición o parte de un sacramento.
+    unit: 'item',
+    description: 'El catecismo de Lutero para enseñar la fe en casa (1529): mandamientos, Credo, Padrenuestro, sacramentos y oraciones diarias, con su «¿Qué significa esto?».',
+    load: () => import('../data/materials/lutero-catecismo-menor.json'),
+  },
+  {
     slug: 'heidelberg',
     total: 129,
     name: 'Catecismo de Heidelberg',
@@ -194,7 +204,7 @@ export const MATERIALS = [
 // de la landing verifica que cubren todo el catálogo, una sola vez.
 export const LIBRARY_SHELVES = [
   { id: 'ancient', slugs: ['didaje', 'credos', 'agustin-confesiones'] },
-  { id: 'continental', slugs: ['belga', 'heidelberg', 'calvino-vida-cristiana', 'dort'] },
+  { id: 'continental', slugs: ['lutero-catecismo-menor', 'belga', 'heidelberg', 'calvino-vida-cristiana', 'dort'] },
   { id: 'westminster', slugs: ['westminster-confesion', 'westminster-mayor', 'westminster-menor', 'catecismo-ninos-pequenos'] },
   { id: 'baptist', slugs: ['bautista-1689', 'keach', 'bautista-new-hampshire', 'spurgeon', 'spurgeon-ninos'] },
   { id: 'devotional', slugs: ['spurgeon-matutinas', 'spurgeon-vespertinas'] },

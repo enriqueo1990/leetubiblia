@@ -16,6 +16,7 @@ export const SUGGESTED_ORDER = [
   'didaje',
   'heidelberg',
   'calvino-vida-cristiana',
+  'lutero-catecismo-menor',
   'spurgeon',
   'keach',
   'belga',
