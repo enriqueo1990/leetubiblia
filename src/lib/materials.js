@@ -70,6 +70,16 @@ export const MATERIALS = [
     load: () => import('../data/materials/heidelberg.json'),
   },
   {
+    slug: 'calvino-vida-cristiana',
+    total: 20,
+    name: 'La vida cristiana, de Juan Calvino',
+    shortName: 'La vida cristiana',
+    // Como Agustín: cada entrada es una lectura de una a dos secciones.
+    unit: 'item',
+    description: 'Los capítulos más devocionales de la Institución (1559): no somos nuestros, la cruz, la vida futura y el uso de esta vida, en veinte lecturas.',
+    load: () => import('../data/materials/calvino-vida-cristiana.json'),
+  },
+  {
     slug: 'dort',
     total: 59,
     name: 'Cánones de Dort',
@@ -184,7 +194,7 @@ export const MATERIALS = [
 // de la landing verifica que cubren todo el catálogo, una sola vez.
 export const LIBRARY_SHELVES = [
   { id: 'ancient', slugs: ['didaje', 'credos', 'agustin-confesiones'] },
-  { id: 'continental', slugs: ['belga', 'heidelberg', 'dort'] },
+  { id: 'continental', slugs: ['belga', 'heidelberg', 'calvino-vida-cristiana', 'dort'] },
   { id: 'westminster', slugs: ['westminster-confesion', 'westminster-mayor', 'westminster-menor', 'catecismo-ninos-pequenos'] },
   { id: 'baptist', slugs: ['bautista-1689', 'keach', 'bautista-new-hampshire', 'spurgeon', 'spurgeon-ninos'] },
   { id: 'devotional', slugs: ['spurgeon-matutinas', 'spurgeon-vespertinas'] },

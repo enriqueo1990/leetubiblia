@@ -19,7 +19,7 @@ import { getMaterial } from '../lib/materials.js'
 import { materialTheme } from '../lib/materialTheme.js'
 
 // Landing pública /biblioteca — las «lecturas adicionales» de la app (en la app se
-// llaman Biblioteca / materiales de lectura): diecisiete catecismos, confesiones, credos
+// llaman Biblioteca / materiales de lectura): dieciocho catecismos, confesiones, credos
 // y un devocional para sumar a Hoy. Misma familia visual que /info (sistema lk-* de
 // landingSystem.js, estilos in-* de infoStyles.js) y estilos propios bb-*.
 //
@@ -149,7 +149,7 @@ export default function Biblioteca() {
                 Para leer despacio, <em>además de tu Biblia</em>.
               </h1>
               <p className="lk-lede in-hero-lede in-enter in-enter-2">
-                Diecisiete lecturas de la tradición cristiana para sumar a tu día: credos, catecismos, confesiones y un
+                Dieciocho lecturas de la tradición cristiana para sumar a tu día: credos, catecismos, confesiones y un
                 devocional para cada mañana. Las agregás a tu estante y aparecen en Hoy, junto a tu lectura.
               </p>
               <div className="in-hero-cta in-enter in-enter-3">
@@ -157,7 +157,7 @@ export default function Biblioteca() {
                   Empezar gratis
                 </AppLink>
                 <a href="#estantes" className="lk-textlink inline-flex min-h-11 items-center gap-1">
-                  Ver los diecisiete libros <Ico name="down" />
+                  Ver los dieciocho libros <Ico name="down" />
                 </a>
               </div>
               <p className="in-micro in-enter in-enter-4">
@@ -259,11 +259,11 @@ export default function Biblioteca() {
           </div>
         </section>
 
-        {/* ── LOS DIECISIETE LIBROS ───────────────────────────────────── */}
+        {/* ── LOS DIECIOCHO LIBROS ───────────────────────────────────── */}
         <section className="in-sec" id="estantes">
           <div className="lk-wrap">
             <div className="in-sec-head in-rv">
-              <Eyebrow>Los diecisiete libros</Eyebrow>
+              <Eyebrow>Los dieciocho libros</Eyebrow>
               <SectionTitle>
                 Elegí por dónde <em>empezar</em>.
               </SectionTitle>

@@ -71,7 +71,7 @@ const PLANES = [
 const MATERIALES = [
   {
     group: 'Credos y confesiones',
-    items: ['La Didajé', 'Credos de la iglesia antigua', 'Confesiones de San Agustín', 'Confesión Belga', 'Cánones de Dort', 'Confesión de Fe de Westminster', 'Confesión Bautista de 1689', 'Confesión Bautista de New Hampshire'],
+    items: ['Credos de la iglesia antigua', 'Confesión Belga', 'Cánones de Dort', 'Confesión de Fe de Westminster', 'Confesión Bautista de 1689', 'Confesión Bautista de New Hampshire'],
   },
   {
     group: 'Catecismos',
@@ -84,6 +84,10 @@ const MATERIALES = [
       'Catecismo para Niños de Spurgeon',
       'Catecismo para Niños Pequeños',
     ],
+  },
+  {
+    group: 'Clásicos',
+    items: ['La Didajé', 'Confesiones de San Agustín', 'La vida cristiana, de Juan Calvino'],
   },
   {
     group: 'Devocionales',

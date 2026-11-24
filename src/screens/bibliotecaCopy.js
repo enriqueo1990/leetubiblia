@@ -17,7 +17,7 @@ export const BIBLIOTECA_URL = 'https://leetubiblia.com/biblioteca'
 export const BIBLIOTECA_META = {
   title: 'Lee Tu Biblia · Biblioteca: catecismos, credos y devocional',
   description:
-    'Diecisiete lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
+    'Dieciocho lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
 }
 
 // Qué hay en cada libro, tal como lo dicen los JSON (`entries`) y el catálogo
@@ -53,6 +53,12 @@ export const BOOKS = {
     total: 129,
     year: '1563',
     blurb: 'Cálido y pastoral: del consuelo a la gratitud, repartido en 52 Días del Señor, uno por domingo.',
+  },
+  'calvino-vida-cristiana': {
+    count: '20 lecturas',
+    total: 20,
+    year: '1559',
+    blurb: 'Lo más devocional de la Institución de Calvino: no somos nuestros, la cruz, la vida futura y el uso de esta vida.',
   },
   dort: {
     count: '59 artículos',
@@ -141,8 +147,8 @@ export const SHELVES = [
   {
     id: 'continental',
     title: 'Reforma en el continente',
-    note: 'Los Países Bajos y Alemania, siglos XVI y XVII: las llamadas Tres Formas de Unidad.',
-    slugs: ['belga', 'heidelberg', 'dort'],
+    note: 'Ginebra, los Países Bajos y Alemania, siglos XVI y XVII: las Tres Formas de Unidad y Calvino.',
+    slugs: ['belga', 'heidelberg', 'calvino-vida-cristiana', 'dort'],
   },
   {
     id: 'westminster',

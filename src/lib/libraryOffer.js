@@ -15,6 +15,7 @@ export const SUGGESTED_ORDER = [
   'credos',
   'didaje',
   'heidelberg',
+  'calvino-vida-cristiana',
   'spurgeon',
   'keach',
   'belga',

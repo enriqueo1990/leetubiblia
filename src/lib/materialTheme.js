@@ -20,6 +20,7 @@ const THEMES = {
   'agustin-confesiones': { title: 'Confesiones', c: '#7A5A2E', spine: '#5E4421', ink: '#FBF3E6', soft: 'rgba(251,243,230,.66)', acc: '#F1D08F', papelAcc: '#7A5A2E', byline: 'San Agustín', year: '397', kind: 'classic' },
   belga: { title: 'Belga', c: '#3D5567', spine: '#2D4151', ink: '#EEF2F5', soft: 'rgba(238,242,245,.64)', acc: '#EDBE8F', papelAcc: '#3D5567', year: '1561', kind: 'confession' },
   heidelberg: { title: 'Heidelberg', c: '#1F3B2D', spine: '#152A20', ink: '#EFE9DB', soft: 'rgba(239,233,219,.64)', acc: '#C9D59E', papelAcc: '#1F3B2D', year: '1563', kind: 'catechism' },
+  'calvino-vida-cristiana': { title: 'La vida cristiana', c: '#8A3A33', spine: '#6E2D27', ink: '#FBF0EA', soft: 'rgba(251,240,234,.66)', acc: '#F1C987', papelAcc: '#8A3A33', byline: 'Juan Calvino', year: '1559', kind: 'classic' },
   dort: { title: 'Dort', c: '#2F2B28', spine: '#211E1C', ink: '#F2EDE6', soft: 'rgba(242,237,230,.62)', acc: '#E0B46A', papelAcc: '#2F2B28', year: '1619', kind: 'canons' },
   'westminster-confesion': { title: 'Westminster', c: '#2C4A7A', spine: '#203860', ink: '#EEF2F8', soft: 'rgba(238,242,248,.64)', acc: '#E6C66E', papelAcc: '#2C4A7A', year: '1646', kind: 'confession' },
   'westminster-menor': { title: 'Menor de Westminster', c: '#1B2944', spine: '#121D33', ink: '#EEF0F4', soft: 'rgba(238,240,244,.62)', acc: '#E6C66E', papelAcc: '#1B2944', year: '1647', kind: 'catechism' },
