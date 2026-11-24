@@ -82,6 +82,7 @@ const MATERIALES = [
       'Catecismo de Keach',
       'Catecismo de Spurgeon',
       'Catecismo para Niños de Spurgeon',
+      'Catecismo para Niños Pequeños',
     ],
   },
   {

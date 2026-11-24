@@ -1,0 +1,1052 @@
+{
+  "slug": "catecismo-ninos-pequenos",
+  "name": "Catecismo para Niños Pequeños",
+  "description": "Catecismo presbiteriano de 1840, escrito por Joseph P. Engles como introducción al Catecismo Menor de Westminster: 145 preguntas muy breves para enseñar la fe a los más chicos en familia.",
+  "cadence": "sequence",
+  "source": "Traducción original al español realizada a partir del texto inglés de dominio público de 1840 (Presbyterian Board of Publication, Filadelfia). Citas de los mandamientos y del Padrenuestro según Reina-Valera 1909 (dominio público), como en el Catecismo Menor de esta Biblioteca; las demás citas bíblicas se traducen del inglés. En la pregunta 60, que en 1840 decía «más de mil ochocientos años», se actualizó la cuenta. Las referencias señalan los pasajes que el catecismo cita.",
+  "intro": [
+    "El Catecismo para Niños Pequeños se publicó en Filadelfia en 1840 por la Junta de Publicaciones de la Iglesia Presbiteriana. Lo preparó Joseph Patterson Engles, anciano gobernante de una iglesia presbiteriana de esa ciudad, como una puerta de entrada al Catecismo Menor de Westminster para niños de entre dos y nueve años.",
+    "Sus 145 preguntas son muy breves, y muchas respuestas caben en una línea, para que los chicos las aprendan de memoria en casa: «¿Quién te hizo? Dios». Recorren la creación, el pecado y la salvación en Cristo, los diez mandamientos, el Padrenuestro, los sacramentos y lo que vendrá. Es presbiteriano: en las preguntas 129 y 130 enseña que se bautiza también a los hijos de los creyentes.",
+    "Esta edición lo reparte en bloques por tema. Funciona mejor de a pocas preguntas por día, leídas en voz alta en familia, repitiendo las anteriores antes de pasar a las nuevas."
+  ],
+  "entries": [
+    {
+      "block": 1,
+      "title": "Dios y la Biblia",
+      "questions": [
+        {
+          "number": 1,
+          "question": "¿Quién te hizo?",
+          "answer": "Dios.",
+          "refs": [
+            {
+              "label": "Génesis 1:27",
+              "book_usfm": "GEN",
+              "chapter": 1
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "question": "¿Qué más hizo Dios?",
+          "answer": "Dios hizo todas las cosas.",
+          "refs": []
+        },
+        {
+          "number": 3,
+          "question": "¿Para qué te hizo Dios a ti y a todas las cosas?",
+          "answer": "Para su propia gloria.",
+          "refs": []
+        },
+        {
+          "number": 4,
+          "question": "¿Cómo puedes glorificar a Dios?",
+          "answer": "Amándolo y haciendo lo que él manda.",
+          "refs": []
+        },
+        {
+          "number": 5,
+          "question": "¿Por qué debes glorificar a Dios?",
+          "answer": "Porque él me hizo y me cuida.",
+          "refs": []
+        },
+        {
+          "number": 6,
+          "question": "¿Hay más de un Dios?",
+          "answer": "Hay un solo Dios.",
+          "refs": []
+        },
+        {
+          "number": 7,
+          "question": "¿En cuántas personas existe este único Dios?",
+          "answer": "En tres personas.",
+          "refs": []
+        },
+        {
+          "number": 8,
+          "question": "¿Cuáles son?",
+          "answer": "El Padre, el Hijo y el Espíritu Santo.",
+          "refs": []
+        },
+        {
+          "number": 9,
+          "question": "¿Qué es Dios?",
+          "answer": "Dios es Espíritu, y no tiene cuerpo como las personas.",
+          "refs": []
+        },
+        {
+          "number": 10,
+          "question": "¿Dónde está Dios?",
+          "answer": "Dios está en todas partes.",
+          "refs": []
+        },
+        {
+          "number": 11,
+          "question": "¿Puedes ver a Dios?",
+          "answer": "No; yo no puedo ver a Dios, pero él siempre me ve a mí.",
+          "refs": []
+        },
+        {
+          "number": 12,
+          "question": "¿Sabe Dios todas las cosas?",
+          "answer": "Sí; nada se le puede esconder a Dios.",
+          "refs": []
+        },
+        {
+          "number": 13,
+          "question": "¿Puede Dios hacer todas las cosas?",
+          "answer": "Sí; Dios puede hacer toda su santa voluntad.",
+          "refs": []
+        },
+        {
+          "number": 14,
+          "question": "¿Dónde aprendes a amar y obedecer a Dios?",
+          "answer": "Solamente en la Biblia.",
+          "refs": []
+        },
+        {
+          "number": 15,
+          "question": "¿Quiénes escribieron la Biblia?",
+          "answer": "Hombres santos, enseñados por el Espíritu Santo.",
+          "refs": [
+            {
+              "label": "2 Pedro 1:21",
+              "book_usfm": "2PE",
+              "chapter": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "block": 2,
+      "title": "La creación del hombre",
+      "questions": [
+        {
+          "number": 16,
+          "question": "¿Quiénes fueron nuestros primeros padres?",
+          "answer": "Adán y Eva.",
+          "refs": []
+        },
+        {
+          "number": 17,
+          "question": "¿De qué fueron hechos nuestros primeros padres?",
+          "answer": "Dios hizo el cuerpo de Adán de la tierra, y formó a Eva del cuerpo de Adán.",
+          "refs": []
+        },
+        {
+          "number": 18,
+          "question": "¿Qué les dio Dios a Adán y Eva además del cuerpo?",
+          "answer": "Les dio almas que nunca pueden morir.",
+          "refs": []
+        },
+        {
+          "number": 19,
+          "question": "¿Tienes tú un alma además de un cuerpo?",
+          "answer": "Sí; tengo un alma que nunca puede morir.",
+          "refs": []
+        },
+        {
+          "number": 20,
+          "question": "¿Cómo sabes que tienes un alma?",
+          "answer": "Porque puedo pensar en Dios y en el mundo que vendrá.",
+          "refs": []
+        },
+        {
+          "number": 21,
+          "question": "¿Cómo creó Dios a Adán y Eva?",
+          "answer": "Los creó santos y felices.",
+          "refs": []
+        }
+      ]
+    },
+    {
+      "block": 3,
+      "title": "El pacto de obras y el pecado",
+      "questions": [
+        {
+          "number": 22,
+          "question": "¿Qué es un pacto?",
+          "answer": "Un acuerdo entre dos o más personas.",
+          "refs": []
+        },
+        {
+          "number": 23,
+          "question": "¿Qué pacto hizo Dios con Adán?",
+          "answer": "El pacto de obras.",
+          "refs": []
+        },
+        {
+          "number": 24,
+          "question": "¿A qué estaba obligado Adán por el pacto de obras?",
+          "answer": "A obedecer a Dios perfectamente.",
+          "refs": []
+        },
+        {
+          "number": 25,
+          "question": "¿Qué prometió Dios en el pacto de obras?",
+          "answer": "Recompensar a Adán con la vida si le obedecía.",
+          "refs": []
+        },
+        {
+          "number": 26,
+          "question": "¿Con qué amenazó Dios en el pacto de obras?",
+          "answer": "Con castigar a Adán con la muerte si le desobedecía.",
+          "refs": []
+        },
+        {
+          "number": 27,
+          "question": "¿Cumplió Adán el pacto de obras?",
+          "answer": "No; pecó contra Dios.",
+          "refs": []
+        },
+        {
+          "number": 28,
+          "question": "¿Qué es el pecado?",
+          "answer": "El pecado es toda falta de conformidad con la ley de Dios, o toda transgresión de ella.",
+          "refs": []
+        },
+        {
+          "number": 29,
+          "question": "¿Qué quiere decir falta de conformidad?",
+          "answer": "No ser o no hacer lo que Dios pide.",
+          "refs": []
+        },
+        {
+          "number": 30,
+          "question": "¿Qué quiere decir transgresión?",
+          "answer": "Hacer lo que Dios prohíbe.",
+          "refs": []
+        },
+        {
+          "number": 31,
+          "question": "¿Cuál fue el pecado de nuestros primeros padres?",
+          "answer": "Comer del fruto prohibido.",
+          "refs": []
+        },
+        {
+          "number": 32,
+          "question": "¿Quién los tentó a cometer este pecado?",
+          "answer": "El diablo tentó a Eva, y ella le dio el fruto a Adán.",
+          "refs": []
+        },
+        {
+          "number": 33,
+          "question": "¿Qué les pasó a nuestros primeros padres cuando pecaron?",
+          "answer": "En lugar de ser santos y felices, se volvieron pecadores y desdichados.",
+          "refs": []
+        },
+        {
+          "number": 34,
+          "question": "¿Actuó Adán solo por sí mismo en el pacto de obras?",
+          "answer": "No; representaba a todos sus descendientes.",
+          "refs": []
+        },
+        {
+          "number": 35,
+          "question": "¿Qué efecto tuvo el pecado de Adán sobre toda la humanidad?",
+          "answer": "Toda la humanidad nace en un estado de pecado y desdicha.",
+          "refs": []
+        },
+        {
+          "number": 36,
+          "question": "¿Cómo se llama esa naturaleza pecadora que heredamos de Adán?",
+          "answer": "Pecado original.",
+          "refs": []
+        },
+        {
+          "number": 37,
+          "question": "¿Qué merece todo pecado?",
+          "answer": "La ira y la maldición de Dios.",
+          "refs": []
+        },
+        {
+          "number": 38,
+          "question": "¿Puede alguien ir al cielo con esta naturaleza pecadora?",
+          "answer": "No; nuestro corazón tiene que ser cambiado antes de que podamos estar preparados para el cielo.",
+          "refs": []
+        },
+        {
+          "number": 39,
+          "question": "¿Cómo se llama el cambio del corazón?",
+          "answer": "Regeneración.",
+          "refs": []
+        },
+        {
+          "number": 40,
+          "question": "¿Quién puede cambiar el corazón de un pecador?",
+          "answer": "Solamente el Espíritu Santo.",
+          "refs": []
+        },
+        {
+          "number": 41,
+          "question": "¿Puede alguien salvarse por el pacto de obras?",
+          "answer": "Nadie puede salvarse por el pacto de obras.",
+          "refs": []
+        },
+        {
+          "number": 42,
+          "question": "¿Por qué nadie puede salvarse por el pacto de obras?",
+          "answer": "Porque todos lo han quebrantado, y están condenados por él.",
+          "refs": []
+        }
+      ]
+    },
+    {
+      "block": 4,
+      "title": "El pacto de gracia y la salvación",
+      "questions": [
+        {
+          "number": 43,
+          "question": "¿Con quién hizo Dios Padre el pacto de gracia?",
+          "answer": "Con Cristo, su Hijo eterno.",
+          "refs": []
+        },
+        {
+          "number": 44,
+          "question": "¿A quiénes representó Cristo en el pacto de gracia?",
+          "answer": "A su pueblo escogido.",
+          "refs": []
+        },
+        {
+          "number": 45,
+          "question": "¿Qué se comprometió a hacer Cristo en el pacto de gracia?",
+          "answer": "Cumplir toda la ley en lugar de su pueblo, y sufrir el castigo que merecían sus pecados.",
+          "refs": []
+        },
+        {
+          "number": 46,
+          "question": "¿Cometió nuestro Señor Jesucristo alguna vez el más pequeño pecado?",
+          "answer": "No; él fue santo, inocente y sin mancha.",
+          "refs": []
+        },
+        {
+          "number": 47,
+          "question": "¿Cómo pudo sufrir el Hijo de Dios?",
+          "answer": "Cristo, el Hijo de Dios, se hizo hombre para poder obedecer y sufrir en nuestra naturaleza.",
+          "refs": []
+        },
+        {
+          "number": 48,
+          "question": "¿Qué significa la expiación?",
+          "answer": "Que Cristo satisfizo la justicia de Dios, con sus sufrimientos y su muerte, en lugar de los pecadores.",
+          "refs": []
+        },
+        {
+          "number": 49,
+          "question": "¿Qué se comprometió a hacer Dios Padre en el pacto de gracia?",
+          "answer": "Justificar y santificar a aquellos por quienes Cristo iba a morir.",
+          "refs": []
+        },
+        {
+          "number": 50,
+          "question": "¿Qué es la justificación?",
+          "answer": "Es que Dios perdona a los pecadores y los trata como si nunca hubieran pecado.",
+          "refs": []
+        },
+        {
+          "number": 51,
+          "question": "¿Qué es la santificación?",
+          "answer": "Es que Dios hace santos a los pecadores en su corazón y en su conducta.",
+          "refs": []
+        },
+        {
+          "number": 52,
+          "question": "¿Por quiénes obedeció y sufrió Cristo?",
+          "answer": "Por aquellos que el Padre le había dado.",
+          "refs": []
+        },
+        {
+          "number": 53,
+          "question": "¿Qué clase de vida vivió Cristo en la tierra?",
+          "answer": "Una vida de pobreza y de sufrimiento.",
+          "refs": []
+        },
+        {
+          "number": 54,
+          "question": "¿Qué clase de muerte sufrió Cristo?",
+          "answer": "La muerte dolorosa y vergonzosa de la cruz.",
+          "refs": []
+        },
+        {
+          "number": 55,
+          "question": "¿Quiénes serán salvos?",
+          "answer": "Solamente los que se arrepienten del pecado, creen en Cristo y viven una vida santa.",
+          "refs": []
+        },
+        {
+          "number": 56,
+          "question": "¿Qué es arrepentirse?",
+          "answer": "Es sentir dolor por el pecado, y odiarlo y dejarlo, porque desagrada a Dios.",
+          "refs": []
+        },
+        {
+          "number": 57,
+          "question": "¿Qué es creer en Cristo, o tener fe en él?",
+          "answer": "Confiar solamente en Cristo para la salvación.",
+          "refs": []
+        },
+        {
+          "number": 58,
+          "question": "¿Puedes arrepentirte y creer en Cristo por tus propias fuerzas?",
+          "answer": "No; no puedo hacer nada bueno sin la ayuda del Espíritu Santo de Dios.",
+          "refs": []
+        },
+        {
+          "number": 59,
+          "question": "¿Cómo puedes recibir la ayuda del Espíritu Santo?",
+          "answer": "Dios nos ha dicho que debemos pedirle el Espíritu Santo en oración.",
+          "refs": []
+        },
+        {
+          "number": 60,
+          "question": "¿Hace cuánto tiempo murió Cristo?",
+          "answer": "Hace casi dos mil años.",
+          "refs": []
+        },
+        {
+          "number": 61,
+          "question": "¿Cómo se salvaban las personas piadosas antes de la venida de Cristo?",
+          "answer": "Creyendo en un Salvador que había de venir.",
+          "refs": []
+        },
+        {
+          "number": 62,
+          "question": "¿Cómo mostraban su fe?",
+          "answer": "Ofreciendo sacrificios en el altar de Dios.",
+          "refs": []
+        },
+        {
+          "number": 63,
+          "question": "¿Qué representaban estos sacrificios?",
+          "answer": "A Cristo, el Cordero de Dios, que había de morir por los pecadores.",
+          "refs": []
+        }
+      ]
+    },
+    {
+      "block": 5,
+      "title": "Cristo, Profeta, Sacerdote y Rey",
+      "questions": [
+        {
+          "number": 64,
+          "question": "¿Qué oficios tiene Cristo?",
+          "answer": "Cristo tiene tres oficios.",
+          "refs": []
+        },
+        {
+          "number": 65,
+          "question": "¿Cuáles son?",
+          "answer": "El oficio de profeta, el de sacerdote y el de rey.",
+          "refs": []
+        },
+        {
+          "number": 66,
+          "question": "¿Por qué Cristo es profeta?",
+          "answer": "Porque nos enseña la voluntad de Dios.",
+          "refs": []
+        },
+        {
+          "number": 67,
+          "question": "¿Por qué Cristo es sacerdote?",
+          "answer": "Porque murió por nuestros pecados y ruega a Dios por nosotros.",
+          "refs": []
+        },
+        {
+          "number": 68,
+          "question": "¿Por qué Cristo es rey?",
+          "answer": "Porque nos gobierna y nos defiende.",
+          "refs": []
+        },
+        {
+          "number": 69,
+          "question": "¿Por qué necesitas a Cristo como profeta?",
+          "answer": "Porque soy ignorante.",
+          "refs": []
+        },
+        {
+          "number": 70,
+          "question": "¿Por qué necesitas a Cristo como sacerdote?",
+          "answer": "Porque soy culpable.",
+          "refs": []
+        },
+        {
+          "number": 71,
+          "question": "¿Por qué necesitas a Cristo como rey?",
+          "answer": "Porque soy débil y no puedo valerme solo.",
+          "refs": []
+        }
+      ]
+    },
+    {
+      "block": 6,
+      "title": "Los diez mandamientos",
+      "questions": [
+        {
+          "number": 72,
+          "question": "¿Cuántos mandamientos dio Dios en el monte Sinaí?",
+          "answer": "Diez mandamientos.",
+          "refs": []
+        },
+        {
+          "number": 73,
+          "question": "¿Cómo se llaman a veces los diez mandamientos?",
+          "answer": "El Decálogo.",
+          "refs": []
+        },
+        {
+          "number": 74,
+          "question": "¿Qué enseñan los cuatro primeros mandamientos?",
+          "answer": "Nuestro deber para con Dios.",
+          "refs": []
+        },
+        {
+          "number": 75,
+          "question": "¿Qué enseñan los seis últimos mandamientos?",
+          "answer": "Nuestro deber para con nuestro prójimo.",
+          "refs": []
+        },
+        {
+          "number": 76,
+          "question": "¿Cuál es el resumen de los diez mandamientos?",
+          "answer": "Amar a Dios con todo mi corazón, y a mi prójimo como a mí mismo.",
+          "refs": [
+            {
+              "label": "Mateo 22:37-39",
+              "book_usfm": "MAT",
+              "chapter": 22
+            }
+          ]
+        },
+        {
+          "number": 77,
+          "question": "¿Quién es tu prójimo?",
+          "answer": "Todas las personas son mi prójimo.",
+          "refs": []
+        },
+        {
+          "number": 78,
+          "question": "¿Está Dios contento con los que lo aman y le obedecen?",
+          "answer": "Sí; él dice: «Yo amo a los que me aman».",
+          "refs": [
+            {
+              "label": "Proverbios 8:17",
+              "book_usfm": "PRO",
+              "chapter": 8
+            }
+          ]
+        },
+        {
+          "number": 79,
+          "question": "¿Está Dios disgustado con los que no lo aman ni le obedecen?",
+          "answer": "Sí; «Dios está enojado con el impío todos los días».",
+          "refs": [
+            {
+              "label": "Salmo 7:11",
+              "book_usfm": "PSA",
+              "chapter": 7
+            }
+          ]
+        },
+        {
+          "number": 80,
+          "question": "¿Cuál es el primer mandamiento?",
+          "answer": "El primer mandamiento es: «No tendrás dioses ajenos delante de mí».",
+          "refs": [
+            {
+              "label": "Éxodo 20:3",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 81,
+          "question": "¿Qué nos enseña el primer mandamiento?",
+          "answer": "A adorar solamente a Dios.",
+          "refs": []
+        },
+        {
+          "number": 82,
+          "question": "¿Cuál es el segundo mandamiento?",
+          "answer": "El segundo mandamiento es: «No te harás imagen, ni ninguna semejanza de cosa que esté arriba en el cielo, ni abajo en la tierra, ni en las aguas debajo de la tierra. No te inclinarás á ellas, ni las honrarás; porque yo soy Jehová tu Dios, fuerte, celoso, que visito la maldad de los padres sobre los hijos, sobre los terceros y sobre los cuartos, á los que me aborrecen, y que hago misericordia en millares á los que me aman, y guardan mis mandamientos».",
+          "refs": [
+            {
+              "label": "Éxodo 20:4-6",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 83,
+          "question": "¿Qué nos enseña el segundo mandamiento?",
+          "answer": "A adorar a Dios de la manera debida, y a no caer en la idolatría.",
+          "refs": []
+        },
+        {
+          "number": 84,
+          "question": "¿Cuál es el tercer mandamiento?",
+          "answer": "El tercer mandamiento es: «No tomarás el nombre de Jehová tu Dios en vano; porque no dará por inocente Jehová al que tomare su nombre en vano».",
+          "refs": [
+            {
+              "label": "Éxodo 20:7",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 85,
+          "question": "¿Qué nos enseña el tercer mandamiento?",
+          "answer": "A reverenciar el nombre de Dios, su palabra y sus obras.",
+          "refs": []
+        },
+        {
+          "number": 86,
+          "question": "¿Cuál es el cuarto mandamiento?",
+          "answer": "El cuarto mandamiento es: «Acordarte has del día del reposo, para santificarlo. Seis días trabajarás, y harás toda tu obra; mas el séptimo día será reposo para Jehová tu Dios: no hagas en él obra alguna, tú, ni tu hijo, ni tu hija, ni tu siervo, ni tu criada, ni tu bestia, ni tu extranjero que está dentro de tus puertas. Porque en seis días hizo Jehová los cielos y la tierra, la mar y todas las cosas que en ellos hay, y reposó en el séptimo día: por tanto Jehová bendijo el día del reposo y lo santificó».",
+          "refs": [
+            {
+              "label": "Éxodo 20:8-11",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 87,
+          "question": "¿Qué nos enseña el cuarto mandamiento?",
+          "answer": "A santificar el día de reposo.",
+          "refs": []
+        },
+        {
+          "number": 88,
+          "question": "¿Qué día de la semana es el día de reposo cristiano?",
+          "answer": "El primer día de la semana, llamado el día del Señor.",
+          "refs": []
+        },
+        {
+          "number": 89,
+          "question": "¿Por qué se llama el día del Señor?",
+          "answer": "Porque ese día Cristo resucitó de entre los muertos.",
+          "refs": [
+            {
+              "label": "Mateo 28:1-6",
+              "book_usfm": "MAT",
+              "chapter": 28
+            }
+          ]
+        },
+        {
+          "number": 90,
+          "question": "¿Cómo debemos pasar el día de reposo?",
+          "answer": "Orando y alabando, oyendo y leyendo la palabra de Dios, y haciendo el bien a nuestro prójimo.",
+          "refs": []
+        },
+        {
+          "number": 91,
+          "question": "¿Cuál es el quinto mandamiento?",
+          "answer": "El quinto mandamiento es: «Honra á tu padre y á tu madre, porque tus días se alarguen en la tierra que Jehová tu Dios te da».",
+          "refs": [
+            {
+              "label": "Éxodo 20:12",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 92,
+          "question": "¿Qué nos enseña el quinto mandamiento?",
+          "answer": "A amar y obedecer a nuestros padres y maestros.",
+          "refs": []
+        },
+        {
+          "number": 93,
+          "question": "¿Cuál es el sexto mandamiento?",
+          "answer": "El sexto mandamiento es: «No matarás».",
+          "refs": [
+            {
+              "label": "Éxodo 20:13",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 94,
+          "question": "¿Qué nos enseña el sexto mandamiento?",
+          "answer": "A no dejarnos llevar por el enojo.",
+          "refs": []
+        },
+        {
+          "number": 95,
+          "question": "¿Cuál es el séptimo mandamiento?",
+          "answer": "El séptimo mandamiento es: «No cometerás adulterio».",
+          "refs": [
+            {
+              "label": "Éxodo 20:14",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 96,
+          "question": "¿Qué nos enseña el séptimo mandamiento?",
+          "answer": "A ser puros en el corazón, en las palabras y en la conducta.",
+          "refs": []
+        },
+        {
+          "number": 97,
+          "question": "¿Cuál es el octavo mandamiento?",
+          "answer": "El octavo mandamiento es: «No hurtarás».",
+          "refs": [
+            {
+              "label": "Éxodo 20:15",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 98,
+          "question": "¿Qué nos enseña el octavo mandamiento?",
+          "answer": "A ser honrados y trabajadores.",
+          "refs": []
+        },
+        {
+          "number": 99,
+          "question": "¿Cuál es el noveno mandamiento?",
+          "answer": "El noveno mandamiento es: «No hablarás contra tu prójimo falso testimonio».",
+          "refs": [
+            {
+              "label": "Éxodo 20:16",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 100,
+          "question": "¿Qué nos enseña el noveno mandamiento?",
+          "answer": "A decir la verdad.",
+          "refs": []
+        },
+        {
+          "number": 101,
+          "question": "¿Cuál es el décimo mandamiento?",
+          "answer": "El décimo mandamiento es: «No codiciarás la casa de tu prójimo, no codiciarás la mujer de tu prójimo, ni su siervo, ni su criada, ni su buey, ni su asno, ni cosa alguna de tu prójimo».",
+          "refs": [
+            {
+              "label": "Éxodo 20:17",
+              "book_usfm": "EXO",
+              "chapter": 20
+            }
+          ]
+        },
+        {
+          "number": 102,
+          "question": "¿Qué nos enseña el décimo mandamiento?",
+          "answer": "A estar contentos con lo que tenemos.",
+          "refs": []
+        },
+        {
+          "number": 103,
+          "question": "¿Puede alguien cumplir perfectamente estos diez mandamientos?",
+          "answer": "Desde la caída de Adán, ningún ser humano común los ha cumplido ni puede cumplirlos perfectamente.",
+          "refs": []
+        },
+        {
+          "number": 104,
+          "question": "¿Para qué nos sirven los diez mandamientos?",
+          "answer": "Nos enseñan nuestro deber, y nos muestran que necesitamos un Salvador.",
+          "refs": []
+        }
+      ]
+    },
+    {
+      "block": 7,
+      "title": "La oración y el Padrenuestro",
+      "questions": [
+        {
+          "number": 105,
+          "question": "¿Qué es la oración?",
+          "answer": "La oración es pedirle a Dios las cosas que él ha prometido dar.",
+          "refs": []
+        },
+        {
+          "number": 106,
+          "question": "¿En nombre de quién debemos orar?",
+          "answer": "Solamente en el nombre de Cristo.",
+          "refs": []
+        },
+        {
+          "number": 107,
+          "question": "¿Qué nos dio Cristo para enseñarnos a orar?",
+          "answer": "El Padrenuestro.",
+          "refs": []
+        },
+        {
+          "number": 108,
+          "question": "Di el Padrenuestro.",
+          "answer": "Padre nuestro que estás en los cielos, santificado sea tu nombre. Venga tu reino. Sea hecha tu voluntad, como en el cielo, así también en la tierra. Danos hoy nuestro pan cotidiano. Y perdónanos nuestras deudas, como también nosotros perdonamos á nuestros deudores. Y no nos metas en tentación, mas líbranos del mal: porque tuyo es el reino, y el poder, y la gloria, por todos los siglos. Amén.",
+          "refs": [
+            {
+              "label": "Mateo 6:9-13",
+              "book_usfm": "MAT",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 109,
+          "question": "¿Cuántas peticiones tiene el Padrenuestro?",
+          "answer": "Seis.",
+          "refs": []
+        },
+        {
+          "number": 110,
+          "question": "¿Cuál es la primera petición?",
+          "answer": "«Santificado sea tu nombre».",
+          "refs": []
+        },
+        {
+          "number": 111,
+          "question": "¿Qué pedimos en la primera petición?",
+          "answer": "Que el nombre de Dios sea honrado por nosotros y por todas las personas.",
+          "refs": []
+        },
+        {
+          "number": 112,
+          "question": "¿Cuál es la segunda petición?",
+          "answer": "«Venga tu reino».",
+          "refs": []
+        },
+        {
+          "number": 113,
+          "question": "¿Qué pedimos en la segunda petición?",
+          "answer": "Que el evangelio sea predicado en todo el mundo, y que nosotros y todas las personas lo creamos y obedezcamos.",
+          "refs": []
+        },
+        {
+          "number": 114,
+          "question": "¿Cuál es la tercera petición?",
+          "answer": "«Sea hecha tu voluntad, como en el cielo, así también en la tierra».",
+          "refs": []
+        },
+        {
+          "number": 115,
+          "question": "¿Qué pedimos en la tercera petición?",
+          "answer": "Que las personas en la tierra sirvan a Dios como lo hacen los ángeles en el cielo.",
+          "refs": []
+        },
+        {
+          "number": 116,
+          "question": "¿Cuál es la cuarta petición?",
+          "answer": "«Danos hoy nuestro pan cotidiano».",
+          "refs": []
+        },
+        {
+          "number": 117,
+          "question": "¿Qué pedimos en la cuarta petición?",
+          "answer": "Que Dios nos dé todo lo necesario para el cuerpo y para el alma.",
+          "refs": []
+        },
+        {
+          "number": 118,
+          "question": "¿Cuál es la quinta petición?",
+          "answer": "«Y perdónanos nuestras deudas, como también nosotros perdonamos á nuestros deudores».",
+          "refs": []
+        },
+        {
+          "number": 119,
+          "question": "¿Qué pedimos en la quinta petición?",
+          "answer": "Que Dios perdone nuestros pecados por amor de Cristo, y nos haga capaces de perdonar a los que nos han hecho mal.",
+          "refs": []
+        },
+        {
+          "number": 120,
+          "question": "¿Cuál es la sexta petición?",
+          "answer": "«Y no nos metas en tentación, mas líbranos del mal».",
+          "refs": []
+        },
+        {
+          "number": 121,
+          "question": "¿Qué pedimos en la sexta petición?",
+          "answer": "Que Dios nos guarde del pecado.",
+          "refs": []
+        }
+      ]
+    },
+    {
+      "block": 8,
+      "title": "Los sacramentos",
+      "questions": [
+        {
+          "number": 122,
+          "question": "¿Cuántos sacramentos hay?",
+          "answer": "Dos.",
+          "refs": []
+        },
+        {
+          "number": 123,
+          "question": "¿Cuáles son?",
+          "answer": "El bautismo y la Cena del Señor.",
+          "refs": []
+        },
+        {
+          "number": 124,
+          "question": "¿Quién estableció estos sacramentos?",
+          "answer": "El Señor Jesucristo.",
+          "refs": []
+        },
+        {
+          "number": 125,
+          "question": "¿Para qué estableció Cristo estos sacramentos?",
+          "answer": "Para distinguir a sus discípulos del mundo, y para consolarlos y fortalecerlos.",
+          "refs": []
+        },
+        {
+          "number": 126,
+          "question": "¿Qué señal se usa en el bautismo?",
+          "answer": "El lavado con agua.",
+          "refs": []
+        },
+        {
+          "number": 127,
+          "question": "¿Qué significa?",
+          "answer": "Que somos limpiados del pecado por la sangre de Cristo.",
+          "refs": []
+        },
+        {
+          "number": 128,
+          "question": "¿En nombre de quién somos bautizados?",
+          "answer": "En el nombre del Padre, y del Hijo, y del Espíritu Santo.",
+          "refs": []
+        },
+        {
+          "number": 129,
+          "question": "¿Quiénes deben ser bautizados?",
+          "answer": "Los creyentes y sus hijos.",
+          "refs": []
+        },
+        {
+          "number": 130,
+          "question": "¿Por qué deben ser bautizados los niños pequeños?",
+          "answer": "Porque tienen una naturaleza pecadora y necesitan un Salvador.",
+          "refs": []
+        },
+        {
+          "number": 131,
+          "question": "¿Se preocupa Cristo por los niños pequeños?",
+          "answer": "Sí; porque él dice: «Dejen que los niños vengan a mí, y no se lo impidan, porque el reino de los cielos es de los que son como ellos».",
+          "refs": [
+            {
+              "label": "Mateo 19:14",
+              "book_usfm": "MAT",
+              "chapter": 19
+            }
+          ]
+        },
+        {
+          "number": 132,
+          "question": "¿A qué te compromete tu bautismo?",
+          "answer": "A ser un verdadero seguidor de Cristo.",
+          "refs": []
+        },
+        {
+          "number": 133,
+          "question": "¿Qué es la Cena del Señor?",
+          "answer": "Comer el pan y beber el vino en memoria de los sufrimientos y la muerte de Cristo.",
+          "refs": []
+        },
+        {
+          "number": 134,
+          "question": "¿Qué representa el pan?",
+          "answer": "El cuerpo de Cristo, partido por nuestros pecados.",
+          "refs": []
+        },
+        {
+          "number": 135,
+          "question": "¿Qué representa el vino?",
+          "answer": "La sangre de Cristo, derramada para nuestra salvación.",
+          "refs": []
+        },
+        {
+          "number": 136,
+          "question": "¿Quiénes deben participar de la Cena del Señor?",
+          "answer": "Solamente los que se arrepienten de sus pecados, creen en Cristo para ser salvos y aman a su prójimo.",
+          "refs": []
+        }
+      ]
+    },
+    {
+      "block": 9,
+      "title": "Lo que vendrá",
+      "questions": [
+        {
+          "number": 137,
+          "question": "¿Se quedó Cristo en la tumba después de su crucifixión?",
+          "answer": "No; resucitó y salió de la tumba al tercer día después de su muerte.",
+          "refs": []
+        },
+        {
+          "number": 138,
+          "question": "¿Dónde está Cristo ahora?",
+          "answer": "En el cielo, intercediendo por los pecadores.",
+          "refs": []
+        },
+        {
+          "number": 139,
+          "question": "¿Volverá otra vez?",
+          "answer": "Sí; en el último día Cristo vendrá a juzgar al mundo.",
+          "refs": []
+        },
+        {
+          "number": 140,
+          "question": "¿Qué pasa con las personas cuando mueren?",
+          "answer": "El cuerpo vuelve al polvo, y el alma va al mundo de los espíritus.",
+          "refs": []
+        },
+        {
+          "number": 141,
+          "question": "¿Volverán a vivir los cuerpos de los muertos?",
+          "answer": "Sí; «sonará la trompeta, y los muertos serán resucitados».",
+          "refs": [
+            {
+              "label": "1 Corintios 15:52",
+              "book_usfm": "1CO",
+              "chapter": 15
+            }
+          ]
+        },
+        {
+          "number": 142,
+          "question": "¿Qué será de los impíos en el día del juicio?",
+          "answer": "Serán echados al infierno.",
+          "refs": []
+        },
+        {
+          "number": 143,
+          "question": "¿Qué es el infierno?",
+          "answer": "Un lugar de tormento terrible y sin fin.",
+          "refs": []
+        },
+        {
+          "number": 144,
+          "question": "¿Qué será de los justos?",
+          "answer": "Serán llevados al cielo.",
+          "refs": []
+        },
+        {
+          "number": 145,
+          "question": "¿Qué es el cielo?",
+          "answer": "Un lugar glorioso y feliz, donde los justos estarán para siempre con el Señor.",
+          "refs": []
+        }
+      ]
+    }
+  ]
+}

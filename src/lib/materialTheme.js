@@ -24,6 +24,7 @@ const THEMES = {
   'westminster-confesion': { title: 'Westminster', c: '#2C4A7A', spine: '#203860', ink: '#EEF2F8', soft: 'rgba(238,242,248,.64)', acc: '#E6C66E', papelAcc: '#2C4A7A', year: '1646', kind: 'confession' },
   'westminster-menor': { title: 'Menor de Westminster', c: '#1B2944', spine: '#121D33', ink: '#EEF0F4', soft: 'rgba(238,240,244,.62)', acc: '#E6C66E', papelAcc: '#1B2944', year: '1647', kind: 'catechism' },
   'westminster-mayor': { title: 'Mayor de Westminster', c: '#4A3B6B', spine: '#382C52', ink: '#F0EEF6', soft: 'rgba(240,238,246,.64)', acc: '#E6C66E', papelAcc: '#4A3B6B', year: '1648', kind: 'catechism' },
+  'catecismo-ninos-pequenos': { title: 'Niños Pequeños', c: '#8DB6D6', spine: '#709CBF', ink: '#13233A', soft: 'rgba(19,35,58,.62)', acc: '#FFFFFF', papelAcc: '#3C6E96', year: '1840', kind: 'children' },
   'bautista-1689': { title: 'Bautista de 1689', c: '#6B1E23', spine: '#511519', ink: '#F6ECDD', soft: 'rgba(246,236,221,.66)', acc: '#E2B66B', papelAcc: '#6B1E23', year: '1689', kind: 'confession' },
   keach: { title: 'Keach', c: '#1E5560', spine: '#163F48', ink: '#EAF3F2', soft: 'rgba(234,243,242,.64)', acc: '#F0C98E', papelAcc: '#1E5560', year: '1693', kind: 'catechism' },
   'bautista-new-hampshire': { title: 'New Hampshire', c: '#3F5A3A', spine: '#2F452B', ink: '#F1F2E8', soft: 'rgba(241,242,232,.64)', acc: '#E8C77E', papelAcc: '#3F5A3A', year: '1833', kind: 'confession' },

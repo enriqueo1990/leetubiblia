@@ -25,6 +25,7 @@ export const SUGGESTED_ORDER = [
   'dort',
   'agustin-confesiones',
   'spurgeon-ninos',
+  'catecismo-ninos-pequenos',
 ]
 
 // Los primeros `n` materiales que la persona todavía no tiene en su estante.

@@ -105,6 +105,14 @@ export const MATERIALS = [
     load: () => import('../data/materials/westminster-mayor.json'),
   },
   {
+    slug: 'catecismo-ninos-pequenos',
+    total: 145,
+    name: 'Catecismo para Niños Pequeños',
+    shortName: 'Niños Pequeños',
+    description: '145 preguntas muy breves (1840) para enseñar la fe en familia a los más chicos, como puerta al Catecismo Menor.',
+    load: () => import('../data/materials/catecismo-ninos-pequenos.json'),
+  },
+  {
     slug: 'bautista-1689',
     total: 35,
     name: 'Confesión Bautista de 1689',
@@ -177,7 +185,7 @@ export const MATERIALS = [
 export const LIBRARY_SHELVES = [
   { id: 'ancient', slugs: ['didaje', 'credos', 'agustin-confesiones'] },
   { id: 'continental', slugs: ['belga', 'heidelberg', 'dort'] },
-  { id: 'westminster', slugs: ['westminster-confesion', 'westminster-mayor', 'westminster-menor'] },
+  { id: 'westminster', slugs: ['westminster-confesion', 'westminster-mayor', 'westminster-menor', 'catecismo-ninos-pequenos'] },
   { id: 'baptist', slugs: ['bautista-1689', 'keach', 'bautista-new-hampshire', 'spurgeon', 'spurgeon-ninos'] },
   { id: 'devotional', slugs: ['spurgeon-matutinas', 'spurgeon-vespertinas'] },
 ]
