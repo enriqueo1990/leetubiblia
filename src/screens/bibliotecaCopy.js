@@ -17,7 +17,7 @@ export const BIBLIOTECA_URL = 'https://leetubiblia.com/biblioteca'
 export const BIBLIOTECA_META = {
   title: 'Lee Tu Biblia · Biblioteca: catecismos, credos y devocional',
   description:
-    'Trece lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
+    'Catorce lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
 }
 
 // Qué hay en cada libro, tal como lo dicen los JSON (`entries`) y el catálogo
@@ -96,6 +96,12 @@ export const BOOKS = {
     year: '',
     blurb: 'Preguntas de una o dos líneas para los más chicos, de tradición spurgeoniana. No consta que lo escribiera él.',
   },
+  'spurgeon-vespertinas': {
+    count: '366 lecturas',
+    total: 366,
+    year: '1868',
+    blurb: 'Una meditación breve para cada noche del año, la otra mitad de las matutinas, con el versículo para tu Biblia.',
+  },
   'spurgeon-matutinas': {
     count: '366 lecturas',
     total: 366,
@@ -134,9 +140,9 @@ export const SHELVES = [
   },
   {
     id: 'devocional',
-    title: 'Para cada mañana',
-    note: 'Un devocional, no un catecismo: se abre solo, por fecha.',
-    slugs: ['spurgeon-matutinas'],
+    title: 'Para cada día',
+    note: 'Devocionales, no catecismos: se abren solos, por fecha, uno a la mañana y otro a la noche.',
+    slugs: ['spurgeon-matutinas', 'spurgeon-vespertinas'],
   },
 ]
 

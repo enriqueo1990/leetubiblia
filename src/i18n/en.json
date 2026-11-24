@@ -994,8 +994,8 @@
   "library.group.westminster.note": "The Presbyterian tradition, from England and Scotland.",
   "library.group.baptist.title": "Baptists",
   "library.group.baptist.note": "From the 1689 Confession to Spurgeon.",
-  "library.group.devotional.title": "For each morning",
-  "library.group.devotional.note": "A devotional that opens by date on its own.",
+  "library.group.devotional.title": "For each day",
+  "library.group.devotional.note": "Two devotionals that open by date on their own: one for the morning, one for the evening.",
   "library.count.question": {
     "one": "{count} question",
     "other": "{count} questions"

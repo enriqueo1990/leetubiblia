@@ -85,8 +85,8 @@ const MATERIALES = [
     ],
   },
   {
-    group: 'Devocional',
-    items: ['Lecturas matutinas de Spurgeon'],
+    group: 'Devocionales',
+    items: ['Lecturas matutinas de Spurgeon', 'Lecturas vespertinas de Spurgeon'],
   },
 ]
 

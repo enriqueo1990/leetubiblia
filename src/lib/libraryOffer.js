@@ -11,6 +11,7 @@ import { MATERIALS, isMaterialActive } from './materials.js'
 export const SUGGESTED_ORDER = [
   'westminster-menor',
   'spurgeon-matutinas',
+  'spurgeon-vespertinas',
   'credos',
   'heidelberg',
   'spurgeon',

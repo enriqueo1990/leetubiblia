@@ -132,6 +132,16 @@ export const MATERIALS = [
     load: () => import('../data/materials/spurgeon-matutinas.json'),
   },
   {
+    slug: 'spurgeon-vespertinas',
+    total: 366,
+    name: 'Lecturas vespertinas de Spurgeon',
+    shortName: 'Lecturas vespertinas',
+    unit: 'day',
+    cadence: 'calendar',
+    description: 'La otra mitad de las matutinas (1868): una meditación breve para cada noche del año, con el versículo para tu Biblia.',
+    load: () => import('../data/materials/spurgeon-vespertinas.json'),
+  },
+  {
     slug: 'spurgeon-ninos',
     total: 48,
     name: 'Catecismo para Niños de Spurgeon',
@@ -150,7 +160,7 @@ export const LIBRARY_SHELVES = [
   { id: 'continental', slugs: ['belga', 'heidelberg', 'dort'] },
   { id: 'westminster', slugs: ['westminster-confesion', 'westminster-mayor', 'westminster-menor'] },
   { id: 'baptist', slugs: ['bautista-1689', 'keach', 'spurgeon', 'spurgeon-ninos'] },
-  { id: 'devotional', slugs: ['spurgeon-matutinas'] },
+  { id: 'devotional', slugs: ['spurgeon-matutinas', 'spurgeon-vespertinas'] },
 ]
 
 export function getMaterial(slug) {

@@ -115,6 +115,7 @@ function HeroCover({ th, meta, kind, className, style }) {
           </span>
         )}
         {th.motif === 'sunrise' && <Sunrise color={th.acc} />}
+        {th.motif === 'moon' && <Moon color={th.acc} />}
         <span
           className="mt-auto"
           style={{ fontFamily: BRAND_SERIF, fontWeight: 500, fontSize: '14.5cqi', lineHeight: 1.02, letterSpacing: '-0.01em', textWrap: 'balance' }}
@@ -128,6 +129,17 @@ function HeroCover({ th, meta, kind, className, style }) {
         )}
       </span>
     </div>
+  )
+}
+
+// Luna creciente con dos estrellas (lecturas de la noche): el mismo trazo fino
+// y el mismo tamaño que el sol naciente, para que las dos tapas sean pareja.
+function Moon({ color }) {
+  return (
+    <svg viewBox="0 0 74 40" fill="none" stroke={color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" style={{ width: '40%', marginTop: '14%' }}>
+      <path d="M44 6a15 15 0 1 0 10 25A12 12 0 0 1 44 6z" />
+      <path d="M16 12v6M13 15h6M62 9v4M60 11h4" />
+    </svg>
   )
 }
 

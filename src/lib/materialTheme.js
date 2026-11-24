@@ -27,6 +27,7 @@ const THEMES = {
   keach: { title: 'Keach', c: '#1E5560', spine: '#163F48', ink: '#EAF3F2', soft: 'rgba(234,243,242,.64)', acc: '#F0C98E', papelAcc: '#1E5560', year: '1693', kind: 'catechism' },
   spurgeon: { title: 'Spurgeon', c: '#8C4A2B', spine: '#6E3920', ink: '#FBEFE4', soft: 'rgba(251,239,228,.66)', acc: '#F2C58E', papelAcc: '#8C4A2B', year: '1855', kind: 'catechism' },
   'spurgeon-matutinas': { title: 'Lecturas matutinas', c: '#C27B2E', spine: '#A3641F', ink: '#2A1907', soft: 'rgba(42,25,7,.66)', acc: '#FFF3E0', papelAcc: '#8A5317', bookAccDark: '#E3A866', motif: 'sunrise', byline: 'C. H. Spurgeon', year: '1865', kind: 'devotional' },
+  'spurgeon-vespertinas': { title: 'Lecturas vespertinas', c: '#2B3156', spine: '#1F2442', ink: '#EEF0F8', soft: 'rgba(238,240,248,.64)', acc: '#F2CB8A', papelAcc: '#2B3156', bookAccDark: '#A9B4E8', motif: 'moon', light: 'night', byline: 'C. H. Spurgeon', year: '1868', kind: 'devotional' },
   'spurgeon-ninos': { title: 'Spurgeon para Niños', c: '#E58A6D', spine: '#CC7258', ink: '#2E140C', soft: 'rgba(46,20,12,.62)', acc: '#FFF4EC', papelAcc: '#A8492E', year: '', kind: 'children' },
 }
 

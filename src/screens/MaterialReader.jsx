@@ -478,8 +478,9 @@ export default function MaterialReader() {
       className="book relative isolate flex min-h-[calc(100dvh-120px)] flex-col pt-2"
       style={{ ...bookAccentVars(slug), '--reader-scale': readerScale.scale }}
     >
-      {/* El devocional es de la mañana: la misma luz cálida de Hoy a esa hora. */}
-      {calendar && <div aria-hidden="true" className="day-light morning" />}
+      {/* Los devocionales llevan la luz de Hoy a su hora: la cálida de la mañana
+          (matutinas) o la de la noche (vespertinas), según `light` del tema. */}
+      {calendar && <div aria-hidden="true" className={`day-light ${th.light ?? 'morning'}`} />}
       {/* Header según el canon (como Hoy: navegación a la izquierda, acción a la
           derecha). La miga es BackLink: honesta con el origen (desde el catálogo
           vuelve a Materiales; desde Hoy, a Hoy). "Índice" abre la hoja de bloques
