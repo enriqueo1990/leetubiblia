@@ -926,6 +926,8 @@
   "photo.pick": "Elegir una foto",
   "photo.change": "Cambiar la foto",
   "photo.error": "No se pudo abrir esa foto. Probá con otra.",
+  "photo.errorHeic": "Esa foto está en formato HEIC y no pudimos convertirla. Revisá tu conexión y probá de nuevo, o elegí una en JPG o PNG.",
+  "photo.opening": "Abriendo la foto…",
   "photo.layer": "Qué mostrar",
   "photo.layer.dato": "Lo que leí",
   "photo.layer.minimo": "Mínimo",
