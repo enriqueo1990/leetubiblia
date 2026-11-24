@@ -17,13 +17,19 @@ export const BIBLIOTECA_URL = 'https://leetubiblia.com/biblioteca'
 export const BIBLIOTECA_META = {
   title: 'Lee Tu Biblia · Biblioteca: catecismos, credos y devocional',
   description:
-    'Quince lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
+    'Dieciséis lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
 }
 
 // Qué hay en cada libro, tal como lo dicen los JSON (`entries`) y el catálogo
 // (src/lib/materials.js). `count` es lo que se muestra en la tapa grande;
 // `total` el número de entradas navegables del lector (lo que verifica el test).
 export const BOOKS = {
+  didaje: {
+    count: '8 lecturas',
+    total: 8,
+    year: 'Siglo I',
+    blurb: 'Uno de los manuales cristianos más antiguos: los dos caminos, el bautismo, la oración y la Cena.',
+  },
   credos: {
     count: '5 lecturas',
     total: 5,
@@ -123,8 +129,8 @@ export const SHELVES = [
   {
     id: 'antigua',
     title: 'De la iglesia antigua',
-    note: 'La fe de la iglesia en sus primeros siglos: lo que confiesa y cómo se ora.',
-    slugs: ['credos', 'agustin-confesiones'],
+    note: 'La fe de la iglesia en sus primeros siglos: cómo vivía, qué confesaba y cómo oraba.',
+    slugs: ['didaje', 'credos', 'agustin-confesiones'],
   },
   {
     id: 'continental',

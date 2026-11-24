@@ -33,6 +33,16 @@ export const MATERIALS = [
     load: () => import('../data/materials/credos.json'),
   },
   {
+    slug: 'didaje',
+    total: 8,
+    name: 'La Didajé',
+    shortName: 'Didajé',
+    // Como Agustín: cada entrada es una lectura de uno a tres capítulos.
+    unit: 'item',
+    description: 'Uno de los manuales cristianos más antiguos (probablemente de fines del siglo I): los dos caminos, el bautismo, la oración y la Cena, en ocho lecturas.',
+    load: () => import('../data/materials/didaje.json'),
+  },
+  {
     slug: 'agustin-confesiones',
     total: 144,
     name: 'Confesiones de San Agustín',
@@ -165,7 +175,7 @@ export const MATERIALS = [
 // sueltas. Títulos y notas en i18n (library.group.<id>.title / .note). El test
 // de la landing verifica que cubren todo el catálogo, una sola vez.
 export const LIBRARY_SHELVES = [
-  { id: 'ancient', slugs: ['credos', 'agustin-confesiones'] },
+  { id: 'ancient', slugs: ['didaje', 'credos', 'agustin-confesiones'] },
   { id: 'continental', slugs: ['belga', 'heidelberg', 'dort'] },
   { id: 'westminster', slugs: ['westminster-confesion', 'westminster-mayor', 'westminster-menor'] },
   { id: 'baptist', slugs: ['bautista-1689', 'keach', 'bautista-new-hampshire', 'spurgeon', 'spurgeon-ninos'] },

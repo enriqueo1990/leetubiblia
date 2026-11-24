@@ -13,6 +13,7 @@ export const SUGGESTED_ORDER = [
   'spurgeon-matutinas',
   'spurgeon-vespertinas',
   'credos',
+  'didaje',
   'heidelberg',
   'spurgeon',
   'keach',

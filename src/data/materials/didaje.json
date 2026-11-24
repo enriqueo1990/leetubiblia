@@ -1,0 +1,367 @@
+{
+  "slug": "didaje",
+  "name": "La Didajé",
+  "description": "«Enseñanza del Señor a los gentiles por medio de los doce apóstoles»: uno de los manuales cristianos más antiguos que se conservan, probablemente de fines del siglo I, en 16 capítulos breves sobre los dos caminos, el bautismo, la oración, la Cena, los ministros y la espera del Señor.",
+  "cadence": "sequence",
+  "source": "Traducción original al español realizada a partir del texto griego de dominio público (manuscrito de Jerusalén publicado por Filoteo Brienio en 1883), cotejada con la traducción inglesa de J. B. Lightfoot y J. R. Harmer (1891). Las referencias señalan los pasajes bíblicos que la Didajé cita o de los que se hace eco; las citas se traducen del griego del texto.",
+  "intro": [
+    "La Didajé («enseñanza», en griego) es uno de los manuales cristianos más antiguos que se conservan. Se escribió probablemente en Siria, quizá a fines del siglo I, y circuló entre las primeras iglesias como una guía práctica para la vida cristiana y la reunión de la comunidad. Durante siglos se la conoció solo por citas de otros autores, hasta que en 1873 Filoteo Brienio encontró en un manuscrito de Constantinopla el único texto griego entero que se conserva, aunque su final parece perdido, y lo publicó en 1883.",
+    "Sus 16 capítulos breves empiezan con «los dos caminos», el de la vida y el de la muerte, una enseñanza moral que recoge palabras del Sermón del monte y de los mandamientos. Después explican cómo bautizar, ayunar y orar el Padrenuestro tres veces al día, dan las oraciones de acción de gracias de la Cena, ordenan cómo recibir a los apóstoles, profetas y viajeros, piden reunirse el día del Señor y elegir obispos y diáconos dignos, y terminan con un llamado a velar porque el Señor viene.",
+    "No es Escritura ni lo pretende: es el testimonio de cómo vivía y oraba una de las primeras comunidades cristianas. Algunas prácticas que describe, como el ayuno antes del bautismo o la acción de gracias de los profetas, reflejan aquel tiempo. Esta edición la presenta en ocho lecturas, con el número de cada capítulo al margen y los pasajes bíblicos que cita para buscarlos en tu Biblia."
+  ],
+  "entries": [
+    {
+      "block": 1,
+      "title": null,
+      "questions": [
+        {
+          "number": 1,
+          "label": "1",
+          "section": "Capítulos 1–2",
+          "question": "Dos caminos",
+          "answer": "1. Hay dos caminos: uno de la vida y otro de la muerte, y es grande la diferencia entre los dos caminos.\n\nEl camino de la vida es este: primero, amarás a Dios, que te hizo; segundo, a tu prójimo como a ti mismo. Y todo lo que no quieras que te hagan a ti, tampoco tú se lo hagas a otro.\n\nLa enseñanza de estas palabras es esta: bendigan a los que los maldicen, oren por sus enemigos y ayunen por los que los persiguen. Porque ¿qué mérito tiene si aman a los que los aman? ¿No hacen lo mismo también los paganos? Ustedes, en cambio, amen a los que los odian, y no tendrán enemigos.\n\nApártate de los deseos carnales y corporales. Si alguien te da una bofetada en la mejilla derecha, preséntale también la otra, y serás perfecto. Si alguien te obliga a caminar con él una milla, ve con él dos. Si alguien te quita el manto, dale también la túnica. Si alguien te quita lo tuyo, no se lo reclames, porque tampoco puedes.\n\nDa a todo el que te pida, y no se lo reclames, porque el Padre quiere que de sus propios dones se dé a todos. Dichoso el que da conforme al mandamiento, porque es inocente. ¡Ay del que recibe! Si alguien recibe porque tiene necesidad, será inocente; pero el que no tiene necesidad rendirá cuentas de por qué recibió y para qué; y, puesto en prisión, será interrogado sobre lo que hizo, y no saldrá de allí hasta que pague el último centavo.\n\nPero también sobre esto se ha dicho: «Que tu limosna sude en tus manos hasta que sepas a quién se la das».\n\n2. El segundo mandamiento de la enseñanza es este:\n\nNo matarás, no cometerás adulterio, no corromperás a los niños, no fornicarás, no robarás, no practicarás la magia ni la hechicería, no matarás al niño con el aborto ni darás muerte al recién nacido, no codiciarás los bienes de tu prójimo.\n\nNo jurarás en falso, no darás falso testimonio, no hablarás mal de nadie ni guardarás rencor.\n\nNo serás de doble ánimo ni de doble lengua, porque la doble lengua es un lazo de muerte. Tu palabra no será falsa ni vacía, sino cumplida con obras.\n\nNo serás avaro, ni ladrón, ni hipócrita, ni malicioso, ni soberbio. No tramarás nada malo contra tu prójimo.\n\nNo odiarás a nadie; sino que a unos los reprenderás, por otros orarás, y a otros los amarás más que a tu propia vida.",
+          "refs": [
+            {
+              "label": "Mateo 22:37-39",
+              "book_usfm": "MAT",
+              "chapter": 22
+            },
+            {
+              "label": "Mateo 7:12",
+              "book_usfm": "MAT",
+              "chapter": 7
+            },
+            {
+              "label": "Mateo 5:44-46",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Lucas 6:27-32",
+              "book_usfm": "LUK",
+              "chapter": 6
+            },
+            {
+              "label": "1 Pedro 2:11",
+              "book_usfm": "1PE",
+              "chapter": 2
+            },
+            {
+              "label": "Mateo 5:39-42",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Mateo 5:48",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Mateo 5:26",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Éxodo 20:13-17",
+              "book_usfm": "EXO",
+              "chapter": 20
+            },
+            {
+              "label": "Mateo 5:33",
+              "book_usfm": "MAT",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "label": "3",
+          "section": "Capítulos 3–4",
+          "question": "Hijo mío",
+          "answer": "3. Hijo mío, huye de todo mal y de todo lo que se le parezca.\n\nNo seas iracundo, porque la ira lleva al homicidio; ni celoso, ni pendenciero, ni violento, porque de todas estas cosas nacen los homicidios.\n\nHijo mío, no seas lujurioso, porque la lujuria lleva a la fornicación; ni hables obscenidades, ni seas de mirada altiva, porque de todas estas cosas nacen los adulterios.\n\nHijo mío, no seas agorero, porque eso lleva a la idolatría; ni encantador, ni astrólogo, ni hagas ritos de purificación, ni quieras siquiera mirar esas cosas, porque de todas ellas nace la idolatría.\n\nHijo mío, no seas mentiroso, porque la mentira lleva al robo; ni amigo del dinero, ni vanidoso, porque de todas estas cosas nacen los robos.\n\nHijo mío, no seas murmurador, porque eso lleva a la blasfemia; ni arrogante, ni mal pensado, porque de todas estas cosas nacen las blasfemias.\n\nSé manso, porque los mansos heredarán la tierra. Sé paciente, misericordioso, sin malicia, sereno y bueno, y tiembla siempre ante las palabras que has oído.\n\nNo te enaltecerás ni darás lugar a la arrogancia en tu alma. Tu alma no se juntará con los altivos, sino que andarás con los justos y los humildes.\n\nRecibirás como bienes las cosas que te sucedan, sabiendo que nada ocurre sin Dios.\n\n4. Hijo mío, acuérdate de noche y de día del que te habla la palabra de Dios, y hónralo como al Señor; porque donde se anuncia el señorío del Señor, allí está el Señor.\n\nBusca cada día el rostro de los santos, para descansar en sus palabras.\n\nNo desees divisiones, sino pon paz entre los que pelean. Juzga con justicia, y no hagas acepción de personas al reprender las faltas. No andes dudando si será o no será.\n\nNo seas de los que extienden las manos para recibir y las encogen para dar. Si tienes algo ganado con tus manos, da para el rescate de tus pecados. No dudes en dar, ni murmures al dar, porque sabrás quién es el que paga bien la recompensa.\n\nNo le des la espalda al necesitado, sino comparte todo con tu hermano y no digas que algo es tuyo; porque si son compañeros en lo que no muere, ¡cuánto más en lo que muere!\n\nNo apartes la mano de tu hijo ni de tu hija, sino enséñales desde su juventud el temor de Dios.\n\nNo mandes con amargura a tu siervo o a tu sierva, que esperan en el mismo Dios, no sea que dejen de temer a Dios, que está sobre ambos; porque él no viene a llamar mirando la apariencia de las personas, sino a aquellos que el Espíritu preparó. Y ustedes, los siervos, sométanse a sus amos como a una imagen de Dios, con respeto y temor.\n\nOdiarás toda hipocresía y todo lo que no agrada al Señor. No abandones jamás los mandamientos del Señor, sino guarda lo que recibiste, sin añadir ni quitar nada.\n\nEn la asamblea confesarás tus faltas, y no te acercarás a la oración con mala conciencia. Este es el camino de la vida.",
+          "refs": [
+            {
+              "label": "1 Tesalonicenses 5:22",
+              "book_usfm": "1TH",
+              "chapter": 5
+            },
+            {
+              "label": "Mateo 5:5",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Salmo 37:11",
+              "book_usfm": "PSA",
+              "chapter": 37
+            },
+            {
+              "label": "Mateo 5:21-22",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Efesios 6:4-9",
+              "book_usfm": "EPH",
+              "chapter": 6
+            },
+            {
+              "label": "Deuteronomio 4:2",
+              "book_usfm": "DEU",
+              "chapter": 4
+            },
+            {
+              "label": "Santiago 5:16",
+              "book_usfm": "JAS",
+              "chapter": 5
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "label": "5",
+          "section": "Capítulos 5–6",
+          "question": "El camino de la muerte",
+          "answer": "5. El camino de la muerte es este. Ante todo, es malo y lleno de maldición: homicidios, adulterios, malos deseos, fornicaciones, robos, idolatrías, magias, hechicerías, rapiñas, falsos testimonios, hipocresías, doblez de corazón, engaño, soberbia, maldad, arrogancia, avaricia, obscenidad, celos, insolencia, altivez, jactancia.\n\nEs el camino de los que persiguen a los buenos, odian la verdad y aman la mentira; de los que no conocen la recompensa de la justicia ni se adhieren al bien ni al juicio justo; de los que velan no para el bien, sino para el mal, y están lejos de la mansedumbre y la paciencia; de los que aman lo vano, buscan la retribución, no se compadecen del pobre ni se afligen por el afligido; de los que no conocen a quien los hizo, matan a los niños y corrompen a la criatura de Dios; de los que le dan la espalda al necesitado, oprimen al atribulado, defienden a los ricos y juzgan sin ley a los pobres: pecadores en todo. ¡Que sean librados, hijos, de todas estas cosas!\n\n6. Cuida que nadie te aparte de este camino de la enseñanza, porque quien lo hace te enseña al margen de Dios.\n\nSi puedes llevar todo el yugo del Señor, serás perfecto; y si no puedes, haz lo que puedas.\n\nEn cuanto a la comida, lleva lo que puedas; pero guárdate mucho de lo sacrificado a los ídolos, porque es culto a dioses muertos.",
+          "refs": [
+            {
+              "label": "Romanos 1:29-31",
+              "book_usfm": "ROM",
+              "chapter": 1
+            },
+            {
+              "label": "Mateo 11:29-30",
+              "book_usfm": "MAT",
+              "chapter": 11
+            },
+            {
+              "label": "Hechos 15:29",
+              "book_usfm": "ACT",
+              "chapter": 15
+            },
+            {
+              "label": "1 Corintios 8:4-13",
+              "book_usfm": "1CO",
+              "chapter": 8
+            }
+          ]
+        },
+        {
+          "number": 4,
+          "label": "7",
+          "section": "Capítulos 7–8",
+          "question": "El bautismo, el ayuno y la oración",
+          "answer": "7. En cuanto al bautismo, bauticen así: después de enseñar todo lo anterior, bauticen en el nombre del Padre, y del Hijo, y del Espíritu Santo, en agua viva.\n\nSi no tienes agua viva, bautiza en otra agua; y si no puedes en agua fría, en agua tibia. Si no tienes ni una ni otra, derrama agua tres veces sobre la cabeza, en el nombre del Padre, y del Hijo, y del Espíritu Santo.\n\nAntes del bautismo ayunen el que bautiza, el que va a ser bautizado y algunos otros que puedan; y al que va a ser bautizado mándale ayunar uno o dos días antes.\n\n8. Que sus ayunos no sean con los hipócritas, porque ellos ayunan el segundo y el quinto día de la semana; ustedes, en cambio, ayunen el cuarto día y el de la preparación.\n\nTampoco oren como los hipócritas, sino como mandó el Señor en su evangelio; oren así:\nPadre nuestro que estás en el cielo,\nsantificado sea tu nombre,\nvenga tu reino,\nhágase tu voluntad, como en el cielo, así también en la tierra.\nDanos hoy nuestro pan de cada día,\ny perdónanos nuestra deuda, como también nosotros perdonamos a nuestros deudores,\ny no nos metas en tentación, sino líbranos del mal.\nPorque tuyo es el poder y la gloria por los siglos.\n\nOren así tres veces al día.",
+          "refs": [
+            {
+              "label": "Mateo 28:19",
+              "book_usfm": "MAT",
+              "chapter": 28
+            },
+            {
+              "label": "Mateo 6:5",
+              "book_usfm": "MAT",
+              "chapter": 6
+            },
+            {
+              "label": "Mateo 6:16",
+              "book_usfm": "MAT",
+              "chapter": 6
+            },
+            {
+              "label": "Mateo 6:9-13",
+              "book_usfm": "MAT",
+              "chapter": 6
+            }
+          ]
+        },
+        {
+          "number": 5,
+          "label": "9",
+          "section": "Capítulos 9–10",
+          "question": "La acción de gracias",
+          "answer": "9. En cuanto a la acción de gracias, den gracias así.\n\nPrimero, sobre la copa:\nTe damos gracias, Padre nuestro,\npor la santa vid de David, tu siervo,\nque nos diste a conocer por medio de Jesús, tu siervo.\nA ti la gloria por los siglos.\n\nSobre el pan partido:\nTe damos gracias, Padre nuestro,\npor la vida y el conocimiento\nque nos diste a conocer por medio de Jesús, tu siervo.\nA ti la gloria por los siglos.\nAsí como este pan partido estaba disperso sobre los montes,\ny reunido se hizo uno,\nasí sea reunida tu iglesia\ndesde los confines de la tierra en tu reino.\nPorque tuya es la gloria y el poder,\npor medio de Jesucristo, por los siglos.\n\nQue nadie coma ni beba de su acción de gracias sino los bautizados en el nombre del Señor; porque también sobre esto dijo el Señor: «No den lo santo a los perros».\n\n10. Después de saciarse, den gracias así:\nTe damos gracias, Padre santo,\npor tu santo nombre,\nque hiciste habitar en nuestros corazones,\ny por el conocimiento, la fe y la inmortalidad\nque nos diste a conocer por medio de Jesús, tu siervo.\nA ti la gloria por los siglos.\n\nTú, Señor todopoderoso,\ncreaste todas las cosas por causa de tu nombre,\ny diste a los hombres comida y bebida para que las disfruten\ny te den gracias;\npero a nosotros nos regalaste comida y bebida espirituales,\ny vida eterna por medio de tu siervo.\nSobre todo, te damos gracias porque eres poderoso.\nA ti la gloria por los siglos.\n\nAcuérdate, Señor, de tu iglesia,\npara librarla de todo mal\ny perfeccionarla en tu amor;\ny reúnela de los cuatro vientos, santificada,\nen tu reino, que le preparaste.\nPorque tuyo es el poder y la gloria por los siglos.\n\nVenga la gracia y pase este mundo.\n¡Hosanna al Dios de David!\nEl que sea santo, que venga;\nel que no lo sea, que se arrepienta.\n¡Maranatá! Amén.\n\nA los profetas, permítanles dar gracias cuanto quieran.",
+          "refs": [
+            {
+              "label": "Juan 15:1",
+              "book_usfm": "JHN",
+              "chapter": 15
+            },
+            {
+              "label": "1 Corintios 10:16-17",
+              "book_usfm": "1CO",
+              "chapter": 10
+            },
+            {
+              "label": "Mateo 7:6",
+              "book_usfm": "MAT",
+              "chapter": 7
+            },
+            {
+              "label": "Mateo 24:31",
+              "book_usfm": "MAT",
+              "chapter": 24
+            },
+            {
+              "label": "Mateo 21:9",
+              "book_usfm": "MAT",
+              "chapter": 21
+            },
+            {
+              "label": "1 Corintios 16:22",
+              "book_usfm": "1CO",
+              "chapter": 16
+            }
+          ]
+        },
+        {
+          "number": 6,
+          "label": "11",
+          "section": "Capítulos 11–13",
+          "question": "Apóstoles, profetas y peregrinos",
+          "answer": "11. Al que venga y les enseñe todo lo que se ha dicho antes, recíbanlo. Pero si el mismo que enseña se desvía y enseña otra doctrina para destruir esta, no lo escuchen; si enseña para aumentar la justicia y el conocimiento del Señor, recíbanlo como al Señor.\n\nEn cuanto a los apóstoles y profetas, obren así, conforme a la ordenanza del evangelio. Todo apóstol que llegue a ustedes sea recibido como el Señor. Pero no se quedará más que un día, o dos si hace falta; si se queda tres, es un falso profeta. Y cuando el apóstol se vaya, que no lleve nada más que pan hasta su próximo alojamiento; si pide dinero, es un falso profeta.\n\nA ningún profeta que hable en el Espíritu lo pongan a prueba ni lo juzguen, porque todo pecado será perdonado, pero este pecado no será perdonado. Sin embargo, no todo el que habla en el Espíritu es profeta, sino solo el que tiene la conducta del Señor. Así que por su conducta se reconocerá al falso profeta y al profeta.\n\nNingún profeta que, en el Espíritu, mande poner la mesa comerá de ella; si lo hace, es un falso profeta. Todo profeta que enseña la verdad, si no hace lo que enseña, es un falso profeta.\n\nTodo profeta probado y verdadero que obra en vista del misterio terrenal de la iglesia, pero no enseña a hacer lo que él mismo hace, no será juzgado por ustedes, porque su juicio está en manos de Dios; así obraron también los antiguos profetas.\n\nPero si alguien dice en el Espíritu: «Dame dinero» u otra cosa, no lo escuchen; en cambio, si pide que se dé para otros necesitados, que nadie lo juzgue.\n\n12. Todo el que venga en el nombre del Señor sea recibido; después, poniéndolo a prueba, lo conocerán, porque tendrán discernimiento a derecha e izquierda.\n\nSi el que llega está de paso, ayúdenlo cuanto puedan; pero no se quedará con ustedes más de dos o tres días, si hace falta.\n\nSi quiere establecerse entre ustedes y tiene un oficio, que trabaje y coma. Si no tiene oficio, provean según su buen juicio cómo vivirá entre ustedes como cristiano sin estar ocioso. Si no quiere hacerlo así, es un traficante de Cristo. Cuídense de los tales.\n\n13. Todo profeta verdadero que quiera establecerse entre ustedes es digno de su alimento. De igual modo, el maestro verdadero, como el obrero, es digno de su alimento.\n\nPor eso, tomarás todas las primicias de los frutos del lagar y de la era, de los bueyes y de las ovejas, y las darás a los profetas, porque ellos son sus sumos sacerdotes. Y si no tienen profeta, dénselas a los pobres.\n\nSi haces pan, toma las primicias y dalas conforme al mandamiento. Asimismo, al abrir una vasija de vino o de aceite, toma las primicias y dalas a los profetas. Y del dinero, de la ropa y de todo lo que poseas, toma las primicias que te parezca y dalas conforme al mandamiento.",
+          "refs": [
+            {
+              "label": "Gálatas 1:8-9",
+              "book_usfm": "GAL",
+              "chapter": 1
+            },
+            {
+              "label": "Mateo 10:40",
+              "book_usfm": "MAT",
+              "chapter": 10
+            },
+            {
+              "label": "Mateo 12:31",
+              "book_usfm": "MAT",
+              "chapter": 12
+            },
+            {
+              "label": "Mateo 7:15-20",
+              "book_usfm": "MAT",
+              "chapter": 7
+            },
+            {
+              "label": "2 Tesalonicenses 3:10-12",
+              "book_usfm": "2TH",
+              "chapter": 3
+            },
+            {
+              "label": "Mateo 10:10",
+              "book_usfm": "MAT",
+              "chapter": 10
+            },
+            {
+              "label": "1 Timoteo 5:18",
+              "book_usfm": "1TI",
+              "chapter": 5
+            },
+            {
+              "label": "Números 18:12-13",
+              "book_usfm": "NUM",
+              "chapter": 18
+            }
+          ]
+        },
+        {
+          "number": 7,
+          "label": "14",
+          "section": "Capítulos 14–15",
+          "question": "El día del Señor",
+          "answer": "14. Reúnanse en el día del Señor, partan el pan y den gracias, después de haber confesado sus faltas, para que su sacrificio sea puro.\n\nNinguno que tenga un pleito con su compañero se junte con ustedes hasta que se hayan reconciliado, para que su sacrificio no sea profanado.\n\nPorque este es el sacrificio del que habló el Señor: «En todo lugar y en todo tiempo se me ofrezca un sacrificio puro; porque yo soy un gran rey, dice el Señor, y mi nombre es admirable entre las naciones».\n\n15. Elijan, pues, para ustedes obispos y diáconos dignos del Señor: hombres mansos, no amigos del dinero, veraces y probados; porque también ellos les prestan a ustedes el servicio de los profetas y de los maestros. No los desprecien, pues, porque son, junto con los profetas y los maestros, los honrados entre ustedes.\n\nCorríjanse unos a otros, no con ira sino en paz, como lo tienen en el evangelio; y al que ofenda a otro, que nadie le hable ni oiga de ustedes palabra hasta que se arrepienta.\n\nSus oraciones, sus limosnas y todas sus acciones háganlas como lo tienen en el evangelio de nuestro Señor.",
+          "refs": [
+            {
+              "label": "Apocalipsis 1:10",
+              "book_usfm": "REV",
+              "chapter": 1
+            },
+            {
+              "label": "Hechos 20:7",
+              "book_usfm": "ACT",
+              "chapter": 20
+            },
+            {
+              "label": "Mateo 5:23-24",
+              "book_usfm": "MAT",
+              "chapter": 5
+            },
+            {
+              "label": "Malaquías 1:11",
+              "book_usfm": "MAL",
+              "chapter": 1
+            },
+            {
+              "label": "Malaquías 1:14",
+              "book_usfm": "MAL",
+              "chapter": 1
+            },
+            {
+              "label": "1 Timoteo 3:1-13",
+              "book_usfm": "1TI",
+              "chapter": 3
+            },
+            {
+              "label": "Mateo 18:15-17",
+              "book_usfm": "MAT",
+              "chapter": 18
+            }
+          ]
+        },
+        {
+          "number": 8,
+          "label": "16",
+          "section": "Capítulo 16",
+          "question": "Velen",
+          "answer": "16. Velen por su vida. Que sus lámparas no se apaguen ni sus cinturas se aflojen, sino estén preparados, porque no saben la hora en que viene nuestro Señor.\n\nReúnanse con frecuencia, buscando lo que conviene a sus almas; porque de nada les servirá todo el tiempo de su fe si no son hallados perfectos en el último momento.\n\nPorque en los últimos días se multiplicarán los falsos profetas y los corruptores, las ovejas se convertirán en lobos y el amor se convertirá en odio. Al crecer la iniquidad, se odiarán unos a otros, se perseguirán y se entregarán. Y entonces aparecerá el engañador del mundo como si fuera hijo de Dios, y hará señales y prodigios, y la tierra será entregada en sus manos, y cometerá maldades como nunca se han cometido desde el principio.\n\nEntonces la humanidad creada entrará en el fuego de la prueba, y muchos tropezarán y se perderán; pero los que perseveren en su fe serán salvados por aquel mismo que fue hecho maldición.\n\nY entonces aparecerán las señales de la verdad: primero, la señal del cielo abierto; después, la señal del sonido de la trompeta; y tercero, la resurrección de los muertos; pero no de todos, sino como se ha dicho: «Vendrá el Señor, y todos los santos con él».\n\nEntonces el mundo verá al Señor venir sobre las nubes del cielo.",
+          "refs": [
+            {
+              "label": "Lucas 12:35-40",
+              "book_usfm": "LUK",
+              "chapter": 12
+            },
+            {
+              "label": "Mateo 24:42",
+              "book_usfm": "MAT",
+              "chapter": 24
+            },
+            {
+              "label": "Mateo 24:10-13",
+              "book_usfm": "MAT",
+              "chapter": 24
+            },
+            {
+              "label": "Mateo 24:24",
+              "book_usfm": "MAT",
+              "chapter": 24
+            },
+            {
+              "label": "2 Tesalonicenses 2:8-10",
+              "book_usfm": "2TH",
+              "chapter": 2
+            },
+            {
+              "label": "Gálatas 3:13",
+              "book_usfm": "GAL",
+              "chapter": 3
+            },
+            {
+              "label": "1 Tesalonicenses 4:16",
+              "book_usfm": "1TH",
+              "chapter": 4
+            },
+            {
+              "label": "Zacarías 14:5",
+              "book_usfm": "ZEC",
+              "chapter": 14
+            },
+            {
+              "label": "Mateo 24:30-31",
+              "book_usfm": "MAT",
+              "chapter": 24
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

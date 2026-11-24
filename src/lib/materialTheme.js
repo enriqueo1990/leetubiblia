@@ -15,6 +15,7 @@
 const PAPEL = { c: '#F8F7F4', ink: '#1C1C1E', soft: 'rgba(28,28,30,.62)' }
 
 const THEMES = {
+  didaje: { title: 'Didajé', c: '#5C6550', spine: '#454D3B', ink: '#F3F4EC', soft: 'rgba(243,244,236,.66)', acc: '#E6D39A', papelAcc: '#5C6550', year: 'Siglo I', kind: 'classic' },
   credos: { title: 'De la iglesia antigua', c: '#4A2E4F', spine: '#37213A', ink: '#F4ECF3', soft: 'rgba(244,236,243,.62)', acc: '#E9C5A2', papelAcc: '#4A2E4F', year: '', kind: 'creeds' },
   'agustin-confesiones': { title: 'Confesiones', c: '#7A5A2E', spine: '#5E4421', ink: '#FBF3E6', soft: 'rgba(251,243,230,.66)', acc: '#F1D08F', papelAcc: '#7A5A2E', byline: 'San Agustín', year: '397', kind: 'classic' },
   belga: { title: 'Belga', c: '#3D5567', spine: '#2D4151', ink: '#EEF2F5', soft: 'rgba(238,242,245,.64)', acc: '#EDBE8F', papelAcc: '#3D5567', year: '1561', kind: 'confession' },
