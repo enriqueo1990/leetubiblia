@@ -114,6 +114,15 @@ export const MATERIALS = [
     load: () => import('../data/materials/keach.json'),
   },
   {
+    slug: 'bautista-new-hampshire',
+    total: 18,
+    name: 'Confesión Bautista de New Hampshire',
+    shortName: 'New Hampshire',
+    unit: 'article',
+    description: '18 artículos breves de la fe bautista (1833/1853), los que usan muchas iglesias bautistas de América Latina, con pasajes para tu Biblia.',
+    load: () => import('../data/materials/bautista-new-hampshire.json'),
+  },
+  {
     slug: 'spurgeon',
     total: 82,
     name: 'Catecismo de Spurgeon',
@@ -159,7 +168,7 @@ export const LIBRARY_SHELVES = [
   { id: 'ancient', slugs: ['credos', 'agustin-confesiones'] },
   { id: 'continental', slugs: ['belga', 'heidelberg', 'dort'] },
   { id: 'westminster', slugs: ['westminster-confesion', 'westminster-mayor', 'westminster-menor'] },
-  { id: 'baptist', slugs: ['bautista-1689', 'keach', 'spurgeon', 'spurgeon-ninos'] },
+  { id: 'baptist', slugs: ['bautista-1689', 'keach', 'bautista-new-hampshire', 'spurgeon', 'spurgeon-ninos'] },
   { id: 'devotional', slugs: ['spurgeon-matutinas', 'spurgeon-vespertinas'] },
 ]
 

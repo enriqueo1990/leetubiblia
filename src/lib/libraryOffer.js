@@ -18,6 +18,7 @@ export const SUGGESTED_ORDER = [
   'keach',
   'belga',
   'bautista-1689',
+  'bautista-new-hampshire',
   'westminster-confesion',
   'westminster-mayor',
   'dort',

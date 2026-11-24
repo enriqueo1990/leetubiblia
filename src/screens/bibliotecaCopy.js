@@ -17,7 +17,7 @@ export const BIBLIOTECA_URL = 'https://leetubiblia.com/biblioteca'
 export const BIBLIOTECA_META = {
   title: 'Lee Tu Biblia · Biblioteca: catecismos, credos y devocional',
   description:
-    'Catorce lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
+    'Quince lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
 }
 
 // Qué hay en cada libro, tal como lo dicen los JSON (`entries`) y el catálogo
@@ -78,6 +78,12 @@ export const BOOKS = {
     year: '1689',
     blurb: '32 capítulos, algunos en partes, de las Escrituras al juicio final, con las pruebas bíblicas de cada párrafo.',
   },
+  'bautista-new-hampshire': {
+    count: '18 artículos',
+    total: 18,
+    year: '1833',
+    blurb: 'Breve y clara, la confesión que muchas iglesias bautistas de América Latina usan como su declaración de fe.',
+  },
   keach: {
     count: '114 preguntas',
     total: 114,
@@ -135,8 +141,8 @@ export const SHELVES = [
   {
     id: 'bautista',
     title: 'Bautistas particulares',
-    note: 'La tradición de Londres, de 1689 a Spurgeon.',
-    slugs: ['bautista-1689', 'keach', 'spurgeon', 'spurgeon-ninos'],
+    note: 'De la Confesión de Londres de 1689 a New Hampshire y Spurgeon.',
+    slugs: ['bautista-1689', 'keach', 'bautista-new-hampshire', 'spurgeon', 'spurgeon-ninos'],
   },
   {
     id: 'devocional',
