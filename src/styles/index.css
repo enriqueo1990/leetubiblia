@@ -368,6 +368,10 @@
     position: sticky;
     bottom: calc(57px + env(safe-area-inset-bottom));
     z-index: 10;
+    /* Aire arriba del alto de la franja de disolución (::before): al llegar al
+       final de la pantalla, la franja cae sobre este hueco y no sobre lo último
+       del contenido (antes lavaba la fila «N más hoy · Biblioteca» de Hoy). */
+    margin-top: 28px;
     margin-inline: -24px;
     padding: 12px 24px 16px;
     background-color: var(--tabbar-bg);
@@ -425,4 +429,88 @@
     font-variant-numeric: tabular-nums;
     letter-spacing: -1px;
   }
+}
+
+/* Lector en modo libro (el devocional y las portadas de los materiales). La
+   tinta del libro sale del material (bookAccentVars): legible sobre el papel de
+   día, clara de noche. Solo para detalles de libro (fecha, capitular,
+   ornamentos); botones y enlaces siguen en el acento de la app. */
+.book { --book-acc: var(--book-acc-light); }
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .book { --book-acc: var(--book-acc-dark); }
+}
+:root.dark .book { --book-acc: var(--book-acc-dark); }
+
+/* Texto corrido de libro: Newsreader, cuerpo generoso, renglones aireados.
+   --reader-scale: el tamaño de lectura elegido en «Aa» (useReaderScale). */
+.book-text {
+  font-family: "Newsreader", Georgia, "Times New Roman", serif;
+  font-size: calc(1.1875rem * var(--reader-scale, 1));
+  line-height: 1.6;
+  color: var(--text-primary);
+  text-wrap: pretty;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+.book-text p + p { margin-top: 1em; }
+
+/* Capitular de tres renglones (la puntuación de apertura va chica, pegada). */
+.book-dropcap {
+  float: left;
+  margin: 0.09em 0.12em 0 0;
+  font-weight: 500;
+  font-size: 4.6em;
+  line-height: 0.8;
+  color: var(--book-acc);
+}
+.book-dropcap-punct {
+  font-size: 0.38em;
+  vertical-align: top;
+  margin-right: 0.04em;
+}
+.book-text.book-text-sm { font-size: calc(1.0625rem * var(--reader-scale, 1)); }
+.book-text-sm .book-dropcap { font-size: 3.7em; }
+/* Respuestas de catecismo: un punto más grandes (se leen para retenerlas). */
+.book-text.book-text-lg { font-size: calc(1.25rem * var(--reader-scale, 1)); line-height: 1.55; }
+
+/* Párrafos numerados (Confesión de 1689): el número al margen, en la tinta del
+   libro; el texto conserva su alineación con el resto de la página. */
+.book-num-row {
+  display: grid;
+  grid-template-columns: 1.1rem minmax(0, 1fr);
+  column-gap: 0.5rem;
+  margin-left: -0.75rem;
+}
+.book-num-row + .book-num-row { margin-top: 1em; }
+.book-num {
+  padding-top: 0.32em;
+  text-align: right;
+  font-family: theme('fontFamily.sans');
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--book-acc);
+}
+
+.book-kicker {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--book-acc);
+}
+
+/* Tab bar que se aparta al leer (useHideOnScroll). Si recibe foco con teclado,
+   vuelve a la vista. */
+.tabbar-slide {
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tabbar-hidden:not(:focus-within) {
+  transform: translateY(100%);
+}
+
+/* Acción del lector al final del texto (no fija): se toca al terminar de leer,
+   así que no ocupa pantalla mientras se lee. */
+.action-inline {
+  margin-top: 28px;
 }
