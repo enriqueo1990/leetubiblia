@@ -424,6 +424,7 @@
   "nav.planes": "Planos",
   "common.loading": "Carregando…",
   "common.edit": "Editar",
+  "common.done": "Pronto",
   "common.loadMore": "Carregar mais",
 
   "progreso.view.progreso": "Progresso",
@@ -985,6 +986,16 @@
   "library.kind.devotional": "Devocional",
   "library.kind.children": "Para crianças",
   "library.kind.classic": "Clássico",
+  "library.group.ancient.title": "A igreja antiga",
+  "library.group.ancient.note": "Os primeiros séculos: os credos e Agostinho.",
+  "library.group.continental.title": "Reforma no continente",
+  "library.group.continental.note": "Países Baixos e Alemanha, séculos XVI e XVII.",
+  "library.group.westminster.title": "Westminster",
+  "library.group.westminster.note": "A tradição presbiteriana, da Inglaterra e da Escócia.",
+  "library.group.baptist.title": "Batistas",
+  "library.group.baptist.note": "Da Confissão de 1689 a Spurgeon.",
+  "library.group.devotional.title": "Para cada manhã",
+  "library.group.devotional.note": "Um devocional que abre sozinho, pela data.",
   "library.count.question": {
     "one": "{count} pergunta",
     "other": "{count} perguntas"

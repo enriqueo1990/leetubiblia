@@ -17,12 +17,15 @@
 //   'question' (default) · 'article' · 'item' (solo el número: para materiales
 //   cuya numeración propia no coincide con la corrida 1..N, como Dort, que
 //   reinicia los artículos en cada cabeza de doctrina) · 'day' (la fecha).
+// `total`: cantidad de entradas, para mostrarla sin descargar el JSON (el test de
+// la landing la compara con el archivo).
 // `cadence: 'calendar'` (con unit 'day'): devocional de 366 entradas, una por
 // fecha; la lectura del día la da el calendario, no el marcador (ver abajo).
 // Ordenado cronológicamente por fecha de origen del material.
 export const MATERIALS = [
   {
     slug: 'credos',
+    total: 5,
     name: 'Credos de la iglesia antigua',
     shortName: 'Credos antiguos',
     unit: 'item',
@@ -31,6 +34,7 @@ export const MATERIALS = [
   },
   {
     slug: 'agustin-confesiones',
+    total: 144,
     name: 'Confesiones de San Agustín',
     shortName: 'Confesiones',
     // Prosa a ritmo propio: cada entrada es una lectura de varios capítulos.
@@ -40,6 +44,7 @@ export const MATERIALS = [
   },
   {
     slug: 'belga',
+    total: 37,
     name: 'Confesión Belga',
     shortName: 'Confesión Belga',
     unit: 'article',
@@ -48,6 +53,7 @@ export const MATERIALS = [
   },
   {
     slug: 'heidelberg',
+    total: 129,
     name: 'Catecismo de Heidelberg',
     shortName: 'Heidelberg',
     description: '129 preguntas cálidas y pastorales (1563), del consuelo a la gratitud, con pasajes para tu Biblia.',
@@ -55,6 +61,7 @@ export const MATERIALS = [
   },
   {
     slug: 'dort',
+    total: 59,
     name: 'Cánones de Dort',
     shortName: 'Dort',
     unit: 'item',
@@ -63,6 +70,7 @@ export const MATERIALS = [
   },
   {
     slug: 'westminster-confesion',
+    total: 36,
     name: 'Confesión de Fe de Westminster',
     shortName: 'Confesión de Westminster',
     // Como la 1689: cada entrada es un capítulo (los largos, en partes).
@@ -72,6 +80,7 @@ export const MATERIALS = [
   },
   {
     slug: 'westminster-menor',
+    total: 107,
     name: 'Catecismo Menor de Westminster',
     shortName: 'Catecismo Menor',
     description: '107 preguntas y respuestas sobre la fe (1647), con pasajes para buscar en tu Biblia.',
@@ -79,6 +88,7 @@ export const MATERIALS = [
   },
   {
     slug: 'westminster-mayor',
+    total: 196,
     name: 'Catecismo Mayor de Westminster',
     shortName: 'Catecismo Mayor',
     description: '196 preguntas que amplían el Menor (1648): la fe, cada mandamiento, los sacramentos y la oración, con pasajes para tu Biblia.',
@@ -86,6 +96,7 @@ export const MATERIALS = [
   },
   {
     slug: 'bautista-1689',
+    total: 35,
     name: 'Confesión Bautista de 1689',
     shortName: 'Confesión de 1689',
     // Cada entrada es un capítulo (los largos, en partes): la corrida 1..35 no
@@ -96,6 +107,7 @@ export const MATERIALS = [
   },
   {
     slug: 'keach',
+    total: 114,
     name: 'Catecismo de Keach',
     shortName: 'Keach',
     description: '114 preguntas de la tradición bautista particular (1693), con pasajes para tu Biblia.',
@@ -103,6 +115,7 @@ export const MATERIALS = [
   },
   {
     slug: 'spurgeon',
+    total: 82,
     name: 'Catecismo de Spurgeon',
     shortName: 'Spurgeon',
     description: '82 preguntas de la tradición reformada bautista (1855), claras y concisas, con pasajes para tu Biblia.',
@@ -110,6 +123,7 @@ export const MATERIALS = [
   },
   {
     slug: 'spurgeon-matutinas',
+    total: 366,
     name: 'Lecturas matutinas de Spurgeon',
     shortName: 'Lecturas matutinas',
     unit: 'day',
@@ -119,11 +133,24 @@ export const MATERIALS = [
   },
   {
     slug: 'spurgeon-ninos',
+    total: 48,
     name: 'Catecismo para Niños de Spurgeon',
     shortName: 'Spurgeon para Niños',
     description: '48 preguntas sencillas para los más chicos, en la tradición de Spurgeon, con pasajes para tu Biblia.',
     load: () => import('../data/materials/spurgeon-ninos.json'),
   },
+]
+
+// Estantes de la Biblioteca: agrupados por época y tradición, como en la landing
+// (/biblioteca), para elegir por la propia tradición sin recorrer trece tapas
+// sueltas. Títulos y notas en i18n (library.group.<id>.title / .note). El test
+// de la landing verifica que cubren todo el catálogo, una sola vez.
+export const LIBRARY_SHELVES = [
+  { id: 'ancient', slugs: ['credos', 'agustin-confesiones'] },
+  { id: 'continental', slugs: ['belga', 'heidelberg', 'dort'] },
+  { id: 'westminster', slugs: ['westminster-confesion', 'westminster-mayor', 'westminster-menor'] },
+  { id: 'baptist', slugs: ['bautista-1689', 'keach', 'spurgeon', 'spurgeon-ninos'] },
+  { id: 'devotional', slugs: ['spurgeon-matutinas'] },
 ]
 
 export function getMaterial(slug) {

@@ -13,6 +13,7 @@ test('los números de la landing salen de los JSON de los materiales', () => {
     const data = json(m.slug)
     const total = data.entries.reduce((n, b) => n + b.questions.length, 0)
     assert.equal(BOOKS[m.slug]?.total, total, `${m.slug}: entradas`)
+    assert.equal(m.total, total, `${m.slug}: total del catálogo`)
     // «129 preguntas», «37 artículos», «35 lecturas»: el número del texto es el total.
     assert.match(BOOKS[m.slug].count, new RegExp(`^${total} `), `${m.slug}: texto de la tapa`)
   }
@@ -61,4 +62,17 @@ test('lo que muestra el lector (captura real) es la pregunta 44 del Catecismo de
   assert.equal(LECTOR_DEMO.position, `Pregunta 44 de ${BOOKS.heidelberg.total}`)
   assert.equal(LECTOR_DEMO.block, block.title)
   assert.deepEqual(LECTOR_DEMO.refs, q.refs.map((r) => r.label))
+})
+
+test('los estantes de la app cubren todo el catálogo, una sola vez, y tienen nombre en los tres idiomas', async () => {
+  const { LIBRARY_SHELVES } = await import('../src/lib/materials.js')
+  const slugs = LIBRARY_SHELVES.flatMap((s) => s.slugs)
+  assert.deepEqual([...slugs].sort(), MATERIALS.map((m) => m.slug).sort())
+  for (const lang of ['es', 'en', 'pt']) {
+    const dict = JSON.parse(readFileSync(new URL(`../src/i18n/${lang}.json`, import.meta.url), 'utf8'))
+    for (const s of LIBRARY_SHELVES) {
+      assert.ok(dict[`library.group.${s.id}.title`], `${lang}: falta el título de ${s.id}`)
+      assert.ok(dict[`library.group.${s.id}.note`], `${lang}: falta la nota de ${s.id}`)
+    }
+  }
 })

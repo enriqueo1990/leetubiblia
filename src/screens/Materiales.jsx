@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../lib/auth.jsx'
 import {
-  MATERIALS,
+  LIBRARY_SHELVES,
   getMaterial,
   currentEntryLabel,
   activeMaterials,
@@ -10,7 +10,10 @@ import {
   positionOf,
   loadMaterialContent,
   withMaterialActivated,
+  withMaterialDeactivated,
 } from '../lib/materials.js'
+import ConfirmDialog from '../components/ConfirmDialog.jsx'
+import { XIcon } from '../components/icons.jsx'
 import { materialTheme } from '../lib/materialTheme.js'
 import { splitSentences } from '../lib/sentences.js'
 import BackLink from '../components/BackLink.jsx'
@@ -22,13 +25,18 @@ import { BRAND_SERIF } from '../lib/brandFont.js'
 
 // Biblioteca (Hoy › Lecturas › Biblioteca): los materiales como una colección de
 // libros. "En tu estante" son los que estás leyendo (aparecen en Hoy), con su
-// avance; tocarlos abre el lector. "Para agregar" son los demás: tocarlos abre
-// una vista previa con "Agregar a mi estante". Quitar uno vive en el Índice del
-// lector, junto al material. Sin repisa dibujada: el estante es una sección.
+// avance; tocarlos abre el lector. "Para agregar" son los demás, ordenados por
+// tradición (LIBRARY_SHELVES): tocarlos abre una vista previa con "Agregar a mi
+// estante". Quitar uno: «Editar» en el encabezado del estante (y también desde
+// el Índice del lector). Sin repisa dibujada: el estante es una sección.
 export default function Materiales() {
-  const { profile } = useAuth()
+  const { profile, updateProfile } = useAuth()
   const { t } = usePreferences()
   const location = useLocation()
+  const [editing, setEditing] = useState(false) // modo «Editar» del estante
+  const [removing, setRemoving] = useState(null) // slug a quitar (confirmación abierta)
+  const [removeBusy, setRemoveBusy] = useState(false)
+  const [removeError, setRemoveError] = useState(false)
   // El lector vuelve acá con la miga «‹ Biblioteca», y esta pantalla conserva su
   // propio origen (`back`) para que su miga no cambie según por dónde pasaste.
   const from = { to: '/materiales', label: t('nav.materiales'), back: location.state?.from }
@@ -41,8 +49,28 @@ export default function Materiales() {
   const shelf = activeMaterials(profile)
     .map((a) => getMaterial(a.slug))
     .filter(Boolean)
-  const rest = MATERIALS.filter((m) => !isMaterialActive(profile, m.slug))
+  const wide = shelf.length <= 2
+  // Los que faltan agregar, por estante de tradición (los vacíos no se muestran).
+  const groups = LIBRARY_SHELVES.map((g) => ({
+    id: g.id,
+    items: g.slugs.map(getMaterial).filter((m) => m && !isMaterialActive(profile, m.slug)),
+  })).filter((g) => g.items.length > 0)
   const shelfKey = shelf.map((m) => m.slug).join(',')
+
+  // Sin libros en el estante no hay nada que editar.
+  useEffect(() => {
+    if (!shelfKey) setEditing(false)
+  }, [shelfKey])
+
+  async function removeFromShelf() {
+    if (!removing || removeBusy) return
+    setRemoveBusy(true)
+    setRemoveError(false)
+    const { error } = await updateProfile({ active_materials: withMaterialDeactivated(profile, removing) })
+    setRemoveBusy(false)
+    if (error) setRemoveError(true)
+    else setRemoving(null)
+  }
 
   useEffect(() => {
     let on = true
@@ -69,18 +97,63 @@ export default function Materiales() {
 
       {shelf.length > 0 && (
         <section className="mt-7">
-          <div className="mb-3 flex items-baseline justify-between px-1">
-            <h2 className="text-[1.0625rem] font-semibold text-ink">{t('library.shelf')}</h2>
-            <span className="text-[0.8125rem] tabular-nums text-ink-soft">{shelf.length}</span>
+          {/* «Editar» en el encabezado de la sección (la acción va donde está lo que
+              cambia): en ese modo cada libro muestra «Quitar», con la misma
+              confirmación que el Índice del lector. */}
+          <div className="mb-3 flex items-center justify-between px-1">
+            <h2 className="text-[1.0625rem] font-semibold text-ink">
+              {t('library.shelf')} <span className="ml-1 text-[0.8125rem] font-normal tabular-nums text-ink-soft">{shelf.length}</span>
+            </h2>
+            <button
+              type="button"
+              onClick={() => setEditing((e) => !e)}
+              aria-pressed={editing}
+              className="-my-2 -mr-1 min-h-11 px-1 text-[0.9375rem] font-semibold"
+              style={{ color: 'var(--accent-ink)' }}
+            >
+              {editing ? t('common.done') : t('common.edit')}
+            </button>
           </div>
-          <div className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3">
+          {/* Con uno o dos libros, tapas grandes; con más, tres por fila para que el
+              estante no empuje lo que queda por descubrir dos pantallas más abajo. */}
+          <div className={`grid gap-y-6 ${wide ? 'grid-cols-2 gap-x-4 sm:grid-cols-3' : 'grid-cols-3 gap-x-3 sm:grid-cols-4'}`}>
             {shelf.map((m) => {
               const total = totals[m.slug]
               const position = positionOf(profile, m.slug) ?? 1
               const done = total != null && position > total
               const progress = total ? Math.min(1, (position - 1) / total) : 0
               const th = materialTheme(m.slug)
-              return (
+              const body = (
+                <>
+                  <BookCover slug={m.slug} meta={wide ? coverMeta(t, m.slug, th, total) : null} />
+                  <div className="mt-2.5 h-1 overflow-hidden rounded-full" style={{ backgroundColor: 'var(--hairline)' }}>
+                    <div className="h-full rounded-full" style={{ width: `${Math.max(progress * 100, 2)}%`, backgroundColor: 'var(--accent)' }} />
+                  </div>
+                  <p className={`mt-1.5 font-medium leading-snug text-ink ${wide ? 'text-[0.8125rem]' : 'text-[0.75rem]'}`}>
+                    {done ? `✓ ${t('materiales.completedReview')}` : currentEntryLabel(t, m.slug, position)}
+                  </p>
+                </>
+              )
+              // Editando: el estante no cambia; solo aparece una marca chica en la
+              // esquina de cada tapa (toda la tapa es el blanco táctil).
+              return editing ? (
+                <button
+                  key={m.slug}
+                  type="button"
+                  onClick={() => setRemoving(m.slug)}
+                  className="relative self-start text-left"
+                  aria-label={`${t('library.remove')}: ${m.name}`}
+                >
+                  {body}
+                  <span
+                    aria-hidden="true"
+                    className="absolute -left-1.5 -top-1.5 flex h-6 w-6 items-center justify-center rounded-full"
+                    style={{ backgroundColor: 'var(--surface)', color: 'var(--text-soft)', boxShadow: '0 1px 3px rgba(0,0,0,.22), 0 0 0 1px var(--hairline)' }}
+                  >
+                    <XIcon size={13} strokeWidth={2.6} />
+                  </span>
+                </button>
+              ) : (
                 <Link
                   key={m.slug}
                   to={`/materiales/${m.slug}`}
@@ -88,13 +161,7 @@ export default function Materiales() {
                   className="block transition-transform active:scale-[0.98]"
                   aria-label={m.name}
                 >
-                  <BookCover slug={m.slug} meta={coverMeta(t, m.slug, th, total)} />
-                  <div className="mt-2.5 h-1 overflow-hidden rounded-full" style={{ backgroundColor: 'var(--hairline)' }}>
-                    <div className="h-full rounded-full" style={{ width: `${Math.max(progress * 100, 2)}%`, backgroundColor: 'var(--accent)' }} />
-                  </div>
-                  <p className="mt-1.5 text-[0.8125rem] font-medium leading-snug text-ink">
-                    {done ? `✓ ${t('materiales.completedReview')}` : currentEntryLabel(t, m.slug, position)}
-                  </p>
+                  {body}
                 </Link>
               )
             })}
@@ -102,26 +169,60 @@ export default function Materiales() {
         </section>
       )}
 
-      {rest.length > 0 && (
-        <section className="mt-9">
-          <div className="mb-3 flex items-baseline justify-between px-1">
+      {groups.length > 0 && (
+        <section className="mt-10">
+          <div className="flex items-baseline justify-between px-1">
             <h2 className="text-[1.0625rem] font-semibold text-ink">{shelf.length ? t('library.toAdd') : t('library.startHere')}</h2>
             <span className="text-[0.8125rem] text-ink-soft">{t('library.tapToSee')}</span>
           </div>
-          <div className="grid grid-cols-3 gap-x-3 gap-y-5 sm:grid-cols-4">
-            {rest.map((m) => (
-              <button key={m.slug} type="button" onClick={() => setPreview(m.slug)} className="text-left" aria-label={m.name}>
-                <BookCover slug={m.slug} size="sm" />
-                <span className="mt-2 block text-[0.8125rem] font-semibold" style={{ color: 'var(--accent-ink)' }}>
-                  + {t('library.add')}
-                </span>
-              </button>
-            ))}
-          </div>
+          {/* Por tradición, como en la landing: cada estante con su nombre y de
+              dónde viene, y debajo de cada tapa el nombre y el año. */}
+          {groups.map((g) => (
+            <div key={g.id} className="mt-5 border-t pt-4" style={{ borderColor: 'var(--hairline)' }}>
+              <h3 className="px-1 text-[0.9375rem] font-semibold text-ink">{t(`library.group.${g.id}.title`)}</h3>
+              <p className="mt-0.5 px-1 text-[0.8125rem] leading-snug text-ink-soft">{t(`library.group.${g.id}.note`)}</p>
+              <div className="mt-3 grid grid-cols-3 gap-x-3 gap-y-5 sm:grid-cols-4">
+                {g.items.map((m) => {
+                  const year = materialTheme(m.slug).year
+                  return (
+                    <button
+                      key={m.slug}
+                      type="button"
+                      onClick={() => setPreview(m.slug)}
+                      className="self-start text-left transition-transform active:scale-[0.98]"
+                      aria-label={m.name}
+                    >
+                      <BookCover slug={m.slug} size="sm" />
+                      {/* La tapa ya dice el nombre: debajo, lo que ayuda a elegir. */}
+                      <span className="mt-2 block text-[0.8125rem] font-medium leading-snug text-ink">
+                        {t(`library.count.${m.unit ?? 'question'}`, { count: m.total })}
+                      </span>
+                      {year && <span className="mt-0.5 block text-[0.75rem] tabular-nums text-ink-soft">{year}</span>}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
         </section>
       )}
 
       {preview && <PreviewSheet slug={preview} from={from} onClose={() => setPreview(null)} />}
+      {removing && (
+        <ConfirmDialog
+          title={getMaterial(removing)?.name ?? ''}
+          message={t('materiales.confirmOff')}
+          confirmLabel={t('library.removeConfirm')}
+          danger
+          busy={removeBusy}
+          error={removeError ? t('common.saveError') : null}
+          onConfirm={removeFromShelf}
+          onCancel={() => {
+            setRemoving(null)
+            setRemoveError(false)
+          }}
+        />
+      )}
     </div>
   )
 }
@@ -140,6 +241,7 @@ function PreviewSheet({ slug, from, onClose }) {
   const { t, locale } = usePreferences()
   const m = getMaterial(slug)
   const th = materialTheme(slug)
+  const group = LIBRARY_SHELVES.find((g) => g.slugs.includes(slug))?.id
   const [content, setContent] = useState(null)
   const [saving, setSaving] = useState(false)
   const [failed, setFailed] = useState(false)
@@ -208,18 +310,23 @@ function PreviewSheet({ slug, from, onClose }) {
           {t('library.momentAdded')}
         </p>
       )}
+      {/* La tapa dice el tipo; al lado, lo que la tapa no dice: de qué tradición
+          es (el estante) y cuánto tiene. */}
       <div className="flex items-end gap-4">
         <div className="w-[120px] shrink-0">
-          <BookCover slug={slug} meta={coverMeta(t, slug, th, content?.total)} />
+          <BookCover slug={slug} />
         </div>
         <div className="min-w-0 pb-1">
-          {th.kind && (
-            <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.12em]" style={{ color: 'var(--accent-ink)' }}>
-              {t(`library.kind.${th.kind}`)}
-            </p>
+          {group && (
+            <>
+              <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-ink-soft">
+                {t(`library.group.${group}.title`)}
+              </p>
+              <p className="mt-1 text-[0.8125rem] leading-snug text-ink-soft">{t(`library.group.${group}.note`)}</p>
+            </>
           )}
-          <p className="mt-1.5 text-[0.8125rem] leading-snug text-ink-soft">
-            {[th.year, content && t(`library.count.${m?.unit ?? 'question'}`, { count: content.total })].filter(Boolean).join(' · ')}
+          <p className="mt-2 text-[0.9375rem] font-medium leading-snug text-ink">
+            {[th.year, m && t(`library.count.${m.unit ?? 'question'}`, { count: m.total })].filter(Boolean).join(' · ')}
           </p>
           {locale !== 'es' && <p className="mt-0.5 text-[0.75rem] text-ink-soft">{t('materiales.inSpanish')}</p>}
         </div>

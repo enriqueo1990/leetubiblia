@@ -424,6 +424,7 @@
   "nav.planes": "Plans",
   "common.loading": "Loading…",
   "common.edit": "Edit",
+  "common.done": "Done",
   "common.loadMore": "Load more",
 
   "progreso.view.progreso": "Progress",
@@ -985,6 +986,16 @@
   "library.kind.devotional": "Devotional",
   "library.kind.children": "For children",
   "library.kind.classic": "Classic",
+  "library.group.ancient.title": "The early church",
+  "library.group.ancient.note": "The first centuries: the creeds and Augustine.",
+  "library.group.continental.title": "Continental Reformation",
+  "library.group.continental.note": "The Netherlands and Germany, 16th and 17th centuries.",
+  "library.group.westminster.title": "Westminster",
+  "library.group.westminster.note": "The Presbyterian tradition, from England and Scotland.",
+  "library.group.baptist.title": "Baptists",
+  "library.group.baptist.note": "From the 1689 Confession to Spurgeon.",
+  "library.group.devotional.title": "For each morning",
+  "library.group.devotional.note": "A devotional that opens by date on its own.",
   "library.count.question": {
     "one": "{count} question",
     "other": "{count} questions"
