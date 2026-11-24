@@ -8,7 +8,8 @@ import EmptyState from '../components/EmptyState.jsx'
 import { initials } from '../components/Avatars.jsx'
 import { useAuth } from '../lib/auth.jsx'
 import { usePreferences } from '../lib/preferences.jsx'
-import { getMyGroups, createGroup, joinGroupByCode } from '../lib/db.js'
+import { getMyGroups, createGroup, joinGroupByCode, setGroupMeeting } from '../lib/db.js'
+import MeetingPicker from '../components/MeetingPicker.jsx'
 import { SkeletonCards } from '../components/Skeleton.jsx'
 import { inputStyle } from '../components/formStyles.js'
 import { useOnlineStatus } from '../hooks/useOnlineStatus.js'
@@ -37,6 +38,8 @@ function CreateGroupSheet({ onClose, onCreated, online = true }) {
   const { t } = usePreferences()
   const { needsName, myName, setMyName, nameOk, saveName } = useMyName()
   const [name, setName] = useState('')
+  const [meeting, setMeeting] = useState(null)
+  const [customMeeting, setCustomMeeting] = useState(false)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
   const nameRef = useRef(null)
@@ -62,6 +65,9 @@ function CreateGroupSheet({ onClose, onCreated, online = true }) {
     }
     try {
       const g = await createGroup(name.trim())
+      // La frecuencia va aparte (migración 0042): si falla, el grupo ya está
+      // creado y el administrador la puede elegir después desde el grupo.
+      if (meeting) await setGroupMeeting(g.id, meeting).catch(() => {})
       onCreated(g)
     } catch {
       setError(t('grupos.createError'))
@@ -98,6 +104,13 @@ function CreateGroupSheet({ onClose, onCreated, online = true }) {
         onChange={(e) => setName(e.target.value)}
         className="w-full rounded-input px-4 py-3 text-[1rem] outline-none"
         style={inputStyle}
+      />
+      <MeetingPicker
+        className="mt-5"
+        value={meeting}
+        onChange={setMeeting}
+        custom={customMeeting}
+        setCustom={setCustomMeeting}
       />
       <p className="mt-3 text-[0.8125rem] text-ink-soft">
         {t('grupos.createHelp')}

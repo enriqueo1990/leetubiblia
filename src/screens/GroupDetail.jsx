@@ -504,6 +504,9 @@ export default function GroupDetail() {
         onSaveName={saveName}
         onCancelEdit={() => setEditingName(false)}
         onInvite={() => setInviteOpen(true)}
+        onMeetingSaved={(m) =>
+          setData((d) => ({ ...d, group: { ...d.group, meet_every: m?.every ?? null, meet_unit: m?.unit ?? null } }))
+        }
       />
 
       <div className="lg:grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start lg:gap-6">

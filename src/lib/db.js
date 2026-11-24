@@ -785,6 +785,18 @@ export async function renameGroup(groupId, name) {
   if (error) throw dbError(error)
 }
 
+// Cada cuánto se junta el grupo: meeting = { every: 1–12, unit: 'week'|'month' }
+// o null para «todavía no lo definimos». Solo el administrador (el RPC valida).
+// Requiere la migración 0042.
+export async function setGroupMeeting(groupId, meeting) {
+  const { error } = await supabase.rpc('set_group_meeting', {
+    p_group_id: groupId,
+    p_every: meeting?.every ?? null,
+    p_unit: meeting?.unit ?? null,
+  })
+  if (error) throw dbError(error)
+}
+
 // Fija (o quita, con planId null) el plan común del grupo. Solo el administrador
 // (el RPC valida adentro). startDate = el "hoy" local del que lo elige, que pasa
 // a ser el día 1 del grupo. Requiere la migración 0027.
