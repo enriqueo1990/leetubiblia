@@ -25,7 +25,7 @@ test('los años de la landing son los de las tapas de la app', () => {
   }
 })
 
-test('los estantes cubren los diez libros, una sola vez', () => {
+test('los estantes cubren los once libros, una sola vez', () => {
   const slugs = SHELVES.flatMap((s) => s.slugs)
   assert.equal(slugs.length, MATERIALS.length)
   assert.deepEqual([...slugs].sort(), MATERIALS.map((m) => m.slug).sort())

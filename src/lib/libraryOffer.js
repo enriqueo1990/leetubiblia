@@ -17,6 +17,7 @@ export const SUGGESTED_ORDER = [
   'keach',
   'belga',
   'bautista-1689',
+  'westminster-confesion',
   'dort',
   'spurgeon-ninos',
 ]

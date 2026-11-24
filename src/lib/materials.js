@@ -53,6 +53,15 @@ export const MATERIALS = [
     load: () => import('../data/materials/dort.json'),
   },
   {
+    slug: 'westminster-confesion',
+    name: 'Confesión de Fe de Westminster',
+    shortName: 'Confesión de Westminster',
+    // Como la 1689: cada entrada es un capítulo (los largos, en partes).
+    unit: 'item',
+    description: 'La confesión de las iglesias presbiterianas (1646), capítulo por capítulo, con las pruebas bíblicas de cada párrafo.',
+    load: () => import('../data/materials/westminster-confesion.json'),
+  },
+  {
     slug: 'westminster-menor',
     name: 'Catecismo Menor de Westminster',
     shortName: 'Catecismo Menor',

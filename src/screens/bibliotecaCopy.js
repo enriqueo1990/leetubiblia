@@ -17,7 +17,7 @@ export const BIBLIOTECA_URL = 'https://leetubiblia.com/biblioteca'
 export const BIBLIOTECA_META = {
   title: 'Lee Tu Biblia · Biblioteca: catecismos, credos y devocional',
   description:
-    'Diez lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
+    'Once lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
 }
 
 // Qué hay en cada libro, tal como lo dicen los JSON (`entries`) y el catálogo
@@ -47,6 +47,12 @@ export const BOOKS = {
     total: 59,
     year: '1619',
     blurb: 'Sobre la gracia soberana de Dios en la salvación. Incluye solo los artículos positivos de cada cabeza.',
+  },
+  'westminster-confesion': {
+    count: '36 lecturas',
+    total: 36,
+    year: '1646',
+    blurb: 'La confesión de las iglesias presbiterianas: 33 capítulos, algunos en partes, con las pruebas bíblicas de cada párrafo.',
   },
   'westminster-menor': {
     count: '107 preguntas',
@@ -106,7 +112,7 @@ export const SHELVES = [
     id: 'westminster',
     title: 'Westminster',
     note: 'Pastores y teólogos de Inglaterra y Escocia, en plena guerra civil.',
-    slugs: ['westminster-menor'],
+    slugs: ['westminster-confesion', 'westminster-menor'],
   },
   {
     id: 'bautista',

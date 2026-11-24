@@ -19,6 +19,7 @@ const THEMES = {
   belga: { title: 'Belga', c: '#3D5567', spine: '#2D4151', ink: '#EEF2F5', soft: 'rgba(238,242,245,.64)', acc: '#EDBE8F', papelAcc: '#3D5567', year: '1561', kind: 'confession' },
   heidelberg: { title: 'Heidelberg', c: '#1F3B2D', spine: '#152A20', ink: '#EFE9DB', soft: 'rgba(239,233,219,.64)', acc: '#C9D59E', papelAcc: '#1F3B2D', year: '1563', kind: 'catechism' },
   dort: { title: 'Dort', c: '#2F2B28', spine: '#211E1C', ink: '#F2EDE6', soft: 'rgba(242,237,230,.62)', acc: '#E0B46A', papelAcc: '#2F2B28', year: '1619', kind: 'canons' },
+  'westminster-confesion': { title: 'Westminster', c: '#2C4A7A', spine: '#203860', ink: '#EEF2F8', soft: 'rgba(238,242,248,.64)', acc: '#E6C66E', papelAcc: '#2C4A7A', year: '1646', kind: 'confession' },
   'westminster-menor': { title: 'Menor de Westminster', c: '#1B2944', spine: '#121D33', ink: '#EEF0F4', soft: 'rgba(238,240,244,.62)', acc: '#E6C66E', papelAcc: '#1B2944', year: '1647', kind: 'catechism' },
   'bautista-1689': { title: 'Bautista de 1689', c: '#6B1E23', spine: '#511519', ink: '#F6ECDD', soft: 'rgba(246,236,221,.66)', acc: '#E2B66B', papelAcc: '#6B1E23', year: '1689', kind: 'confession' },
   keach: { title: 'Keach', c: '#1E5560', spine: '#163F48', ink: '#EAF3F2', soft: 'rgba(234,243,242,.64)', acc: '#F0C98E', papelAcc: '#1E5560', year: '1693', kind: 'catechism' },

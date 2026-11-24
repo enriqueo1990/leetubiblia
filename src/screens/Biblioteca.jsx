@@ -19,7 +19,7 @@ import { getMaterial } from '../lib/materials.js'
 import { materialTheme } from '../lib/materialTheme.js'
 
 // Landing pública /biblioteca — las «lecturas adicionales» de la app (en la app se
-// llaman Biblioteca / materiales de lectura): diez catecismos, confesiones, credos
+// llaman Biblioteca / materiales de lectura): once catecismos, confesiones, credos
 // y un devocional para sumar a Hoy. Misma familia visual que /info (sistema lk-* de
 // landingSystem.js, estilos in-* de infoStyles.js) y estilos propios bb-*.
 //
@@ -149,7 +149,7 @@ export default function Biblioteca() {
                 Para leer despacio, <em>además de tu Biblia</em>.
               </h1>
               <p className="lk-lede in-hero-lede in-enter in-enter-2">
-                Diez lecturas de la tradición cristiana para sumar a tu día: credos, catecismos, confesiones y un
+                Once lecturas de la tradición cristiana para sumar a tu día: credos, catecismos, confesiones y un
                 devocional para cada mañana. Las agregás a tu estante y aparecen en Hoy, junto a tu lectura.
               </p>
               <div className="in-hero-cta in-enter in-enter-3">
@@ -157,7 +157,7 @@ export default function Biblioteca() {
                   Empezar gratis
                 </AppLink>
                 <a href="#estantes" className="lk-textlink inline-flex min-h-11 items-center gap-1">
-                  Ver los diez libros <Ico name="down" />
+                  Ver los once libros <Ico name="down" />
                 </a>
               </div>
               <p className="in-micro in-enter in-enter-4">
@@ -259,11 +259,11 @@ export default function Biblioteca() {
           </div>
         </section>
 
-        {/* ── LOS DIEZ LIBROS ───────────────────────────────────── */}
+        {/* ── LOS ONCE LIBROS ───────────────────────────────────── */}
         <section className="in-sec" id="estantes">
           <div className="lk-wrap">
             <div className="in-sec-head in-rv">
-              <Eyebrow>Los diez libros</Eyebrow>
+              <Eyebrow>Los once libros</Eyebrow>
               <SectionTitle>
                 Elegí por dónde <em>empezar</em>.
               </SectionTitle>
