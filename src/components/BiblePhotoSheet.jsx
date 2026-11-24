@@ -27,7 +27,9 @@ export default function BiblePhotoSheet({ data, onClose }) {
   const { t, locale } = usePreferences()
   const inputRef = useRef(null)
   const [photo, setPhoto] = useState(null)
-  const [photoError, setPhotoError] = useState(false)
+  const [photoError, setPhotoError] = useState(null) // null | 'photo.error' | 'photo.errorHeic'
+  // Abrir puede tardar: una foto HEIC en Chrome se convierte en el teléfono.
+  const [opening, setOpening] = useState(false)
   const layers = ['dato', 'minimo', ...(data.note ? ['nota'] : [])]
   const [layer, setLayer] = useState(() => read(LAYER_KEY, layers, 'dato'))
   const [format, setFormat] = useState('story')
@@ -85,11 +87,15 @@ export default function BiblePhotoSheet({ data, onClose }) {
     const file = e.target.files?.[0]
     e.target.value = '' // elegir la misma foto de nuevo vuelve a disparar
     if (!file) return
-    setPhotoError(false)
+    setPhotoError(null)
+    setOpening(true)
     try {
       setPhoto(await decodePhoto(file))
-    } catch {
-      setPhotoError(true)
+    } catch (e) {
+      // La foto que ya estaba (si había) queda; el aviso dice por qué falló la nueva.
+      setPhotoError(e?.heic ? 'photo.errorHeic' : 'photo.error')
+    } finally {
+      setOpening(false)
     }
   }
 
@@ -130,8 +136,14 @@ export default function BiblePhotoSheet({ data, onClose }) {
             {sharing ? t('hoy.generatingImage') : t('materialReader.shareAction')}
           </button>
         ) : (
-          <button type="button" onClick={() => inputRef.current?.click()} className="btn btn-primary">
-            {t('photo.pick')}
+          <button
+            type="button"
+            onClick={() => inputRef.current?.click()}
+            disabled={opening}
+            className="btn btn-primary"
+            style={{ opacity: opening ? 0.6 : 1 }}
+          >
+            {opening ? t('photo.opening') : t('photo.pick')}
           </button>
         )
       }
@@ -141,7 +153,7 @@ export default function BiblePhotoSheet({ data, onClose }) {
         <div className="pb-1 text-center">
           <p className="mx-auto max-w-[32ch] text-[1rem] leading-snug text-ink">{t('photo.intro')}</p>
           <p className="mx-auto mt-3 max-w-[34ch] text-[0.8125rem] leading-snug text-ink-soft">{t('photo.privacy')}</p>
-          {photoError && <InlineError message={t('photo.error')} className="mt-3" />}
+          {photoError && <InlineError message={t(photoError)} className="mt-3" />}
         </div>
       ) : (
         <div className="space-y-4 pb-1">
@@ -186,11 +198,13 @@ export default function BiblePhotoSheet({ data, onClose }) {
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
+            disabled={opening}
             className="flex min-h-11 w-full items-center justify-center text-[0.9375rem] font-semibold"
-            style={{ color: 'var(--accent-ink)' }}
+            style={{ color: 'var(--accent-ink)', opacity: opening ? 0.6 : 1 }}
           >
-            {t('photo.change')}
+            {opening ? t('photo.opening') : t('photo.change')}
           </button>
+          {photoError && <InlineError message={t(photoError)} />}
           {shareError && <InlineError message={t('materialReader.shareError')} />}
         </div>
       )}

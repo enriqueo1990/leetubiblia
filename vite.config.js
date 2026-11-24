@@ -324,6 +324,10 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (!id.includes('node_modules')) return
+          // El conversor HEIC (~3 MB) va en su propio chunk y NO se llama vendor-*:
+          // así no entra en el precache ni en el arranque; se baja al usarse
+          // (ver src/lib/heic.js) y lo guarda la caché ltb-app-code.
+          if (id.includes('heic-to')) return 'heic'
           if (id.includes('@supabase')) return 'vendor-supabase'
           if (id.includes('react')) return 'vendor-react'
           return 'vendor'

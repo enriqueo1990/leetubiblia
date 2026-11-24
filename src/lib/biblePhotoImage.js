@@ -11,14 +11,31 @@
 // El texto va del lado que elijas (arriba o abajo) para no tapar la Biblia, y
 // siempre sobre una sombra: sobre una página clara o plantas, sin ella no se lee.
 import { BRAND_SERIF, ensureBrandFont } from './brandFont.js'
+import { isHeic, heicToBitmap } from './heic.js'
 import { SANS, W, FORMAT_H, SAFE_ZONES, formatOf, makeCanvas, toBlob, wrapWords, makeLogo, roundRect, fitSize } from './canvasKit.js'
 
 const M = 96 // margen lateral
 const WHITE = '#FFFFFF'
 const SOFT = 'rgba(255,255,255,.82)'
 
-// Decodifica la foto respetando la orientación de la cámara (EXIF).
+// Decodifica la foto respetando la orientación de la cámara (EXIF). Si el
+// navegador no puede abrirla y es HEIC/HEIF, se convierte en el teléfono (ver
+// heic.js). Un error con `heic: true` avisa que era HEIC y la conversión falló
+// (lo más común: primera vez, sin conexión para bajar el conversor).
 export async function decodePhoto(file) {
+  try {
+    return await decodeNative(file)
+  } catch (nativeError) {
+    if (!(await isHeic(file))) throw nativeError
+    try {
+      return await heicToBitmap(file)
+    } catch (cause) {
+      throw Object.assign(new Error('heic'), { heic: true, cause })
+    }
+  }
+}
+
+async function decodeNative(file) {
   if (typeof createImageBitmap === 'function') {
     try {
       return await createImageBitmap(file, { imageOrientation: 'from-image' })
