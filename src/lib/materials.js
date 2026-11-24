@@ -69,6 +69,13 @@ export const MATERIALS = [
     load: () => import('../data/materials/westminster-menor.json'),
   },
   {
+    slug: 'westminster-mayor',
+    name: 'Catecismo Mayor de Westminster',
+    shortName: 'Catecismo Mayor',
+    description: '196 preguntas que amplían el Menor (1648): la fe, cada mandamiento, los sacramentos y la oración, con pasajes para tu Biblia.',
+    load: () => import('../data/materials/westminster-mayor.json'),
+  },
+  {
     slug: 'bautista-1689',
     name: 'Confesión Bautista de 1689',
     shortName: 'Confesión de 1689',

@@ -21,6 +21,7 @@ const THEMES = {
   dort: { title: 'Dort', c: '#2F2B28', spine: '#211E1C', ink: '#F2EDE6', soft: 'rgba(242,237,230,.62)', acc: '#E0B46A', papelAcc: '#2F2B28', year: '1619', kind: 'canons' },
   'westminster-confesion': { title: 'Westminster', c: '#2C4A7A', spine: '#203860', ink: '#EEF2F8', soft: 'rgba(238,242,248,.64)', acc: '#E6C66E', papelAcc: '#2C4A7A', year: '1646', kind: 'confession' },
   'westminster-menor': { title: 'Menor de Westminster', c: '#1B2944', spine: '#121D33', ink: '#EEF0F4', soft: 'rgba(238,240,244,.62)', acc: '#E6C66E', papelAcc: '#1B2944', year: '1647', kind: 'catechism' },
+  'westminster-mayor': { title: 'Mayor de Westminster', c: '#4A3B6B', spine: '#382C52', ink: '#F0EEF6', soft: 'rgba(240,238,246,.64)', acc: '#E6C66E', papelAcc: '#4A3B6B', year: '1648', kind: 'catechism' },
   'bautista-1689': { title: 'Bautista de 1689', c: '#6B1E23', spine: '#511519', ink: '#F6ECDD', soft: 'rgba(246,236,221,.66)', acc: '#E2B66B', papelAcc: '#6B1E23', year: '1689', kind: 'confession' },
   keach: { title: 'Keach', c: '#1E5560', spine: '#163F48', ink: '#EAF3F2', soft: 'rgba(234,243,242,.64)', acc: '#F0C98E', papelAcc: '#1E5560', year: '1693', kind: 'catechism' },
   spurgeon: { title: 'Spurgeon', c: '#8C4A2B', spine: '#6E3920', ink: '#FBEFE4', soft: 'rgba(251,239,228,.66)', acc: '#F2C58E', papelAcc: '#8C4A2B', year: '1855', kind: 'catechism' },

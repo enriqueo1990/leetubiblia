@@ -77,6 +77,7 @@ const MATERIALES = [
     group: 'Catecismos',
     items: [
       'Catecismo de Heidelberg',
+      'Catecismo Mayor de Westminster',
       'Catecismo Menor de Westminster',
       'Catecismo de Keach',
       'Catecismo de Spurgeon',

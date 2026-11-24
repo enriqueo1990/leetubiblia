@@ -17,7 +17,7 @@ export const BIBLIOTECA_URL = 'https://leetubiblia.com/biblioteca'
 export const BIBLIOTECA_META = {
   title: 'Lee Tu Biblia · Biblioteca: catecismos, credos y devocional',
   description:
-    'Once lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
+    'Doce lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
 }
 
 // Qué hay en cada libro, tal como lo dicen los JSON (`entries`) y el catálogo
@@ -59,6 +59,12 @@ export const BOOKS = {
     total: 107,
     year: '1647',
     blurb: 'Preguntas y respuestas breves para memorizar: Dios, la obra de Cristo, los mandamientos y el Padrenuestro.',
+  },
+  'westminster-mayor': {
+    count: '196 preguntas',
+    total: 196,
+    year: '1648',
+    blurb: 'Amplía el Menor para ir más hondo: la fe, cada mandamiento en detalle, los sacramentos y el Padrenuestro.',
   },
   'bautista-1689': {
     count: '35 lecturas',
@@ -112,7 +118,7 @@ export const SHELVES = [
     id: 'westminster',
     title: 'Westminster',
     note: 'Pastores y teólogos de Inglaterra y Escocia, en plena guerra civil.',
-    slugs: ['westminster-confesion', 'westminster-menor'],
+    slugs: ['westminster-confesion', 'westminster-mayor', 'westminster-menor'],
   },
   {
     id: 'bautista',

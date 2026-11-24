@@ -18,6 +18,7 @@ export const SUGGESTED_ORDER = [
   'belga',
   'bautista-1689',
   'westminster-confesion',
+  'westminster-mayor',
   'dort',
   'spurgeon-ninos',
 ]
