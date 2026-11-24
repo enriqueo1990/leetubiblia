@@ -30,6 +30,15 @@ export const MATERIALS = [
     load: () => import('../data/materials/credos.json'),
   },
   {
+    slug: 'agustin-confesiones',
+    name: 'Confesiones de San Agustín',
+    shortName: 'Confesiones',
+    // Prosa a ritmo propio: cada entrada es una lectura de varios capítulos.
+    unit: 'item',
+    description: 'Las Confesiones completas (397-400): la vida de Agustín contada como una oración, en lecturas de cinco a diez minutos.',
+    load: () => import('../data/materials/agustin-confesiones.json'),
+  },
+  {
     slug: 'belga',
     name: 'Confesión Belga',
     shortName: 'Confesión Belga',

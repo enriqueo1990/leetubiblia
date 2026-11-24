@@ -984,6 +984,7 @@
   "library.kind.creeds": "Creeds",
   "library.kind.devotional": "Devotional",
   "library.kind.children": "For children",
+  "library.kind.classic": "Classic",
   "library.count.question": {
     "one": "{count} question",
     "other": "{count} questions"

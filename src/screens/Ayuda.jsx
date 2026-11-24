@@ -71,7 +71,7 @@ const PLANES = [
 const MATERIALES = [
   {
     group: 'Credos y confesiones',
-    items: ['Credos de la iglesia antigua', 'Confesión Belga', 'Cánones de Dort', 'Confesión de Fe de Westminster', 'Confesión Bautista de 1689'],
+    items: ['Credos de la iglesia antigua', 'Confesiones de San Agustín', 'Confesión Belga', 'Cánones de Dort', 'Confesión de Fe de Westminster', 'Confesión Bautista de 1689'],
   },
   {
     group: 'Catecismos',

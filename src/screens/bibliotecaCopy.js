@@ -17,7 +17,7 @@ export const BIBLIOTECA_URL = 'https://leetubiblia.com/biblioteca'
 export const BIBLIOTECA_META = {
   title: 'Lee Tu Biblia · Biblioteca: catecismos, credos y devocional',
   description:
-    'Doce lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
+    'Trece lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
 }
 
 // Qué hay en cada libro, tal como lo dicen los JSON (`entries`) y el catálogo
@@ -29,6 +29,12 @@ export const BOOKS = {
     total: 5,
     year: 'Primeros siglos',
     blurb: 'El Apostólico, el Niceno, Calcedonia y el Atanasiano: la fe común de la iglesia, en cinco lecturas.',
+  },
+  'agustin-confesiones': {
+    count: '144 lecturas',
+    total: 144,
+    year: '397',
+    blurb: 'La vida de Agustín contada como una oración a Dios, completa, de la infancia a la conversión y más allá.',
   },
   belga: {
     count: '37 artículos',
@@ -105,8 +111,8 @@ export const SHELVES = [
   {
     id: 'antigua',
     title: 'De la iglesia antigua',
-    note: 'Lo que la iglesia confiesa desde sus primeros siglos.',
-    slugs: ['credos'],
+    note: 'La fe de la iglesia en sus primeros siglos: lo que confiesa y cómo se ora.',
+    slugs: ['credos', 'agustin-confesiones'],
   },
   {
     id: 'continental',
@@ -142,6 +148,7 @@ export const KIND_LABEL = {
   canons: 'Cánones',
   devotional: 'Devocional',
   children: 'Para niños',
+  classic: 'Clásico',
 }
 
 // Una respuesta es un arreglo de trozos: string o { to, text } (enlace interno).

@@ -20,6 +20,7 @@ export const SUGGESTED_ORDER = [
   'westminster-confesion',
   'westminster-mayor',
   'dort',
+  'agustin-confesiones',
   'spurgeon-ninos',
 ]
 
