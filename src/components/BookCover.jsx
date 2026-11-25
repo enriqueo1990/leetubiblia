@@ -9,7 +9,7 @@ import { MOTIFS, RING } from './coverMotifs.js'
 // La misma identidad que la imagen que se comparte, para que se reconozcan.
 // size: 'hero' (la portada al abrir el libro en el lector: marco fino, el
 // emblema de la obra, y `meta` como pie en itálica), 'lg' (estante, con el
-// emblema, el año y la cantidad), 'sm' (para agregar), 'xs' (la ficha de Hoy: solo el título,
+// emblema, el año y la cantidad), 'sm' (para agregar, también con el emblema), 'xs' (la ficha de Hoy: solo el título,
 // chico), 'thumb' (solo color y lomo).
 export default function BookCover({ slug, size = 'lg', meta = null, className = '', style = null }) {
   const { t } = usePreferences()
@@ -54,9 +54,9 @@ export default function BookCover({ slug, size = 'lg', meta = null, className = 
               {t(`library.kind.${th.kind}`)}
             </span>
           )}
-          {lg && MOTIFS[th.motif] && (
+          {MOTIFS[th.motif] && (
             <span className="flex min-h-0 flex-1 items-center py-[5%]">
-              <Emblem motif={MOTIFS[th.motif]} color={th.acc} bold style={{ width: '46%', maxHeight: '100%' }} align="xMinYMid" />
+              <Emblem motif={MOTIFS[th.motif]} color={th.acc} bold style={{ width: lg ? '46%' : '48%', maxHeight: '100%' }} align="xMinYMid" />
             </span>
           )}
           <span
