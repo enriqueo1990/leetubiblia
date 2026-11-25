@@ -17,7 +17,7 @@ export const BIBLIOTECA_URL = 'https://leetubiblia.com/biblioteca'
 export const BIBLIOTECA_META = {
   title: 'Lee Tu Biblia · Biblioteca: catecismos, credos y devocional',
   description:
-    'Veinte lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
+    'Veintiuna lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
 }
 
 // Qué hay en cada libro, tal como lo dicen los JSON (`entries`) y el catálogo
@@ -102,6 +102,12 @@ export const BOOKS = {
     year: '1678',
     blurb: 'El viaje de Cristiano hasta la Ciudad Celestial, la alegoría más leída de la historia cristiana, completa en su primera parte.',
   },
+  'ryle-santidad': {
+    count: '50 lecturas',
+    total: 50,
+    year: '1879',
+    blurb: 'El clásico de Ryle sobre la vida santa: qué es el pecado, cómo santifica Dios, la lucha diaria y la seguridad de la salvación.',
+  },
   'bautista-1689': {
     count: '35 lecturas',
     total: 35,
@@ -173,6 +179,12 @@ export const SHELVES = [
     title: 'Bautistas particulares',
     note: 'De Bunyan y la Confesión de Londres de 1689 a New Hampshire y Spurgeon.',
     slugs: ['bunyan-peregrino', 'bautista-1689', 'keach', 'bautista-new-hampshire', 'spurgeon', 'spurgeon-ninos'],
+  },
+  {
+    id: 'anglicana',
+    title: 'Anglicanos',
+    note: 'La Iglesia de Inglaterra en su veta evangélica: J. C. Ryle, obispo de Liverpool.',
+    slugs: ['ryle-santidad'],
   },
   {
     id: 'devocional',

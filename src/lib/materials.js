@@ -179,6 +179,16 @@ export const MATERIALS = [
     load: () => import('../data/materials/spurgeon.json'),
   },
   {
+    slug: 'ryle-santidad',
+    total: 50,
+    name: 'Santidad, de J. C. Ryle',
+    shortName: 'Santidad',
+    // Prosa a ritmo propio, como Calvino: cada entrada es una lectura de un capítulo.
+    unit: 'item',
+    description: 'La introducción y los siete primeros capítulos (1879): el pecado, la santificación, la santidad, la lucha, el costo, el crecimiento y la seguridad.',
+    load: () => import('../data/materials/ryle-santidad.json'),
+  },
+  {
     slug: 'spurgeon-matutinas',
     total: 366,
     name: 'Lecturas matutinas de Spurgeon',
@@ -217,6 +227,7 @@ export const LIBRARY_SHELVES = [
   { id: 'continental', slugs: ['lutero-catecismo-menor', 'belga', 'heidelberg', 'calvino-vida-cristiana', 'dort'] },
   { id: 'westminster', slugs: ['westminster-confesion', 'westminster-mayor', 'westminster-menor', 'catecismo-ninos-pequenos'] },
   { id: 'baptist', slugs: ['bunyan-peregrino', 'bautista-1689', 'keach', 'bautista-new-hampshire', 'spurgeon', 'spurgeon-ninos'] },
+  { id: 'anglican', slugs: ['ryle-santidad'] },
   { id: 'devotional', slugs: ['spurgeon-matutinas', 'spurgeon-vespertinas'] },
 ]
 

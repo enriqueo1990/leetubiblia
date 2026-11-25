@@ -27,6 +27,7 @@ export const SUGGESTED_ORDER = [
   'dort',
   'agustin-confesiones',
   'bunyan-peregrino',
+  'ryle-santidad',
   'spurgeon-ninos',
   'catecismo-ninos-pequenos',
 ]

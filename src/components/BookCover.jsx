@@ -301,6 +301,16 @@ const MOTIFS = {
       <path d="M8 38h58" />
     </>
   ),
+  // Santidad (Ryle): la lámpara encendida, con aceite para alumbrar.
+  lamp: (
+    <>
+      <path d="M14 27c6-1 12-4 22-4s18 1 20 4-4 6-20 6-18-3-22-6z" />
+      <path d="M33 23.5c1-2 5-2 6 0" />
+      <path d="M56 27c5-3 9-1 8 3s-5 3-9 1" />
+      <path d="M14 25.5c-3-4 0-8-1-13 4 3 6 8 1 13" />
+      <path d="M28 33l-1 4h20l-1-4M22 37h30" />
+    </>
+  ),
   // Spurgeon para Niños: el barrilete al viento.
   kite: (
     <>

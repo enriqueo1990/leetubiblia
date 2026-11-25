@@ -994,6 +994,8 @@
   "library.group.westminster.note": "The Presbyterian tradition, from England and Scotland.",
   "library.group.baptist.title": "Baptists",
   "library.group.baptist.note": "From Bunyan and the 1689 Confession to New Hampshire and Spurgeon.",
+  "library.group.anglican.title": "Anglicans",
+  "library.group.anglican.note": "The Church of England in its evangelical strand: J. C. Ryle.",
   "library.group.devotional.title": "For each day",
   "library.group.devotional.note": "Two devotionals that open by date on their own: one for the morning, one for the evening.",
   "library.count.question": {
