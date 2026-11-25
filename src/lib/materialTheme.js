@@ -15,7 +15,7 @@
 const PAPEL = { c: '#F8F7F4', ink: '#1C1C1E', soft: 'rgba(28,28,30,.62)' }
 
 const THEMES = {
-  didaje: { title: 'Didajé', c: '#5C6550', spine: '#454D3B', ink: '#F3F4EC', soft: 'rgba(243,244,236,.66)', acc: '#E6D39A', papelAcc: '#5C6550', motif: 'twoWays', year: 'Siglo I', kind: 'classic' },
+  didaje: { title: 'Didajé', c: '#5C6550', spine: '#454D3B', ink: '#F3F4EC', soft: 'rgba(243,244,236,.66)', acc: '#E6D39A', papelAcc: '#5C6550', motif: 'breadCup', year: 'Siglo I', kind: 'classic' },
   credos: { title: 'De la iglesia antigua', c: '#4A2E4F', spine: '#37213A', ink: '#F4ECF3', soft: 'rgba(244,236,243,.62)', acc: '#E9C5A2', papelAcc: '#4A2E4F', motif: 'chiRho', year: '', kind: 'creeds' },
   'agustin-confesiones': { title: 'Confesiones', c: '#7A5A2E', spine: '#5E4421', ink: '#FBF3E6', soft: 'rgba(251,243,230,.66)', acc: '#F1D08F', papelAcc: '#7A5A2E', motif: 'flamingHeart', byline: 'San Agustín', year: '397', kind: 'classic' },
   'lutero-catecismo-menor': { title: 'Lutero', c: '#C9A646', spine: '#AD8C33', ink: '#2A2210', soft: 'rgba(42,34,16,.66)', acc: '#5A1F1F', papelAcc: '#8A6A1E', motif: 'lutherRose', year: '1529', kind: 'catechism' },
@@ -27,7 +27,7 @@ const THEMES = {
   'westminster-menor': { title: 'Menor de Westminster', c: '#1B2944', spine: '#121D33', ink: '#EEF0F4', soft: 'rgba(238,240,244,.62)', acc: '#E6C66E', papelAcc: '#1B2944', motif: 'crown', year: '1647', kind: 'catechism' },
   'westminster-mayor': { title: 'Mayor de Westminster', c: '#4A3B6B', spine: '#382C52', ink: '#F0EEF6', soft: 'rgba(240,238,246,.64)', acc: '#E6C66E', papelAcc: '#4A3B6B', motif: 'tablets', year: '1648', kind: 'catechism' },
   'catecismo-ninos-pequenos': { title: 'Niños Pequeños', c: '#8DB6D6', spine: '#709CBF', ink: '#13233A', soft: 'rgba(19,35,58,.62)', acc: '#FFFFFF', papelAcc: '#3C6E96', motif: 'home', year: '1840', kind: 'children' },
-  'bunyan-peregrino': { title: 'El peregrino', c: '#355E73', spine: '#284A5B', ink: '#F1F6F8', soft: 'rgba(241,246,248,.66)', acc: '#F2D08F', papelAcc: '#355E73', motif: 'pilgrimPath', byline: 'John Bunyan', year: '1678', kind: 'classic' },
+  'bunyan-peregrino': { title: 'El peregrino', c: '#355E73', spine: '#284A5B', ink: '#F1F6F8', soft: 'rgba(241,246,248,.66)', acc: '#F2D08F', papelAcc: '#355E73', motif: 'wicketGate', byline: 'John Bunyan', year: '1678', kind: 'classic' },
   'bautista-1689': { title: 'Bautista de 1689', c: '#6B1E23', spine: '#511519', ink: '#F6ECDD', soft: 'rgba(246,236,221,.66)', acc: '#E2B66B', papelAcc: '#6B1E23', motif: 'waters', year: '1689', kind: 'confession' },
   keach: { title: 'Keach', c: '#1E5560', spine: '#163F48', ink: '#EAF3F2', soft: 'rgba(234,243,242,.64)', acc: '#F0C98E', papelAcc: '#1E5560', motif: 'quill', year: '1693', kind: 'catechism' },
   'bautista-new-hampshire': { title: 'New Hampshire', c: '#3F5A3A', spine: '#2F452B', ink: '#F1F2E8', soft: 'rgba(241,242,232,.64)', acc: '#E8C77E', papelAcc: '#3F5A3A', motif: 'mountains', year: '1833', kind: 'confession' },
@@ -35,7 +35,7 @@ const THEMES = {
   'ryle-santidad': { title: 'Santidad', c: '#7A2E45', spine: '#5E2235', ink: '#FBEFF2', soft: 'rgba(251,239,242,.66)', acc: '#F0C98E', papelAcc: '#7A2E45', motif: 'lamp', byline: 'J. C. Ryle', year: '1879', kind: 'classic' },
   'spurgeon-matutinas': { title: 'Lecturas matutinas', c: '#C27B2E', spine: '#A3641F', ink: '#2A1907', soft: 'rgba(42,25,7,.66)', acc: '#FFF3E0', papelAcc: '#8A5317', bookAccDark: '#E3A866', motif: 'sunrise', byline: 'C. H. Spurgeon', year: '1865', kind: 'devotional' },
   'spurgeon-vespertinas': { title: 'Lecturas vespertinas', c: '#2B3156', spine: '#1F2442', ink: '#EEF0F8', soft: 'rgba(238,240,248,.64)', acc: '#F2CB8A', papelAcc: '#2B3156', bookAccDark: '#A9B4E8', motif: 'moon', light: 'night', byline: 'C. H. Spurgeon', year: '1868', kind: 'devotional' },
-  'spurgeon-ninos': { title: 'Spurgeon para Niños', c: '#E58A6D', spine: '#CC7258', ink: '#2E140C', soft: 'rgba(46,20,12,.62)', acc: '#FFF4EC', papelAcc: '#A8492E', motif: 'kite', year: '', kind: 'children' },
+  'spurgeon-ninos': { title: 'Spurgeon para Niños', c: '#E58A6D', spine: '#CC7258', ink: '#2E140C', soft: 'rgba(46,20,12,.62)', acc: '#FFF4EC', papelAcc: '#A8492E', motif: 'storybook', year: '', kind: 'children' },
 }
 
 // Tema neutro para lo que no es un material (una nota del día, el plan): la

@@ -62,11 +62,11 @@ export const MOTIFS = {
     thin: 'M60 38A22 22 0 0 0 74 77M20 86h14M82 86h16M52 105h18',
     fill: `${star(34, 40, 6)}${star(90, 38, 4.5)}${star(26, 64, 3)}${star(96, 58, 2.5)}${star(48, 24, 2.5)}`,
   },
-  // Didajé: "hay dos caminos, uno de la vida y otro de la muerte".
-  twoWays: {
-    main: `M48 106C51 92 54 80 52 68C48 54 38 42 24 34M72 106C69 92 66 80 68 68C72 54 82 42 96 34M60 62C56 51 47 40 35 29M60 62C64 51 73 40 85 29M20 70a9 9 0 0 1 18 0M96 52A9.5 9.5 0 1 0 100 68A8 8 0 0 1 96 52z`,
-    thin: `M60 102v-7M60 89v-6M60 78v-5${rays(29, 70, 12, 16, [-160, -125, -90, -55, -20])}M12 70H46M74 70H108M18 78h24M78 78h24M26 86h18M76 86h18`,
-    fill: `${star(84, 46, 2.6)}${star(100, 40, 2)}`,
+  // Didajé: el pan y la copa de sus oraciones de acción de gracias, las más
+  // antiguas que se conservan fuera del Nuevo Testamento.
+  breadCup: {
+    main: `M29 40H57C57 54 51 62 43 62C35 62 29 54 29 40zM43 62V80M31 86C31 82 37 80 43 80C49 80 55 82 55 86zM59 86C59 74 67 68 75 68C83 68 91 74 91 86zM20 86H100${circle(43, 70, 2.6)}`,
+    thin: `M33 44C34 51 38 56 42 57M29 40C35 43.5 51 43.5 57 40M68 75l4 6M75 73l4 6M82 75l3 5${rays(43, 30, 5, 11, [-135, -90, -45])}M26 92H94M38 98H82`,
   },
   // Credos de la iglesia antigua: el crismón (ji-ro) entre alfa y omega.
   chiRho: {
@@ -150,19 +150,21 @@ export const MOTIFS = {
     main: `M24 42L60 22L96 42zM26 42v5h68v-5M28 86H92M24 90H96M21 94H99${templeColumns.map((x) => `M${f(x - 2)} 50V84M${f(x + 2)} 50V84M${f(x - 3.5)} 50h7M${f(x - 3.5)} 84h7`).join('')}`,
     thin: `M33 39.5L60 25.5L87 39.5${circle(60, 34.5, 3)}${templeColumns.map((x) => `M${x} 53V81`).join('')}M30 99H90`,
   },
-  // Santidad (Ryle): la lámpara encendida ("lámpara es a mis pies tu palabra").
+  // Santidad (Ryle): la vela encendida ("lámpara es a mis pies tu palabra").
   lamp: {
-    main: `M22 68C22 60 36 56 54 56C68 56 78 60 88 62C92 62.5 94 66 90 68C80 72 76 82 54 82C34 82 22 78 22 68zM22 68C13 66 12 56 17 54C22 53 24 58 24 62M48 56C48 51 60 51 60 56${circle(54, 48.5, 2)}M44 82l-4 8h28l-4-8M34 90H74M91 61C85 54 89 46 92 38C95 46 98 54 91 61z`,
-    thin: `M91.5 57C89.5 53 91 49 92 46${rays(92, 48, 13, 17, [-140, -115, -90, -65, -40])}M30 74C38 78 50 79 62 77.5M32 63C42 60.5 54 60 64 61M28 96H80M40 101H68`,
+    main: `M52 50H68V84H52zM60 46C54 40 57 32 60 24C63 32 66 40 60 46zM60 50v-4M38 84H82C82 90 74 94 60 94C46 94 38 90 38 84z${circle(87, 87, 5)}`,
+    thin: `${rays(60, 36, 16, 22, [-160, -125, -90, -55, -20])}M56 50v9M64 50v5M60 41C58.5 38 59 35 60 32M44 88C50 90.5 70 90.5 76 88M34 100H86M44 105H76`,
   },
-  // Spurgeon para Niños: el barrilete al viento.
-  kite: {
-    main: 'M66 18L88 46L66 82L44 46zM66 18V82M44 46H88M66 82C62 90 52 88 46 94C40 100 32 98 28 92M51 87l7 6v-6l-7 6zM34 94l7 6v-6l-7 6zM20 62a6 6 0 0 1 9-6a8 8 0 0 1 14 3a5 5 0 0 1 0 10H22a4 4 0 0 1-2-7z',
-    thin: 'M66 30L52.5 46M66 40L61 46M66 70L80.7 46M66 58L73.3 46M86 74q3-4 6 0q3-4 6 0M78 88q2.5-3.5 5 0q2.5-3.5 5 0M26 74h12M30 79h6',
+  // Spurgeon para Niños: el libro de cuentos abierto bajo las estrellas.
+  storybook: {
+    main: 'M60 52C50 44 36 44 24 50V82C36 76 50 76 60 84M60 52C70 44 84 44 96 50V82C84 76 70 76 60 84M60 52V84',
+    thin: 'M30 58C38 54.5 48 54.5 55 58.5M30 66C38 62.5 48 62.5 55 66.5M30 74C38 70.5 48 70.5 55 74.5M65 58.5C72 54.5 82 54.5 90 58M65 66.5C72 62.5 82 62.5 90 66M65 74.5C72 70.5 82 70.5 90 74M28 87C38 82 50 82 60 89C70 82 82 82 92 87M46 30h-5M79 26h-4',
+    fill: `${star(60, 28, 8)}${star(36, 30, 3.5)}${star(86, 32, 4)}${star(74, 18, 2.5)}${star(46, 16, 2)}`,
   },
-  // El peregrino: el caminante que sube hacia la Ciudad Celestial.
-  pilgrimPath: {
-    main: `M51 50V37h6v13M57 50V28l4.5-6 4.5 6V50M66 50V35h6v15M46 50H78M60 50C58 58 72 60 70 68C68 76 43 75 43 87C43 95 49 99 47 105M64 50C63 57 78 58 77 68C76 79 67 78 68 87C69 94 73 98 73 104M16 80C28 72 38 54 46 50M78 50C86 54 96 72 104 80${circle(55, 80, 3)}M55 83.5V94M55 94l-3 7M55 94l3.5 7M61.5 79V101M55 87.5l6.5-2${circle(50.6, 87, 3.2)}`,
-    thin: `${rays(61.5, 36, 19, 25, [-160, -135, -110, -70, -45, -20])}M60 50v-5h3v5M24 80c6-3 10-8 13-13M30 86c5-3 9-8 12-13M96 80c-6-3-10-8-13-13M90 86c-5-3-9-8-12-13M69 40v3M54 42v3`,
+  // El peregrino: la puerta angosta, al final del camino, con la luz detrás.
+  wicketGate: {
+    main: 'M46 72V46a14 14 0 0 1 28 0V72M22 72V56H46M98 72V56H74M19 72H46M74 72H101M52 72C50 84 43 94 36 104M68 72C70 84 77 94 84 104',
+    thin: `M51 72V47a9 9 0 0 1 18 0V72${rays(60, 46, 18, 25, [-150, -120, -90, -60, -30])}M60 54V72M55.5 57V72M64.5 57V72M26 62h7M36 67h7M28 67h3M87 62h7M77 67h7M89 67h3M60 78v4M60 87v5M60 97v5M24 78h18M78 78h18M22 86h12M86 86h12`,
+    fill: star(60, 15, 3.2),
   },
 }

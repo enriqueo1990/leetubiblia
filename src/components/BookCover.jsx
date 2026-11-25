@@ -55,8 +55,8 @@ export default function BookCover({ slug, size = 'lg', meta = null, className = 
             </span>
           )}
           {MOTIFS[th.motif] && (
-            <span className="flex min-h-0 flex-1 items-center py-[5%]">
-              <Emblem motif={MOTIFS[th.motif]} color={th.acc} bold style={{ width: lg ? '46%' : '48%', maxHeight: '100%' }} align="xMinYMid" />
+            <span className="flex min-h-0 flex-1 items-center py-[4%]">
+              <Emblem motif={MOTIFS[th.motif]} color={th.acc} simple style={{ width: '60%', maxHeight: '100%' }} align="xMinYMid" />
             </span>
           )}
           <span
@@ -142,15 +142,16 @@ function HeroCover({ th, meta, kind, className, style }) {
 }
 
 // El emblema de la tapa: el sello de la obra (coverMotifs.js) dentro de su
-// medallón, en el color del acento. `bold` engrosa el trazo para las tapas
-// chicas del estante, donde el sombreado fino se perdería.
-function Emblem({ motif, color, bold = false, style, align = 'xMidYMid' }) {
+// medallón, en el color del acento. `simple` es la versión de las tapas chicas
+// del estante: un solo aro, trazo más grueso y sin el sombreado fino, que a ese
+// tamaño solo ensucia.
+function Emblem({ motif, color, simple = false, style, align = 'xMidYMid' }) {
   return (
     <svg viewBox="0 0 120 120" preserveAspectRatio={`${align} meet`} fill="none" stroke={color} strokeLinecap="round" strokeLinejoin="round" style={style}>
-      <path d={RING.main} strokeWidth={bold ? 2 : 1.5} />
-      <path d={RING.thin} strokeWidth={bold ? 1.1 : 0.9} />
-      <path d={motif.main} strokeWidth={bold ? 2.4 : 1.8} />
-      {motif.thin && <path d={motif.thin} strokeWidth={bold ? 1.3 : 1} />}
+      <path d={RING.main} strokeWidth={simple ? 2.2 : 1.5} />
+      {!simple && <path d={RING.thin} strokeWidth={0.9} />}
+      <path d={motif.main} strokeWidth={simple ? 2.8 : 1.8} />
+      {!simple && motif.thin && <path d={motif.thin} strokeWidth={1} />}
       {motif.fill && <path d={motif.fill} fill={color} stroke="none" />}
     </svg>
   )
