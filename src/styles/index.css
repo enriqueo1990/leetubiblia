@@ -452,6 +452,9 @@
   hyphens: auto;
   -webkit-hyphens: auto;
 }
+/* Un salto simple dentro de un párrafo es intencional: versos, el Padrenuestro,
+   las listas del Catecismo Mayor. */
+.book-text p { white-space: pre-line; }
 .book-text p + p { margin-top: 1em; }
 
 /* Capitular de tres renglones (la puntuación de apertura va chica, pegada). */

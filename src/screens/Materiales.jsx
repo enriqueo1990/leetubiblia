@@ -258,10 +258,11 @@ function PreviewSheet({ slug, from, onClose }) {
   }, [slug])
 
   // La muestra: la primera oración de la primera entrada (sin el "1." de los
-  // párrafos numerados de las confesiones).
-  const sample = content?.entries?.[0]
+  // párrafos numerados de las confesiones). Un material puede fijar la suya con
+  // `sample` cuando su primera entrada es un prólogo (la apología de Bunyan).
+  const sample = content?.sample ?? (content?.entries?.[0]
     ? splitSentences(content.entries[0].answer)[0]?.text.replace(/^\d+\.\s*/, '')
-    : null
+    : null)
 
   async function add() {
     if (saving) return

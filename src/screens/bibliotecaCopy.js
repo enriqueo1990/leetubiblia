@@ -17,7 +17,7 @@ export const BIBLIOTECA_URL = 'https://leetubiblia.com/biblioteca'
 export const BIBLIOTECA_META = {
   title: 'Lee Tu Biblia · Biblioteca: catecismos, credos y devocional',
   description:
-    'Diecinueve lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
+    'Veinte lecturas para sumar a tu día, además de tu Biblia: credos, catecismos, confesiones y las matutinas de Spurgeon. Gratis, a tu ritmo y sin atraso.',
 }
 
 // Qué hay en cada libro, tal como lo dicen los JSON (`entries`) y el catálogo
@@ -96,6 +96,12 @@ export const BOOKS = {
     year: '1840',
     blurb: 'Preguntas de una línea para los más chicos, en familia: la puerta presbiteriana al Catecismo Menor.',
   },
+  'bunyan-peregrino': {
+    count: '72 lecturas',
+    total: 72,
+    year: '1678',
+    blurb: 'El viaje de Cristiano hasta la Ciudad Celestial, la alegoría más leída de la historia cristiana, completa en su primera parte.',
+  },
   'bautista-1689': {
     count: '35 lecturas',
     total: 35,
@@ -165,8 +171,8 @@ export const SHELVES = [
   {
     id: 'bautista',
     title: 'Bautistas particulares',
-    note: 'De la Confesión de Londres de 1689 a New Hampshire y Spurgeon.',
-    slugs: ['bautista-1689', 'keach', 'bautista-new-hampshire', 'spurgeon', 'spurgeon-ninos'],
+    note: 'De Bunyan y la Confesión de Londres de 1689 a New Hampshire y Spurgeon.',
+    slugs: ['bunyan-peregrino', 'bautista-1689', 'keach', 'bautista-new-hampshire', 'spurgeon', 'spurgeon-ninos'],
   },
   {
     id: 'devocional',

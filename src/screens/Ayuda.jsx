@@ -88,7 +88,7 @@ const MATERIALES = [
   },
   {
     group: 'Clásicos',
-    items: ['La Didajé', 'Confesiones de San Agustín', 'La vida cristiana, de Juan Calvino'],
+    items: ['La Didajé', 'Confesiones de San Agustín', 'La vida cristiana, de Juan Calvino', 'El progreso del peregrino'],
   },
   {
     group: 'Devocionales',

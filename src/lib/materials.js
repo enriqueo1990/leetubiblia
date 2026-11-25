@@ -133,6 +133,16 @@ export const MATERIALS = [
     load: () => import('../data/materials/catecismo-ninos-pequenos.json'),
   },
   {
+    slug: 'bunyan-peregrino',
+    total: 72,
+    name: 'El progreso del peregrino',
+    shortName: 'El peregrino',
+    // Prosa a ritmo propio, como Agustín: cada entrada es una lectura del viaje.
+    unit: 'item',
+    description: 'La alegoría de Bunyan (1678), completa en su primera parte: el viaje de Cristiano hasta la Ciudad Celestial, en lecturas breves.',
+    load: () => import('../data/materials/bunyan-peregrino.json'),
+  },
+  {
     slug: 'bautista-1689',
     total: 35,
     name: 'Confesión Bautista de 1689',
@@ -206,7 +216,7 @@ export const LIBRARY_SHELVES = [
   { id: 'ancient', slugs: ['didaje', 'credos', 'agustin-confesiones'] },
   { id: 'continental', slugs: ['lutero-catecismo-menor', 'belga', 'heidelberg', 'calvino-vida-cristiana', 'dort'] },
   { id: 'westminster', slugs: ['westminster-confesion', 'westminster-mayor', 'westminster-menor', 'catecismo-ninos-pequenos'] },
-  { id: 'baptist', slugs: ['bautista-1689', 'keach', 'bautista-new-hampshire', 'spurgeon', 'spurgeon-ninos'] },
+  { id: 'baptist', slugs: ['bunyan-peregrino', 'bautista-1689', 'keach', 'bautista-new-hampshire', 'spurgeon', 'spurgeon-ninos'] },
   { id: 'devotional', slugs: ['spurgeon-matutinas', 'spurgeon-vespertinas'] },
 ]
 
@@ -337,6 +347,8 @@ export async function loadMaterialContent(slug) {
     // Spurgeon") y la cita del encabezado junto al versículo, no al pie.
     author: data.author ?? null,
     headingRef: data.headingRef === true,
+    // Muestra de la vista previa, cuando la primera entrada es un prólogo.
+    sample: typeof data.sample === 'string' ? data.sample : null,
     entries,
     total: entries.length,
   }
